@@ -1,3 +1,8 @@
+---
+# this ensures Jekyll reads the file to be transformed into CSS later
+---
+
+
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,400i,700");
 @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:400");
 
@@ -5,7 +10,7 @@
 	font-family: "microstyle";
 	font-weight: 400;
 	font-style: normal;
-	src: url("art/microstyle-bold-extended.woff");
+	src: url("../assets/microstyle-bold-extended.woff");
 }
 
 @keyframes slideIn {
@@ -83,7 +88,7 @@ ul {
 }
 
 hr {
-	background: url("art/dot.png") 0 0 repeat-x;
+	background: url("../assets/dot.png") 0 0 repeat-x;
 	height: 4px;
 	border: none;
 	background-size: 4px;
@@ -138,7 +143,7 @@ header .wallpaper {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: url(art/moon.jpg) no-repeat center center;
+	background: url("../assets/moon.jpg") no-repeat center center;
 	background-size: cover;
 	animation: scaleIn 4s ease-out forwards;
 }
