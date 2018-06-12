@@ -5,18 +5,16 @@ category: main
 permalink: /roadmap/
 ---
 
-<a name="info"></a>
-We spent 15 years researching a new way of building software,
-not through programming but completely driven by data models.
+Some of the things we want to work on include (in no particular order):
 
-<p class="intro">M-industries software is different.</p>
+- Dynamic permissions
+- Personal todos
+- Reduce memory usage of the client
+- Password reset + user creation flow
+- Enhance security (always good to enhance security)
+- Translations for fixed elements in the client (login, messages, etc)
 
-We call our programming language and technology **"Alan"**
+- Make it easier to work with file properties locally
 
-In Alan the data-model drives everything.
-The unique modeling language allows you to write a model that generates
-both a database design and a user interface.
-
-This method is fast and iterates fast, like creating something in Excel would.
-However, Alan ensures data accuracy and consistency and scales up to enterprise level.
-
+- Improved querying, reporting and dataviz features
+- Improve support for live dashboard like clients
