@@ -14,7 +14,7 @@ pre {
 }
 code {
 	font-family: "Source Code Pro", monospace;
-	font-size: 1em/$ratio;
+	font-size: 0.92em;
 }
 code .punctuation { color: #777; }
 code .string      { color: #2f59bc; }
@@ -215,10 +215,51 @@ footer {
 }
 
 article {
-	max-width: $base-width;
+	max-width: $base-width + 4;
 	margin: 4rem auto 0 auto;
 	> * {
-		margin-left: 2rem;
-		margin-right: 2rem;
+		margin-left: 4rem;
+		margin-right: 4rem;
+	}
+	.notes {
+		color: darken($beige, 8%);
 	}
 }
+
+
+.strip {
+	display: flex;
+	justify-content: space-around;
+	color: $beige;
+	margin: 2rem*$ratio 0;
+	span {
+		display: block;
+	}
+	img {
+		filter: drop-shadow(1px 1px 4px transparentize($grey2, .7));
+		@include breathe(filter);
+	}
+	li {
+		display: inline-block;
+		padding: 0 1rem;
+		text-align: center;
+		flex: 1;
+	}
+	a,
+	a:link,
+	a:visited,
+	a:hover,
+	a:active {
+		color: currentColor;
+		text-decoration: none;
+		@include breathe(color);
+	}
+	a:hover,
+	a:active {
+		img {
+			filter: drop-shadow(1px 1px 8px transparentize($grey2, .2));
+		}
+		color: $orange;
+	}
+}
+
