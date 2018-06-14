@@ -2,8 +2,8 @@
 layout: doc
 origin: webclient
 language: gui_model
-type: grammar
 version: intrepid.5
+type: grammar
 ---
 
 

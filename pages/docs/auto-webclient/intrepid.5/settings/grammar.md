@@ -2,8 +2,8 @@
 layout: doc
 origin: auto-webclient
 language: settings
-type: grammar
 version: intrepid.5
+type: grammar
 ---
 
 Global settings for the user interface.

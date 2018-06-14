@@ -2,9 +2,10 @@
 layout: doc
 origin: model
 language: application
-type: grammar
 version: 30
+type: grammar
 ---
+
 
 ## root
 

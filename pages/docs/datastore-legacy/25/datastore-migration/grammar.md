@@ -2,8 +2,8 @@
 layout: doc
 origin: datastore-legacy
 language: datastore-migration
-type: grammar
 version: 25
+type: grammar
 ---
 
 

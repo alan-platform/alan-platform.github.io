@@ -2,8 +2,8 @@
 layout: doc
 origin: interface
 language: interface
-type: grammar
 version: 2.2
+type: grammar
 ---
 
 
