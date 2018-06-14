@@ -91,6 +91,11 @@ ul {
 			margin-bottom: 0;
 		}
 	}
+
+	ol,
+	ul {
+		margin-left: 1em*$ratio;
+	}
 }
 
 a,
