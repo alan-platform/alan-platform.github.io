@@ -244,10 +244,12 @@ article {
 	justify-content: space-around;
 	color: $beige;
 	margin: 2rem*$ratio 0;
+	flex-wrap: wrap;
 	span {
 		display: block;
 	}
 	img {
+		max-width: 100%;
 		filter: drop-shadow(1px 1px 4px transparentize($grey2, .7));
 		@include breathe(filter);
 	}
