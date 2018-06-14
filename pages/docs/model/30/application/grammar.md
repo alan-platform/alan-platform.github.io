@@ -1631,6 +1631,7 @@ Useful in combination with validation rules!
 - `@min:` and `@max:`: set limits on a number value.
 - `@identifying`: marks a property to always be displayed in addition to an entry's key.
 - `@default: 'yes'`: set a default state.
+- `@default: today|now`: set date or date-time number to the current time.
 - `@guid`: the key or text property will be set to a generated unique id string.
 - `@small`: if the collection is expected to be small, it can be displayed inline and included when duplicating.
 - `@multi-line`: create a multi-line text area for this text property.
@@ -3486,7 +3487,7 @@ Useful in combination with validation rules!
 ### ui linked node mapping
 
 ```js
-	'ui linked node mapping'[ '(' , ')' ]
+	'ui linked node mapping' [ '(' , ')' ]
 		'properties' collection indent (
 			'type' stategroup (
 				'number' [ 'number' '<-' ]
