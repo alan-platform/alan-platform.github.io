@@ -21,9 +21,7 @@
 				go from back-of-the-napkin to a running application in minutes.
 
 			</p>
-			<pre>
-				<code class="language-js">
-'Reasons': collection { }
+<pre><code class="language-js">'Reasons': collection { }
 'Users': collection {
 	'Name': text
 	'Active': stategroup @default: 'Yes' (
@@ -33,9 +31,7 @@
 		}
 	)
 }
-'Active Users':= integer 'n' = count .'Users'?'Active'|'Yes'
-</code>
-			</pre>
+'Active Users':= integer 'n' = count .'Users'?'Active'|'Yes'</code></pre>
 
 			<ul class="strip">
 				<li>
