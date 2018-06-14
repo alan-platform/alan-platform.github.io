@@ -76,7 +76,7 @@ To build the migrations:
 1. `./alan bootstrap`
 2. `./alan build`
 
-This will produce a `from_version_x.migration` package that can be used in a deployment. To do so, copy it to the deployment. In a very basic project the correct location would be `deployments/demo/instances/server.migration`.
+This will produce a `from_version_x.migration` package that can be used in a deployment. To do so, copy it to the deployment. In a very basic project the correct location would be `deployments/default/instances/server.migration`.
 
 
 
