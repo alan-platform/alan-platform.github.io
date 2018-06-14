@@ -223,6 +223,19 @@ article {
 			color: $blue;
 		}
 	}
+
+}
+
+
+.doc {
+	article {
+		max-width: none;
+		section > *:not(div) {
+			max-width: $base-width;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
 }
 
 
