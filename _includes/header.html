@@ -8,10 +8,7 @@
 	{% if item.category == "main" %}
 
 		{% assign item_url = item.url | remove_first: "/pages/" %}
-		{% assign item_url_parts = item_url | split: "/" %}
-		{% assign item_section = item_url_parts | first %}
-		{% assign item_section = item_section | remove_first: ".html" %}
-
+		{% assign item_section = item_url | remove: "/" %}
 		<li class="{% if item.url == page.url %}current{% endif %} {% if item_section == page_section %}current-section{% endif %}">
 			<a href="{{ item.url | relative_url }}">{{ item.title }}</a>
 		</li>
