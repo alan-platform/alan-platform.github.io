@@ -561,3 +561,4 @@ type: grammar
 ```js
 	'gui node type path'
 		'steps' component 'gui node type path step'
+```

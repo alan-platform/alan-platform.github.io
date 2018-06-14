@@ -610,3 +610,4 @@ type: grammar
 				)
 				'tail' component 'query path'
 		)
+```

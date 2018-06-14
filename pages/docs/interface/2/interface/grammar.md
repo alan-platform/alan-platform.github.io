@@ -239,3 +239,4 @@ version: 2
 		'head' component 'node selection path'
 		'collection' [ '.' ] reference
 		'tail' component 'node content path'
+```
