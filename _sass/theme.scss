@@ -152,7 +152,7 @@ code {
 	font-size: 0.9em;
 	background: lighten($beige, 24%);
 	border-radius: 4px;
-	padding: 0 .5ex;
+	padding: 0 1ex/$ratio;
 	pre & {
 		background: none;
 		border-radius: 0;
