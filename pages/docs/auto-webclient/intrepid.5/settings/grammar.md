@@ -102,3 +102,4 @@ Global settings for the user interface.
 
 ## component rules
 
+```
