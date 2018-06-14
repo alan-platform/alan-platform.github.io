@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+	{% include head.html %}
+	<body class="doc">
+		{% include header.html %}
+
+		<article>
+			<h1>{{ page.language }}</h1>
+			<ul>
+				<li>{{ page.origin }}</li>
+				<li>{{ page.type }} version <em>{{ page.version }}</em></li>
+			</ul>
+
+			<section>
+				{{ content }}
+			</section>
+		</article>
+
+		{% include footer.html %}
+		{% include scripts.html %}
+	</body>
+</html>

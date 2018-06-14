@@ -1,0 +1,38 @@
+<table>
+
+{% assign all_docs = site.pages | map: "url" %}
+{% assign all_docs = all_docs | sort %}
+
+{% for doc_url in all_docs %}
+
+{% assign item_url = doc_url | remove_first: "/pages/" %}
+{% assign item_section = item_url | split: "/" | first %}
+
+{% if item_section == "docs" %}
+{% assign item_url = item_url | remove_first: "docs/" %}
+{% assign item_url_parts = item_url | split: "/" %}
+
+<tr>
+
+<th>
+{% assign this_header = item_url_parts | first %}
+{% if header != this_header %}
+<a href="{{doc_url}}">{{ this_header }}</a>
+{% endif %}
+{% assign header = this_header %}
+</th>
+
+{% assign item_url = item_url | remove_first: header %}
+{% assign item_url = item_url | remove_first: "/" %}
+{% assign item_url_parts = item_url | split: "/" %}
+{% for part in item_url_parts %}
+<td>
+<a href="{{doc_url}}">{{ part }}</a>
+</td>
+{% endfor %}
+
+</tr>
+
+{% endif %}
+{% endfor %}
+</table>
