@@ -211,6 +211,17 @@ article {
 	}
 	.notes {
 		color: darken($beige, 8%);
+		a,
+		a:link,
+		a:visited,
+		a:hover,
+		a:active {
+			color: mix($blue, $beige);
+		}
+		a:hover,
+		a:active {
+			color: $blue;
+		}
 	}
 }
 
