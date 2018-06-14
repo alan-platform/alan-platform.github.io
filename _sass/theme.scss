@@ -22,7 +22,7 @@ $brand-color: #374996;
 
 
 $ratio: 1.414;
-$fat: 1rem/$ratio 1rem 1rem/$ratio/$ratio 1rem;
+$fat: 1rem/$ratio 1rem 1rem/$ratio 1rem;
 
 $base-width: 45rem;              // = 720 / 16px
 $breakpoint: $base-width + 5rem; // + 80px
@@ -54,7 +54,7 @@ body {
 h1 {
 	text-align: center;
 	font-size: 4em;
-	padding: 2em 0 1em 0;
+	padding: 1em 0 1em/$ratio 0;
 	margin: 0;
 	@media (max-width: $breakpoint) {
 		font-size: 2em*$ratio;

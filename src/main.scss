@@ -6,15 +6,14 @@
 
 pre {
 	line-height: 1;
-	overflow: hidden;
 	background: #f5f5f5;
-	padding: 0 1em/$ratio;
+	padding: 1em/$ratio/$ratio 1em/$ratio;
 	border-radius: 4px;
 	box-sizing: border-box;
 }
 code {
 	font-family: "Source Code Pro", monospace;
-	font-size: 0.92em;
+	font-size: 0.9em;
 }
 code .punctuation { color: #777; }
 code .string      { color: #2f59bc; }
@@ -23,9 +22,7 @@ code .operator    { color: #ffa32c; }
 .home-hero {
 	background: linear-gradient(lighten($orange, 9%), lighten($orange, 8%));
 	padding-top: 5rem;
-	@media (max-width: $breakpoint) {
-		padding-top: 3rem;
-	}
+
 	h1 {
 		margin: 0;
 		padding-top: 256px;
@@ -89,7 +86,8 @@ header {
 		a:active {
 			border-bottom-color: darken($orange, 12%);
 		}
-		.current > a {
+		.current > a,
+		.current-section > a {
 			border-bottom-color: darken($orange, 12%);
 		}
 	}
@@ -163,9 +161,6 @@ header {
 		display: none;
 		color: #fff;
 		padding: $fat;
-		position: absolute;
-		right: 0;
-		top: 3px;
 
 		&:hover,
 		&:active {
@@ -188,9 +183,17 @@ header {
 			right: 0;
 			ul {
 				display: block;
+				&.main li:first-child {
+					margin-top: 1rem*$ratio;
+				}
 			}
 			.closer {
 				display: block;
+			}
+			.nav-toggle {
+				position: fixed;
+				right: 0;
+				top: 0;
 			}
 		}
 		&:not(.open) .opener {
