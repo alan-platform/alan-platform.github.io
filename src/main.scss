@@ -264,6 +264,7 @@ article {
 
 
 table {
+	margin: 1em 0 1em*$ratio 0;
 	tr {
 		border-bottom: 1px solid $grey5;
 		@include breathe(background);
