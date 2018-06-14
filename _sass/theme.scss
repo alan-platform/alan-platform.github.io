@@ -128,26 +128,32 @@ a.button {
 }
 
 blockquote {
-	quotes: "“" " ”" "‘" "’";
-	padding: 1em*$ratio;
+	padding-left: 1em/$ratio;
 	margin: 0;
-	border: 1px solid $grey5;
-	border-radius: 3px;
-	background: $grey6;
+	border-left: 2px solid $grey5;
 	color: $grey2;
-	font-size: 1em/$ratio;
+}
 
-	.inner::before {
-		content: open-quote;
-		position: absolute;
-		left: 1em/$ratio;
-	}
-	.inner::after {
-		content: close-quote;
-	}
-	small {
-		display: block;
-		font-style: italic;
-		padding-top: 1rem;
+
+pre {
+	line-height: 1;
+	background: lighten($beige, 28%);
+	padding: 1em/$ratio/$ratio 1em/$ratio;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+code {
+	font-family: "Source Code Pro", monospace;
+	font-size: 0.9em;
+	background: lighten($beige, 24%);
+	border-radius: 4px;
+	padding: 0 .5ex;
+	pre & {
+		background: none;
+		border-radius: 0;
+		padding: 0;
 	}
 }
+code .punctuation { color: $grey1; }
+code .string      { color: $blue; }
+code .operator    { color: $orange; }
