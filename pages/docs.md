@@ -23,6 +23,7 @@ Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/qu
 - Keywords should be separated by whitespace, so `()` doesn't work but `( )` does. 
 - Quotes are recognized as something special, so you *can* write `'type':` and `?'state group'|'state'`.
 - Single quotes are used for entities (things you can refer to or that refer to something else), double quotes are just strings.
+- Only tabs are accepted for indentation.
 
 
 ## Important languages:
