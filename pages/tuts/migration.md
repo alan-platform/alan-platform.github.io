@@ -43,7 +43,9 @@ The resulting initial Users dictionary for the Hours application looks like this
 }
 ```
 
-To test your migration in a "dry run", run the migrate.sh script. If it succeeds, you should see "in" and "out" json files in the data directory, with "out.json" containing the resulting initial dataset.
+To test your migration in a "dry run", run the migration engine on a dataset (e.g. the one in the default deployment):
+
 ```sh
-./dataenv/system-types/datastore/migrate.sh from_scratch
+mkdir from_scratch/data/ && \
+./dataenv/system-types/datastore/tools/migration-engine from_scratch.migration < ../deployments/default/instances/server/instance.json > from_scratch/data/out.json
 ```
