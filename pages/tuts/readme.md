@@ -58,15 +58,15 @@ Example layout for a migrations ("dataenv") environment:
 
 ```
 migrations/
-  \_ versions.json
-  \_ from_version_x/
-        \_ build.json
-        \_ migration.alan
-        \_ regexp.alan
-        \_ from/
-              \_ application.alan
-        \_ to/
-              \_ application.alan(.link)
+  ├ versions.json
+  └ from_version_x/
+      ├ build.json
+      ├ migration.alan
+      ├ regexp.alan
+      ├ from/
+      │   └ application.alan
+      └ to/
+          └ application.alan(.link)
 ```
 
 > The versions.json would be the same as the one in your project, but with only the "datastore" system type and the platform version.
