@@ -16,9 +16,9 @@ Basic steps to build your project:
 ## Getting Alan
 You can download the `alan` utility, and the tools it uses, here:
 
-- [macOS](https://alan-platform.com/utils/latest/darwin-x64.tar.gz)
-- [Linux](https://alan-platform.com/utils/latest/linux-x64.tar.gz)
-- [Windows](https://alan-platform.com/utils/latest/windows-x64.tar.gz)
+- [macOS](https://alan-platform.com/utils/latest/darwin-x64/utils.tar.gz)
+- [Linux](https://alan-platform.com/utils/latest/linux-x64/utils.tar.gz)
+- [Windows](https://alan-platform.com/utils/latest/windows-x64/utils.tar.gz)
 
 You can put `alan` in your project root and call it from there. In some cases it's easier to make it available everywhere via `$PATH`. 
 
