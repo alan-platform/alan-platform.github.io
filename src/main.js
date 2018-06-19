@@ -7,3 +7,10 @@ function menuOpen() {
 		el.classList.add("open");
 	}
 }
+
+window.onload = function() {
+	var deeplinks = document.querySelectorAll("h2[id]");
+	deeplinks.forEach(function(i) {
+		i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + "</a>";
+	});
+};

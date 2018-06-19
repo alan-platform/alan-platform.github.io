@@ -71,7 +71,7 @@ h3 {
 address,
 p,
 pre {
-	margin: 1em auto 1em*$ratio auto;
+	margin: 1em*$ratio auto 0 auto;
 }
 small {
 	font-size: 1em/$ratio;
@@ -80,7 +80,7 @@ small {
 
 ol,
 ul {
-	margin: 1em auto 1em*$ratio auto;
+	margin: 1em*$ratio auto 0 auto;
 	padding: 0;
 	li {
 		margin-bottom: 1em/$ratio/$ratio;
