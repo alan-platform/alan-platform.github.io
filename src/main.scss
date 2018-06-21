@@ -47,8 +47,11 @@ h2[id] {
 		text-decoration: none;
 	}
 	&::before {
-		content: "\2192";
-		color: $orange;
+		@include breatheFast(opacity);
+		content: "";
+		width: 16px;
+		height: 1em*$ratio;
+		background: url("../assets/arrow.svg") no-repeat center center;
 		position: absolute;
 		left: -1em;
 		opacity: 0;

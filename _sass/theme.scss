@@ -40,6 +40,14 @@ $hero-size: $base-width + 2 * 5rem;
 		transition: $property .1s ease-in-out;
 	}
 }
+@mixin breatheFast($property) {
+	transition: $property .25s ease-in-out;
+
+	&:hover,
+	&:active {
+		transition: $property .05s ease-in-out;
+	}
+}
 
 html,
 body {
