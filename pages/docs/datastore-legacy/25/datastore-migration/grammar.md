@@ -296,7 +296,7 @@ Set a collection:
 	'collection expression'
 		'target' stategroup (
 			'static entries'
-				'entries' ['{', '}'] collection indent (
+				'entries' ['(', ')'] collection indent (
 					'mapping' component 'node mapping'
 				)
 			'migrate entries'
@@ -561,7 +561,7 @@ Basic target : source mapping.
 Use `( + 'some group' )` to walk into a context (e.g. a group) before mapping the node.
 
 ```js
-	'node mapping' ['{', '}']
+	'node mapping' ['(', ')']
 		'properties' collection indent (
 			'source context' stategroup (
 				'input context'
