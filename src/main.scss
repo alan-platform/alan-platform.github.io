@@ -31,22 +31,15 @@ a[name] { // make name-linked-content doesn't disappear behind header for # link
 	top: -3rem;
 }
 
-h2[id] {
+h2[id],
+h3[id] {
 	margin: 0;
-	padding: 3rem 0 1em/$ratio/$ratio 0;  // make sure h2 doesn't disappear behind header for # links
+	padding: 3rem 0 1em/$ratio/$ratio 0;  // make sure text doesn't disappear behind header for # links
 	position: relative;
 	& + * {
 		margin-top: 0;
 	}
-	a,
-	a:link,
-	a:visited,
-	a:hover,
-	a:active {
-		color: inherit;
-		text-decoration: none;
-	}
-	&::before {
+	a::before {
 		@include breatheFast(opacity);
 		content: "";
 		width: 16px;
@@ -56,9 +49,20 @@ h2[id] {
 		left: -1em;
 		opacity: 0;
 	}
-	&:hover::before {
+	a:hover::before {
 		opacity: 1;
 	}
+	a,
+	a:link,
+	a:visited,
+	a:hover,
+	a:active {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+h3[id] a::before {
+	background-size: 12px 12px;
 }
 
 header {

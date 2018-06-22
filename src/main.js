@@ -9,7 +9,7 @@ function menuOpen() {
 }
 
 window.onload = function() {
-	var deeplinks = document.querySelectorAll("h2[id]");
+	var deeplinks = document.querySelectorAll("h2[id], h3[id]");
 	deeplinks.forEach(function(i) {
 		i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + "</a>";
 	});

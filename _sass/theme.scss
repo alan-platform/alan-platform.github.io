@@ -78,7 +78,7 @@ h3 {
 }
 address,
 p,
-pre {
+div.highlighter-rouge {
 	margin: 1em*$ratio auto 0 auto;
 }
 small {
@@ -151,6 +151,7 @@ blockquote {
 pre {
 	line-height: 1;
 	background: lighten($beige, 28%);
+	margin: 0;
 	padding: 1em/$ratio/$ratio 1em/$ratio;
 	border-radius: 4px;
 	box-sizing: border-box;
