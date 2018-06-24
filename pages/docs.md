@@ -47,5 +47,5 @@ The Alan Application Server only runs on a "real" POSIX system. Run it in WSL un
 - Sublime Text 3: install "Alan" via [Package Control](https://packagecontrol.io/packages/Alan)
 - VS Code: install "Alan" from [the Marketplace](https://marketplace.visualstudio.com/items?itemName=M-industries.alan)
 - VIM: download [AlanForVim](https://github.com/M-industries/AlanForVim/archive/master.zip)
-- Emacs: install [AlanForEmacs](https://github.com/M-industries/AlanForEmacs)
+- Emacs: install [AlanForEmacs](https://melpa.org/#/alan-mode)
 - Atom: install [language-alan](https://atom.io/packages/language-alan)
