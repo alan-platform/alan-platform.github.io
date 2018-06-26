@@ -19,9 +19,9 @@ resolution or larger to be crsip on high dpi displays.
 ## support data deployment
 
 ```
-	/'logo.png'   ( = optional )
-	/'logo-sideways.png' ( = optional )
-	/'wallpaper.jpg'   ( = optional )
-	/'wallpaper-high.jpg'   ( = optional )
-	/'favicon.ico'   ( = required )
+/'logo.png'   ( = optional )
+/'logo-sideways.png' ( = optional )
+/'wallpaper.jpg'   ( = optional )
+/'wallpaper-high.jpg'   ( = optional )
+/'favicon.ico'   ( = required )
 ```
