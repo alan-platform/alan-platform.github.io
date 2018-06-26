@@ -65,6 +65,12 @@ h3[id] a::before {
 	background-size: 12px 12px;
 }
 
+
+p + * {
+	margin-top: 1em/$ratio;
+}
+
+
 header {
 	position: fixed;
 	top: 0;
@@ -267,18 +273,6 @@ article {
 }
 
 
-.doc {
-	article {
-		max-width: none;
-		section > *:not(div) {
-			max-width: $base-width;
-			margin-left: auto;
-			margin-right: auto;
-		}
-	}
-}
-
-
 .strip {
 	display: flex;
 	justify-content: space-around;
@@ -365,6 +359,22 @@ table {
 
 
 .doc {
+	article.wide {
+		max-width: none;
+		section > *:not(div) {
+			max-width: $base-width;
+			margin-left: auto;
+			margin-right: auto;
+		}
+	}
+
+	label[for="wide"] {
+		font-size: 1em/$ratio;
+		input {
+			margin-right: 1ex;
+		}
+	}
+
 	h1 + ul {
 		list-style: none;
 		margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;

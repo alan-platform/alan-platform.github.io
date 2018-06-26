@@ -1,11 +1,7 @@
 // good old obtrusive JavaScript
 function menuOpen() {
 	var el = document.querySelector("header");
-	if(el.classList.contains("open")) {
-		el.classList.remove("open");
-	} else {
-		el.classList.add("open");
-	}
+	el.classList.toggle("open");
 }
 
 window.onload = function() {
@@ -13,4 +9,9 @@ window.onload = function() {
 	deeplinks.forEach(function(i) {
 		i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + "</a>";
 	});
+
+	var wide_switch = document.getElementById("wide");
+	wide_switch.onchange = function() {
+		document.querySelector("article").classList.toggle("wide");
+	};
 };
