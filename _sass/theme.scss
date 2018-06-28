@@ -161,10 +161,12 @@ code {
 	background: lighten($beige, 24%);
 	border-radius: 4px;
 	padding: 0 1ex/$ratio;
+	white-space: nowrap;
 	pre & {
 		background: none;
 		border-radius: 0;
 		padding: 0;
+		white-space: pre;
 	}
 }
 code .punctuation { color: $grey1; }

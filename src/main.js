@@ -11,7 +11,9 @@ window.onload = function() {
 	});
 
 	var wide_switch = document.getElementById("wide");
-	wide_switch.onchange = function() {
-		document.querySelector("article").classList.toggle("wide");
-	};
+	if (wide_switch) {
+		wide_switch.onchange = function() {
+			document.querySelector("article").classList.toggle("wide");
+		};
+	}
 };
