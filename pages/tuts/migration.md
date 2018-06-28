@@ -15,9 +15,19 @@ In the template project we already set up a basic "from scratch" migration in th
 You'll notice two other folders, "to" and "from", which should contain the application models you're migrating between. "To" represents the current model, so it contains a file "application.alan.link" with a path to the model. 
 "From" represents an empty data set, so the "application.alan" file there has only the basic layout.
 
-We can check our set up here works by running `alan build`. If it works it creates a new from_scratch.migration package file.
+![](migration1.png)
 
-Now we're ready to start modifying the migration.alan file. In this file you map existing data to your new model, or set static values for each property. In this case don't have any data, so we'll be setting static values. 
+We can check our set up here works by running `alan build`. If it works it creates a new "from_scratch.migration" package file.
+
+![](migration2.png)
+
+Now we're ready to start modifying the migration.alan file. In this file you map existing data to your new model, or set static values for each property. In this case we don't have any data, so we're setting static values. 
+
+The template project defines initial entries and their values for the `Result Codes` and `Organizations` collections. You can try modifying those values to get a feel for it. 
+
+The migration language is part of the datastore system and its documentation can be found [here](http://127.0.0.1:4000/docs/#important-languages).
+
+## Users
 
 You can create as much data as you want, but usually it's easier to leave all collections empty. E.g `'Years': dictionary = { }`. Depending on the complexity and structure of your model, you probably end up with a very small migration.
 
@@ -27,7 +37,7 @@ echo -n "rootwelcome" | shasum -a 256
 ```
 
 The resulting initial Users dictionary for the Hours application looks like this:
-```
+```js
 'Users' : dictionary = {
   'root' {
     'Contracts' : dictionary = { }
@@ -42,6 +52,8 @@ The resulting initial Users dictionary for the Hours application looks like this
   }
 }
 ```
+
+## Dry run
 
 To test your migration in a "dry run", run the migration engine on a dataset (e.g. the one in the default deployment):
 
