@@ -175,16 +175,16 @@ If you do so, be sure to set `label` to "€" as well!
 	'ui' group (
 		'represent as' stategroup (
 			'model'
-				'date' [ '@date' ]
-				'date and time' [ '@date-time' ]
-				'decimal' [ '@factor:' '10^' ]
-					'point translation' number
-				'duration' [ '@duration:' ]
-					'unit' stategroup (
-						'seconds' [ 'seconds' ]
-						'minutes' [ 'minutes' ]
-						'hours' [ 'hours' ]
-					)
+			'date' [ '@date' ]
+			'date and time' [ '@date-time' ]
+			'decimal' [ '@factor:' '10^' ]
+				'point translation' number
+			'duration' [ '@duration:' ]
+				'unit' stategroup (
+					'seconds' [ 'seconds' ]
+					'minutes' [ 'minutes' ]
+					'hours' [ 'hours' ]
+				)
 		)
 		'label' stategroup (
 			'model'
