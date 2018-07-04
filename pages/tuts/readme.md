@@ -58,8 +58,6 @@ You can download the `alan` utility, and the tools it uses, here:
 - [Linux](https://alan-platform.com/utils/latest/linux-x64/utils.tar.gz)
 - [Windows](https://alan-platform.com/utils/latest/windows-x64/utils.tar.gz)
 
-> Note that `alan` will download its dependencies into an alan-tools directory. 
-
 
 ## Getting an Alan Application Server
 Get a server by running a one-liner in a Unix-like shell. 
