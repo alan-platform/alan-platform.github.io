@@ -68,16 +68,16 @@ Get a server by running a one-liner in a Unix-like shell.
 
 macOs:
 ```sh
-bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server application-server"
+bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 Linux:
 ```sh
-bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/linux-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server application-server"
+bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/linux-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 
 You can start the server by running:
 ```sh
-./application-server 127.0.0.1 12345
+./serve 127.0.0.1 12345
 ```
 
 
