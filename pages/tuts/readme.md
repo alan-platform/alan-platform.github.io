@@ -10,7 +10,7 @@ Basic steps to build your project:
 
 1. `./alan bootstrap`
 2. `./alan build`
-3. `./alan package devenv/output/project.definition deployments/default`
+3. `./alan package dist/project.pkg deployments/default`
 
 Also make sure you build any necessary [migrations](#data-migration), and copy the migration package to the deployment.
 
@@ -46,37 +46,6 @@ To build the migrations, run this from the "migrations" directory:
 2. `./alan build`
 
 This will produce a `from_version_x.migration` package that can be used in a deployment. To do so, copy it to the deployment. In a very basic project the correct location would be `deployments/default/instances/server.migration`.
-
-
-## Getting Alan
-If you start your project from the [template](https://github.com/M-industries/AlanProjectTemplate), it already has the `alan` utility in the root directory.
-
-In some cases it's easier to install `alan` globally and make it available everywhere via `$PATH`. 
-You can download the `alan` utility, and the tools it uses, here:
-
-- [macOS](https://alan-platform.com/utils/latest/darwin-x64/utils.tar.gz)
-- [Linux](https://alan-platform.com/utils/latest/linux-x64/utils.tar.gz)
-- [Windows](https://alan-platform.com/utils/latest/windows-x64/utils.tar.gz)
-
-
-## Getting an Alan Application Server
-Get a server by running a one-liner in a Unix-like shell. 
-
-> Tip: run this in a directory dedicated to the server as it will download additional utilities and create directories.
-
-macOs:
-```sh
-bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
-```
-Linux:
-```sh
-bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/linux-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
-```
-
-You can start the server by running:
-```sh
-./serve 127.0.0.1 12345
-```
 
 
 ## Running an image on the server

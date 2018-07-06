@@ -13,11 +13,39 @@ Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/qu
 or join the discussion on [our forums](https://alan-platform.com)!
 
 
+## Getting Alan
+If you start your project from the [template](https://github.com/M-industries/AlanProjectTemplate), it already has the `alan` utility in the root directory.
+
+You can also download it here:
+
+- [macOS](https://alan-platform.com/utils/latest/darwin-x64/utils.tar.gz)
+- [Linux](https://alan-platform.com/utils/latest/linux-x64/utils.tar.gz)
+- [Windows](https://alan-platform.com/utils/latest/windows-x64/utils.tar.gz)
+
+Get an alan server by running a one-liner in a Unix-like shell. 
+
+> Tip: run this in a directory dedicated to the server as it will download additional utilities and create directories.
+
+macOs:
+```sh
+bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+```
+Linux:
+```sh
+bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/linux-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+```
+
+You can now start the server by running:
+```sh
+./serve 127.0.0.1 12345
+```
+
 
 ## How to read grammars
 
 - Keywords are between `[]`, e.g. `'state group' [ '?' ] reference`.
 - `component 'some component'` refers to a different component in the same language.
+
 
 ## Typical quirks of the Alan compiler
 
