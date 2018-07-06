@@ -74,13 +74,6 @@ In the systems directory you find each system, each with their own configuration
 
 You compile a project using `./alan build`, resulting in the project.pkg that's the basis for creating an [image](#image).
 
+See also the FAQ for more information about versions. 
 
-## A word about versions
-
-You'll have noticed the versions.json at the root of your project. It defines a set of systems and platform that should be compatible. New builds of system version X is guaranteed to be based on the exact same language and configuration, but may contain bugfixes. We call these "major" versions.
-
-The project.pkg contains this versions list, to ensure that each next step uses the same major versions as your design.
-
-The package step adds a "minor" version for each system-type. Systems speak a set of protocols amongst each other and that need to match. We have a mapping that tells the package utility what minor versions are correct for your project. New builds of system version X.Y are guaranteed to speak the same protocols. 
-
-Finally there is a "patch" level of versioning, for which we simply use build id's. Alan's core tool chain guarantees that at this level compatibility cannot be broken, so it's always safe to use the latest builds. The Alan stack manager tool helps you upgrade systems to get the latest bug fixes.
+Have questions or remarks? Discuss this topic on the forums.
