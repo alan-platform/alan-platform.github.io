@@ -28,15 +28,14 @@ If you want more control over the user interface, e.g. to create one for a speci
 
 
 ## Can I limit permissions on certain properties
-Permissions use role based access control. The Hours application sets `#writer` and `#reader` access on several nodes to limit their permissions where necessary:
-https://github.com/M-industries/Hours/blob/master/shared/models/hours/application.alan
+Permissions use role based access control. The [Hours application](https://github.com/M-industries/Hours/blob/cfc59c310134a0be174369b3ecf58363107c472d/shared/models/hours/application.alan#L47) sets `#writer` and `#reader` access on several nodes to limit their permissions where necessary.
 
 
 ## Can I create 2-way many-to-many relations
 If you want to simply get a list of everything that has a reference to a certain entry, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction. 
 
 To make derivations and calculations based on this relation, you need to define an inverse reference. The Hours application [has an example of this](
-https://github.com/M-industries/Hours/blob/cfc59c310134a0be174369b3ecf58363107c472d/shared/models/hours/application.alan#L47)
+https://github.com/M-industries/Hours/blob/cfc59c310134a0be174369b3ecf58363107c472d/shared/models/hours/application.alan#L51)
 
 
 ## Can I write SQL queries
