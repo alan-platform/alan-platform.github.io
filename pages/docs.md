@@ -11,7 +11,7 @@ permalink: /docs/
 - A tutorial on how to build your first application (coming soon!).
 
 Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/questions/tagged/alan) (use the `#alan` tag), 
-or join the discussion on [our forums](https://alan-platform.com)!
+or join the discussion on [our forums](https://forum.alan-platform.com)!
 
 
 ## Get the Alan utility
@@ -19,9 +19,9 @@ If you start your project from the [template](https://github.com/M-industries/Al
 
 You can also download it here:
 
-- [macOS](https://alan-platform.com/utils/latest/darwin-x64/utils.tar.gz)
-- [Linux](https://alan-platform.com/utils/latest/linux-x64/utils.tar.gz)
-- [Windows](https://alan-platform.com/utils/latest/windows-x64/utils.tar.gz)
+- [macOS](/utils/latest/darwin-x64/utils.tar.gz)
+- [Linux](/utils/latest/linux-x64/utils.tar.gz)
+- [Windows](/utils/latest/windows-x64/utils.tar.gz)
 
 
 ## Get the Alan server

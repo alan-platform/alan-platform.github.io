@@ -57,8 +57,8 @@ It is possible to connect to other systems using XML Schema or third party API's
 ## What does that versions.json do?
 You'll have noticed the versions.json at the root of your project. It defines a set of packages that should be compatible. Builds of version X are guaranteed to be based on the exact same language and configuration, but may contain bugfixes. We call these "major" versions.
 
-The [project.pkg](https://alan-platform.com/pages/tuts/bottom-up.html#project) also contains this versions list, to ensure that each next step uses the same major versions as your design.
+The [project.pkg](/pages/tuts/bottom-up.html#project) also contains this versions list, to ensure that each next step uses the same major versions as your design.
 
-The [package step](https://alan-platform.com/pages/tuts/bottom-up.html#image) adds a "minor" version for each system-type. Systems speak a set of protocols amongst each other and that need to match. Builds of system version X.Y are guaranteed to speak the same protocols. We have a mapping that tells the package utility what minor versions are correct for your project.  
+The [package step](/pages/tuts/bottom-up.html#image) adds a "minor" version for each system-type. Systems speak a set of protocols amongst each other and that need to match. Builds of system version X.Y are guaranteed to speak the same protocols. We have a mapping that tells the package utility what minor versions are correct for your project.  
 
 Finally there is a "patch" level of versions (in semver-speak), for which we simply use incrementing build numbers. Alan's core tool chain guarantees that at this level compatibility cannot be broken, so it's always safe to use the latest builds.
