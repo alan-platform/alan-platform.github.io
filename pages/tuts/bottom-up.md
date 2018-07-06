@@ -72,7 +72,7 @@ When two systems talk to each other, they do so based on a shared specification 
 
 In the systems directory you find each system, each with their own configuration. The reporter system type has queries for each report, the webclient has some settings like the display name of your application and the datastore can define how to implement external interfaces.
 
-You compile a project using `./alan build`, resulting in the project.pkg that's the basis for creating an [image](#image).
+You compile a project using `./alan build`, resulting in the **project.pkg** that's the basis for creating an [image](#image).
 
 See also the FAQ for more information about versions. 
 
