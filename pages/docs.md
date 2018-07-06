@@ -71,5 +71,3 @@ The Alan runtime only runs on a "real" Unix-like system. Run it in WSL under the
 ## Important languages:
 
 {% include doc-index.html %}
-
-
