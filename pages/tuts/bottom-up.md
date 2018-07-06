@@ -76,4 +76,4 @@ You compile a project using `./alan build`, resulting in the project.pkg that's 
 
 See also the FAQ for more information about versions. 
 
-Have questions or remarks? Discuss this topic on the forums.
+Have questions or remarks? Discuss this topic [on the forums](https://forum.alan-platform.com/t/article-alan-bottom-up/23).
