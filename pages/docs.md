@@ -49,7 +49,7 @@ Alan is built to run in a Unix-like environment. We rely on tools like bash and 
 
 On Windows you can use the MinGW terminal (aka. Git Bash) provided by [Git-For-Windows](https://gitforwindows.org). Using our Linux builds in WSL or a Linux VM are also possible.
 
-The Alan runtime only runs on a "real" Unix-like system. Run it in WSL under the Linux filesystem, a VM (e.g. via [Vagrant](https://www.vagrantup.com)) or an external Linux server (you can rent [a VPS](https://duckduckgo.com/vps%20hosting) for a few dollars a month).
+The Alan runtime only runs on a "real" Unix-like system. Run it in WSL under the Linux filesystem (not `/mnt/c`, so for instance `~`), a VM (e.g. via [Vagrant](https://www.vagrantup.com)) or an external Linux server (you can rent [a VPS](https://duckduckgo.com/vps%20hosting) for a few dollars a month).
 
 
 ## Languages
