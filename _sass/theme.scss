@@ -70,16 +70,13 @@ h1 {
 }
 h2 {
 	font-size: 1em*$ratio;
-	margin: 1em*$ratio 0 1em/$ratio/$ratio 0;
+	margin: 1em*$ratio*$ratio 0 1em/$ratio/$ratio 0;
 }
 h3 {
 	font-size: 1em;
 	margin: 1em 0 0 0;
 }
-address,
-p {
-	margin: 0;
-}
+
 small {
 	font-size: 1em/$ratio;
 	line-height: 2;
@@ -87,7 +84,7 @@ small {
 
 ol,
 ul {
-	margin: 1em*$ratio auto 0 auto;
+	margin: 1em auto 1em*$ratio auto;
 	padding: 0;
 	li {
 		margin-bottom: 1em/$ratio/$ratio;
@@ -162,10 +159,12 @@ pre {
 code {
 	font-family: "Source Code Pro", monospace;
 	font-size: 0.8em;
-	background: lighten($beige, 24%);
+	background: lighten($beige, 28%);
 	border-radius: 4px;
 	padding: 0 1ex/$ratio;
-	white-space: nowrap;
+	p > & {
+		white-space: nowrap;
+	}
 	pre & {
 		background: none;
 		border-radius: 0;
