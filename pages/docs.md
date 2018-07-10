@@ -10,7 +10,7 @@ permalink: /docs/
 - A description of the [Alan stack from the bottom up](/pages/tuts/bottom-up.html).
 - A tutorial on how to build your first application (coming soon!).
 
-Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/questions/tagged/alan) (use the `#alan` tag), 
+Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/questions/tagged/alan) (use the `#alan` tag),
 or join the discussion on [our forums](https://forum.alan-platform.com)!
 
 
@@ -25,9 +25,9 @@ You can also download it here:
 
 
 ## Get the Alan server
-Get an alan server by running this one-liner: 
+Get an alan server by running this one-liner:
 
-macOs:
+macOS:
 ```sh
 bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
@@ -45,7 +45,7 @@ You can now start the server by running:
 
 
 ## Alan and Windows
-Alan is built to run in a Unix-like environment. We rely on tools like bash and curl that are native to Linux and macOS. 
+Alan is built to run in a Unix-like environment. We rely on tools like bash and curl that are native to Linux and macOS.
 
 On Windows you can use the MinGW terminal (aka. Git Bash) provided by [Git-For-Windows](https://gitforwindows.org). Using our Linux builds in WSL or a Linux VM are also possible.
 
@@ -62,7 +62,7 @@ The Alan runtime only runs on a "real" Unix-like system. Run it in WSL under the
 
 ### Typical quirks of the Alan compiler
 
-- Keywords should be separated by whitespace, so `()` doesn't work but `( )` does. 
+- Keywords should be separated by whitespace, so `()` doesn't work but `( )` does.
 - Quotes are recognized as something special, so you *can* write `'type':` and `?'state group'|'state'`.
 - Single quotes are used for entities (things you can refer to or that refer to something else), double quotes are just strings.
 - Only tabs are accepted for indentation.
