@@ -17,10 +17,10 @@ Note that logo's are resized to fit and should be supplied at 2x the specified
 resolution or larger to be crsip on high dpi displays.
 
 - **config.json**          Configuration options for the client.
-An example:
+ An example:
 
 {
-"include data in error log": true // include (potentially sensitive) data in error reports.
+	"include data in error log": true // include (potentially sensitive) data in error reports.
 }
 
 ## support data deployment

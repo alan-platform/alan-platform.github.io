@@ -1626,7 +1626,7 @@ If you do so, be sure to set `label` to "€" as well!
 Some examples of ui annotations:
 - `@hidden`: derived properties can be hidden from the UI.
 - `@description: "a description"`: describe the property in more detail to the user.
-Useful in combination with validation rules!
+  Useful in combination with validation rules!
 - `@validate: "[a-b]+"`: set a regex for text properties that defines what values are acceptable.
 - `@min:` and `@max:`: set limits on a number value.
 - `@identifying`: marks a property to always be displayed in addition to an entry's key.
