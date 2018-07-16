@@ -1,11 +1,11 @@
 ---
 layout: page
-title: Basic README
+title: Reference Guide
 category: docs
 ---
 
 
-Download the Project Template from the [home page](/): [AlanProjectTemplate-master](https://github.com/M-industries/AlanProjectTemplate/archive/master.zip), or fork it on [GitHub](https://github.com/M-industries/AlanProjectTemplate).
+Download the Project Template from the [home page](/): [AlanProjectTemplate](https://github.com/M-industries/AlanProjectTemplate/archive/master.zip), or fork it on [GitHub](https://github.com/M-industries/AlanProjectTemplate).
 
 Unzip it and open a command line in the new directory. To get started, we're going to run some commands:
 
@@ -18,6 +18,8 @@ Unzip it and open a command line in the new directory. To get started, we're goi
 The bootstrap command is used only initially. Building and copy-ing the migration is only necessary when you make change to the migration. 
 
 > Tip: put steps 2-5 in a script.
+
+![](cli1.gif)
 
 
 ## Modifying applications
@@ -64,9 +66,11 @@ Upload an image to the server:
 You're now in a dialog session with the server. To start your application, issue the `start` command.
 If this is successful you can now end the session by issuing the `exit` command, the application will continue running.
 
+![](cli2.gif)
+
 To upload a new version of the application, use the `--batch replace` command:
 
-- `./alan connect 127.0.0.1 12345 upload "demo" dist/default.image`
+- `./alan connect 127.0.0.1 12345 --batch replace "demo" dist/default.image`
 
 To stop the application, but keep the server running, connect to your application and issue the stop command.
 

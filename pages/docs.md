@@ -5,7 +5,7 @@ category: main
 permalink: /docs/
 ---
 
-- The basic 101: [how to use Alan](/pages/tuts/readme.html).
+- The reference guide: [how to use Alan](/pages/tuts/reference.html).
 - A tutorial for [creating data migrations](/pages/tuts/migration.html).
 - A description of the [Alan stack from the bottom up](/pages/tuts/bottom-up.html).
 - A tutorial explaining how to [create a report](/pages/tuts/report.html).
