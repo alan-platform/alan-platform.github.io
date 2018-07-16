@@ -2,7 +2,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Alan Application Platform - from M-industries</title>
+	{% if page.url == "/" %}
+		<title>{{ site.title }} - By M-industries</title>
+	{% else %}
+		<title>{{ page.title }} - {{ site.title }}</title>
+	{% endif %}
 
 	<link rel="icon" href="{{ 'assets/favicon.ico' | relative_url }}">
 
