@@ -6,7 +6,7 @@ category: docs
 
 In this tutorial, we will add a custom Excel report to the [M-industries Hours application](https://github.com/M-industries/Hours).
 
-To get started, we assume you have a local copy of the Hours repository set up using [the instructions](https://alan-platform.com/pages/tuts/readme.html).
+To get started, we assume you have a local copy of the Hours repository set up using [the instructions](/pages/tuts/reference.html).
 
 ## Creating a report definition
 
@@ -33,7 +33,7 @@ collection select . 'Users'
 limit 1048576 // Excel row limit
 ```
 
-This selects the 'Name' property for all entries in the root 'Users' collection. We limit the amount of results to the maximum row limit for an Excel sheet. The file `query.alan` follows the [`client_request`](https://alan-platform.com/pages/docs/model/32/client_request/grammar.html#root) type. We set the root type to `collection query`.
+This selects the 'Name' property for all entries in the root 'Users' collection. We limit the amount of results to the maximum row limit for an Excel sheet. The file `query.alan` follows the [`client_request`](/pages/docs/model/32/client_request/grammar.html) type. We set the root type to `collection query`.
 
 After that we fill `mapping.alan` with:
 
@@ -42,7 +42,7 @@ collection query
 	"Name" -> select 'Name' as text
 ```
 
-The file `mapping.alan` follows the [`collection_query_to_table`](https://alan-platform.com/pages/docs/model/32/collection_query_to_table/grammar.html#root) type. Again, we set the root type to `collection query`. As you can see from the type definition, this mapping file allows us to map Alan types to Excel types.
+The file `mapping.alan` follows the [`collection_query_to_table`](/pages/docs/model/32/collection_query_to_table/grammar.html) type. Again, we set the root type to `collection query`. As you can see from the type definition, this mapping file allows us to map Alan types to Excel types.
 
 ## Creating an Excel report template
 
