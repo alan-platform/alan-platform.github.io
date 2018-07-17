@@ -57,7 +57,7 @@ You compile an image using `./alan package <project.pkg> <deployment>`, i.e. by 
 	│                                    │
 	│ ┌─────────── project ────────────┐ │
 	│ │ wiring.alan                    │ │
-	│ │ shared interface configuration │ │
+	│ │ interface configuration │ │
 	│ │ system configuration           │ │
 	│ │ design time ("major") versions │ │
 	│ └────────────────────────────────┘ │
@@ -68,7 +68,7 @@ You compile an image using `./alan package <project.pkg> <deployment>`, i.e. by 
 
 A project contains the "source code" for the systems you want to use, and a configuration for how the systems are wired together. E.g. the server provides data that the client then consumes. When you bootstrap a project, Alan downloads the specifications for each system-type, that tell us exactly what each system can provide or consume. 
 
-When two systems talk to each other, they do so based on a shared specification or "interface". These specifications are in the shared directory.
+When two systems talk to each other, they do so based on an "interface" specification. E.g. an application model serves as the interface between client and server.
 
 In the systems directory you find each system, each with their own configuration. The reporter system type has queries for each report, the webclient has some settings like the display name of your application and the datastore can define how to implement external interfaces.
 

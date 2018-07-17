@@ -9,7 +9,7 @@ permalink: /faq/
 ## Do I need to learn programming for Alan
 Alan is *low* code, but not *no* code.
 
-Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but it never gets to the point that you're creating algorithms. 
+Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but you don't have to express that in abstract algorithms. 
 
 If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Alan will definitely not scare you. In fact, I bet you'll find it lot of fun.
 

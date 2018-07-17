@@ -23,7 +23,7 @@ The bootstrap command is used only initially. Building and copy-ing the migratio
 
 
 ## Modifying applications
-The template contains a basic application. To modify it, open `shared/model/application.alan`. Be sure to run `./alan build` to validate your changes, and `package` when you're ready to try to run the application.
+The template contains a basic application. To modify it, open `interfaces/model/application.alan`. Be sure to run `./alan build` to validate your changes, and `package` when you're ready to try to run the application.
 
 
 ## Data Migration

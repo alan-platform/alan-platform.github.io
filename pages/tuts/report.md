@@ -46,9 +46,11 @@ The file `mapping.alan` follows the [`collection_query_to_table`](https://alan-p
 
 ## Creating an Excel report template
 
-We will create an Excel file in the XLSX format with exactly one sheet named 'users':
+Next, create an Excel file in the XLSX format with one sheet named 'users':
 
 ![](report2.png)
+
+The "users" sheet will be replaced with data from the "overview/sheets/**users**" query. So don't put anything in this sheet, but put calculations etc. in a separate sheet.
 
 Save this file and keep it for the next step.
 
