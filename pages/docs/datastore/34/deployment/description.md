@@ -14,6 +14,8 @@ Instance data files for the server:
 - **backup.sh**, **cleanup.sh**: When you've configured a backup schedule,
   it runs the backup script followed by the cleanup script.
 
+## Server configuration
+
 The `config.json` contains the runtime options. Option names are case-sensitive. When no options are specified, the system uses the default options as listed below:
 
 ```
@@ -39,6 +41,16 @@ Available options:
 The `policy` option applies to the primary datastore process and the `poolpolicy` option applies to all datastores in the pool.
 If a flag is neither listed in the `policy` nor the `poolpolicy` option, no datastore is available to handle those types of requests.
 If you choose to run with a `poolsize` of zero, **all** available flags should be listed in the `policy` option.
+
+## Backup & cleanup scripts
+The backup & cleanup scripts should be used to clean up files on disk. They can also be used to save a backup of archived data to external storage.
+
+The `backup.sh` script is called with:
+- one argument: a path to the server package file.
+- `stdin`: a list of paths to transaction files. These files can be safely removed. They should be removed to prevent the disk from filling up.
+
+The `cleanup.sh` script is called with:
+- one argument: a path to the session directory containing subdirectories with instruction files. These files are only written when the `DEBUG` option is enabled. They should be removed to prevent the disk from filling up.
 
 ## support data deployment
 
