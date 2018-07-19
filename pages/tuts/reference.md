@@ -26,7 +26,7 @@ The bootstrap command is used only initially. Building and copy-ing the migratio
 The template contains a basic application. To modify it, open `interfaces/model/application.alan`. Be sure to run `./alan build` to validate your changes, and `package` when you're ready to try to run the application.
 
 
-## Data Migration
+## Data migration
 The migration.alan in migrations/from_scratch describes the initial dataset. Read more about migrations [here](/pages/tuts/migration.html).
 
 To build the migrations, run `../alan build` from the migrations directory or `./alan build -C migrations` from the root of your project.
@@ -78,3 +78,10 @@ To stop the application, but keep the server running, connect to your applicatio
 - `stop`
 
 To stop the server, you can switch to the terminal window where the server is running and hit `CTRL + C`. 
+
+
+## Open the application in a browser
+
+The client is hosted on the server (if you run the server locally that's `localhost` or `127.0.0.1`), at a specific [port](https://en.wikipedia.org/wiki/Network_port). This port is defined in the [deployment.alan file](https://github.com/M-industries/AlanProjectTemplate/blob/master/deployments/default/deployment.alan#L20). For out application template this port is number 7584. So, in most cases you can browse to the following URL to use your application:
+
+[http://localhost:7584](http://localhost:7584)
