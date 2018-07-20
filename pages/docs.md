@@ -25,6 +25,14 @@ You can also download it here:
 - [Windows](/utils/latest/windows-x64/utils.tar.gz)
 
 
+## Get the Alan Connect management app
+To manage the stacks that run on your server, use the Alan Connect app:
+
+- [macOS](/utils/latest/darwin-x64/alan-connect.tar.gz)
+- [Linux](/utils/latest/linux-x64/alan-connect.tar.gz)
+- [Windows](/utils/latest/windows-x64/alan-connect.zip)
+
+
 ## Get the Alan server
 Get an alan server by running this one-liner:
 
