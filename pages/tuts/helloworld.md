@@ -83,6 +83,8 @@ On macOS and Linux you can [run the server](https://alan-platform.com/docs/#get-
 Double click the Alan.ova appliance package to install it into VirtualBox, it has all the configuration already set up to Just Work™. Then just hit the green Start button. When it's done going through the boot sequence it will report the IP address and port number (probably 8888) you can use to connect to it. 
 
 ### Connect to the server
+On macOS and Linux you can connect to the server from the command line using `./alan connect`, here we'll use a virtual machine to run it. 
+
 - Get the [Alan Connect]() application.
 - Start it
 - Enter the server's address and port (address:port, e.g. 192.168.1.1:8888).

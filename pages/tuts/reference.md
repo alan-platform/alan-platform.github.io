@@ -37,7 +37,7 @@ This will produce a `from_version_x.migration` package (all output can be found 
 cp dist/from_scratch.migration deployments/default/instances/server.migration
 ```
 
-## Running an image on the server
+## Starting a server from the command line
 Servers only run on Linux or macOS. On Windows, you can use WSL. 
 
 Start a server on Linux or Windows/WSL:
@@ -59,6 +59,8 @@ Start a server on macOS:
 
 The server will keep using the terminal while it's running so, for the next steps continue in a new terminal window.
 
+
+## Upload to the server from the command line
 Upload an image to the server:
 
 - `./alan connect 127.0.0.1 12345 upload "demo" dist/default.image`
