@@ -11,7 +11,12 @@ In this tutorial we'll take you through the steps going from a blank model to a 
 
 To get you up and running we've created a project template. The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the more complicated things you can build with Alan (like connecting to external databases).
 
-You'll notice some top level directories here, from the top:
+
+## Project Layout
+
+You'll notice some top level directories here.
+
+![](helloworld1.png)
 
 - deployments
   Contains environment specific configuration like IP addresses, in addition to stuff that will be different from one deployment to another like your datasets.
@@ -24,11 +29,16 @@ You'll notice some top level directories here, from the top:
 - wiring
   Defines how the systems and interfaces are wired together. For most projects the default here already defines everything you need, but if you want to add custom clients or external databases this is where you describe how they're connected.
 
-For now, you can forget about deployments, migrations, systems and wiring. We've got defaults set up there that will work and some tools to generate files where needed. We'll touch on them later.
+For now, you can ignore deployments, migrations, systems and wiring. We'll touch on them later, but we've got defaults set up there that will work for most basic projects. 
 
 Firstly, lets take a look at the application model. As we said earlier, it drives everything and this file is the one you'll spend most time editing.
 
-Open the application.alan file in an editor. We'll be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
+
+## Application Model
+
+Open the application.alan file in an editor. We're be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
+
+![](helloworld2.png)
 
 The template already has a little model set up that covers some basics. Let's walk through it before we wipe it clean and start our own.
 
@@ -42,18 +52,44 @@ The model is a nested data structure not unlike [JSON](https://json.org). At the
 - [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)
   Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc. We'll get to that later.
 
-So, in "root", you describe the data model of your application. The base of that is describing your data types. Essentially there are 4 of those in Alan:
-- number
-  Numbers are things you can count, or do math with. [Dates and date-time values](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L42) are numbers too.
+So, in "root", you describe the data model of your application. You do so by combining properties of certain types. Essentially there are 4 data types in Alan:
+- number (integer or natural)
+  Numbers are things you can count, or do math with. [Dates and date-time values](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L42) are numbers too. Numbers are usually an integer, or a natural when they can't be zero or negative. Alan doesn't know floats, so how that works with division etc. we'll cover later.
 - text
   Text is mostly just text, e.g. "Name", or any other value that doesn't adhere to any rules. So [phone numbers](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L33) are `text`, not `number`.
   You *can* put some [input rules](/pages/docs/model/33/application/grammar.html#node) on text for the user interface, e.g. minimum length or a specific pattern.
-  Text can also refer to an [entry in another collection](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L49) (like a "foreign key").
+  Text can also refer to an [entry in another collection](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L49) (you can think if it as a "foreign key").
 - collection
-  You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) ;) ) think of these as your tables. If you want to describe a bunch of "things" that are mostly the same, e.g. "Contacts", that's a collection.
-  Keys in a collection are just like a text property, but they're implicit. So, keys can also refer to keys in another collection. 
+  You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) 😉 ) think of these as your tables. If you want to describe a bunch of "things" that are mostly the same, e.g. "Contacts", that's a collection.
+  Keys in a collection are just like a text property, but they're implicit (this is likely to change in the near future). So, keys can also refer to keys in another collection. 
 - stategroup
   [State groups](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L39) are where it gets really interesting: they represent a choice. With this things in one state have slightly different properties from things in another state. E.g. road bikes and fixies are both bikes, but one has gears and shifters, whereas the other doesn't.
 
 There is a fifth type called "group", which is just a construct to create (visual) grouping and name spaces: groups don't actually hold any data by themselves.
 
+
+## Run It
+
+Well, that's a lot of information. Let's skip to the fun part until we get back to making models and actually boot up this example project.
+
+The workflow here is that you've got a server running somewhere (on your system, available on the network, or in cloud) and you upload your application to it. The server then runs the application and you can then use it via your webbrowser.
+
+### Get the server 
+On macOS and Linux you can [run the server](https://alan-platform.com/docs/#get-the-alan-server) from the command line, here we'll use a virtual machine to run it. 
+
+- Get [VirtualBox](https://www.virtualbox.org/wiki/Downloads) for your "host" (i.e. the system you're using) OS.
+- Get our [server "appliance"]().
+
+Double click the Alan.ova appliance package to install it into VirtualBox, it has all the configuration already set up to Just Work™. Then just hit the green Start button. When it's done going through the boot sequence it will report the IP address and port number (probably 8888) you can use to connect to it. 
+
+### Connect to the server
+- Get the [Alan Connect]() application.
+- Start it
+- Enter the server's address and port (address:port, e.g. 192.168.1.1:8888).
+
+
+Topics to cover:
+- deployment
+- permissions
+- derivations
+- basic number conversion, division and rounding
