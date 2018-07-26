@@ -11,6 +11,8 @@ In this tutorial we'll take you through the steps going from a blank model to a 
 
 To get you up and running we've created a project template. The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the more complicated things you can build with Alan (like connecting to external databases).
 
+Several steps involve entering commands on a Unix-like command line. Use whatever you like on Linux or macOS (as long as bash is available). On Windows you can use [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) or [Git Bash via Git For Windows])(https://gitforwindows.org), as long as you don't mix the two.
+
 
 ## Project Layout
 
@@ -80,14 +82,36 @@ On macOS and Linux you can [run the server](https://alan-platform.com/docs/#get-
 - Get [VirtualBox](https://www.virtualbox.org/wiki/Downloads) for your "host" (i.e. the system you're using) OS.
 - Get our [server "appliance"]().
 
-Double click the Alan.ova appliance package to install it into VirtualBox, it has all the configuration already set up to Just Work™. Then just hit the green Start button. When it's done going through the boot sequence it will report the IP address and port number (probably 8888) you can use to connect to it. 
+Double click the Alan.ova appliance package to install it into VirtualBox, it has all the configuration already set up to Just Work™. Then just hit the green Start button. When it's done going through the boot sequence it will report the IP address and port number (probably 8888) you can use to connect to it.
 
 ### Connect to the server
 On macOS and Linux you can connect to the server from the command line using `./alan connect`, here we'll use a virtual machine to run it. 
 
 - Get the [Alan Connect]() application.
 - Start it
-- Enter the server's address and port (address:port, e.g. 192.168.1.1:8888).
+- Enter the server's ip address and port (ip:port, e.g. 192.168.1.1:8888).
+
+Now everything server-side is set up to receive our application. 
+
+
+## Build It 
+
+Let's get ready to build the application so we can run it. The project holds the source code, but it needs to be compiled before the server can use it. There are a few step to this:
+
+- Open your command line of choice (see the note at the start of this article) at the root directory of your project.
+- Run the following commands:
+  - `./alan bootstrap`
+  - `./alan build`
+  - `./alan build -C migrations`
+  - `cp dist/from_scratch.migration deployments/default/instances/server.migration`
+  - `./alan package dist/project.pkg deployments/default`
+
+This puts a default.image file in the dist folder (all output is put in the dist folder by default). You can drag that file to the Alan Connect application and it'll upload it to the server. Once that's done you'll see the application listed and you can hit the green "Start" button to start it. 🍾!
+
+You can now open a webbrowser and go to the ip address of the server, followed by the port the client is available on. How that works we'll talk about in the section about deployment, for now you can go to:
+
+http://<serverip>:7584 
+
 
 
 Topics to cover:
