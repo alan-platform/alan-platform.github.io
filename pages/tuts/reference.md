@@ -13,7 +13,7 @@ Unzip it and open a command line in the new directory. To get started, we're goi
 2. `./alan build`
 3. `./alan build -C migrations`
 4. `cp dist/from_scratch.migration deployments/default/instances/server.migration`
-5. `./alan package dist/project.pkg deployments/default -f minors.json`
+5. `./alan package dist/project.pkg deployments/default`
 
 The bootstrap command is used only initially. Building and copy-ing the migration is only necessary when you make change to the migration. 
 
