@@ -175,3 +175,9 @@ code {
 code .punctuation { color: $grey1; }
 code .string      { color: $blue; }
 code .operator    { color: $orange; }
+
+hr {
+	margin: 0 1rem/$ratio;
+	border: none;
+	border-bottom: 2px solid $orange;
+}

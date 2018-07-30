@@ -5,6 +5,8 @@ category: main
 permalink: /docs/
 ---
 
+If you're new to Alan, try the "Alan 101" tutorial: [Getting Started](/pages/tuts/getting-started.html).
+
 - The reference guide: [how to use Alan](/pages/tuts/reference.html).
 - A tutorial for [creating data migrations](/pages/tuts/migration.html).
 - A description of the [Alan stack from the bottom up](/pages/tuts/bottom-up.html).
