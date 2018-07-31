@@ -5,9 +5,9 @@ category: docs
 ---
 
 
-> Take a look at the [Reference Guide](reference.html) for an overview of the bits, pieces and commands used throughout this tutorial. 
+> Take a look at the [Reference Guide](reference.html) for an overview of the bits, pieces and commands used throughout this tutorial.
 
-In this tutorial we'll take you through the steps going from a blank model to a small application. 
+In this tutorial we'll take you through the steps going from a blank model to a small application.
 
 - [Project Layout](#project-layout)
 - [Application Model](#application-model)
@@ -38,53 +38,53 @@ You'll notice some top level directories here.
 
 ![](helloworld1.png)
 
-- **deployments**  
+- **deployments**
 	Contains environment specific configuration like IP addresses, in addition to stuff that will be different from one deployment to another like your datasets.
-- **interfaces**  
-	Systems talk to each other over interfaces. For instance, the client talks to the server over an interface defined by the application model. 
-- **migrations**  
-	Data needs to match the application model specification. Migrations help you move your data from one version of that specification to another. 
-- **systems**  
-	Contains the configuration of each system that will be running for your project. Most projects have a server, a client and a reporter. 
-- **wiring**  
+- **interfaces**
+	Systems talk to each other over interfaces. For instance, the client talks to the server over an interface defined by the application model.
+- **migrations**
+	Data needs to match the application model specification. Migrations help you move your data from one version of that specification to another.
+- **systems**
+	Contains the configuration of each system that will be running for your project. Most projects have a server, a client and a reporter.
+- **wiring**
 	Defines how the systems and interfaces are wired together. For most projects the default here already defines everything you need, but if you want to add custom clients or external databases this is where you describe how they're connected.
 
-For now, you can ignore deployments, migrations, systems and wiring. We'll touch on some of those later, but we've got defaults set up there that will work for most basic projects. 
+For now, you can ignore deployments, migrations, systems and wiring. We'll touch on some of those later, but we've got defaults set up there that will work for most basic projects.
 
 First, lets take a look at the application model, as for most projects you'll spend most time editing this file.
 
 
 ## Application Model
 
-Open the **application.alan** file in an editor. We're be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
+Open the **application.alan** file in an editor. We'll be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor).
 
 ![](helloworld2.png)
 
 The template already has a little model set up that covers some basics. Let's walk through it before we wipe it clean and start our own.
 
 The model is a nested structure not unlike [JSON](https://json.org). At the first level you'll see some keywords:
-- [users](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L1)  
-	There is some boiler plate here that currently allows anonymous users, so you can use the application without logging in. 
-- [roles](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L6)  
+- [users](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L1)
+	There is some boiler plate here that currently allows anonymous users, so you can use the application without logging in.
+- [roles](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L6)
 	Permissions are currently set using roles. Users are assigned to roles to give them read and/or write access to parts of the data.
-- [root](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L12)  
+- [root](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L12)
 	This is where your model really starts. Note the basic write and read permissions that are set here.
-- [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)  
-	Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc. 
+- [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)
+	Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc.
 
 So, in **root**, you describe the data model of your application. You do so by combining properties of certain types. Essentially there are 5 data types in Alan:
-- **number** (integer or natural)  
+- **number** (integer or natural)
 	Numbers are things you can count, or do math with. [Dates and date-time values](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L42) are numbers too. Numbers are usually an integer, or a [natural](https://en.wikipedia.org/wiki/Natural_number) when they can't be zero or negative. Alan doesn't have floats, but uses conversions to maintain a specific accuracy.
-- **text**  
+- **text**
 	Text is mostly just text, e.g. a "Name", or any other value that doesn't adhere to any rules. So [phone numbers](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L33) are `text`, not `number`.
 	You *can* put some [input rules](/pages/docs/model/33/application/grammar.html#node) on text for the user interface, e.g. minimum length or a specific pattern.
 	Text can also refer to an [entry in another collection](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L49) (like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key)).
-- **file**  
+- **file**
 	When you connect file storage to your server (documentation about this will follow), you can store files as well. They can be viewed in the client, or downloaded.
-- **collection**  
+- **collection**
 	You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) 😉 ) think of these as your tables. If you want to describe a bunch of "things" that are mostly the same, e.g. "Contacts", that's a collection.
-	Keys in a collection are just like a text property, but you don't have to define it explicitly. Like text properties, keys can also refer to keys in another collection. 
-- **stategroup**  
+	Keys in a collection are just like a text property, but you don't have to define it explicitly. Like text properties, keys can also refer to keys in another collection.
+- **stategroup**
 	[State groups](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L39) represent a choice. With state groups things in one state have different properties from things in another state. E.g. road bikes and fixies are both bikes, but one has gears and shifters, whereas the other doesn't. Or finished processes have and end time, unfinished processes don't.
 
 There is a fifth type called **group**, which is just a construct to create  grouping and name spaces: groups don't actually hold any data by themselves.
@@ -96,7 +96,7 @@ Let's quickly try to actually boot up this example project, before we go back to
 
 The workflow here is that you've got a server running somewhere (on your system, on the local network, or in cloud) and you upload your application to it. The server then runs the application and you can use it via your webbrowser.
 
-### Get the server 
+### Get the server
 - Get [VirtualBox](https://www.virtualbox.org/wiki/Downloads) for your computer.
 - Get our [server appliance]().
 
@@ -108,7 +108,7 @@ Double click the **Alan.ova** appliance package to import it into VirtualBox. It
 - Enter the server's IP address and port (IP:port, e.g. 192.168.1.1:8888).
 
 
-## Build It 
+## Build It
 
 Let's get ready to send the application to the server. The project holds the source code, but it needs to be compiled before the server can use it. There are a few step to this:
 
@@ -127,7 +127,7 @@ This results in a **default.image** file in the dist folder (all output is put i
 
 You can now open a browser and go to the ip address of the server, followed by the [port the client is available on](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/deployments/default/deployment.alan#L20) (it's *not* the 8888 we just used to connect to the server). For this template it'll look like this:
 
-http://192.168.xx.xx:7584 
+http://192.168.xx.xx:7584
 
 <img src="helloworld.gif" width="587">
 
@@ -151,7 +151,7 @@ root #writer 'User' #reader 'User' {
 numerical-types
 ```
 
-This clean slate for an application that has "users" and requires logging in. 
+This clean slate for an application that has "users" and requires logging in.
 
 ### Add users
 Now let's add those users to the model:
@@ -221,7 +221,7 @@ numerical-types
 ```
 
 ### References
-The other thing that's special here is the 'Assignee'. 
+The other thing that's special here is the 'Assignee'.
 
 ```
 'Assignee': text -> .^ .^ .'Users'
@@ -240,7 +240,7 @@ To verify that our new model is correct, let's try to compile it:
 
 `./alan build`
 
-This fails because the client application is still configured to allow anonymous users, and we've just created an application that requires users to log in. Luckily the compiler tells us where to go to fix this. 
+This fails because the client application is still configured to allow anonymous users, and we've just created an application that requires users to log in. Luckily the compiler tells us where to go to fix this.
 - Open `systems/client/settings.alan`.
 - On line 3, change `anonymous login: enabled` to `anonymous login: disabled`.
 - Run `./alan build` again to verify.
