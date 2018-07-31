@@ -56,7 +56,7 @@ First, lets take a look at the application model, as for most projects you'll sp
 
 ## Application Model
 
-Open the **application.alan** file in an editor. We're be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
+Open the **application.alan** file in an editor. We'll be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
 
 ![](helloworld2.png)
 
