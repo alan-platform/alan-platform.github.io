@@ -94,7 +94,7 @@ There is a fifth type called **group**, which is just a construct to create  gro
 
 Let's quickly try to actually boot up this example project, before we go back to making our own application.
 
-The workflow here is that you've got a server running somewhere (on your system, on the local network, or in cloud) and you upload your application to it. The server then runs the application and you can use it via your webbrowser.
+The workflow here is that you've got a server running somewhere (on your system, on the local network, or in the cloud) and you upload your application to it. The server then runs the application and you can use it via your webbrowser.
 
 ### Get the server
 - Get [VirtualBox](https://www.virtualbox.org/wiki/Downloads) for your computer.
