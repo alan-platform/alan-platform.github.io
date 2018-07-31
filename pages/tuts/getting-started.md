@@ -56,7 +56,7 @@ First, lets take a look at the application model, as for most projects you'll sp
 
 ## Application Model
 
-Open the **application.alan** file in an editor. We'll be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
+Open the **interfaces/model/application.alan** file in an editor. We'll be using Sublime Text in the screenshots, but [you can use whatever you like](https://github.com/M-industries?utf8=✓&q=AlanFor). 
 
 ![](helloworld2.png)
 
@@ -134,7 +134,7 @@ http://192.168.xx.xx:7584
 
 ## Your own application model
 
-While getting an application for free is nice, it's even nicer to build your own. For that, lets start by whiping the application.alan file and then start over with this:
+While getting an application for free is nice, it's even nicer to build your own. For that, lets start by whiping the **application.alan** file and then start over with this:
 
 ```
 users
@@ -266,5 +266,7 @@ When you refresh the browser, you're now greeted with the login screen. You can 
 The project template has an model filled with [examples](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/examples/application.alan) that cover what we call **derivations**: ways to do math with numbers or derive state groups from other data.
 
 You can [annotate your model](/pages/docs/model/33/application/grammar.html#node) to set default values and [number formats](/pages/docs/model/33/application/grammar.html#numerical-types). Check the [model language docs](/pages/docs/model/33/application/grammar.html) for more details.
+
+Migrations can be edited by hand, for instance to bootstrap your application with more data than is automatically generated. Learn more about it in the [migrations tutorial](migration.html).
 
 If you want to learn more, check our [documentation](/docs) or ask on [the forums](https://forum.alan-platform.com/)!
