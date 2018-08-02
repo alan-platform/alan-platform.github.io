@@ -22,9 +22,9 @@ If you start your project from the [template](https://github.com/M-industries/Al
 
 You can also download it here:
 
-- [macOS](https://dist.m-industries.com/share/alan-2018.38-darwin-x64.tar.gz)
-- [Linux](https://dist.m-industries.com/share/alan-2018.38-linux-x64.tar.gz)
-- [Windows](https://dist.m-industries.com/share/alan-2018.38-windows-x64.tar.gz)
+- [macOS](https://dist.m-industries.com/share/alan/alan-2018.38-darwin-x64.tar.gz)
+- [Linux](https://dist.m-industries.com/share/alan/alan-2018.38-linux-x64.tar.gz)
+- [Windows](https://dist.m-industries.com/share/alan/alan-2018.38-windows-x64.tar.gz)
 
 
 ## Get the Alan Connect management app
