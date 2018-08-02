@@ -45,7 +45,7 @@ Start a server on Linux or Windows/WSL:
 - `cd ~`
 - `mkdir server`
 - `cd server`
-- `bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/linux-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"`
+- `bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"`
 - `./serve 127.0.0.1 12345`
 
 Start a server on macOS:
@@ -53,7 +53,7 @@ Start a server on macOS:
 - `cd ~`
 - `mkdir server`
 - `cd server`
-- `bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"`
+- `bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"`
 - `./serve 127.0.0.1 12345`
 
 

@@ -22,29 +22,29 @@ If you start your project from the [template](https://github.com/M-industries/Al
 
 You can also download it here:
 
-- [macOS](/utils/latest/darwin-x64/utils.tar.gz)
-- [Linux](/utils/latest/linux-x64/utils.tar.gz)
-- [Windows](/utils/latest/windows-x64/utils.tar.gz)
+- [macOS](https://dist.m-industries.com/share/alan-2018.38-darwin-x64.tar.gz)
+- [Linux](https://dist.m-industries.com/share/alan-2018.38-linux-x64.tar.gz)
+- [Windows](https://dist.m-industries.com/share/alan-2018.38-windows-x64.tar.gz)
 
 
 ## Get the Alan Connect management app
 To manage the stacks that run on your server, use the Alan Connect app:
 
-- [macOS](/utils/latest/darwin-x64/alan-connect.tar.gz)
-- [Linux](/utils/latest/linux-x64/alan-connect.tar.gz)
-- [Windows](/utils/latest/windows-x64/alan-connect.zip)
+- [macOS](https://dist.m-industries.com/share/application-webclient/Alan%20Connect-0.19.0.dmg)
+- [Linux](https://dist.m-industries.com/share/application-webclient/alan-connect-0.19.0-x86_64.AppImage)
+- [Windows](https://dist.m-industries.com/share/application-webclient/Alan%20Connect%20Setup%200.19.0.exe)
 
 
 ## Get the Alan server
 Get an alan server by running this one-liner:
 
-macOS:
-```sh
-bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/darwin-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
-```
 Linux:
 ```sh
-bash -c "mkdir -p data runenv/image && curl -s https://alan-platform.com/utils/latest/linux-x64/application-server.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+```
+macOS:
+```sh
+bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 
 You can now start the server by running:
