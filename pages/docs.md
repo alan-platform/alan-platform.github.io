@@ -36,7 +36,16 @@ To manage the stacks that run on your server, use the Alan Connect app:
 
 
 ## Get the Alan server
-Get an alan server by running this one-liner:
+You can use one of our images to run the server on a server or in a virtual machine:
+
+- [ISO](https://dist.m-industries.com/share/alan-server/AlanServer-11.iso)
+- [Virtualbox](https://www.virtualbox.org) appliance OVA:
+  - [for maOS or Linux](https://dist.m-industries.com/share/alan-server/AlanServer-MacLinux-11.ova)
+  - [for Windows](https://dist.m-industries.com/share/alan-server/AlanServer-Windows-11.ova)
+
+You should be able to double-click the OVA to import it into [Virtualbox]. It's configured so that on most systems you can simply hit "start" to run it.
+
+On maOS or Linux you can run the server on your own machine using this one-liner:
 
 Linux:
 ```sh
@@ -47,7 +56,7 @@ macOS:
 bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 
-You can now start the server by running:
+You can then start the server by running:
 ```sh
 ./serve 127.0.0.1 12345
 ```

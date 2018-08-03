@@ -98,7 +98,7 @@ The workflow here is that you've got a server running somewhere (on your system,
 
 ### Get the server 
 - Get [VirtualBox](https://www.virtualbox.org/wiki/Downloads) for your computer.
-- Get our [server appliance]().
+- Get our [server appliance](/docs/#get-the-alan-server).
 
 Double click the **Alan.ova** appliance package to import it into VirtualBox. It has all the configuration already set up to Just Work™. Then hit the green Start button. When it's done going through the boot sequence it will report the IP address (probably 192.168.xx.xx) and port number (probably 8888) you can use to connect to it.
 
