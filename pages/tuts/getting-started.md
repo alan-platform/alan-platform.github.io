@@ -25,7 +25,8 @@ In this tutorial we'll take you through the steps going from a blank model to a 
 <hr>
 
 
-To get you up and running we've created a [project template](https://github.com/M-industries/AlanProjectTemplate). The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the most complicated things you can build with Alan (like connecting to external databases).
+To get you up and running we've created a [project template](https://github.com/M-industries/AlanProjectTemplate). The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the most complicated things you can build with Alan (like connecting to external databases).  
+So, [download](https://github.com/M-industries/AlanProjectTemplate/archive/master.zip) or fork and clone that template to get started.
 
 Several steps involve entering commands on a Unix-like **command line**. Use whatever you like on Linux or macOS (as long you've got [bash](https://en.wikipedia.org/wiki/Bash_shell)). On Windows you can use [WSL](https://docs.microsoft.com/en-us/windows/wsl/about) or [Git Bash via Git For Windows](https://gitforwindows.org), as long as you don't mix the two.
 
