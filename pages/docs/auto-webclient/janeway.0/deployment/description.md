@@ -31,5 +31,5 @@ resolution or larger to be crsip on high dpi displays.
 /'wallpaper.jpg'   ( = optional )
 /'wallpaper-high.jpg'   ( = optional )
 /'favicon.ico'   ( = required )
-/'config.json' ( = optional )
+/'config.json' ( = optional ) 
 ```
