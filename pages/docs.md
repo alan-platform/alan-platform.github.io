@@ -90,6 +90,6 @@ The Alan runtime only runs on a "real" Unix-like system. Run it in WSL under the
 - Only tabs are accepted for indentation.
 
 <a name="languages"></a>
-## Important languages:
+### Important languages
 
 {% include doc-index.html %}
