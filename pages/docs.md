@@ -39,11 +39,11 @@ To manage the stacks that run on your server, use the Alan Connect app:
 You can use one of our images to run the server on a server or in a virtual machine:
 
 - [ISO](https://dist.m-industries.com/share/alan-server/AlanServer-11.iso)
-- [Virtualbox](https://www.virtualbox.org) appliance OVA:
+- [VirtualBox](https://www.virtualbox.org) appliance OVA:
   - [for maOS or Linux](https://dist.m-industries.com/share/alan-server/AlanServer-MacLinux-11.ova)
   - [for Windows](https://dist.m-industries.com/share/alan-server/AlanServer-Windows-11.ova)
 
-You should be able to double-click the OVA to import it into [Virtualbox]. It's configured so that on most systems you can simply hit "start" to run it.
+You should be able to double-click the OVA to import it into [VirtualBox]. It's configured so that on most systems you can simply hit "start" to run it.
 
 On maOS or Linux you can run the server on your own machine using this one-liner:
 
