@@ -34,7 +34,6 @@ a[name] { // make name-linked-content doesn't disappear behind header for # link
 h2[id],
 h3[id] {
 	position: relative;
-	z-index: 1;
 	a::after {
 		@include breatheFast(opacity);
 		content: "";
@@ -47,7 +46,7 @@ h3[id] {
 		opacity: 0;
 	}
 	&:target {
-		z-index: 0;
+		z-index: -1;
 	}
 	&:target a::after,
 	a:hover::after {
