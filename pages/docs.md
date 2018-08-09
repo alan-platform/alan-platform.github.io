@@ -11,7 +11,6 @@ If you're new to Alan, try the "Alan 101" tutorial: [Getting Started](/pages/tut
 - A tutorial for [creating data migrations](/pages/tuts/migration.html).
 - A description of the [Alan stack from the bottom up](/pages/tuts/bottom-up.html).
 - A tutorial explaining how to [create a report](/pages/tuts/report.html).
-- A tutorial on how to build your first application (coming soon!).
 
 Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/questions/tagged/alan) (use the `#alan` tag),
 or join the discussion on [our forums](https://forum.alan-platform.com)!
