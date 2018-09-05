@@ -472,7 +472,7 @@ type: grammar
 			'type' stategroup (
 				'text'
 					'type' stategroup (
-						'key' [ '.}' ]
+						'key' [ '.key' ]
 						'reference' [ '>' ]
 							'property' reference
 						'text' [ ':' ]

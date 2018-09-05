@@ -195,8 +195,8 @@ type: grammar
 							'text' reference
 						'number' [ '#' ]
 							'number' reference
-						'dictionary key' [ '.}' ]
-						'matrix key' [ '%}' ]
+						'dictionary key' [ '.key' ]
+						'matrix key' [ '>key' ]
 						'state group' [ '?' ]
 							'state group' reference
 							'states' [ '(' , ')' ] collection (
