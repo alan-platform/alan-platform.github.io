@@ -16,4 +16,15 @@ window.onload = function() {
 			document.querySelector("article").classList.toggle("wide");
 		};
 	}
+
+	document.querySelectorAll("pre code").forEach(function(element) {
+		element.onclick = function() {
+			var selection = window.getSelection();
+			var range = document.createRange();
+			range.selectNodeContents(element);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		};
+	});
+
 };
