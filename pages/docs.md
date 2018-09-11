@@ -17,7 +17,7 @@ or join the discussion on [our forums](https://forum.alan-platform.com)!
 
 
 ## Get the Alan utility
-If you start your project from the [template](https://github.com/M-industries/AlanProjectTemplate), it already has the `alan` utility in the root directory.
+If you start your project from the [template](https://github.com/M-industries/AlanProjectTemplate), it already has the `alan` command line utility in the root directory.
 
 You can also download it here:
 
@@ -63,14 +63,6 @@ You can then start the server by running:
 ```
 
 > Tip: run this in a directory dedicated to the server as it will download additional utilities and create directories.
-
-
-## Alan and Windows
-Alan is built to run in a Unix-like environment. We rely on tools like bash and curl that are native to Linux and macOS.
-
-On Windows you can use the MinGW terminal (aka. Git Bash) provided by [Git-For-Windows](https://gitforwindows.org). Using our Linux builds in WSL or a Linux VM are also possible.
-
-The Alan runtime only runs on a "real" Unix-like system. Run it in WSL under the Linux filesystem (not `/mnt/c`, so for instance `~`), a VM (e.g. via [Vagrant](https://www.vagrantup.com)) or an external Linux server (you can rent [a VPS](https://duckduckgo.com/vps%20hosting) for a few dollars a month).
 
 
 ## Languages

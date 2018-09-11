@@ -4,6 +4,22 @@ title: Reference Guide
 category: docs
 ---
 
+If you're new to Alan, try the "Alan 101" tutorial: [Getting Started](/pages/tuts/getting-started.html). It's the best way to learn how to use the Alan language and related tools. 
+
+This page will cover some of the details of how things work.
+
+
+## Using the Alan utility
+Central to working with Alan is the [accompanying command line utility](/docs/#get-the-alan-utility). This uses some Unix features like `bash` and `curl` to help you run the compilers and get your project up and running. 
+
+Linux and macOS come with a command line environment that will run all of Alan natively.
+
+On Windows you can use the MinGW terminal (aka. Git Bash) provided by [Git-For-Windows](https://gitforwindows.org).
+
+The Alan runtime only runs on a "real" Unix-like system. We recommend using our [VirtualBox appliance](/docs/#get-the-alan-server) to develop Alan applications on Windows.
+
+
+## Starting a new application
 
 Download the Project Template from the [home page](/): [AlanProjectTemplate](https://github.com/M-industries/AlanProjectTemplate/archive/master.zip), or fork it on [GitHub](https://github.com/M-industries/AlanProjectTemplate).
 
@@ -38,29 +54,29 @@ cp dist/from_scratch.migration deployments/default/instances/server.migration
 ```
 
 ## Starting a server from the command line
-Servers only run on Linux or macOS. On Windows, you can use WSL. 
 
-Start a server on Linux or Windows/WSL:
+> On Windows use the [VirtualBox appliance](/docs/#get-the-alan-server)
 
-- `cd ~`
+When you start the server, it will create several directories and download some dependencies. Therefore it's best to run a server in a dedicated directory.  
+In WSL you need to run the server inside the Linux file system, for instance in `~`.
+
 - `mkdir server`
 - `cd server`
-- `bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"`
+- Linux:
+  - ```
+bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+```
+- macOS
+  - ```
+bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+```
 - `./serve 127.0.0.1 12345`
-
-Start a server on macOS:
-
-- `cd ~`
-- `mkdir server`
-- `cd server`
-- `bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"`
-- `./serve 127.0.0.1 12345`
-
-
-The server will keep using the terminal while it's running so, for the next steps continue in a new terminal window.
 
 
 ## Upload to the server from the command line
+
+> On Windows use the [Alan Connect app](/docs/#get-the-alan-connect-management-app)
+
 Upload an image to the server:
 
 - `./alan connect 127.0.0.1 12345 upload "demo" dist/default.image`
