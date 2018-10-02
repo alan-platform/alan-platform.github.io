@@ -7,9 +7,6 @@ permalink: /roadmap/
 
 Alan is already used by [M-industries](https://www.m-industries.com) and [Kjerner](https://www.kjerner.com/) to build solutions for their clients. However, we're not done yet improving the platform and creating new and better features. 
 
-Short term we want to finish our new permission model, which will move away from strictly roles based rules to fully dynamic and contextual permissions and specific ownership.  
-Assigning todos works just like assigning ownership, so we're tackling that in the same development cycle.
-
 Long term plans include:
 
 - Todos could become a primary driver for the interaction with an application. 

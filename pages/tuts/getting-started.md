@@ -66,10 +66,10 @@ The template already has a little model set up that covers some basics. Let's wa
 The model is a nested structure not unlike [JSON](https://json.org). At the first level you'll see some keywords:
 - [users](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L1)  
 	There is some boiler plate here that currently allows anonymous users, so you can use the application without logging in. 
-- [roles](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L6)  
-	Permissions are currently set using roles. Users are assigned to roles to give them read and/or write access to parts of the data.
+- [interfaces](https://github.com/M-industries/AlanProjectTemplate/blob/e12c45306d10461c47218ec11ed872002fbce1f5/interfaces/model/application.alan#L6)  
+	Interfaces are declared here so that they can be assigned permissions to access parts of the application model.
 - [root](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L12)  
-	This is where your model really starts. Note the basic write and read permissions that are set here.
+	This is where your model really starts.
 - [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)  
 	Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc. 
 

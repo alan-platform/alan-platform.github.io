@@ -28,7 +28,9 @@ If you want more control over the user interface, e.g. to create one for a speci
 
 
 ## Can I limit permissions on certain properties
-Permissions use role based access control. The [Hours application](https://github.com/M-industries/Hours/blob/cfc59c310134a0be174369b3ecf58363107c472d/shared/models/hours/application.alan#L47) sets `#writer` and `#reader` access on several nodes to limit their permissions where necessary.
+Permissions are set on nodes, i.e. groups, entries and states. You can set read and update permissions to limit access to specific users, or users with a specific role.
+
+The [Hours application](https://github.com/M-industries/Hours/blob/master/interfaces/model/application.alan) has several examples of permissions for specific (groups of) users.
 
 
 ## Can I create 2-way many-to-many relations
