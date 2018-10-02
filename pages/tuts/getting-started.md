@@ -135,17 +135,16 @@ http://192.168.xx.xx:7584
 
 ## Your own application model
 
-While getting an application for free is nice, it's even nicer to build your own. For that, lets start by whiping the **application.alan** file and then start over with this:
+While getting an application for free is nice, it's even nicer to build your own. For that, lets start by wiping the **application.alan** file and then start over with this:
 
 ```
 users
 	dynamic :  . 'Users'
 	password : . 'Password'
 
-roles
-	'User' : dynamic
+interfaces
 
-root #writer 'User' #reader 'User' {
+root {
 
 }
 
@@ -158,7 +157,7 @@ This clean slate for an application that has "users" and requires logging in.
 Now let's add those users to the model:
 
 ```
-root #writer 'User' #reader 'User' {
+root {
 	'Users': collection { }
 }
 ```
@@ -166,7 +165,7 @@ root #writer 'User' #reader 'User' {
 We specified that for each user we store their password in the `'Password'`property, so let's add that too:
 
 ```
-root #writer 'User' #reader 'User' {
+root {
 	'Users': collection {
 		'Password': text
 	}
@@ -179,7 +178,7 @@ So, we've defined a 'Users' collection, where each key in the collection will se
 That should work, but our app lacks purpose right now. Why not build a little multi-user todo app (when not sure what to do, make a todo app right?). So, let's say our users are involved in projects and each project has stuff that needs to be done.
 
 ```
-root #writer 'User' #reader 'User' {
+root {
 	'Users': collection {
 		'Password': text
 	}
