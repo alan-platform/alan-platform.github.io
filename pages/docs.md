@@ -12,8 +12,7 @@ If you're new to Alan, try the "Alan 101" tutorial: [Getting Started](/pages/tut
 - A description of the [Alan stack from the bottom up](/pages/tuts/bottom-up.html).
 - A tutorial explaining how to [create a report](/pages/tuts/report.html).
 
-Don't be afraid to ask questions [on StackOverflow](https://stackoverflow.com/questions/tagged/alan) (use the `#alan` tag),
-or join the discussion on [our forums](https://forum.alan-platform.com)!
+Don't be afraid to ask questions on [our forum](https://forum.alan-platform.com)!
 
 
 ## Get the Alan utility
