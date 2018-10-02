@@ -19,9 +19,7 @@ We're based near the campus of Delft University of Technology and you can find u
 
 For demo's and workshops:
 
-Corno Schraverus  
-[cschraverus@m-industries.com](mailto:cschraverus@m-industries.com)  
-+31 6 51 52 50 53  
+[info@m-industries.com](mailto:info@m-industries.com)  
 +31 15 268 26 17
 
 
