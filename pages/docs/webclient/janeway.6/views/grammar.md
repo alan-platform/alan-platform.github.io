@@ -330,8 +330,8 @@ type: grammar
 				'configuration' component 'gui widget configuration node'
 			'view'
 				'render' stategroup (
-					'inline' [ 'inline' 'view' ]
-					'in window'[ 'open' 'view' ]
+					'inline' [ ':' 'inline' 'view' ]
+					'in window'[ ':' 'open' 'view' ]
 						'window' [ '@' ] reference
 				)
 				'using views'  stategroup (
@@ -393,10 +393,15 @@ type: grammar
 						'configuration' component 'gui widget configuration node'
 					'query' [ 'query' ]
 						'query context' stategroup (
-							'root' [ 'on' 'root' ]
-								'query' reference
-							'current node'
-								'property path' component 'model binding property path'
+							'node'
+								'switch' stategroup (
+									'root' [ 'on' 'root' ]
+										'query' reference
+									'current node'
+										'property path' component 'model binding property path'
+										'query' reference
+								)
+							'candidates' [ 'candidates' ]
 								'query' reference
 						)
 						'has refresh interval' stategroup (
@@ -428,24 +433,10 @@ type: grammar
 					'text'
 						'type' stategroup (
 							'key' [ 'key' ]
-								'type' stategroup (
-									'simple'
-									'link' [ 'link' ]
-										'has candidates query' stategroup (
-											'yes' [ 'candidates:' ]
-												'query' reference
-											'no'
-										)
-								)
 							'text property' [ 'text' ]
 								'type' stategroup (
 									'simple'
 									'link' [ 'link' ]
-										'has candidates query' stategroup (
-											'yes' [ 'candidates:' ]
-												'query' reference
-											'no'
-										)
 								)
 								'property path' component 'model binding property path'
 								'property' reference
@@ -471,11 +462,6 @@ type: grammar
 										'property' [ 'reference' 'text' ] reference
 								)
 						)
-						'has candidates query' stategroup (
-							'yes' [ 'candidates:' ]
-								'query' reference
-							'no'
-						)
 						'configuration' component 'gui widget configuration node'
 					'command parameter text' [ '>>' 'text' ]
 						'property' reference
@@ -485,11 +471,6 @@ type: grammar
 						'configuration' component 'gui widget configuration node'
 					'command parameter reference' [ '>>' ]
 						'property' [ 'reference' ] reference
-						'has candidates query' stategroup (
-							'yes' [ 'candidates:' ]
-								'query' reference
-							'no'
-						)
 						'configuration' component 'gui widget configuration node'
 					'command parameter number' [ '>>' 'number' ]
 						'property' reference

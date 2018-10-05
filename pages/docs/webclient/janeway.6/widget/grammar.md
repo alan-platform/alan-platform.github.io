@@ -43,16 +43,16 @@ type: grammar
 'invalid implementation context' component 'widget implementation context'
 ```
 
+### root context
+
+```js
+'root context' component 'valid widget implementation context'
+```
+
 ### root attribute location
 
 ```js
 'root attribute location' component 'control attribute location'
-```
-
-### invalid state location
-
-```js
-'invalid state location' component 'state location'
 ```
 
 ### switch block
@@ -128,16 +128,17 @@ type: grammar
 	)
 ```
 
-### client context constraint
-
-```js
-'client context constraint'
-```
-
 ### widget implementation context
 
 ```js
 'widget implementation context'
+```
+
+### valid widget implementation context
+
+```js
+'valid widget implementation context'
+	'context' component 'widget implementation context'
 ```
 
 ### attribute location
@@ -171,19 +172,19 @@ type: grammar
 	'binding type' stategroup (
 		'let declaration'
 			'path' [ '@' ] component 'widget implementation context parent path'
-			'declaration' reference
+			'on widget implementation node' stategroup (
+				'yes'
+					'declaration' reference
+			)
 		'static'
+			'context' component 'context selection'
 			'control' [ 'control' ] reference
 			'node binding' component 'widget implementation node'
 		'window'
 			'window' [ 'window' ] reference
 			'control binding' component 'control binding'
 		'widget'
-			'select context' stategroup (
-				'no'
-				'yes' [ 'on' ]
-					'context' component 'context selection'
-			)
+			'context' component 'context selection'
 			'widget' [ 'widget' ] reference
 		'inline view' [ 'inline' 'view' ]
 			'context' component 'context selection'
@@ -207,15 +208,22 @@ type: grammar
 
 ```js
 'context selection'
-	'change context' stategroup (
-		'no' [ '$' ]
-		'yes'
-			'to' stategroup (
-				'engine state' [ 'engine' ]
-					'engine state binding' reference
-				'configuration'
-					'path' [ '(' , ')' ] component 'context selection path'
-			)
+	'change context to' stategroup (
+		'engine state' [ 'engine' ]
+			'engine state binding' reference
+		'other context'
+			'parent path' component 'widget implementation context parent path'
+			'path' component 'context selection path'
+	)
+```
+
+### bound context selection
+
+```js
+'bound context selection'
+	'context' component 'context selection'
+	'cast' stategroup (
+		'to binding' [ '$' ]
 	)
 ```
 
@@ -244,7 +252,7 @@ type: grammar
 'instruction selection'
 	'configuration attribute type' stategroup (
 		'binding'
-			'context' component 'context selection'
+			'context' component 'bound context selection'
 			'instruction' [ '>>' ] reference
 			'instruction argument' stategroup (
 				'none'
@@ -265,6 +273,7 @@ type: grammar
 					'view configuration' reference
 			)
 		'configuration'
+			'context' component 'context selection'
 			'instruction' stategroup (
 				'set state' [ 'set' 'state' ]
 					'state group' reference
@@ -312,41 +321,15 @@ type: grammar
 
 ```js
 'widget implementation node' [ '{' , '}' ]
-	'context' component 'widget implementation context'
+	'context' component 'valid widget implementation context'
 	'let declarations' collection ( [ 'let' ]
 		'let declaration attribute location' component 'control attribute location'
-		'invalid state location' component 'state location'
 		'switch block' [ ':' ] component 'state switch'
 	)
 	'attributes' collection (
 		'location' component 'attribute location'
-		'invalid state location' component 'state location'
-		'path' [ ':' ] component 'widget implementation context parent path'
-		'switch block' component 'state switch'
+		'switch block' [':'] component 'state switch'
 	)
-```
-
-### state location
-
-```js
-'state location'
-```
-
-### state parent path
-
-```js
-'state parent path'
-	'has steps' stategroup (
-		'yes' [ '^' ]
-			'tail' component 'state parent path'
-		'no'
-	)
-```
-
-### state pass input parameters
-
-```js
-'state pass input parameters'
 ```
 
 ### state switch
@@ -371,7 +354,7 @@ type: grammar
 								'binding type' stategroup (
 									'empty' [ 'empty' ]
 									'widget binding'
-										'context' component 'context selection'
+										'context' component 'bound context selection'
 										'collection property' ['.'] reference
 										'node binding' component 'widget implementation node'
 								)
@@ -380,10 +363,11 @@ type: grammar
 									'static'
 										'entries' [ '[' , ']' ] component 'entries list'
 									'configuration'
+										'context' component 'context selection'
 										'list' [ '=' ] reference
 										'node binding' component 'widget implementation node'
 									'widget binding'
-										'context' component 'context selection'
+										'context' component 'bound context selection'
 										'collection property' ['.'] reference
 										'node binding' component 'widget implementation node'
 							)
@@ -398,9 +382,10 @@ type: grammar
 											'no'
 										)
 									'configuration'
+										'context' component 'context selection'
 										'bound number' [ '=' ] reference
 									'widget binding'
-										'context' component 'context selection'
+										'context' component 'bound context selection'
 										'property' [ '#' ] reference
 								)
 								'transform' stategroup (
@@ -423,26 +408,20 @@ type: grammar
 		'control'
 			'control binding' component 'control binding'
 		'switch'
-			'location' component 'state location'
-			'parent state' component 'state pass input parameters'
 			'type' stategroup (
 				'configuration'
-					'switch context' stategroup (
-						'no'
-						'yes' [ 'configuration' ]
-							'context selection path' [ '(', ')' ] component 'context selection path'
-					)
+					'context' component 'context selection'
 					'state group' [ '?' ] reference
 					'states' [ '(' , ')' ] collection ( [ '|' ]
-						'parent path' [ '->' ] component 'state parent path'
-						'next' component 'state switch'
+						'state context' component 'valid widget implementation context'
+						'next' [ '->' ] component 'state switch'
 					)
 				'binding'
-					'context' component 'context selection'
+					'context' component 'bound context selection'
 					'property' [ '?' ] reference
 					'states' [ '(' , ')' ] collection ( [ '|' ]
-						'parent path' ['->'] component 'state parent path'
-						'next' component 'state switch'
+						'state context' component 'valid widget implementation context'
+						'next' ['->'] component 'state switch'
 					)
 			)
 	)
@@ -456,11 +435,12 @@ type: grammar
 		'static'
 			'text' text
 		'configuration'
+			'context' component 'context selection'
 			'type' stategroup (
 				'text'
 					'bound text' [ '=' ] reference
 				'number'
-					'number' [ '#' ] reference
+					'number' [ 'configuration' '#' ] reference
 					'format' stategroup (
 						'no'
 						'yes' [ 'format' ]
@@ -468,7 +448,7 @@ type: grammar
 					)
 			)
 		'widget binding'
-			'context' component 'context selection'
+			'context' component 'bound context selection'
 			'type' stategroup (
 				'text'
 					'type' stategroup (
@@ -498,7 +478,6 @@ type: grammar
 
 ```js
 'string list'
-	'state parent path' component 'state parent path'
 	'text binding' component 'text binding'
 	'has steps' stategroup (
 		'no'
