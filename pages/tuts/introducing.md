@@ -70,6 +70,6 @@ We’re super excited to see what you build with Alan.
 [hours]: https://github.com/M-industries/Hours
 [tata]: https://www.tatasteel.com
 [hydro]: https://www.hydro.com
-[101]: http://127.0.0.1:4000/pages/tuts/getting-started.html
+[101]: /pages/tuts/getting-started.html
 [contact]: /about/#m-industries
 [forum]: https://forum.alan-platform.com
