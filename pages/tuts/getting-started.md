@@ -118,7 +118,7 @@ Let's get ready to send the application to the server. The project holds the sou
 	- `./alan bootstrap`
 	- `./alan build`
 	- `./alan build -C migrations`
-	- `cp dist/from_scratch.migration deployments/default/instances/server.migration`
+	- `cp dist/from_zero.migration deployments/default/instances/server.migration`
 	- `./alan package dist/project.pkg deployments/default`
 
 
@@ -245,15 +245,15 @@ This fails because the client application is still configured to allow anonymous
 - On line 3, change `anonymous login: enabled` to `anonymous login: disabled`.
 - Run `./alan build` again to verify.
 
-If that's successful we're almost ready to run it. To do so, we first need to update our initial data definition by modifying the files in `migrations/from_scratch`. Luckily, we have a script to do this for us:
+If that's successful we're almost ready to run it. To do so, we first need to update our initial data definition by modifying the files in `migrations/from_zero`. Luckily, we have a script to do this for us:
 
 ```
-./.alan/dataenv/system-types/datastore/scripts/generate_migration.sh migrations/from_scratch systems/server/model.lib.link --bootstrap
+./.alan/dataenv/system-types/datastore/scripts/generate_migration.sh migrations/from_zero systems/server/model.lib.link --bootstrap
 ```
 
 We can then continue with the same steps as before:
 - `./alan build -C migrations`
-- `cp dist/from_scratch.migration deployments/default/instances/server.migration`
+- `cp dist/from_zero.migration deployments/default/instances/server.migration`
 - `./alan package dist/project.pkg deployments/default`
 
 In the Alan Connect app you can stop and delete the old application, and then upload and start this one.
