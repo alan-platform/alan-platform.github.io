@@ -14,6 +14,8 @@ Today I’d like to introduce you to Alan. We’ve been working on it, in some c
 
 In Alan [your code][model] specifies the data structure of your application. This specification defines all possible states of the data, and in effect all possible states of your application. A few lines of specification take the place of thousands of lines of code, and you will never have to touch or go near the underlying runtime code (you can’t actually).
 
+![](intro1.png)
+
 It’s easy enough to work with for “citizen developers”, so that anyone can build tools to support their activities without needing IT  or external developer support. Having a small effective code base also means that Alan scales up to large enterprise applications without the cost and risk involved with traditional solutions.
 
 
