@@ -21,11 +21,3 @@ For demo's and workshops:
 
 [info@m-industries.com](mailto:info@m-industries.com)  
 +31 15 268 26 17
-
-
-## The platform
-Alan is a full stack platform. It runs on a custom minimal Linux distro and includes (among other things) data and file storage, server-side report generator, an sql-compatible dump service, and a web based client. 
-
-The datastore is fully push based, ensuring all connected clients always have the most up to date data. 
-
-It's Alan all the way down: we use it for domain specific languages to create models that drive code generation and provide solid internal API's to develop our systems. This makes us super efficient: all components and systems in the platform together are only about 360k lines of code.
