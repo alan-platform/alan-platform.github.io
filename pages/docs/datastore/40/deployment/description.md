@@ -57,7 +57,6 @@ The `cleanup.sh` script is called with:
 ```
 /'instance.json' ( = required )
 /'timestamp.txt' ( = optional )
-/'config.json'   ( = required )
 /'backup.sh'     ( = optional )
 /'cleanup.sh'    ( = optional )
 ```
