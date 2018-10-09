@@ -39,14 +39,14 @@ You can use one of our images to run the server on a server or in a virtual mach
 
 - [ISO](https://dist.m-industries.com/share/alan-server/AlanServer-11.iso)
 - [VirtualBox](https://www.virtualbox.org) appliance OVA:
-  - [for maOS or Linux](https://dist.m-industries.com/share/alan-server/AlanServer-MacLinux-11.ova)
+  - [for macOS or Linux](https://dist.m-industries.com/share/alan-server/AlanServer-MacLinux-11.ova)
   - [for Windows](https://dist.m-industries.com/share/alan-server/AlanServer-Windows-11.ova)
 
 You should be able to double-click the OVA to import it into [VirtualBox]. It's configured so that on most systems you can simply hit "start" to run it.
 
 > If the network connection we configured doesn't work, change the settings to use Bridged mode, hit OK and you should be all set.
 
-On maOS or Linux you can also run the server on your own machine using this one-liner:
+On macOS or Linux you can also run the server on your own machine using this one-liner:
 
 Linux:
 ```sh
