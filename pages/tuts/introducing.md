@@ -56,6 +56,12 @@ In practice, Alan picks up right where Excel starts to cause more problems than 
 
 We understand it’s pretty unbelievable, so that’s why you can try it for yourself right now. Start from scratch by following [our tutorial][101], or take our [Hours application][hours] for a spin. Feel free to use Alan for personal projects or tools for your team. It’s still heavily under development (we still have *so* many cool ideas!), so new releases aren’t guaranteed to be backwards compatible, but stability is usually pretty good.
 
+<div class="video-wrapper">
+	<video controls width="400">
+		<source src="Alan.mp4" type="video/mp4">
+	</video>
+</div>
+
 Want to know more about enterprise level systems, our integration tools, or about building custom UI’s with Alan? [Get in touch][contact] and ask for a demo. 
 
 Let us know what you think on the [forum][forum] and don't be afraid to ask questions.
