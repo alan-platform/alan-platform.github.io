@@ -26,8 +26,8 @@ type: grammar
 			'title' [ 'as' ] reference
 	)
 	'invalid query context' component 'query context'
-	'node type' [ 'on' ] component 'gui node type path'
-	'queries' [ ] collection ( [ 'query' ]
+	'node type' ['(', ')'] component 'gui node type path'
+	'queries' collection ( [ 'query' ]
 		'tag' component 'query context'
 		'context' [ 'from' ] stategroup (
 			'node'
