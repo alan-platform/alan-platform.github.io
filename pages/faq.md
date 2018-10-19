@@ -21,8 +21,7 @@ No, this is currently not possible.
 
 
 ## Can I change how a property is visualized
-The generated user interface reads the annotations in an application.alan to decide how to render a property. The Docs cover the possibilities in more detail:
-https://github.com/M-industries/Docs/blob/master/docs/model/29/application/grammar.md
+The generated user interface reads the annotations in an application.alan to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/36/application/grammar.html).
 
 If you want more control over the user interface, e.g. to create one for a specific work flow, you may want to create a custom client. Documentation about this is being worked on.
 
