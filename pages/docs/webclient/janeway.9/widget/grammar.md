@@ -77,6 +77,8 @@ type: grammar
 					'state' [ '*' ] reference
 				'collection'
 					'collection' [ '.' ] reference
+				'binding'
+					'instance binding' reference
 			)
 			'tail' component 'client binding type path'
 	)
@@ -92,7 +94,6 @@ type: grammar
 				'constrained on containing binding' stategroup (
 					'yes'
 						'type path' component 'client binding type path'
-						'instance binding' reference
 					'no' [ 'unconstrained' ]
 						'instance binding' reference
 				)
