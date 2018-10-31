@@ -7,9 +7,6 @@ category: docs
 
 Migrations make sure you can upgrade your data every time you improve your application.
 
-Discuss this topic [on the forum](https://forum.alan-platform.com/t/howto-migrations/22).
-
-
 
 ## Creating an initial data set
 

@@ -64,8 +64,6 @@ We understand it’s pretty unbelievable, so that’s why you can try it for you
 
 Want to know more about enterprise level systems, our integration tools, or about building custom UI’s with Alan? [Get in touch][contact] and ask for a demo. 
 
-Let us know what you think on the [forum][forum] and don't be afraid to ask questions.
-
 We’re super excited to see what you build with Alan. 
 
 
@@ -80,4 +78,3 @@ We’re super excited to see what you build with Alan.
 [hydro]: https://www.hydro.com
 [101]: /pages/tuts/getting-started.html
 [contact]: /about/#m-industries
-[forum]: https://forum.alan-platform.com

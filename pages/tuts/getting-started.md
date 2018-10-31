@@ -270,7 +270,3 @@ You can [annotate your model](/pages/docs/model/33/application/grammar.html#node
 Migrations can be edited by hand, for instance to bootstrap your application with more data than is automatically generated. Learn more about it in the [migrations tutorial](migration.html).
 
 If you want to learn more, check our [documentation](/docs) or ask on [the forums](https://forum.alan-platform.com/)!
-
-----
-
-Discuss this topic [on the forums](https://forum.alan-platform.com/t/howto-getting-started/29).

@@ -74,6 +74,4 @@ In the systems directory you find each system, each with their own configuration
 
 You compile a project using `./alan build`, resulting in the **project.pkg** that's the basis for creating an [image](#image).
 
-See also the FAQ for more information about versions. 
-
-Have questions or remarks? Discuss this topic [on the forums](https://forum.alan-platform.com/t/article-alan-bottom-up/23).
+See also the [FAQ](/faq/) for more information about versions. 
