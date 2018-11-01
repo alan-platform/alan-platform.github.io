@@ -20,26 +20,26 @@ If you start your project from the [template](https://github.com/M-industries/Al
 
 You can also download it here:
 
-- [macOS](https://dist.m-industries.com/share/alan/alan-2018.38-darwin-x64.tar.gz)
-- [Linux](https://dist.m-industries.com/share/alan/alan-2018.38-linux-x64.tar.gz)
-- [Windows](https://dist.m-industries.com/share/alan/alan-2018.38-windows-x64.tar.gz)
+- [macOS](https://dist.alan-platform.com/share/alan/alan-2018.38-darwin-x64.tar.gz)
+- [Linux](https://dist.alan-platform.com/share/alan/alan-2018.38-linux-x64.tar.gz)
+- [Windows](https://dist.alan-platform.com/share/alan/alan-2018.38-windows-x64.tar.gz)
 
 
 ## Get the Alan Connect management app
 To manage the stacks that run on your server, use the Alan Connect app:
 
-- [macOS](https://dist.m-industries.com/share/application-webclient/Alan%20Connect-0.19.0.dmg)
-- [Linux](https://dist.m-industries.com/share/application-webclient/alan-connect-0.19.0-x86_64.AppImage)
-- [Windows](https://dist.m-industries.com/share/application-webclient/Alan%20Connect%20Setup%200.19.0.exe)
+- [macOS](https://dist.alan-platform.com/share/application-webclient/Alan%20Connect-0.19.0.dmg)
+- [Linux](https://dist.alan-platform.com/share/application-webclient/alan-connect-0.19.0-x86_64.AppImage)
+- [Windows](https://dist.alan-platform.com/share/application-webclient/Alan%20Connect%20Setup%200.19.0.exe)
 
 
 ## Get the Alan server
 You can use one of our images to run the server on a server or in a virtual machine:
 
-- [ISO](https://dist.m-industries.com/share/alan-server/AlanServer-11.iso)
+- [ISO](https://dist.alan-platform.com/share/alan-server/AlanServer-11.iso)
 - [VirtualBox](https://www.virtualbox.org) appliance OVA:
-  - [for macOS or Linux](https://dist.m-industries.com/share/alan-server/AlanServer-MacLinux-11.ova)
-  - [for Windows](https://dist.m-industries.com/share/alan-server/AlanServer-Windows-11.ova)
+  - [for macOS or Linux](https://dist.alan-platform.com/share/alan-server/AlanServer-MacLinux-11.ova)
+  - [for Windows](https://dist.alan-platform.com/share/alan-server/AlanServer-Windows-11.ova)
 
 You should be able to double-click the OVA to import it into [VirtualBox]. It's configured so that on most systems you can simply hit "start" to run it.
 
@@ -49,11 +49,11 @@ On macOS or Linux you can also run the server on your own machine using this one
 
 Linux:
 ```sh
-bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+bash -c "mkdir -p data runenv/image && curl -s https://dist.alan-platform.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 macOS:
 ```sh
-bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+bash -c "mkdir -p data runenv/image && curl -s https://dist.alan-platform.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 
 You can then start the server by running:

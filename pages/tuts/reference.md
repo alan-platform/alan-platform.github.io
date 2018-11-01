@@ -64,11 +64,11 @@ In WSL you need to run the server inside the Linux file system, for instance in 
 - `cd server`
 - Linux:
   - ```
-bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+bash -c "mkdir -p data runenv/image && curl -s https://dist.alan-platform.com/share/image/image-11-linux-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 - macOS
   - ```
-bash -c "mkdir -p data runenv/image && curl -s https://dist.m-industries.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
+bash -c "mkdir -p data runenv/image && curl -s https://dist.alan-platform.com/share/image/image-11-darwin-x64.tar.gz | tar xzf - -C runenv/image && ln -s runenv/image/application-server serve"
 ```
 - `./serve 127.0.0.1 12345`
 
