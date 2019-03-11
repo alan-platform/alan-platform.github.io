@@ -7,11 +7,6 @@ type: grammar
 ---
 
 
-## root
-
-
-### tables
-
 ```js
 'tables' collection order 'dependency graph' (
 	'dependencies' collection predecessors
@@ -207,30 +202,19 @@ type: grammar
 )
 ```
 
-## component rules
-
-
-### origin type
-
 ```js
 'origin type'
 ```
-
-### query origin type
 
 ```js
 'query origin type'
 	'type' component 'origin type'
 ```
 
-### derived origin type
-
 ```js
 'derived origin type'
 	'type' component 'origin type'
 ```
-
-### number list
 
 ```js
 'number list'
@@ -248,20 +232,14 @@ type: grammar
 	)
 ```
 
-### base type
-
 ```js
 'base type'
 ```
-
-### number base type
 
 ```js
 'number base type'
 	'type' component 'base type'
 ```
-
-### field
 
 ```js
 'field'
@@ -309,8 +287,6 @@ type: grammar
 	)
 ```
 
-### null guard
-
 ```js
 'null guard'
 	'nullable' stategroup (
@@ -319,13 +295,9 @@ type: grammar
 	)
 ```
 
-### string concat
-
 ```js
 'string concat'
 ```
-
-### expression
 
 ```js
 'expression' component 'text expression'
@@ -335,8 +307,6 @@ type: grammar
 			'next field' component 'string concat'
 	)
 ```
-
-### text expression
 
 ```js
 'text expression'
@@ -381,8 +351,6 @@ type: grammar
 	)
 ```
 
-### integer expression
-
 ```js
 'integer expression'
 	'type' stategroup (
@@ -390,8 +358,6 @@ type: grammar
 			'string' component 'text expression'
 	)
 ```
-
-### table selector
 
 ```js
 'table selector'

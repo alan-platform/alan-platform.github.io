@@ -7,11 +7,6 @@ type: grammar
 ---
 
 
-## root
-
-
-### formatting
-
 ```js
 'formatting' group (
 	'identifier wrapping' ['identifier-delimiter:'] group (
@@ -26,8 +21,6 @@ type: grammar
 	)
 )
 ```
-
-### tables
 
 ```js
 'tables' ['schema'] collection indent (
@@ -68,28 +61,17 @@ type: grammar
 )
 ```
 
-### undefined table
-
 ```js
 'undefined table' component 'table'
 ```
-
-### root table
 
 ```js
 'root table' ['mapping' 'root'] component 'optional table selection'
 ```
 
-### mapping
-
 ```js
 'mapping' component 'mapping definition'
 ```
-
-## component rules
-
-
-### entity scoped node type path
 
 ```js
 'entity scoped node type path'
@@ -107,28 +89,20 @@ type: grammar
 	)
 ```
 
-### entity type path
-
 ```js
 'entity type path'
 	'head' component 'entity scoped node type path'
 	'collection' ['.'] reference
 ```
 
-### table
-
 ```js
 'table'
 ```
-
-### table selection
 
 ```js
 'table selection'
 	'table' ['-->' 'table'] reference
 ```
-
-### optional table selection
 
 ```js
 'optional table selection'
@@ -138,8 +112,6 @@ type: grammar
 		'no'
 	)
 ```
-
-### mapping definition
 
 ```js
 'mapping definition' ['(',')']

@@ -7,34 +7,21 @@ type: grammar
 ---
 
 
-## root
-
-
-### no regexp context
-
 ```js
 'no regexp context' component 'regexp context'
 ```
-
-### root context
 
 ```js
 'root context' component 'node context'
 ```
 
-### root danger
-
 ```js
 'root danger' component 'unsafe context'
 ```
 
-### no enriched
-
 ```js
 'no enriched' component 'enriched'
 ```
-
-### multiplicity
 
 ```js
 'multiplicity' group (
@@ -43,13 +30,9 @@ type: grammar
 )
 ```
 
-### root
-
 ```js
 'root' ['root'] component 'node mapping'
 ```
-
-### numerical types
 Converts numerical types from the 'from' model to the target 'to' model.
 Conversions can be chained.
 Examples:
@@ -71,8 +54,6 @@ Examples:
 	)
 )
 ```
-
-### numerical type mappings
 Maps numerical types, `'source' -> 'target'`
 
 ```js
@@ -81,75 +62,50 @@ Maps numerical types, `'source' -> 'target'`
 )
 ```
 
-## component rules
-
-
-### dereference
-
 ```js
 'dereference'
 	'dereference' stategroup ( 'yes' )
 ```
 
-### multiplicity type
-
 ```js
 'multiplicity type'
 ```
-
-### context
 
 ```js
 'context'
 ```
 
-### regexp context
-
 ```js
 'regexp context'
 ```
-
-### node context
 
 ```js
 'node context'
 	'context' component 'context'
 ```
 
-### regexp set context
-
 ```js
 'regexp set context'
 ```
-
-### node set context
 
 ```js
 'node set context'
 	'context' component 'context'
 ```
 
-### dangerous context
-
 ```js
 'dangerous context'
 ```
-
-### safe context
 
 ```js
 'safe context'
 	'danger' component 'dangerous context'
 ```
 
-### unsafe context
-
 ```js
 'unsafe context'
 	'danger' component 'dangerous context'
 ```
-
-### unguaranteed operation
 Mark an operations that might not succeed given certain data.
 
 ```js
@@ -161,19 +117,13 @@ Mark an operations that might not succeed given certain data.
 	)
 ```
 
-### enriched
-
 ```js
 'enriched'
 ```
 
-### numerical type dereference
-
 ```js
 'numerical type dereference'
 ```
-
-### node context creation
 
 ```js
 'node context creation'
@@ -189,8 +139,6 @@ Mark an operations that might not succeed given certain data.
 	'context node' component 'node context'
 ```
 
-### node set context creation
-
 ```js
 'node set context creation'
 	'regexp set' stategroup (
@@ -205,8 +153,6 @@ Mark an operations that might not succeed given certain data.
 	)
 	'context node' component 'node set context'
 ```
-
-### context selection path
 
 ```js
 'context selection path'
@@ -270,8 +216,6 @@ Mark an operations that might not succeed given certain data.
 	)
 ```
 
-### entry expression
-
 ```js
 'entry expression'
 	'key' ['find'] group (
@@ -287,8 +231,6 @@ Mark an operations that might not succeed given certain data.
 	)
 	'unguaranteed operation' component 'unguaranteed operation'
 ```
-
-### collection entries expression
 Set a collection:
 - Select source collection: `'target': collection = .'source' { }`
 - Static: `'target': collection = { }`
@@ -302,8 +244,6 @@ Set a collection:
 			'tail' component 'collection entries expression'
 	)
 ```
-
-### collection expression
 
 ```js
 'collection expression'
@@ -347,8 +287,6 @@ Set a collection:
 			)
 	)
 ```
-
-### number expression
 Set a number:
 - Select source number:             `'target': number = #'source' as 'unit`.
 - Set a static value:               `'target': number = 10 as 'unit'`.
@@ -409,8 +347,6 @@ Set a number:
 			'values to merge' ['(', ')'] component 'number expression'
 	)
 ```
-
-### text expression
 Set a text:
 - Select a source text:      `'target': text = .'source'`
 - Select a source reference: `'target': text = >'source'`
@@ -466,8 +402,6 @@ Set a text:
 			'values to merge' ['(', ')'] component 'text expression'
 	)
 ```
-
-### boolean expression
 Compare numbers or texts to decide how to map stategroups.
 Examples:
 - `number 'unit'#'number' > 'unit' 10`
@@ -501,8 +435,6 @@ Examples:
 			'tail' component 'boolean expression'
 	)
 ```
-
-### state group expression
 Set stategroup value or map states:
 - Map to *stategroup*:  `'target': stategroup = switch ( ?'source' ) ( |'a' -> 'a' { } |'b' -> 'b' { } )`
 - Set a static value:   `'target': stategroup = 'a' { }`
@@ -555,8 +487,6 @@ Set stategroup value or map states:
 		'panic' ['panic'] // this cause a panic, which aborts the migration without ANY output!
 	)
 ```
-
-### node mapping
 Basic target : source mapping.
 Use `( + 'some group' )` to walk into a context (e.g. a group) before mapping the node.
 

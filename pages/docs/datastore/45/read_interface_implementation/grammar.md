@@ -7,38 +7,22 @@ type: grammar
 ---
 
 
-## root [ 'read' 'interface' 'implementation' ]
-
-
-### application root node
-
 ```js
 'application root node' [ '(' , ')' ] component 'interface context id path'
 ```
-
-### root
 
 ```js
 'root' [ 'root' ] component 'read interface implementation node'
 ```
 
-## component rules
-
-
-### EQ member
-
 ```js
 'EQ member'
 ```
-
-### dereference
 
 ```js
 'dereference'
 	'dereference' stategroup ( 'yes' )
 ```
-
-### interface context id path
 
 ```js
 'interface context id path'
@@ -58,8 +42,6 @@ type: grammar
 			'tail' component 'interface context id path'
 	)
 ```
-
-### read interface implementation node
 
 ```js
 'read interface implementation node' [ '(' , ')' ]
@@ -143,8 +125,6 @@ type: grammar
 )
 ```
 
-### singular node content path
-
 ```js
 'singular node content path'
 	'has steps' stategroup (
@@ -157,8 +137,6 @@ type: grammar
 			'tail' component 'singular node content path'
 	)
 ```
-
-### interface implementation node content path
 
 ```js
 'interface implementation node content path'
@@ -176,8 +154,6 @@ type: grammar
 	)
 ```
 
-### read interface command implementation
-
 ```js
 'read interface command implementation'
 	'conditional' stategroup (
@@ -191,8 +167,6 @@ type: grammar
 			'command arguments' [ 'with' ] component 'command arguments'
 	)
 ```
-
-### command arguments
 
 ```js
 'command arguments' [ '(' , ')' ]
@@ -237,8 +211,6 @@ type: grammar
 		)
 	)
 ```
-
-### singular interface implementation node path
 
 ```js
 'singular interface implementation node path'

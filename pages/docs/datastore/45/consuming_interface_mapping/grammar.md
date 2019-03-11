@@ -7,11 +7,6 @@ type: grammar
 ---
 
 
-## root
-
-
-### interfaces to imported interfaces mapping
-
 ```js
 'interfaces to imported interfaces mapping' [ 'interfaces' ] collection (
 	'context keys' collection ( [ '(' , ')' ]
@@ -21,30 +16,19 @@ type: grammar
 )
 ```
 
-### imported interfaces to interfaces mapping
-
 ```js
 'imported interfaces to interfaces mapping' [ 'imported' 'interfaces' ] collection (
 	'interface' [ '=>' ] reference
 )
 ```
 
-### root
-
 ```js
 'root' [ 'root' ] component 'sparse node mapping'
 ```
 
-## component rules
-
-
-### EQ member
-
 ```js
 'EQ member'
 ```
-
-### singular interface node content path
 
 ```js
 'singular interface node content path'
@@ -58,8 +42,6 @@ type: grammar
 			'tail' component 'singular interface node content path'
 	)
 ```
-
-### command arguments
 
 ```js
 'command arguments' [ '(' , ')' ]
@@ -107,16 +89,12 @@ type: grammar
 	)
 ```
 
-### command implementation
-
 ```js
 'command implementation'
 	'path' component 'singular interface node content path'
 	'command' [ 'do' ] reference
 	'command arguments' [ 'with' ] component 'command arguments'
 ```
-
-### sparse node mapping
 
 ```js
 'sparse node mapping' [ '(' , ')' ]
@@ -171,8 +149,6 @@ type: grammar
 		)
 	)
 ```
-
-### dense node mapping
 
 ```js
 'dense node mapping' [ '(' , ')' ]

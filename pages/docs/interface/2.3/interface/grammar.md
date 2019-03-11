@@ -7,30 +7,19 @@ type: grammar
 ---
 
 
-## root [ 'root' ]
-
-
-### context keys
-
 ```js
 'context keys' collection ( )
 ```
 
-### root
-
 ```js
 'root' component 'node'
 ```
-
-### component types
 
 ```js
 'component types' [ 'component-types' ] collection (
 	'node' component 'node'
 )
 ```
-
-### numerical types
 
 ```js
 'numerical types' [ 'numerical-types' ] collection (
@@ -42,11 +31,6 @@ type: grammar
 	)
 )
 ```
-
-## component rules
-
-
-### node
 
 ```js
 'node' [ '{' , '}' ]
@@ -92,8 +76,6 @@ type: grammar
 	)
 ```
 
-### node type path
-
 ```js
 'node type path'
 	'root type' stategroup (
@@ -103,8 +85,6 @@ type: grammar
 	)
 	'steps' component 'node type path step'
 ```
-
-### node type path step
 
 ```js
 'node type path step'
@@ -123,8 +103,6 @@ type: grammar
 			'tail' component 'node type path step'
 	)
 ```
-
-### node selection path
 
 ```js
 'node selection path'
@@ -148,8 +126,6 @@ type: grammar
 	)
 ```
 
-### node content path
-
 ```js
 'node content path'
 	'has steps' stategroup (
@@ -166,16 +142,12 @@ type: grammar
 	)
 ```
 
-### referencer
-
 ```js
 'referencer'
 	'head' component 'node selection path'
 	'collection' [ '.' ] reference
 	'tail' component 'node content path'
 ```
-
-### command parameters
 
 ```js
 'command parameters' [ '{' , '}' ]
@@ -206,8 +178,6 @@ type: grammar
 	)
 ```
 
-### ancestor parameters selection
-
 ```js
 'ancestor parameters selection'
 	'has steps' stategroup (
@@ -220,8 +190,6 @@ type: grammar
 			'tail' component 'ancestor parameters selection'
 	)
 ```
-
-### command parameter referencer
 
 ```js
 'command parameter referencer'

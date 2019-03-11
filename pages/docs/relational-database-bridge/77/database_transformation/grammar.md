@@ -7,89 +7,57 @@ type: grammar
 ---
 
 
-## root
-
-
-### root context
-
 ```js
 'root context' component 'location context'
 ```
-
-### root enrichments
 
 ```js
 'root enrichments' component 'enrichments'
 ```
 
-### root expressions
-
 ```js
 'root expressions' component 'expression stack'
 ```
-
-### root
 
 ```js
 'root' [ 'root' ] component 'database 2 node mapping'
 ```
 
-## component rules
-
-
-### location context
-
 ```js
 'location context'
 ```
-
-### record context
 
 ```js
 'record context'
 	'location context' component 'location context'
 ```
 
-### record set context
-
 ```js
 'record set context'
 	'location context' component 'location context'
 ```
 
-### enrichments
-
 ```js
 'enrichments'
 ```
-
-### expression stack
 
 ```js
 'expression stack'
 ```
 
-### dangerous context
-
 ```js
 'dangerous context'
 ```
-
-### unsafe context
 
 ```js
 'unsafe context'
 	'danger' component 'dangerous context'
 ```
 
-### safe context
-
 ```js
 'safe context'
 	'danger' component 'dangerous context'
 ```
-
-### unguaranteed operation
 
 ```js
 'unguaranteed operation'
@@ -100,8 +68,6 @@ type: grammar
 	)
 ```
 
-### null guard
-
 ```js
 'null guard'
 	'has guard' stategroup (
@@ -111,41 +77,29 @@ type: grammar
 	)
 ```
 
-### data type
-
 ```js
 'data type'
 ```
-
-### numerical type
 
 ```js
 'numerical type'
 	'data type' component 'data type'
 ```
 
-### integer type
-
 ```js
 'integer type'
 	'numerical type' component 'numerical type'
 ```
-
-### natural type
 
 ```js
 'natural type'
 	'numerical type' component 'numerical type'
 ```
 
-### text type
-
 ```js
 'text type'
 	'data type' component 'data type'
 ```
-
-### integer list
 
 ```js
 'integer list'
@@ -163,8 +117,6 @@ type: grammar
 	)
 ```
 
-### text list
-
 ```js
 'text list'
 	'value' text
@@ -174,8 +126,6 @@ type: grammar
 			'tail' component 'text list'
 	)
 ```
-
-### link path
 
 ```js
 'link path'
@@ -245,8 +195,6 @@ type: grammar
 	)
 ```
 
-### link dereference
-
 ```js
 'link dereference'
 	'context type' stategroup (
@@ -255,21 +203,15 @@ type: grammar
 	)
 ```
 
-### record dereference
-
 ```js
 'record dereference'
 	'record constraint' stategroup ( 'record' )
 ```
 
-### record set dereference
-
 ```js
 'record set dereference'
 	'record set constraint' stategroup ( 'record set' )
 ```
-
-### floating point transformation
 
 ```js
 'floating point transformation'
@@ -284,8 +226,6 @@ type: grammar
 		'floor'    ['floor']
 	)
 ```
-
-### expressions
 
 ```js
 'expressions'
@@ -312,8 +252,6 @@ type: grammar
 	)
 ```
 
-### expression selector
-
 ```js
 'expression selector'
 	'type' stategroup (
@@ -322,8 +260,6 @@ type: grammar
 			'tail' component 'expression selector'
 	)
 ```
-
-### database 2 node mapping
 
 ```js
 'database 2 node mapping' [ '(' , ')' ]
@@ -390,8 +326,6 @@ type: grammar
 	)
 ```
 
-### regular expression part
-
 ```js
 'regular expression part'
 	'has part' stategroup (
@@ -413,8 +347,6 @@ type: grammar
 	)
 ```
 
-### regular expression
-
 ```js
 'regular expression'
 	'first class' stategroup has 'classes' first 'first' 'set' 'empty'
@@ -425,8 +357,6 @@ type: grammar
 	)
 ```
 
-### string concat
-
 ```js
 'string concat'
 	'expression' component 'text expression'
@@ -436,8 +366,6 @@ type: grammar
 			'next field' component 'string concat'
 	)
 ```
-
-### text expression
 
 ```js
 'text expression'
@@ -480,8 +408,6 @@ type: grammar
 	)
 ```
 
-### array expression
-
 ```js
 'array expression'
 	'set type' stategroup (
@@ -502,8 +428,6 @@ type: grammar
 			'context record set' component 'record set context'
 	)
 ```
-
-### enum expression
 
 ```js
 'enum expression'
@@ -526,8 +450,6 @@ type: grammar
 			)
 	)
 ```
-
-### number expression
 
 ```js
 'number expression'
@@ -634,8 +556,6 @@ type: grammar
 		)
 ```
 
-### natural expression
-
 ```js
 'natural expression'
 	'expression' component 'number expression'
@@ -646,8 +566,6 @@ type: grammar
 			'unguaranteed operation' component 'unguaranteed operation'
 	)
 ```
-
-### collection expression tree
 
 ```js
 'collection expression tree'
@@ -667,8 +585,6 @@ type: grammar
 			)
 	)
 ```
-
-### condition list
 
 ```js
 'condition list'
@@ -724,8 +640,6 @@ type: grammar
 			'tail' component 'condition list'
 	)
 ```
-
-### state group expression
 
 ```js
 'state group expression'
