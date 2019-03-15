@@ -6,17 +6,56 @@ version: 40
 type: grammar
 ---
 
+1. TOC
+{:toc}
+In every Alan grammar, literals between square brackets indicate required keywords.
+- `text` properties require a double quoted string: `"Hello, world!"`
+- `reference` properties require a single quoted string: `'reference to something'`
+- `number` properties require a numerical value: `10`
+- `stategroup` properties indicate a choice between different states, such as allowing or disallowing `anonymous` users
+- `collection` properties require key-value pairs, where keys are single-quoted strings. For example, a `collection` of `properties` is written like this, depending on the required keywords and properties for the value:
 
-## root
+```js
+'this is the key of a property': text = "hello world 0"       // everything after the key is the value.
+'this is the key of another property': text = "hello world 1"
+```
 
+- `component` properties reference a rule in the grammar, to be instantiated at that point: `component 'x'` references rule `'x'`
+- `group` properties merely group other properties that belong together
 
-### user
+In the grammar, `indent` is an instruction for the deparser/pretty-printer; you can ignore it. Properties that are marked `implicit` exist for type checking purposes.
+
+**NOTE: the Alan compiler requires whitespace between different keywords!**
+For example, `['text' '=']` in the grammar requires whitespace between the keyword `text` and `=` in your model.
+That is, `text =` is valid, while `text=` is invalid.
+## Getting started: the *minimal model*
+---
+Every valid Alan model instantiates the [`root` rule](#the-root-rule).
+We can use that rule for extracting a minimal model.
+For the `application` language, the minimal model is
+
+> ```js
+users
+interfaces
+root { }
+numerical-types
+```
+
+Thus, every `model`.`application` language defines `users` for access control, `interfaces` specifying operations and data from external systems, a `root` type, and `numerical-types`.
+The next section explains the minimal model in more detail.
+## Data model structure
+---
+### The `root` rule
+##### Application users
+The language supports two classes of users: `anonymous` users and `dynamic` users.
+Anonymous users do not require a login; dynamic users do.
+
+The keyword `anonymous` enables `anonymous` user access to your application.
+If you do not plan to support anonymous users, you just leave it out: the `'no'` state for `'allow anonymous user'` is the default, requiring no code at all.
 
 ```js
 'user' ['users'] component 'modifier'
 ```
-
-### allow anonymous user
 
 ```js
 'allow anonymous user' stategroup (
@@ -24,8 +63,6 @@ type: grammar
 	'yes' [ 'anonymous' ]
 )
 ```
-
-### has dynamic users
 
 ```js
 'has dynamic users' stategroup (
@@ -37,16 +74,30 @@ type: grammar
 		'password property' [ '.' ] reference
 )
 ```
-
-### imported interfaces
+##### Interfaces
+If your application consumes data from external sources, you will have defined an Alan `interface`.
+In order to consume an `interface`, you mention it in a list of `interfaces`, so that you can reference the `interface` when configuring [permissions](#permissions-and-todos).
 
 ```js
 'imported interfaces' ['interfaces'] collection indent (
 	'modifier' component 'modifier'
 )
 ```
+##### The `root` node type
+Alan models are hierarchical models specifying hierarchical data.
+An Alan model is a hierarchy of nested types with a single root type:
+> ```js
+root { }
+```
 
-### source base
+The `root` type (short for node type) is a complex type that nests other (complex) types. Types are surrounded by
+curly braces, and their identification is a path which starts from the root type. We refer to
+an instance of a type as a node. The rule for defining a type carries the same name: `node`; it should be read as the `node type` rule,
+as we define `node types` in a model (for legacy reasons it is called the `'node'` rule).
+
+{::comment}
+##### Type checker annotations
+The properties below are instantiated automatically as they do not require keywords. The type checker uses them for, well, type checking.
 
 ```js
 'source base' group (
@@ -54,8 +105,6 @@ type: grammar
 	'derived' component 'value source base'
 )
 ```
-
-### source
 
 ```js
 'source' group (
@@ -66,8 +115,6 @@ type: grammar
 )
 ```
 
-### direction
-
 ```js
 'direction' group (
 	'backward' component 'direction type'
@@ -75,99 +122,88 @@ type: grammar
 )
 ```
 
-### undefined output parameters
-
 ```js
 'undefined output parameters' component 'output parameters'
 ```
-
-### undefined direction
 
 ```js
 'undefined direction' component 'direction type'
 ```
 
-### undefined link
-
 ```js
 'undefined link' component 'link'
 ```
-
-### undefined reference
 
 ```js
 'undefined reference' component 'reference'
 ```
 
-### unassigned variable
-
 ```js
 'unassigned variable' component 'variable'
 ```
-
-### undefined parameter
 
 ```js
 'undefined parameter' component 'parameter'
 ```
 
-### undefined member
-
 ```js
 'undefined member' component 'member'
 ```
-
-### integer
 
 ```js
 'integer' component 'integer'
 ```
 
-### natural
-
 ```js
 'natural' component 'natural'
 ```
-
-### type
 
 ```js
 'type' component 'type'
 ```
 
-### dependable
-
 ```js
 'dependable' component 'dependency'
 ```
-
-### entity
 
 ```js
 'entity' component 'entity'
 ```
 
-### root member
-
 ```js
 'root member' component 'member'
 ```
-
-### root
+{:/comment}
 
 ```js
 'root' [ 'root' ] component 'node'
 ```
+##### Numerical types
+Numbers in an application model require a numerical type. Also, computations with numbers of different numerical types require conversion rules.
+Divisions require a division conversion rule, products require a product conversion rule, and so on. Some examples of numerical types, with conversion rules are
+> ```js
+'date' in 'days' @date
+'date and time' in 'seconds' @date-time
+'days'
+'milliseconds'
+    = 'seconds' * 1 * 10 ^ 3 // rule for converting 'seconds' to milliseconds
+    @factor: 10^ 3
+    @label: "sec"
+'minutes' @duration: minutes
+'seconds'
+    = 'seconds' * 'factor' // 'seconds' times a 'factor' produces 'seconds'
+    = 'seconds' / 'factor'
+    = 'milliseconds' * 1 * 10 ^ -3
+    = 'minutes' * 60 * 10 ^ 0
+    @duration: seconds
+'factor'
+    = 'factor' * 'factor'
+    = 'seconds' / 'seconds'
+```
 
-### numerical types
-Annotations map numerical types to formats for easy modification in the UI.
-Examples:
-- @date
-- @date-time
-- @duration: minutes
-
-With `@factor` you can translate 100 cents to 1 euro.<br>
-If you do so, be sure to set `label` to "€" as well!
+Annotations like `@date` map numerical types to formats for easy modification in the GUI.
+With `@factor` you can present 1000 milliseconds as 1 second to the application user.<br>
+If you do so, be sure to set `@label:` to `"sec"` as well!
 
 ```js
 'numerical types' [ 'numerical-types' ] collection indent (
@@ -226,1356 +262,93 @@ If you do so, be sure to set `label` to "€" as well!
 	)
 )
 ```
-
-## component rules
-
-
-### value source base
-
-```js
-'value source base'
-```
-
-### value source
-
-```js
-'value source'
-```
-
-### dependency
-
-```js
-'dependency'
-```
-
-### graph constraints definition
-
-```js
-'graph constraints definition'
-	'constraints' collection (
-		'type' [':'] stategroup (
-			'acyclic' [ 'acyclic-graph' ]
-			'linear' [ 'ordered-graph' ]
-		)
-	)
-```
-
-### direction type
-
-```js
-'direction type'
-```
-
-### modifier
-
-```js
-'modifier'
-```
-
-### EQ modifier
-
-```js
-'EQ modifier'
-```
-
-### type
-
-```js
-'type'
-```
-
-### set type
-
-```js
-'set type'
-```
-
-### integer
-
-```js
-'integer'
-	'set type' component 'set type'
-```
-
-### natural
-
-```js
-'natural'
-	'set type' component 'set type'
-```
-
-### entity
-
-```js
-'entity'
-```
-
-### member
-
-```js
-'member'
-```
-
-### resolved node selection starting from property
-
-```js
-'resolved node selection starting from property'
-	'type' stategroup (
-		'input parameter'
-			'type' stategroup (
-				'state'
-					'context selection' component 'context property selection'
-					'state' stategroup (
-						'state'
-					)
-					'input parameter' [ '&' ] reference
-			)
-			'tail' component 'resolved node descendant selection starting from node'
-		'this node'
-			'context selection' component 'context property selection'
-			'type' stategroup (
-				'group'
-					'group' [ '+' ] reference
-					'tail' component 'resolved node descendant selection starting from node'
-				'state group output parameter'
-					'state group' [ '?' ] reference
-					'output parameter' [ '$' ] reference
-				'referencer output'
-					'text' [ '>' ] reference
-					'is backward' stategroup ( 'is backward' )
-					'output type' stategroup (
-						'referenced node'
-						'output parameter'
-							'output parameter' [ '$' ] reference
-					)
-			)
-	)
-```
-
-### resolved state group selection starting from property
-
-```js
-'resolved state group selection starting from property'
-	'type' stategroup (
-		'state group'
-			'context selection' component 'context property selection'
-			'state group' [ '?' ] reference
-		'node'
-			'selection' component 'resolved node selection starting from property'
-			'state group' [ '?' ] reference
-	)
-```
-
-### resolved collection selection starting from property
-
-```js
-'resolved collection selection starting from property'
-	'type' stategroup (
-		'collection'
-			'context selection' component 'context property selection'
-			'collection' [ '.' ] reference
-		'node'
-			'selection' component 'resolved node selection starting from property'
-			'collection' [ '.' ] reference
-	)
-```
-
-### resolved node descendant selection starting from node
-
-```js
-'resolved node descendant selection starting from node'
-	'group selection' component 'group node selection' //NOTE: not supported by parser generator
-	'type' stategroup (
-		'this node'
-			'state group output parameter'
-				'state group' [ '?' ] reference
-				'output parameter' [ '$' ] reference
-			'referencer output'
-				'text' [ '>' ] reference
-				'is backward' stategroup ( 'is backward' )
-				'output type' stategroup (
-					'referenced node'
-					'output parameter'
-						'output parameter' [ '$' ] reference
-				)
-	)
-```
-
-### node content path
-
-```js
-'node content path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
-			)
-			'tail' component 'node content path'
-	)
-```
-
-### traversed derivation node content path
-
-```js
-'traversed derivation node content path'
-	'step back' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state' [ '?^' ]
-				'group' [ '+^' ]
-			)
-			'tail' component 'traversed derivation node content path'
-	)
-```
-
-### group context property selection
-
-```js
-'group context property selection'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '+^' ]
-			'tail' component 'group context property selection'
-	)
-```
-
-### entity scoped context property selection
-
-```js
-'entity scoped context property selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state parent' [ '?^' ]
-				'group parent' [ '+^' ]
-			)
-			'tail' component 'entity scoped context property selection'
-	)
-```
-
-### entity scoped context node selection
-
-```js
-'entity scoped context node selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state parent' [ '?^' ]
-				'group parent' [ '+^' ]
-			)
-			'tail' component 'entity scoped context node selection'
-	)
-```
-
-### unresolved node selection
-
-```js
-'unresolved node selection'
-	'type' stategroup (
-		'this node'
-			'context selection' component 'context property selection'
-			'type' stategroup (
-				'this'
-				'referencer output'
-					'text' [ '>' ] reference
-					'is forward' stategroup ( 'is forward' )
-			)
-	)
-	'tail' component 'group node selection'
-```
-
-### context node selection
-
-```js
-'context node selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'collection parent' [ '.^' ]
-				'state parent' [ '?^' ]
-				'group parent' [ '+^' ]
-				'group'
-					'group' [ '+' ] reference
-			)
-			'tail' component 'context node selection'
-	)
-```
-
-### ancestor node selection
-
-```js
-'ancestor node selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'collection parent' [ '.^' ]
-				'state parent' [ '?^' ]
-				'group parent' [ '+^' ]
-			)
-			'tail' component 'ancestor node selection'
-	)
-```
-
-### context property selection
-
-```js
-'context property selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'collection parent' [ '.^' ]
-				'state parent' [ '?^' ]
-				'group parent' [ '+^' ]
-			)
-			'tail' component 'context property selection'
-	)
-```
-
-### group node selection
-
-```js
-'group node selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'group' [ '+' ] reference
-			'tail' component 'group node selection'
-	)
-```
-
-### derivation node content path
-
-```js
-'derivation node content path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
-			)
-			'tail' component 'derivation node content path'
-	)
-```
-
-### calculated input parameter node selection
-
-```js
-'calculated input parameter node selection'
-	'type' stategroup (
-		'state'
-			'context selection' component 'ancestor node selection'
-			'state' stategroup ( 'state' )
-			'input parameter' [ '&' ] reference
-	)
-```
-
-### calculated descendant node selection starting from node
-
-```js
-'calculated descendant node selection starting from node'
-	'group selection' component 'group node selection' //NOTE: not supported by parser generator
-	'type' stategroup (
-		'this node'
-		'state group output parameter'
-			'state group' [ '?' ] reference
-			'output parameter' [ '$' ] reference
-		'referencer output'
-			'text' [ '>' ] reference
-			'dereference' component 'dereference'
-			'output type' stategroup (
-				'referenced node'
-				'output parameter'
-					'output parameter' [ '$' ] reference
-			)
-	)
-```
-
-### calculated descendant node selection starting from property
-
-```js
-'calculated descendant node selection starting from property'
-	'type' stategroup (
-		'group'
-			'group' [ '+' ] reference
-			'tail' component 'calculated descendant node selection starting from node'
-		'state group output parameter'
-			'state group' [ '?' ] reference
-			'output parameter' [ '$' ] reference
-		'referencer output'
-			'text' [ '>' ] reference
-			'dereference' component 'dereference'
-			'output type' stategroup (
-				'referenced node'
-				'output parameter'
-					'output parameter' [ '$' ] reference
-			)
-	)
-```
-
-### calculated node selection starting from property
-
-```js
-'calculated node selection starting from property'
-	'type' stategroup (
-		'input parameter'
-			'selection' component 'calculated input parameter node selection'
-			'tail' component 'calculated descendant node selection starting from node'
-		'this node'
-			'context selection' component 'context property selection'
-			'selection' component 'calculated descendant node selection starting from property'
-	)
-```
-
-### calculated collection selection starting from property
-
-```js
-'calculated collection selection starting from property'
-	'type' stategroup (
-		'collection'
-			'context selection' component 'context property selection'
-			'collection' ['.'] reference
-		'node'
-			'selection' component 'calculated node selection starting from property'
-			'collection' ['.'] reference
-	)
-```
-
-### calculated state group selection starting from property
-
-```js
-'calculated state group selection starting from property'
-	'type' stategroup (
-		'state group'
-			'context selection' component 'context property selection'
-			'state group' [ '?' ] reference
-		'node'
-			'selection' component 'calculated node selection starting from property'
-			'state group' [ '?' ] reference
-	)
-```
-
-### node path
-
-```js
-'node path'
-	'steps' component 'node path step'
-```
-
-### node path step
-
-```js
-'node path step'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
-				'collection'
-					'collection' [ '.' ] reference
-			)
-			'tail' component 'node path step'
-	)
-```
-
-### state instantiation
-
-```js
-'state instantiation'
-	'state' reference
-	'input arguments' collection ( [ '(' , ')' ]
-		'constraint' stategroup ( 'node type' )
-		'selection' [ '=>' ] component 'calculated node selection starting from property'
-	)
-```
-
-### state instantiation 2
-
-```js
-'state instantiation 2'
-	'state' reference
-	'input arguments' collection ( [ '(' , ')' ]
-		'context' [ '=>' ] stategroup (
-			'state group property'
-				'selection' component 'calculated node selection starting from property'
-			'expression result node' [ '$' ]
-				'selection' component 'calculated descendant node selection starting from node'
-		)
-	)
-```
-
-### conditional state group expression
-
-```js
-'conditional state group expression'
-	'has steps' stategroup (
-		'no'
-			'state' reference
-			'input arguments' collection ( [ '(' , ')' ]
-				'expression context' [ '=>' ] component 'conditional state group expression context path'
-				'context selection' stategroup (
-					'target context' [ '$^' ]
-						'selection' component 'calculated node selection starting from property'
-					'expression result' [ '$' ] //NOTE: keyword '$' is temporary
-						'context type' stategroup (
-							'input parameter'
-								'input parameter' [ '&' ] reference
-							'this state'
-						)
-						'selection' component 'calculated descendant node selection starting from node'
-				)
-			)
-		'yes' ['switch' '(']
-			'expression context' component 'conditional state group expression context path'
-			'type' stategroup (
-				'merge' [ '$^' ]
-					'state group selection' component 'calculated state group selection starting from property'
-				'flatten' ['$']
-					'context type' stategroup (
-						'input parameter'
-							'input parameter' [ '&' ] reference
-						'this state'
-					)
-					'selection' component 'calculated descendant node selection starting from node'
-					'state group' [ '?' ] reference
-			)
-			'KEYWORD' [')'] component 'KEYWORD'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional state group expression'
-			)
-	)
-```
-
-### conditional state group expression context path
-
-```js
-'conditional state group expression context path'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '$^' ]
-			'tail' component 'conditional state group expression context path'
-	)
-```
-
-### state expression
-
-```js
-'state expression'
-	'expression type' stategroup (
-		'resolvable link' [ 'any' ]
-			'link context selection' ['('] component 'context property selection'
-			'text' [ '>' ] reference
-			'KEYWORD' [')'] component 'KEYWORD'
-			'yes state instantiation' [ '(' '|' 'true' '=' ] group (
-				'state' reference
-				'input arguments' collection ( [ '(' , ')' ]
-					'type' [ '=>' ] stategroup (
-						'target context'
-							'selection' component 'calculated node selection starting from property'
-						'expression result'
-							'expression context path' component 'link text expression context path'
-							'state input parameter' stategroup (
-								'yes' [ '&' ]
-									'input parameter' reference
-								'no'
-							)
-							'entity node selection' component 'entity scoped context node selection'
-							'selection' component 'calculated descendant node selection starting from node'
-					)
-				)
-			)
-			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
-			'KEYWORD2' [')'] component 'KEYWORD'
-		'branch match' [ 'match-branch' ]
-			'branches' ['(', ')'] collection ( ['|']
-				'state instantiation' [ '=' ] group (
-					'state' reference
-					'input arguments' collection ( [ '(' , ')' ]
-						'type' [ '=>' ] stategroup (
-							'target context'
-								'selection' component 'calculated node selection starting from property'
-							'expression result' [ '$' ]
-								'expression context path' component 'traversed flatten expression'
-								'state input parameter' stategroup (
-									'yes' [ '&' ]
-										'input parameter' reference
-									'no'
-								)
-								'selection' component 'calculated descendant node selection starting from node'
-						)
-					)
-				)
-			)
-		'containment' ['any' '(']
-			'collection selection' component 'calculated collection selection starting from property'
-			'dereference key' component 'dereference'
-			'key path' [ '[' ,']' ] component 'calculated node selection starting from property'
-			'yes state instantiation' [ ')' '(' '|' 'true' '=' ] component 'state instantiation 2'
-			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'node equality' ['match' '(']
-			'left node type' stategroup (
-				'ancestor'
-					'selection' component 'ancestor node selection'
-				'sibling'
-					'selection' component 'calculated node selection starting from property'
-			)
-			'right node' [ '==' ] component 'calculated node selection starting from property'
-			'yes state instantiation' [ ')' '(' '|' 'true' '=' ] component 'state instantiation 2'
-			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation 2'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'numerical' ['match']
-			'left expression' ['('] component 'calculated signed number selection starting from property'
-			'operator' stategroup (
-				'equal to' [ '==' ]
-				'greater than' [ '>' ]
-				'greater than or equal to' [ '>=' ]
-				'smaller than' [ '<' ]
-				'smaller than or equal to' [ '<=' ]
-			)
-			'right type' stategroup (
-				'value'
-					'value' stategroup (
-						'zero' [ 'zero' ]
-						'one' [ 'one' ]
-					)
-				'expression'
-					'right expression' component 'calculated signed number selection starting from property'
-					'right conversion' component 'numerical type conversion'
-			)
-			'yes state instantiation' [ ')' '(' '|' 'true' '=' ] component 'state instantiation'
-			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'state merge' ['switch']
-			'state group selection' [ '(' , ')' ] component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional state group expression'
-			)
-		'aggregation emptiness' [ 'any' ]
-			'aggregate' [ '(' , ')' ] group ( //TODO: remove this group
-				'collection selection' component 'calculated collection selection starting from property'
-				'filter' component 'derivation node content path'
-			)
-			'no state instantiation' [ '(' '|' 'true' '=' ] group (
-				'state' reference
-				'input arguments' collection ( [ '(' , ')' ]
-					'type' stategroup (
-						'node' [ '=>' ]
-							'selection' component 'calculated node selection starting from property'
-						'number'
-							'operation' [ '=' ] stategroup (
-								'minimum' [ 'min' ]
-								'maximum' [ 'max' ]
-								'standard deviation' [ 'std' ]
-							)
-							'expression' group (
-								'descendant selection' [ '$' ] component 'calculated descendant node selection starting from node'
-								'number' [ '#' ] reference
-							)
-					)
-				)
-			)
-			'yes state instantiation' [ '|' 'false' '=' ] component 'state instantiation' //NOTE: no = yes, and yes = no for syntax migration.
-			'KEYWORD' [')'] component 'KEYWORD'
-	)
-```
-
-### flatten expression
-
-```js
-'flatten expression'
-	'head' component 'group context property selection'
-	'type' stategroup (
-		'prefiltered'
-			'type' stategroup (
-				'group' [ '+' ]
-					'group' reference
-				'state' [ '?' ]
-					'state group' reference
-					'state' [ '|' ] reference
-			)
-			'tail' component 'flatten expression tail'
-		'plural'
-			'collection' ['.'] reference
-			'key value source' stategroup ( 'elementary' )
-			'tail' component 'flatten expression tail'
-	)
-```
-
-### flatten expression tail
-
-```js
-'flatten expression tail'
-	'head' component 'derivation node content path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'collection' ['.'] reference
-			'key value source' stategroup ( 'elementary' )
-			'tail' component 'flatten expression tail'
-	)
-```
-
-### traversed flatten expression
-
-```js
-'traversed flatten expression'
-	'traversed head' component 'traversed derivation node content path'
-	'step back' stategroup (
-		'no'
-		'yes' ['.^']
-			'constraint' component 'EQ node type'
-			'tail' component 'traversed flatten expression'
-	)
-```
-
-### referencer aggregate
-
-```js
-'referencer aggregate'
-	'head' component 'group context property selection'
-	'type' stategroup ( //NOTE: pipe for dev compatible syntax
-		'prefiltered'
-			'type' stategroup (
-				'group' [ '+' ]
-					'group' reference
-				'state' [ '?' ]
-					'state group' reference
-					'state' [ '|' ] reference
-			)
-			'tail' component 'referencer aggregate step'
-		'plural'
-			'collection' ['.'] reference
-			'tail' component 'referencer aggregate step'
-		'singular'
-			'text'[ '>' ] reference
-			'dereference' component 'dereference'
-			'is backward' component 'EQ direction'
-	)
-```
-
-### referencer aggregate step
-
-```js
-'referencer aggregate step'
-	'head' component 'derivation node content path'
-	'has steps' stategroup (
-		'no'
-			'text' [ '>' ] reference
-			'dereference' component 'dereference'
-			'is backward' component 'EQ direction'
-		'yes'
-			'collection' ['.'] reference
-			'tail' component 'referencer aggregate step'
-	)
-```
-
-### numerical type constraint
-
-```js
-'numerical type constraint'
-```
-
-### numerical type conversion
-
-```js
-'numerical type conversion'
-	'conversion' stategroup (
-		'none'
-			'constraint' component 'numerical type constraint'
-		'factor'
-			'conversion' ['from'] reference
-		'base'
-			'conversion' ['from' 'base'] reference
-	)
-```
-
-### calculated signed number selection starting from property
-
-```js
-'calculated signed number selection starting from property'
-	'sign' stategroup (
-		'negative' [ '-' ]
-		'positive'
-	)
-	'type' stategroup (
-		'input parameter'
-			'context selection' component 'ancestor node selection'
-			'state' stategroup ( 'state' )
-			'input parameter' [ '&#' ] reference
-		'number from property'
-			'context selection' component 'context property selection'
-			'number' [ '#' ] reference
-		'number from node'
-			'selection' component 'calculated node selection starting from property'
-			'number' [ '#' ] reference
-	)
-```
-
-### signed number property list
-
-```js
-'signed number property list'
-	'selection' component 'calculated signed number selection starting from property'
-	'conversion' component 'numerical type conversion'
-	'has element' stategroup (
-		'no'
-		'yes' [',']
-			'tail' component 'signed number property list'
-	)
-```
-
-### natural number property list
-
-```js
-'natural number property list'
-	'selected number type' stategroup (
-		'natural'
-		'integer' [ 'unsafe' ]
-	)
-	'selection' component 'calculated signed number selection starting from property'
-	'conversion' component 'numerical type conversion'
-	'has element' stategroup (
-		'no'
-		'yes' [',']
-			'tail' component 'natural number property list'
-	)
-```
-
-### conditional number expression context path
-
-```js
-'conditional number expression context path'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '$^' ]
-			'tail' component 'conditional number expression context path'
-	)
-```
-
-### conditional number expression
-
-```js
-'conditional number expression'
-	'has steps' stategroup (
-		'no'
-			'type' stategroup (
-				'value' [ 'zero' ]
-				'number'
-					'expression context' component 'conditional number expression context path'
-					'context' stategroup (
-						'target context' [ '$^' ]
-							'selection' component 'calculated signed number selection starting from property'
-							'conversion' component 'numerical type conversion'
-						'expression result'
-							'sign' stategroup (
-								'negative' [ '-' ]
-								'positive'
-							)
-							'type' [ '$' ] stategroup ( //NOTE: keyword '$' is temporary
-								'numerical input parameter'
-									'input parameter' [ '&#' ] reference
-									'conversion' component 'numerical type conversion'
-								'number from node'
-									'context type' stategroup (
-										'input parameter'
-											'input parameter' [ '&' ] reference
-										'this state'
-									)
-									'selection' component 'calculated descendant node selection starting from node'
-									'number' [ '#' ] reference
-									'conversion' component 'numerical type conversion'
-							)
-					)
-			)
-		'yes' ['switch' '(']
-			'expression context' component 'conditional number expression context path'
-			'type' stategroup (
-				'merge' [ '$^' ]
-					'state group selection' component 'calculated state group selection starting from property'
-				'flatten' ['$']
-					'context type' stategroup (
-						'input parameter'
-							'input parameter' [ '&' ] reference
-						'this state'
-					)
-					'selection' component 'calculated descendant node selection starting from node'
-					'state group' [ '?' ] reference
-			)
-			'KEYWORD' [')'] component 'KEYWORD'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional number expression'
-			)
-	)
-```
-
-### conditional natural number expression context path
-
-```js
-'conditional natural number expression context path'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '$^' ]
-			'tail' component 'conditional natural number expression context path'
-	)
-```
-
-### conditional natural number expression
-
-```js
-'conditional natural number expression'
-	'has steps' stategroup (
-		'no'
-			'type' stategroup (
-				'value' [ 'one' ]
-				'number'
-					'selected number type' stategroup (
-						'natural'
-						'integer' [ 'unsafe' ]
-					)
-					'expression context' component 'conditional natural number expression context path'
-					'context' stategroup (
-						'target context' [ '$^' ]
-							'selection' component 'calculated signed number selection starting from property'
-							'conversion' component 'numerical type conversion'
-						'expression result'
-							'type' [ '$' ] stategroup ( //NOTE: keyword '$' is temporary
-								'numerical input parameter'
-									'input parameter' [ '&#' ] reference
-									'conversion' component 'numerical type conversion'
-								'number from node'
-									'context type' stategroup (
-										'input parameter'
-											'input parameter' [ '&' ] reference
-										'this state'
-									)
-									'selection' component 'calculated descendant node selection starting from node'
-									'number' [ '#' ] reference
-									'conversion' component 'numerical type conversion'
-							)
-					)
-			)
-		'yes' ['switch' '(']
-			'expression context' component 'conditional natural number expression context path'
-			'type' stategroup (
-				'merge' [ '$^' ]
-					'state group selection' component 'calculated state group selection starting from property'
-				'flatten' ['$']
-					'context type' stategroup (
-						'input parameter'
-							'input parameter' [ '&' ] reference
-						'this state'
-					)
-					'selection' component 'calculated descendant node selection starting from node'
-					'state group' [ '?' ] reference
-			)
-			'KEYWORD' [')'] component 'KEYWORD'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional natural number expression'
-			)
-	)
-```
-
-### integer expression
-
-```js
-'integer expression'
-	'type' stategroup (
-		'singular'
-			'type' stategroup (
-				'value' [ 'deprecated' ]
-					'value' number
-				'expression'
-					'expression' component 'calculated signed number selection starting from property'
-			)
-		'conditional' ['switch']
-			'state group selection' ['(',')'] component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional number expression'
-			)
-		'referencer anchor sum' [ 'sum' ]
-			'context selection' component 'entity scoped context property selection'
-			'referencer anchor' [ '<' ] reference
-			'filter' component 'derivation node content path'
-			'number context selection' component 'entity scoped context node selection'
-			'number' [ '#' ] reference
-			'conversion' component 'numerical type conversion'
-		'referencer anchor count' [ 'count' ]
-			'context selection' component 'entity scoped context property selection'
-			'referencer anchor' [ '<' ] reference
-			'filter' component 'derivation node content path'
-		'sum' [ 'sum' ]
-			'collection selection' component 'calculated collection selection starting from property'
-			'filter' component 'derivation node content path'
-			'property' [ '#' ] reference
-			'conversion' component 'numerical type conversion'
-		'count' [ 'count' ]
-			'collection selection' component 'calculated collection selection starting from property'
-			'filter' component 'derivation node content path'
-		'remainder' [ 'remainder' ]
-			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator set' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'division' [ 'division' ]
-			'rounding' stategroup (
-				'ordinary'
-				'ceil' [ 'ceil' ]
-				'floor' [ 'floor' ]
-			)
-			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator set' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'product' [ 'product' ]
-			'left' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'left conversion' component 'numerical type conversion'
-			'right' [ ',' ] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'list operation'
-			'operation' stategroup (
-				'sum' [ 'sumlist' ]
-				'maximum' [ 'max' ]
-				'minimum' [ 'min' ]
-			)
-			'numbers' [ '(' , ')' ] component 'signed number property list'
-		'addition' ['add' '(']
-			'left' component 'calculated signed number selection starting from property'
-			'left conversion' component 'numerical type conversion'
-			'right' [ ',' ] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'difference' ['diff']
-			'left' [ '(' ] component 'calculated signed number selection starting from property'
-			'left constraint' component 'numerical type constraint'
-			'right' [ ',' ] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-	)
-```
-
-### natural expression
-
-```js
-'natural expression'
-	'type' stategroup (
-		'singular'
-			'type' stategroup (
-				'value' [ 'deprecated' ]
-					'value' number
-				'expression'
-					'selected number type' stategroup (
-						'integer' [ 'unsafe' ]
-						'natural'
-					)
-					'expression' component 'calculated signed number selection starting from property'
-			)
-		'conditional' ['switch']
-			'state group selection' ['(' , ')'] component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional natural number expression'
-			)
-		'referencer anchor sum' [ 'sum' 'unsafe' ]
-			'context selection' component 'entity scoped context property selection'
-			'referencer anchor' [ '<' ] reference
-			'filter' component 'derivation node content path'
-			'number context selection' component 'entity scoped context node selection'
-			'number' [ '#' ] reference
-			'conversion' component 'numerical type conversion'
-		'referencer anchor count' [ 'count' 'unsafe' ]
-			'context selection' component 'entity scoped context property selection'
-			'referencer anchor' [ '<' ] reference
-			'filter' component 'derivation node content path'
-		'sum' [ 'sum' 'unsafe' ]
-			'collection selection' component 'calculated collection selection starting from property'
-			'filter' component 'derivation node content path'
-			'property' [ '#' ] reference
-			'conversion' component 'numerical type conversion'
-		'count' [ 'count' 'unsafe' ]
-			'collection selection' component 'calculated collection selection starting from property'
-			'filter' component 'derivation node content path'
-		'remainder' [ 'remainder' 'unsafe' ]
-			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator set' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'division' [ 'division' ]
-			'rounding' stategroup (
-				'ordinary' [ 'unsafe' ]
-				'ceil' [ 'ceil' ]
-				'floor' [ 'floor' 'unsafe' ]
-			)
-			'numerator type' [ '(' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'numerator' component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator type' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'product' [ 'product' ]
-			'left number type' [ '(' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'left' component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'left conversion' component 'numerical type conversion'
-			'right number type' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'right' component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'list operation'
-			'operation' stategroup (
-				'sum' [ 'sumlist' ]
-				'maximum' [ 'max' ]
-				'minimum' [ 'min' ]
-			)
-			'numbers' [ '(' , ')' ] component 'natural number property list'
-		'addition' ['add']
-			'left number type' ['('] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'left' component 'calculated signed number selection starting from property'
-			'left conversion' component 'numerical type conversion'
-			'right number type' [','] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
-			)
-			'right' component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'difference' [ 'diff' 'unsafe' ]
-			'left' ['('] component 'calculated signed number selection starting from property'
-			'left constraint' component 'numerical type constraint'
-			'right' [','] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-	)
-```
-
-### text selection starting from property
-
-```js
-'text selection starting from property'
-	'type' stategroup (
-		'value'
-			'value' text
-		'text'
-			'type' stategroup (
-				'text'
-					'context selection' component 'context property selection'
-					'text' [ '.' ] reference
-				'node'
-					'selection' component 'calculated node selection starting from property'
-					'text' [ '.' ] reference
-			)
-	)
-```
-
-### conditional text expression context path
-
-```js
-'conditional text expression context path'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '$^' ]
-			'tail' component 'conditional text expression context path'
-	)
-```
-
-### conditional text expression
-
-```js
-'conditional text expression'
-	'has steps' stategroup (
-		'no'
-			'type' stategroup (
-				'value'
-					'value' text
-				'text'
-					'expression context' component 'conditional text expression context path'
-					'context' stategroup (
-						'target context' [ '$^' ]
-							'selection' component 'text selection starting from property'
-						'expression result' [ '$' ] //NOTE: keyword '$' is temporary
-							'context type' stategroup (
-								'input parameter'
-									'input parameter' [ '&' ] reference
-								'this state'
-							)
-							'selection' component 'calculated descendant node selection starting from node'
-							'text' [ '.' ] reference
-					)
-			)
-		'yes' ['switch' '(']
-			'expression context' component 'conditional text expression context path'
-			'type' stategroup (
-				'merge' [ '$^' ]
-					'state group selection' component 'calculated state group selection starting from property'
-				'flatten' ['$']
-					'context type' stategroup (
-						'input parameter'
-							'input parameter' [ '&' ] reference
-						'this state'
-					)
-					'selection' component 'calculated descendant node selection starting from node'
-					'state group' [ '?' ] reference
-			)
-			'KEYWORD' [')'] component 'KEYWORD'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional text expression'
-			)
-	)
-```
-
-### text expression
-
-```js
-'text expression'
-	//NOTE: result node is an ugly way to enforce a location on type==id
-	'type' stategroup (
-		'singular'
-			'selection' component 'text selection starting from property'
-		'conditional' ['switch' ]
-			'state group selection' ['(', ')'] component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional text expression'
-			)
-	)
-	'has successor' stategroup (
-		'no'
-		'yes'
-			'tail' component 'text expression'
-	)
-```
-
-### conditional file expression context path
-
-```js
-'conditional file expression context path'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '$^' ]
-			'tail' component 'conditional file expression context path'
-	)
-```
-
-### conditional file expression
-
-```js
-'conditional file expression'
-	'has steps' stategroup (
-		'no'
-			'expression context' component 'conditional file expression context path'
-			'context' stategroup (
-				'target context' [ '$^' ]
-					'type' stategroup (
-						'property'
-							'context selection' component 'context property selection'
-							'file' [ '/' ] reference
-						'node'
-							'selection' component 'calculated node selection starting from property'
-							'file' [ '/' ] reference
-					)
-				'expression result' [ '$' ] //NOTE: keyword '$' is temporary
-					'context type' stategroup (
-						'input parameter'
-							'input parameter' [ '&' ] reference
-						'this state'
-					)
-					'selection' component 'calculated descendant node selection starting from node'
-					'file' [ '/' ] reference
-			)
-		'yes' ['switch' '(']
-			'expression context' component 'conditional file expression context path'
-			'type' stategroup (
-				'merge' [ '$^' ]
-					'state group selection' component 'calculated state group selection starting from property'
-				'flatten' ['$']
-					'context type' stategroup (
-						'input parameter'
-							'input parameter' [ '&' ] reference
-						'this state'
-					)
-					'selection' component 'calculated descendant node selection starting from node'
-					'state group' [ '?' ] reference
-			)
-			'KEYWORD' [')'] component 'KEYWORD'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'expression' [ '=' ] component 'conditional file expression'
-			)
-	)
-// 'key'
-```
-
-### KEYWORD
-
-```js
-'KEYWORD'
-```
-
-### node
-Some examples of ui annotations:
-- `@hidden`: derived properties can be hidden from the UI.
-- `@description: "a description"`: describe the property in more detail to the user.
+### Node types
+Node types contain a `permissions definition` for controlling read and update permissions,
+ a `todo definition` to mark a node as a `todo`-item,
+ and `attributes`.
+An attribute is of type `property`, `reference-set`, or `command`.
+
+##### Property attributes
+A `property` specifies a part of the data structure.
+Alan supports six different property types:
+`text`, `file`, `number` (with subtypes `integer` and `natural`), `collection`, `stategroup`, and `group`.
+
+*Text*, *file*, and *number* are primitive property types. Text properties hold an unbounded
+string value. File properties hold two unbounded string values: a file token and a file extension.
+Integer number properties hold an integer value, and natural number properties hold an integer
+value greater than zero.
+For ensuring that number values have a predefined accuracy, Alan does not support number values with a fractional component.
+For expressing the accuracy of a number, number properties reference a [`numerical type`](#numerical-types).
+
+> ```js
+'Name'        : text
+'Price'       : integer 'euro'
+'Release Date': natural 'date and time'
+```
+
+A *collection* property holds a map of key-value pairs. Keys are text values that have
+to be unique such that we can reference them unambiguously.
+A key field has to be specified explicitly, after the keyword `collection`; values are nodes of an inline defined type that specifies the key field:
+
+> ```js
+Customers : collection ['Customer ID'] {
+    'Customer ID': text
+    ... /* other attributes of this type */ ...
+}
+```
+
+A *state group* property holds a value indicating a state. States are the alternatives to an aspect
+that a state group property indicates. For example, `red`, `orange`, or `green` for a `color` property of a traffic light. The type of the property value corresponds to one out of multiple
+predefined state types, such as `simple` or `assembled`:
+> ```js
+'Product Type': stategroup (
+    'Simple' -> { ... /* attributes of this type */ ... }
+    'Assembled' -> { ... /* attributes of this type */ ... }
+)
+```
+
+A *group* property groups related property values, which is useful for presentational purposes:
+> ```js
+'Address': group {
+    'City': text
+    'State': text
+    'Zip Code': text
+}
+```
+
+___Derived values.___ Properties of the different types hold either *elementary* values or *derived* values (derivations).
+*Derived* values are computed from elementary values and other derived values.
+Application users cannot modify derived values.
+Properties holding *derived* values require an expression for computing their values at runtime:
+> ```js
+'City': text                    // elementary value property
+'copy of City':= text = .'City' // derived value property with expression
+```
+
+The [derivations](#derivations) section provides the grammar for derivation expressions,
+detailing the different computations that the language supports.
+
+___Presentation options.___ The `ui` groups in the grammar specify the different possibilities for tweaking and tuning the behaviour and presentation of properties in the generated GUI.
+Some examples of GUI annotations are
+- `@hidden`: hides a derived property from the UI.
+- `@description: "a description"`: describes the property in more detail to the user.
   Useful in combination with validation rules!
-- `@validate: "[a-b]+"`: set a regex for text properties that defines what values are acceptable.
-- `@min:` and `@max:`: set limits on a number value.
-- `@identifying`: marks a property to always be displayed in addition to an entry's key.
-- `@default: 'yes'`: set a default state.
-- `@default: today|now`: set date or date-time number to the current time.
-- `@guid`: the key or text property will be set to a generated unique id string.
-- `@small`: if the collection is expected to be small, it can be displayed inline and included when duplicating.
-- `@multi-line`: create a multi-line text area for this text property.
+- `@validate: "[a-b]+"`: sets a regex for text properties that defines what values are acceptable.
+- `@min:` and `@max:`: limits number values.
+- `@identifying`: marks a property to always be displayed in addition to an collection entry's key.
+- `@default: 'Assembled'`: specifies a default state for a state group property.
+- `@default: today|now`: sets date or date-time number value to the current time.
+- `@default: guid`: initializes a text property with a generated unique id string.
+- `@small`: displays (small) collections inline, and includes them when pressing 'Duplicate'.
+- `@multi-line`: presents a multi-line text area for a text property.
+
+##### Reference set attributes
+A `reference-set` is a special property that holds a set of inverse references created by reference [constraints](#constraints).
+Derivation expressions use them for computations (e.g. [derived numbers](#derived-numbers)).
+
+##### Command attributes
+A `command` is a complex parametrized atomic operation on the dataset; a `command` is executed in a single transaction.
+A `command` attribute on a `node type` consists of a `parameter definition` and an [implementation](#commands-and-timers).
 
 ```js
 'node' [ '{' , '}' ]
@@ -1590,14 +363,14 @@ Some examples of ui annotations:
 				'EQ node type' component 'EQ node type'
 				'text' ['=>' 'inverse' '>' ] reference
 				'referencer is bidirectional' stategroup ( 'is bidirectional' )
-			'log' [ ':' 'log' ]
+			'log' [ ':' 'log' ] // NOT SUPPORTED!
 				'root' component 'log node'
 			'command' [ ':' 'command' ]
 				'type' stategroup (
 					'global'
 						'ui' group (
 							'visible' stategroup (
-								'true' [ '@visible' ] // by default commands aren't available in the ui
+								'true' [ '@visible' ] // NOTE: by default, commands are not visible in the GUI
 								'false'
 							)
 						)
@@ -1607,7 +380,7 @@ Some examples of ui annotations:
 				'parameters' component 'parameter definition'
 				'implementation' stategroup (
 					'external' [ 'external' ]
-						'interface' [ 'from' ] reference
+						'interface' [ 'from' ] reference // the interface that defines the command
 					'internal'
 						'implementation' component 'command implementation'
 				)
@@ -1625,7 +398,7 @@ Some examples of ui annotations:
 						'ui' group (
 							'use as namespace' stategroup (
 								'no'
-								'yes' [ '@namespace' ] // use as a level in breadcrumbs
+								'yes' [ '@namespace' ] // NOTE: shows group as a level in GUI breadcrumb
 							)
 							'visible' stategroup (
 								'true'
@@ -1676,7 +449,7 @@ Some examples of ui annotations:
 									)
 									'property context' ['(',')'] component 'ui conditional path'
 									'type' stategroup (
-										'text' [':'] // TODO: fix inconsistent grammar
+										'text' [':'] //TODO: fix inconsistency; should be ['.']
 											'property' reference
 										'number' ['#']
 											'property' reference
@@ -1733,13 +506,13 @@ Some examples of ui annotations:
 												'destruction operation' stategroup (
 													'set to lifetime' [ '=' 'life-time' ]
 													'add lifetime' [ 'add' 'life-time' ]
-													'subtract lifetime' [ 'subtract' 'life-time' ] //TODO: drop? we don't need this.
+													'subtract lifetime' [ 'subtract' 'life-time' ]
 												)
 												'watched stategroup' ['?'] reference
 												'watched state' ['|'] reference
 										)
 									'simple'
-										'record mutation time' stategroup ( //TODO: use triggers instead, to set mutation time with 'now'?
+										'record mutation time' stategroup (
 											'yes' ['mutation-time']
 												'meta property' ['=' '#'] reference
 											'no'
@@ -1916,7 +689,7 @@ Some examples of ui annotations:
 										'property'
 											'context node' component 'context node selection'
 											'property' [ '.' ] reference
-										'current user' ['user'] // NOTE: syntax change from @metadata
+										'current user' ['user']
 											'constraint' component 'EQ node type'
 										'guid' ['guid']
 									)
@@ -2048,53 +821,62 @@ Some examples of ui annotations:
 		'attribute' component 'member'
 	)
 ```
+## Constraints
+---
+The `application` language supports two types of constraints on data: *reference constraints* and *graph constraints*.
 
-### output parameters
+___Reference constraints___ ensure that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
+This ensures that derived value computations and command invocations can safely use references.
+In the GUI, reference constraints translate to a select list from which the application user has to choose an item.
 
-```js
-'output parameters'
+Reference constraint expressions exist in two different flavours:
+(1) `backward` reference expressions that use earlier defined attributes and (2)
+`forward` reference expressions that freely use earlier and later defined attributes.
+We recommend limiting the use of `forward` references, as their use in computations is restricted for ensuring terminating computations.
+
+References can be unidirectional or bidirectional. For bidirectional references, you specify a reference-set:
+> ```js
+'Products': collection ['Name']
+    'assembly': acyclic-graph
+{
+    'Name': text
+      // reference-set holding Orders added by Product references:
+    'Orders': reference-set -> .'Orders' => inverse >'Product'
+}
+'Orders': collection ['ID'] {
+    'ID': text
+      // a (bidirectional) backward reference:
+    'Product': text -> .^ .'Products' -<'Orders'
+}
 ```
 
-### output parameters definition
+The expression `.^ .'Products'` is a navigation expression that produces that produces exactly one collection at runtime.
+The Alan runtime interpretes such [navigation expressions](#navigation) as follows:
+starting from the `Orders` node, go to the parent node (as expressed by the navigation step `.^`);
+then select the `Products` collection found on that node.
+Thus, at runtime, navigation expressions are executed relative to the context node for which the expression should be evaluated.
 
-```js
-'output parameters definition'
-	'parameters' component 'output parameters'
-	'output parameters' collection ( [ '(' , ')' ]
-		'dependable' component 'dependency'
-		'type' stategroup (
-			'elementary' [ '->' ]
-				'head' component 'entity scoped context node selection'
-				'selection' component 'resolved node descendant selection starting from node'
-			'derived' [ '=>' ]
-				'head' component 'entity scoped context node selection'
-				'context type' stategroup (
-					'input parameter' [ '&' ]
-						'input parameter' reference
-					'result node'
-				)
-				'selection' component 'calculated descendant node selection starting from node'
-		)
-	)
+___Graph constraints___ ensure termination for recursive computations traversing a graph.
+Graph constraints constrain that a set of references (edges) together form a graph satisfying a specific property.
+For example, an `acyclic-graph` constraint ensures that references that partake in the graph, form a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
+For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
+
+The code sample below presents a graph constraint `assembly`.
+`Product` references of `Parts` partake in the acyclic `assembly` graph.
+The constraint ensures that `Product Price` computations terminate:
+> ```js
+'Products': collection ['Name']
+    'assembly': acyclic-graph
+{
+    'Name': text
+    'Parts': collection ['Product'] {
+         // a 'forward' (self) reference that partakes in a graph constraint:
+        'Product': text -> forward .^ .^ .'Products' / .^ 'assembly'
+        'Part Price': integer 'euro' = >'Product'#'Product Price'
+    }
+    'Product Price': integer 'euro' = sum .'Parts'#'Part Price' // recursion!
+}
 ```
-
-### linker
-
-```js
-'linker'
-	'link' component 'link'
-```
-
-### referencer
-
-```js
-'referencer'
-	'dependable' component 'dependency'
-	'reference' component 'reference'
-	'linker' component 'linker'
-```
-
-### reference constraint expression
 
 ```js
 'reference constraint expression'
@@ -2108,7 +890,7 @@ Some examples of ui annotations:
 				'no'
 				'yes' ['/']
 					'ancestor' component 'ancestor node selection'
-					'collection constraint' reference
+					'collection constraint' reference // reference to a 'graph constraint'
 			)
 	)
 	'tail' component 'node content path'
@@ -2119,8 +901,6 @@ Some examples of ui annotations:
 			'anchor' reference
 	)
 ```
-
-### derived reference constraint expression
 
 ```js
 'derived reference constraint expression'
@@ -2134,12 +914,192 @@ Some examples of ui annotations:
 	'tail' component 'derivation node content path'
 ```
 
-### singular reference expression
+```js
+'graph constraints definition'
+	'constraints' collection (
+		'type' [':'] stategroup (
+			'acyclic' [ 'acyclic-graph' ]
+			'linear' [ 'ordered-graph' ]
+		)
+	)
+```
+## Links
+---
+Links mark relations between nodes that are not, or cannot be enforced by the runtime.
+Similar to constraints, they also feature select lists in the generated GUI.
+
+Links are especially useful when importing data from external systems via an Alan `interface`.
+An Alan `application` requires that imports via an Alan `interface` always succeed.
+Therefore, `application` data cannot put constraints on imported data; that is, unless the `interface` specifies them.
+To exemplify this, suppose that order management application imports `Products` from a `Catalog Provider`.
+As `Catalog Provider` can remove `Products` at any given time, we cannot put constraints on them.
+`Orders` have to *link* to `Products` instead:
+> ```js
+'Catalog': group { can-update: interface 'Catalog Provider'
+    'Products': collection ['Name'] {
+        'Name': text
+    }
+}
+'Orders': collection ['ID'] {
+    'ID': text
+     // a link to a 'Products' item from the catalog provider:
+    'Product': text ~> .^ +'Catalog' .'Products'
+}
+```
+
+```js
+'link text expression'
+	'dependency' stategroup (
+		'link'
+			'context selection' component 'context property selection'
+			'text' [ '.' ] reference //TODO: should be > (ambiguous right now)
+			'group selection' component 'group node selection'
+			'collection' ['.'] reference
+		'node'
+			'collection selection' component 'calculated collection selection starting from property'
+	)
+	'tail' component 'derivation node content path'
+```
+
+```js
+'link text expression context path'
+	'has steps' stategroup (
+		'no' [ '$' ]
+		'yes' [ '$^' ]
+			'tail' component 'link text expression context path'
+	)
+```
+## Derivations
+---
+Derivation expressions use earlier defined properties for deriving values for ensuring terminating computations of derived values (derivations).
+After a navigation step for following a reference, derivation expressions can use later defined properties as well.
+Please note that some work remains to be done on the `application` language to fully ensure safe computations.
+For more details on this, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
+
+### Derived texts without constraint
+A derived text property holds a (sequence of) static text values and text values from other properties:
+
+> ```js
+'Address': group {
+    'Street'       : text // e.g. "Huntington Rd"
+    'Street number': text // e.g. "12B"
+}
+ // label for an external billing system:
+'Address label':= text
+    = +'Address'.'Street' " " +'Address'.'Street number' // "Huntington Rd 12B"
+```
+
+```js
+'text expression'
+	'type' stategroup (
+		'singular'
+			'selection' component 'text selection starting from property'
+		'conditional' ['switch' ]
+			'state group selection' ['(', ')'] component 'calculated state group selection starting from property'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional text expression'
+			)
+	)
+	'has successor' stategroup (
+		'no'
+		'yes'
+			'tail' component 'text expression'
+	)
+```
+
+```js
+'text selection starting from property'
+	'type' stategroup (
+		'value'
+			'value' text
+		'text'
+			'type' stategroup (
+				'text'
+					'context selection' component 'context property selection'
+					'text' [ '.' ] reference
+				'node'
+					'selection' component 'calculated node selection starting from property'
+					'text' [ '.' ] reference
+			)
+	)
+```
+
+```js
+'conditional text expression context path'
+	'has steps' stategroup (
+		'no'
+		'yes' [ '$^' ]
+			'tail' component 'conditional text expression context path'
+	)
+```
+
+```js
+'conditional text expression'
+	'has steps' stategroup (
+		'no'
+			'type' stategroup (
+				'value'
+					'value' text
+				'text'
+					'expression context' component 'conditional text expression context path'
+					'context' stategroup (
+						'target context' [ '$^' ]
+							'selection' component 'text selection starting from property'
+						'expression result' [ '$' ]
+							'context type' stategroup (
+								'input parameter'
+									'input parameter' [ '&' ] reference
+								'this state'
+							)
+							'selection' component 'calculated descendant node selection starting from node'
+							'text' [ '.' ] reference
+					)
+			)
+		'yes' ['switch' '(']
+			'expression context' component 'conditional text expression context path'
+			'type' stategroup (
+				'merge' [ '$^' ]
+					'state group selection' component 'calculated state group selection starting from property'
+				'flatten' ['$']
+					'context type' stategroup (
+						'input parameter'
+							'input parameter' [ '&' ] reference
+						'this state'
+					)
+					'selection' component 'calculated descendant node selection starting from node'
+					'state group' [ '?' ] reference
+			)
+			'KEYWORD' [')'] component 'KEYWORD'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional text expression'
+			)
+	)
+```
+### Derived texts with constraint (derived references)
+The `application` language supports two types of derived references: `singular` and `branch`.
+The `singular` type creates a direct relation between nodes using other relations.
+The `branch` type is required for creating derived references to items in derived collections merge nodes of different types (see [node type rule](#node-types)).
+The example below shows a property ` for deriving a (`singular`) direct reference from an `Orders` item to a `Manufacturers` item.
+The expression for the `Manufacturer` reference an `Orders` item requires specifying an [`output parameter`](#output-parameters-legacy)
+after the constraint expression for the `Product` property.
+
+> ```js
+'Manufacturers': collection ['Name'] { 'Name': text }
+'Products': collection ['Name'] {
+    'Name': text
+    'Manufacturer': text -> .^ .'Manufacturers'
+}
+'Orders': collection ['ID'] {
+    'ID': text
+    'Product': text -> .^ .'Products' ( 'Manufacturer' => >'Manufacturer' )
+    'Manufacturer':= text => .^ .'Manufacturers' = >'Product'$'Manufacturer'
+}
+```
 
 ```js
 'singular reference expression'
 	'type' stategroup (
-		'branch'
+		'branch' // branch of derived collection constructed using flatten expressions
 			'branch' [ 'from' ] reference
 			'root entity constraint' stategroup ( 'root' )
 			'expression' [ '[', ']' ] component 'calculated node selection starting from property'
@@ -2147,8 +1107,797 @@ Some examples of ui annotations:
 			'expression' component 'calculated node selection starting from property'
 	)
 ```
+### Derived files
+An example of a derived file property `Contract`.
+The property holds the value of a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
+> ```js
+'Default Contract': file
+'Agreement': stategroup (
+    'Standard' -> { }
+    'Custom' -> {
+        'Contract': file
+    }
+)
+'Contract':= file = switch ( ?'Agreement' ) (
+    |'Default' = $^ /'Default Contract'
+    |'Custom' = $ /'Contract'
+)
+```
 
-### plural reference expression
+```js
+'conditional file expression context path'
+	'has steps' stategroup (
+		'no'
+		'yes' [ '$^' ]
+			'tail' component 'conditional file expression context path'
+	)
+```
+
+```js
+'conditional file expression'
+	'has steps' stategroup (
+		'no'
+			'expression context' component 'conditional file expression context path'
+			'context' stategroup (
+				'target context' [ '$^' ]
+					'type' stategroup (
+						'property'
+							'context selection' component 'context property selection'
+							'file' [ '/' ] reference
+						'node'
+							'selection' component 'calculated node selection starting from property'
+							'file' [ '/' ] reference
+					)
+				'expression result' [ '$' ]
+					'context type' stategroup (
+						'input parameter'
+							'input parameter' [ '&' ] reference
+						'this state'
+					)
+					'selection' component 'calculated descendant node selection starting from node'
+					'file' [ '/' ] reference
+			)
+		'yes' ['switch' '(']
+			'expression context' component 'conditional file expression context path'
+			'type' stategroup (
+				'merge' [ '$^' ]
+					'state group selection' component 'calculated state group selection starting from property'
+				'flatten' ['$']
+					'context type' stategroup (
+						'input parameter'
+							'input parameter' [ '&' ] reference
+						'this state'
+					)
+					'selection' component 'calculated descendant node selection starting from node'
+					'state group' [ '?' ] reference
+			)
+			'KEYWORD' [')'] component 'KEYWORD'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional file expression'
+			)
+	)
+```
+### Derived numbers
+Examples of derived number properties, including required conversion rules:
+
+> ```js
+root {
+    'Tax Percentage': natural 'percent'
+    'Products': collection ['Name'] {
+        'Name': text
+        'Price': integer 'eurocent'
+        'Price (euro)':= integer 'euro' = from 'eurocent' #'Price'
+        'Order Unit Quantity': natural 'items per unit'
+        'Orders': reference-set -> .'Orders' => inverse >'Product'
+        'Sales Value':= integer 'eurocent' = sum <'Orders'#'Price'
+        'Items Sold':= integer 'items' = count <'Orders'
+    }
+    'Total Sales Value':= integer 'eurocent' = sum .'Products'#'Sales Value'
+    'Number of Products':= integer 'items' = count .'Products'
+    'Orders': collection ['ID'] {
+        'ID': text
+        'Product': text -> .^ .'Products' -<'Orders'
+        'Quantity': natural 'items'
+        'Loss':= integer 'items' = remainder ( #'Quantity' as 'items', >'Product' #'Order Unit Quantity' )
+        'Price':= integer 'eurocent' = product ( >'Product'#'Price' as 'eurocent' , #'Quantity' )
+        'Order Units':= natural 'units' = division ceil ( #'Quantity' as 'items' , >'Product'#'Order Unit Quantity' )
+        'Tax': integer 'eurocent'
+        'Gross Price':= integer 'eurocent' = sumlist ( #'Price', #'Tax' )
+        'Creation Time': integer 'date and time'
+        'Estimated Lead Time': integer 'seconds'
+        'Estimated Delivery Time':= integer 'date and time' = add ( #'Creation Time', #'Estimated Lead Time' )
+        'Delivered': stategroup (
+            'No' -> { }
+            'Yes' -> {
+                'Delivery Time': natural 'date and time'
+                'Lead Time':= integer 'seconds' = diff ( #'Delivery Time', ?^ # 'Creation Time' )
+            }
+        )
+    }
+    'Gross Income':= integer 'eurocent' = sum .'Orders'#'Gross Price'
+}
+numerical-types
+    'percent'
+    'euro'
+        = 'eurocent' * 1 * 10 ^ -2
+    'eurocent'
+        = 'eurocent' * 'items'
+    'items per unit'
+    'units'
+        = 'items' / 'items per unit'
+    'items'
+        = 'items' / 'items per unit' // required by 'remainder'; to be fixed
+    'date and time' in 'seconds'
+    'seconds'
+```
+
+
+```js
+'integer expression'
+	'type' stategroup (
+		'singular'
+			'type' stategroup (
+				'value' [ 'deprecated' ]
+					'value' number
+				'expression'
+					'expression' component 'calculated signed number selection starting from property'
+			)
+		'conditional' ['switch']
+			'state group selection' ['(',')'] component 'calculated state group selection starting from property'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional number expression'
+			)
+		'referencer anchor sum' [ 'sum' ]
+			'context selection' component 'entity scoped context property selection'
+			'referencer anchor' [ '<' ] reference
+			'filter' component 'derivation node content path'
+			'number context selection' component 'entity scoped context node selection'
+			'number' [ '#' ] reference
+			'conversion' component 'numerical type conversion'
+		'referencer anchor count' [ 'count' ]
+			'context selection' component 'entity scoped context property selection'
+			'referencer anchor' [ '<' ] reference
+			'filter' component 'derivation node content path'
+		'sum' [ 'sum' ]
+			'collection selection' component 'calculated collection selection starting from property'
+			'filter' component 'derivation node content path'
+			'property' [ '#' ] reference
+			'conversion' component 'numerical type conversion'
+		'count' [ 'count' ]
+			'collection selection' component 'calculated collection selection starting from property'
+			'filter' component 'derivation node content path'
+		'remainder' [ 'remainder' ] // NOT SUPPORTED BY TYPE CHECKER
+			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
+			'conversion rule' ['as'] reference
+			'numerator conversion' component 'numerical type conversion'
+			'denominator set' [ ',' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'denominator' component 'calculated signed number selection starting from property'
+			'denominator conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'division' [ 'division' ]
+			'rounding' stategroup (
+				'ordinary'
+				'ceil' [ 'ceil' ]
+				'floor' [ 'floor' ]
+			)
+			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
+			'conversion rule' ['as'] reference
+			'numerator conversion' component 'numerical type conversion'
+			'denominator set' [ ',' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'denominator' component 'calculated signed number selection starting from property'
+			'denominator conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'product' [ 'product' ]
+			'left' [ '(' ] component 'calculated signed number selection starting from property'
+			'conversion rule' ['as'] reference
+			'left conversion' component 'numerical type conversion'
+			'right' [ ',' ] component 'calculated signed number selection starting from property'
+			'right conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'list operation'
+			'operation' stategroup (
+				'sum' [ 'sumlist' ]
+				'maximum' [ 'max' ]
+				'minimum' [ 'min' ]
+			)
+			'numbers' [ '(' , ')' ] component 'signed number property list'
+		'addition' ['add' '(']
+			'left' component 'calculated signed number selection starting from property'
+			'left conversion' component 'numerical type conversion'
+			'right' [ ',' ] component 'calculated signed number selection starting from property'
+			'right conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'difference' ['diff']
+			'left' [ '(' ] component 'calculated signed number selection starting from property'
+			'left constraint' component 'numerical type constraint'
+			'right' [ ',' ] component 'calculated signed number selection starting from property'
+			'right conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+	)
+```
+
+```js
+'natural expression'
+	'type' stategroup (
+		'singular'
+			'type' stategroup (
+				'value' [ 'deprecated' ]
+					'value' number
+				'expression'
+					'selected number type' stategroup (
+						'integer' [ 'unsafe' ]
+						'natural'
+					)
+					'expression' component 'calculated signed number selection starting from property'
+			)
+		'conditional' ['switch']
+			'state group selection' ['(' , ')'] component 'calculated state group selection starting from property'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional natural number expression'
+			)
+		'referencer anchor sum' [ 'sum' 'unsafe' ]
+			'context selection' component 'entity scoped context property selection'
+			'referencer anchor' [ '<' ] reference
+			'filter' component 'derivation node content path'
+			'number context selection' component 'entity scoped context node selection'
+			'number' [ '#' ] reference
+			'conversion' component 'numerical type conversion'
+		'referencer anchor count' [ 'count' 'unsafe' ]
+			'context selection' component 'entity scoped context property selection'
+			'referencer anchor' [ '<' ] reference
+			'filter' component 'derivation node content path'
+		'sum' [ 'sum' 'unsafe' ]
+			'collection selection' component 'calculated collection selection starting from property'
+			'filter' component 'derivation node content path'
+			'property' [ '#' ] reference
+			'conversion' component 'numerical type conversion'
+		'count' [ 'count' 'unsafe' ]
+			'collection selection' component 'calculated collection selection starting from property'
+			'filter' component 'derivation node content path'
+		'remainder' [ 'remainder' 'unsafe' ] // NOT SUPPORTED BY TYPE CHECKER
+			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
+			'conversion rule' ['as'] reference
+			'numerator conversion' component 'numerical type conversion'
+			'denominator set' [ ',' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'denominator' component 'calculated signed number selection starting from property'
+			'denominator conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'division' [ 'division' ]
+			'rounding' stategroup (
+				'ordinary' [ 'unsafe' ]
+				'ceil' [ 'ceil' ]
+				'floor' [ 'floor' 'unsafe' ]
+			)
+			'numerator type' [ '(' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'numerator' component 'calculated signed number selection starting from property'
+			'conversion rule' ['as'] reference
+			'numerator conversion' component 'numerical type conversion'
+			'denominator type' [ ',' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'denominator' component 'calculated signed number selection starting from property'
+			'denominator conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'product' [ 'product' ]
+			'left number type' [ '(' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'left' component 'calculated signed number selection starting from property'
+			'conversion rule' ['as'] reference
+			'left conversion' component 'numerical type conversion'
+			'right number type' [ ',' ] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'right' component 'calculated signed number selection starting from property'
+			'right conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'list operation'
+			'operation' stategroup (
+				'sum' [ 'sumlist' ]
+				'maximum' [ 'max' ]
+				'minimum' [ 'min' ]
+			)
+			'numbers' [ '(' , ')' ] component 'natural number property list'
+		'addition' ['add']
+			'left number type' ['('] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'left' component 'calculated signed number selection starting from property'
+			'left conversion' component 'numerical type conversion'
+			'right number type' [','] stategroup (
+				'integer' [ 'unsafe' ]
+				'natural'
+			)
+			'right' component 'calculated signed number selection starting from property'
+			'right conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'difference' [ 'diff' 'unsafe' ]
+			'left' ['('] component 'calculated signed number selection starting from property'
+			'left constraint' component 'numerical type constraint'
+			'right' [','] component 'calculated signed number selection starting from property'
+			'right conversion' component 'numerical type conversion'
+			'KEYWORD' [')'] component 'KEYWORD'
+	)
+```
+
+```js
+'numerical type constraint'
+```
+
+```js
+'numerical type conversion'
+	'conversion' stategroup (
+		'none'
+			'constraint' component 'numerical type constraint'
+		'factor'
+			'conversion' ['from'] reference
+		'base'
+			'conversion' ['from' 'base'] reference
+	)
+```
+
+```js
+'calculated signed number selection starting from property'
+	'sign' stategroup (
+		'negative' [ '-' ]
+		'positive'
+	)
+	'type' stategroup (
+		'input parameter'
+			'context selection' component 'ancestor node selection'
+			'state' stategroup ( 'state' )
+			'input parameter' [ '&#' ] reference
+		'number from property'
+			'context selection' component 'context property selection'
+			'number' [ '#' ] reference
+		'number from node'
+			'selection' component 'calculated node selection starting from property'
+			'number' [ '#' ] reference
+	)
+```
+
+```js
+'signed number property list'
+	'selection' component 'calculated signed number selection starting from property'
+	'conversion' component 'numerical type conversion'
+	'has element' stategroup (
+		'no'
+		'yes' [',']
+			'tail' component 'signed number property list'
+	)
+```
+
+```js
+'natural number property list'
+	'selected number type' stategroup (
+		'natural'
+		'integer' [ 'unsafe' ]
+	)
+	'selection' component 'calculated signed number selection starting from property'
+	'conversion' component 'numerical type conversion'
+	'has element' stategroup (
+		'no'
+		'yes' [',']
+			'tail' component 'natural number property list'
+	)
+```
+
+```js
+'conditional number expression context path'
+	'has steps' stategroup (
+		'no'
+		'yes' [ '$^' ]
+			'tail' component 'conditional number expression context path'
+	)
+```
+
+```js
+'conditional number expression'
+	'has steps' stategroup (
+		'no'
+			'type' stategroup (
+				'value' [ 'zero' ]
+				'number'
+					'expression context' component 'conditional number expression context path'
+					'context' stategroup (
+						'target context' [ '$^' ]
+							'selection' component 'calculated signed number selection starting from property'
+							'conversion' component 'numerical type conversion'
+						'expression result'
+							'sign' stategroup (
+								'negative' [ '-' ]
+								'positive'
+							)
+							'type' [ '$' ] stategroup (
+								'numerical input parameter'
+									'input parameter' [ '&#' ] reference
+									'conversion' component 'numerical type conversion'
+								'number from node'
+									'context type' stategroup (
+										'input parameter'
+											'input parameter' [ '&' ] reference
+										'this state'
+									)
+									'selection' component 'calculated descendant node selection starting from node'
+									'number' [ '#' ] reference
+									'conversion' component 'numerical type conversion'
+							)
+					)
+			)
+		'yes' ['switch' '(']
+			'expression context' component 'conditional number expression context path'
+			'type' stategroup (
+				'merge' [ '$^' ]
+					'state group selection' component 'calculated state group selection starting from property'
+				'flatten' ['$']
+					'context type' stategroup (
+						'input parameter'
+							'input parameter' [ '&' ] reference
+						'this state'
+					)
+					'selection' component 'calculated descendant node selection starting from node'
+					'state group' [ '?' ] reference
+			)
+			'KEYWORD' [')'] component 'KEYWORD'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional number expression'
+			)
+	)
+```
+
+```js
+'conditional natural number expression context path'
+	'has steps' stategroup (
+		'no'
+		'yes' [ '$^' ]
+			'tail' component 'conditional natural number expression context path'
+	)
+```
+
+```js
+'conditional natural number expression'
+	'has steps' stategroup (
+		'no'
+			'type' stategroup (
+				'value' [ 'one' ]
+				'number'
+					'selected number type' stategroup (
+						'natural'
+						'integer' [ 'unsafe' ]
+					)
+					'expression context' component 'conditional natural number expression context path'
+					'context' stategroup (
+						'target context' [ '$^' ]
+							'selection' component 'calculated signed number selection starting from property'
+							'conversion' component 'numerical type conversion'
+						'expression result'
+							'type' [ '$' ] stategroup (
+								'numerical input parameter'
+									'input parameter' [ '&#' ] reference
+									'conversion' component 'numerical type conversion'
+								'number from node'
+									'context type' stategroup (
+										'input parameter'
+											'input parameter' [ '&' ] reference
+										'this state'
+									)
+									'selection' component 'calculated descendant node selection starting from node'
+									'number' [ '#' ] reference
+									'conversion' component 'numerical type conversion'
+							)
+					)
+			)
+		'yes' ['switch' '(']
+			'expression context' component 'conditional natural number expression context path'
+			'type' stategroup (
+				'merge' [ '$^' ]
+					'state group selection' component 'calculated state group selection starting from property'
+				'flatten' ['$']
+					'context type' stategroup (
+						'input parameter'
+							'input parameter' [ '&' ] reference
+						'this state'
+					)
+					'selection' component 'calculated descendant node selection starting from node'
+					'state group' [ '?' ] reference
+			)
+			'KEYWORD' [')'] component 'KEYWORD'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional natural number expression'
+			)
+	)
+```
+### Derived states
+The code sample exemplifies a derived state group property `Product found`.
+The expression for deriving the state checks if the `Product` link produces a `Products` item from a `Products` `Catalog`.
+This `Catalog` is provided by an external system, via an Alan `interface`: the `Catalog Provider`.
+> ```js
+'Catalog': group { can-update: interface 'Catalog Provider'
+    'Products': collection ['Name'] {
+        'Name': text
+        'Price': integer 'eurocent'
+    }
+}
+'Orders': collection ['ID'] {
+    'ID': text
+    // a link to a 'Products' item from the catalog provider:
+    'Product': text ~> .^ .'Products'
+    'Product found':= stategroup = any ( >'Product' ) (
+        | true  = 'Yes' ( 'Product' => $ )
+        | false = 'No'
+    ) (
+        'Yes' ( 'Product': +'Catalog'.'Products' ) -> {
+            'Price': integer 'eurocent' = &'Product'#'Price'
+        }
+        'No' -> { }
+    )
+}
+```
+
+```js
+'state expression'
+	'expression type' stategroup (
+		'resolvable link' [ 'any' ]
+			'link context selection' ['('] component 'context property selection'
+			'text' [ '>' ] reference
+			'KEYWORD' [')'] component 'KEYWORD'
+			'yes state instantiation' [ '(' '|' 'true' '=' ] group (
+				'state' reference
+				'input arguments' collection ( [ '(' , ')' ]
+					'type' [ '=>' ] stategroup (
+						'target context'
+							'selection' component 'calculated node selection starting from property'
+						'expression result'
+							'expression context path' component 'link text expression context path'
+							'state input parameter' stategroup (
+								'yes' [ '&' ]
+									'input parameter' reference
+								'no'
+							)
+							'entity node selection' component 'entity scoped context node selection'
+							'selection' component 'calculated descendant node selection starting from node'
+					)
+				)
+			)
+			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
+			'KEYWORD2' [')'] component 'KEYWORD'
+		'branch match' [ 'match-branch' ]
+			'branches' ['(', ')'] collection ( ['|']
+				'state instantiation' [ '=' ] group (
+					'state' reference
+					'input arguments' collection ( [ '(' , ')' ]
+						'type' [ '=>' ] stategroup (
+							'target context'
+								'selection' component 'calculated node selection starting from property'
+							'expression result' [ '$' ]
+								'expression context path' component 'traversed flatten expression'
+								'state input parameter' stategroup (
+									'yes' [ '&' ]
+										'input parameter' reference
+									'no'
+								)
+								'selection' component 'calculated descendant node selection starting from node'
+						)
+					)
+				)
+			)
+		'containment' ['any' '(']
+			'collection selection' component 'calculated collection selection starting from property'
+			'dereference key' component 'dereference'
+			'key path' [ '[' ,']' ] component 'calculated node selection starting from property'
+			'yes state instantiation' [ ')' '(' '|' 'true' '=' ] component 'state instantiation 2'
+			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'node equality' ['match' '(']
+			'left node type' stategroup (
+				'ancestor'
+					'selection' component 'ancestor node selection'
+				'sibling'
+					'selection' component 'calculated node selection starting from property'
+			)
+			'right node' [ '==' ] component 'calculated node selection starting from property'
+			'yes state instantiation' [ ')' '(' '|' 'true' '=' ] component 'state instantiation 2'
+			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation 2'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'numerical' ['match']
+			'left expression' ['('] component 'calculated signed number selection starting from property'
+			'operator' stategroup (
+				'equal to' [ '==' ]
+				'greater than' [ '>' ]
+				'greater than or equal to' [ '>=' ]
+				'smaller than' [ '<' ]
+				'smaller than or equal to' [ '<=' ]
+			)
+			'right type' stategroup (
+				'value'
+					'value' stategroup (
+						'zero' [ 'zero' ]
+						'one' [ 'one' ]
+					)
+				'expression'
+					'right expression' component 'calculated signed number selection starting from property'
+					'right conversion' component 'numerical type conversion'
+			)
+			'yes state instantiation' [ ')' '(' '|' 'true' '=' ] component 'state instantiation'
+			'no state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
+			'KEYWORD' [')'] component 'KEYWORD'
+		'state merge' ['switch']
+			'state group selection' [ '(' , ')' ] component 'calculated state group selection starting from property'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional state group expression'
+			)
+		'aggregation emptiness' [ 'any' ]
+			'aggregate' [ '(' , ')' ] group (
+				'collection selection' component 'calculated collection selection starting from property'
+				'filter' component 'derivation node content path'
+			)
+			'no state instantiation' [ '(' '|' 'true' '=' ] group (
+				'state' reference
+				'input arguments' collection ( [ '(' , ')' ]
+					'type' stategroup (
+						'node' [ '=>' ]
+							'selection' component 'calculated node selection starting from property'
+						'number'
+							'operation' [ '=' ] stategroup (
+								'minimum' [ 'min' ]
+								'maximum' [ 'max' ]
+								'standard deviation' [ 'std' ]
+							)
+							'expression' group (
+								'descendant selection' [ '$' ] component 'calculated descendant node selection starting from node'
+								'number' [ '#' ] reference
+							)
+					)
+				)
+			)
+			'yes state instantiation' [ '|' 'false' '=' ] component 'state instantiation'
+			'KEYWORD' [')'] component 'KEYWORD'
+	)
+```
+
+```js
+'conditional state group expression'
+	'has steps' stategroup (
+		'no'
+			'state' reference
+			'input arguments' collection ( [ '(' , ')' ]
+				'expression context' [ '=>' ] component 'conditional state group expression context path'
+				'context selection' stategroup (
+					'target context' [ '$^' ]
+						'selection' component 'calculated node selection starting from property'
+					'expression result' [ '$' ]
+						'context type' stategroup (
+							'input parameter'
+								'input parameter' [ '&' ] reference
+							'this state'
+						)
+						'selection' component 'calculated descendant node selection starting from node'
+				)
+			)
+		'yes' ['switch' '(']
+			'expression context' component 'conditional state group expression context path'
+			'type' stategroup (
+				'merge' [ '$^' ]
+					'state group selection' component 'calculated state group selection starting from property'
+				'flatten' ['$']
+					'context type' stategroup (
+						'input parameter'
+							'input parameter' [ '&' ] reference
+						'this state'
+					)
+					'selection' component 'calculated descendant node selection starting from node'
+					'state group' [ '?' ] reference
+			)
+			'KEYWORD' [')'] component 'KEYWORD'
+			'states' [ '(' , ')' ] collection ( ['|']
+				'expression' [ '=' ] component 'conditional state group expression'
+			)
+	)
+```
+
+```js
+'conditional state group expression context path'
+	'has steps' stategroup (
+		'no'
+		'yes' [ '$^' ]
+			'tail' component 'conditional state group expression context path'
+	)
+```
+
+```js
+'state instantiation'
+	'state' reference
+	'input arguments' collection ( [ '(' , ')' ]
+		'constraint' stategroup ( 'node type' )
+		'selection' [ '=>' ] component 'calculated node selection starting from property'
+	)
+```
+
+```js
+'state instantiation 2'
+	'state' reference
+	'input arguments' collection ( [ '(' , ')' ]
+		'context' [ '=>' ] stategroup (
+			'state group property'
+				'selection' component 'calculated node selection starting from property'
+			'expression result node' [ '$' ]
+				'selection' component 'calculated descendant node selection starting from node'
+		)
+	)
+```
+### Derived collections
+
+```js
+'flatten expression'
+	'head' component 'group context property selection'
+	'type' stategroup (
+		'prefiltered'
+			'type' stategroup (
+				'group' [ '+' ]
+					'group' reference
+				'state' [ '?' ]
+					'state group' reference
+					'state' [ '|' ] reference
+			)
+			'tail' component 'flatten expression tail'
+		'plural'
+			'collection' ['.'] reference
+			'key value source' stategroup ( 'elementary' )
+			'tail' component 'flatten expression tail'
+	)
+```
+
+```js
+'flatten expression tail'
+	'head' component 'derivation node content path'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'collection' ['.'] reference
+			'key value source' stategroup ( 'elementary' )
+			'tail' component 'flatten expression tail'
+	)
+```
+
+```js
+'traversed derivation node content path'
+	'step back' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'state' [ '?^' ]
+				'group' [ '+^' ]
+			)
+			'tail' component 'traversed derivation node content path'
+	)
+```
+
+```js
+'traversed flatten expression'
+	'traversed head' component 'traversed derivation node content path'
+	'step back' stategroup (
+		'no'
+		'yes' ['.^']
+			'constraint' component 'EQ node type'
+			'tail' component 'traversed flatten expression'
+	)
+```
 
 ```js
 'plural reference expression'
@@ -2163,77 +1912,212 @@ Some examples of ui annotations:
 	)
 ```
 
-### EQ node type
-
 ```js
-'EQ node type'
-```
-
-### EQ member
-
-```js
-'EQ member'
-```
-
-### EQ direction
-
-```js
-'EQ direction'
-```
-
-### link text expression
-
-```js
-'link text expression'
-	'dependency' stategroup (
-		'link'
-			'context selection' component 'context property selection'
-			'text' [ '.' ] reference //TODO: use > (ambiguous right now)
-			'group selection' component 'group node selection'
+'referencer aggregate'
+	'head' component 'group context property selection'
+	'type' stategroup (
+		'prefiltered'
+			'type' stategroup (
+				'group' [ '+' ]
+					'group' reference
+				'state' [ '?' ]
+					'state group' reference
+					'state' [ '|' ] reference
+			)
+			'tail' component 'referencer aggregate step'
+		'plural'
 			'collection' ['.'] reference
-		'node'
-			'collection selection' component 'calculated collection selection starting from property'
+			'tail' component 'referencer aggregate step'
+		'singular'
+			'text'[ '>' ] reference
+			'dereference' component 'dereference'
+			'is backward' component 'EQ direction'
 	)
-	'tail' component 'derivation node content path'
 ```
 
-### link text expression context path
-
 ```js
-'link text expression context path'
+'referencer aggregate step'
+	'head' component 'derivation node content path'
 	'has steps' stategroup (
-		'no' [ '$' ]
-		'yes' [ '$^' ]
-			'tail' component 'link text expression context path'
+		'no'
+			'text' [ '>' ] reference
+			'dereference' component 'dereference'
+			'is backward' component 'EQ direction'
+		'yes'
+			'collection' ['.'] reference
+			'tail' component 'referencer aggregate step'
+	)
+```
+## Permissions and Todos
+---
+
+Examples for permissions and todos:
+
+> ```js
+'Users': collection ['ID']
+    can-create: user ?'Type'|'Admin'
+    can-delete: user ?'Type'|'Admin'
+{ can-update: user ?'Type'|'Admin'
+    'ID': text
+    'Address': group { can-update: equal ( $ , user )
+        'Street': text
+        'City': text
+    }
+    'Type': stategroup (
+        'Admin' -> { }
+        'Employee' -> { }
+        'Unknown' -> { has-todo: user ?'Type'|'Admin' }
+    )
+}
+// only team members can read team information:
+'Teams': collection ['Name'] { can-read: any $ .'Members' [ user ]
+    'Name': text
+    'Members': collection ['Member'] {
+        'Member': text ~> .^ .^ .'Users'
+    }
+    'Description': text
+}
+```
+
+
+```js
+'node permissions definition'
+	'read permission' stategroup (
+		'inherited'
+		'explicit' ['can-read:']
+			'permission' component 'permission'
+	)
+	'update permission' stategroup (
+		'inherited'
+		'explicit' ['can-update:']
+			'permission' component 'permission'
 	)
 ```
 
-### log node
-
 ```js
-'log node' [ '(' , ')' ]
-	'properties' collection (
-		'type' [ ':' ] stategroup (
-			'group' [ 'group' ]
-				'node' component 'log node'
-			'number' [ 'number' ]
-			'state group' [ 'stategroup' ]
-				'states' [ '(' , ')' ] collection (
-					'node' component 'log node'
-				)
-			'text' [ 'text' ]
-			'file' ['file']
-		)
+'item permissions definition'
+	'create permission' stategroup (
+		'inherited'
+		'explicit' ['can-create:']
+			'permission' component 'permission'
+	)
+	'delete permission' stategroup (
+		'inherited'
+		'explicit' ['can-delete:']
+			'permission' component 'permission'
+			'EQ modifier' component 'EQ modifier'
 	)
 ```
 
-### delete node
-
 ```js
-'delete node'
+'permission'
+	'modifier' stategroup (
+		'user'
+			'type' stategroup (
+				'unrestricted' ['unrestricted']
+				'restricted'
+					'requirement' component 'user requirement'
+			)
+		'imported interface'
+			'interface' ['interface'] reference
+	)
 ```
 
-### command implementation
+```js
+'todo definition'
+	'todo' stategroup (
+		'no'
+		'yes' ['has-todo:']
+			'requirement' component 'user requirement'
+	)
+```
+
+```js
+'user requirement'
+	'type' stategroup (
+		'containment' ['any']
+			'context' stategroup (
+				'user' ['user']
+					'path' component 'conditional descendant node path'
+					'collection' ['.', '['] reference
+					'delink key' component 'delink'
+					'key path' ['$', ']'] component 'conditional node path'
+					'has filter' stategroup (
+						'no'
+						'yes' ['as' 'user' 'where']
+							'path' ['(', ')'] component 'user requirement'
+					)
+				'definition' ['$']
+					'path' component 'conditional node path'
+					'collection' ['.', '['] reference
+					'delink key' component 'delink'
+					'key path' ['user', ']'] component 'conditional descendant node path'
+					'has filter' stategroup (
+						'no'
+						'yes' ['as' '$' 'where']
+							'path' ['(', ')'] component 'user requirement'
+					)
+			)
+		'existence'
+			'context' stategroup (
+				'user' ['user']
+				'definition' ['$']
+					'head' component 'ancestor node path'
+			)
+			'tail' component 'conditional descendant node path'
+		'equality' ['equal',')']
+			'left path' ['(' 'user'] component 'conditional descendant node path'
+			'right path' [ ',' '$'] component 'conditional node path'
+	)
+	'has alternative' stategroup (
+		'no'
+		'yes' ['||']
+			'alternative' component 'user requirement'
+	)
+```
+## Commands and Timers
+---
+
+Commands enable external systems to perform operations via an Alan `interface` on `application` data.
+Furthermore, commands can perform operations on other systems that other systems provide via an Alan `interface`.
+For this to work, interfaces have to be listed in the `interfaces` section of an `application` model.
+Also, the `external` command needs to be consumed by the application model, like the `Place Order` command in the example:
+
+> ```js
+'Products': collection ['Name'] {
+    'Name': text
+}
+'Place Order': command { 'Product': text -> .'Products' }
+    external from 'Manufacturer'
+'Orders': collection ['ID'] {
+    'ID': text
+    'Product': text -> .^ .'Products'
+    'Creation Time': integer 'date and time' = creation-time
+    'Status': stategroup (
+        'New' -> {
+            'Order from Manufacturer': command { }
+                do on ^ ^ (
+                    'Place Order' with ( 'Product': text = ^ .'Product' )
+                ) and do on ^ (
+                    'Status': stategroup = 'Waiting for Manufacturer' ( )
+                )
+        }
+        'Delivered' -> { }
+        'Delayed' -> { }
+        'Waiting for Manufacturer' -> {
+            'Agreed Upon Delivery Time': integer 'date and time'
+                timer ontimeout do on ^ (
+                    'Status': stategroup = 'Delayed' ( )
+                )
+        }
+    )
+}
+// for external system 'Delivery Service':
+'Register Delivery': command { 'Order': text -> .'Orders' }
+    do on @ >'Order' (
+        'Status': stategroup = 'Delivered' ( )
+    )
+```
 
 ```js
 'command implementation' ['do']
@@ -2297,8 +2181,6 @@ Some examples of ui annotations:
 			'statement' component 'command implementation'
 	)
 ```
-
-### parameter definition
 
 ```js
 'parameter definition' [ '{' , '}' ]
@@ -2434,7 +2316,111 @@ Some examples of ui annotations:
 	)
 ```
 
-### ancestor parameters path
+```js
+'delete node'
+```
+
+```js
+'parametrized update node'
+	'context node path' ['on'] component 'parametrized singular node path'
+	'variable assignment' component 'optional variable assignment'
+	'attributes' [ '(' , ')' ] collection indent (
+		'type' stategroup (
+			'command'
+				'arguments' [ 'with' ] component 'argument definition'
+			'property' [ ':' ]
+				'type' stategroup (
+					'collection' ['collection']
+						'operation' stategroup (
+							'create' [ 'create' ]
+								'initialize node' component 'parametrized initialize node'
+							'delete' ['delete']
+								'path' component 'parametrized singular node path'
+								'delete node' component 'delete node'
+						)
+					'number'
+						'set' stategroup (
+							'integer' [ 'integer' ]
+							'natural' [ 'natural' ]
+						)
+						'operator' stategroup (
+							'increment' [ 'increment' ]
+							'assignment'
+								'expression' ['='] component 'parametrized number expression'
+						)
+					'text' [ 'text' ]
+						'expression' ['='] component 'parametrized text expression'
+					'file' ['file']
+						'expression' ['='] component 'parametrized file expression'
+					'state group' [ 'stategroup' ]
+						'expression' ['='] component 'parametrized state expression'
+				)
+		)
+	)
+```
+
+```js
+'parametrized initialize node' [ '(' , ')' ]
+	'groups' collection indent (
+		'initialize node' [ ':' 'group' ] component 'parametrized initialize node'
+	)
+	'texts' collection indent (
+		'expression' [':' 'text' '='] component 'parametrized text expression'
+	)
+	'files' collection indent (
+		'expression' [':' 'file' '='] component 'parametrized file expression'
+	)
+	'collections' collection (
+		'expression' [':' 'collection' '='] component 'parametrized collection expression'
+	)
+	'numbers' collection indent (
+		'set' stategroup (
+			'integer' [ ':' 'integer' ]
+			'natural' [ ':' 'natural' ]
+		)
+		'expression' [ '=' ] component 'parametrized number expression'
+	)
+	'state groups' collection indent (
+		'expression' [ ':' 'stategroup' '=' ] component 'parametrized state expression'
+	)
+```
+
+```js
+'parameter referencer' // 'parameter reference constrain expression'
+	'head' component 'parametrized singular node path'
+	'collection' ['.'] reference
+	'tail' component 'derivation node content path'
+```
+
+```js
+'argument definition' [ '(' , ')' ]
+	'properties' collection (
+		'type' [ ':' ] stategroup (
+			'collection' [ 'collection' ]
+				'key constraint' stategroup (
+					// 'no'
+					'yes' ['=>']
+						'expression' component 'parametrized collection argument expression'
+				)
+			'number'
+				'type' stategroup (
+					'integer' [ 'integer' ]
+					'natural' [ 'natural' ]
+				)
+				'expression' ['='] component 'parametrized number expression'
+			'text' [ 'text' ]
+				// 'has constraint' stategroup (
+				// 	'no' ['=']
+				// 	'yes' ['=>']
+				// )
+				'expression' ['='] component 'parametrized text expression'
+			'file' ['file']
+				'expression' ['='] component 'parametrized file expression'
+			'state group' [ 'stategroup' ]
+				'expression' ['='] component 'parametrized state argument expression'
+		)
+	)
+```
 
 ```js
 'ancestor parameters path'
@@ -2445,23 +2431,10 @@ Some examples of ui annotations:
 	)
 ```
 
-### parameter state constraint expression
-
 ```js
 'parameter state constraint expression'
 	'path' ['->'] component 'parametrized conditional node path'
 ```
-
-### parameter referencer
-
-```js
-'parameter referencer'
-	'head' component 'parametrized singular node path'
-	'collection' ['.'] reference
-	'tail' component 'derivation node content path'
-```
-
-### parameter entity scoped context node selection
 
 ```js
 'parameter entity scoped context node selection'
@@ -2478,8 +2451,6 @@ Some examples of ui annotations:
 			'tail' component 'parameter entity scoped context node selection'
 	)
 ```
-
-### parametrized context node path
 
 ```js
 'parametrized context node path'
@@ -2503,23 +2474,17 @@ Some examples of ui annotations:
 	)
 ```
 
-### parametrized singular node path
-
 ```js
 'parametrized singular node path'
 	'head' component 'parametrized context node path'
 	'tail' component 'singular node path tail'
 ```
 
-### parametrized conditional node path
-
 ```js
 'parametrized conditional node path'
 	'head' component 'parametrized context node path'
 	'tail' component 'conditional descendant node path'
 ```
-
-### parametrized text expression
 
 ```js
 'parametrized text expression'
@@ -2553,8 +2518,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### parametrized file expression
-
 ```js
 'parametrized file expression'
 	'type' stategroup (
@@ -2586,14 +2549,6 @@ Some examples of ui annotations:
 			'file' [ '/' ] reference
 	)
 ```
-
-### type eq
-
-```js
-'type eq'
-```
-
-### parametrized number expression
 
 ```js
 'parametrized number expression'
@@ -2661,8 +2616,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### parametrized state argument expression
-
 ```js
 'parametrized state argument expression'
 	'type' stategroup (
@@ -2692,8 +2645,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### parametrized state expression
-
 ```js
 'parametrized state expression'
 	'type' stategroup (
@@ -2722,8 +2673,6 @@ Some examples of ui annotations:
 			'initialize node' component 'parametrized initialize node'
 	)
 ```
-
-### parametrized collection argument expression
 
 ```js
 'parametrized collection argument expression'
@@ -2766,8 +2715,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### parametrized collection expression
-
 ```js
 'parametrized collection expression'
 	'type' stategroup (
@@ -2807,147 +2754,84 @@ Some examples of ui annotations:
 			)
 	)
 ```
-
-### argument definition
+## Node type identification
+---
 
 ```js
-'argument definition' [ '(' , ')' ]
-	'properties' collection (
-		'type' [ ':' ] stategroup (
-			'collection' [ 'collection' ]
-				'key constraint' stategroup (
-					// 'no'
-					'yes' ['=>']
-						'expression' component 'parametrized collection argument expression'
-				)
-			'number'
-				'type' stategroup (
-					'integer' [ 'integer' ]
-					'natural' [ 'natural' ]
-				)
-				'expression' ['='] component 'parametrized number expression'
-			'text' [ 'text' ]
-				// 'has constraint' stategroup (
-				// 	'no' ['=']
-				// 	'yes' ['=>']
-				// )
-				'expression' ['='] component 'parametrized text expression'
-			'file' ['file']
-				'expression' ['='] component 'parametrized file expression'
-			'state group' [ 'stategroup' ]
-				'expression' ['='] component 'parametrized state argument expression'
-		)
-	)
+'node path'
+	'steps' component 'node path step'
 ```
 
-### parametrized update node
+```js
+'node path step'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'state'
+					'state group' [ '?' ] reference
+					'state' [ '|' ] reference
+				'group'
+					'group' [ '+' ] reference
+				'collection'
+					'collection' [ '.' ] reference
+			)
+			'tail' component 'node path step'
+	)
+```
+## Output parameters (legacy)
+---
+Output parameter definitions are helpers/sub-expressions for navigation expressions.
 
 ```js
-'parametrized update node'
-	'context node path' ['on'] component 'parametrized singular node path'
-	'variable assignment' component 'optional variable assignment'
-	'attributes' [ '(' , ')' ] collection indent (
+'output parameters'
+```
+
+```js
+'output parameters definition'
+	'parameters' component 'output parameters'
+	'output parameters' collection ( [ '(' , ')' ]
+		'dependable' component 'dependency'
 		'type' stategroup (
-			'command'
-				'arguments' [ 'with' ] component 'argument definition'
-			'property' [ ':' ]
-				'type' stategroup (
-					'collection' ['collection']
-						'operation' stategroup (
-							'create' [ 'create' ]
-								'initialize node' component 'parametrized initialize node'
-							'delete' ['delete']
-								'path' component 'parametrized singular node path'
-								'delete node' component 'delete node'
-						)
-					'number'
-						'set' stategroup (
-							'integer' [ 'integer' ]
-							'natural' [ 'natural' ]
-						)
-						'operator' stategroup (
-							'increment' [ 'increment' ]
-							'assignment'
-								'expression' ['='] component 'parametrized number expression'
-						)
-					'text' [ 'text' ]
-						'expression' ['='] component 'parametrized text expression'
-					'file' ['file']
-						'expression' ['='] component 'parametrized file expression'
-					'state group' [ 'stategroup' ]
-						'expression' ['='] component 'parametrized state expression'
+			'elementary' [ '->' ]
+				'head' component 'entity scoped context node selection'
+				'selection' component 'resolved node descendant selection starting from node'
+			'derived' [ '=>' ]
+				'head' component 'entity scoped context node selection'
+				'context type' stategroup (
+					'input parameter' [ '&' ]
+						'input parameter' reference
+					'result node'
 				)
+				'selection' component 'calculated descendant node selection starting from node'
 		)
 	)
 ```
-
-### parametrized initialize node
-
+## Navigation
+---
+Examples of common navigation steps:
 ```js
-'parametrized initialize node' [ '(' , ')' ]
-	'groups' collection indent (
-		'initialize node' [ ':' 'group' ] component 'parametrized initialize node'
-	)
-	'texts' collection indent (
-		'expression' [':' 'text' '='] component 'parametrized text expression'
-	)
-	'files' collection indent (
-		'expression' [':' 'file' '='] component 'parametrized file expression'
-	)
-	'collections' collection (
-		'expression' [':' 'collection' '='] component 'parametrized collection expression'
-	)
-	'numbers' collection indent (
-		'set' stategroup (
-			'integer' [ ':' 'integer' ]
-			'natural' [ ':' 'natural' ]
-		)
-		'expression' [ '=' ] component 'parametrized number expression'
-	)
-	'state groups' collection indent (
-		'expression' [ ':' 'stategroup' '=' ] component 'parametrized state expression'
-	)
+.'My Text'       // select text value
+/'My File'       // select file value
+#'My Number'     // select number value
+.'My Collection' // select collection
+?'My StateGroup' // select stategroup
+|'My State'      // select/require state
++'My Group'      // select group node
+--
+>'My Text'                // follow reference
+>'My Text'$'Output'       // go to reference output node
+&'My State ctx'           // go to state context node
+?'My Stategroup'$'Output' // go to stategroup output node
+--
+^                // go to parent node
++^               // go to parent node from within group property
+?^               // go to parent node from within stategroup property
+.^               // go to parent node from within collection property
+$^               // go to parent variable
+$                // select variable
 ```
-
-### variable
-
-```js
-'variable'
-```
-
-### parameter
-
-```js
-'parameter'
-```
-
-### link
-
-```js
-'link'
-```
-
-### reference
-
-```js
-'reference'
-```
-
-### delink
-
-```js
-'delink'
-	'delink' stategroup ( 'yes' )
-```
-
-### dereference
-
-```js
-'dereference'
-	'dereference' stategroup ( 'yes' )
-```
-
-### optional variable assignment
+### Variable navigation and assignment
 
 ```js
 'optional variable assignment'
@@ -2958,14 +2842,10 @@ Some examples of ui annotations:
 	)
 ```
 
-### variable assignment
-
 ```js
 'variable assignment' ['as' '$']
 	'variable' component 'variable'
 ```
-
-### ancestor variable path
 
 ```js
 'ancestor variable path'
@@ -2975,11 +2855,7 @@ Some examples of ui annotations:
 			'tail' component 'ancestor variable path'
 	)
 ```
-
-## /****************** Node navigation ******************/
-
-
-### ancestor node path
+### Node navigation
 
 ```js
 'ancestor node path'
@@ -2990,18 +2866,11 @@ Some examples of ui annotations:
 	)
 ```
 
-### conditional node path
-
 ```js
 'conditional node path'
 	'head' component 'ancestor node path'
 	'tail' component 'conditional descendant node path'
-// 'singular node path'
-// 	'head' component 'ancestor node path'
-// 	'tail' component 'singular node path tail'
 ```
-
-### singular node path tail
 
 ```js
 'singular node path tail'
@@ -3012,7 +2881,7 @@ Some examples of ui annotations:
 				'reference'
 					'text' [ '>' ] reference
 					'dereference' component 'dereference'
-				'output parameter' //deprecated
+				'output parameter'
 					'text' ['>'] reference
 					'dereference' component 'dereference'
 					'output parameter' [ '$' ] reference
@@ -3028,8 +2897,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### conditional descendant node path
-
 ```js
 'conditional descendant node path'
 	'head' component 'singular node path tail'
@@ -3040,138 +2907,316 @@ Some examples of ui annotations:
 			'state' ['|'] reference
 			'tail' component 'conditional descendant node path'
 	)
-// 'Plural Descendant Node Path'
-// 	'head' component 'Conditional Descendant Node Path'
-// 	'has steps' stategroup (
-// 		'no'
-// 		'yes'
-// 			'type' stategroup (
-// 				'collection' [ '.', '*' ]
-// 					'collection' reference
-// 				'reference set' [ '>' , '*' ]
-// 					'reference set' reference
-// 			)
-// 			'tail' component 'Plural Descendant Node Path'
-// 	)
 ```
-
-## /****************** Permissions & Todo's ******************/
-
-
-### user requirement
+### Shared node navigation for constraints & derivations (legacy)
 
 ```js
-'user requirement'
-	'type' stategroup (
-		'containment' ['any']
-			'context' stategroup (
-				'user' ['user']
-					'path' component 'conditional descendant node path'
-					'collection' ['.', '['] reference
-					'delink key' component 'delink'
-					'key path' ['$', ']'] component 'conditional node path'
-					'has filter' stategroup (
-						'no'
-						'yes' ['as' 'user' 'where']
-							'path' ['(', ')'] component 'user requirement'
-					)
-				'definition' ['$']
-					'path' component 'conditional node path'
-					'collection' ['.', '['] reference
-					'delink key' component 'delink'
-					'key path' ['user', ']'] component 'conditional descendant node path'
-					'has filter' stategroup (
-						'no'
-						'yes' ['as' '$' 'where']
-							'path' ['(', ')'] component 'user requirement'
-					)
-			)
-		'existence'
-			'context' stategroup (
-				'user' ['user']
-				'definition' ['$']
-					'head' component 'ancestor node path'
-			)
-			'tail' component 'conditional descendant node path'
-		'equality' ['equal',')']
-			'left path' ['(' 'user'] component 'conditional descendant node path'
-			'right path' [ ',' '$'] component 'conditional node path'
-	)
-	'has alternative' stategroup (
+'ancestor node selection'
+	'has steps' stategroup (
 		'no'
-		'yes' ['||']
-			'alternative' component 'user requirement'
-	)
-```
-
-### permission
-
-```js
-'permission'
-	'modifier' stategroup (
-		'user'
+		'yes'
 			'type' stategroup (
-				'unrestricted' ['unrestricted']
-				'restricted'
-					'requirement' component 'user requirement'
+				'collection parent' [ '.^' ]
+				'state parent' [ '?^' ]
+				'group parent' [ '+^' ]
 			)
-		'imported interface'
-			'interface' ['interface'] reference
+			'tail' component 'ancestor node selection'
 	)
 ```
 
-### item permissions definition
-
 ```js
-'item permissions definition'
-	'create permission' stategroup (
-		'inherited'
-		'explicit' ['can-create:']
-			'permission' component 'permission'
-	)
-	'delete permission' stategroup (
-		'inherited'
-		'explicit' ['can-delete:']
-			'permission' component 'permission'
-			'EQ modifier' component 'EQ modifier'
-	)
-```
-
-### node permissions definition
-
-```js
-'node permissions definition'
-	'read permission' stategroup (
-		'inherited'
-		'explicit' ['can-read:']
-			'permission' component 'permission'
-	)
-	'update permission' stategroup (
-		'inherited'
-		'explicit' ['can-update:']
-			'permission' component 'permission'
-	)
-```
-
-### todo definition
-
-```js
-'todo definition'
-	'todo' stategroup (
+'context property selection'
+	'has steps' stategroup (
 		'no'
-		'yes' ['has-todo:']
-			'requirement' component 'user requirement'
+		'yes'
+			'type' stategroup (
+				'collection parent' [ '.^' ]
+				'state parent' [ '?^' ]
+				'group parent' [ '+^' ]
+			)
+			'tail' component 'context property selection'
 	)
 ```
 
-### ui text validation
+```js
+'group node selection'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'group' [ '+' ] reference
+			'tail' component 'group node selection'
+	)
+```
+
+```js
+'entity scoped context node selection'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'state parent' [ '?^' ]
+				'group parent' [ '+^' ]
+			)
+			'tail' component 'entity scoped context node selection'
+	)
+```
+
+```js
+'resolved node selection starting from property'
+	'type' stategroup (
+		'input parameter'
+			'type' stategroup (
+				'state'
+					'context selection' component 'context property selection'
+					'state' stategroup (
+						'state'
+					)
+					'input parameter' [ '&' ] reference
+			)
+			'tail' component 'resolved node descendant selection starting from node'
+		'this node'
+			'context selection' component 'context property selection'
+			'type' stategroup (
+				'group'
+					'group' [ '+' ] reference
+					'tail' component 'resolved node descendant selection starting from node'
+				'state group output parameter'
+					'state group' [ '?' ] reference
+					'output parameter' [ '$' ] reference
+				'referencer output'
+					'text' [ '>' ] reference
+					'is backward' stategroup ( 'is backward' )
+					'output type' stategroup (
+						'referenced node'
+						'output parameter'
+							'output parameter' [ '$' ] reference
+					)
+			)
+	)
+```
+### Node navigation for constraints (legacy)
+
+```js
+'resolved state group selection starting from property'
+	'type' stategroup (
+		'state group'
+			'context selection' component 'context property selection'
+			'state group' [ '?' ] reference
+		'node'
+			'selection' component 'resolved node selection starting from property'
+			'state group' [ '?' ] reference
+	)
+```
+
+```js
+'resolved collection selection starting from property'
+	'type' stategroup (
+		'collection'
+			'context selection' component 'context property selection'
+			'collection' [ '.' ] reference
+		'node'
+			'selection' component 'resolved node selection starting from property'
+			'collection' [ '.' ] reference
+	)
+```
+
+```js
+'resolved node descendant selection starting from node'
+	'group selection' component 'group node selection'
+	'type' stategroup (
+		'this node'
+			'state group output parameter'
+				'state group' [ '?' ] reference
+				'output parameter' [ '$' ] reference
+			'referencer output'
+				'text' [ '>' ] reference
+				'is backward' stategroup ( 'is backward' )
+				'output type' stategroup (
+					'referenced node'
+					'output parameter'
+						'output parameter' [ '$' ] reference
+				)
+	)
+```
+
+```js
+'node content path'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'state'
+					'state group' [ '?' ] reference
+					'state' [ '|' ] reference
+				'group'
+					'group' [ '+' ] reference
+			)
+			'tail' component 'node content path'
+	)
+```
+
+```js
+'unresolved node selection'
+	'type' stategroup (
+		'this node'
+			'context selection' component 'context property selection'
+			'type' stategroup (
+				'this'
+				'referencer output'
+					'text' [ '>' ] reference
+					'is forward' stategroup ( 'is forward' )
+			)
+	)
+	'tail' component 'group node selection'
+```
+### Node navigation for derivations (legacy)
+
+```js
+'derivation node content path'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'state'
+					'state group' [ '?' ] reference
+					'state' [ '|' ] reference
+				'group'
+					'group' [ '+' ] reference
+			)
+			'tail' component 'derivation node content path'
+	)
+```
+
+```js
+'group context property selection'
+	'has steps' stategroup (
+		'no'
+		'yes' [ '+^' ]
+			'tail' component 'group context property selection'
+	)
+```
+
+```js
+'entity scoped context property selection'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'state parent' [ '?^' ]
+				'group parent' [ '+^' ]
+			)
+			'tail' component 'entity scoped context property selection'
+	)
+```
+
+```js
+'calculated input parameter node selection'
+	'type' stategroup (
+		'state'
+			'context selection' component 'ancestor node selection'
+			'state' stategroup ( 'state' )
+			'input parameter' [ '&' ] reference
+	)
+```
+
+```js
+'calculated descendant node selection starting from node'
+	'group selection' component 'group node selection'
+	'type' stategroup (
+		'this node'
+		'state group output parameter'
+			'state group' [ '?' ] reference
+			'output parameter' [ '$' ] reference
+		'referencer output'
+			'text' [ '>' ] reference
+			'dereference' component 'dereference'
+			'output type' stategroup (
+				'referenced node'
+				'output parameter'
+					'output parameter' [ '$' ] reference
+			)
+	)
+```
+
+```js
+'calculated descendant node selection starting from property'
+	'type' stategroup (
+		'group'
+			'group' [ '+' ] reference
+			'tail' component 'calculated descendant node selection starting from node'
+		'state group output parameter'
+			'state group' [ '?' ] reference
+			'output parameter' [ '$' ] reference
+		'referencer output'
+			'text' [ '>' ] reference
+			'dereference' component 'dereference'
+			'output type' stategroup (
+				'referenced node'
+				'output parameter'
+					'output parameter' [ '$' ] reference
+			)
+	)
+```
+
+```js
+'calculated node selection starting from property'
+	'type' stategroup (
+		'input parameter'
+			'selection' component 'calculated input parameter node selection'
+			'tail' component 'calculated descendant node selection starting from node'
+		'this node'
+			'context selection' component 'context property selection'
+			'selection' component 'calculated descendant node selection starting from property'
+	)
+```
+### Property navigation for derivations (legacy)
+
+```js
+'calculated collection selection starting from property'
+	'type' stategroup (
+		'collection'
+			'context selection' component 'context property selection'
+			'collection' ['.'] reference
+		'node'
+			'selection' component 'calculated node selection starting from property'
+			'collection' ['.'] reference
+	)
+```
+
+```js
+'calculated state group selection starting from property'
+	'type' stategroup (
+		'state group'
+			'context selection' component 'context property selection'
+			'state group' [ '?' ] reference
+		'node'
+			'selection' component 'calculated node selection starting from property'
+			'state group' [ '?' ] reference
+	)
+```
+## GUI annotations
+---
+
+```js
+'context node selection'
+	'has steps' stategroup (
+		'no'
+		'yes'
+			'type' stategroup (
+				'collection parent' [ '.^' ]
+				'state parent' [ '?^' ]
+				'group parent' [ '+^' ]
+				'group'
+					'group' [ '+' ] reference
+			)
+			'tail' component 'context node selection'
+	)
+```
 
 ```js
 'ui text validation'
 	'regular expression' text
 ```
-
-### ui number limit
 
 ```js
 'ui number limit'
@@ -3190,8 +3235,6 @@ Some examples of ui annotations:
 			)
 	)
 ```
-
-### ui file name expression
 
 ```js
 'ui file name expression'
@@ -3219,8 +3262,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### ui linked node mapping path
-
 ```js
 'ui linked node mapping path'
 	'has steps' stategroup (
@@ -3233,8 +3274,6 @@ Some examples of ui annotations:
 			'tail' component 'ui linked node mapping path'
 	)
 ```
-
-### ui linked node mapping
 
 ```js
 'ui linked node mapping' [ '(' , ')' ]
@@ -3264,8 +3303,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### ui singular path
-
 ```js
 'ui singular path'
 	'has steps' stategroup (
@@ -3285,8 +3322,6 @@ Some examples of ui annotations:
 	)
 ```
 
-### ui conditional path
-
 ```js
 'ui conditional path'
 	'has steps' stategroup (
@@ -3300,5 +3335,135 @@ Some examples of ui annotations:
 					'state' [ '|' ] reference
 			)
 			'tail' component 'ui conditional path'
+	)
+```
+## Type checker annotation rules
+---
+The rules below are for the type checker; they do not require keywords, so you can ignore them when writing a model.
+
+```js
+'KEYWORD'
+```
+
+```js
+'value source base'
+```
+
+```js
+'value source'
+```
+
+```js
+'dependency'
+```
+
+```js
+'direction type'
+```
+
+```js
+'modifier'
+```
+
+```js
+'type'
+```
+
+```js
+'set type'
+```
+
+```js
+'integer'
+	'set type' component 'set type'
+```
+
+```js
+'natural'
+	'set type' component 'set type'
+```
+
+```js
+'entity'
+```
+
+```js
+'member'
+```
+
+```js
+'variable'
+```
+
+```js
+'parameter'
+```
+
+```js
+'link'
+```
+
+```js
+'reference'
+```
+
+```js
+'delink'
+	'delink' stategroup ( 'yes' )
+```
+
+```js
+'dereference'
+	'dereference' stategroup ( 'yes' )
+```
+
+```js
+'linker'
+	'link' component 'link'
+```
+
+```js
+'referencer'
+	'dependable' component 'dependency'
+	'reference' component 'reference'
+	'linker' component 'linker'
+```
+
+```js
+'type eq'
+```
+
+```js
+'EQ modifier'
+```
+
+```js
+'EQ node type'
+```
+
+```js
+'EQ member'
+```
+
+```js
+'EQ direction'
+```
+## Unsupported legacy rules
+---
+
+```js
+'log node' [ '(' , ')' ]
+	'properties' collection (
+		'type' [ ':' ] stategroup (
+			'group' [ 'group' ]
+				'node' component 'log node'
+			'number' [ 'number' ]
+			'state group' [ 'stategroup' ]
+				'states' [ '(' , ')' ] collection (
+					'node' component 'log node'
+				)
+			'text' [ 'text' ]
+			'file' ['file']
+		)
 	)
 ```
