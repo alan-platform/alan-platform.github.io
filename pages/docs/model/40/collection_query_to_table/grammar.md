@@ -7,11 +7,6 @@ type: grammar
 ---
 
 
-## root
-
-
-### type
-
 ```js
 'type' stategroup (
 	'collection query' ['collection' 'query']
@@ -20,11 +15,6 @@ type: grammar
 		'columns' component 'list block'
 )
 ```
-
-## component rules
-
-
-### collection block
 
 ```js
 'collection block'
@@ -45,8 +35,6 @@ type: grammar
 			'next' component 'collection block'
 	)
 ```
-
-### list block
 
 ```js
 'list block'

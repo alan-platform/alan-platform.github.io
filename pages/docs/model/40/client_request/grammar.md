@@ -7,11 +7,6 @@ type: grammar
 ---
 
 
-## root
-
-
-### type
-
 ```js
 'type' stategroup (
 	'collection query'
@@ -174,17 +169,10 @@ type: grammar
 )
 ```
 
-## component rules
-
-
-### dereference
-
 ```js
 'dereference'
 	'is dereferenceable' stategroup ( 'dereference' )
 ```
-
-### filter expression
 
 ```js
 'filter expression'
@@ -199,8 +187,6 @@ type: grammar
 		'no'
 	)
 ```
-
-### id path
 
 ```js
 'id path'
@@ -221,8 +207,6 @@ type: grammar
 	)
 ```
 
-### conditional child path
-
 ```js
 'conditional child path'
 	'has steps' stategroup (
@@ -239,8 +223,6 @@ type: grammar
 	)
 ```
 
-### collection path
-
 ```js
 'collection path'
 	'has steps' stategroup (
@@ -251,8 +233,6 @@ type: grammar
 			'tail' component 'collection path'
 	)
 ```
-
-### entry point path
 
 ```js
 'entry point path'
@@ -267,8 +247,6 @@ type: grammar
 	)
 ```
 
-### ancestor path
-
 ```js
 'ancestor path'
 	'has steps' stategroup (
@@ -281,8 +259,6 @@ type: grammar
 			'tail' component 'ancestor path'
 	)
 ```
-
-### plural path
 
 ```js
 'plural path'
@@ -304,8 +280,6 @@ type: grammar
 	)
 ```
 
-### conditional path
-
 ```js
 'conditional path'
 	'has steps' stategroup (
@@ -321,8 +295,6 @@ type: grammar
 			'tail' component 'conditional path'
 	)
 ```
-
-### singular path
 
 ```js
 'singular path'
@@ -346,14 +318,10 @@ type: grammar
 	)
 ```
 
-### node type path
-
 ```js
 'node type path'
 	'steps' component 'node type path step'
 ```
-
-### node type path step
 
 ```js
 'node type path step'
@@ -373,8 +341,6 @@ type: grammar
 	)
 ```
 
-### aggregate2
-
 ```js
 'aggregate2'
 	'head' component 'singular path'
@@ -382,15 +348,11 @@ type: grammar
 	'tail' component 'conditional path'
 ```
 
-### number aggregate2
-
 ```js
 'number aggregate2' [ '(' , ')' ]
 	'aggregate' [ '#' ] component 'aggregate2'
 	'property name' [ ':' ] reference
 ```
-
-### signed number property2
 
 ```js
 'signed number property2'
@@ -402,13 +364,9 @@ type: grammar
 	'property name' reference
 ```
 
-### signed number property list
-
 ```js
 'signed number property list'
 ```
-
-### has element
 
 ```js
 'has element' stategroup (
@@ -418,8 +376,6 @@ type: grammar
 	'tail' component 'signed number property list'
 )
 ```
-
-### number expression2
 
 ```js
 'number expression2'
@@ -470,8 +426,6 @@ type: grammar
 	)
 ```
 
-### singular text expression
-
 ```js
 'singular text expression'
 	'type' stategroup (
@@ -483,13 +437,9 @@ type: grammar
 	)
 ```
 
-### singular text expression list
-
 ```js
 'singular text expression list'
 ```
-
-### has element
 
 ```js
 'has element' stategroup (
@@ -499,8 +449,6 @@ type: grammar
 	'tail' component 'singular text expression list'
 )
 ```
-
-### text expression
 
 ```js
 'text expression'
@@ -516,8 +464,6 @@ type: grammar
 			'separator' [ 'with' ] text
 	)
 ```
-
-### subscribed properties
 
 ```js
 'subscribed properties' [ '(' , ')' ]
@@ -540,8 +486,6 @@ type: grammar
 		)
 	)
 ```
-
-### update node
 
 ```js
 'update node' [ '(' , ')' ]
@@ -585,8 +529,6 @@ type: grammar
 	)
 ```
 
-### initialize node
-
 ```js
 'initialize node' [ '(' , ')' ]
 	'groups' collection (
@@ -618,13 +560,9 @@ type: grammar
 	)
 ```
 
-### delete node
-
 ```js
 'delete node'
 ```
-
-### command arguments
 
 ```js
 'command arguments' [ '(' , ')' ]
