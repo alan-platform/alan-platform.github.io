@@ -378,13 +378,6 @@ table {
 		}
 	}
 
-	label[for="wide"] {
-		font-size: 1em/$ratio;
-		input {
-			margin-right: 1ex;
-		}
-	}
-
 	h1 + ul {
 		list-style: none;
 		margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;

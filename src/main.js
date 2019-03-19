@@ -10,13 +10,6 @@ window.onload = function() {
 		i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + "</a>";
 	});
 
-	var wide_switch = document.getElementById("wide");
-	if (wide_switch) {
-		wide_switch.onchange = function() {
-			document.querySelector("article").classList.toggle("wide");
-		};
-	}
-
 	document.querySelectorAll("pre code").forEach(function(element) {
 		element.onclick = function() {
 			var selection = window.getSelection();
