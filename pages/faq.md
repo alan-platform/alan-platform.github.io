@@ -9,7 +9,7 @@ permalink: /faq/
 ## Do I need to learn programming for Alan
 Alan is *low* code, but not *no* code.
 
-Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but you don't have to express that in abstract algorithms. 
+Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but you don't have to express that in abstract algorithms.
 
 If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Alan will definitely not scare you. In fact, I bet you'll find it lot of fun.
 
@@ -21,7 +21,7 @@ No, this is currently not possible.
 
 
 ## Can I change how a property is visualized
-The generated user interface reads the annotations in an application.alan to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/36/application/grammar.html).
+The generated user interface reads the annotations in an application.alan to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/40/application/grammar.html).
 
 If you want more control over the user interface, e.g. to create one for a specific work flow, you may want to create a custom client. Documentation about this is being worked on.
 
@@ -29,19 +29,16 @@ If you want more control over the user interface, e.g. to create one for a speci
 ## Can I limit permissions on certain properties
 Permissions are set on nodes, i.e. groups, entries and states. You can set read and update permissions to limit access to specific users, or users with a specific role.
 
-The [Hours application](https://github.com/M-industries/Hours/blob/master/interfaces/model/application.alan) has several examples of permissions for specific (groups of) users.
-
 
 ## Can I create 2-way many-to-many relations
-If you want to simply get a list of everything that has a reference to a certain entry, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction. 
+If you want to simply get a list of everything that has a reference to a certain entry, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction.
 
-To make derivations and calculations based on this relation, you need to define an inverse reference. The Hours application [has an example of this](
-https://github.com/M-industries/Hours/blob/cfc59c310134a0be174369b3ecf58363107c472d/shared/models/hours/application.alan#L51)
+To make derivations and calculations based on this relation, you need to define an inverse reference.
 
 
 ## Can I write SQL queries
 
-Alan's datastore is not a relational database (it's graph-based) that you can query using SQL. Don't let that stop you though. Alan can interface with other databases, and you can create queries for Excel reports that you can download straight from the default user interface. 
+Alan's datastore is not a relational database (it's graph-based) that you can query using SQL. Don't let that stop you though. Alan can interface with other databases, and you can create queries for Excel reports that you can download straight from the default user interface.
 
 If you really need SQL, the datastore can expose a data stream that can be used to create an SQL mirror of the data in Alan's datastore.
 
@@ -59,6 +56,6 @@ You'll have noticed the versions.json at the root of your project. It defines a 
 
 The [project.pkg](/pages/tuts/bottom-up.html#project) also contains this versions list, to ensure that each next step uses the same major versions as your design.
 
-The [package step](/pages/tuts/bottom-up.html#image) adds a "minor" version for each system-type. Systems speak a set of protocols amongst each other and that need to match. Builds of system version X.Y are guaranteed to speak the same protocols. We have a mapping that tells the package utility what minor versions are correct for your project.  
+The [package step](/pages/tuts/bottom-up.html#image) adds a "minor" version for each system-type. Systems speak a set of protocols amongst each other and that need to match. Builds of system version X.Y are guaranteed to speak the same protocols. We have a mapping that tells the package utility what minor versions are correct for your project.
 
 Finally there is a "patch" level of versions (in semver-speak), for which we simply use incrementing build numbers. Alan's core tool chain guarantees that at this level compatibility cannot be broken, so it's always safe to use the latest builds.

@@ -9,14 +9,14 @@ In this article we'll take a look at how everything in Alan connects, from the b
 
 ## Server
 
-A typical Alan runtime environment, e.g. as provided by our standard ISO, looks like this:
+A typical Alan runtime environment looks like this:
 
 	╔══════════════════════════════════════╗
 	║[            alan server             ]║
 	║[   linux kernel + some core utils   ]║  <- or macOS, Ubuntu 16.04+, etc
 	╚══════════════════════════════════════╝
 
-We depend on a number of Unix utilities, so Alan runs on top of a tiny custom Linux distro. The initial Alan layer provides a basic infrastructure server to interact with. 
+We depend on a number of Unix utilities. The initial Alan layer provides a basic infrastructure server to interact with.
 
 When you deploy an [image](#image) to the server, it will pull additional runtimes from the cloud based on information in that image. This creates the final runtime "stack". For a basic project, this includes:
 
@@ -40,7 +40,7 @@ Systems in the stack can expose interfaces, but otherwise stacks are isolated co
 
 ## Image
 
-An "image" for deployment contains data for each system and configuration for the runtime environment. This includes ports, scheduled tasks, etc. An image also contains a versions list, telling the server which runtimes to download. 
+An "image" for deployment contains data for each system and configuration for the runtime environment. This includes ports, scheduled tasks, etc. An image also contains a versions list, telling the server which runtimes to download.
 
 The image also contains the [project package](#project), which (via the wiring) tells the alan operating system how all the systems should talk to each other.
 
@@ -57,7 +57,7 @@ You compile an image using `./alan package <project.pkg> <deployment>`, i.e. by 
 	│                                    │
 	│ ┌─────────── project ────────────┐ │
 	│ │ wiring.alan                    │ │
-	│ │ interface configuration │ │
+	│ │ interface configuration        │ │
 	│ │ system configuration           │ │
 	│ │ design time ("major") versions │ │
 	│ └────────────────────────────────┘ │
@@ -66,7 +66,7 @@ You compile an image using `./alan package <project.pkg> <deployment>`, i.e. by 
 
 ## Project
 
-A project contains the "source code" for the systems you want to use, and a configuration for how the systems are wired together. E.g. the server provides data that the client then consumes. When you bootstrap a project, Alan downloads the specifications for each system-type, that tell us exactly what each system can provide or consume. 
+A project contains the "source code" for the systems you want to use, and a configuration for how the systems are wired together. E.g. the server provides data that the client then consumes. When you bootstrap a project, Alan downloads the specifications for each system-type, that tell us exactly what each system can provide or consume.
 
 When two systems talk to each other, they do so based on an "interface" specification. E.g. an application model serves as the interface between client and server.
 
@@ -74,4 +74,4 @@ In the systems directory you find each system, each with their own configuration
 
 You compile a project using `./alan build`, resulting in the **project.pkg** that's the basis for creating an [image](#image).
 
-See also the [FAQ](/faq/) for more information about versions. 
+See also the [FAQ](/faq/) for more information about versions.
