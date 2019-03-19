@@ -56,6 +56,4 @@ You'll have noticed the versions.json at the root of your project. It defines a 
 
 The [project.pkg](/pages/tuts/bottom-up.html#project) also contains this versions list, to ensure that each next step uses the same major versions as your design.
 
-The [package step](/pages/tuts/bottom-up.html#image) adds a "minor" version for each system-type. Systems speak a set of protocols amongst each other and that need to match. Builds of system version X.Y are guaranteed to speak the same protocols. We have a mapping that tells the package utility what minor versions are correct for your project.
-
 Finally there is a "patch" level of versions (in semver-speak), for which we simply use incrementing build numbers. Alan's core tool chain guarantees that at this level compatibility cannot be broken, so it's always safe to use the latest builds.
