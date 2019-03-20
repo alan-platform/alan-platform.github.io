@@ -15,8 +15,8 @@ In every Alan grammar, literals between square brackets indicate required keywor
 - `stategroup` properties indicate a choice between different states, such as allowing or disallowing `anonymous` users
 - `collection` properties require key-value pairs, where keys are single-quoted strings. For example, a `collection` of `properties` is written like this, depending on the required keywords and properties for the value:
 
-```js
-'this is the key of a property': text = "hello world 0"       // everything after the key is the value.
+> ```js
+'this is the key of a property': text = "hello world 0"
 'this is the key of another property': text = "hello world 1"
 ```
 
@@ -2809,8 +2809,8 @@ Output parameter definitions are helpers/sub-expressions for navigation expressi
 ```
 ## Navigation
 ---
-Examples of common navigation steps:
-```js
+Examples of typical navigation steps:
+> ```js
 .'My Text'       // select text value
 /'My File'       // select file value
 #'My Number'     // select number value
@@ -2819,8 +2819,8 @@ Examples of common navigation steps:
 |'My State'      // select/require state
 +'My Group'      // select group node
 --
->'My Text'                // follow reference
->'My Text'$'Output'       // go to reference output node
+>>'My Text'               // go to referenced node
+>>'My Text'$'Output'      // go to reference output node
 &'My State ctx'           // go to state context node
 ?'My Stategroup'$'Output' // go to stategroup output node
 --
@@ -2828,33 +2828,10 @@ Examples of common navigation steps:
 +^               // go to parent node from within group property
 ?^               // go to parent node from within stategroup property
 .^               // go to parent node from within collection property
-$^               // go to parent variable
+$^               // go to parent variable context
 $                // select variable
 ```
-### Variable navigation and assignment
 
-```js
-'optional variable assignment'
-	'has assignment' stategroup (
-		'no'
-		'yes'
-			'assignment' component 'variable assignment'
-	)
-```
-
-```js
-'variable assignment' ['as' '$']
-	'variable' component 'variable'
-```
-
-```js
-'ancestor variable path'
-	'has steps' stategroup (
-		'no' ['$']
-		'yes' ['$^']
-			'tail' component 'ancestor variable path'
-	)
-```
 ### Node navigation
 
 ```js
@@ -2906,6 +2883,30 @@ $                // select variable
 			'state group' ['?'] reference
 			'state' ['|'] reference
 			'tail' component 'conditional descendant node path'
+	)
+```
+### Variable assignment and navigation
+
+```js
+'optional variable assignment'
+	'has assignment' stategroup (
+		'no'
+		'yes'
+			'assignment' component 'variable assignment'
+	)
+```
+
+```js
+'variable assignment' ['as' '$']
+	'variable' component 'variable'
+```
+
+```js
+'ancestor variable path'
+	'has steps' stategroup (
+		'no' ['$']
+		'yes' ['$^']
+			'tail' component 'ancestor variable path'
 	)
 ```
 ### Shared node navigation for constraints & derivations (legacy)
