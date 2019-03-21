@@ -253,6 +253,8 @@ footer {
 
 	.inner {
 		padding: 1em*$ratio*$ratio 0;
+		background: url("../assets/kjerner.png") no-repeat right top;
+		background-size: 90px;
 		max-width: 1280px - 80*2;
 		margin: 0 auto;
 	}
