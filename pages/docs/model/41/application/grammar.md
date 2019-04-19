@@ -641,7 +641,7 @@ References can be unidirectional or bidirectional. For bidirectional references,
 }
 ```
 
-The expression `.^ .'Products'` is a navigation expression that produces that produces exactly one collection at runtime.
+The expression `.^ .'Products'` is a navigation expression that produces exactly one collection at runtime.
 The Alan runtime interpretes such [navigation expressions](#navigation) as follows:
 starting from the `Orders` node, go to the parent node (as expressed by the navigation step `.^`);
 then select the `Products` collection found on that node.
