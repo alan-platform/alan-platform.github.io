@@ -314,7 +314,7 @@ Properties holding *derived* values require an expression for computing their va
 The [derivations](#derivations) section provides the grammar for derivation expressions,
 detailing the different computations that the language supports.
 
-___Presentation options.___ The `ui` component properties reference [GUI annotation rules](#GUI-annotations) for tweaking and tuning the behaviour and presentation of properties in the generated GUI.
+___Presentation options.___ The `ui` component properties reference [GUI annotation rules](#gui-annotations) for tweaking and tuning the behaviour and presentation of properties in the generated GUI.
 Some examples of GUI annotations are
 - `@hidden`: hides a derived property from the UI.
 - `@description: "a description"`: describes the property in more detail to the user.
