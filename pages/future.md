@@ -9,8 +9,13 @@ Alan is already used by [M-industries](https://www.m-industries.com) and [Kjerne
 
 Long term plans include:
 
-- Todos should become a primary driver for the interaction with an application. 
-- Persistent (server-side) user profiles and preferences.
+- Open up our online development and hosting solution for quick experiments and proof of concept by any developer
+- Extend the generated GUI so that there are even less reasons to go with a custom gui
+- Make custom gui's (on the platform) easily extendible for third-party control & widget developers
+- Make todo's the primary driver for the interaction with an application. 
 - Improved querying, reporting and data visualization features.
 - Improved support for creating "live dashboard" applications.
-- We're forever trying to drive down memory usage and improve computation performance of the entire platform.
+- Making development more accessible to first-time application developers by providing a graphical modeler
+- Providing a marketplace for applications, external connectors and gui controls & widgets
+- Create more and more powerful application logic imports (we can already create an application model based on a database model)
+
