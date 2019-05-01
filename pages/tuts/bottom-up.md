@@ -28,14 +28,14 @@ When you deploy an [image](#image) to the server, it will pull additional runtim
 
 Systems in the stack can expose interfaces, but otherwise stacks are isolated containers running on top of the server:
 
-	┌────────────── stack A ───────────────┐
+	┌────────────── stack A ───────────────────┐
 	│[ datastore ][ reporter ][ webclient ]│
 	│[        alan operating system       ]│
-	└──────────────────────────────────────┘
-	╔══════════════════════════════════════╗
+	└──────────────────────────────────────────┘
+	╔══════════════════════════════════════════╗
 	║[            alan server             ]║
 	║[   linux kernel + some core utils   ]║
-	╚══════════════════════════════════════╝
+	╚══════════════════════════════════════════╝
 
 
 ## Image
