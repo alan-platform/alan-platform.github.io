@@ -27,7 +27,6 @@ If your project requires something like this, get in touch and we'll help you ge
   - Archive a system, download data, migrate and then upload.
   - Upgrading system runtimes.
   - Backup routines.
-  - Internationalization of generated and custom GUI's
 
 ## Kjerner
 Kjerner took over development of the Alan platform from M-industries since the beginning of 2019. M-industries built the Alan platform to help international businesses like Tata Steel and Hydro improve data quality and upgrade their legacy systems.
