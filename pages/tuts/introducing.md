@@ -72,7 +72,7 @@ We’re super excited to see what you build with Alan.
 [graph-db]: https://en.wikipedia.org/wiki/Graph_database
 [model]: /pages/docs/model/40/application/grammar.html
 [m-i]: https://www.m-industries.com
-[kjerner]: https://www.kjerner.com/ssn/
+[kjerner]: https://www.kjerner.com/
 [tata]: https://www.tatasteel.com
 [hydro]: https://www.hydro.com
 [101]: /pages/tuts/getting-started.html
