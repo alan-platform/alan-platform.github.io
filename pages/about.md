@@ -6,7 +6,7 @@ permalink: /about/
 ---
 
 In Alan data models drive everything.
-The unique application modeling language allows you to write a model that generates both a database design and a user interface. It's a fast way to create and iterate on your application, without sacrificing data correctness. It has been in continous development by a dedicated team since 2011.
+The unique application modeling language allows you to write a model that generates both a database design and a user interface. It's a fast way to create and iterate on your application, without sacrificing data correctness. It has been in continous development by a dedicated team since 2011 and has been used to create powerful, yet agile systems for multinationals, like: manufacturing execution systems (MES), ERP modules and specialized custom applications.
 
 
 ## Features
@@ -30,7 +30,8 @@ If your project requires something like this, get in touch and we'll help you ge
   - Backup routines.
 
 ## Kjerner
-Kjerner took over development of the Alan platform from M-industries since the beginning of 2019. M-industries built the Alan platform to help international businesses like Tata Steel and Hydro improve data quality and upgrade their legacy systems.
+Kjerner took over development of the Alan platform from M-industries since the beginning of 2019. M-industries built the Alan platform to help international businesses like Tata Steel and Hydro improve data quality and upgrade their legacy systems. Of course, Kjerner runs fully on Alan itself as well: for accounting, planning, etc.
+
 We're based near the campus of Delft University of Technology and you can find us here:
 
 - [Kjerner.com](https://www.kjerner.com)
