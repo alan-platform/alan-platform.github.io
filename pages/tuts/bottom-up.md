@@ -11,10 +11,10 @@ In this article we'll take a look at how everything in Alan connects, from the b
 
 A typical Alan runtime environment looks like this:
 
-	╔════════════════════════════════════════════╗
+	╔══════════════════════════════════════════╗
 	║[            alan server             ]║
 	║[   linux kernel + some core utils   ]║  <- or macOS, Ubuntu 16.04+, etc
-	╚════════════════════════════════════════════╝
+	╚══════════════════════════════════════════╝
 
 We depend on a number of Unix utilities. The initial Alan layer provides a basic infrastructure server to interact with.
 
