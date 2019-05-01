@@ -17,5 +17,5 @@ Long term plans include:
 - Improved support for creating "live dashboard" applications.
 - Making development more accessible to first-time application developers by providing a graphical modeler
 - Providing a marketplace for applications, external connectors and gui controls & widgets
-- Create more and more powerful application logic imports (we can already create an application model based on a database model)
+- Create more and more powerful legacy application logic imports
 
