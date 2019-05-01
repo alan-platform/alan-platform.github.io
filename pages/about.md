@@ -13,9 +13,10 @@ The unique application modeling language allows you to write a model that genera
 The platform already has more features than we've been able to document. But here are some of them:
 - Bug-free applications by design, so no unit testing required
 - An application language modeling: data, calculations and tranformations, numerical types, authorization, procedures and workflow
+- Development on Windows, Linux and MacOS supported by our tooling and extensions/plugins for multiple code editors
 - Generated GUI's that fully work and can customized by annotations on the application model.
 - Custom GUI's in Alan that enable you to make something very specific, without loosing the full error-checking capabilities of Alan
-- All GUI's supprt authentication, internationalization, live data and independent platform updates
+- All GUI's support authentication, internationalization, live data and independent platform updates
 - Our system interface language enables you to describe a system interface in one integrated whole and map it safely to an application model, two-way
 
 If your project requires something like this, get in touch and we'll help you get set up:
