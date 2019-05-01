@@ -2951,7 +2951,7 @@ $                // select variable
 				'property'
 					'path' component 'context node selection'
 					'type' stategroup (
-						'text' [ ':' ]
+						'text' [ '.' ]
 							'text' reference
 						'number' [ '#' ]
 							'number' reference
@@ -3104,7 +3104,7 @@ $                // select variable
 			)
 			'property context' component 'ui conditional path'
 			'type' stategroup (
-				'text' [':'] //TODO: fix inconsistency; should be ['.']
+				'text' ['.']
 					'property' reference
 				'number' ['#']
 					'property' reference
