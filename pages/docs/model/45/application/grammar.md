@@ -3391,7 +3391,7 @@ $                // select variable
 				'zero' ['zero' ]
 				'property'
 					'path' component 'ui parametrized node path'
-					'number' [ '.' ] reference
+					'number' [ '#' ] reference
 			)
 	)
 	'validation' group (
