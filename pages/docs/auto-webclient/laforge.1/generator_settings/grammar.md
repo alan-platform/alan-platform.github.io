@@ -64,14 +64,13 @@ Global settings for the user interface.
 ```
 
 ```js
-'use translations' stategroup (
-	'yes'
-		'default language' [ 'default' 'language:' ] reference
-	'no'
-		'engine language' [ 'engine' 'language:' ] stategroup (
-			'english' [ 'english' ]
-			'dutch' [ 'dutch' ]
-		)
+'default language' [ 'default' 'language:' ] text
+```
+
+```js
+'engine language' stategroup (
+	'english' [ 'english' ]
+	'dutch' [ 'dutch' ]
 )
 ```
 ```
