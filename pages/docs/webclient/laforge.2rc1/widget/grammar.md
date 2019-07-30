@@ -65,6 +65,22 @@ type: grammar
 ```
 
 ```js
+'configuration attribute persistence'
+	'persist' stategroup (
+		'yes' [ '@persist' ]
+			'per session' stategroup (
+				'yes' ['session']
+				'no'
+			)
+			'per entry' stategroup (
+				'yes' ['entry']
+				'no'
+			)
+		'no'
+	)
+```
+
+```js
 'widget configuration node' [ '{' , '}' ]
 	'attributes' collection (
 		'switch client binding context' stategroup (
@@ -86,22 +102,13 @@ type: grammar
 			'configuration' [ 'configuration' ]
 				'type' stategroup (
 					'number' [ 'number' ]
-						'persist' stategroup (
-							'yes' ['@persist']
-							'no'
-						)
+						'persistence' component 'configuration attribute persistence'
 					'text' [ 'text' ]
-						'persist' stategroup (
-							'yes' ['@persist']
-							'no'
-						)
+						'persistence' component 'configuration attribute persistence'
 					'list' [ 'list' ]
 						'node' component 'widget configuration node'
 					'state group' [ 'stategroup' ]
-						'persist' stategroup (
-							'yes' ['@persist']
-							'no'
-						)
+						'persistence' component 'configuration attribute persistence'
 						'states' [ '(' , ')' ] collection (
 							'node' [ '->' ] component 'widget configuration node'
 						)
