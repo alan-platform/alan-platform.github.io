@@ -375,7 +375,7 @@ table {
 		max-width: none;
 		section > *:not(div) {
 			max-width: $base-width;
-			margin-left: auto;
+			margin-left: 0;
 			margin-right: auto;
 		}
 	}

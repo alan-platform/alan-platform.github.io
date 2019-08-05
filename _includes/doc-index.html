@@ -22,14 +22,18 @@
 {% assign header = this_header %}
 </th>
 
+<td>
+	<a href="{{doc_url}}">
 {% assign item_url = item_url | remove_first: header %}
 {% assign item_url = item_url | remove_first: "/" %}
 {% assign item_url_parts = item_url | split: "/" %}
 {% for part in item_url_parts %}
-<td>
-<a href="{{doc_url}}">{{ part }}</a>
-</td>
+	{% unless part contains '.html' %}
+		{{ part }}
+	{% endunless %}
 {% endfor %}
+	</a>
+</td>
 
 </tr>
 
