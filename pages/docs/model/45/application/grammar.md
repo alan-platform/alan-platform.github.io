@@ -3078,10 +3078,6 @@ $                // select variable
 
 ```js
 'ui group property'
-	'use as namespace' stategroup (
-		'no'
-		'yes' [ '@namespace' ] // NOTE: shows group as a level in GUI breadcrumb
-	)
 	'visible' stategroup (
 		'true'
 			'break out' stategroup (
