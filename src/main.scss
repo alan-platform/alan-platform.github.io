@@ -2,6 +2,7 @@
 # this ensures Jekyll reads the file to be transformed into CSS later
 ---
 
+@import "fonts";
 @import "theme";
 
 .home-hero {
@@ -137,7 +138,6 @@ header {
 
 	li {
 		line-height: calc(2rem - 6px);
-		padding: $fat;
 		&.home {
 			padding-top: 0;
 			padding-bottom: 0;
@@ -189,7 +189,6 @@ header {
 	.logo {
 		display: block;
 		float: left;
-		padding: $fat;
 		box-sizing: content-box;
 		height: 1rem*$ratio*$ratio;
 		img {
@@ -203,7 +202,6 @@ header {
 
 		display: none;
 		color: #fff;
-		padding: $fat;
 
 		&:hover,
 		&:active {
@@ -247,8 +245,8 @@ header {
 
 footer {
 	margin: 4rem 0 0 0;
-	color: lighten($beige, 36%);
-	background: $beige;
+	color: #fff;
+	background: $grey2;
 	padding: 0 1em*$ratio*$ratio;
 
 	.inner {
@@ -267,60 +265,6 @@ article {
 		margin-left: 4rem;
 		margin-right: 4rem;
 	}
-	.notes {
-		color: darken($beige, 8%);
-		a,
-		a:link,
-		a:visited,
-		a:hover,
-		a:active {
-			color: mix($blue, $beige);
-		}
-		a:hover,
-		a:active {
-			color: $blue;
-		}
-	}
-
-}
-
-
-.strip {
-	display: flex;
-	justify-content: space-around;
-	color: $beige;
-	margin: 2rem*$ratio 0;
-	flex-wrap: wrap;
-	span {
-		display: block;
-	}
-	img {
-		max-width: 100%;
-		filter: drop-shadow(1px 1px 4px transparentize($grey2, .7));
-		@include breathe(filter);
-	}
-	li {
-		display: inline-block;
-		padding: 0 1rem;
-		text-align: center;
-		flex: 1;
-	}
-	a,
-	a:link,
-	a:visited,
-	a:hover,
-	a:active {
-		color: currentColor;
-		text-decoration: none;
-		@include breathe(color);
-	}
-	a:hover,
-	a:active {
-		img {
-			filter: drop-shadow(1px 1px 8px transparentize($grey2, .2));
-		}
-		color: $orange;
-	}
 }
 
 
@@ -330,7 +274,7 @@ table {
 		border-bottom: 1px solid $grey5;
 		@include breathe(background);
 		&:hover {
-			background: lighten($beige, 24%);
+			background: $grey6;
 			td:last-child > a {
 				&,
 				&:link,
@@ -385,11 +329,10 @@ table {
 		margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;
 		padding: 0;
 		text-align: center;
-		color: $beige;
-		border-bottom: 1px solid lighten($beige, 24%);
+		color: $grey2;
+		border-bottom: 1px solid $grey6;
 		li {
 			display: inline-block;
-			padding: $fat;
 		}
 		li:first-child {
 			font-weight: bold;

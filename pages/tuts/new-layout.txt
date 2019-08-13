@@ -1,0 +1,19 @@
+Overzichtspagina en in een fold-out menu:
+
+tuts/Introduction
+tuts/General syntax pointers
+tuts/Getting started
+tuts/About the stack
+docs/Releases
+	2019.9
+		application
+		interface
+		---- others:
+		consumer
+		provider
+		etc  .......
+
+
+
+En dan op de pagina zelf rechtsboven een foldout menu met een herhaling
+van de TOC
