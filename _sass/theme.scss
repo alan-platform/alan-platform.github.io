@@ -4,14 +4,13 @@ $orange: #ff641a;
 $green: #8fcc27;
 $yellow: #ffc94a;
 
-$blue: #b6a99b;
-$grey-base: mix($blue, lighten($black, 16%));
+$grey-base: #2b2c30;
 $grey1: $grey-base;
-$grey2: lighten($grey-base, 8%);
-$grey3: lighten($grey-base, 16%);
-$grey4: lighten($grey-base, 24%);
-$grey5: lighten($grey-base, 32%);
-$grey6: lighten($grey-base, 40%);
+$grey2: lighten($grey-base, 6%);
+$grey3: lighten($grey-base, 12%);
+$grey4: lighten($grey-base, 36%);
+$grey5: lighten($grey-base, 60%);
+$grey6: lighten($grey-base, 76%);
 
 $ratio: 1.414;
 
@@ -164,12 +163,12 @@ code {
         white-space: pre;
     }
 }
-code .punctuation { color: $grey1; }
+code .punctuation { color: $grey2; }
 code .string      { color: $blue; }
 code .operator    { color: $orange; }
 
 hr {
     margin: 0 1rem/$ratio;
     border: none;
-    border-bottom: 2px solid $orange;
+    border-bottom: 2px solid $blue;
 }

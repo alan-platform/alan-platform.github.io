@@ -2,28 +2,43 @@
 # this ensures Jekyll reads the file to be transformed into CSS later
 ---
 
+@import "mixins";
 @import "fonts";
 @import "theme";
 
-.home-hero {
-	background: linear-gradient(lighten($orange, 9%), lighten($orange, 8%));
-	padding-top: 5rem;
+span.brand {
+	font-style: italic;
+	font-variant: small-caps;
+	font-size: 1.3em;
+	font-weight: bold;
+	display: inline-block;
+	margin-right: .1em;
+}
 
-	h1 {
-		margin: 0;
-		padding-top: 256px;
-		padding-bottom: 0;
-		color: darken($orange, 12%);
-		background: url("../assets/alan.png") no-repeat center top;
-		background-size: 256px;
-		+ p {
-			margin: 0;
-			text-align: center;
-			color: lighten($orange, 36%);
-			border-bottom: 1px solid $orange;
-			padding-bottom: 1em*$ratio;
-		}
-	}
+.home-hero {
+	position: relative;
+	height: 100vh / $ratio;
+	padding-top: 5rem;
+	background: $grey2 url("../assets/heroes/Z3ownETsdNQ.jpg") no-repeat center / cover;
+	overflow: hidden;
+
+	// h1 {
+	// 	margin: 0;
+	// 	padding-top: 256px;
+	// 	padding-bottom: 0;
+	// 	color: darken($orange, 12%);
+	// 	background: url("../assets/alan.png") no-repeat center top;
+	// 	background-size: 256px;
+	// 	+ p {
+	// 		margin: 0;
+	// 		text-align: center;
+	// 		color: lighten($orange, 36%);
+	// 		border-bottom: 1px solid $orange;
+	// 		padding-bottom: 1em*$ratio;
+	// 	}
+	// }
+
+	@include diagonal('white');
 }
 
 a[name] { // make name-linked-content doesn't disappear behind header for # links
@@ -89,17 +104,28 @@ header {
 	top: 0;
 	width: 100%;
 	z-index: 2;
-	background: $orange;
+	background: $grey1;
 	color: #fff;
+	font-size: 1em / $ratio;
+
+	@include diagonal('black');
+	&::after {
+		right: 25%;
+		z-index: -1;
+	}
 
 	.inner {
 		max-width: 1280px - 80*2;
 		margin: 0 auto;
+		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio 1rem;
 		position: relative;
+		display: flex;
 	}
 
 	ul {
 		margin: 0;
+		flex: 1;
+		text-align: right;
 
 		@media (max-width: $breakpoint) {
 			display: none;
@@ -116,7 +142,7 @@ header {
 		a:hover,
 		a:active {
 			font-size: 1em*$ratio;
-			font-weight: bold;
+			font-weight: 200;
 			color: #fff;
 			display: inline-block;
 			border-bottom: 3px solid transparent;
@@ -124,20 +150,24 @@ header {
 		}
 		a:hover,
 		a:active {
+			font-style: italic;
 			text-decoration: none;
-			border-bottom-color: darken($orange, 8%);
+			border-bottom-color: darken($blue, 8%);
 		}
 		a:active {
-			border-bottom-color: darken($orange, 12%);
+			border-bottom-color: darken($blue, 12%);
 		}
 		.current > a,
 		.current-section > a {
-			border-bottom-color: darken($orange, 12%);
+			border-bottom-color: darken($blue, 12%);
 		}
 	}
 
 	li {
-		line-height: calc(2rem - 6px);
+		line-height: 2rem;
+		+ li {
+			margin-left: 1em * $ratio;
+		}
 		&.home {
 			padding-top: 0;
 			padding-bottom: 0;
@@ -166,34 +196,11 @@ header {
 		}
 	}
 
-	.secondary {
-		font-size: 1em/$ratio;
-		position: absolute;
-		right: 0;
-		top: 0;
-
-		@media (max-width: $breakpoint) {
-			position: fixed;
-			top: auto;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			z-index: 1;
-		}
-
-		li {
-			display: inline-block;
-		}
-	}
-
 	.logo {
 		display: block;
-		float: left;
-		box-sizing: content-box;
-		height: 1rem*$ratio*$ratio;
+		margin-right: 1em*$ratio;
 		img {
-			display: block;
-			height: 1rem*$ratio;
+			float: left;
 		}
 	}
 
@@ -245,16 +252,56 @@ header {
 
 footer {
 	margin: 4rem 0 0 0;
-	color: #fff;
-	background: $grey2;
-	padding: 0 1em*$ratio*$ratio;
+	position: relative;
+	background: $grey1;
+	padding: 0 1rem*$ratio*$ratio;
+	font-size: 14px;
+	color: $grey5;
+	line-height: 21px;
+
+	@include diagonal('black');
+	&::after {
+		opacity: .1;
+	}
+
+	img {
+		margin-bottom: 8px;
+	}
+
+	.social {
+		margin-top: 1rem*$ratio*$ratio*$ratio;
+		margin-bottom: 1rem*$ratio;
+		color: #fff;
+		a {
+			display: inline-block;
+		}
+		a + a {
+			margin-left: 1rem*$ratio
+		}
+	}
+	.copyright {
+		margin-top: 1rem*$ratio*$ratio*$ratio*$ratio;
+		margin-bottom: 1rem;
+		font-weight: 200;
+		font-size: 13px;
+	}
 
 	.inner {
-		padding: 1em*$ratio*$ratio 0;
+		padding: 1rem*$ratio*$ratio*$ratio 0 1rem*$ratio 0;
 		background: url("../assets/kjerner.png") no-repeat right top;
 		background-size: 90px;
 		max-width: 1280px - 80*2;
 		margin: 0 auto;
+	}
+
+	a,
+	a:link,
+	a:visited {
+		color: inherit;
+	}
+	a:hover,
+	a:active {
+		color: #fff;
 	}
 }
 
