@@ -256,12 +256,13 @@ footer {
 	background: $grey1;
 	padding: 0 1rem*$ratio*$ratio;
 	font-size: 14px;
-	color: $grey5;
+	color: mix($grey5, $grey6);
 	line-height: 21px;
 
 	@include diagonal('black');
 	&::after {
 		opacity: .1;
+		right: 50%;
 	}
 
 	img {
@@ -284,6 +285,7 @@ footer {
 		margin-bottom: 1rem;
 		font-weight: 200;
 		font-size: 13px;
+		letter-spacing: .05ex;
 	}
 
 	.inner {
@@ -298,6 +300,7 @@ footer {
 	a:link,
 	a:visited {
 		color: inherit;
+		@include breathe(color);
 	}
 	a:hover,
 	a:active {
