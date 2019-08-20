@@ -15,11 +15,6 @@ If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Ala
 
 It has characteristics that make it really suited for something like a visual application builder, so who knows what the future brings here.
 
-
-## Can I split application.alan into multiple files
-No, this is currently not possible.
-
-
 ## Can I change how a property is visualized
 The generated user interface reads the annotations in an application.alan to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/40/application/grammar.html).
 
