@@ -59,7 +59,7 @@ h1 {
     }
 }
 h2 {
-    margin: 1em*$ratio*$ratio 0 1em/$ratio/$ratio 0;
+    margin: 1em*$ratio*$ratio*$ratio*$ratio 0 1em/$ratio/$ratio 0;
     font-size: 1em*$ratio;
 }
 h3 {

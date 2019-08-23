@@ -51,9 +51,26 @@ More documentation will follow.
 It is possible to connect to other systems using XML Schema or third party API's. This requires additional tooling that isn't available publicly. Please contact us for more information.
 
 
-## What does that versions.json do?
+## What does that versions.json do
 You'll have noticed the versions.json at the root of your project. It defines a set of packages that should be compatible. Builds of version X are guaranteed to be based on the exact same language and configuration, but may contain bugfixes. We call these "major" versions.
 
 The [project.pkg](/pages/tuts/bottom-up.html#project) also contains this versions list, to ensure that each next step uses the same major versions as your design.
 
 Finally there is a "patch" level of versions (in semver-speak), for which we simply use incrementing build numbers. Alan's core tool chain guarantees that at this level compatibility cannot be broken, so it's always safe to use the latest builds.
+
+
+## What is the roadmap for Alan
+
+Alan is already used by [M-industries](https://www.m-industries.com) and [Kjerner](https://www.kjerner.com/) to build solutions for their customers. However, we're not done yet improving the platform and creating new and better features. 
+
+Long term plans include:
+
+- Open up our online development and hosting solution for quick experiments and proof of concept by any developer
+- Extend the generated GUI so that there are even less reasons to go with a custom gui
+- Make custom gui's (on the platform) easily extendible for third-party control & widget developers
+- Make todo's the primary driver for the interaction with an application. 
+- Improved querying, reporting and data visualization features.
+- Improved support for creating "live dashboard" applications.
+- Making development more accessible to first-time application developers by providing a graphical modeler
+- Providing a marketplace for applications, external connectors and gui controls & widgets
+- Create more and more powerful legacy application logic imports
