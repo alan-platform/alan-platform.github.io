@@ -209,8 +209,19 @@ header {
 	.logo {
 		display: block;
 		margin-right: 1em*$ratio;
-		img {
-			float: left;
+		svg .stripes path {
+			transition: fill .2s ease-in-out;
+			&:nth-child(4n + 1) { fill: $blue; }
+			&:nth-child(4n + 2) { fill: $orange; }
+			&:nth-child(4n + 3) { fill: $green; }
+			&:nth-child(4n + 4) { fill: $yellow; }
+
+			&:hover {
+				&:nth-child(4n + 3) { fill: $blue; }
+				&:nth-child(4n + 4) { fill: $orange; }
+				&:nth-child(4n + 1) { fill: $green; }
+				&:nth-child(4n + 2) { fill: $yellow; }
+			}
 		}
 	}
 
