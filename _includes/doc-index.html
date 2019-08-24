@@ -17,13 +17,13 @@
 <th>
 {% assign this_header = item_url_parts | first %}
 {% if header != this_header %}
-<a href="{{doc_url}}">{{ this_header }}</a>
+<a href="{{doc_url | relative_url }}">{{ this_header }}</a>
 {% endif %}
 {% assign header = this_header %}
 </th>
 
 <td>
-	<a href="{{doc_url}}">
+	<a href="{{doc_url | relative_url }}">
 {% assign item_url = item_url | remove_first: header %}
 {% assign item_url = item_url | remove_first: "/" %}
 {% assign item_url_parts = item_url | split: "/" %}
