@@ -124,21 +124,20 @@ header {
 	}
 
 	.inner {
-		// max-width: 1280px - 80*2;
-		// margin: 0 auto;
-		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
-		position: relative;
 		display: flex;
+		justify-content: space-between;
+		position: relative;
+		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
 	}
 
 	ul {
 		margin: 0;
 		flex: 1;
 		text-align: right;
+		list-style: none;
 
 		@media (max-width: $breakpoint) {
 			display: none;
-			clear: both;
 		}
 
 		a {
@@ -252,17 +251,23 @@ header {
 			right: 0;
 			ul {
 				display: block;
-				&.main li:first-child {
-					margin-top: 1rem*$ratio;
+				position: fixed;
+				bottom: 1rem*$ratio*$ratio*$ratio;
+				left: 0;
+				width: 100%;
+				text-align: center;
+				margin: 0;
+				padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
+				font-size: 1rem*$ratio*$ratio;
+				li {
+					padding: 0;
+				}
+				li + li {
+					margin: 1rem*$ratio 0 0 0;
 				}
 			}
 			.closer {
 				display: block;
-			}
-			.nav-toggle {
-				position: fixed;
-				right: 0;
-				top: 0;
 			}
 		}
 		&:not(.open) .opener {
