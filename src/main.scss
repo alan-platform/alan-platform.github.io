@@ -17,13 +17,34 @@ span.brand {
 }
 
 .home-hero {
+	display: flex;
+	justify-content: flex-end;
 	position: relative;
 	height: 100vh / $ratio;
 	padding-top: 5rem;
 	background: $grey2 url("../assets/heroes/4u2U8EO9OzY.jpg") no-repeat center / cover;
 	overflow: hidden;
+	.inner {
+		@include anti_diagonal('black');
+		display: flex;
+		position: relative;
+		align-items: center;
+		padding: 1rem 1rem*$ratio*$ratio*$ratio;
+		color: #fff;
+	}
+	p {
+		margin: 0;
+		font-weight: bold;
+		font-size: 1rem*$ratio*$ratio*$ratio;
+		z-index: 1;
 
-	@include anti_diagonal('white');
+		span {
+			font-weight: normal;
+			font-style: italic;
+			font-size: 1rem;
+		}
+	}
+
 }
 
 a[name] { // make name-linked-content doesn't disappear behind header for # links
@@ -103,9 +124,9 @@ header {
 	}
 
 	.inner {
-		max-width: 1280px - 80*2;
-		margin: 0 auto;
-		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio 1rem;
+		// max-width: 1280px - 80*2;
+		// margin: 0 auto;
+		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
 		position: relative;
 		display: flex;
 	}
@@ -279,7 +300,7 @@ footer {
 
 	.inner {
 		padding: 1rem*$ratio*$ratio*$ratio 0 1rem*$ratio 0;
-		background: url("../assets/kjerner.png") no-repeat right top, url('../assets/logo/full-orange.svg') no-repeat right 1.999396rem bottom 2.827145944rem / 120px;
+		background: url('../assets/logo/full-orange.svg') no-repeat right 1.999396rem bottom 2.827145944rem / 120px;
 		background-size: 90px;
 		max-width: 1280px - 80*2;
 		margin: 0 auto;
