@@ -408,6 +408,10 @@ table {
 		padding: 1rem*$ratio*$ratio;
 		border: 2px solid $grey6;
 		background: lighten($grey6, 3%);
+
+		@media (max-width: 700px) {
+			padding: 2.67vw;
+		}
 	}
 	li + li {
 		margin-left: 1rem;
