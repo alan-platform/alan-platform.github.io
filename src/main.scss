@@ -389,6 +389,12 @@ table {
 			@include breathe(color);
 		}
 	}
+
+	td[data-document-id="model/application/grammar.html"] {
+		font-weight: bold;
+		font-style: italic;
+		background: $yellow;
+	}
 }
 
 

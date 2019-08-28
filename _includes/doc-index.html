@@ -22,11 +22,11 @@
 {% assign header = this_header %}
 </th>
 
-<td>
-	<a href="{{doc_url | relative_url }}">
 {% assign item_url = item_url | remove_first: header %}
 {% assign item_url = item_url | remove_first: "/" %}
 {% assign item_url_parts = item_url | split: "/" %}
+<td data-document-id="{{ item_url }}">
+	<a href="{{doc_url | relative_url }}">
 {% for part in item_url_parts %}
 	{% unless part contains '.html' %}
 		{{ part }}
