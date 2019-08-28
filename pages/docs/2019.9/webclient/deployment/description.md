@@ -1,8 +1,8 @@
 ---
 layout: doc
-origin: auto-webclient
+origin: webclient
 language: deployment
-version: janeway.6
+version: laforge.3
 type: description
 ---
 
@@ -22,14 +22,16 @@ resolution or larger to be crsip on high dpi displays.
 {
 	"include data in error log": true // include (potentially sensitive) data in error reports.
 }
-
-## support data deployment
-
 ```
 /'logo.png'   ( = optional )
 /'logo-sideways.png' ( = optional )
 /'wallpaper.jpg'   ( = optional )
 /'wallpaper-high.jpg'   ( = optional )
 /'favicon.ico'   ( = required )
-/'config.json' ( = optional ) 
+/'config.json' ( = optional )
+/'controls' (
+	/'bundle.js' ( = required )
+	/'styles.css' ( = required )
+)
+```
 ```

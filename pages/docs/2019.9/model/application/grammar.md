@@ -3078,10 +3078,6 @@ $                // select variable
 
 ```js
 'ui group property'
-	'use as namespace' stategroup (
-		'no'
-		'yes' [ '@namespace' ] // NOTE: shows group as a level in GUI breadcrumb
-	)
 	'visible' stategroup (
 		'true'
 			'break out' stategroup (
@@ -3391,7 +3387,7 @@ $                // select variable
 				'zero' ['zero' ]
 				'property'
 					'path' component 'ui parametrized node path'
-					'number' [ '.' ] reference
+					'number' [ '#' ] reference
 			)
 	)
 	'validation' group (

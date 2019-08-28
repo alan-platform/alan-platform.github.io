@@ -2,7 +2,7 @@
 layout: doc
 origin: relational-database-bridge
 language: database_transformation
-version: 78
+version: 82
 type: grammar
 ---
 
@@ -145,6 +145,11 @@ type: grammar
 ```
 
 ```js
+'variable assignment: enum'
+	'variable' component 'tag: variable'
+```
+
+```js
 'variable assignment: regexp'
 	'variable' component 'tag: variable'
 ```
@@ -197,6 +202,9 @@ type: grammar
 			'text' [':''text']
 				'expression' ['='] component 'text expression'
 				'assignment' component 'variable assignment: text'
+			'enum' [':''enum']
+				'expression' ['='] component 'enum expression'
+				'assignment' component 'variable assignment: enum'
 		)
 	)
 	'variable' component 'tag: variable'
@@ -212,7 +220,8 @@ type: grammar
 			(
 				'data type' ['=='] stategroup
 				(
-					// 'enum' ['enum']
+					'enum' ['enum']
+						'value' component 'enum expression'
 					'integer' ['integer']
 						'value' component 'number expression'
 					'text' ['text']
@@ -225,7 +234,8 @@ type: grammar
 			(
 				'data type' ['=='] stategroup
 				(
-					// 'enum' ['enum']
+					'enum' ['enum']
+						'value' component 'enum expression'
 					'integer' ['integer']
 						'value' component 'number expression'
 					'text' ['text']
@@ -410,7 +420,7 @@ type: grammar
 							'unguaranteed operation' component 'unguaranteed operation'
 					)
 			)
-			'selection' ['#'] component 'context selector' // NOTE: temporary keyword
+			'selection' component 'context selector'
 			'field' ['.'] reference
 			'conversion' stategroup
 			(
@@ -421,7 +431,6 @@ type: grammar
 					'inequivalent set type' component 'numerical set constraint'
 			)
 			'null guard' component 'null guard'
-			'field is' stategroup ('number')
 		'from variable'
 			'selection' component 'variable selector'
 			'is' stategroup ('number variable')
@@ -487,7 +496,6 @@ type: grammar
 			'selection' component 'context selector'
 			'field' ['.'] reference
 			'null guard' component 'null guard'
-			'field is' stategroup ('text')
 		'from regexp' ['regexp']
 			'selection' component 'regexp selector'
 			'capture' ['@'] reference
@@ -498,6 +506,28 @@ type: grammar
 			'expressions' ['(', ')'] component 'text expression: concatenate'
 		'static value'
 			'value' text
+	)
+```
+
+```js
+'enum expression'
+	'type' stategroup (
+		'from context'
+			'context is' stategroup (
+				'singular context'
+				'plural context'
+					'operation' stategroup (
+						'shared value' ['shared']
+							'unguaranteed operation' component 'unguaranteed operation'
+					)
+			)
+			'selection' component 'context selector'
+			'field' ['.'] reference
+			'field is' stategroup ('enum')
+			'null guard' component 'null guard'
+		'from variable'
+			'selection' component 'variable selector'
+			'is' stategroup ('enum')
 	)
 ```
 
@@ -527,7 +557,7 @@ type: grammar
 			'sub type' stategroup
 			(
 				'binary operation'
-					'left' component 'number expression'
+					'left' ['#'] component 'number expression'
 					'operation' stategroup
 					(
 						'equal' ['==']
@@ -536,9 +566,9 @@ type: grammar
 						'smaller' ['<']
 						'smaller equal' ['<=']
 					)
-					'right' component 'number expression'
-				'set operation'
-					'find' ['is','in'] component 'number expression'
+					'right' ['#'] component 'number expression'
+				'set operation' ['is']
+					'find' ['#','in'] component 'number expression'
 					'in' ['(', ')'] component 'static: number list'
 			)
 		'compare text'
@@ -571,7 +601,6 @@ type: grammar
 			)
 			'field' ['.'] reference
 			'null guard' component 'null guard'
-			'field is' stategroup ('boolean')
 	)
 ```
 
@@ -763,23 +792,4 @@ type: grammar
 				'expression' ['='] component 'text expression'
 		)
 	)
-// 'enum expression'
-// 	'type' stategroup (
-// 		'field'
-// 			'link' component 'link path'
-// 			'context type' stategroup (
-// 				'record'
-// 					'field' [ '.' ] reference
-// 					'null guard' component 'null guard'
-// 					'data type constraint' stategroup ( 'enum' )
-// 				'record set'
-// 					'field' [ '.' ] reference
-// 					'null guard' component 'null guard'
-// 					'data type constraint' stategroup ( 'enum' )
-// 					'merge' stategroup (
-// 						'shared value' [ 'shared' ]
-// 							'unguaranteed operation' component 'unguaranteed operation'
-// 					)
-// 			)
-// 	)
 ```

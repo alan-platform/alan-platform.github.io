@@ -2,14 +2,23 @@
 layout: doc
 origin: relational-database-bridge
 language: database
-version: 78
+version: 82
 type: grammar
 ---
 
 
 ```js
+'base types' group (
+	'bool'   component 'base type'
+	'number' component 'base type'
+	'text'   component 'base type'
+)
+```
+
+```js
 'numerical sets' group
 (
+	'invalid' component 'set type'
 	'natural' component 'set type'
 	'integer' component 'set type'
 	'real'    component 'set type'
@@ -102,60 +111,31 @@ type: grammar
 				)
 		)
 	)
-	'sql strategy' ['filter-strategy' ':'] stategroup (
-		'exists' ['EXISTS']
-		'join' ['JOIN']
-	)
 	'text encoding' stategroup (
 		'ascii'
 		'utf8' ['text-encoding' ':' 'utf8']
 	)
-	'prefilters' collection ( [ 'where' ]
-		'type' [ '=' ] stategroup (
-			'field'
-				'field' ['.'] reference
-				'operation' stategroup (
-					'contains'
-						'comparison' stategroup (
-							'in' ['in']
-								'arguments' ['(', ')'] collection ( )
-							'not in' ['not' 'in']
-								'arguments' ['(', ')'] collection ( )
-						)
-					'search'
-						'filter' stategroup ( 'constrain' )
-						'type' stategroup (
-							'starts with' [ 'starts-with' ]
-							'contains' [ 'contains' ]
-							'equals' [ '==' ]
-						)
-						'substring' text
-					'compare'
-						'left filter' stategroup ( 'constrain' )
-						'operator' stategroup (
-							'smaller' ['<']
-							'greater' ['>']
-							'equal' ['==']
-						)
-						'right' stategroup (
-							'property'
-								'right' ['.'] reference
-								'right filter' stategroup ( 'constrain' )
-							'static'
-								'value' number
-						)
-					'in list' ['in']
-						'filter' stategroup ( 'constrain' )
-						'number list' [ '(',')' ] component 'number list'
-				)
-			'foreign key' ['foreign-key']
-				'foreign key' reference
-			'incoming foreign key' [ 'this' ]
-				'source table' [ 'in' 'table' ] reference
-				'incoming link' ['>'] reference
+	'prefilters' group (
+		'join statements' collection ( ['join'] )
+		'has where clause' stategroup (
+			'yes' ['where']
+				'where statement' component 'filter statement list'
+			'no'
 		)
 	)
 )
+```
+
+```js
+'base type'
+```
+
+```js
+'base type constraint'
+```
+
+```js
+'set type'
 ```
 
 ```js
@@ -175,41 +155,13 @@ type: grammar
 ```
 
 ```js
-'set type'
-```
-
-```js
-'base type'
-```
-
-```js
-'number base type'
-	'type' component 'base type'
-```
-
-```js
-'text base type'
-	'type' component 'base type'
-```
-
-```js
-'boolean base type'
-	'type' component 'base type'
-```
-
-```js
-'enum base type'
-	'type' component 'base type'
-```
-
-```js
 'field'
 	'data type' [ 'as' ] stategroup (
 		'text' [ 'text' ]
-			'type' component 'text base type'
 			'import rule' stategroup (
 				'fixed length' ['(', ')']
 					'rule: trim' stategroup (
+						'both'  ['trim-both']
 						'left'  ['trim-left']
 						'right' ['trim-right']
 						'none'
@@ -218,9 +170,7 @@ type: grammar
 				'no'
 			)
 		'floating point' [ 'float' ]
-			'type' component 'number base type'
 		'decimal' ['decimal']
-			'type' component 'number base type'
 			'rounding' stategroup (
 				'ordinary' //['half-up']
 				'ceil'     ['ceil']
@@ -228,11 +178,8 @@ type: grammar
 			)
 			'scale' ['(', ')'] number
 		'integer' [ 'integer' ]
-			'type' component 'number base type'
 		'boolean' [ 'bool' ]
-			'type' component 'boolean base type'
 		'enum' [ 'enum' ]
-			'type' component 'enum base type'
 			'values' [ '(' , ')' ] collection ( )
 	)
 	'nullable' stategroup (
@@ -252,6 +199,78 @@ type: grammar
 		'yes'
 			'name' ['.'] text
 			'tail' component 'table selector'
+		'no'
+	)
+```
+
+```js
+'filter statement'
+	'type' stategroup (
+		'contains'
+			'field' ['.'] reference
+			'require text' component 'base type constraint'
+			'comparison' stategroup (
+				'in' ['in']
+					'arguments' ['(',')'] collection ( )
+				'not in' ['not' 'in']
+					'arguments' ['(',')'] collection ( )
+			)
+		'search'
+			'field' ['.'] reference
+			'require text' component 'base type constraint'
+			'type' stategroup (
+				'starts with' ['starts-with']
+				'contains' ['contains']
+				'equals' ['equals']
+			)
+			'substring' text
+		'compare'
+			'field' ['.'] reference
+			'operator' stategroup (
+				'smaller' ['<']
+				'greater' ['>']
+				'equal' ['==']
+				'not equal' ['!=']
+			)
+			'right' stategroup (
+				'property'
+					'right' ['.'] reference
+				'static number'
+					'require number' component 'base type constraint'
+					'value' number
+				'static text'
+					'require text' component 'base type constraint'
+					'value' text
+				'time span'
+					'require text' component 'base type constraint'
+					'days' ['current-date' '-'] number
+			)
+		'in list'
+			'field' ['.'] reference
+			'require number' component 'base type constraint'
+			'number list' ['(',')'] component 'number list'
+		'foreign key' ['foreign-key']
+			'foreign key' reference
+		'incoming foreign key' ['this']
+			'source table' ['in' 'table'] reference
+			'incoming link' ['>'] reference
+		'invert' ['not']
+			'statement' component 'filter statement'
+		'list'
+			'statements' ['(',')'] component 'filter statement list'
+	)
+```
+
+```js
+'filter statement list'
+	'statement' component 'filter statement'
+	'has more statements' stategroup (
+		'yes'
+			'operator' stategroup (
+				'and' ['and']
+				'or'  ['or']
+			)
+			'tail' component 'filter statement list'
 		'no'
 	)
 ```

@@ -1,29 +1,20 @@
 ---
 layout: doc
 origin: auto-webclient
-language: settings
-version: janeway.6
+language: generator_settings
+version: laforge.3
 type: grammar
 ---
 
 Global settings for the user interface.
 
-## root
-
-
-### application creator
-
 ```js
 'application creator' ['application' 'creator:'] text
 ```
 
-### application name
-
 ```js
 'application name' ['application' 'name:'] text
 ```
-
-### allow anonymous user
 
 ```js
 'allow anonymous user' [ 'anonymous' 'login:' ] stategroup (
@@ -32,8 +23,6 @@ Global settings for the user interface.
 )
 ```
 
-### enable csv actions
-
 ```js
 'enable csv actions' [ 'csv' 'actions:' ] stategroup (
 	'no' [ 'disabled' ]
@@ -41,25 +30,17 @@ Global settings for the user interface.
 )
 ```
 
-### report limit
-
 ```js
 'report limit' [ 'report' 'limit:' ] number
 ```
-
-### announcement title
 
 ```js
 'announcement title' [ 'announcement:' ] text
 ```
 
-### announcements
-
 ```js
 'announcements' [ '[' , ']' ] collection indent ( )
 ```
-
-### custom color theme
 
 ```js
 'custom color theme' stategroup (
@@ -82,6 +63,14 @@ Global settings for the user interface.
 )
 ```
 
-## component rules
+```js
+'default language' [ 'default' 'language:' ] text
+```
 
+```js
+'engine language' stategroup (
+	'english' [ 'english' ]
+	'dutch' [ 'dutch' ]
+)
+```
 ```

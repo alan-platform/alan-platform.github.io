@@ -2,7 +2,7 @@
 layout: doc
 origin: sql-mirror
 language: sql_mapping
-version: 47
+version: 48.2
 type: grammar
 ---
 
