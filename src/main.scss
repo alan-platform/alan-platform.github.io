@@ -2,27 +2,49 @@
 # this ensures Jekyll reads the file to be transformed into CSS later
 ---
 
+@import "mixins";
+@import "fonts";
 @import "theme";
 
-.home-hero {
-	background: linear-gradient(lighten($orange, 9%), lighten($orange, 8%));
-	padding-top: 5rem;
+span.brand {
+	font-style: italic;
+	font-variant: small-caps;
+	font-size: 1.3em;
+	font-weight: bold;
+	text-transform: lowercase;
+	display: inline-block;
+	margin-right: .1em;
+}
 
-	h1 {
+.home-hero {
+	display: flex;
+	justify-content: flex-end;
+	position: relative;
+	height: 100vh / $ratio;
+	padding-top: 5rem;
+	background: $grey2 url("../assets/heroes/4u2U8EO9OzY.jpg") no-repeat center / cover;
+	overflow: hidden;
+	.inner {
+		@include anti_diagonal('black');
+		display: flex;
+		position: relative;
+		align-items: center;
+		padding: 1rem 1rem*$ratio*$ratio*$ratio;
+		color: #fff;
+	}
+	p {
 		margin: 0;
-		padding-top: 256px;
-		padding-bottom: 0;
-		color: darken($orange, 12%);
-		background: url("../assets/alan.png") no-repeat center top;
-		background-size: 256px;
-		+ p {
-			margin: 0;
-			text-align: center;
-			color: lighten($orange, 36%);
-			border-bottom: 1px solid $orange;
-			padding-bottom: 1em*$ratio;
+		font-weight: bold;
+		font-size: 1rem*$ratio*$ratio*$ratio;
+		z-index: 1;
+
+		span {
+			font-weight: normal;
+			font-style: italic;
+			font-size: 1rem;
 		}
 	}
+
 }
 
 a[name] { // make name-linked-content doesn't disappear behind header for # links
@@ -75,8 +97,11 @@ h3[id] a::after {
 section > * + * {
 	margin-top: 1em/$ratio;
 }
-section > h2 {
-	margin-top: 1em*$ratio*$ratio;
+
+h2.centered {
+	color: $grey5;
+	font-style: italic;
+	text-align: center;
 }
 
 .video-wrapper {
@@ -88,25 +113,35 @@ header {
 	top: 0;
 	width: 100%;
 	z-index: 2;
-	background: $orange;
+	background: $grey1;
 	color: #fff;
+	font-size: 1em / $ratio;
+
+	@include diagonal('black');
+	&::after {
+		right: 25%;
+		z-index: -1;
+	}
 
 	.inner {
-		max-width: 1280px - 80*2;
-		margin: 0 auto;
+		display: flex;
+		justify-content: space-between;
 		position: relative;
+		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
 	}
 
 	ul {
 		margin: 0;
+		flex: 1;
+		text-align: right;
+		list-style: none;
 
 		@media (max-width: $breakpoint) {
 			display: none;
-			clear: both;
 		}
 
 		a {
-			@include breathe(border-bottom-color);
+			@include breathe(all);
 		}
 
 		a,
@@ -115,7 +150,7 @@ header {
 		a:hover,
 		a:active {
 			font-size: 1em*$ratio;
-			font-weight: bold;
+			font-weight: 200;
 			color: #fff;
 			display: inline-block;
 			border-bottom: 3px solid transparent;
@@ -123,21 +158,25 @@ header {
 		}
 		a:hover,
 		a:active {
+			transform: skew(-10deg*$ratio);
 			text-decoration: none;
-			border-bottom-color: darken($orange, 8%);
+			text-shadow: 0 0 2px #fff;
+			border-bottom-color: darken($blue, 8%);
 		}
 		a:active {
-			border-bottom-color: darken($orange, 12%);
+			border-bottom-color: darken($blue, 12%);
 		}
 		.current > a,
 		.current-section > a {
-			border-bottom-color: darken($orange, 12%);
+			border-bottom-color: darken($blue, 12%);
 		}
 	}
 
 	li {
-		line-height: calc(2rem - 6px);
-		padding: $fat;
+		line-height: 2rem;
+		+ li {
+			margin-left: 1em * $ratio;
+		}
 		&.home {
 			padding-top: 0;
 			padding-bottom: 0;
@@ -166,35 +205,22 @@ header {
 		}
 	}
 
-	.secondary {
-		font-size: 1em/$ratio;
-		position: absolute;
-		right: 0;
-		top: 0;
-
-		@media (max-width: $breakpoint) {
-			position: fixed;
-			top: auto;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			z-index: 1;
-		}
-
-		li {
-			display: inline-block;
-		}
-	}
-
 	.logo {
 		display: block;
-		float: left;
-		padding: $fat;
-		box-sizing: content-box;
-		height: 1rem*$ratio*$ratio;
-		img {
-			display: block;
-			height: 1rem*$ratio;
+		margin-right: 1em*$ratio;
+		svg .stripes path {
+			transition: fill .2s ease-in-out;
+			&:nth-child(4n + 1) { fill: $blue; }
+			&:nth-child(4n + 2) { fill: $orange; }
+			&:nth-child(4n + 3) { fill: $green; }
+			&:nth-child(4n + 4) { fill: $yellow; }
+
+			&:hover {
+				&:nth-child(4n + 3) { fill: $blue; }
+				&:nth-child(4n + 4) { fill: $orange; }
+				&:nth-child(4n + 1) { fill: $green; }
+				&:nth-child(4n + 2) { fill: $yellow; }
+			}
 		}
 	}
 
@@ -203,7 +229,6 @@ header {
 
 		display: none;
 		color: #fff;
-		padding: $fat;
 
 		&:hover,
 		&:active {
@@ -226,17 +251,23 @@ header {
 			right: 0;
 			ul {
 				display: block;
-				&.main li:first-child {
-					margin-top: 1rem*$ratio;
+				position: fixed;
+				bottom: 1rem*$ratio*$ratio*$ratio;
+				left: 0;
+				width: 100%;
+				text-align: center;
+				margin: 0;
+				padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
+				font-size: 1rem*$ratio*$ratio;
+				li {
+					padding: 0;
+				}
+				li + li {
+					margin: 1rem*$ratio 0 0 0;
 				}
 			}
 			.closer {
 				display: block;
-			}
-			.nav-toggle {
-				position: fixed;
-				right: 0;
-				top: 0;
 			}
 		}
 		&:not(.open) .opener {
@@ -247,16 +278,61 @@ header {
 
 footer {
 	margin: 4rem 0 0 0;
-	color: lighten($beige, 36%);
-	background: $beige;
-	padding: 0 1em*$ratio*$ratio;
+	position: relative;
+	background: $grey1;
+	padding: 0 1rem*$ratio*$ratio;
+	font-size: 14px;
+	color: mix($grey5, $grey6);
+	line-height: 21px;
+
+	@include diagonal('black');
+	&::after {
+		opacity: .1;
+		right: 50%;
+	}
+
+	img {
+		margin-bottom: 8px;
+	}
+
+	.social {
+		margin-top: 1rem*$ratio*$ratio*$ratio;
+		margin-bottom: 1rem*$ratio;
+		color: #fff;
+		a {
+			display: inline-block;
+		}
+		a + a {
+			margin-left: 1rem*$ratio
+		}
+	}
+	.copyright {
+		margin-top: 1rem*$ratio*$ratio*$ratio*$ratio;
+		margin-bottom: 1rem;
+		font-weight: 200;
+		font-size: 13px;
+		letter-spacing: .05ex;
+	}
 
 	.inner {
-		padding: 1em*$ratio*$ratio 0;
-		background: url("../assets/kjerner.png") no-repeat right top;
+		padding: 1rem*$ratio*$ratio*$ratio 0 1rem*$ratio 0;
 		background-size: 90px;
 		max-width: 1280px - 80*2;
 		margin: 0 auto;
+		@media (min-width: 480px) {
+			background: url('../assets/logo/full-orange.svg') no-repeat right 1.999396rem bottom 2.827145944rem / 120px;
+		}
+	}
+
+	a,
+	a:link,
+	a:visited {
+		color: inherit;
+		@include breathe(color);
+	}
+	a:hover,
+	a:active {
+		color: #fff;
 	}
 }
 
@@ -267,60 +343,6 @@ article {
 		margin-left: 4rem;
 		margin-right: 4rem;
 	}
-	.notes {
-		color: darken($beige, 8%);
-		a,
-		a:link,
-		a:visited,
-		a:hover,
-		a:active {
-			color: mix($blue, $beige);
-		}
-		a:hover,
-		a:active {
-			color: $blue;
-		}
-	}
-
-}
-
-
-.strip {
-	display: flex;
-	justify-content: space-around;
-	color: $beige;
-	margin: 2rem*$ratio 0;
-	flex-wrap: wrap;
-	span {
-		display: block;
-	}
-	img {
-		max-width: 100%;
-		filter: drop-shadow(1px 1px 4px transparentize($grey2, .7));
-		@include breathe(filter);
-	}
-	li {
-		display: inline-block;
-		padding: 0 1rem;
-		text-align: center;
-		flex: 1;
-	}
-	a,
-	a:link,
-	a:visited,
-	a:hover,
-	a:active {
-		color: currentColor;
-		text-decoration: none;
-		@include breathe(color);
-	}
-	a:hover,
-	a:active {
-		img {
-			filter: drop-shadow(1px 1px 8px transparentize($grey2, .2));
-		}
-		color: $orange;
-	}
 }
 
 
@@ -330,7 +352,7 @@ table {
 		border-bottom: 1px solid $grey5;
 		@include breathe(background);
 		&:hover {
-			background: lighten($beige, 24%);
+			background: $grey6;
 			td:last-child > a {
 				&,
 				&:link,
@@ -367,6 +389,55 @@ table {
 			@include breathe(color);
 		}
 	}
+
+	td[data-document-id="model/application/grammar.html"] {
+		font-weight: bold;
+		font-style: italic;
+		background: $yellow;
+	}
+}
+
+
+.strip {
+	list-style: none;
+	display: flex;
+	position: relative;
+	margin-right: -2rem*$ratio*$ratio;
+	margin-left: -2rem*$ratio*$ratio;
+	margin-bottom: 1rem*$ratio*$ratio;
+
+	&::before,
+	&::after,
+	li {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 0;
+		padding: 1rem*$ratio*$ratio;
+		border: 2px solid $grey6;
+		background: lighten($grey6, 3%);
+
+		@media (max-width: 700px) {
+			padding: 2.67vw;
+		}
+	}
+	li + li {
+		margin-left: 1rem;
+	}
+	&::before {
+		content: '';
+		margin-right: 1rem;
+		background: linear-gradient(to right, #fff, lighten($grey6, 3%));
+		border-image: linear-gradient(to right, #fff, #eeeff0) 2;
+		border-left: none
+	}
+	&::after {
+		content: '';
+		margin-left: 1rem;
+		background: linear-gradient(to left, #fff, lighten($grey6, 3%));
+		border-image: linear-gradient(to left, #fff, #eeeff0) 2;
+		border-right: none
+	}
 }
 
 
@@ -375,7 +446,7 @@ table {
 		max-width: none;
 		section > *:not(div) {
 			max-width: $base-width;
-			margin-left: auto;
+			margin-left: 0;
 			margin-right: auto;
 		}
 	}
@@ -385,11 +456,10 @@ table {
 		margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;
 		padding: 0;
 		text-align: center;
-		color: $beige;
-		border-bottom: 1px solid lighten($beige, 24%);
+		color: $grey2;
+		border-bottom: 1px solid $grey6;
 		li {
 			display: inline-block;
-			padding: $fat;
 		}
 		li:first-child {
 			font-weight: bold;

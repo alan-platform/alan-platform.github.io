@@ -1,0 +1,26 @@
+@mixin diagonal($color:black) {
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 20%;
+        bottom: 0;
+        left: 0;
+        background: transparent url('../assets/overlay-#{$color}.svg') no-repeat right top / cover;
+        pointer-events: none;
+        opacity: .2;
+    }
+}
+@mixin anti_diagonal($color:black) {
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: -33%;
+        background: transparent url('../assets/overlay-#{$color}-anti.svg') no-repeat left top / cover;
+        pointer-events: none;
+        opacity: .4;
+    }
+}

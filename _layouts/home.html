@@ -6,8 +6,13 @@
 		{% include header.html %}
 
 		<div class="home-hero">
-			<h1>Alan</h1>
-			<p>A better future for software</p>
+			<div class="inner">
+				<p>
+					Solve your data<br>
+					problems<br>
+					<span>start now with alan</span>
+				</p>
+			</div>
 		</div>
 
 		<article>
@@ -16,92 +21,33 @@
 					The Model-Driven Low-Code Platform
 				</h2>
 				<p>
-					Alan is a low code platform that enables the rapid development
+					<span class="brand">Alan</span> is a low code platform that enables the rapid development
 					of data centric applications, from small to very, very large.
-					Instead of the traditional relational database + 3GL or 4GL language,
-					the core of Alan is a data modelling language that automatically
-					generates full stack applications.
 				</p>
 				<p>
 					It feels like prototyping, and lets you
 					go from back-of-the-napkin to a running application in minutes.
-
 				</p>
-<pre><code class="language-js">'Reasons': collection { }
-'Users': collection {
-	'Name': text
-	'Active': stategroup @default: 'Yes' (
-		'Yes' -> { }
-		'No' -> {
-			'Reason': text -> ?^ .^ .'Reasons'
-		}
-	)
-}
-'Active Users':= integer 'n' = count .'Users'?'Active'|'Yes'</code></pre>
 			</section>
 
 			<section>
-				<h2>What's it for?</h2>
-				<p>
-					In Alan, data is strictly specified and includes decision logic.
-					Unlike Excel, you cannot work around this specification.
-					This makes it ideal for administrative tools and data gathering,
-					as the input is guaranteed to be of high quality. And you can export
-					data to Excel reports any time you want.
-				</p>
-				<p>
-					Because the specification is so complete, it is used to generate
-					database instructions and a user interface. You can go from empty
-					template to a cloud-hosted web application before your coffee gets cold.
-				</p>
 
-				<p>
-					Alan is also powerful when interfacing with legacy systems.
-					It can serve as the target system, or as gateway between systems;
-					ensuring data consistency before feeding it into the end point.
-					To learn more about such setups, get in touch with the experts at <a href="https://www.kjerner.com">Kjerner</a>.
-				</p>
-			</section>
-			<section>
-
-				<h2>
-					Get started
+				<h2 class="centered">
+					<span class="brand">Alan</span> supports global businesses
 				</h2>
-				<p>
-					Get highlighting and some basic integrations for:
-				</p>
+
 				<ul class="strip">
 					<li>
-						<a href="https://packagecontrol.io/packages/Alan">
-							<img width="64" src="{{ 'assets/sublime.png' | relative_url }}">
-							<span>Sublime Text</span>
-						</a>
+						<img width="136" alt="OGD logo" src="{{ "assets/companies/ogd.png" | relative_path }}">
 					</li>
 					<li>
-						<a href="https://marketplace.visualstudio.com/items?itemName=Kjerner.alan">
-							<img width="64" src="{{ 'assets/vscode.png' | relative_url }}">
-							<span>VS Code</span>
-						</a>
+						<img width="136" alt="Allegion logo" src="{{ "assets/companies/allegion.png" | relative_path }}">
 					</li>
 					<li>
-						<a href="https://atom.io/packages/language-alan">
-							<img width="64" src="{{ 'assets/atom.png' | relative_url }}">
-							<span>Atom</span>
-						</a>
-					</li>
-					<li>
-						<a href="https://melpa.org/#/alan-mode">
-							<img width="64" src="{{ 'assets/emacs.png' | relative_url }}">
-							<span>Emacs</span>
-						</a>
-					</li>
-					<li>
-						<a href="https://github.com/alan-platform/AlanForVim">
-							<img width="64" src="{{ 'assets/vim.png' | relative_url }}">
-							<span>Vim</span>
-						</a>
+						<img width="136" alt="Tata Steel log" src="{{ "assets/companies/tata.png" | relative_path }}">
 					</li>
 				</ul>
+
 			</section>
 
 			<section class="notes">

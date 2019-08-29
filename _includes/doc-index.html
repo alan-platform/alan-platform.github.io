@@ -17,7 +17,7 @@
 <th>
 {% assign this_header = item_url_parts | first %}
 {% if header != this_header %}
-<a href="{{doc_url}}">{{ this_header }}</a>
+<a href="{{doc_url | relative_url }}">{{ this_header }}</a>
 {% endif %}
 {% assign header = this_header %}
 </th>
@@ -25,11 +25,15 @@
 {% assign item_url = item_url | remove_first: header %}
 {% assign item_url = item_url | remove_first: "/" %}
 {% assign item_url_parts = item_url | split: "/" %}
+<td data-document-id="{{ item_url }}">
+	<a href="{{doc_url | relative_url }}">
 {% for part in item_url_parts %}
-<td>
-<a href="{{doc_url}}">{{ part }}</a>
-</td>
+	{% unless part contains '.html' %}
+		{{ part }}
+	{% endunless %}
 {% endfor %}
+	</a>
+</td>
 
 </tr>
 

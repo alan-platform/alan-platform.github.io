@@ -10,7 +10,7 @@ Today I’d like to introduce you to Alan. We’ve been working on it, in some c
 
 ## What is it?
 
-<img src="alan.png" alt="Alan logo" width="128" height="128" style="float:right;">Alan is a [low code platform][low-code], enabling efficient and low cost development of tailor-made software applications. However, unlike typical low code platforms, you don't wire together ready-made blocks of functionality. Instead, Alan achieves low-code-ness by letting you write a different, more purposeful kind of code. It’s declarative and not [Turing complete][turing-complete], and in a way you might think of it more as configuration than programming.
+Alan is a [low code platform][low-code], enabling efficient and low cost development of tailor-made software applications. However, unlike typical low code platforms, you don't wire together ready-made blocks of functionality. Instead, Alan achieves low-code-ness by letting you write a different, more purposeful kind of code. It’s declarative and not [Turing complete][turing-complete], and in a way you might think of it more as configuration than programming.
 
 In Alan [your code][model] specifies the data structure of your application. This specification defines all possible states of the data, and in effect all possible states of your application. A few lines of specification take the place of thousands of lines of code, and you will never have to touch or go near the underlying runtime code (you can’t actually).
 

@@ -1,7 +1,28 @@
 <footer>
 	<div class="inner">
 		<section>
-			By <a href="https://www.kjerner.com">Kjerner</a>
+			<p>
+				<a href="https://www.kjerner.com" rel="external">
+					<img src="{{ 'assets/logo/kjerner-white.svg' | relative_url }}" alt="Kjerner logo" height="23">
+				</a>
+			</p>
+			<p>
+				<span class="brand">alan</span> was created by <a href="https://www.kjerner.com">Kjerner</a><br>
+				Please contact us for a prototyping session<br>
+				<a href="mailto:info@kjerner.com">info@kjerner.com</a><br>
+				<a href="https://www.kjerner.com" rel="external">www.kjerner.com</a>
+			</p>
+			<p class="social">
+				<a href="linkedin">
+					<img src="{{ 'assets/thirdparty/linkedin.svg' | relative_url }}" alt="LinkedIn logo" height="23">
+				</a>
+				<a href="github">
+					<img src="{{ 'assets/thirdparty/github.svg' | relative_url }}" alt="GitHub logo" height="23">
+				</a>
+			</p>
+			<p class="copyright">
+				&copy; <a href="https://www.kjerner.com" rel="external">Kjerner</a> {{ site.time | date: "%Y" }} - Data driven solutions
+			</p>
 		</section>
 	</div>
 </footer>
