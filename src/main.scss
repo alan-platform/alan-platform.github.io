@@ -448,8 +448,10 @@ ul.team {
 	margin-left: -4rem;
 	margin-right: -4rem;
 
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	@media (min-width: $breakpoint + 1) {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
 
 	li {
 		display: flex;
