@@ -13,3 +13,8 @@ The site is built using [Jekyll](https://jekyllrb.com/docs/home/),
 for which there are guides and docs aplenty.
 
 All commits to the `gh-pages` branch result in an update of the public website.
+
+
+## Icons
+
+https://feathericons.com

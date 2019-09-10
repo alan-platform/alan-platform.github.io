@@ -440,6 +440,80 @@ table {
 	}
 }
 
+ul.team {
+	$team_photo_size: 120px;
+
+	list-style: none;
+	margin-bottom: 1rem*$ratio*$ratio;
+	margin-left: -4rem;
+	margin-right: -4rem;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+
+	li {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		position: relative;
+		margin-bottom: 1rem*$ratio*$ratio;
+		padding-left: $team_photo_size;
+		height: $team_photo_size;
+		background: $grey5;
+
+		> img {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: $team_photo_size;
+			height: $team_photo_size;
+		}
+		> :not(img) {
+			margin-left: 1rem;
+		}
+
+		&::before {
+			content: '';
+			display: block;
+			z-index: 1;
+			position: absolute;
+			top: 0;
+			left: 0;
+			border-style: solid;
+			border-width: $team_photo_size $team_photo_size/3 0 0;
+			border-color: #fff transparent transparent transparent;
+			pointer-events: none;
+		}
+		&::after {
+			content: '';
+			display: block;
+			z-index: 1;
+			position: absolute;
+			top: 0;
+			right: 0;
+			border-style: solid;
+			border-width: 0 0 $team_photo_size $team_photo_size/3;
+			border-color: transparent transparent #fff transparent;
+			pointer-events: none;
+		}
+	}
+	h3 {
+		margin: 1rem/$ratio/$ratio 0 0 0;
+		font-size: 1rem*$ratio*$ratio;
+		font-variant: small-caps;
+		font-style: italic;
+		text-transform: lowercase;
+		line-height: .6;
+	}
+	p {
+		margin: 0;
+		line-height: $ratio*$ratio;
+		> a + a {
+			margin-left: 1rem;
+		}
+	}
+}
+
 
 .doc {
 	article.wide {
