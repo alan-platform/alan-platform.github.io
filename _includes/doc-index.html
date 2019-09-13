@@ -1,42 +1,26 @@
 <table>
+	{% for version in site.data.versions.versions %}
+		{% for url in version.pages %}
+			<tr>
+				<th>
+				{% if header != version.name %}
+					<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">{{ version.name }}</a>
+				{% endif %}
+				{% assign header = version.name %}
+				</th>
 
-{% assign all_docs = site.pages | map: "url" %}
-{% assign all_docs = all_docs | sort %}
-
-{% for doc_url in all_docs %}
-
-{% assign item_url = doc_url | remove_first: "/pages/" %}
-{% assign item_section = item_url | split: "/" | first %}
-
-{% if item_section == "docs" %}
-{% assign item_url = item_url | remove_first: "docs/" %}
-{% assign item_url_parts = item_url | split: "/" %}
-
-<tr>
-
-<th>
-{% assign this_header = item_url_parts | first %}
-{% if header != this_header %}
-<a href="{{doc_url | relative_url }}">{{ this_header }}</a>
-{% endif %}
-{% assign header = this_header %}
-</th>
-
-{% assign item_url = item_url | remove_first: header %}
-{% assign item_url = item_url | remove_first: "/" %}
-{% assign item_url_parts = item_url | split: "/" %}
-<td data-document-id="{{ item_url }}">
-	<a href="{{doc_url | relative_url }}">
-{% for part in item_url_parts %}
-	{% unless part contains '.html' %}
-		{{ part }}
-	{% endunless %}
-{% endfor %}
-	</a>
-</td>
-
-</tr>
-
-{% endif %}
-{% endfor %}
+				{% assign item_url = url | remove_first: "pages/docs/" %}
+				{% assign item_url_parts = item_url | split: "/" %}
+				<td data-document-id="{{ item_url }}">
+					<a href="{{url | relative_url }}">
+						{% for part in item_url_parts %}
+							{% unless part contains '.html' %}
+								{{ part }}
+							{% endunless %}
+						{% endfor %}
+					</a>
+				</td>
+			</tr>
+		{% endfor %}
+	{% endfor %}
 </table>

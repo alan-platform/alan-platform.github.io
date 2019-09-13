@@ -1,0 +1,19 @@
+{
+	"versions": [
+		{
+			"name": "2019.7",
+			"pages": [
+				"pages/docs/datastore/48/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/48/migration_mapping/grammar.html",
+				"pages/docs/datastore/48/provided_interface_implementation/grammar.html",
+				"pages/docs/interface/2.3/interface/grammar.html",
+				"pages/docs/model/45/application/grammar.html",
+				"pages/docs/model/45/client_request/grammar.html",
+				"pages/docs/model/45/collection_query_to_table/grammar.html",
+				"pages/docs/relational-database-bridge/78/database/grammar.html",
+				"pages/docs/relational-database-bridge/78/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/48/sql_mapping/grammar.html"
+			]
+		}
+	]
+}
