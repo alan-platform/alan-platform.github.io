@@ -1,0 +1,217 @@
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 2;
+    font-size: 1em / $ratio;
+    background: $grey1;
+    color: #FFF;
+
+    @include diagonal('black');
+    &::after {
+        right: 27.5%;
+        z-index: -1;
+    }
+
+    .inner {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        padding: 0 1rem*$ratio*$ratio*$ratio;
+    }
+
+    ul {
+        list-style: none;
+        display: flex;
+        justify-content: flex-end;
+        margin: 0;
+        flex: 1;
+
+        @media (max-width: $breakpoint) {
+            display: none;
+        }
+
+        a {
+            @include breathe(all);
+        }
+
+        a,
+        a:link,
+        a:visited,
+        a:hover,
+        a:active {
+            display: inline-block;
+            margin-bottom: 3px;
+            border-bottom: 3px solid transparent;
+            font-weight: 200;
+            font-size: 1em*$ratio;
+            color: #FFF;
+        }
+        a:hover,
+        a:active {
+            text-decoration: none;
+            text-shadow: 0 0 2px #FFF;
+            border-bottom-color: darken($blue, 8%);
+            transform: skew(-10deg*$ratio);
+        }
+        a:active {
+            border-bottom-color: darken($blue, 12%);
+        }
+        .current > a,
+        .current-section > a {
+            border-bottom-color: darken($blue, 12%);
+        }
+    }
+
+    li {
+        padding-top: 1rem*$ratio*$ratio;
+        padding-bottom: 1rem*$ratio*$ratio;
+        line-height: 2rem;
+        + li {
+            margin-left: 1em * $ratio;
+        }
+        &.home {
+            padding-top: 0;
+            padding-bottom: 0;
+            img {
+                margin-bottom: -8px;
+            }
+            a,
+            a:link,
+            a:visited,
+            a:hover,
+            a:active {
+                border-bottom: none;
+            }
+        }
+
+        @media (min-width: $breakpoint) {
+            display: inline-block;
+            + li {
+                padding-left: 0;
+            }
+        }
+
+        svg,
+        img {
+            margin-bottom: -4px;
+        }
+    }
+
+    .logo {
+        display: block;
+        margin-right: 1em*$ratio;
+        padding-top: 1rem*$ratio*$ratio;
+        padding-bottom: 1rem*$ratio*$ratio;
+        svg .stripes path {
+            transition: fill .2s ease-in-out;
+            &:nth-child(4n + 1) { fill: $blue; }
+            &:nth-child(4n + 2) { fill: $orange; }
+            &:nth-child(4n + 3) { fill: $green; }
+            &:nth-child(4n + 4) { fill: $yellow; }
+
+            &:hover {
+                &:nth-child(4n + 3) { fill: $blue; }
+                &:nth-child(4n + 4) { fill: $orange; }
+                &:nth-child(4n + 1) { fill: $green; }
+                &:nth-child(4n + 2) { fill: $yellow; }
+            }
+        }
+    }
+
+    .nav-toggle {
+        @include breathe(color);
+
+        display: none;
+        padding-top: 1rem*$ratio*$ratio;
+        padding-bottom: 1rem*$ratio*$ratio;
+        color: #FFF;
+
+        &:hover,
+        &:active {
+            color: lighten($orange, 24%);
+        }
+        svg {
+            fill: currentColor;
+            display: none;
+        }
+        @media (max-width: $breakpoint) {
+            display: block;
+        }
+    }
+
+    @media (max-width: $breakpoint) {
+        &.open {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            ul {
+                display: block;
+                width: 100%;
+                position: fixed;
+                bottom: 1rem*$ratio*$ratio*$ratio;
+                left: 0;
+                text-align: center;
+                margin: 0;
+                padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
+                font-size: 1rem*$ratio*$ratio;
+                li {
+                    padding: 0;
+                }
+                li + li {
+                    margin: 1rem*$ratio 0 0 0;
+                }
+            }
+            .closer {
+                display: block;
+            }
+        }
+        &:not(.open) .opener {
+            display: block;
+        }
+    }
+}
+
+
+header .doc-button {
+    padding: 0 1rem*$ratio*$ratio 0 1rem*$ratio*$ratio*$ratio*$ratio;
+    background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
+    opacity: .9;
+
+    @media (max-width: $breakpoint) {
+        display: none;
+    }
+    &:hover,
+    &:active {
+        opacity: 1;
+    }
+
+    a,
+    a:link,
+    a:visited,
+    a:hover,
+    a:active  {
+        display: block;
+        position: relative;
+        margin-top: -.5rem;
+        margin-right: 1rem*$ratio;
+        margin-bottom: 0;
+        padding-top: 1rem*$ratio*$ratio;
+        padding-bottom: 1rem*$ratio*$ratio;
+        border-bottom: 0;
+        color: $grey1;
+        > small {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: .5rem;
+        }
+    }
+    a:hover,
+    a:active {
+        border-bottom: 0;
+        text-shadow: none;
+        transform: none;
+    }
+}

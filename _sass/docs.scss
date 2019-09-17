@@ -1,0 +1,78 @@
+.doc {
+    article.wide {
+        max-width: none;
+        section > *:not(div) {
+            max-width: $base-width;
+            margin-left: 0;
+            margin-right: auto;
+        }
+    }
+
+    h1 + ul {
+        list-style: none;
+        margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;
+        padding: 0;
+        text-align: center;
+        color: $grey2;
+        border-bottom: 1px solid $grey6;
+        li {
+            display: inline-block;
+        }
+        li:first-child {
+            font-weight: bold;
+            padding-right: 0;
+        }
+    }
+}
+
+
+table {
+    margin: 1em 0 1em*$ratio 0;
+    tr {
+        border-bottom: 1px solid $grey5;
+        @include breathe(background);
+        &:hover {
+            background: $grey6;
+            td:last-child > a {
+                &,
+                &:link,
+                &:visited,
+                &:hover,
+                &:active {
+                    color: $blue;
+                }
+            }
+        }
+    }
+    th,
+    td {
+        white-space: nowrap;
+    }
+    th {
+        text-align: right;
+        border-right: 1px dotted $grey6;
+        font-weight: bold;
+    }
+    th > a,
+    td > a {
+        display: inline-block;
+        padding: 0 1rem*$ratio;
+        width: 100%;
+
+        &,
+        &:link,
+        &:visited,
+        &:hover,
+        &:active {
+            color: $black;
+            text-decoration: none;
+            @include breathe(color);
+        }
+    }
+
+    td[data-document-id="model/application/grammar.html"] {
+        font-weight: bold;
+        font-style: italic;
+        background: $yellow;
+    }
+}
