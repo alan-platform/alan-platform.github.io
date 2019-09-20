@@ -136,3 +136,30 @@ table {
         }
     }
 }
+div.highlight {
+    position: relative;
+
+    &:not(.expanded) {
+        max-height: 50vh;
+        overflow: auto;
+    }
+
+    .expand-button {
+        -webkit-appearance: none;
+        position: absolute;
+        top: .5rem/$ratio;
+        right: .5rem/$ratio;
+        padding: .5ex 1ex;
+        border: none;
+        border-radius: 3px;
+        font-size: 1rem/$ratio;
+        background: $blue;
+        color: #FFF;
+        cursor: pointer;
+
+        &:hover,
+        &:active {
+            background: darken($blue, 6%);
+        }
+    }
+}

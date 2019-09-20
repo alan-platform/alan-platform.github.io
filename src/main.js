@@ -39,4 +39,23 @@ window.onload = function() {
         doc_menu_button.ariaExpanded = 'false';
     });
 
+
+    document.querySelectorAll('div.highlight').forEach(function(block) {
+        if (block.scrollHeight > block.offsetHeight) {
+            // it has a scrollbar
+
+            var button = document.createElement('button');
+            button.classList.add('expand-button');
+            button.innerText = 'Expand';
+
+            button.onclick = function() {
+                block.classList.add('expanded');
+                button.remove();
+            };
+
+            block.appendChild(button);
+        }
+    });
+
+
 };
