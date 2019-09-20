@@ -39,7 +39,7 @@ Alan is the realization of this idea: at its heart it’s a data modeling langua
 
 A data model is all you need for generating a full software stack. This includes a [graph database][graph-db] with a 100% push architecture and a responsive web-based user interface, Excel and CSV export features, and real time syncing with a SQL database.
 
-If you need custom logic or data wrangling, Alan employs what we call “side apps”. These are small utilities that run alongside your core application. You specify what what data is available to such apps, and the operations they can perform. This ensures data security and removes the risk of inadvertently breaking side apps when modifying the core application.
+If you need custom logic or data wrangling, Alan employs what we call “side apps”. These are small utilities that run alongside your core application. You specify what data is available to such apps, and the operations they can perform. This ensures data security and removes the risk of inadvertently breaking side apps when modifying the core application.
 
 Updating Alan software through new insights, or simply to add new features, is super easy. You modify the data model, specify data migration rules between the two versions, and deploy it with only a minute or two downtime and the guarantee that you won’t lose any data. If you have a brilliant idea you can have it built and deployed before your coffee gets cold.
 
