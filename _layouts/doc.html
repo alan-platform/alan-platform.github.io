@@ -6,10 +6,23 @@
 
 		<article class="wide">
 			<h1>{{ page.language }}</h1>
-			<ul>
-				<li>{{ page.origin }}</li>
-				<li>{{ page.type }} version <em>{{ page.version }}</em></li>
-			</ul>
+
+			<p>
+				<strong>{{ page.origin }}</strong>
+				{{ page.type }} version
+				<em>{{ page.version }}</em>
+				<button aria-expanded="false" aria-controls="doc-list">
+					Switch document
+					<svg height="16px" width="16px" version="1.1" viewBox="0 0 32 32">
+						<path d="M16,24l-16,-16l32,0l-16,16Z"/>
+					</svg>
+				</button>
+			</p>
+
+			<div id="doc-list" aria-expanded="false">
+				{% include doc-index.html %}
+			</div>
+
 
 			<section>
 				{{ content }}
