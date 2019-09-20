@@ -136,6 +136,15 @@ table {
         }
     }
 }
+
+
+#markdown-toc {
+    margin-bottom: 1rem*$ratio*$ratio;
+    padding-bottom: 1rem*$ratio;
+    border-bottom: 2px solid $grey6;
+}
+
+
 div.highlight {
     position: relative;
 
