@@ -62,9 +62,15 @@ h2 {
     margin: 1em*$ratio*$ratio*$ratio*$ratio 0 1em/$ratio/$ratio 0;
     font-size: 1em*$ratio;
 }
-h3 {
+h3,
+h4,
+h5,
+h6 {
     margin: 1em 0 0 0;
     font-size: 1em;
+}
+h3 {
+    font-size: 1.2em;
 }
 
 small {

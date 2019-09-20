@@ -92,8 +92,8 @@ a[name] { // make name-linked-content doesn't disappear behind header for # link
 :target::before { // offset for fixed header
 	content: "";
 	display: block;
-	height: 4rem;
-	margin-top: -4rem;
+	height: 8rem;
+	margin-top: -8rem;
 }
 
 
