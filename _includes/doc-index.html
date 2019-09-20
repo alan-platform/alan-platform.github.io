@@ -2,7 +2,7 @@
 	{% for version in site.data.versions.versions %}
 		{% if version.name == site.data.versions.current %}
 			{% for url in version.pages %}
-				<tr class="{% if page.url == doc_url %}current{% endif %}" data-document-id="{{ item_url }}">
+				<tr class="{% if page.url == doc_url %}current{% endif %}">
 					{% assign item_url = url | remove_first: "pages/docs/" %}
 					{% assign item_url_parts = item_url | split: "/" %}
 					{% assign name = item_url_parts | first %}

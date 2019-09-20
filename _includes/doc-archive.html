@@ -1,7 +1,7 @@
 <table>
 	{% for version in site.data.versions.versions %}
 		{% for url in version.pages %}
-			<tr data-document-id="{{ item_url }}">
+			<tr>
 				<th>
 				{% if header != version.name %}
 					<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">{{ version.name }}</a>
