@@ -5,7 +5,7 @@ category: docs
 ---
 
 
-In this tutorial we'll take you through the steps going from a blank model to a small application. 
+In this tutorial we'll take you through the steps of going from a blank model to a small application. 
 
 - [Project Layout](#project-layout)
 - [Application Model](#application-model)
