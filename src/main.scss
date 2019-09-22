@@ -44,14 +44,9 @@ span.brand {
 			font-size: 1rem;
 		}
 	}
-
 }
 
-a[name] { // make name-linked-content doesn't disappear behind header for # links
-	display: block;
-	position: relative;
-	top: -3rem;
-}
+
 
 h2[id],
 h3[id] {
@@ -87,12 +82,20 @@ h3[id] a::after {
 	background-size: 12px 12px;
 }
 
+
+
+a[name] { // make name-linked-content doesn't disappear behind header for # links
+	display: block;
+	position: relative;
+	top: -3rem;
+}
 :target::before { // offset for fixed header
 	content: "";
 	display: block;
-	height: 4rem;
-	margin-top: -4rem;
+	height: 8rem;
+	margin-top: -8rem;
 }
+
 
 section > * + * {
 	margin-top: 1em/$ratio;
@@ -108,233 +111,6 @@ h2.centered {
 	text-align: center;
 }
 
-header {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 2;
-	background: $grey1;
-	color: #fff;
-	font-size: 1em / $ratio;
-
-	@include diagonal('black');
-	&::after {
-		right: 25%;
-		z-index: -1;
-	}
-
-	.inner {
-		display: flex;
-		justify-content: space-between;
-		position: relative;
-		padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
-	}
-
-	ul {
-		margin: 0;
-		flex: 1;
-		text-align: right;
-		list-style: none;
-
-		@media (max-width: $breakpoint) {
-			display: none;
-		}
-
-		a {
-			@include breathe(all);
-		}
-
-		a,
-		a:link,
-		a:visited,
-		a:hover,
-		a:active {
-			font-size: 1em*$ratio;
-			font-weight: 200;
-			color: #fff;
-			display: inline-block;
-			border-bottom: 3px solid transparent;
-			margin-bottom: 3px;
-		}
-		a:hover,
-		a:active {
-			transform: skew(-10deg*$ratio);
-			text-decoration: none;
-			text-shadow: 0 0 2px #fff;
-			border-bottom-color: darken($blue, 8%);
-		}
-		a:active {
-			border-bottom-color: darken($blue, 12%);
-		}
-		.current > a,
-		.current-section > a {
-			border-bottom-color: darken($blue, 12%);
-		}
-	}
-
-	li {
-		line-height: 2rem;
-		+ li {
-			margin-left: 1em * $ratio;
-		}
-		&.home {
-			padding-top: 0;
-			padding-bottom: 0;
-			img {
-				margin-bottom: -8px;
-			}
-			a,
-			a:link,
-			a:visited,
-			a:hover,
-			a:active {
-				border-bottom: none;
-			}
-		}
-
-		@media (min-width: $breakpoint) {
-			display: inline-block;
-			+ li {
-				padding-left: 0;
-			}
-		}
-
-		svg,
-		img {
-			margin-bottom: -4px;
-		}
-	}
-
-	.logo {
-		display: block;
-		margin-right: 1em*$ratio;
-		svg .stripes path {
-			transition: fill .2s ease-in-out;
-			&:nth-child(4n + 1) { fill: $blue; }
-			&:nth-child(4n + 2) { fill: $orange; }
-			&:nth-child(4n + 3) { fill: $green; }
-			&:nth-child(4n + 4) { fill: $yellow; }
-
-			&:hover {
-				&:nth-child(4n + 3) { fill: $blue; }
-				&:nth-child(4n + 4) { fill: $orange; }
-				&:nth-child(4n + 1) { fill: $green; }
-				&:nth-child(4n + 2) { fill: $yellow; }
-			}
-		}
-	}
-
-	.nav-toggle {
-		@include breathe(color);
-
-		display: none;
-		color: #fff;
-
-		&:hover,
-		&:active {
-			color: lighten($orange, 24%);
-		}
-		svg {
-			fill: currentColor;
-			display: none;
-		}
-		@media (max-width: $breakpoint) {
-			display: block;
-		}
-	}
-
-	@media (max-width: $breakpoint) {
-		&.open {
-			top: 0;
-			bottom: 0;
-			left: 0;
-			right: 0;
-			ul {
-				display: block;
-				position: fixed;
-				bottom: 1rem*$ratio*$ratio*$ratio;
-				left: 0;
-				width: 100%;
-				text-align: center;
-				margin: 0;
-				padding: 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
-				font-size: 1rem*$ratio*$ratio;
-				li {
-					padding: 0;
-				}
-				li + li {
-					margin: 1rem*$ratio 0 0 0;
-				}
-			}
-			.closer {
-				display: block;
-			}
-		}
-		&:not(.open) .opener {
-			display: block;
-		}
-	}
-}
-
-footer {
-	margin: 4rem 0 0 0;
-	position: relative;
-	background: $grey1;
-	padding: 0 1rem*$ratio*$ratio;
-	font-size: 14px;
-	color: mix($grey5, $grey6);
-	line-height: 21px;
-
-	@include diagonal('black');
-	&::after {
-		opacity: .1;
-		right: 50%;
-	}
-
-	img {
-		margin-bottom: 8px;
-	}
-
-	.social {
-		margin-top: 1rem*$ratio*$ratio*$ratio;
-		margin-bottom: 1rem*$ratio;
-		color: #fff;
-		a {
-			display: inline-block;
-		}
-		a + a {
-			margin-left: 1rem*$ratio
-		}
-	}
-	.copyright {
-		margin-top: 1rem*$ratio*$ratio*$ratio*$ratio;
-		margin-bottom: 1rem;
-		font-weight: 200;
-		font-size: 13px;
-		letter-spacing: .05ex;
-	}
-
-	.inner {
-		padding: 1rem*$ratio*$ratio*$ratio 0 1rem*$ratio 0;
-		background-size: 90px;
-		max-width: 1280px - 80*2;
-		margin: 0 auto;
-		@media (min-width: 480px) {
-			background: url('../assets/logo/full-orange.svg') no-repeat right 1.999396rem bottom 2.827145944rem / 120px;
-		}
-	}
-
-	a,
-	a:link,
-	a:visited {
-		color: inherit;
-		@include breathe(color);
-	}
-	a:hover,
-	a:active {
-		color: #fff;
-	}
-}
 
 article {
 	max-width: $base-width + 4;
@@ -342,58 +118,6 @@ article {
 	> * {
 		margin-left: 4rem;
 		margin-right: 4rem;
-	}
-}
-
-
-table {
-	margin: 1em 0 1em*$ratio 0;
-	tr {
-		border-bottom: 1px solid $grey5;
-		@include breathe(background);
-		&:hover {
-			background: $grey6;
-			td:last-child > a {
-				&,
-				&:link,
-				&:visited,
-				&:hover,
-				&:active {
-					color: $blue;
-				}
-			}
-		}
-	}
-	th,
-	td {
-		white-space: nowrap;
-	}
-	th {
-		text-align: right;
-		border-right: 1px dotted $grey6;
-		font-weight: bold;
-	}
-	th > a,
-	td > a {
-		display: inline-block;
-		padding: 0 1rem*$ratio;
-		width: 100%;
-
-		&,
-		&:link,
-		&:visited,
-		&:hover,
-		&:active {
-			color: $black;
-			text-decoration: none;
-			@include breathe(color);
-		}
-	}
-
-	td[data-document-id="model/application/grammar.html"] {
-		font-weight: bold;
-		font-style: italic;
-		background: $yellow;
 	}
 }
 
@@ -441,29 +165,6 @@ table {
 }
 
 
-.doc {
-	article.wide {
-		max-width: none;
-		section > *:not(div) {
-			max-width: $base-width;
-			margin-left: 0;
-			margin-right: auto;
-		}
-	}
-
-	h1 + ul {
-		list-style: none;
-		margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;
-		padding: 0;
-		text-align: center;
-		color: $grey2;
-		border-bottom: 1px solid $grey6;
-		li {
-			display: inline-block;
-		}
-		li:first-child {
-			font-weight: bold;
-			padding-right: 0;
-		}
-	}
-}
+@import "header";
+@import "footer";
+@import "docs";

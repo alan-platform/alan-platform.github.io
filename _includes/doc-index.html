@@ -1,26 +1,30 @@
 <table>
 	{% for version in site.data.versions.versions %}
-		{% for url in version.pages %}
-			<tr>
-				<th>
-				{% if header != version.name %}
-					<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">{{ version.name }}</a>
-				{% endif %}
-				{% assign header = version.name %}
-				</th>
-
+		{% if version.name == site.data.versions.current %}
+			{% for url in version.pages %}
 				{% assign item_url = url | remove_first: "pages/docs/" %}
 				{% assign item_url_parts = item_url | split: "/" %}
-				<td data-document-id="{{ item_url }}">
-					<a href="{{url | relative_url }}">
-						{% for part in item_url_parts %}
-							{% unless part contains '.html' %}
-								{{ part }}
-							{% endunless %}
-						{% endfor %}
-					</a>
-				</td>
-			</tr>
-		{% endfor %}
+				{% assign name = item_url_parts | first %}
+
+				{% assign abs_url = url | absolute_url %}
+				{% assign page_url = page.url | absolute_url %}
+
+				<tr class="{% if page_url == abs_url %}current{% endif %}">
+					<th>
+						{{ name }}
+					</th>
+
+					<td>
+						<a href="{{url | relative_url }}">
+							{% for part in item_url_parts offset:1 %}
+								{% unless part contains '.html' %}
+									{{ part }}
+								{% endunless %}
+							{% endfor %}
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		{% endif  %}
 	{% endfor %}
 </table>

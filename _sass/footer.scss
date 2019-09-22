@@ -1,0 +1,59 @@
+footer {
+    margin: 4rem 0 0 0;
+    position: relative;
+    background: $grey1;
+    padding: 0 1rem*$ratio*$ratio;
+    font-size: 14px;
+    color: mix($grey5, $grey6);
+    line-height: 21px;
+
+    @include diagonal('black');
+    &::after {
+        opacity: .1;
+        right: 50%;
+    }
+
+    img {
+        margin-bottom: 8px;
+    }
+
+    .social {
+        margin-top: 1rem*$ratio*$ratio*$ratio;
+        margin-bottom: 1rem*$ratio;
+        color: #fff;
+        a {
+            display: inline-block;
+        }
+        a + a {
+            margin-left: 1rem*$ratio
+        }
+    }
+    .copyright {
+        margin-top: 1rem*$ratio*$ratio*$ratio*$ratio;
+        margin-bottom: 1rem;
+        font-weight: 200;
+        font-size: 13px;
+        letter-spacing: .05ex;
+    }
+
+    .inner {
+        padding: 1rem*$ratio*$ratio*$ratio 0 1rem*$ratio 0;
+        background-size: 90px;
+        max-width: 1280px - 80*2;
+        margin: 0 auto;
+        @media (min-width: 480px) {
+            background: url('../assets/logo/full-orange.svg') no-repeat right 1.999396rem bottom 2.827145944rem / 120px;
+        }
+    }
+
+    a,
+    a:link,
+    a:visited {
+        color: inherit;
+        @include breathe(color);
+    }
+    a:hover,
+    a:active {
+        color: #fff;
+    }
+}
