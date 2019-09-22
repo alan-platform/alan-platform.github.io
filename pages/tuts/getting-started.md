@@ -5,20 +5,16 @@ category: docs
 ---
 
 
-> Take a look at the [Reference Guide](reference.html) for an overview of the bits, pieces and commands used throughout this tutorial. 
-
 In this tutorial we'll take you through the steps going from a blank model to a small application. 
 
 - [Project Layout](#project-layout)
 - [Application Model](#application-model)
-- [Run It](#run-it)
-- [Build It](#build-it)
+- [Build It & Run It](#run-it)
 - [Your own application model](#your-own-application-model)
   - [Add users](#add-users)
   - [Add some collections](#add-some-collections)
   - [Numbers](#numbers)
   - [References](#references)
-  - [Compiling](#compiling)
 - [Next steps](#next-steps)
 
 
@@ -93,8 +89,8 @@ There is a fifth type called **group**, which is just a construct to create  gro
 Let's quickly try to actually boot up this example project, before we go back to making our own application.
 
 This should be fairly easy:
-- Use the button 'Build It' at the bottom left to run a build go over the problems with F8 (if any)
-- If it builds, you should be able to deploy it, by using the 'Deploy It' button at the bottom
+- Use the button 'Alan Build' at the bottom left to run a build go over the problems with F8
+- If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom
 
 
 ## Your own application model
@@ -232,6 +228,7 @@ It's a text property, but we want it to refer to one of the users of the applica
 - `^`: the first step took us from 'Todos' to 'Project', so we take another step up.
 - `.'Users'`: now that we've arrived at the root of the model, we can simply point to the 'Users' collection.
 
+If you would like to check your addition, build the project again. And if all is well, just deploy it to see how it works in practice.
 
 ## Next steps
 
