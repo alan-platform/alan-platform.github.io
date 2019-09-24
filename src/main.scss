@@ -20,29 +20,39 @@ span.brand {
 	display: flex;
 	justify-content: flex-end;
 	position: relative;
-	height: 100vh / $ratio;
+	height: calc(100vh - 5rem);
 	padding-top: 5rem;
 	background: $grey2 url("../assets/heroes/4u2U8EO9OzY.jpg") no-repeat center / cover;
+	color: #fff;
 	overflow: hidden;
 	.inner {
 		@include anti_diagonal('black');
-		display: flex;
 		position: relative;
-		align-items: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 		padding: 1rem 1rem*$ratio*$ratio*$ratio;
-		color: #fff;
 	}
 	p {
 		margin: 0;
 		font-weight: bold;
 		font-size: 1rem*$ratio*$ratio*$ratio;
+		line-height: 1;
 		z-index: 1;
 
-		span {
+		+ p {
+			margin-top: 1em;
 			font-weight: normal;
-			font-style: italic;
-			font-size: 1rem;
+			font-size: 1rem*$ratio;
 		}
+	}
+	svg {
+		width: 32px;
+		height: 32px;
+		position: absolute;
+		bottom: 1em;
+		left: 50%;
+		margin-left: -16px;
 	}
 }
 
