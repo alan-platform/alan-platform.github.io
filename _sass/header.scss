@@ -9,7 +9,7 @@ header {
 
     @include diagonal('black');
     &::after {
-        right: 27.5%;
+        right: 33.3%;
         z-index: -1;
     }
 
@@ -33,6 +33,8 @@ header {
 
         a {
             @include breathe(all);
+            display: inline-block;
+            white-space: nowrap;
         }
 
         a,
@@ -40,7 +42,6 @@ header {
         a:visited,
         a:hover,
         a:active {
-            display: inline-block;
             margin-bottom: 3px;
             border-bottom: 3px solid transparent;
             font-weight: 200;
@@ -52,7 +53,7 @@ header {
             text-decoration: none;
             text-shadow: 0 0 2px #FFF;
             border-bottom-color: darken($blue, 8%);
-            transform: skew(-10deg*$ratio);
+            transform: skew(-16.7deg);
         }
         a:active {
             border-bottom-color: darken($blue, 12%);
@@ -68,7 +69,7 @@ header {
         padding-bottom: 1rem*$ratio*$ratio;
         line-height: 2rem;
         + li {
-            margin-left: 1em * $ratio;
+            margin-left: 1em*$ratio*$ratio;
         }
         &.home {
             padding-top: 0;
@@ -92,9 +93,9 @@ header {
             }
         }
 
-        svg,
-        img {
-            margin-bottom: -4px;
+        svg {
+            width: 1em/$ratio;
+            height: 1em/$ratio;
         }
     }
 
@@ -173,6 +174,39 @@ header {
     }
 }
 
+
+header ul .login-button {
+    a {
+        position: relative;
+        padding: 0 1em;
+        border: none;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            border: 1px solid $yellow;
+            transform: skew(-26.7deg);
+            transition: background .2s ease-in-out;
+        }
+        &:hover,
+        &:active {
+            color: $grey1;
+            text-shadow: none;
+            transform: none;
+            &::before {
+                background: $yellow;
+            }
+        }
+    }
+    svg {
+        margin-top: -2px;
+        will-change: transform;
+    }
+}
 
 header .doc-button {
     padding: 0 1rem*$ratio*$ratio 0 1rem*$ratio*$ratio*$ratio*$ratio;

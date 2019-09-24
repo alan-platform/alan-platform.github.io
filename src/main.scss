@@ -106,13 +106,17 @@ h2.centered {
 	font-style: italic;
 	text-align: center;
 }
+p.centered {
+	margin-top: 1rem*$ratio*$ratio;
+	text-align: center;
+}
 
 .video-wrapper {
 	text-align: center;
 }
 
 
-article {
+main {
 	max-width: $base-width + 4;
 	margin: 4rem auto 0 auto;
 	> * {
