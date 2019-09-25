@@ -23,7 +23,7 @@ window.onload = function() {
 
 
     var doc_menu_button = document.querySelector('[aria-controls="doc-list"]');
-    var doc_menu = document.getElementById(doc_menu_button.ariaControls);
+    var doc_menu = document.getElementById(doc_menu_button.getAttribute('aria-controls'));
     doc_menu_button.onclick = function(event) {
         event.stopPropagation();
         if (doc_menu.ariaExpanded === 'false') {
