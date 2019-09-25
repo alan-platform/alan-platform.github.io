@@ -5,7 +5,7 @@ category: docs
 ---
 
 
-In this tutorial we'll take you through the steps of going from a blank model to a small application. 
+In this tutorial we'll take you through the steps of going from a blank model to a small application.
 
 - [Project Layout](#project-layout)
 - [Application Model](#application-model)
@@ -22,7 +22,7 @@ In this tutorial we'll take you through the steps of going from a blank model to
 
 ## Project Layout
 
-To get you up and running we've set up a project template in your online ide. The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the most complicated things you can build with Alan (like connecting to external databases).  
+To get you up and running we've set up a project template in your online ide. The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the most complicated things you can build with Alan (like connecting to external databases).
 
 You'll notice some top level directories here.
 
@@ -32,53 +32,53 @@ You'll notice some top level directories here.
   Contains downloaded alan executables
 - **.vscode**
   Contains project specific vscode settings
-- **deployments**  
+- **deployments**
 	Contains environment specific configuration like IP addresses, in addition to stuff that will be different from one deployment to another like your datasets.
-- **interfaces**  
-	Systems talk to each other over interfaces. For instance, the client talks to the server over an interface defined by the application model. 
-- **migrations**  
-	Data needs to match the application model specification. Migrations help you move your data from one version of that specification to another. 
-- **systems**  
-	Contains the configuration of each system that will be running for your project. Most projects have a server, a client and a reporter. 
-- **wiring**  
+- **interfaces**
+	Systems talk to each other over interfaces. For instance, the client talks to the server over an interface defined by the application model.
+- **migrations**
+	Data needs to match the application model specification. Migrations help you move your data from one version of that specification to another.
+- **systems**
+	Contains the configuration of each system that will be running for your project. Most projects have a server, a client and a reporter.
+- **wiring**
 	Defines how the systems and interfaces are wired together. For most projects the default here already defines everything you need, but if you want to add custom clients or external databases this is where you describe how they're connected.
 
-For now, you can ignore .alan, .vscode, deployments, migrations, systems and wiring. We'll touch on some of those later, but we've got defaults set up there that will work for most basic projects. 
+For now, you can ignore .alan, .vscode, deployments, migrations, systems and wiring. We'll touch on some of those later, but we've got defaults set up there that will work for most basic projects.
 
 First, lets take a look at the application model, as for most projects you'll spend most time editing this file.
 
 
 ## Application Model
 
-Open the **interfaces/model/application.alan** file in an editor. We'll be using Visual Studio Code in the screenshots, but [you can use whatever you like](https://github.com/alan-platform?utf8=✓&q=AlanFor). 
+Open the **interfaces/model/application.alan** file in an editor. We'll be using Visual Studio Code in the screenshots, but [you can use whatever you like](https://github.com/alan-platform?utf8=✓&q=AlanFor).
 
 ![](helloworld2.png)
 
 The template already has a little model set up that covers some basics. Let's walk through it before we wipe it clean and start our own.
 
 The model is a nested structure not unlike [JSON](https://json.org). At the first level you'll see some keywords:
-- [users](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L1)  
-	There is some boiler plate here that currently allows anonymous users, so you can use the application without logging in. 
-- [interfaces](https://github.com/M-industries/AlanProjectTemplate/blob/e12c45306d10461c47218ec11ed872002fbce1f5/interfaces/model/application.alan#L6)  
+- [users](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L1)
+	There is some boiler plate here that currently allows anonymous users, so you can use the application without logging in.
+- [interfaces](https://github.com/M-industries/AlanProjectTemplate/blob/e12c45306d10461c47218ec11ed872002fbce1f5/interfaces/model/application.alan#L6)
 	Interfaces are declared here so that they can be assigned permissions to access parts of the application model.
-- [root](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L12)  
+- [root](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L12)
 	This is where your model really starts.
-- [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)  
-	Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc. 
+- [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)
+	Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc.
 
 So, in **root**, you describe the data model of your application. You do so by combining properties of certain types. Essentially there are 5 data types in Alan:
-- **number** (integer or natural)  
+- **number** (integer or natural)
 	Numbers are things you can count, or do math with. [Dates and date-time values](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L42) are numbers too. Numbers are usually an integer, or a [natural](https://en.wikipedia.org/wiki/Natural_number) when they can't be zero or negative. Alan doesn't have floats, but uses conversions to maintain a specific accuracy.
-- **text**  
+- **text**
 	Text is mostly just text, e.g. a "Name", or any other value that doesn't adhere to any rules. So [phone numbers](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L33) are `text`, not `number`.
 	You *can* put some [input rules](/pages/docs/model/33/application/grammar.html#node) on text for the user interface, e.g. minimum length or a specific pattern.
 	Text can also refer to an [entry in another collection](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L49) (like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key)).
-- **file**  
+- **file**
 	When you connect file storage to your server (documentation about this will follow), you can store files as well. They can be viewed in the client, or downloaded.
-- **collection**  
+- **collection**
 	You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) 😉 ) think of these as your tables. If you want to describe a bunch of "things" that are mostly the same, e.g. "Contacts", that's a collection.
-	Keys in a collection are just like a text property, but you don't have to define it explicitly. Like text properties, keys can also refer to keys in another collection. 
-- **stategroup**  
+	Keys in a collection are just like a text property, but you don't have to define it explicitly. Like text properties, keys can also refer to keys in another collection.
+- **stategroup**
 	[State groups](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L39) represent a choice. With state groups things in one state have different properties from things in another state. E.g. road bikes and fixies are both bikes, but one has gears and shifters, whereas the other doesn't. Or finished processes have and end time, unfinished processes don't.
 
 There is a fifth type called **group**, which is just a construct to create  grouping and name spaces: groups don't actually hold any data by themselves.
@@ -114,7 +114,7 @@ root {
 numerical-types
 ```
 
-This clean slate for an application that has "users" and requires logging in. 
+This clean slate for an application that has "users" and requires logging in.
 
 ### Add users
 Now let's add those users to the model:
@@ -123,7 +123,7 @@ Now let's add those users to the model:
 root {
 	'Users': collection ['Username'] {
 		'Username': text
-  }
+	}
 }
 ```
 
@@ -134,7 +134,7 @@ This is how it would look like:
 
 ```
 root {
-  can-read:   user
+	can-read: user
 	can-update: user
 
 	'Users': collection ['Username'] {
@@ -158,7 +158,7 @@ That should work, but our app lacks purpose right now. Why not build a little mu
 
 ```
 root {
-  can-read:   user
+	can-read: user
 	can-update: user
 
 	'Users': collection ['Username'] {
@@ -173,10 +173,10 @@ root {
 		}
 	}
 	'Projects': collection ['Project Name'] {
-    'Project Name': text
+	'Project Name': text
 		'Todos': collection ['Todo'] {
-      'Todo': text
-    }
+			'Todo': text
+		}
 	}
 }
 ```
@@ -215,7 +215,7 @@ numerical-types
 ```
 
 ### References
-The other thing that's special here is the 'Assignee'. 
+The other thing that's special here is the 'Assignee'.
 
 ```
 'Assignee': text -> ^ ^ .'Users'
