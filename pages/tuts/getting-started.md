@@ -185,7 +185,7 @@ We should probably have a little more information for each todo, like when it wa
 
 ```
 'Todos': collection ['Todo'] {
-  'Todo': text
+	'Todo': text
 	'Created': natural 'date and time'
 	'Description': text
 	'Assignee': text -> ^ ^ .'Users'
