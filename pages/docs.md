@@ -6,6 +6,7 @@ permalink: /docs/
 ---
 
 - An introduction: [Introducing Alan](/pages/tuts/introducing.html).
+- [Getting started](/pages/tuts/getting-started.html) with the online IDE.
 - A description of the [Alan stack from the bottom up](/pages/tuts/bottom-up.html).
 - Some background information on [the syntax](/pages/tuts/syntax.html).
 - An [archive of previous versions](/docs/archive).
