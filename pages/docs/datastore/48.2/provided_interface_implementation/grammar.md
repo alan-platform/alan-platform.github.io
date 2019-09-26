@@ -6,6 +6,14 @@ version: 48.2
 type: grammar
 ---
 
+1. TOC
+{:toc}
+## The *minimal implementation*
+---
+Every provided interface implementation contains at least
+> ```js
+root = root /* context path goes here */ ( /* node type mapping */ )
+```
 
 ```js
 'node identification' group (
@@ -41,60 +49,10 @@ type: grammar
 
 ```js
 'root' component 'node type mapping'
-// 'numerical types' ['numerical-types-mapping'] collection (
-// 	'source numerical types' collection ( )
-// )
 ```
-
-```js
-'EQ entity type'
-```
-
-```js
-'EQ collection'
-```
-
-```js
-'EQ interface node type'
-```
-
-```js
-'node identity'
-```
-
-```js
-'INEQ identification type'
-```
-
-```js
-'member'
-```
-
-```js
-'filter'
-```
-
-```js
-'variable'
-```
-
-```js
-'context'
-```
-
-```js
-'EQ member'
-```
-
-```js
-'dereference'
-	'dereference' stategroup ( 'yes' )
-```
-
-```js
-'delink'
-	'delink' stategroup ( 'yes' )
-```
+## Context identification path
+---
+This path can be used for expressing the context node for an interface (the interface `root`).
 
 ```js
 'interface context id path'
@@ -115,37 +73,8 @@ type: grammar
 			'tail' component 'interface context id path'
 	)
 ```
-
-```js
-'key separator'
-	'separator' ['join'] stategroup (
-		'dot' ['.']
-		'dash' ['-']
-		'colon' [':']
-		'greater than' ['>']
-		'space' ['space']
-	)
-```
-
-```js
-'key constructor'
-	'branch concatenation' stategroup (
-		'yes'
-			'type' stategroup (
-				'prepend' ['prepend-branch']
-				'append' ['append-branch']
-			)
-		'no'
-			'constraint' stategroup ( 'no' )
-	)
-	'key separator' stategroup (
-		'yes'
-			'key separator' component 'key separator'
-		'no'
-			'constraint: composite key not allowed without key separator' component 'INEQ identification type'
-			'no successor' stategroup ( 'no' )
-	)
-```
+## Node type mapping
+---
 
 ```js
 'node type mapping' [ '(' , ')' ]
@@ -217,6 +146,8 @@ type: grammar
 	'attribute' component 'member'
 )
 ```
+## Command mapping expressions
+---
 
 ```js
 'command mapping' ['do']
@@ -280,17 +211,106 @@ type: grammar
 							)
 						)
 						'branches' ['(',')'] collection ( ['|']
-							// 'tail' component 'conditional descendant imp node path'
 							'state mapping context variable' stategroup (
 								'current variable'
 								'branch context variable' ['bind' '$']
 							)
-							// 'EQ interface node type' component 'EQ interface node type'
 							'state' ['='] reference
 							'argument mapping' component 'argument mapping'
 						)
 				)
 		)
+	)
+```
+## Property mapping expressions
+---
+### Texts, numbers, files, and references
+
+```js
+'text expression'
+	'path' component 'singular node path'
+	'text' [ '.' ] reference
+```
+
+```js
+'number expression'
+	'path' component 'singular node path'
+	'type' stategroup (
+		'property'
+			'number' [ '#' ] reference
+		'state context parameter'
+			'number' [ '&#' ] reference
+	)
+```
+
+```js
+'file expression'
+	'path' component 'singular node path'
+	'file' [ '/' ] reference
+```
+
+```js
+'reference expression'
+	'path' component 'singular node path'
+	'text' [ '>' ] reference
+	'dereference' component 'dereference'
+	'key path' ['(', ')'] component 'collection key node path'
+```
+### Collections
+
+```js
+'key separator'
+	'separator' ['join'] stategroup (
+		'dot' ['.']
+		'dash' ['-']
+		'colon' [':']
+		'greater than' ['>']
+		'space' ['space']
+	)
+```
+
+```js
+'key constructor'
+	'branch concatenation' stategroup (
+		'yes'
+			'type' stategroup (
+				'prepend' ['prepend-branch']
+				'append' ['append-branch']
+			)
+		'no'
+			'constraint' stategroup ( 'no' )
+	)
+	'key separator' stategroup (
+		'yes'
+			'key separator' component 'key separator'
+		'no'
+			'constraint: composite key not allowed without key separator' component 'INEQ identification type'
+			'no successor' stategroup ( 'no' )
+	)
+```
+
+```js
+'collection expression'
+	'head' component 'context node path'
+	'tail' component 'collection expression tail'
+```
+
+```js
+'collection expression tail'
+	'has steps' stategroup (
+		'no'
+			'filter' component 'filter expression'
+		'yes'
+			'type' stategroup (
+				'singular'
+					'step' component 'singular node step'
+				'conditional'
+					'step' component 'conditional descendant node step'
+				'plural'
+					'step' component 'plural descendant node step'
+			)
+			'variable assignment' component 'optional variable assignment'
+			'tail' component 'collection expression tail'
 	)
 ```
 
@@ -313,6 +333,7 @@ type: grammar
 			)
 	)
 ```
+### Groups and stategroups
 
 ```js
 'group expression'
@@ -323,56 +344,6 @@ type: grammar
 			'context' component 'context'
 			'variable assignment' component 'variable assignment'
 	)
-```
-
-```js
-'collection expression'
-	'head' component 'context node path'
-	'tail' component 'collection expression tail'
-```
-
-```js
-'collection expression tail'
-	// pnet := pdnp filter? stva? pnet //ambiguous because filter and stva optional.
-	// pnet := ( pdnp | pdnp filter pnet | pdnp filter stva pnet | pdnp stva pnet  )
-	'has steps' stategroup (
-		'no'
-			'filter' component 'filter expression'
-		'yes'
-			'type' stategroup (
-				'singular'
-					'step' component 'singular node step'
-				'conditional'
-					'step' component 'conditional descendant node step'
-				'plural'
-					'step' component 'plural descendant node step'
-			)
-			'variable assignment' component 'optional variable assignment'
-			'tail' component 'collection expression tail'
-	)
-```
-
-```js
-'number expression'
-	'path' component 'singular node path'
-	'type' stategroup (
-		'property'
-			'number' [ '#' ] reference
-		'state context parameter'
-			'number' [ '&#' ] reference
-	)
-```
-
-```js
-'file expression'
-	'path' component 'singular node path'
-	'file' [ '/' ] reference
-```
-
-```js
-'text expression'
-	'path' component 'singular node path'
-	'text' [ '.' ] reference
 ```
 
 ```js
@@ -392,25 +363,8 @@ type: grammar
 			)
 	)
 ```
-
-```js
-'reference expression'
-	'path' component 'singular node path'
-	'text' [ '>' ] reference
-	'dereference' component 'dereference'
-	'key path' ['(', ')'] component 'collection key node path'
-	//how do we guarantee that the node is an actual member of the collection?
-	// the problems is that we have path-dependent references,
-	// and that we select a subset of nodes of a specific type,
-	// where that subset depends on a complex path: the collection expression.
-	//suppose, we only support reference navigation for the head of the collection expression
-	//then, we have to prove for the first collection step that the context dependency equals that of the reference (or a path dependent ancestor reference)
-	//so, starting at the target reference, we have to prove correctness for all preceding steps.
-	//for example, a hierarchy .orders.work orders.tasks requires three references; e.g.:
-	// >'order' >'work order' >'task'
-	// where we constrain that subsequent references depend on preceding references.
-	// state group output parameters may be a problem, but we ignore them for now.
-```
+## Navigation expressions
+---
 
 ```js
 'optional variable assignment'
@@ -433,12 +387,6 @@ type: grammar
 		'yes' ['$^']
 			'tail' component 'ancestor variable path'
 	)
-// 'ancestor node path'
-// 	'has steps' stategroup (
-// 		'no'
-// 		'yes' ['^']
-// 			'tail' component 'ancestor node path'
-// 	)
 ```
 
 ```js
@@ -452,7 +400,6 @@ type: grammar
 				'filter'
 					'filter' reference
 			)
-			// 'tail' component 'ancestor node path' // use variables instead
 	)
 ```
 
@@ -512,7 +459,7 @@ type: grammar
 			'collection' ['.'] reference
 			'delink collection key' component 'delink'
 			'key' ['[',']'] group (
-				'path' component 'singular node path' //OPT: conditional node path
+				'path' component 'singular node path'
 				'text' ['>'] reference
 				'delink text' component 'delink'
 				'constraint: linked collection equals collection key link' component 'EQ collection'
@@ -528,6 +475,8 @@ type: grammar
 		'derived' ['(derived)']
 	)
 ```
+## Expressions for mapping safety
+---
 
 ```js
 'collection key node path'
@@ -553,7 +502,7 @@ type: grammar
 	'type' stategroup (
 		'static'
 		'dynamic'
-			'state' ['|'] reference //should be '|' but that requires a schema change (always require a state; also for the static case)
+			'state' ['|'] reference
 	)
 ```
 
@@ -587,4 +536,54 @@ type: grammar
 			)
 			'tail' component 'singular imp node path'
 	)
+```
+
+```js
+'EQ entity type'
+```
+
+```js
+'EQ collection'
+```
+
+```js
+'EQ interface node type'
+```
+
+```js
+'node identity'
+```
+
+```js
+'INEQ identification type'
+```
+
+```js
+'member'
+```
+
+```js
+'filter'
+```
+
+```js
+'variable'
+```
+
+```js
+'context'
+```
+
+```js
+'EQ member'
+```
+
+```js
+'dereference'
+	'dereference' stategroup ( 'yes' )
+```
+
+```js
+'delink'
+	'delink' stategroup ( 'yes' )
 ```
