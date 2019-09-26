@@ -26,12 +26,12 @@ window.onload = function() {
     var doc_menu = document.getElementById(doc_menu_button.getAttribute('aria-controls'));
     doc_menu_button.onclick = function(event) {
         event.stopPropagation();
-        if (doc_menu.ariaExpanded === 'false') {
-            doc_menu.ariaExpanded = 'true';
-            doc_menu_button.ariaExpanded = 'true';
+        if (doc_menu.getAttribute('aria-expanded') === 'false') {
+            doc_menu.setAttribute('aria-expanded', 'true');
+            doc_menu_button.setAttribute('aria-expanded', 'true');
         } else {
-            doc_menu.ariaExpanded = 'false';
-            doc_menu_button.ariaExpanded = 'false';
+            doc_menu.setAttribute('aria-expanded', 'false');
+            doc_menu_button.setAttribute('aria-expanded', 'false');
         }
     };
     document.body.addEventListener('click', function() {
