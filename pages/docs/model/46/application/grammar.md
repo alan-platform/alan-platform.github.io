@@ -8,26 +8,6 @@ type: grammar
 
 1. TOC
 {:toc}
-In every Alan grammar, literals between square brackets indicate required keywords.
-- `text` properties require a double quoted string: `"Hello, world!"`
-- `reference` properties require a single quoted string: `'reference to something'`
-- `number` properties require a numerical value: `10`
-- `stategroup` properties indicate a choice between different states, such as allowing or disallowing `anonymous` users
-- `collection` properties require key-value pairs, where keys are single-quoted strings. For example, a `collection` of `properties` is written like this, depending on the required keywords and properties for the value:
-
-> ```js
-'this is the key of a property': text = "hello world 0"
-'this is the key of another property': text = "hello world 1"
-```
-
-- `component` properties reference a rule in the grammar, to be instantiated at that point: `component 'x'` references rule `'x'`
-- `group` properties merely group other properties that belong together
-
-In the grammar, `indent` is an instruction for the deparser/pretty-printer; you can ignore it. Properties that are marked `implicit` exist for type checking purposes.
-
-**NOTE: the Alan compiler requires whitespace between different keywords!**
-For example, `['text' '=']` in the grammar requires whitespace between the keyword `text` and `=` in your model.
-That is, `text =` is valid, while `text=` is invalid.
 ## The *minimal model*
 ---
 Every valid Alan model instantiates the [`root` rule](#the-root-rule).
