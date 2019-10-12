@@ -55,15 +55,12 @@ span.brand {
 	}
 
 	.call-to-action {
-		display: flex;
-		align-self: center;
-		position: absolute;
-		padding: 1rem 1rem*$ratio;
-		left: 1rem*$ratio*$ratio*$ratio;
-		font-size: 1rem*$ratio*$ratio;
-		&:active {
-			top: auto;
-		}
+		display: inline-flex;
+		align-items: center;
+		padding: 1rem/$ratio 1rem;
+		font-size: 1rem*$ratio;
+		margin-top: 1rem*$ratio;
+
 		svg {
 			display: inline-block;
 			position: static;
