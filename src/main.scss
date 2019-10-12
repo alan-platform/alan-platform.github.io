@@ -31,6 +31,9 @@ span.brand {
 		flex-direction: column;
 		justify-content: center;
 		padding: 1rem 1rem*$ratio*$ratio*$ratio;
+		&::after {
+		    left: -45%;
+		}
 	}
 	p {
 		margin: 0;

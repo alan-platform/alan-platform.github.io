@@ -9,13 +9,13 @@ header {
 
     &.scrolled {
         background: $grey1;
+        @include diagonal('black');
+        &::after {
+            right: 33.3%;
+            z-index: -1;
+        }
     }
 
-    @include diagonal('black');
-    &::after {
-        right: 33.3%;
-        z-index: -1;
-    }
 
     .inner {
         display: flex;
@@ -108,6 +108,10 @@ header {
         margin-right: 1em*$ratio;
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
+        svg .word path {
+            fill: #000;
+            transition: fill .2s ease-in-out;
+        }
         svg .stripes path {
             transition: fill .2s ease-in-out;
             &:nth-child(4n + 1) { fill: $blue; }
@@ -211,10 +215,13 @@ header ul .login-button {
         will-change: transform;
     }
 }
+header.scrolled .logo svg .word path {
+    fill: #FFF;
+}
 
 header .doc-button {
     padding: 0 1rem*$ratio*$ratio 0 1rem*$ratio*$ratio*$ratio*$ratio;
-    background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
+    // background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
     opacity: .9;
 
     @media (max-width: $breakpoint) {
@@ -229,7 +236,7 @@ header .doc-button {
     a:link,
     a:visited,
     a:hover,
-    a:active  {
+    a:active {
         display: block;
         position: relative;
         margin-top: -.5rem;
@@ -238,7 +245,7 @@ header .doc-button {
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
         border-bottom: 0;
-        color: $grey1;
+        // color: $grey1;
         > small {
             position: absolute;
             top: 50%;
@@ -252,5 +259,16 @@ header .doc-button {
         border-bottom: 0;
         text-shadow: none;
         transform: none;
+    }
+}
+header.scrolled .doc-button {
+    background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
+
+    a,
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+        color: $grey1;
     }
 }
