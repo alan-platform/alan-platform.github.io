@@ -21,8 +21,7 @@ span.brand {
 	justify-content: flex-end;
 	position: relative;
 	height: calc(100vh - 5rem);
-	padding-top: 5rem;
-	background: $grey2 url("../assets/heroes/4u2U8EO9OzY.jpg") no-repeat center / cover;
+	background: $grey2 url("../assets/heroes/iStock-1055872862.jpg") no-repeat center bottom / cover;
 	color: #fff;
 	overflow: hidden;
 	.inner {
@@ -53,6 +52,25 @@ span.brand {
 		bottom: 1em;
 		left: 50%;
 		margin-left: -16px;
+	}
+
+	.call-to-action {
+		display: flex;
+		align-self: center;
+		position: absolute;
+		padding: 1rem 1rem*$ratio;
+		left: 1rem*$ratio*$ratio*$ratio;
+		font-size: 1rem*$ratio*$ratio;
+		&:active {
+			top: auto;
+		}
+		svg {
+			display: inline-block;
+			position: static;
+			margin-right: 1em;
+			margin-right: 1ex;
+			margin-left: 0;
+		}
 	}
 }
 

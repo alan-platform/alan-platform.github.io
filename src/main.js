@@ -5,6 +5,14 @@ function menuOpen() {
     el.classList.toggle('open');
 }
 
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 0) {
+        document.querySelector('header').classList.add('scrolled');
+    } else {
+        document.querySelector('header').classList.remove('scrolled');
+    }
+});
+
 window.onload = function() {
     var deeplinks = document.querySelectorAll('h2[id], h3[id]');
     deeplinks.forEach(function(i) {

@@ -4,8 +4,12 @@ header {
     top: 0;
     z-index: 2;
     font-size: 1em / $ratio;
-    background: $grey1;
     color: #FFF;
+    transition: background .2s ease-in-out;
+
+    &.scrolled {
+        background: $grey1;
+    }
 
     @include diagonal('black');
     &::after {
