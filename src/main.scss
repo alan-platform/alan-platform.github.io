@@ -25,20 +25,17 @@ span.brand {
 	color: #fff;
 	overflow: hidden;
 	.inner {
-		@include anti_diagonal('black');
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
-		padding: 1rem 1rem*$ratio*$ratio*$ratio;
-		&::after {
-		    left: -45%;
-		}
+		justify-content: flex-end;
+		padding: 1rem 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio*$ratio*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
 	}
 	p {
 		margin: 0;
 		font-weight: bold;
 		font-size: 1rem*$ratio*$ratio*$ratio;
+		text-shadow: 0 0 1rem rgba(0,0,0,.5);
 		line-height: 1;
 		z-index: 1;
 
@@ -60,9 +57,16 @@ span.brand {
 	.call-to-action {
 		display: inline-flex;
 		align-items: center;
+		margin-top: 1rem*$ratio;
 		padding: 1rem/$ratio 1rem;
 		font-size: 1rem*$ratio;
-		margin-top: 1rem*$ratio;
+		text-align: left;
+		line-height: 1/$ratio;
+
+		small {
+			line-height: inherit;
+			opacity: .8;
+		}
 
 		svg {
 			display: inline-block;

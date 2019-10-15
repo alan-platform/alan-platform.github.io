@@ -4,18 +4,14 @@ header {
     top: 0;
     z-index: 2;
     font-size: 1em / $ratio;
-    color: #FFF;
-    transition: background .2s ease-in-out;
+    background: transparent url('../assets/overlay-white-anti-90.svg') no-repeat right -17px top;
+    color: $grey2;
+    transform: translateZ(0);
+    transition: background-color .2s ease-in-out;
 
     &.scrolled {
-        background: $grey1;
-        @include diagonal('black');
-        &::after {
-            right: 33.3%;
-            z-index: -1;
-        }
+        background-color: #FFF;
     }
-
 
     .inner {
         display: flex;
@@ -50,7 +46,7 @@ header {
             border-bottom: 3px solid transparent;
             font-weight: 200;
             font-size: 1em*$ratio;
-            color: #FFF;
+            color: inherit;
         }
         a:hover,
         a:active {
@@ -109,7 +105,7 @@ header {
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
         svg .word path {
-            fill: #000;
+            fill: $grey1;
             transition: fill .2s ease-in-out;
         }
         svg .stripes path {
@@ -215,13 +211,10 @@ header ul .login-button {
         will-change: transform;
     }
 }
-header.scrolled .logo svg .word path {
-    fill: #FFF;
-}
 
 header .doc-button {
     padding: 0 1rem*$ratio*$ratio 0 1rem*$ratio*$ratio*$ratio*$ratio;
-    // background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
+    background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
     opacity: .9;
 
     @media (max-width: $breakpoint) {
@@ -245,7 +238,7 @@ header .doc-button {
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
         border-bottom: 0;
-        // color: $grey1;
+        color: $grey1;
         > small {
             position: absolute;
             top: 50%;
@@ -259,16 +252,5 @@ header .doc-button {
         border-bottom: 0;
         text-shadow: none;
         transform: none;
-    }
-}
-header.scrolled .doc-button {
-    background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
-
-    a,
-    a:link,
-    a:visited,
-    a:hover,
-    a:active {
-        color: $grey1;
     }
 }
