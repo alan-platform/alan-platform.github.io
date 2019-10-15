@@ -23,7 +23,7 @@ span.brand {
 	height: calc(100vh - 5rem);
 	background: $grey2 url("../assets/heroes/iStock-1055872862.jpg") no-repeat center bottom / cover;
 	color: #fff;
-	overflow: hidden;
+
 	.inner {
 		position: relative;
 		display: flex;
@@ -48,10 +48,30 @@ span.brand {
 	svg {
 		width: 32px;
 		height: 32px;
-		position: absolute;
-		bottom: 1em;
-		left: 50%;
-		margin-left: -16px;
+
+		&.scroll-hint {
+			position: absolute;
+			bottom: -48px;
+			left: 50%;
+			margin-left: -16px;
+			color: $grey2;
+			opacity: 0;
+
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+			animation: 2s fadeIn 1s ease-in-out;
+			animation-fill-mode: forwards;
+
+			polyline {
+				stroke: currentColor;
+			}
+		}
 	}
 
 	.call-to-action {
@@ -70,10 +90,7 @@ span.brand {
 
 		svg {
 			display: inline-block;
-			position: static;
-			margin-right: 1em;
 			margin-right: 1ex;
-			margin-left: 0;
 		}
 	}
 }
