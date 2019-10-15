@@ -4,7 +4,7 @@ header {
     top: 0;
     z-index: 2;
     font-size: 1em / $ratio;
-    background: transparent url('../assets/overlay-white-anti-90.svg') no-repeat right -17px top;
+    background: transparent url('../assets/overlay-white-anti-90.svg') no-repeat right -9px top;
     color: $grey2;
     transform: translateZ(0);
     transition: background-color .2s ease-in-out;
