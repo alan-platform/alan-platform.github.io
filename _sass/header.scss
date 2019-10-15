@@ -151,6 +151,7 @@ header {
             right: 0;
             bottom: 0;
             left: 0;
+            background: #FFF;
             ul {
                 display: block;
                 width: 100%;
@@ -166,6 +167,10 @@ header {
                 }
                 li + li {
                     margin: 1rem*$ratio 0 0 0;
+                }
+
+                .login-button a::before {
+                    display: none;
                 }
             }
             .closer {
