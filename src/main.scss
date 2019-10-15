@@ -6,96 +6,6 @@
 @import "fonts";
 @import "theme";
 
-span.brand {
-	font-style: italic;
-	font-variant: small-caps;
-	font-size: 1.3em;
-	font-weight: bold;
-	text-transform: lowercase;
-	display: inline-block;
-	margin-right: .1em;
-}
-
-.home-hero {
-	display: flex;
-	justify-content: flex-end;
-	position: relative;
-	height: calc(100vh - 5rem);
-	background: $grey2 url("../assets/heroes/iStock-1055872862.jpg") no-repeat center bottom / cover;
-	color: #fff;
-
-	.inner {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-end;
-		padding: 1rem 1rem*$ratio*$ratio*$ratio 1rem*$ratio*$ratio*$ratio*$ratio*$ratio 1rem*$ratio*$ratio*$ratio;
-	}
-	p {
-		margin: 0;
-		font-weight: bold;
-		font-size: 1rem*$ratio*$ratio*$ratio;
-		text-shadow: 0 0 1rem rgba(0,0,0,.5);
-		line-height: 1;
-		z-index: 1;
-
-		+ p {
-			margin-top: 1em;
-			font-weight: normal;
-			font-size: 1rem*$ratio;
-		}
-	}
-	svg {
-		width: 32px;
-		height: 32px;
-
-		&.scroll-hint {
-			position: absolute;
-			bottom: -48px;
-			left: 50%;
-			margin-left: -16px;
-			color: $grey2;
-			opacity: 0;
-
-			@keyframes fadeIn {
-				from {
-					opacity: 0;
-				}
-				to {
-					opacity: 1;
-				}
-			}
-			animation: 2s fadeIn 1s ease-in-out;
-			animation-fill-mode: forwards;
-
-			polyline {
-				stroke: currentColor;
-			}
-		}
-	}
-
-	.call-to-action {
-		display: inline-flex;
-		align-items: center;
-		margin-top: 1rem*$ratio;
-		padding: 1rem/$ratio 1rem;
-		font-size: 1rem*$ratio;
-		text-align: left;
-		line-height: 1/$ratio;
-
-		small {
-			line-height: inherit;
-			opacity: .8;
-		}
-
-		svg {
-			display: inline-block;
-			margin-right: 1ex;
-		}
-	}
-}
-
-
 
 h2[id],
 h3[id] {
@@ -218,6 +128,7 @@ main {
 }
 
 
+@import "home";
 @import "header";
 @import "footer";
 @import "docs";
