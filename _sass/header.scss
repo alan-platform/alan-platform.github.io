@@ -4,13 +4,13 @@ header {
     top: 0;
     z-index: 2;
     font-size: 1em / $ratio;
-    background: $grey1;
-    color: #FFF;
+    background: transparent url('../assets/overlay-white-anti-90.svg') no-repeat right -9px top;
+    color: $grey2;
+    transform: translateZ(0);
+    transition: background-color .2s ease-in-out;
 
-    @include diagonal('black');
-    &::after {
-        right: 33.3%;
-        z-index: -1;
+    &.scrolled {
+        background-color: #FFF;
     }
 
     .inner {
@@ -46,7 +46,7 @@ header {
             border-bottom: 3px solid transparent;
             font-weight: 200;
             font-size: 1em*$ratio;
-            color: #FFF;
+            color: inherit;
         }
         a:hover,
         a:active {
@@ -104,6 +104,10 @@ header {
         margin-right: 1em*$ratio;
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
+        svg .word path {
+            fill: $grey1;
+            transition: fill .2s ease-in-out;
+        }
         svg .stripes path {
             transition: fill .2s ease-in-out;
             &:nth-child(4n + 1) { fill: $blue; }
@@ -147,6 +151,7 @@ header {
             right: 0;
             bottom: 0;
             left: 0;
+            background: #FFF;
             ul {
                 display: block;
                 width: 100%;
@@ -162,6 +167,10 @@ header {
                 }
                 li + li {
                     margin: 1rem*$ratio 0 0 0;
+                }
+
+                .login-button a::before {
+                    display: none;
                 }
             }
             .closer {
@@ -225,7 +234,7 @@ header .doc-button {
     a:link,
     a:visited,
     a:hover,
-    a:active  {
+    a:active {
         display: block;
         position: relative;
         margin-top: -.5rem;
