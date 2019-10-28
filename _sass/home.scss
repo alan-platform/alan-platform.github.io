@@ -16,6 +16,19 @@ span.brand {
     background: $grey2 url('../assets/heroes/iStock-1055872862.jpg') no-repeat center bottom / cover;
     color: #FFF;
 
+    @media (max-width: 600px) {
+        background-image: url('../assets/heroes/iStock-1055872862-1200.jpg');
+    }
+    @media (min-width: 601px) {
+        background-image: url('../assets/heroes/iStock-1055872862-1920.jpg');
+    }
+    @media (max-width: 961px) {
+        background-image: url('../assets/heroes/iStock-1055872862-2560.jpg');
+    }
+    @media (min-width: 1281px) {
+        background-image: url('../assets/heroes/iStock-1055872862-3840.jpg');
+    }
+
     .inner {
         display: flex;
         flex-direction: column;

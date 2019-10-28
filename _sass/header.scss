@@ -4,13 +4,12 @@ header {
     top: 0;
     z-index: 2;
     font-size: 1em / $ratio;
-    background: transparent url('../assets/overlay-white-anti-90.svg') no-repeat right -9px top;
     color: $grey2;
     transform: translateZ(0);
     transition: background-color .2s ease-in-out;
 
-    &.scrolled {
-        background-color: #FFF;
+    @media (min-width: $breakpoint + 1) {
+        background: transparent url('../assets/overlay-white-anti-90.svg') no-repeat right -9px top;
     }
 
     .inner {
@@ -130,7 +129,7 @@ header {
         display: none;
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
-        color: #FFF;
+        color: $grey1;
 
         &:hover,
         &:active {
@@ -143,6 +142,10 @@ header {
         @media (max-width: $breakpoint) {
             display: block;
         }
+    }
+
+    &.scrolled {
+        background-color: #FFF;
     }
 
     @media (max-width: $breakpoint) {
