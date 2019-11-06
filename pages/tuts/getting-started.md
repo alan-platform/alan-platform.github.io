@@ -151,7 +151,7 @@ root {
 }
 ```
 
-So, we've defined a 'Users' collection, where each key in the collection will serve as the "username" and there is a password they'll need to provide to log in. The default user interface will pick this up and present the login form next time you run the application.
+So, we've defined a 'Users' collection, where each key in the collection will serve as the "username" and there is a password they'll need to provide to log in. The default user interface will pick this up and present the login form next time you run the application. In this demo setup, it will inject a user 'root' with passworde 'welcome' by default, so you can login and add other users.
 
 ### Add some collections
 That should work, but our app lacks purpose right now. Why not build a little multi-user todo app (when not sure what to do, make a todo app right?). So, let's say our users are involved in projects and each project has stuff that needs to be done.
