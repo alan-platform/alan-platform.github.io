@@ -9,7 +9,8 @@ In this tutorial we'll take you through the steps of going from a blank model to
 
 - [Project Layout](#project-layout)
 - [Application Model](#application-model)
-- [Build It & Run It](#run-it)
+- [Build It & Run It](#build-it--run-it)
+- [Upgrade with a migration](#upgrade-with-a-migration)
 - [Your own application model](#your-own-application-model)
   - [Add users](#add-users)
   - [Add some collections](#add-some-collections)
@@ -92,7 +93,7 @@ This should be fairly easy:
 - Use the button 'Alan Build' at the bottom left to run a build go over the problems with F8
 - If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom
 
-## Upgrade with migration
+## Upgrade with a migration
 Your first deployment should be an 'empty' deployment type. This will initialize your application with an empty dataset. After clicking 'Alan Deploy', you can choose your deployment type:
 
 ![](deploy1.png)
