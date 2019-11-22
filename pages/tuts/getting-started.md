@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Getting Started"
+title: "Getting Started with the online IDE"
 category: docs
 ---
 
@@ -92,6 +92,28 @@ This should be fairly easy:
 - Use the button 'Alan Build' at the bottom left to run a build go over the problems with F8
 - If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom
 
+## Upgrade with migration
+Your first deployment should be an 'empty' deployment type. This will initialize your application with an empty dataset. After clicking 'Alan Deploy', you can choose your deployment type:
+
+![](deploy1.png)
+
+After you have completed at least one successful deployment, you can make changes to your application model and you can choose for a deployment of the 'migrate' type which enables you to migrate your existing application data to your new application version:
+
+![](deploy2.png)
+
+This will generate a default migration 'from_release' which should be updated until you have specified a data source for every property in your model:
+
+![](deploy3.png)
+
+Complete [documentation of the migration language](https://alan-platform.com/pages/docs/datastore/48/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
+
+```
+root = root as $ (
+	'Name' : text = "John Doe"
+)
+```
+
+After this, 'migrate' deployments can be repeated iteratively. After every successful deployment, you will need to update your migration to match your latest model and application version.
 
 ## Your own application model
 
