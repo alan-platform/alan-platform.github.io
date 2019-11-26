@@ -114,7 +114,9 @@ root = root as $ (
 )
 ```
 
-After this, 'migrate' deployments can be repeated iteratively. After every successful deployment, you will need to update your migration to match your latest model and application version.
+After this, 'migrate' deployments can be repeated iteratively. After every successful deployment, you will need to update your migration to match your latest application model version.
+
+At some point, it might be useful to have newly generated migration based on your latest application model. You can do this by opening the file `migration.alan` in the directory `migrations/from_release` and executing the 'Generate migration' command from your editor. Choose `from_release` as migration name, `server/model.lib.link` as target model and "mapping from target conformant dataset" to generate a migration that expects the source and target models to be the same while preserving your application data.
 
 ## Your own application model
 
