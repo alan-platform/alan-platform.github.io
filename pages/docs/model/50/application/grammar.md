@@ -650,7 +650,7 @@ For example, an `acyclic-graph` constraint ensures that references that partake 
 For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
 
 The code sample below presents a graph constraint `assembly`.
-`Product` references of `Parts` partake in the acyclic `assembly` graph.
+`Product` references of `Parts` partake in the acyclic `assembly` graph on `Products`.
 The constraint ensures that `Product Price` computations terminate:
 > ```js
 'Products': collection ['Name']
@@ -658,8 +658,8 @@ The constraint ensures that `Product Price` computations terminate:
 {
     'Name': text
     'Parts': collection ['Product'] {
-         // a 'forward' (self) reference that partakes in a graph constraint:
-        'Product': text -> forward ^ ^ .'Products' / ^ 'assembly'
+         // a 'backward' (self) reference that partakes in a graph:
+        'Product': text -> ^ graph 'assembly' // reference to a 'Products' item in the assembly graph
         'Part Price': integer 'euro' = >'Product'#'Product Price'
     }
     'Product Price': integer 'euro' = sum .'Parts'#'Part Price' // recursion!
