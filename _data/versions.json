@@ -1,5 +1,5 @@
 {
-	"current": "2019.7",
+	"current": "2020.2",
 	"versions": [
 		{
 			"name": "2019.7",
@@ -14,6 +14,30 @@
 				"pages/docs/relational-database-bridge/78/database/grammar.html",
 				"pages/docs/relational-database-bridge/78/database_transformation/grammar.html",
 				"pages/docs/sql-mirror/48/sql_mapping/grammar.html"
+			]
+		},
+		{
+			"name": "2020.2",
+			"pages": [
+				"pages/docs/model/50/application/grammar.html",
+				"pages/docs/model/50/client_request/grammar.html",
+				"pages/docs/model/50/collection_query_to_table/grammar.html",
+				"pages/docs/interface/2.3/interface/grammar.html",
+				"pages/docs/datastore/52/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/52/migration_mapping/grammar.html",
+				"pages/docs/datastore/52/provided_interface_implementation/grammar.html",
+				"pages/docs/sql-mirror/52/sql_mapping/grammar.html"
+				"pages/docs/auto-webclient/neo.3.1/deployment/description.html",
+				"pages/docs/auto-webclient/neo.3.1/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/neo.3.1/phrases/grammar.html",
+				"pages/docs/auto-webclient/neo.3.1/translations/grammar.html",
+				"pages/docs/webclient/neo.3.1/deployment/description.html",
+				"pages/docs/webclient/neo.3.1/gui_model/grammar.html",
+				"pages/docs/webclient/neo.3.1/phrases/grammar.html",
+				"pages/docs/webclient/neo.3.1/settings/grammar.html",
+				"pages/docs/webclient/neo.3.1/translations/grammar.html",
+				"pages/docs/webclient/neo.3.1/views/grammar.html",
+				"pages/docs/webclient/neo.3.1/widget/grammar.html"
 			]
 		}
 	]
