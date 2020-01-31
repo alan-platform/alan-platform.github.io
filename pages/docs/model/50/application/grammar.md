@@ -37,64 +37,84 @@ User authentication can either be application-specific, or it can be done via a 
 If you want user authentication to be application-specific, you need to specify which text property holds (hashed) user passwords.
 In addition, you have to specify states for the 'active' and 'reset' status of the password.
 
-```js
-'user' ['users'] component 'modifier'
-```
+{: #grammar-rule--user }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">user</span>' [ <span class="token operator">users</span> ] component <a href="#grammar-rule--modifier">'modifier'</a>
+</pre>
+</div>
+</div>
 
-```js
-'allow anonymous user' stategroup (
-	'no'
-	'yes' [ 'anonymous' ]
+{: #grammar-rule--allow-anonymous-user }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">allow anonymous user</span>' stategroup (
+	'<span class="token string">no</span>'
+	'<span class="token string">yes</span>' [ <span class="token operator">anonymous</span> ]
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'has dynamic users' stategroup (
-	'no'
-	'yes'
-		'context node path' [ 'dynamic' ':' ] component 'node content path'
-		'users collection' [ '.' ] reference
-		'has user authentication' stategroup (
-			'yes'
-				'password node' ['password' ':'] component 'node content path'
-				'password property' [ '.' ] reference
-				'password status' ['password-status' ':'] group (
-					'state group' ['?'] reference
-					'active state' ['active' ':']  group (
-						'state' reference
-						'initializer' component 'parametrized initialize node'
+{: #grammar-rule--has-dynamic-users }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">has dynamic users</span>' stategroup (
+	'<span class="token string">no</span>'
+	'<span class="token string">yes</span>'
+		'<span class="token string">context node path</span>' [ <span class="token operator">dynamic</span> <span class="token operator">:</span> ] component <a href="#grammar-rule--node-content-path">'node content path'</a>
+		'<span class="token string">users collection</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">has user authentication</span>' stategroup (
+			'<span class="token string">yes</span>'
+				'<span class="token string">password node</span>' [ <span class="token operator">password</span> <span class="token operator">:</span> ] component <a href="#grammar-rule--node-content-path">'node content path'</a>
+				'<span class="token string">password property</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">password status</span>' [ <span class="token operator">password-status</span> <span class="token operator">:</span> ] group (
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">active state</span>' [ <span class="token operator">active</span> <span class="token operator">:</span> ]  group (
+						'<span class="token string">state</span>' reference
+						'<span class="token string">initializer</span>' component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
 					)
-					'reset state' ['reset' ':'] group (
-						'state' reference
-						'initializer' component 'parametrized initialize node'
+					'<span class="token string">reset state</span>' [ <span class="token operator">reset</span> <span class="token operator">:</span> ] group (
+						'<span class="token string">state</span>' reference
+						'<span class="token string">initializer</span>' component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
 					)
 				)
-			'no'
+			'<span class="token string">no</span>'
 		)
-		'has external authentication' stategroup (
-			'yes'
-				'authorities node' ['external' 'authentication' ':'] component 'node content path'
-				'authorities collection' ['.'] reference
-				'identities node' component 'node content path'
-				'identities collection' ['.'] reference
-				'user reference' [':'] reference
-			'no'
+		'<span class="token string">has external authentication</span>' stategroup (
+			'<span class="token string">yes</span>'
+				'<span class="token string">authorities node</span>' [ <span class="token operator">external</span> <span class="token operator">authentication</span> <span class="token operator">:</span> ] component <a href="#grammar-rule--node-content-path">'node content path'</a>
+				'<span class="token string">authorities collection</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">identities node</span>' component <a href="#grammar-rule--node-content-path">'node content path'</a>
+				'<span class="token string">identities collection</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">user reference</span>' [ <span class="token operator">:</span> ] reference
+			'<span class="token string">no</span>'
 		)
 )
-```
+</pre>
+</div>
+</div>
 ##### Interfaces
 If your application consumes data from external sources, you will have defined an Alan `interface`.
 In order to consume an `interface`, you mention it in a list of `interfaces`, so that you can reference the `interface` when configuring [permissions](#permissions-and-todos).
 The `path` is a navigation path that produces a context node on which interface conformant data will be imported at runtime.
 The `node type` specifying the context node, requires a permission definition to satisfy the modifier constraint: `can-update: interface '<imported interfaces id>'`.
 
-```js
-'imported interfaces' ['interfaces'] collection indent (
-	'modifier' component 'modifier'
-	'path' ['='] component 'group node selection' //'singular node path tail'
-	'constraint: path result node has interface modifier' component 'EQ modifier'
+{: #grammar-rule--imported-interfaces }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">imported interfaces</span>' [ <span class="token operator">interfaces</span> ] collection indent (
+	'<span class="token string">modifier</span>' component <a href="#grammar-rule--modifier">'modifier'</a>
+	'<span class="token string">path</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--group-node-selection">'group node selection'</a> //'<span class="token string">singular node path tail</span>'
+	'<span class="token string">constraint: path result node has interface modifier</span>' component <a href="#grammar-rule--EQ-modifier">'EQ modifier'</a>
 )
-```
+</pre>
+</div>
+</div>
 ##### The `root` node type
 Alan models are hierarchical models specifying hierarchical data.
 An Alan model is a hierarchy of nested types with a single root type:
@@ -111,97 +131,187 @@ as we define `node types` in a model (for legacy reasons it is called the `'node
 ##### Type checker annotations
 The properties below are instantiated automatically as they do not require keywords. The type checker uses them for, well, type checking.
 
-```js
-'source base' group (
-	'elementary' component 'value source base'
-	'derived' component 'value source base'
+{: #grammar-rule--source-base }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">source base</span>' group (
+	'<span class="token string">elementary</span>' component <a href="#grammar-rule--value-source-base">'value source base'</a>
+	'<span class="token string">derived</span>' component <a href="#grammar-rule--value-source-base">'value source base'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'source' group (
-	'user'			component 'value source'
-	'meta'			component 'value source'
-	'inference'		component 'value source'
-	'calculation'	component 'value source'
+{: #grammar-rule--source }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">source</span>' group (
+	'<span class="token string">user</span>'			component <a href="#grammar-rule--value-source">'value source'</a>
+	'<span class="token string">meta</span>'			component <a href="#grammar-rule--value-source">'value source'</a>
+	'<span class="token string">inference</span>'		component <a href="#grammar-rule--value-source">'value source'</a>
+	'<span class="token string">calculation</span>'	component <a href="#grammar-rule--value-source">'value source'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'direction' group (
-	'backward' component 'direction type'
-	'forward' component 'direction type'
+{: #grammar-rule--direction }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">direction</span>' group (
+	'<span class="token string">backward</span>' component <a href="#grammar-rule--direction-type">'direction type'</a>
+	'<span class="token string">forward</span>' component <a href="#grammar-rule--direction-type">'direction type'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'multiplicity' group (
-	'zero'        component 'multiplicity type'
-	'one'         component 'multiplicity type'
-	'one to many' component 'multiplicity type'
-	'zero to one' component 'multiplicity type'
+{: #grammar-rule--multiplicity }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">multiplicity</span>' group (
+	'<span class="token string">zero</span>'        component <a href="#grammar-rule--multiplicity-type">'multiplicity type'</a>
+	'<span class="token string">one</span>'         component <a href="#grammar-rule--multiplicity-type">'multiplicity type'</a>
+	'<span class="token string">one to many</span>' component <a href="#grammar-rule--multiplicity-type">'multiplicity type'</a>
+	'<span class="token string">zero to one</span>' component <a href="#grammar-rule--multiplicity-type">'multiplicity type'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'undefined output parameters' component 'output parameters'
-```
+{: #grammar-rule--undefined-output-parameters }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined output parameters</span>' component <a href="#grammar-rule--output-parameters">'output parameters'</a>
+</pre>
+</div>
+</div>
 
-```js
-'undefined direction' component 'direction type'
-```
+{: #grammar-rule--undefined-direction }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined direction</span>' component <a href="#grammar-rule--direction-type">'direction type'</a>
+</pre>
+</div>
+</div>
 
-```js
-'undefined link' component 'link'
-```
+{: #grammar-rule--undefined-link }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined link</span>' component <a href="#grammar-rule--link">'link'</a>
+</pre>
+</div>
+</div>
 
-```js
-'undefined reference' component 'reference'
-```
+{: #grammar-rule--undefined-reference }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined reference</span>' component <a href="#grammar-rule--reference">'reference'</a>
+</pre>
+</div>
+</div>
 
-```js
-'unassigned variable' component 'variable'
-```
+{: #grammar-rule--unassigned-variable }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">unassigned variable</span>' component <a href="#grammar-rule--variable">'variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'unassigned number variable' component 'number variable'
-```
+{: #grammar-rule--unassigned-number-variable }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">unassigned number variable</span>' component <a href="#grammar-rule--number-variable">'number variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'undefined parameter' component 'parameter'
-```
+{: #grammar-rule--undefined-parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined parameter</span>' component <a href="#grammar-rule--parameter">'parameter'</a>
+</pre>
+</div>
+</div>
 
-```js
-'undefined member' component 'member'
-```
+{: #grammar-rule--undefined-member }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined member</span>' component <a href="#grammar-rule--member">'member'</a>
+</pre>
+</div>
+</div>
 
-```js
-'number set type' group (
-	'integer' component 'set type'
-	'natural' component 'set type'
+{: #grammar-rule--number-set-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number set type</span>' group (
+	'<span class="token string">integer</span>' component <a href="#grammar-rule--set-type">'set type'</a>
+	'<span class="token string">natural</span>' component <a href="#grammar-rule--set-type">'set type'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'type' component 'type'
-```
+{: #grammar-rule--type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">type</span>' component <a href="#grammar-rule--type">'type'</a>
+</pre>
+</div>
+</div>
 
-```js
-'dependable' component 'dependency'
-```
+{: #grammar-rule--dependable }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dependable</span>' component <a href="#grammar-rule--dependency">'dependency'</a>
+</pre>
+</div>
+</div>
 
-```js
-'entity' component 'entity'
-```
+{: #grammar-rule--entity }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity</span>' component <a href="#grammar-rule--entity">'entity'</a>
+</pre>
+</div>
+</div>
 
-```js
-'root member' component 'member'
-```
+{: #grammar-rule--root-member }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">root member</span>' component <a href="#grammar-rule--member">'member'</a>
+</pre>
+</div>
+</div>
 {:/comment}
 
-```js
-'root' [ 'root' ] component 'node'
-```
+{: #grammar-rule--root }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">root</span>' [ <span class="token operator">root</span> ] component <a href="#grammar-rule--node">'node'</a>
+</pre>
+</div>
+</div>
 ##### Numerical types
 Numbers in an application model require a numerical type. Also, computations with numbers of different numerical types require conversion rules.
 Divisions require a division conversion rule, products require a product conversion rule, and so on. Some examples of numerical types, with conversion rules are
@@ -229,48 +339,53 @@ Annotations like `@date` map numerical types to formats for easy modification in
 With `@factor` you can present 1000 milliseconds as 1 second to the application user.<br>
 If you do so, be sure to set `@label:` to `"sec"` as well!
 
-```js
-'numerical types' [ 'numerical-types' ] collection indent (
-	'type' stategroup (
-		'relative'
-			'timer resolution' stategroup (
-				'undefined'
-				'seconds' [':' 'time-in-seconds']
+{: #grammar-rule--numerical-types }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">numerical types</span>' [ <span class="token operator">numerical-types</span> ] collection indent (
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">relative</span>'
+			'<span class="token string">timer resolution</span>' stategroup (
+				'<span class="token string">undefined</span>'
+				'<span class="token string">seconds</span>' [ <span class="token operator">:</span> <span class="token operator">time-in-seconds</span> ]
 			)
-			'range type' ['in'] reference
-		'absolute'
-			'product conversions' collection indent ( ['=']
-				'right' ['*'] reference
+			'<span class="token string">range type</span>' [ <span class="token operator">in</span> ] reference
+		'<span class="token string">absolute</span>'
+			'<span class="token string">product conversions</span>' collection indent ( [ <span class="token operator">=</span> ]
+				'<span class="token string">right</span>' [ <span class="token operator">*</span> ] reference
 			)
-			'division conversions' collection indent ( ['=']
-				'denominator' ['/'] reference
+			'<span class="token string">division conversions</span>' collection indent ( [ <span class="token operator">=</span> ]
+				'<span class="token string">denominator</span>' [ <span class="token operator">/</span> ] reference
 			)
 	)
-	'singular conversions' collection indent ( ['=']
-		'type' stategroup (
-			'factor'
-				'invert' stategroup (
-					'no' ['*']
-					'yes' ['/']
+	'<span class="token string">singular conversions</span>' collection indent ( [ <span class="token operator">=</span> ]
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">factor</span>'
+				'<span class="token string">invert</span>' stategroup (
+					'<span class="token string">no</span>' [ <span class="token operator">*</span> ]
+					'<span class="token string">yes</span>' [ <span class="token operator">/</span> ]
 				)
-				'factor' number
-				'base' ['*'] number
-				'exponent' ['^'] number
-			'base'
-				'offset' ['+'] number
-				'base' ['*'] number
-				'exponent' ['^'] number
-				'unit conversion' stategroup (
-					'no'
-						'constraint' component 'numerical type constraint'
-					'yes'
-						'conversion rule' ['in'] reference
+				'<span class="token string">factor</span>' number
+				'<span class="token string">base</span>' [ <span class="token operator">*</span> ] number
+				'<span class="token string">exponent</span>' [ <span class="token operator">^</span> ] number
+			'<span class="token string">base</span>'
+				'<span class="token string">offset</span>' [ <span class="token operator">+</span> ] number
+				'<span class="token string">base</span>' [ <span class="token operator">*</span> ] number
+				'<span class="token string">exponent</span>' [ <span class="token operator">^</span> ] number
+				'<span class="token string">unit conversion</span>' stategroup (
+					'<span class="token string">no</span>'
+						'<span class="token string">constraint</span>' component <a href="#grammar-rule--numerical-type-constraint">'numerical type constraint'</a>
+					'<span class="token string">yes</span>'
+						'<span class="token string">conversion rule</span>' [ <span class="token operator">in</span> ] reference
 				)
 		)
 	)
-	'ui' component 'ui numerical type'
+	'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-numerical-type">'ui numerical type'</a>
 )
-```
+</pre>
+</div>
+</div>
 ### Node types
 Node types contain a `permissions definition` for controlling read and update permissions,
  a `todo definition` to mark a node as a `todo`-item,
@@ -359,256 +474,261 @@ Derivation expressions use them for computations (e.g. [derived numbers](#derive
 A `command` is a complex parametrized atomic operation on the dataset; a `command` is executed in a single transaction.
 A `command` attribute on a `node type` consists of a `parameter definition` and an [implementation](#commands-and-timers).
 
-```js
-'node' [ '{' , '}' ]
-	'permissions definition' component 'node permissions definition'
-	'todo definition' component 'todo definition'
-	'has attributes' stategroup has 'attributes' first 'first' 'yes' 'no'
-	'attributes' collection (
-		'preceding siblings' collection predecessors
-		'type' stategroup (
-			'referencer anchor'[':' 'reference-set']
-				'node type path' ['->'] component 'node type id'
-				'reference path' ['=' 'inverse'] group (
-					'text has link' component 'delink'
-					'reference has inversion' stategroup (
-						'has inversion'
-							'EQ reference set' component 'EQ reference set'
+{: #grammar-rule--node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node</span>' [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">permissions definition</span>' component <a href="#grammar-rule--node-permissions-definition">'node permissions definition'</a>
+	'<span class="token string">todo definition</span>' component <a href="#grammar-rule--todo-definition">'todo definition'</a>
+	'<span class="token string">has attributes</span>' stategroup has '<span class="token string">attributes</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+	'<span class="token string">attributes</span>' collection (
+		'<span class="token string">preceding siblings</span>' collection predecessors
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">referencer anchor</span>'[ <span class="token operator">:</span> <span class="token operator">reference-set</span> ]
+				'<span class="token string">node type path</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--node-type-id">'node type id'</a>
+				'<span class="token string">reference path</span>' [ <span class="token operator">=</span> <span class="token operator">inverse</span> ] group (
+					'<span class="token string">text has link</span>' component <a href="#grammar-rule--delink">'delink'</a>
+					'<span class="token string">reference has inversion</span>' stategroup (
+						'<span class="token string">has inversion</span>'
+							'<span class="token string">EQ reference set</span>' component <a href="#grammar-rule--EQ-reference-set">'EQ reference set'</a>
 					)
-					'text' ['>'] reference
+					'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
 				)
-			'command' [ ':' 'command' ]
-				'type' stategroup (
-					'global'
-						'ui' component 'ui command attribute'
-					'component' [ 'component' ]
+			'<span class="token string">command</span>' [ <span class="token operator">:</span> <span class="token operator">command</span> ]
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">global</span>'
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-command-attribute">'ui command attribute'</a>
+					'<span class="token string">component</span>' [ <span class="token operator">component</span> ]
 				)
-				'parameters root entity' component 'entity'
-				'parameters' component 'parameter definition'
-				'implementation' stategroup (
-					'external' [ 'external' ]
-					'internal'
-						'implementation' component 'command implementation'
+				'<span class="token string">parameters root entity</span>' component <a href="#grammar-rule--entity">'entity'</a>
+				'<span class="token string">parameters</span>' component <a href="#grammar-rule--parameter-definition">'parameter definition'</a>
+				'<span class="token string">implementation</span>' stategroup (
+					'<span class="token string">external</span>' [ <span class="token operator">external</span> ]
+					'<span class="token string">internal</span>'
+						'<span class="token string">implementation</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 				)
-			'property'
-				'data type' stategroup (
-					'elementary' [ ':' ]
-					'derived' [ ':=' ]
+			'<span class="token string">property</span>'
+				'<span class="token string">data type</span>' stategroup (
+					'<span class="token string">elementary</span>' [ <span class="token operator">:</span> ]
+					'<span class="token string">derived</span>' [ <span class="token operator">:=</span> ]
 				)
-				'type' stategroup (
-					'group' [ 'group' ]
-						'type' stategroup (
-							'elementary'
-							'derived' ['=']
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">group</span>' [ <span class="token operator">group</span> ]
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">elementary</span>'
+							'<span class="token string">derived</span>' [ <span class="token operator">=</span> ]
 						)
-						'ui' component 'ui group property'
-						'node' component 'node'
-					'collection' [ 'collection' ]
-						'key property' ['[',']'] reference
-						'type' stategroup (
-							'elementary'
-								'graph constraints' component 'graph constraints definition'
-							'derived'
-								'key constraint' stategroup (
-									'no' [ '=' 'flatten' ]
-										'branches' ['(', ')'] collection (
-											'expression' [ '=' ] component 'flatten expression'
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-group-property">'ui group property'</a>
+						'<span class="token string">node</span>' component <a href="#grammar-rule--node">'node'</a>
+					'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+						'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">elementary</span>'
+								'<span class="token string">graph constraints</span>' component <a href="#grammar-rule--graph-constraints-definition">'graph constraints definition'</a>
+							'<span class="token string">derived</span>'
+								'<span class="token string">key constraint</span>' stategroup (
+									'<span class="token string">no</span>' [ <span class="token operator">=</span> <span class="token operator">flatten</span> ]
+										'<span class="token string">branches</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+											'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--flatten-expression">'flatten expression'</a>
 										)
-										'separator' ['join'] stategroup (
-											'dot' ['.']
-											'dash' ['-']
-											'colon' [':']
-											'greater than' ['>']
-											'space' ['space']
+										'<span class="token string">separator</span>' [ <span class="token operator">join</span> ] stategroup (
+											'<span class="token string">dot</span>' [ <span class="token operator">.</span> ]
+											'<span class="token string">dash</span>' [ <span class="token operator">-</span> ]
+											'<span class="token string">colon</span>' [ <span class="token operator">:</span> ]
+											'<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
+											'<span class="token string">space</span>' [ <span class="token operator">space</span> ]
 										)
-									'yes' [ '=' ]
-										'expression' component 'plural reference expression'
+									'<span class="token string">yes</span>' [ <span class="token operator">=</span> ]
+										'<span class="token string">expression</span>' component <a href="#grammar-rule--plural-reference-expression">'plural reference expression'</a>
 								)
 						)
-						'entity' component 'entity'
-						'permissions' component 'item permissions definition'
-						'ui' component 'ui collection property'
-						'node' component 'node'
-					'number'
-						'type' stategroup (
-							'elementary'
-								'set' stategroup (
-									'integer' [ 'integer' ]
-									'natural' [ 'natural' ]
+						'<span class="token string">entity</span>' component <a href="#grammar-rule--entity">'entity'</a>
+						'<span class="token string">permissions</span>' component <a href="#grammar-rule--item-permissions-definition">'item permissions definition'</a>
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-collection-property">'ui collection property'</a>
+						'<span class="token string">node</span>' component <a href="#grammar-rule--node">'node'</a>
+					'<span class="token string">number</span>'
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">elementary</span>'
+								'<span class="token string">set</span>' stategroup (
+									'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+									'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
 								)
-								'numerical type' reference
-								'type' stategroup (
-									'causal'
-										'type' stategroup (
-											'mutation' [ '=' 'mutation-time' ]
-												'watched property' stategroup (
-													'number' [ '#' ]
-														'number' reference
-													'text' [ '.' ]
-														'text' reference
+								'<span class="token string">numerical type</span>' reference
+								'<span class="token string">type</span>' stategroup (
+									'<span class="token string">causal</span>'
+										'<span class="token string">type</span>' stategroup (
+											'<span class="token string">mutation</span>' [ <span class="token operator">=</span> <span class="token operator">mutation-time</span> ]
+												'<span class="token string">watched property</span>' stategroup (
+													'<span class="token string">number</span>' [ <span class="token operator">#</span> ]
+														'<span class="token string">number</span>' reference
+													'<span class="token string">text</span>' [ <span class="token operator">.</span> ]
+														'<span class="token string">text</span>' reference
 												)
-											'creation' [ '=' 'creation-time' ]
-											'destruction'
-												'destruction operation' stategroup (
-													'set to lifetime' [ '=' 'life-time' ]
-													'add lifetime' [ 'add' 'life-time' ]
-													'subtract lifetime' [ 'subtract' 'life-time' ]
+											'<span class="token string">creation</span>' [ <span class="token operator">=</span> <span class="token operator">creation-time</span> ]
+											'<span class="token string">destruction</span>'
+												'<span class="token string">destruction operation</span>' stategroup (
+													'<span class="token string">set to lifetime</span>' [ <span class="token operator">=</span> <span class="token operator">life-time</span> ]
+													'<span class="token string">add lifetime</span>' [ <span class="token operator">add</span> <span class="token operator">life-time</span> ]
+													'<span class="token string">subtract lifetime</span>' [ <span class="token operator">subtract</span> <span class="token operator">life-time</span> ]
 												)
-												'watched stategroup' ['?'] reference
-												'watched state' ['|'] reference
+												'<span class="token string">watched stategroup</span>' [ <span class="token operator">?</span> ] reference
+												'<span class="token string">watched state</span>' [ <span class="token operator">|</span> ] reference
 										)
-									'simple'
-										'record mutation time' stategroup (
-											'yes' ['mutation-time']
-												'meta property' ['=' '#'] reference
-											'no'
+									'<span class="token string">simple</span>'
+										'<span class="token string">record mutation time</span>' stategroup (
+											'<span class="token string">yes</span>' [ <span class="token operator">mutation-time</span> ]
+												'<span class="token string">meta property</span>' [ <span class="token operator">=</span> <span class="token operator">#</span> ] reference
+											'<span class="token string">no</span>'
 										)
 								)
-							'derived'
-								'type' stategroup (
-									'integer' [ 'integer' ]
-										'numerical type' reference
-										'conversion' [ '=' ] component 'numerical type conversion2'
-										'expression' component 'integer expression'
-									'natural' [ 'natural' ]
-										'numerical type' reference
-										'conversion' [ '=' ] component 'numerical type conversion2'
-										'expression' component 'natural expression'
+							'<span class="token string">derived</span>'
+								'<span class="token string">type</span>' stategroup (
+									'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+										'<span class="token string">numerical type</span>' reference
+										'<span class="token string">conversion</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--numerical-type-conversion2">'numerical type conversion2'</a>
+										'<span class="token string">expression</span>' component <a href="#grammar-rule--integer-expression">'integer expression'</a>
+									'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
+										'<span class="token string">numerical type</span>' reference
+										'<span class="token string">conversion</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--numerical-type-conversion2">'numerical type conversion2'</a>
+										'<span class="token string">expression</span>' component <a href="#grammar-rule--natural-expression">'natural expression'</a>
 								)
 						)
-						'behaviour' stategroup (
-							'none'
-							'timer' [ 'timer' 'ontimeout']
-								'implementation' component 'command implementation'
+						'<span class="token string">behaviour</span>' stategroup (
+							'<span class="token string">none</span>'
+							'<span class="token string">timer</span>' [ <span class="token operator">timer</span> <span class="token operator">ontimeout</span> ]
+								'<span class="token string">implementation</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 						)
-						'ui' component 'ui number property'
-					'file' ['file']
-						'type' stategroup (
-							'elementary'
-							'derived' [ '=' ]
-								'expression' component 'file expression'
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-number-property">'ui number property'</a>
+					'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">elementary</span>'
+							'<span class="token string">derived</span>' [ <span class="token operator">=</span> ]
+								'<span class="token string">expression</span>' component <a href="#grammar-rule--file-expression">'file expression'</a>
 						)
-						'ui' component 'ui file property'
-					'text' ['text']
-						'type' stategroup (
-							'elementary'
-								'has constraint' stategroup (
-									'no'
-									'yes' ['->']
-										'expression' component 'reference constraint expression'
-										'output parameters' component 'output parameters definition'
-										'referencer' component 'referencer'
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-file-property">'ui file property'</a>
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">elementary</span>'
+								'<span class="token string">has constraint</span>' stategroup (
+									'<span class="token string">no</span>'
+									'<span class="token string">yes</span>' [ <span class="token operator">-></span> ]
+										'<span class="token string">expression</span>' component <a href="#grammar-rule--reference-constraint-expression">'reference constraint expression'</a>
+										'<span class="token string">output parameters</span>' component <a href="#grammar-rule--output-parameters-definition">'output parameters definition'</a>
+										'<span class="token string">referencer</span>' component <a href="#grammar-rule--referencer">'referencer'</a>
 								)
-								'record mutation time' stategroup (
-									'yes' ['mutation-time']
-										'meta property' ['=' '#'] reference
-									'no'
+								'<span class="token string">record mutation time</span>' stategroup (
+									'<span class="token string">yes</span>' [ <span class="token operator">mutation-time</span> ]
+										'<span class="token string">meta property</span>' [ <span class="token operator">=</span> <span class="token operator">#</span> ] reference
+									'<span class="token string">no</span>'
 								)
-							'derived'
-								'has constraint' stategroup (
-									'no' ['=']
-										'value source' stategroup (
-											'key' ['$']
-												'is collection key' component 'EQ member'
-											'expression'
-												'not collection key' component 'EQ member'
-												'expression' component 'text expression'
+							'<span class="token string">derived</span>'
+								'<span class="token string">has constraint</span>' stategroup (
+									'<span class="token string">no</span>' [ <span class="token operator">=</span> ]
+										'<span class="token string">value source</span>' stategroup (
+											'<span class="token string">key</span>' [ <span class="token operator">$</span> ]
+												'<span class="token string">is collection key</span>' component <a href="#grammar-rule--EQ-member">'EQ member'</a>
+											'<span class="token string">expression</span>'
+												'<span class="token string">not collection key</span>' component <a href="#grammar-rule--EQ-member">'EQ member'</a>
+												'<span class="token string">expression</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
 										)
-									'yes' ['=>']
-										'expression' component 'derived reference constraint expression'
-										'output parameters' component 'output parameters definition'
-										'value provision' ['='] stategroup (
-											'key' ['$']
-												'is collection key' component 'EQ member'
-											'expression'
-												'not collection key' component 'EQ member'
-												'expression' component 'singular reference expression'
+									'<span class="token string">yes</span>' [ <span class="token operator">=></span> ]
+										'<span class="token string">expression</span>' component <a href="#grammar-rule--derived-reference-constraint-expression">'derived reference constraint expression'</a>
+										'<span class="token string">output parameters</span>' component <a href="#grammar-rule--output-parameters-definition">'output parameters definition'</a>
+										'<span class="token string">value provision</span>' [ <span class="token operator">=</span> ] stategroup (
+											'<span class="token string">key</span>' [ <span class="token operator">$</span> ]
+												'<span class="token string">is collection key</span>' component <a href="#grammar-rule--EQ-member">'EQ member'</a>
+											'<span class="token string">expression</span>'
+												'<span class="token string">not collection key</span>' component <a href="#grammar-rule--EQ-member">'EQ member'</a>
+												'<span class="token string">expression</span>' component <a href="#grammar-rule--singular-reference-expression">'singular reference expression'</a>
 										)
-										'referencer' component 'referencer'
+										'<span class="token string">referencer</span>' component <a href="#grammar-rule--referencer">'referencer'</a>
 								)
 						)
-						'value type' stategroup (
-							'link' [ '~>' ]
-								'selection' component 'link text expression'
-								'linker' component 'linker'
-							'simple'
+						'<span class="token string">value type</span>' stategroup (
+							'<span class="token string">link</span>' [ <span class="token operator">~></span> ]
+								'<span class="token string">selection</span>' component <a href="#grammar-rule--link-text-expression">'link text expression'</a>
+								'<span class="token string">linker</span>' component <a href="#grammar-rule--linker">'linker'</a>
+							'<span class="token string">simple</span>'
 						)
-						'ui' component 'ui text property'
-					'state group' [ 'stategroup' ]
-						'type' stategroup (
-							'elementary'
-							'derived' ['=']
-								'expression' component 'state expression'
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-text-property">'ui text property'</a>
+					'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">elementary</span>'
+							'<span class="token string">derived</span>' [ <span class="token operator">=</span> ]
+								'<span class="token string">expression</span>' component <a href="#grammar-rule--state-expression">'state expression'</a>
 						)
-						'ui' component 'ui state group property'
-						'output parameters' collection ( [ '(' , ')' ]
-							'dependable' component 'dependency'
-							'type' stategroup (
-								'elementary' [ '->' ]
-								'derived' [ '=>' ]
+						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-state-group-property">'ui state group property'</a>
+						'<span class="token string">output parameters</span>' collection ( [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+							'<span class="token string">dependable</span>' component <a href="#grammar-rule--dependency">'dependency'</a>
+							'<span class="token string">type</span>' stategroup (
+								'<span class="token string">elementary</span>' [ <span class="token operator">-></span> ]
+								'<span class="token string">derived</span>' [ <span class="token operator">=></span> ]
 							)
-							'node selection' component 'node type id'
+							'<span class="token string">node selection</span>' component <a href="#grammar-rule--node-type-id">'node type id'</a>
 						)
-						'has states' stategroup has 'states' first 'first' 'yes' 'no'
-						'states' [ '(' , ')' ] collection order 'view order' indent (
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'record lifetime' stategroup (
-								'yes' ['life-time']
-									'meta property' ['=' '#'] reference
-									'creation timestamp' ['from'] reference
-								'no'
+						'<span class="token string">has states</span>' stategroup has '<span class="token string">states</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+						'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">view order</span>' indent (
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">record lifetime</span>' stategroup (
+								'<span class="token string">yes</span>' [ <span class="token operator">life-time</span> ]
+									'<span class="token string">meta property</span>' [ <span class="token operator">=</span> <span class="token operator">#</span> ] reference
+									'<span class="token string">creation timestamp</span>' [ <span class="token operator">from</span> ] reference
+								'<span class="token string">no</span>'
 								)
-							'input parameters' collection ( [ '(' , ')' ]
-								'type' stategroup (
-									'node'
-										'type' stategroup (
-											'elementary' ['->']
-												'selection' component 'resolved state group selection starting from property'
-												'state' [ '|' ] reference
-												'tail' component 'node content path'
-											'derived' [':']
-												'node selection' component 'node type id'
+							'<span class="token string">input parameters</span>' collection ( [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+								'<span class="token string">type</span>' stategroup (
+									'<span class="token string">node</span>'
+										'<span class="token string">type</span>' stategroup (
+											'<span class="token string">elementary</span>' [ <span class="token operator">-></span> ]
+												'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-state-group-selection-starting-from-property">'resolved state group selection starting from property'</a>
+												'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+												'<span class="token string">tail</span>' component <a href="#grammar-rule--node-content-path">'node content path'</a>
+											'<span class="token string">derived</span>' [ <span class="token operator">:</span> ]
+												'<span class="token string">node selection</span>' component <a href="#grammar-rule--node-type-id">'node type id'</a>
 										)
-									'number'
-										'set' [':'] stategroup (
-											'integer' ['integer']
-											'natural' ['natural']
+									'<span class="token string">number</span>'
+										'<span class="token string">set</span>' [ <span class="token operator">:</span> ] stategroup (
+											'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+											'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
 										)
-										'numerical type' reference
-								)
-							)
-							'output arguments' [ '->' ] collection ( [ '(' , ')' ]
-								'type' stategroup (
-									'elementary' [ '->' ]
-										'type' stategroup (
-											'descendant'
-												'type' stategroup (
-													'input parameter' ['&']
-														'input parameter' reference
-													'this'
-												)
-												'selection' component 'resolved node descendant selection starting from node'
-											'ancestor' [ '^' ]
-												'selection' component 'resolved node selection starting from property'
-										)
-									'derived' [ '=>' ]
-										'type' stategroup (
-											'descendant'
-												'selection' component 'calculated descendant node selection starting from node'
-											'ancestor' [ '^' ]
-												'selection' component 'calculated node selection starting from property'
-										)
+										'<span class="token string">numerical type</span>' reference
 								)
 							)
-							'permissions' component 'item permissions definition'
-							'ui' component 'ui state'
-							'node' component 'node'
+							'<span class="token string">output arguments</span>' [ <span class="token operator">-></span> ] collection ( [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+								'<span class="token string">type</span>' stategroup (
+									'<span class="token string">elementary</span>' [ <span class="token operator">-></span> ]
+										'<span class="token string">type</span>' stategroup (
+											'<span class="token string">descendant</span>'
+												'<span class="token string">type</span>' stategroup (
+													'<span class="token string">input parameter</span>' [ <span class="token operator">&</span> ]
+														'<span class="token string">input parameter</span>' reference
+													'<span class="token string">this</span>'
+												)
+												'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-node-descendant-selection-starting-from-node">'resolved node descendant selection starting from node'</a>
+											'<span class="token string">ancestor</span>' [ <span class="token operator">^</span> ]
+												'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-node-selection-starting-from-property">'resolved node selection starting from property'</a>
+										)
+									'<span class="token string">derived</span>' [ <span class="token operator">=></span> ]
+										'<span class="token string">type</span>' stategroup (
+											'<span class="token string">descendant</span>'
+												'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
+											'<span class="token string">ancestor</span>' [ <span class="token operator">^</span> ]
+												'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+										)
+								)
+							)
+							'<span class="token string">permissions</span>' component <a href="#grammar-rule--item-permissions-definition">'item permissions definition'</a>
+							'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-state">'ui state'</a>
+							'<span class="token string">node</span>' component <a href="#grammar-rule--node">'node'</a>
 						)
 				)
 		)
-		'attribute' component 'member'
+		'<span class="token string">attribute</span>' component <a href="#grammar-rule--member">'member'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ## Constraints
 ---
 The `application` language supports two types of constraints on data: *reference constraints* and *graph constraints*.
@@ -666,58 +786,78 @@ The constraint ensures that `Product Price` computations terminate:
 }
 ```
 
-```js
-'reference inversion'
-	'inversion' stategroup (
-		'no'
-		'yes' [ '-<' ]
-			'reference set' reference
+{: #grammar-rule--reference-inversion }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">reference inversion</span>'
+	'<span class="token string">inversion</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">-<</span> ]
+			'<span class="token string">reference set</span>' reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'reference constraint expression'
-	'type' stategroup (
-		'backward'
-			'type' stategroup (
-				'simple'
-					'selection' component 'resolved collection selection starting from property'
-				'graph edge'
-					'ancestor path' component 'ancestor node path'
-					'parent is collection' stategroup ( 'yes' )
-					'graph' ['graph'] reference
+{: #grammar-rule--reference-constraint-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">reference constraint expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">backward</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">simple</span>'
+					'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-collection-selection-starting-from-property">'resolved collection selection starting from property'</a>
+				'<span class="token string">graph edge</span>'
+					'<span class="token string">ancestor path</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+					'<span class="token string">parent is collection</span>' stategroup ( '<span class="token string">yes</span>' )
+					'<span class="token string">graph</span>' [ <span class="token operator">graph</span> ] reference
 			)
-		'forward' [ 'forward' ]
-			'head' component 'unresolved node selection'
-			'collection' ['.'] reference
+		'<span class="token string">forward</span>' [ <span class="token operator">forward</span> ]
+			'<span class="token string">head</span>' component <a href="#grammar-rule--unresolved-node-selection">'unresolved node selection'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 	)
-	'tail' component 'node content path'
-	'EQ modifier' component 'EQ modifier'
-	'inversion' component 'reference inversion'
-```
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--node-content-path">'node content path'</a>
+	'<span class="token string">EQ modifier</span>' component <a href="#grammar-rule--EQ-modifier">'EQ modifier'</a>
+	'<span class="token string">inversion</span>' component <a href="#grammar-rule--reference-inversion">'reference inversion'</a>
+</pre>
+</div>
+</div>
 
-```js
-'derived reference constraint expression'
-	'type' stategroup (
-		'backward'
-			'selection' component 'calculated collection selection starting from property'
-		'self'
-			'selection' component 'ancestor node path'
-			'collection' [ '.self' ] stategroup ( 'collection' )
+{: #grammar-rule--derived-reference-constraint-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">derived reference constraint expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">backward</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-collection-selection-starting-from-property">'calculated collection selection starting from property'</a>
+		'<span class="token string">self</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.self</span> ] stategroup ( '<span class="token string">collection</span>' )
 	)
-	'tail' component 'derivation node content path'
-	'inversion' component 'reference inversion'
-```
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+	'<span class="token string">inversion</span>' component <a href="#grammar-rule--reference-inversion">'reference inversion'</a>
+</pre>
+</div>
+</div>
 
-```js
-'graph constraints definition'
-	'constraints' collection (
-		'type' [':'] stategroup (
-			'acyclic' [ 'acyclic-graph' ]
-			'linear' [ 'ordered-graph' ]
+{: #grammar-rule--graph-constraints-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">graph constraints definition</span>'
+	'<span class="token string">constraints</span>' collection (
+		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+			'<span class="token string">acyclic</span>' [ <span class="token operator">acyclic-graph</span> ]
+			'<span class="token string">linear</span>' [ <span class="token operator">ordered-graph</span> ]
 		)
 	)
-```
+</pre>
+</div>
+</div>
 ## Links
 ---
 Links mark relations between nodes that are not, or cannot be enforced by the runtime.
@@ -742,21 +882,26 @@ As `Catalog Provider` can remove `Products` at any given time, we cannot put con
 }
 ```
 
-```js
-'link text expression'
-	'dependency' stategroup (
-		'link'
-			'text path' component 'calculated text selection starting from property'
-			'text value type is link' stategroup ( 'yes' )
-			'group selection' component 'group node selection'
-			'collection' ['.'] reference
-		'node'
-			'collection selection' component 'calculated collection selection starting from property'
+{: #grammar-rule--link-text-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">link text expression</span>'
+	'<span class="token string">dependency</span>' stategroup (
+		'<span class="token string">link</span>'
+			'<span class="token string">text path</span>' component <a href="#grammar-rule--calculated-text-selection-starting-from-property">'calculated text selection starting from property'</a>
+			'<span class="token string">text value type is link</span>' stategroup ( '<span class="token string">yes</span>' )
+			'<span class="token string">group selection</span>' component <a href="#grammar-rule--group-node-selection">'group node selection'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">node</span>'
+			'<span class="token string">collection selection</span>' component <a href="#grammar-rule--calculated-collection-selection-starting-from-property">'calculated collection selection starting from property'</a>
 	)
-	'tail' component 'derivation node content path'
-	'variable assignment' component 'variable assignment'
-	'inversion' component 'reference inversion'
-```
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+	'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+	'<span class="token string">inversion</span>' component <a href="#grammar-rule--reference-inversion">'reference inversion'</a>
+</pre>
+</div>
+</div>
 ## Derivations
 ---
 Derivation expressions use earlier defined properties for deriving values for ensuring terminating computations of derived values (derivations).
@@ -777,60 +922,75 @@ A derived text property holds a (sequence of) static text values and text values
     = +'Address'.'Street' " " +'Address'.'Street number' // "Huntington Rd 12B"
 ```
 
-```js
-'text expression'
-	'type' stategroup (
-		'singular'
-			'selection' component 'text expression tail'
-		'conditional' ['switch' ]
-			'state group selection' component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional text expression'
+{: #grammar-rule--text-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">text expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">singular</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--text-expression-tail">'text expression tail'</a>
+		'<span class="token string">conditional</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">state group selection</span>' component <a href="#grammar-rule--calculated-state-group-selection-starting-from-property">'calculated state group selection starting from property'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-text-expression">'conditional text expression'</a>
 			)
-		'boolean'
-			'expression' component 'boolean expression'
-			'cases' ['(',')'] group (
-				'true'  [ '|' 'true' '='  ] component 'text expression tail'
-				'false' [ '|' 'false' '=' ] component 'text expression tail'
+		'<span class="token string">boolean</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+			'<span class="token string">cases</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+				'<span class="token string">true</span>'  [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--text-expression-tail">'text expression tail'</a>
+				'<span class="token string">false</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--text-expression-tail">'text expression tail'</a>
 			)
 	)
-	'has successor' stategroup (
-		'no'
-		'yes'
-			'tail' component 'text expression'
+	'<span class="token string">has successor</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'text expression tail'
-	'type' stategroup (
-		'value'
-			'value' text
-		'text'
-			'context' stategroup (
-				'this'
-					'path' component 'calculated text selection starting from property'
-				'variable'
-					'path' component 'variable descendant node path'
-					'text' [ '.' ] reference
+{: #grammar-rule--text-expression-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">text expression tail</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">value</span>'
+			'<span class="token string">value</span>' text
+		'<span class="token string">text</span>'
+			'<span class="token string">context</span>' stategroup (
+				'<span class="token string">this</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--calculated-text-selection-starting-from-property">'calculated text selection starting from property'</a>
+				'<span class="token string">variable</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--variable-descendant-node-path">'variable descendant node path'</a>
+					'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'conditional text expression'
-	'has steps' stategroup (
-		'no'
-			'expression' component 'text expression tail'
-		'yes' ['switch']
-			'path' component 'variablized calculated state group path'
-			'states' ['(',')'] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional text expression'
+{: #grammar-rule--conditional-text-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional text expression</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--text-expression-tail">'text expression tail'</a>
+		'<span class="token string">yes</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variablized-calculated-state-group-path">'variablized calculated state group path'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-text-expression">'conditional text expression'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 ### Derived texts with constraint (derived references)
 The `application` language supports two types of derived references: `singular` and `branch`.
 The `singular` type creates a direct relation between nodes using other relations.
@@ -852,17 +1012,22 @@ after the constraint expression for the `Product` property.
 }
 ```
 
-```js
-'singular reference expression'
-	'type' stategroup (
-		'branch' // branch of derived collection constructed using flatten expressions
-			'branch' [ 'from' ] reference
-			'root entity constraint' stategroup ( 'root' )
-			'expression' [ '[', ']' ] component 'calculated node selection starting from property'
-		'singular'
-			'expression' component 'calculated node selection starting from property'
+{: #grammar-rule--singular-reference-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">singular reference expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">branch</span>' // branch of derived collection constructed using flatten expressions
+			'<span class="token string">branch</span>' [ <span class="token operator">from</span> ] reference
+			'<span class="token string">root entity constraint</span>' stategroup ( '<span class="token string">root</span>' )
+			'<span class="token string">expression</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>' ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+		'<span class="token string">singular</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ### Derived files
 An example of a derived file property `Contract`.
 The property holds the value of a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
@@ -880,57 +1045,72 @@ The property holds the value of a `Default Contract` in case of a `Standard` `Ag
 )
 ```
 
-```js
-'file expression tail'
-	'context' stategroup (
-		'this'
-			'type' stategroup (
-				'file'
-					'context selection' component 'ancestor property path'
-					'file' [ '/' ] reference
-				'node'
-					'selection' component 'calculated node selection starting from property'
-					'file' [ '/' ] reference
+{: #grammar-rule--file-expression-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">file expression tail</span>'
+	'<span class="token string">context</span>' stategroup (
+		'<span class="token string">this</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">file</span>'
+					'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+					'<span class="token string">file</span>' [ <span class="token operator">/</span> ] reference
+				'<span class="token string">node</span>'
+					'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+					'<span class="token string">file</span>' [ <span class="token operator">/</span> ] reference
 			)
-		'variable'
-			'path' component 'variable descendant node path'
-			'file' [ '/' ] reference
+		'<span class="token string">variable</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variable-descendant-node-path">'variable descendant node path'</a>
+			'<span class="token string">file</span>' [ <span class="token operator">/</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'conditional file expression'
-	'has steps' stategroup (
-		'no'
-			'expression' component 'file expression tail'
-		'yes' ['switch']
-			'path' component 'variablized calculated state group path'
-			'states' ['(',')'] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional file expression'
+{: #grammar-rule--conditional-file-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional file expression</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--file-expression-tail">'file expression tail'</a>
+		'<span class="token string">yes</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variablized-calculated-state-group-path">'variablized calculated state group path'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-file-expression">'conditional file expression'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'file expression'
-	'type' stategroup (
-		'singular'
-			'expression' component 'file expression tail'
-		'conditional' ['switch']
-			'state group selection' component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional file expression'
+{: #grammar-rule--file-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">file expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">singular</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--file-expression-tail">'file expression tail'</a>
+		'<span class="token string">conditional</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">state group selection</span>' component <a href="#grammar-rule--calculated-state-group-selection-starting-from-property">'calculated state group selection starting from property'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-file-expression">'conditional file expression'</a>
 			)
-		'boolean'
-			'expression' component 'boolean expression'
-			'cases' ['(',')'] group (
-				'true'  [ '|' 'true' '='  ] component 'file expression tail'
-				'false' [ '|' 'false' '=' ] component 'file expression tail'
+		'<span class="token string">boolean</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+			'<span class="token string">cases</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+				'<span class="token string">true</span>'  [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--file-expression-tail">'file expression tail'</a>
+				'<span class="token string">false</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--file-expression-tail">'file expression tail'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 ### Derived numbers
 Examples of derived number properties, including required conversion rules:
 
@@ -986,325 +1166,390 @@ numerical-types
 ```
 
 
-```js
-'integer expression'
-	'type' stategroup (
-		'singular'
-			'type' stategroup (
-				'value' [ 'deprecated' ]
-					'value' number
-				'expression'
-					'expression' component 'calculated signed number selection starting from property'
+{: #grammar-rule--integer-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">integer expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">singular</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">value</span>' [ <span class="token operator">deprecated</span> ]
+					'<span class="token string">value</span>' number
+				'<span class="token string">expression</span>'
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
 			)
-		'conditional' ['switch']
-			'state group selection' component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional number expression'
+		'<span class="token string">conditional</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">state group selection</span>' component <a href="#grammar-rule--calculated-state-group-selection-starting-from-property">'calculated state group selection starting from property'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-number-expression">'conditional number expression'</a>
 			)
-		'boolean'
-			'expression' component 'boolean expression'
-			'cases' ['(',')'] group (
-				'true'  [ '|' 'true' '='  ] component 'number expression tail'
-				'false' [ '|' 'false' '=' ] component 'number expression tail'
+		'<span class="token string">boolean</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+			'<span class="token string">cases</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+				'<span class="token string">true</span>'  [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
+				'<span class="token string">false</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
 			)
-		'sum' [ 'sum' ]
-			'set path' component 'calculated set selection starting from property'
-			'number path' component 'entity scoped number path'
-		'count' [ 'count' ]
-			'set path' component 'calculated set selection starting from property'
-		'remainder' [ 'remainder' ] // NOT SUPPORTED BY TYPE CHECKER
-			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator set' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+		'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+			'<span class="token string">set path</span>' component <a href="#grammar-rule--calculated-set-selection-starting-from-property">'calculated set selection starting from property'</a>
+			'<span class="token string">number path</span>' component <a href="#grammar-rule--entity-scoped-number-path">'entity scoped number path'</a>
+		'<span class="token string">count</span>' [ <span class="token operator">count</span> ]
+			'<span class="token string">set path</span>' component <a href="#grammar-rule--calculated-set-selection-starting-from-property">'calculated set selection starting from property'</a>
+		'<span class="token string">remainder</span>' [ <span class="token operator">remainder</span> ] // NOT SUPPORTED BY TYPE CHECKER
+			'<span class="token string">numerator</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">conversion rule</span>' [ <span class="token operator">as</span> ] reference
+			'<span class="token string">numerator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">denominator set</span>' [ <span class="token operator">,</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'division' [ 'division' ]
-			'rounding' stategroup (
-				'ordinary'
-				'ceil' [ 'ceil' ]
-				'floor' [ 'floor' ]
+			'<span class="token string">denominator</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">denominator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">division</span>' [ <span class="token operator">division</span> ]
+			'<span class="token string">rounding</span>' stategroup (
+				'<span class="token string">ordinary</span>'
+				'<span class="token string">ceil</span>' [ <span class="token operator">ceil</span> ]
+				'<span class="token string">floor</span>' [ <span class="token operator">floor</span> ]
 			)
-			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator set' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">numerator</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">conversion rule</span>' [ <span class="token operator">as</span> ] reference
+			'<span class="token string">numerator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">denominator set</span>' [ <span class="token operator">,</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'product' [ 'product' ]
-			'left' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'left conversion' component 'numerical type conversion'
-			'right' [ ',' ] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'list operation'
-			'operation' stategroup (
-				'sum' [ 'sum' ]
-				'maximum' [ 'max' ]
-				'minimum' [ 'min' ]
+			'<span class="token string">denominator</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">denominator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">product</span>' [ <span class="token operator">product</span> ]
+			'<span class="token string">left</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">conversion rule</span>' [ <span class="token operator">as</span> ] reference
+			'<span class="token string">left conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">right</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">list operation</span>'
+			'<span class="token string">operation</span>' stategroup (
+				'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+				'<span class="token string">maximum</span>' [ <span class="token operator">max</span> ]
+				'<span class="token string">minimum</span>' [ <span class="token operator">min</span> ]
 			)
-			'numbers' [ '(' , ')' ] component 'signed number property list'
-		'addition' ['add' '(']
-			'left' component 'calculated signed number selection starting from property'
-			'left conversion' component 'numerical type conversion'
-			'right' [ ',' ] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'difference' ['diff']
-			'left' [ '(' ] component 'calculated signed number selection starting from property'
-			'left constraint' component 'numerical type constraint'
-			'right' [ ',' ] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
+			'<span class="token string">numbers</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--signed-number-property-list">'signed number property list'</a>
+		'<span class="token string">addition</span>' [ <span class="token operator">add</span> <span class="token operator">(</span> ]
+			'<span class="token string">left</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">left conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">right</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">difference</span>' [ <span class="token operator">diff</span> ]
+			'<span class="token string">left</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">left constraint</span>' component <a href="#grammar-rule--numerical-type-constraint">'numerical type constraint'</a>
+			'<span class="token string">right</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'natural expression'
-	'type' stategroup (
-		'singular'
-			'type' stategroup (
-				'value' [ 'deprecated' ]
-					'value' number
-				'expression'
-					'selected number type' stategroup (
-						'integer' [ 'unsafe' ]
-						'natural'
+{: #grammar-rule--natural-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">natural expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">singular</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">value</span>' [ <span class="token operator">deprecated</span> ]
+					'<span class="token string">value</span>' number
+				'<span class="token string">expression</span>'
+					'<span class="token string">selected number type</span>' stategroup (
+						'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+						'<span class="token string">natural</span>'
 					)
-					'expression' component 'calculated signed number selection starting from property'
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
 			)
-		'conditional' ['switch']
-			'state group selection' component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional natural number expression'
+		'<span class="token string">conditional</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">state group selection</span>' component <a href="#grammar-rule--calculated-state-group-selection-starting-from-property">'calculated state group selection starting from property'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-natural-number-expression">'conditional natural number expression'</a>
 			)
-		'boolean'
-			'expression' component 'boolean expression'
-			'cases' ['(',')'] group (
-				'true'  [ '|' 'true' '='  ] component 'number expression tail'
-				'false' [ '|' 'false' '=' ] component 'number expression tail'
+		'<span class="token string">boolean</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+			'<span class="token string">cases</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+				'<span class="token string">true</span>'  [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
+				'<span class="token string">false</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
 			)
-		'remainder' [ 'remainder' 'unsafe' ] // NOT SUPPORTED BY TYPE CHECKER
-			'numerator' [ '(' ] component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator set' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+		'<span class="token string">remainder</span>' [ <span class="token operator">remainder</span> <span class="token operator">unsafe</span> ] // NOT SUPPORTED BY TYPE CHECKER
+			'<span class="token string">numerator</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">conversion rule</span>' [ <span class="token operator">as</span> ] reference
+			'<span class="token string">numerator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">denominator set</span>' [ <span class="token operator">,</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'division' [ 'division' ]
-			'rounding' stategroup (
-				'ordinary' [ 'unsafe' ]
-				'ceil' [ 'ceil' ]
-				'floor' [ 'floor' 'unsafe' ]
+			'<span class="token string">denominator</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">denominator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">division</span>' [ <span class="token operator">division</span> ]
+			'<span class="token string">rounding</span>' stategroup (
+				'<span class="token string">ordinary</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">ceil</span>' [ <span class="token operator">ceil</span> ]
+				'<span class="token string">floor</span>' [ <span class="token operator">floor</span> <span class="token operator">unsafe</span> ]
 			)
-			'numerator type' [ '(' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">numerator type</span>' [ <span class="token operator">(</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'numerator' component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'numerator conversion' component 'numerical type conversion'
-			'denominator type' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">numerator</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">conversion rule</span>' [ <span class="token operator">as</span> ] reference
+			'<span class="token string">numerator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">denominator type</span>' [ <span class="token operator">,</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'denominator' component 'calculated signed number selection starting from property'
-			'denominator conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'product' [ 'product' ]
-			'left number type' [ '(' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">denominator</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">denominator conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">product</span>' [ <span class="token operator">product</span> ]
+			'<span class="token string">left number type</span>' [ <span class="token operator">(</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'left' component 'calculated signed number selection starting from property'
-			'conversion rule' ['as'] reference
-			'left conversion' component 'numerical type conversion'
-			'right number type' [ ',' ] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">left</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">conversion rule</span>' [ <span class="token operator">as</span> ] reference
+			'<span class="token string">left conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">right number type</span>' [ <span class="token operator">,</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'right' component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'list operation'
-			'operation' stategroup (
-				'sum' [ 'sum' ]
-				'maximum' [ 'max' ]
-				'minimum' [ 'min' ]
+			'<span class="token string">right</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">list operation</span>'
+			'<span class="token string">operation</span>' stategroup (
+				'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+				'<span class="token string">maximum</span>' [ <span class="token operator">max</span> ]
+				'<span class="token string">minimum</span>' [ <span class="token operator">min</span> ]
 			)
-			'numbers' [ '(' , ')' ] component 'natural number property list'
-		'addition' ['add']
-			'left number type' ['('] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">numbers</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--natural-number-property-list">'natural number property list'</a>
+		'<span class="token string">addition</span>' [ <span class="token operator">add</span> ]
+			'<span class="token string">left number type</span>' [ <span class="token operator">(</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'left' component 'calculated signed number selection starting from property'
-			'left conversion' component 'numerical type conversion'
-			'right number type' [','] stategroup (
-				'integer' [ 'unsafe' ]
-				'natural'
+			'<span class="token string">left</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">left conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">right number type</span>' [ <span class="token operator">,</span> ] stategroup (
+				'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
+				'<span class="token string">natural</span>'
 			)
-			'right' component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
-		'difference' [ 'diff' 'unsafe' ]
-			'left' ['('] component 'calculated signed number selection starting from property'
-			'left constraint' component 'numerical type constraint'
-			'right' [','] component 'calculated signed number selection starting from property'
-			'right conversion' component 'numerical type conversion'
-			'KEYWORD' [')'] component 'KEYWORD'
+			'<span class="token string">right</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+		'<span class="token string">difference</span>' [ <span class="token operator">diff</span> <span class="token operator">unsafe</span> ]
+			'<span class="token string">left</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">left constraint</span>' component <a href="#grammar-rule--numerical-type-constraint">'numerical type constraint'</a>
+			'<span class="token string">right</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+			'<span class="token string">KEYWORD</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'numerical type constraint'
-```
+{: #grammar-rule--numerical-type-constraint }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">numerical type constraint</span>'
+</pre>
+</div>
+</div>
 
-```js
-'numerical type conversion'
-	'conversion' stategroup (
-		'no'
-			'constraint' component 'numerical type constraint'
-		'yes'
-			'conversion' ['from'] reference
+{: #grammar-rule--numerical-type-conversion }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">numerical type conversion</span>'
+	'<span class="token string">conversion</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">constraint</span>' component <a href="#grammar-rule--numerical-type-constraint">'numerical type constraint'</a>
+		'<span class="token string">yes</span>'
+			'<span class="token string">conversion</span>' [ <span class="token operator">from</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'numerical type conversion2'
-	'conversion' stategroup (
-		'no'
-		'yes'
-			'conversion' ['from'] reference
+{: #grammar-rule--numerical-type-conversion2 }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">numerical type conversion2</span>'
+	'<span class="token string">conversion</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">conversion</span>' [ <span class="token operator">from</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'sign inversion'
-	'sign inversion' stategroup (
-		'yes' [ '-' ]
-		'no'
+{: #grammar-rule--sign-inversion }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">sign inversion</span>'
+	'<span class="token string">sign inversion</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">-</span> ]
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'calculated signed number selection starting from property'
-	'sign inversion' component 'sign inversion'
-	'type' stategroup (
-		'input parameter'
-			'context selection' component 'ancestor node path'
-			'state' stategroup ( 'state' )
-			'input parameter' [ '&#' ] reference
-		'number from property'
-			'context selection' component 'ancestor property path'
-			'number' [ '#' ] reference
-		'number from node'
-			'selection' component 'calculated node selection starting from property'
-			'number' [ '#' ] reference
+{: #grammar-rule--calculated-signed-number-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated signed number selection starting from property</span>'
+	'<span class="token string">sign inversion</span>' component <a href="#grammar-rule--sign-inversion">'sign inversion'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">input parameter</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+			'<span class="token string">state</span>' stategroup ( '<span class="token string">state</span>' )
+			'<span class="token string">input parameter</span>' [ <span class="token operator">&#</span> ] reference
+		'<span class="token string">number from property</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
+		'<span class="token string">number from node</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+			'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'signed number property list'
-	'selection' component 'calculated signed number selection starting from property'
-	'conversion' component 'numerical type conversion'
-	'has element' stategroup (
-		'no'
-		'yes' [',']
-			'tail' component 'signed number property list'
+{: #grammar-rule--signed-number-property-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">signed number property list</span>'
+	'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+	'<span class="token string">conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+	'<span class="token string">has element</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--signed-number-property-list">'signed number property list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'natural number property list'
-	'selected number type' stategroup (
-		'natural'
-		'integer' [ 'unsafe' ]
+{: #grammar-rule--natural-number-property-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">natural number property list</span>'
+	'<span class="token string">selected number type</span>' stategroup (
+		'<span class="token string">natural</span>'
+		'<span class="token string">integer</span>' [ <span class="token operator">unsafe</span> ]
 	)
-	'selection' component 'calculated signed number selection starting from property'
-	'conversion' component 'numerical type conversion'
-	'has element' stategroup (
-		'no'
-		'yes' [',']
-			'tail' component 'natural number property list'
+	'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+	'<span class="token string">conversion</span>' component <a href="#grammar-rule--numerical-type-conversion">'numerical type conversion'</a>
+	'<span class="token string">has element</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--natural-number-property-list">'natural number property list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'number expression tail'
-	'conversion' component 'numerical type conversion2'
-	'type' stategroup (
-		'variable' ['$']
-			'numerical type constraint' component 'numerical type constraint'
-		'static'
-			'value' component 'static number value'
-		'property'
-			'path' component 'variablized calculated number path'
-		'aggregate'
-			'type' stategroup (
-				'property'
-					'operation' stategroup (
-						'minimum' [ 'min' ]
-						'maximum' [ 'max' ]
-						'sum' [ 'sum' ]
-						'standard deviation' [ 'std' ]
+{: #grammar-rule--number-expression-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number expression tail</span>'
+	'<span class="token string">conversion</span>' component <a href="#grammar-rule--numerical-type-conversion2">'numerical type conversion2'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">variable</span>' [ <span class="token operator">$</span> ]
+			'<span class="token string">numerical type constraint</span>' component <a href="#grammar-rule--numerical-type-constraint">'numerical type constraint'</a>
+		'<span class="token string">static</span>'
+			'<span class="token string">value</span>' component <a href="#grammar-rule--static-number-value">'static number value'</a>
+		'<span class="token string">property</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variablized-calculated-number-path">'variablized calculated number path'</a>
+		'<span class="token string">aggregate</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">property</span>'
+					'<span class="token string">operation</span>' stategroup (
+						'<span class="token string">minimum</span>' [ <span class="token operator">min</span> ]
+						'<span class="token string">maximum</span>' [ <span class="token operator">max</span> ]
+						'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+						'<span class="token string">standard deviation</span>' [ <span class="token operator">std</span> ]
 					)
-					'path' ['$'] component 'entity scoped number path'
-				'count' ['count' '$']
+					'<span class="token string">path</span>' [ <span class="token operator">$</span> ] component <a href="#grammar-rule--entity-scoped-number-path">'entity scoped number path'</a>
+				'<span class="token string">count</span>' [ <span class="token operator">count</span> <span class="token operator">$</span> ]
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'conditional number expression'
-	'has steps' stategroup (
-		'no'
-			'expression' component 'number expression tail'
-		'yes' ['switch']
-			'path' component 'variablized calculated state group path'
-			'states' ['(',')'] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional number expression'
+{: #grammar-rule--conditional-number-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional number expression</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
+		'<span class="token string">yes</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variablized-calculated-state-group-path">'variablized calculated state group path'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-number-expression">'conditional number expression'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'static number value'
-	'value' stategroup (
-		'zero' ['zero']
-		'one' ['one']
+{: #grammar-rule--static-number-value }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">static number value</span>'
+	'<span class="token string">value</span>' stategroup (
+		'<span class="token string">zero</span>' [ <span class="token operator">zero</span> ]
+		'<span class="token string">one</span>' [ <span class="token operator">one</span> ]
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'conditional natural number expression'
-	'has steps' stategroup (
-		'no'
-			'expression' component 'number expression tail'
-		'yes' ['switch']
-			'path' component 'variablized calculated state group path'
-			'states' ['(',')'] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional natural number expression'
+{: #grammar-rule--conditional-natural-number-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional natural number expression</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
+		'<span class="token string">yes</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variablized-calculated-state-group-path">'variablized calculated state group path'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-natural-number-expression">'conditional natural number expression'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 ### Derived states
 The code sample exemplifies a derived state group property `Product found`.
 The expression for deriving the state checks if the `Product` link produces a `Products` item from a `Products` `Catalog`.
@@ -1332,201 +1577,246 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 }
 ```
 
-```js
-'state instantiation'
-	'state' reference
-	'input arguments' collection ( [ '(' , ')' ]
-		'type' stategroup (
-			'node' [ '=>' ]
-				'type' stategroup (
-					'this'
-						'path' component 'calculated node selection starting from property'
-					'variable'
-						'path' component 'variable descendant node path'
+{: #grammar-rule--state-instantiation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">state instantiation</span>'
+	'<span class="token string">state</span>' reference
+	'<span class="token string">input arguments</span>' collection ( [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">node</span>' [ <span class="token operator">=></span> ]
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">this</span>'
+						'<span class="token string">path</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+					'<span class="token string">variable</span>'
+						'<span class="token string">path</span>' component <a href="#grammar-rule--variable-descendant-node-path">'variable descendant node path'</a>
 				)
-			'number'
-				'set' [':'] stategroup (
-					'integer' ['integer']
-					'natural' ['natural']
+			'<span class="token string">number</span>'
+				'<span class="token string">set</span>' [ <span class="token operator">:</span> ] stategroup (
+					'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+					'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
 				)
-				'expression' [ '=' ] component 'number expression tail'
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression-tail">'number expression tail'</a>
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'state expression'
-	'expression type' stategroup (
-		'branch match' [ 'match-branch' ]
-			'branches' ['(', ')'] collection ( ['|']
-				'state instantiation' [ '=' ] component 'state instantiation'
+{: #grammar-rule--state-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">state expression</span>'
+	'<span class="token string">expression type</span>' stategroup (
+		'<span class="token string">branch match</span>' [ <span class="token operator">match-branch</span> ]
+			'<span class="token string">branches</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">state instantiation</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--state-instantiation">'state instantiation'</a>
 			)
-		'state merge' ['switch']
-			'state group selection' component 'calculated state group selection starting from property'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional state group expression'
+		'<span class="token string">state merge</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">state group selection</span>' component <a href="#grammar-rule--calculated-state-group-selection-starting-from-property">'calculated state group selection starting from property'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-state-group-expression">'conditional state group expression'</a>
 			)
-		'boolean'
-			'expression' component 'boolean expression'
-			'cases' ['(',')'] group (
-				'true'  [ '|' 'true' '='  ] component 'state instantiation'
-				'false' [ '|' 'false' '=' ] component 'state instantiation'
+		'<span class="token string">boolean</span>'
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+			'<span class="token string">cases</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+				'<span class="token string">true</span>'  [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--state-instantiation">'state instantiation'</a>
+				'<span class="token string">false</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--state-instantiation">'state instantiation'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'boolean expression'
-	'type' stategroup (
-		'any'
-			'type' stategroup (
-				'any linked node' [ 'any' ]
-					'link context selection' component 'ancestor property path'
-					'text' [ '>' ] reference
-				'any key' ['any']
-					'collection selection' component 'calculated collection selection starting from property'
-					'dereference key' component 'dereference'
-					'key path' [ '[' ,']' ] component 'calculated node selection starting from property'
-					'variable assignment' component 'variable assignment'
-				'any in set' [ 'any' ]
-					'expression' component 'calculated set selection starting from property'
-					'variable assignment' component 'variable assignment'
+{: #grammar-rule--boolean-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">boolean expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">any</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">any linked node</span>' [ <span class="token operator">any</span> ]
+					'<span class="token string">link context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+					'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+				'<span class="token string">any key</span>' [ <span class="token operator">any</span> ]
+					'<span class="token string">collection selection</span>' component <a href="#grammar-rule--calculated-collection-selection-starting-from-property">'calculated collection selection starting from property'</a>
+					'<span class="token string">dereference key</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+					'<span class="token string">key path</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>' ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+					'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">any in set</span>' [ <span class="token operator">any</span> ]
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--calculated-set-selection-starting-from-property">'calculated set selection starting from property'</a>
+					'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
 			)
-		'node equality' ['match' ]
-			'left node type' stategroup (
-				'ancestor'
-					'selection' component 'ancestor node path'
-				'sibling'
-					'selection' component 'calculated node selection starting from property'
+		'<span class="token string">node equality</span>' [ <span class="token operator">match</span> ]
+			'<span class="token string">left node type</span>' stategroup (
+				'<span class="token string">ancestor</span>'
+					'<span class="token string">selection</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+				'<span class="token string">sibling</span>'
+					'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
 			)
-			'right node' [ '==' ] component 'calculated node selection starting from property'
-			'variable assignment' component 'variable assignment'
-		'numerical' ['match' ]
-			'left expression' component 'calculated signed number selection starting from property'
-			'operator' stategroup (
-				'equal to' [ '==' ]
-				'greater than' [ '>' ]
-				'greater than or equal to' [ '>=' ]
-				'smaller than' [ '<' ]
-				'smaller than or equal to' [ '<=' ]
+			'<span class="token string">right node</span>' [ <span class="token operator">==</span> ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+		'<span class="token string">numerical</span>' [ <span class="token operator">match</span> ]
+			'<span class="token string">left expression</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+			'<span class="token string">operator</span>' stategroup (
+				'<span class="token string">equal to</span>' [ <span class="token operator">==</span> ]
+				'<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
+				'<span class="token string">greater than or equal to</span>' [ <span class="token operator">>=</span> ]
+				'<span class="token string">smaller than</span>' [ <span class="token operator"><</span> ]
+				'<span class="token string">smaller than or equal to</span>' [ <span class="token operator"><=</span> ]
 			)
-			'right type' stategroup (
-				'value'
-					'value' component 'static number value'
-				'expression'
-					'right conversion' component 'numerical type conversion2'
-					'right expression' component 'calculated signed number selection starting from property'
+			'<span class="token string">right type</span>' stategroup (
+				'<span class="token string">value</span>'
+					'<span class="token string">value</span>' component <a href="#grammar-rule--static-number-value">'static number value'</a>
+				'<span class="token string">expression</span>'
+					'<span class="token string">right conversion</span>' component <a href="#grammar-rule--numerical-type-conversion2">'numerical type conversion2'</a>
+					'<span class="token string">right expression</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
 			)
-			'left to variable assignment' component 'number variable assignment'
-			'KEYWORD' component 'KEYWORD'
+			'<span class="token string">left to variable assignment</span>' component <a href="#grammar-rule--number-variable-assignment">'number variable assignment'</a>
+			'<span class="token string">KEYWORD</span>' component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'conditional state group expression'
-	'has steps' stategroup (
-		'no'
-			'state instantiation' component 'state instantiation'
-		'yes' ['switch' ]
-			'path' component 'variablized calculated state group path'
-			'states' [ '(' , ')' ] collection ( ['|']
-				'variable assignment' component 'variable assignment'
-				'expression' [ '=' ] component 'conditional state group expression'
+{: #grammar-rule--conditional-state-group-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional state group expression</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">state instantiation</span>' component <a href="#grammar-rule--state-instantiation">'state instantiation'</a>
+		'<span class="token string">yes</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variablized-calculated-state-group-path">'variablized calculated state group path'</a>
+			'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+				'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--conditional-state-group-expression">'conditional state group expression'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 ### Derived collections
 
-```js
-'flatten expression'
-	'head' component 'group context property selection'
-	'type' stategroup (
-		'prefiltered'
-			'type' stategroup (
-				'group' [ '+' ]
-					'group' reference
-				'state' [ '?' ]
-					'state group' reference
-					'state' [ '|' ] reference
+{: #grammar-rule--flatten-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">flatten expression</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--group-context-property-selection">'group context property selection'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">prefiltered</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>' [ <span class="token operator">+</span> ]
+					'<span class="token string">group</span>' reference
+				'<span class="token string">state</span>' [ <span class="token operator">?</span> ]
+					'<span class="token string">state group</span>' reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 			)
-		'plural'
-			'collection' ['.'] reference
-			'key value source' stategroup ( 'elementary' )
+		'<span class="token string">plural</span>'
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">key value source</span>' stategroup ( '<span class="token string">elementary</span>' )
 	)
-	'variable assignment' component 'variable assignment'
-	'tail' component 'flatten expression tail'
-```
+	'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--flatten-expression-tail">'flatten expression tail'</a>
+</pre>
+</div>
+</div>
 
-```js
-'flatten expression tail'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'group' ['+']
-					'group' reference
-				'state' [ '?' ]
-					'state group' reference
-					'state' [ '|' ] reference
-				'collection'
-					'collection' ['.'] reference
-					'key value source' stategroup ( 'elementary' )
+{: #grammar-rule--flatten-expression-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">flatten expression tail</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>' [ <span class="token operator">+</span> ]
+					'<span class="token string">group</span>' reference
+				'<span class="token string">state</span>' [ <span class="token operator">?</span> ]
+					'<span class="token string">state group</span>' reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">collection</span>'
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+					'<span class="token string">key value source</span>' stategroup ( '<span class="token string">elementary</span>' )
 			)
-			'variable assignment' component 'variable assignment'
-			'tail' component 'flatten expression tail'
+			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--flatten-expression-tail">'flatten expression tail'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'plural reference expression'
-	'type' stategroup (
-		'augment' ['map']
-			'selection' component 'calculated collection selection starting from property'
-			'tail' component 'derivation node content path'
-		'merge' [ 'union' ]
-			'aggregates' [ '(' , ')' ] collection (
-				'aggregate' [ '=>' ] component 'referencer aggregate'
+{: #grammar-rule--plural-reference-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">plural reference expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">augment</span>' [ <span class="token operator">map</span> ]
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-collection-selection-starting-from-property">'calculated collection selection starting from property'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+		'<span class="token string">merge</span>' [ <span class="token operator">union</span> ]
+			'<span class="token string">aggregates</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+				'<span class="token string">aggregate</span>' [ <span class="token operator">=></span> ] component <a href="#grammar-rule--referencer-aggregate">'referencer aggregate'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'referencer aggregate'
-	'head' component 'group context property selection'
-	'type' stategroup (
-		'prefiltered'
-			'type' stategroup (
-				'group' [ '+' ]
-					'group' reference
-				'state' [ '?' ]
-					'state group' reference
-					'state' [ '|' ] reference
+{: #grammar-rule--referencer-aggregate }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">referencer aggregate</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--group-context-property-selection">'group context property selection'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">prefiltered</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>' [ <span class="token operator">+</span> ]
+					'<span class="token string">group</span>' reference
+				'<span class="token string">state</span>' [ <span class="token operator">?</span> ]
+					'<span class="token string">state group</span>' reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 			)
-			'tail' component 'referencer aggregate step'
-		'plural'
-			'collection' ['.'] reference
-			'tail' component 'referencer aggregate step'
-		'singular'
-			'text'[ '>' ] reference
-			'dereference' component 'dereference'
-			'is backward' component 'EQ direction'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--referencer-aggregate-step">'referencer aggregate step'</a>
+		'<span class="token string">plural</span>'
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--referencer-aggregate-step">'referencer aggregate step'</a>
+		'<span class="token string">singular</span>'
+			'<span class="token string">text</span>'[ <span class="token operator">></span> ] reference
+			'<span class="token string">dereference</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+			'<span class="token string">is backward</span>' component <a href="#grammar-rule--EQ-direction">'EQ direction'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'referencer aggregate step'
-	'head' component 'derivation node content path'
-	'has steps' stategroup (
-		'no'
-			'text' [ '>' ] reference
-			'dereference' component 'dereference'
-			'is backward' component 'EQ direction'
-		'yes'
-			'collection' ['.'] reference
-			'tail' component 'referencer aggregate step'
+{: #grammar-rule--referencer-aggregate-step }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">referencer aggregate step</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+			'<span class="token string">dereference</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+			'<span class="token string">is backward</span>' component <a href="#grammar-rule--EQ-direction">'EQ direction'</a>
+		'<span class="token string">yes</span>'
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--referencer-aggregate-step">'referencer aggregate step'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ## Permissions and Todos
 ---
 
@@ -1559,77 +1849,102 @@ Examples for permissions and todos:
 ```
 
 
-```js
-'node permissions definition'
-	'read permission' stategroup (
-		'inherited'
-		'explicit' ['can-read:']
-			'permission' component 'permission'
+{: #grammar-rule--node-permissions-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node permissions definition</span>'
+	'<span class="token string">read permission</span>' stategroup (
+		'<span class="token string">inherited</span>'
+		'<span class="token string">explicit</span>' [ <span class="token operator">can-read:</span> ]
+			'<span class="token string">permission</span>' component <a href="#grammar-rule--permission">'permission'</a>
 	)
-	'update permission' stategroup (
-		'inherited'
-		'explicit' ['can-update:']
-			'permission' component 'permission'
+	'<span class="token string">update permission</span>' stategroup (
+		'<span class="token string">inherited</span>'
+		'<span class="token string">explicit</span>' [ <span class="token operator">can-update:</span> ]
+			'<span class="token string">permission</span>' component <a href="#grammar-rule--permission">'permission'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'item permissions definition'
-	'create permission' stategroup (
-		'inherited'
-		'explicit' ['can-create:']
-			'permission' component 'permission'
+{: #grammar-rule--item-permissions-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">item permissions definition</span>'
+	'<span class="token string">create permission</span>' stategroup (
+		'<span class="token string">inherited</span>'
+		'<span class="token string">explicit</span>' [ <span class="token operator">can-create:</span> ]
+			'<span class="token string">permission</span>' component <a href="#grammar-rule--permission">'permission'</a>
 	)
-	'delete permission' stategroup (
-		'inherited'
-		'explicit' ['can-delete:']
-			'permission' component 'permission'
-			'EQ modifier' component 'EQ modifier'
+	'<span class="token string">delete permission</span>' stategroup (
+		'<span class="token string">inherited</span>'
+		'<span class="token string">explicit</span>' [ <span class="token operator">can-delete:</span> ]
+			'<span class="token string">permission</span>' component <a href="#grammar-rule--permission">'permission'</a>
+			'<span class="token string">EQ modifier</span>' component <a href="#grammar-rule--EQ-modifier">'EQ modifier'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'permission'
-	'modifier' stategroup (
-		'user'
-			'requirement' component 'user requirement'
-		'imported interface'
-			'interface' ['interface'] reference
+{: #grammar-rule--permission }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">permission</span>'
+	'<span class="token string">modifier</span>' stategroup (
+		'<span class="token string">user</span>'
+			'<span class="token string">requirement</span>' component <a href="#grammar-rule--user-requirement">'user requirement'</a>
+		'<span class="token string">imported interface</span>'
+			'<span class="token string">interface</span>' [ <span class="token operator">interface</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'todo definition'
-	'todo' stategroup (
-		'no'
-		'yes' ['has-todo:']
-			'requirement' component 'user requirement'
-			'ui' component 'ui todo'
+{: #grammar-rule--todo-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">todo definition</span>'
+	'<span class="token string">todo</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">has-todo:</span> ]
+			'<span class="token string">requirement</span>' component <a href="#grammar-rule--user-requirement">'user requirement'</a>
+			'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-todo">'ui todo'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'user requirement'
-	'type' stategroup (
-		'existence' ['any']
-			'path' component 'conditional node path'
-			'has filter' stategroup (
-				'no'
-				'yes'
-					'assignment' component 'optional variable assignment'
-					'where' ['where'] component 'KEYWORD'
-					'path' ['(', ')'] component 'user requirement'
+{: #grammar-rule--user-requirement }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">user requirement</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">existence</span>' [ <span class="token operator">any</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+			'<span class="token string">has filter</span>' stategroup (
+				'<span class="token string">no</span>'
+				'<span class="token string">yes</span>'
+					'<span class="token string">assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+					'<span class="token string">where</span>' [ <span class="token operator">where</span> ] component <a href="#grammar-rule--KEYWORD">'KEYWORD'</a>
+					'<span class="token string">path</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--user-requirement">'user requirement'</a>
 			)
-		'equality'
-			'left path' component 'conditional node path'
-			'right path' ['=='] component 'conditional node path'
+		'<span class="token string">equality</span>'
+			'<span class="token string">left path</span>' component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+			'<span class="token string">right path</span>' [ <span class="token operator">==</span> ] component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
 	)
-	'has alternative' stategroup (
-		'no'
-		'yes' ['||']
-			'alternative' component 'user requirement'
+	'<span class="token string">has alternative</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">||</span> ]
+			'<span class="token string">alternative</span>' component <a href="#grammar-rule--user-requirement">'user requirement'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ## Commands and Timers
 ---
 
@@ -1674,561 +1989,666 @@ Also, the `external` command needs to be consumed by the application model, like
     )
 ```
 
-```js
-'command implementation' ['do']
-	'type' stategroup (
-		'conditional'
-			'type' stategroup (
-				'state switch' [ 'switch' ]
-					'type' stategroup (
-						'parameter'
-							'path' group (
-								'path' component 'ancestor parameters path'
-								'state group' ['?'] reference
+{: #grammar-rule--command-implementation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">command implementation</span>' [ <span class="token operator">do</span> ]
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">conditional</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+					'<span class="token string">type</span>' stategroup (
+						'<span class="token string">parameter</span>'
+							'<span class="token string">path</span>' group (
+								'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+								'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 							)
-							'states' [ '(' , ')' ] collection ( ['|']
-								'implementation' component 'command implementation'
+							'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+								'<span class="token string">implementation</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 							)
-						'property'
-							'path' group (
-								'path' component 'singular node path'
-								'state group' ['?'] reference
+						'<span class="token string">property</span>'
+							'<span class="token string">path</span>' group (
+								'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+								'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 							)
-							'states' ['(', ')'] collection ( ['|']
-								'variable assignment' component 'optional variable assignment'
-								'implementation' component 'command implementation'
+							'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+								'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+								'<span class="token string">implementation</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 							)
 					)
-				'existence' ['any']
-					'path' component 'conditional node path'
-					'cases' ['(',')'] group (
-						'true case' ['|' 'true'] group (
-							'variable assignment' component 'optional variable assignment'
-							'implementation' component 'command implementation'
+				'<span class="token string">existence</span>' [ <span class="token operator">any</span> ]
+					'<span class="token string">path</span>' component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+					'<span class="token string">cases</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+						'<span class="token string">true case</span>' [ <span class="token operator">|</span> <span class="token operator">true</span> ] group (
+							'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+							'<span class="token string">implementation</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 						)
-						'false case' ['|' 'false'] group (
-							'implementation' component 'command implementation'
+						'<span class="token string">false case</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> ] group (
+							'<span class="token string">implementation</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 						)
 					)
 			)
-		'map' ['map']
-			'type' stategroup (
-				'parameter'
-					'path' component 'ancestor parameters path'
-					'collection' ['.'] reference
-				'property'
-					'path' component 'singular node path'
-					'collection' ['.'] reference
-					'variable assignment' component 'optional variable assignment'
+		'<span class="token string">map</span>' [ <span class="token operator">map</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+					'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 			)
-			'implementation' ['(',')'] component 'command implementation'
-		'update'
-			'update node' component 'parametrized update node'
-		'ignore' ['ignore']
+			'<span class="token string">implementation</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--command-implementation">'command implementation'</a>
+		'<span class="token string">update</span>'
+			'<span class="token string">update node</span>' component <a href="#grammar-rule--parametrized-update-node">'parametrized update node'</a>
+		'<span class="token string">ignore</span>' [ <span class="token operator">ignore</span> ]
 	)
-	'has more statements' stategroup (
-		'no'
-		'yes' ['and']
-			'statement' component 'command implementation'
+	'<span class="token string">has more statements</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">and</span> ]
+			'<span class="token string">statement</span>' component <a href="#grammar-rule--command-implementation">'command implementation'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parameter definition' [ '{' , '}' ]
-	'parameter' component 'parameter'
-	'properties' collection indent (
-		'preceding siblings' collection predecessors
-		'member' component 'member'
-		'type' [ ':' ] stategroup (
-			'collection' ['collection']
-				'key property' ['[',']'] reference
-				'key constraint' stategroup (
-					'yes'
+{: #grammar-rule--parameter-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parameter definition</span>' [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">parameter</span>' component <a href="#grammar-rule--parameter">'parameter'</a>
+	'<span class="token string">properties</span>' collection indent (
+		'<span class="token string">preceding siblings</span>' collection predecessors
+		'<span class="token string">member</span>' component <a href="#grammar-rule--member">'member'</a>
+		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+			'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+				'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+				'<span class="token string">key constraint</span>' stategroup (
+					'<span class="token string">yes</span>'
 				)
-				'ui' component 'ui collection parameter'
-				'entity' component 'entity'
-				'parameters' component 'parameter definition'
-			'text' [ 'text' ]
-				'has constraint' stategroup (
-					'no'
-					'yes'
-						'referencer' [ '->' ] component 'parameter referencer'
+				'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-collection-parameter">'ui collection parameter'</a>
+				'<span class="token string">entity</span>' component <a href="#grammar-rule--entity">'entity'</a>
+				'<span class="token string">parameters</span>' component <a href="#grammar-rule--parameter-definition">'parameter definition'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+				'<span class="token string">has constraint</span>' stategroup (
+					'<span class="token string">no</span>'
+					'<span class="token string">yes</span>'
+						'<span class="token string">referencer</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--parameter-referencer">'parameter referencer'</a>
 				)
-				'ui' component 'ui text parameter'
-			'number'
-				'set' stategroup (
-					'integer' [ 'integer' ]
-					'natural' [ 'natural' ]
+				'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-text-parameter">'ui text parameter'</a>
+			'<span class="token string">number</span>'
+				'<span class="token string">set</span>' stategroup (
+					'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+					'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
 				)
-				'numerical type' reference
-				'ui' component 'ui number parameter'
-			'file' ['file']
-				'ui' component 'ui file parameter'
-			'state group' [ 'stategroup' ]
-				'ui' component 'ui state group parameter'
-				'has states' stategroup has 'states' first 'first' 'yes' 'no'
-				'states' [ '(' , ')' ] collection order 'view order' (
-					'has successor' stategroup has successor 'successor' 'yes' 'no'
-					'constraints' collection ( ['(',')']
-						'expression' component 'parameter state constraint expression'
+				'<span class="token string">numerical type</span>' reference
+				'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-number-parameter">'ui number parameter'</a>
+			'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+				'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-file-parameter">'ui file parameter'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+				'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-state-group-parameter">'ui state group parameter'</a>
+				'<span class="token string">has states</span>' stategroup has '<span class="token string">states</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+				'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">view order</span>' (
+					'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+					'<span class="token string">constraints</span>' collection ( [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+						'<span class="token string">expression</span>' component <a href="#grammar-rule--parameter-state-constraint-expression">'parameter state constraint expression'</a>
 					)
-					'parameters' component 'parameter definition'
+					'<span class="token string">parameters</span>' component <a href="#grammar-rule--parameter-definition">'parameter definition'</a>
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'delete node'
-```
+{: #grammar-rule--delete-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">delete node</span>'
+</pre>
+</div>
+</div>
 
-```js
-'parametrized update node'
-	'context node path' ['on'] component 'singular node path'
-	'variable assignment' component 'optional variable assignment'
-	'attributes' [ '(' , ')' ] collection indent (
-		'type' stategroup (
-			'command'
-				'arguments' [ 'with' ] component 'argument definition'
-			'property' [ ':' ]
-				'type' stategroup (
-					'collection' ['collection']
-						'operation' stategroup (
-							'create' [ 'create' ]
-								'initialize node' component 'parametrized initialize node'
-							'delete' ['delete']
-								'path' component 'singular node path'
-								'delete node' component 'delete node'
+{: #grammar-rule--parametrized-update-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized update node</span>'
+	'<span class="token string">context node path</span>' [ <span class="token operator">on</span> ] component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+	'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+	'<span class="token string">attributes</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection indent (
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">command</span>'
+				'<span class="token string">arguments</span>' [ <span class="token operator">with</span> ] component <a href="#grammar-rule--argument-definition">'argument definition'</a>
+			'<span class="token string">property</span>' [ <span class="token operator">:</span> ]
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+						'<span class="token string">operation</span>' stategroup (
+							'<span class="token string">create</span>' [ <span class="token operator">create</span> ]
+								'<span class="token string">initialize node</span>' component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
+							'<span class="token string">delete</span>' [ <span class="token operator">delete</span> ]
+								'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+								'<span class="token string">delete node</span>' component <a href="#grammar-rule--delete-node">'delete node'</a>
 						)
-					'number'
-						'set' stategroup (
-							'integer' [ 'integer' ]
-							'natural' [ 'natural' ]
+					'<span class="token string">number</span>'
+						'<span class="token string">set</span>' stategroup (
+							'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+							'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
 						)
-						'operator' stategroup (
-							'increment' [ 'increment' ]
-							'assignment'
-								'expression' ['='] component 'parametrized number expression'
+						'<span class="token string">operator</span>' stategroup (
+							'<span class="token string">increment</span>' [ <span class="token operator">increment</span> ]
+							'<span class="token string">assignment</span>'
+								'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
 						)
-					'text' [ 'text' ]
-						'expression' ['='] component 'parametrized text expression'
-					'file' ['file']
-						'expression' ['='] component 'parametrized file expression'
-					'state group' [ 'stategroup' ]
-						'expression' ['='] component 'parametrized state expression'
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-text-expression">'parametrized text expression'</a>
+					'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-file-expression">'parametrized file expression'</a>
+					'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-expression">'parametrized state expression'</a>
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized initialize node' [ '(' , ')' ]
-	'groups' collection indent (
-		'initialize node' [ ':' 'group' ] component 'parametrized initialize node'
+{: #grammar-rule--parametrized-initialize-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized initialize node</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+	'<span class="token string">groups</span>' collection indent (
+		'<span class="token string">initialize node</span>' [ <span class="token operator">:</span> <span class="token operator">group</span> ] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
 	)
-	'texts' collection indent (
-		'expression' [':' 'text' '='] component 'parametrized text expression'
+	'<span class="token string">texts</span>' collection indent (
+		'<span class="token string">expression</span>' [ <span class="token operator">:</span> <span class="token operator">text</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-text-expression">'parametrized text expression'</a>
 	)
-	'files' collection indent (
-		'expression' [':' 'file' '='] component 'parametrized file expression'
+	'<span class="token string">files</span>' collection indent (
+		'<span class="token string">expression</span>' [ <span class="token operator">:</span> <span class="token operator">file</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-file-expression">'parametrized file expression'</a>
 	)
-	'collections' collection (
-		'expression' [':' 'collection' '='] component 'parametrized collection expression'
+	'<span class="token string">collections</span>' collection (
+		'<span class="token string">expression</span>' [ <span class="token operator">:</span> <span class="token operator">collection</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-collection-expression">'parametrized collection expression'</a>
 	)
-	'numbers' collection indent (
-		'set' stategroup (
-			'integer' [ ':' 'integer' ]
-			'natural' [ ':' 'natural' ]
+	'<span class="token string">numbers</span>' collection indent (
+		'<span class="token string">set</span>' stategroup (
+			'<span class="token string">integer</span>' [ <span class="token operator">:</span> <span class="token operator">integer</span> ]
+			'<span class="token string">natural</span>' [ <span class="token operator">:</span> <span class="token operator">natural</span> ]
 		)
-		'expression' [ '=' ] component 'parametrized number expression'
+		'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
 	)
-	'state groups' collection indent (
-		'expression' [ ':' 'stategroup' '=' ] component 'parametrized state expression'
+	'<span class="token string">state groups</span>' collection indent (
+		'<span class="token string">expression</span>' [ <span class="token operator">:</span> <span class="token operator">stategroup</span> <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-expression">'parametrized state expression'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parameter referencer'
-	'head' component 'singular node path'
-	'collection' ['.'] reference
-	'tail' component 'derivation node content path'
-```
+{: #grammar-rule--parameter-referencer }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parameter referencer</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+	'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'argument definition' [ '(' , ')' ]
-	'properties' collection (
-		'type' [ ':' ] stategroup (
-			'collection' [ 'collection' ]
-				'key constraint' stategroup (
-					'yes' ['=>']
-						'expression' component 'parametrized collection argument expression'
+{: #grammar-rule--argument-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">argument definition</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+	'<span class="token string">properties</span>' collection (
+		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+			'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+				'<span class="token string">key constraint</span>' stategroup (
+					'<span class="token string">yes</span>' [ <span class="token operator">=></span> ]
+						'<span class="token string">expression</span>' component <a href="#grammar-rule--parametrized-collection-argument-expression">'parametrized collection argument expression'</a>
 				)
-			'number'
-				'type' stategroup (
-					'integer' [ 'integer' ]
-					'natural' [ 'natural' ]
+			'<span class="token string">number</span>'
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+					'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
 				)
-				'expression' ['='] component 'parametrized number expression'
-			'text' [ 'text' ]
-				'expression' ['='] component 'parametrized text expression'
-			'file' ['file']
-				'expression' ['='] component 'parametrized file expression'
-			'state group' [ 'stategroup' ]
-				'expression' ['='] component 'parametrized state argument expression'
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-text-expression">'parametrized text expression'</a>
+			'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-file-expression">'parametrized file expression'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-argument-expression">'parametrized state argument expression'</a>
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parameter state constraint expression'
-	'path' ['->'] component 'conditional node path'
-```
+{: #grammar-rule--parameter-state-constraint-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parameter state constraint expression</span>'
+	'<span class="token string">path</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'parameter entity scoped context node selection'
-	'head' component 'entity scoped ancestor node path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'key reference' ['>']
-					'text' reference
-					'dereference' component 'dereference'
+{: #grammar-rule--parameter-entity-scoped-context-node-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parameter entity scoped context node selection</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">key reference</span>' [ <span class="token operator">></span> ]
+					'<span class="token string">text</span>' reference
+					'<span class="token string">dereference</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
 			)
-			'tail' component 'parameter entity scoped context node selection'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--parameter-entity-scoped-context-node-selection">'parameter entity scoped context node selection'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized text expression'
-	'type' stategroup (
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
+{: #grammar-rule--parametrized-text-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized text expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized text expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-text-expression">'parametrized text expression'</a>
 					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized text expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-text-expression">'parametrized text expression'</a>
 					)
 			)
-		'parameter'
-			'path' component 'ancestor parameters path'
-			'text' [ '.' ] reference
-		'property'
-			'path' component 'singular node path'
-			'text' [ '.' ] reference
+		'<span class="token string">parameter</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">property</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized file expression'
-	'type' stategroup (
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
+{: #grammar-rule--parametrized-file-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized file expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized file expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-file-expression">'parametrized file expression'</a>
 					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized file expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-file-expression">'parametrized file expression'</a>
 					)
 			)
-		'parameter'
-			'path' component 'ancestor parameters path'
-			'file' [ '/' ] reference
-		'property'
-			'path' component 'singular node path'
-			'file' [ '/' ] reference
+		'<span class="token string">parameter</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+			'<span class="token string">file</span>' [ <span class="token operator">/</span> ] reference
+		'<span class="token string">property</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+			'<span class="token string">file</span>' [ <span class="token operator">/</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized number expression'
-	'type' stategroup (
-		'binary expression'
-			'operation' stategroup (
-				'sum' [ 'sum' ]
-					'type eq' component 'type eq'
-				'difference' [ 'diff' ]
-				'division' [ 'division' ]
-					'rounding' stategroup (
-						'ordinary'
-						'ceil' [ 'ceil' ]
-						'floor' [ 'floor' ]
+{: #grammar-rule--parametrized-number-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized number expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">binary expression</span>'
+			'<span class="token string">operation</span>' stategroup (
+				'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+					'<span class="token string">type eq</span>' component <a href="#grammar-rule--type-eq">'type eq'</a>
+				'<span class="token string">difference</span>' [ <span class="token operator">diff</span> ]
+				'<span class="token string">division</span>' [ <span class="token operator">division</span> ]
+					'<span class="token string">rounding</span>' stategroup (
+						'<span class="token string">ordinary</span>'
+						'<span class="token string">ceil</span>' [ <span class="token operator">ceil</span> ]
+						'<span class="token string">floor</span>' [ <span class="token operator">floor</span> ]
 					)
-					'type eq' component 'type eq'
-				'product' ['product']
-					'type eq' component 'type eq'
-				'min' ['min']
-					'type eq' component 'type eq'
-				'max' ['max']
-					'type eq' component 'type eq'
+					'<span class="token string">type eq</span>' component <a href="#grammar-rule--type-eq">'type eq'</a>
+				'<span class="token string">product</span>' [ <span class="token operator">product</span> ]
+					'<span class="token string">type eq</span>' component <a href="#grammar-rule--type-eq">'type eq'</a>
+				'<span class="token string">min</span>' [ <span class="token operator">min</span> ]
+					'<span class="token string">type eq</span>' component <a href="#grammar-rule--type-eq">'type eq'</a>
+				'<span class="token string">max</span>' [ <span class="token operator">max</span> ]
+					'<span class="token string">type eq</span>' component <a href="#grammar-rule--type-eq">'type eq'</a>
 			)
-			'expressions' [ '(' , ')' ] group (
-				'left' component 'parametrized number expression'
-				'right' [','] component 'parametrized number expression'
+			'<span class="token string">expressions</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group (
+				'<span class="token string">left</span>' component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
+				'<span class="token string">right</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
 			)
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized number expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
 					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized number expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
 					)
 			)
-		'unary expression'
-			'type' stategroup (
-				'natural to integer cast' ['(' 'integer' ')']
-					'expression' component 'parametrized number expression'
+		'<span class="token string">unary expression</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">natural to integer cast</span>' [ <span class="token operator">(</span> <span class="token operator">integer</span> <span class="token operator">)</span> ]
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--parametrized-number-expression">'parametrized number expression'</a>
 			)
-		'property'
-			'path' component 'singular node path'
-			'number' [ '#' ] reference
-		'parameter'
-			'path' component 'ancestor parameters path'
-			'number' [ '#' ] reference
-		'current timestamp' [ 'now' ]
-		'static'
-			'value' component 'static number value'
+		'<span class="token string">property</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+			'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
+		'<span class="token string">parameter</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+			'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
+		'<span class="token string">current timestamp</span>' [ <span class="token operator">now</span> ]
+		'<span class="token string">static</span>'
+			'<span class="token string">value</span>' component <a href="#grammar-rule--static-number-value">'static number value'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized state argument expression'
-	'type' stategroup (
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
+{: #grammar-rule--parametrized-state-argument-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized state argument expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized state argument expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-argument-expression">'parametrized state argument expression'</a>
 					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized state argument expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-argument-expression">'parametrized state argument expression'</a>
 					)
 			)
-		'static'
-			'state' reference
-			'arguments' component 'argument definition'
+		'<span class="token string">static</span>'
+			'<span class="token string">state</span>' reference
+			'<span class="token string">arguments</span>' component <a href="#grammar-rule--argument-definition">'argument definition'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized state expression'
-	'type' stategroup (
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
+{: #grammar-rule--parametrized-state-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized state expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized state expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-expression">'parametrized state expression'</a>
 					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized state expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-state-expression">'parametrized state expression'</a>
 					)
 			)
-		'static'
-			'state' reference
-			'initialize node' component 'parametrized initialize node'
+		'<span class="token string">static</span>'
+			'<span class="token string">state</span>' reference
+			'<span class="token string">initialize node</span>' component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized collection filter path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'step' component 'node step'
-			'variable assignment' component 'optional variable assignment'
-			'tail' component 'parametrized collection filter path'
+{: #grammar-rule--parametrized-collection-filter-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized collection filter path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">step</span>' component <a href="#grammar-rule--node-step">'node step'</a>
+			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--parametrized-collection-filter-path">'parametrized collection filter path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parametrized collection argument expression'
-	'type' stategroup (
-		'empty'
-		'entry'
-			'arguments' component 'argument definition'
-		'parameter' ['map']
-			'selection' component 'ancestor parameters path'
-			'collection' ['.'] reference
-			'filter' component 'parameter path tail'
-			'context selection' ['('] component 'parameter entity scoped context node selection'
-			'key property' ['[',']'] reference
-			'arguments' [')'] component 'argument definition'
-		'property' ['map']
-			'path' component 'singular node path'
-			'collection' ['.'] reference
-			'dereference key' component 'dereference'
-			'variable assignment' component 'optional variable assignment'
-			'filter' component 'parametrized collection filter path'
-			'context selection' ['('] component 'parameter entity scoped context node selection'
-			'key property' ['[',']'] reference
-			'arguments' [')'] component 'argument definition'
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
+{: #grammar-rule--parametrized-collection-argument-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized collection argument expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">empty</span>'
+		'<span class="token string">entry</span>'
+			'<span class="token string">arguments</span>' component <a href="#grammar-rule--argument-definition">'argument definition'</a>
+		'<span class="token string">parameter</span>' [ <span class="token operator">map</span> ]
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">filter</span>' component <a href="#grammar-rule--parameter-path-tail">'parameter path tail'</a>
+			'<span class="token string">context selection</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--parameter-entity-scoped-context-node-selection">'parameter entity scoped context node selection'</a>
+			'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+			'<span class="token string">arguments</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--argument-definition">'argument definition'</a>
+		'<span class="token string">property</span>' [ <span class="token operator">map</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">dereference key</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+			'<span class="token string">filter</span>' component <a href="#grammar-rule--parametrized-collection-filter-path">'parametrized collection filter path'</a>
+			'<span class="token string">context selection</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--parameter-entity-scoped-context-node-selection">'parameter entity scoped context node selection'</a>
+			'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+			'<span class="token string">arguments</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--argument-definition">'argument definition'</a>
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized collection argument expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-collection-argument-expression">'parametrized collection argument expression'</a>
 					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized collection argument expression'
-					)
-			)
-	)
-```
-
-```js
-'parametrized collection expression'
-	'type' stategroup (
-		'empty'
-		'entry' ['create']
-			'initialize node' component 'parametrized initialize node'
-		'parameter' ['map']
-			'selection' component 'ancestor parameters path'
-			'collection' [ '.' ] reference
-			'filter' component 'parameter path tail'
-			'key property' ['(''['] reference
-			'initialize node' [']'')'] component 'parametrized initialize node'
-		'property' ['map']
-			'path' component 'singular node path'
-			'collection' ['.'] reference
-			'variable assignment' component 'optional variable assignment'
-			'filter' component 'parametrized collection filter path'
-			'key property' ['(''['] reference
-			'initialize node' [']'')'] component 'parametrized initialize node'
-		'state switch' ['switch']
-			'type' stategroup (
-				'parameter'
-					'path' group (
-						'path' component 'ancestor parameters path'
-						'state group' ['?'] reference
-					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'expression' ['='] component 'parametrized collection expression'
-					)
-				'property'
-					'path' group (
-						'path' component 'singular node path'
-						'state group' ['?'] reference
-					)
-					'states' ['(', ')'] collection ( ['|']
-						'variable assignment' component 'optional variable assignment'
-						'expression' ['='] component 'parametrized collection expression'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-collection-argument-expression">'parametrized collection argument expression'</a>
 					)
 			)
 	)
-```
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--parametrized-collection-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parametrized collection expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">empty</span>'
+		'<span class="token string">entry</span>' [ <span class="token operator">create</span> ]
+			'<span class="token string">initialize node</span>' component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
+		'<span class="token string">parameter</span>' [ <span class="token operator">map</span> ]
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">filter</span>' component <a href="#grammar-rule--parameter-path-tail">'parameter path tail'</a>
+			'<span class="token string">key property</span>' [ <span class="token operator">(</span> <span class="token operator">[</span> ] reference
+			'<span class="token string">initialize node</span>' ['<span class="token string"> ]</span>''<span class="token string">)</span>'] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
+		'<span class="token string">property</span>' [ <span class="token operator">map</span> ]
+			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+			'<span class="token string">filter</span>' component <a href="#grammar-rule--parametrized-collection-filter-path">'parametrized collection filter path'</a>
+			'<span class="token string">key property</span>' [ <span class="token operator">(</span> <span class="token operator">[</span> ] reference
+			'<span class="token string">initialize node</span>' ['<span class="token string"> ]</span>''<span class="token string">)</span>'] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
+		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">parameter</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					)
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-collection-expression">'parametrized collection expression'</a>
+					)
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					)
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
+						'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--parametrized-collection-expression">'parametrized collection expression'</a>
+					)
+			)
+	)
+</pre>
+</div>
+</div>
 ## Node type identification
 ---
 
-```js
-'node type id'
-	'steps' component 'node type id path'
-```
+{: #grammar-rule--node-type-id }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node type id</span>'
+	'<span class="token string">steps</span>' component <a href="#grammar-rule--node-type-id-path">'node type id path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'node type id path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
-				'collection'
-					'collection' [ '.' ] reference
+{: #grammar-rule--node-type-id-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node type id path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+				'<span class="token string">collection</span>'
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 			)
-			'tail' component 'node type id path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--node-type-id-path">'node type id path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ## Output parameters (legacy)
 ---
 Output parameter definitions are helpers/sub-expressions for navigation expressions.
 
-```js
-'output parameters'
-```
+{: #grammar-rule--output-parameters }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">output parameters</span>'
+</pre>
+</div>
+</div>
 
-```js
-'output parameters definition'
-	'parameters' component 'output parameters'
-	'output parameters' collection ( [ '(' , ')' ]
-		'dependable' component 'dependency'
-		'type' stategroup (
-			'elementary' [ '->' ]
-				'head' component 'entity scoped ancestor node path'
-				'selection' component 'resolved node descendant selection starting from node'
-			'derived' [ '=>' ]
-				'head' component 'entity scoped ancestor node path'
-				'selection' component 'calculated descendant node selection starting from node'
+{: #grammar-rule--output-parameters-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">output parameters definition</span>'
+	'<span class="token string">parameters</span>' component <a href="#grammar-rule--output-parameters">'output parameters'</a>
+	'<span class="token string">output parameters</span>' collection ( [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+		'<span class="token string">dependable</span>' component <a href="#grammar-rule--dependency">'dependency'</a>
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">elementary</span>' [ <span class="token operator">-></span> ]
+				'<span class="token string">head</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+				'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-node-descendant-selection-starting-from-node">'resolved node descendant selection starting from node'</a>
+			'<span class="token string">derived</span>' [ <span class="token operator">=></span> ]
+				'<span class="token string">head</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+				'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
 		)
 	)
-```
+</pre>
+</div>
+</div>
 ## Navigation
 ---
 Examples of typical navigation steps:
@@ -2253,486 +2673,676 @@ $                // select variable
 
 ### Node navigation
 
-```js
-'ancestor node path'
-	'has steps' stategroup (
-		'no'
-		'yes' ['^']
-			'tail' component 'ancestor node path'
+{: #grammar-rule--ancestor-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ancestor node path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'entity scoped ancestor node path'
-	'path' component 'ancestor node path'
-```
+{: #grammar-rule--entity-scoped-ancestor-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity scoped ancestor node path</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'context node path'
-	'context' stategroup (
-		'dynamic user' ['user']
-		'this'
-			'head' component 'ancestor node path'
-		'variable'
-			'head' component 'ancestor variable path'
-			'type' stategroup (
-				'variable'
+{: #grammar-rule--context-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context node path</span>'
+	'<span class="token string">context</span>' stategroup (
+		'<span class="token string">dynamic user</span>' [ <span class="token operator">user</span> ]
+		'<span class="token string">this</span>'
+			'<span class="token string">head</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+		'<span class="token string">variable</span>'
+			'<span class="token string">head</span>' component <a href="#grammar-rule--ancestor-variable-path">'ancestor variable path'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">variable</span>'
 			)
-		'parameter'
-			'head' component 'ancestor parameters path'
-			'reference type' stategroup (
-				'text'
-					'text' [ '>' ] reference
-					'tail' component 'entity scoped ancestor node path'
-				'state' ['&']
-					'constraint' reference
+		'<span class="token string">parameter</span>'
+			'<span class="token string">head</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+			'<span class="token string">reference type</span>' stategroup (
+				'<span class="token string">text</span>'
+					'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+					'<span class="token string">tail</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+				'<span class="token string">state</span>' [ <span class="token operator">&</span> ]
+					'<span class="token string">constraint</span>' reference
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'node step'
-	'type' stategroup (
-		'output parameter'
-			'text' ['>'] reference
-			'dereference' component 'dereference'
-			'output parameter' [ '$' ] reference
-		'group' ['+']
-			'group' reference
-		'state group output parameter'
-			'state group' ['?'] reference
-			'output parameter' ['$'] reference
-		'state context parameter'
-			'parameter' [ '&' ] reference
-		'state'
-			'state group' ['?'] reference
-			'state' ['|'] reference
-		'entry'
-			'collection' ['.'] reference
-			'key path' ['[',']'] group (
-				'type' stategroup (
-					'node'
-						'path' component 'singular node path'
-						'key type' stategroup (
-							'linked'
-								'collection key link' component 'delink'
-								'collection key link node type' component 'EQ node type'
-							'simple'
-								'text' ['.'] reference
+{: #grammar-rule--node-step }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node step</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">output parameter</span>'
+			'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+			'<span class="token string">dereference</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+			'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+		'<span class="token string">group</span>' [ <span class="token operator">+</span> ]
+			'<span class="token string">group</span>' reference
+		'<span class="token string">state group output parameter</span>'
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+			'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+		'<span class="token string">state context parameter</span>'
+			'<span class="token string">parameter</span>' [ <span class="token operator">&</span> ] reference
+		'<span class="token string">state</span>'
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+			'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+		'<span class="token string">entry</span>'
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">key path</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] group (
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">node</span>'
+						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
+						'<span class="token string">key type</span>' stategroup (
+							'<span class="token string">linked</span>'
+								'<span class="token string">collection key link</span>' component <a href="#grammar-rule--delink">'delink'</a>
+								'<span class="token string">collection key link node type</span>' component <a href="#grammar-rule--EQ-node-type">'EQ node type'</a>
+							'<span class="token string">simple</span>'
+								'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
 						)
-					'parameter'
-						'path' component 'ancestor parameters path'
-						'text' ['.'] reference
+					'<span class="token string">parameter</span>'
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
+						'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
 				)
 			)
-		'reference'
-			'reference base' stategroup (
-				'link reference' ['|>']
-				'referencer reference' ['>']
+		'<span class="token string">reference</span>'
+			'<span class="token string">reference base</span>' stategroup (
+				'<span class="token string">link reference</span>' [ <span class="token operator">|></span> ]
+				'<span class="token string">referencer reference</span>' [ <span class="token operator">></span> ]
 			)
-			'delink' component 'delink'
-			'text' reference
+			'<span class="token string">delink</span>' component <a href="#grammar-rule--delink">'delink'</a>
+			'<span class="token string">text</span>' reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'node path tail'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'step' component 'node step'
-			'tail' component 'node path tail'
+{: #grammar-rule--node-path-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node path tail</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">step</span>' component <a href="#grammar-rule--node-step">'node step'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'node path'
-	'head' component 'context node path'
-	'tail' component 'node path tail'
-```
+{: #grammar-rule--node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node path</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--context-node-path">'context node path'</a>
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
+</pre>
+</div>
+</div>
 
-```js
-'singular node path'
-	'path' component 'node path'
-```
+{: #grammar-rule--singular-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">singular node path</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--node-path">'node path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'conditional node path'
-	'path' component 'node path'
-```
+{: #grammar-rule--conditional-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional node path</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--node-path">'node path'</a>
+</pre>
+</div>
+</div>
 ### Variable assignment and navigation
 
-```js
-'optional variable assignment'
-	'has assignment' stategroup (
-		'no'
-		'yes' ['as' '$']
-			'assignment' component 'variable assignment'
+{: #grammar-rule--optional-variable-assignment }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">optional variable assignment</span>'
+	'<span class="token string">has assignment</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">as</span> <span class="token operator">$</span> ]
+			'<span class="token string">assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment'
-	'variable' component 'variable'
-```
+{: #grammar-rule--variable-assignment }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--variable">'variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'number variable assignment'
-	'variable' component 'number variable'
-```
+{: #grammar-rule--number-variable-assignment }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number variable assignment</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--number-variable">'number variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'ancestor variable path'
-	'has steps' stategroup (
-		'no' ['$']
-		'yes' ['$^']
-			'tail' component 'ancestor variable path'
+{: #grammar-rule--ancestor-variable-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ancestor variable path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>' [ <span class="token operator">$</span> ]
+		'<span class="token string">yes</span>' [ <span class="token operator">$^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--ancestor-variable-path">'ancestor variable path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ### Parameter navigation
 
-```js
-'ancestor parameters path'
-	'has steps' stategroup (
-		'no' ['@']
-		'yes' ['@^']
-			'tail' component 'ancestor parameters path'
+{: #grammar-rule--ancestor-parameters-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ancestor parameters path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>' [ <span class="token operator">@</span> ]
+		'<span class="token string">yes</span>' [ <span class="token operator">@^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--ancestor-parameters-path">'ancestor parameters path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'parameter path tail'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' ['?'] reference
-					'state' ['|'] reference
+{: #grammar-rule--parameter-path-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parameter path tail</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 			)
-			'tail' component 'parameter path tail'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--parameter-path-tail">'parameter path tail'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ### Shared node navigation for constraints & derivations (legacy)
 
-```js
-'ancestor property path'
-	'has steps' stategroup (
-		'no'
-		'yes' ['^']
-			'tail' component 'ancestor property path'
+{: #grammar-rule--ancestor-property-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ancestor property path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'entity scoped ancestor property path'
-	'path' component 'ancestor property path'
-```
+{: #grammar-rule--entity-scoped-ancestor-property-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity scoped ancestor property path</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'group node selection'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'group' [ '+' ] reference
-			'tail' component 'group node selection'
+{: #grammar-rule--group-node-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">group node selection</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--group-node-selection">'group node selection'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'resolved node selection starting from property'
-	'type' stategroup (
-		'input parameter'
-			'type' stategroup (
-				'state'
-					'context selection' component 'ancestor property path'
-					'state' stategroup (
-						'state'
+{: #grammar-rule--resolved-node-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">resolved node selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">input parameter</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+					'<span class="token string">state</span>' stategroup (
+						'<span class="token string">state</span>'
 					)
-					'input parameter' [ '&' ] reference
+					'<span class="token string">input parameter</span>' [ <span class="token operator">&</span> ] reference
 			)
-			'tail' component 'resolved node descendant selection starting from node'
-		'this node'
-			'context selection' component 'ancestor property path'
-			'type' stategroup (
-				'group'
-					'group' [ '+' ] reference
-					'tail' component 'resolved node descendant selection starting from node'
-				'state group output parameter'
-					'state group' [ '?' ] reference
-					'output parameter' [ '$' ] reference
-				'referencer output'
-					'text' [ '>' ] reference
-					'is backward' stategroup ( 'is backward' )
-					'output type' stategroup (
-						'referenced node'
-						'output parameter'
-							'output parameter' [ '$' ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--resolved-node-descendant-selection-starting-from-node">'resolved node descendant selection starting from node'</a>
+		'<span class="token string">this node</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+					'<span class="token string">tail</span>' component <a href="#grammar-rule--resolved-node-descendant-selection-starting-from-node">'resolved node descendant selection starting from node'</a>
+				'<span class="token string">state group output parameter</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+				'<span class="token string">referencer output</span>'
+					'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+					'<span class="token string">is backward</span>' stategroup ( '<span class="token string">is backward</span>' )
+					'<span class="token string">output type</span>' stategroup (
+						'<span class="token string">referenced node</span>'
+						'<span class="token string">output parameter</span>'
+							'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
 					)
 			)
 	)
-```
+</pre>
+</div>
+</div>
 ### Node navigation for constraints (legacy)
 
-```js
-'resolved state group selection starting from property'
-	'type' stategroup (
-		'state group'
-			'context selection' component 'ancestor property path'
-			'state group' [ '?' ] reference
-		'node'
-			'selection' component 'resolved node selection starting from property'
-			'state group' [ '?' ] reference
+{: #grammar-rule--resolved-state-group-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">resolved state group selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state group</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+		'<span class="token string">node</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-node-selection-starting-from-property">'resolved node selection starting from property'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'resolved collection selection starting from property'
-	'type' stategroup (
-		'collection'
-			'context selection' component 'ancestor property path'
-			'collection' [ '.' ] reference
-		'node'
-			'selection' component 'resolved node selection starting from property'
-			'collection' [ '.' ] reference
+{: #grammar-rule--resolved-collection-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">resolved collection selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">collection</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">node</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--resolved-node-selection-starting-from-property">'resolved node selection starting from property'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'resolved node descendant selection starting from node'
-	'group selection' component 'group node selection'
-	'type' stategroup (
-		'this node'
-			'state group output parameter'
-				'state group' [ '?' ] reference
-				'output parameter' [ '$' ] reference
-			'referencer output'
-				'text' [ '>' ] reference
-				'is backward' stategroup ( 'is backward' )
-				'output type' stategroup (
-					'referenced node'
-					'output parameter'
-						'output parameter' [ '$' ] reference
+{: #grammar-rule--resolved-node-descendant-selection-starting-from-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">resolved node descendant selection starting from node</span>'
+	'<span class="token string">group selection</span>' component <a href="#grammar-rule--group-node-selection">'group node selection'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">this node</span>'
+			'<span class="token string">state group output parameter</span>'
+				'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+				'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+			'<span class="token string">referencer output</span>'
+				'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+				'<span class="token string">is backward</span>' stategroup ( '<span class="token string">is backward</span>' )
+				'<span class="token string">output type</span>' stategroup (
+					'<span class="token string">referenced node</span>'
+					'<span class="token string">output parameter</span>'
+						'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
 				)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'node content path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
+{: #grammar-rule--node-content-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node content path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
 			)
-			'tail' component 'node content path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--node-content-path">'node content path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'unresolved node selection'
-	'type' stategroup (
-		'this node'
-			'context selection' component 'ancestor property path'
-			'type' stategroup (
-				'this'
-				'referencer output'
-					'text' [ '>' ] reference
-					'is forward' stategroup ( 'is forward' )
+{: #grammar-rule--unresolved-node-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">unresolved node selection</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">this node</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">this</span>'
+				'<span class="token string">referencer output</span>'
+					'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+					'<span class="token string">is forward</span>' stategroup ( '<span class="token string">is forward</span>' )
 			)
 	)
-	'tail' component 'group node selection'
-```
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--group-node-selection">'group node selection'</a>
+</pre>
+</div>
+</div>
 ### Node navigation for derivations (legacy)
 
-```js
-'derivation node content path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
+{: #grammar-rule--derivation-node-content-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">derivation node content path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
 			)
-			'tail' component 'derivation node content path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'group context property selection'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '^' ]
-			'tail' component 'group context property selection'
+{: #grammar-rule--group-context-property-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">group context property selection</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--group-context-property-selection">'group context property selection'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'calculated descendant node selection starting from node'
-	'type' stategroup (
-		'this node'
-		'group'
-			'group' ['+'] reference
-			'tail' component 'calculated descendant node selection starting from node'
-		'state group output parameter'
-			'state group' [ '?' ] reference
-			'output parameter' [ '$' ] reference
-		'referencer output'
-			'text' [ '>' ] reference
-			'dereference' component 'dereference'
-			'output type' stategroup (
-				'referenced node'
-				'output parameter'
-					'output parameter' [ '$' ] reference
+{: #grammar-rule--calculated-descendant-node-selection-starting-from-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated descendant node selection starting from node</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">this node</span>'
+		'<span class="token string">group</span>'
+			'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
+		'<span class="token string">state group output parameter</span>'
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+			'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+		'<span class="token string">referencer output</span>'
+			'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+			'<span class="token string">dereference</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+			'<span class="token string">output type</span>' stategroup (
+				'<span class="token string">referenced node</span>'
+				'<span class="token string">output parameter</span>'
+					'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
 			)
-		'state context parameter'
-			'parameter' ['&'] reference
-			'ancestor path' component 'entity scoped ancestor node path'
-			'tail' component 'calculated descendant node selection starting from node'
+		'<span class="token string">state context parameter</span>'
+			'<span class="token string">parameter</span>' [ <span class="token operator">&</span> ] reference
+			'<span class="token string">ancestor path</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'calculated descendant node selection starting from property'
-	'type' stategroup (
-		'group'
-			'group' [ '+' ] reference
-			'tail' component 'calculated descendant node selection starting from node'
-		'state group output parameter'
-			'state group' [ '?' ] reference
-			'output parameter' [ '$' ] reference
-		'referencer output'
-			'text' [ '>' ] reference
-			'dereference' component 'dereference'
-			'output type' stategroup (
-				'referenced node'
-				'output parameter'
-					'output parameter' [ '$' ] reference
+{: #grammar-rule--calculated-descendant-node-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated descendant node selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">group</span>'
+			'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
+		'<span class="token string">state group output parameter</span>'
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+			'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+		'<span class="token string">referencer output</span>'
+			'<span class="token string">text</span>' [ <span class="token operator">></span> ] reference
+			'<span class="token string">dereference</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
+			'<span class="token string">output type</span>' stategroup (
+				'<span class="token string">referenced node</span>'
+				'<span class="token string">output parameter</span>'
+					'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
 			)
-		'state context parameter'
-			'parameter' ['&'] reference
-			'ancestor path' component 'entity scoped ancestor node path'
-			'tail' component 'calculated descendant node selection starting from node'
+		'<span class="token string">state context parameter</span>'
+			'<span class="token string">parameter</span>' [ <span class="token operator">&</span> ] reference
+			'<span class="token string">ancestor path</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'calculated node selection starting from property'
-	'head' component 'ancestor property path'
-	'tail' component 'calculated descendant node selection starting from property'
-```
+{: #grammar-rule--calculated-node-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated node selection starting from property</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-property">'calculated descendant node selection starting from property'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable descendant node path'
-	'head' component 'ancestor variable path'
-	'type' stategroup ( 'variable' )
-	'tail' component 'calculated descendant node selection starting from node'
-```
+{: #grammar-rule--variable-descendant-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable descendant node path</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--ancestor-variable-path">'ancestor variable path'</a>
+	'<span class="token string">type</span>' stategroup ( '<span class="token string">variable</span>' )
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--calculated-descendant-node-selection-starting-from-node">'calculated descendant node selection starting from node'</a>
+</pre>
+</div>
+</div>
 ### Property navigation for derivations (legacy)
 
-```js
-'calculated collection selection starting from property'
-	'type' stategroup (
-		'collection'
-			'context selection' component 'ancestor property path'
-			'collection' ['.'] reference
-		'node'
-			'selection' component 'calculated node selection starting from property'
-			'collection' ['.'] reference
+{: #grammar-rule--calculated-collection-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated collection selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">collection</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">node</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'calculated reference set selection starting from property'
-	'head' component 'entity scoped ancestor property path'
-	'reference set' ['<'] reference
-```
+{: #grammar-rule--calculated-reference-set-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated reference set selection starting from property</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--entity-scoped-ancestor-property-path">'entity scoped ancestor property path'</a>
+	'<span class="token string">reference set</span>' [ <span class="token operator"><</span> ] reference
+</pre>
+</div>
+</div>
 
-```js
-'calculated set selection starting from property'
-	'container' stategroup (
-		'collection'
-			'path' component 'calculated collection selection starting from property'
-		'reference set'
-			'path' component 'calculated reference set selection starting from property'
+{: #grammar-rule--calculated-set-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated set selection starting from property</span>'
+	'<span class="token string">container</span>' stategroup (
+		'<span class="token string">collection</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--calculated-collection-selection-starting-from-property">'calculated collection selection starting from property'</a>
+		'<span class="token string">reference set</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--calculated-reference-set-selection-starting-from-property">'calculated reference set selection starting from property'</a>
 	)
-	'filter' component 'derivation node content path'
-```
+	'<span class="token string">filter</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'calculated state group selection starting from property'
-	'type' stategroup (
-		'state group'
-			'context selection' component 'ancestor property path'
-			'state group' [ '?' ] reference
-		'node'
-			'selection' component 'calculated node selection starting from property'
-			'state group' [ '?' ] reference
+{: #grammar-rule--calculated-state-group-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated state group selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state group</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+		'<span class="token string">node</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'calculated text selection starting from property'
-	'type' stategroup (
-		'text'
-			'context selection' component 'ancestor property path'
-			'text' [ '.' ] reference
-		'node'
-			'selection' component 'calculated node selection starting from property'
-			'text' [ '.' ] reference
+{: #grammar-rule--calculated-text-selection-starting-from-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">calculated text selection starting from property</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">text</span>'
+			'<span class="token string">context selection</span>' component <a href="#grammar-rule--ancestor-property-path">'ancestor property path'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">node</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'variablized calculated state group path'
-	'context' stategroup (
-		'this'
-			'state group selection' component 'calculated state group selection starting from property'
-		'variable'
-			'path' component 'variable descendant node path'
-			'state group' [ '?' ] reference
+{: #grammar-rule--variablized-calculated-state-group-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variablized calculated state group path</span>'
+	'<span class="token string">context</span>' stategroup (
+		'<span class="token string">this</span>'
+			'<span class="token string">state group selection</span>' component <a href="#grammar-rule--calculated-state-group-selection-starting-from-property">'calculated state group selection starting from property'</a>
+		'<span class="token string">variable</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variable-descendant-node-path">'variable descendant node path'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'variable descendant number path'
-	'sign inversion' component 'sign inversion'
-	'path' component 'variable descendant node path'
-	'type' stategroup (
-		'state context parameter'
-			'parameter' ['&#'] reference
-		'property'
-			'number' ['#'] reference
+{: #grammar-rule--variable-descendant-number-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable descendant number path</span>'
+	'<span class="token string">sign inversion</span>' component <a href="#grammar-rule--sign-inversion">'sign inversion'</a>
+	'<span class="token string">path</span>' component <a href="#grammar-rule--variable-descendant-node-path">'variable descendant node path'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state context parameter</span>'
+			'<span class="token string">parameter</span>' [ <span class="token operator">&#</span> ] reference
+		'<span class="token string">property</span>'
+			'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'entity scoped number path'
-	'head' component 'entity scoped ancestor node path'
-	'type' stategroup (
-		'state context parameter'
-			'parameter' ['&#'] reference
-		'property'
-			'number' ['#'] reference
+{: #grammar-rule--entity-scoped-number-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity scoped number path</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--entity-scoped-ancestor-node-path">'entity scoped ancestor node path'</a>
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state context parameter</span>'
+			'<span class="token string">parameter</span>' [ <span class="token operator">&#</span> ] reference
+		'<span class="token string">property</span>'
+			'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'variablized calculated number path'
-	'context' stategroup (
-		'this'
-			'path' component 'calculated signed number selection starting from property'
-		'variable'
-			'path' component 'variable descendant number path'
+{: #grammar-rule--variablized-calculated-number-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variablized calculated number path</span>'
+	'<span class="token string">context</span>' stategroup (
+		'<span class="token string">this</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--calculated-signed-number-selection-starting-from-property">'calculated signed number selection starting from property'</a>
+		'<span class="token string">variable</span>'
+			'<span class="token string">path</span>' component <a href="#grammar-rule--variable-descendant-number-path">'variable descendant number path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 ## User interface annotations
 ---
 User interface annotations, or annotations for short, are recognizable by the
@@ -2783,113 +3393,158 @@ For better visual identification an icon can be specified using the @icon
 attribute. As an argument it takes an icon name. A complete list of the
 supported icons can be found at: https://octicons.github.com/.
 
-```js
-'context node selection'
-	'head' component 'ancestor node path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'group'
-					'group' [ '+' ] reference
+{: #grammar-rule--context-node-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context node selection</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
 			)
-			'tail' component 'context node selection'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--context-node-selection">'context node selection'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui text validation'
-	'regular expression' text
-```
+{: #grammar-rule--ui-text-validation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui text validation</span>'
+	'<span class="token string">regular expression</span>' text
+</pre>
+</div>
+</div>
 
-```js
-'ui number limit'
-	'type' stategroup (
-		'static'
-			'limit' number
-		'dynamic'
-			'base' stategroup (
-				'today' [ 'today' ]
-				'now' [ 'now' ]
+{: #grammar-rule--ui-number-limit }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui number limit</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">static</span>'
+			'<span class="token string">limit</span>' number
+		'<span class="token string">dynamic</span>'
+			'<span class="token string">base</span>' stategroup (
+				'<span class="token string">today</span>' [ <span class="token operator">today</span> ]
+				'<span class="token string">now</span>' [ <span class="token operator">now</span> ]
 			)
-			'with offset' stategroup (
-				'no'
-				'yes' [ '+' ]
-					'offset' number
+			'<span class="token string">with offset</span>' stategroup (
+				'<span class="token string">no</span>'
+				'<span class="token string">yes</span>' [ <span class="token operator">+</span> ]
+					'<span class="token string">offset</span>' number
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui file name expression'
-	'has steps' stategroup (
-		'no'
-		'yes' [ '&' ]
-			'type' stategroup (
-				'static'
-					'text' text
-				'property'
-					'path' component 'context node selection'
-					'type' stategroup (
-						'text' [ '.' ]
-							'text' reference
-						'number' [ '#' ]
-							'number' reference
-						'state group' [ '?' ]
-							'state group' reference
-							'states' [ '(' , ')' ] collection (
-								'state file name expression' [ '(' , ')' ] component 'ui file name expression'
+{: #grammar-rule--ui-file-name-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui file name expression</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">&</span> ]
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">static</span>'
+					'<span class="token string">text</span>' text
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--context-node-selection">'context node selection'</a>
+					'<span class="token string">type</span>' stategroup (
+						'<span class="token string">text</span>' [ <span class="token operator">.</span> ]
+							'<span class="token string">text</span>' reference
+						'<span class="token string">number</span>' [ <span class="token operator">#</span> ]
+							'<span class="token string">number</span>' reference
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ]
+							'<span class="token string">state group</span>' reference
+							'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+								'<span class="token string">state file name expression</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--ui-file-name-expression">'ui file name expression'</a>
 							)
 					)
 			)
-			'tail' component 'ui file name expression'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--ui-file-name-expression">'ui file name expression'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui parametrized node path'
-	'path' component 'conditional node path'
-```
+{: #grammar-rule--ui-parametrized-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui parametrized node path</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'ui node path'
-	'path' component 'node path'
-```
+{: #grammar-rule--ui-node-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui node path</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--node-path">'node path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'ui node path tail'
-	'path' component 'node path tail'
-```
+{: #grammar-rule--ui-node-path-tail }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui node path tail</span>'
+	'<span class="token string">path</span>' component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
+</pre>
+</div>
+</div>
 
-```js
-'ui numerical type'
-	'represent as' stategroup (
-		'model'
-		'date' [ '@date' ]
-		'date and time' [ '@date-time' ]
-		'decimal' [ '@factor:' '10^' ]
-			'point translation' number
-		'duration' [ '@duration:' ]
-			'unit' stategroup (
-				'seconds' [ 'seconds' ]
-				'minutes' [ 'minutes' ]
-				'hours' [ 'hours' ]
+{: #grammar-rule--ui-numerical-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui numerical type</span>'
+	'<span class="token string">represent as</span>' stategroup (
+		'<span class="token string">model</span>'
+		'<span class="token string">date</span>' [ <span class="token operator">@date</span> ]
+		'<span class="token string">date and time</span>' [ <span class="token operator">@date-time</span> ]
+		'<span class="token string">decimal</span>' [ <span class="token operator">@factor:</span> <span class="token operator">10^</span> ]
+			'<span class="token string">point translation</span>' number
+		'<span class="token string">duration</span>' [ <span class="token operator">@duration:</span> ]
+			'<span class="token string">unit</span>' stategroup (
+				'<span class="token string">seconds</span>' [ <span class="token operator">seconds</span> ]
+				'<span class="token string">minutes</span>' [ <span class="token operator">minutes</span> ]
+				'<span class="token string">hours</span>' [ <span class="token operator">hours</span> ]
 			)
 	)
-	'label' stategroup (
-		'model'
-		'custom' [ '@label:' ]
-			'label' text
+	'<span class="token string">label</span>' stategroup (
+		'<span class="token string">model</span>'
+		'<span class="token string">custom</span>' [ <span class="token operator">@label:</span> ]
+			'<span class="token string">label</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui command attribute'
-	'visible' stategroup (
-		'true' [ '@visible' ]
-		'false' [ '@hidden' ]
+{: #grammar-rule--ui-command-attribute }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui command attribute</span>'
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>' [ <span class="token operator">@visible</span> ]
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-```
+</pre>
+</div>
+</div>
 ### Group
 The `@breakout` annotation indicates that a group property
 should not be displayed together with the other properties. At the time of
@@ -2897,27 +3552,32 @@ this writing, the group is put in a separate tab in the details view of an entry
 Note that the tab is always added to the top level tabs of a details view.
 That is, if a group is inside a state or another group, it is not added to the tabs of the state.
 
-```js
-'ui group property'
-	'visible' stategroup (
-		'true'
-			'break out' stategroup (
-				'no'
-				'yes' [ '@breakout' ]
+{: #grammar-rule--ui-group-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui group property</span>'
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>'
+			'<span class="token string">break out</span>' stategroup (
+				'<span class="token string">no</span>'
+				'<span class="token string">yes</span>' [ <span class="token operator">@breakout</span> ]
 			)
-		'false' [ '@hidden' ]
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 ### Collection
 The `@default:` annotation copies entries of a source collection into the annotated collection.
 A subset of the entries from the source collection can be copied by specifying a state filter:
@@ -2967,551 +3627,751 @@ the keys are the same.
 }
 ````
 
-```js
-'ui collection property'
-	'sort' stategroup (
-		'no'
-		'yes'
-			'direction' stategroup (
-				'ascending' ['@ascending:']
-				'descending' ['@descending:']
+{: #grammar-rule--ui-collection-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui collection property</span>'
+	'<span class="token string">sort</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">direction</span>' stategroup (
+				'<span class="token string">ascending</span>' [ <span class="token operator">@ascending:</span> ]
+				'<span class="token string">descending</span>' [ <span class="token operator">@descending:</span> ]
 			)
-			'property context' component 'ui node path'
-			'type' stategroup (
-				'text' ['.']
-					'property' reference
-				'number' ['#']
-					'property' reference
+			'<span class="token string">property context</span>' component <a href="#grammar-rule--ui-node-path">'ui node path'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">text</span>' [ <span class="token operator">.</span> ]
+					'<span class="token string">property</span>' reference
+				'<span class="token string">number</span>' [ <span class="token operator">#</span> ]
+					'<span class="token string">property</span>' reference
 			)
 	)
-	'visible' stategroup (
-		'true'
-		'false' [ '@hidden' ]
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>'
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-	'size' stategroup (
-		'small' [ '@small' ]
-		'large'
+	'<span class="token string">size</span>' stategroup (
+		'<span class="token string">small</span>' [ <span class="token operator">@small</span> ]
+		'<span class="token string">large</span>'
 	)
-	'can be dormant' stategroup (
-		'no'
-		'yes' [ '@dormant' ]
-			'context' component 'derivation node content path'
-			'state group' [ '?' ] reference
-			'dormant state' [ '|' ] reference
+	'<span class="token string">can be dormant</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@dormant</span> ]
+			'<span class="token string">context</span>' component <a href="#grammar-rule--derivation-node-content-path">'derivation node content path'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+			'<span class="token string">dormant state</span>' [ <span class="token operator">|</span> ] reference
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-	'default' stategroup (
-		'no'
-		'yes' [ '@default:' ]
-			'key property' ['>'] reference
-			'delink' component 'delink'
-			'entry filter' component 'ui node path tail'
+	'<span class="token string">default</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">key property</span>' [ <span class="token operator">></span> ] reference
+			'<span class="token string">delink</span>' component <a href="#grammar-rule--delink">'delink'</a>
+			'<span class="token string">entry filter</span>' component <a href="#grammar-rule--ui-node-path-tail">'ui node path tail'</a>
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-	'has style' stategroup (
-		'no'
-		'yes' [ '@style:' ]
-			'context' component 'ui node path'
-			'state group' [ '?' ] reference
-			'type' stategroup (
-				'select'
-					'state' [ '|' ] reference
-					'style' component 'ui style'
-				'switch'
-					'states' [ '(' , ')' ] collection ( ['|']
-						'has style' ['='] stategroup (
-							'yes'
-								'style' component 'ui style'
-							'no' ['none']
+	'<span class="token string">has style</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@style:</span> ]
+			'<span class="token string">context</span>' component <a href="#grammar-rule--ui-node-path">'ui node path'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">select</span>'
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+					'<span class="token string">style</span>' component <a href="#grammar-rule--ui-style">'ui style'</a>
+				'<span class="token string">switch</span>'
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">has style</span>' [ <span class="token operator">=</span> ] stategroup (
+							'<span class="token string">yes</span>'
+								'<span class="token string">style</span>' component <a href="#grammar-rule--ui-style">'ui style'</a>
+							'<span class="token string">no</span>' [ <span class="token operator">none</span> ]
 						)
 					)
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui number property'
-	'visible' stategroup (
-		'true'
-		'false' [ '@hidden' ]
+{: #grammar-rule--ui-number-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui number property</span>'
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>'
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-	'identifying' stategroup (
-		'no'
-		'yes' [ '@identifying' ]
+	'<span class="token string">identifying</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@identifying</span> ]
 	)
-	'default' stategroup (
-		'no'
-		'yes' [ '@default:' ]
-			'value' stategroup (
-				'today' [ 'today' ]
-				'now' [ 'now' ]
-				'one' [ 'one' ]
-				'zero' [ 'zero' ]
-				'property'
-					'path' component 'ui node path'
-					'number' [ '#' ] reference
+	'<span class="token string">default</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">value</span>' stategroup (
+				'<span class="token string">today</span>' [ <span class="token operator">today</span> ]
+				'<span class="token string">now</span>' [ <span class="token operator">now</span> ]
+				'<span class="token string">one</span>' [ <span class="token operator">one</span> ]
+				'<span class="token string">zero</span>' [ <span class="token operator">zero</span> ]
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--ui-node-path">'ui node path'</a>
+					'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
 			)
 	)
-	'metadata' stategroup (
-		'no'
-		'yes' [ '@metadata' ]
+	'<span class="token string">metadata</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@metadata</span> ]
 	)
-	'validation' group (
-		'has minimum' stategroup (
-			'no'
-			'yes' [ '@min:' ]
-				'minimum' component 'ui number limit'
+	'<span class="token string">validation</span>' group (
+		'<span class="token string">has minimum</span>' stategroup (
+			'<span class="token string">no</span>'
+			'<span class="token string">yes</span>' [ <span class="token operator">@min:</span> ]
+				'<span class="token string">minimum</span>' component <a href="#grammar-rule--ui-number-limit">'ui number limit'</a>
 		)
-		'has maximum' stategroup (
-			'no'
-			'yes' [ '@max:' ]
-				'maximum' component 'ui number limit'
+		'<span class="token string">has maximum</span>' stategroup (
+			'<span class="token string">no</span>'
+			'<span class="token string">yes</span>' [ <span class="token operator">@max:</span> ]
+				'<span class="token string">maximum</span>' component <a href="#grammar-rule--ui-number-limit">'ui number limit'</a>
 		)
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui file property'
-	'file name expression' stategroup (
-		'no'
-		'yes' [ '@name' ]
-			'file name expression' [ '(' , ')' ] component 'ui file name expression'
+{: #grammar-rule--ui-file-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui file property</span>'
+	'<span class="token string">file name expression</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@name</span> ]
+			'<span class="token string">file name expression</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--ui-file-name-expression">'ui file name expression'</a>
 	)
-	'visible' stategroup (
-		'true'
-		'false' [ '@hidden' ]
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>'
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-	'identifying' stategroup (
-		'no'
-		'yes' [ '@identifying' ]
+	'<span class="token string">identifying</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@identifying</span> ]
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui default text expression'
-	'type' stategroup (
-		'static'
-			'value' text
-		'dynamic'
-			'type' stategroup (
-				'text'
-					'path' component 'ui parametrized node path'
-					'text' [ '.' ] reference
-				'number' [ 'to-text' ]
-					'path' component 'ui parametrized node path'
-					'number' [ '.' ] reference
+{: #grammar-rule--ui-default-text-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui default text expression</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">static</span>'
+			'<span class="token string">value</span>' text
+		'<span class="token string">dynamic</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">text</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--ui-parametrized-node-path">'ui parametrized node path'</a>
+					'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">number</span>' [ <span class="token operator">to-text</span> ]
+					'<span class="token string">path</span>' component <a href="#grammar-rule--ui-parametrized-node-path">'ui parametrized node path'</a>
+					'<span class="token string">number</span>' [ <span class="token operator">.</span> ] reference
 			)
 	)
-	'has next' stategroup (
-		'no'
-		'yes'
-			'next' [','] component 'ui default text expression'
+	'<span class="token string">has next</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">next</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--ui-default-text-expression">'ui default text expression'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui text property'
-	'visible' stategroup (
-		'true'
-		'false' [ '@hidden' ]
+{: #grammar-rule--ui-text-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui text property</span>'
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>'
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-	'identifying' stategroup (
-		'no'
-		'yes' [ '@identifying' ]
+	'<span class="token string">identifying</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@identifying</span> ]
 	)
-	'type' stategroup (
-		'default'
-		'multi-line' [ '@multi-line' ]
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">default</span>'
+		'<span class="token string">multi-line</span>' [ <span class="token operator">@multi-line</span> ]
 	)
-	'default value' stategroup (
-		'no'
-		'yes' [ '@default:' ]
-			'source' stategroup (
-				'expression'
-					'expression' component 'ui default text expression'
-				'current user' ['user']
-					'constraint' component 'EQ node type'
-				'guid' ['guid']
+	'<span class="token string">default value</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">source</span>' stategroup (
+				'<span class="token string">expression</span>'
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--ui-default-text-expression">'ui default text expression'</a>
+				'<span class="token string">current user</span>' [ <span class="token operator">user</span> ]
+					'<span class="token string">constraint</span>' component <a href="#grammar-rule--EQ-node-type">'EQ node type'</a>
+				'<span class="token string">guid</span>' [ <span class="token operator">guid</span> ]
 			)
 	)
-	'has validation' stategroup (
-		'no'
-		'yes' [ '@validate:' ]
-			'rules' component 'ui text validation'
+	'<span class="token string">has validation</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@validate:</span> ]
+			'<span class="token string">rules</span>' component <a href="#grammar-rule--ui-text-validation">'ui text validation'</a>
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui state group property'
-	'visible' stategroup (
-		'true'
-		'false' [ '@hidden' ]
+{: #grammar-rule--ui-state-group-property }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui state group property</span>'
+	'<span class="token string">visible</span>' stategroup (
+		'<span class="token string">true</span>'
+		'<span class="token string">false</span>' [ <span class="token operator">@hidden</span> ]
 	)
-	'identifying' stategroup (
-		'no'
-		'yes' [ '@identifying' ]
+	'<span class="token string">identifying</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@identifying</span> ]
 	)
-	'default state' stategroup (
-		'no'
-		'yes' [ '@default:' ]
-			'source' stategroup (
-				'state'
-					'state' reference
-				'state switch' ['switch' ]
-					'path' group (
-						'path' component 'ui node path'
-						'state group' ['?'] reference
+	'<span class="token string">default state</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">source</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state</span>' reference
+				'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--ui-node-path">'ui node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection ( ['|']
-						'action' stategroup (
-							'do nothing' ['ignore']
-							'set state'
-								'state' ['='] reference
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">action</span>' stategroup (
+							'<span class="token string">do nothing</span>' [ <span class="token operator">ignore</span> ]
+							'<span class="token string">set state</span>'
+								'<span class="token string">state</span>' [ <span class="token operator">=</span> ] reference
 						)
 					)
 			)
 	)
-	'constraining collection' stategroup (
-		'no'
-		'yes' [ '@ordered:' ]
-			'type' stategroup ( 'linear' )
-			'first entry state' reference
-			'state' [ 'or' ] reference
-			'constraining reference' [ '.' ] reference
+	'<span class="token string">constraining collection</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@ordered:</span> ]
+			'<span class="token string">type</span>' stategroup ( '<span class="token string">linear</span>' )
+			'<span class="token string">first entry state</span>' reference
+			'<span class="token string">state</span>' [ <span class="token operator">or</span> ] reference
+			'<span class="token string">constraining reference</span>' [ <span class="token operator">.</span> ] reference
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui state'
-	'desired state' stategroup (
-		'no'
-		'yes' [ '@desired' ]
+{: #grammar-rule--ui-state }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui state</span>'
+	'<span class="token string">desired state</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@desired</span> ]
 	)
-	'verified state' stategroup (
-		'no'
-		'yes' [ '@verified' ]
+	'<span class="token string">verified state</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@verified</span> ]
 	)
-	'icon' stategroup (
-		'no'
-		'yes' [ '@icon:' ]
-			'name' text
+	'<span class="token string">icon</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@icon:</span> ]
+			'<span class="token string">name</span>' text
 	)
-	'has style' stategroup (
-		'no'
-		'yes' [ '@style:' ]
-			'style' component 'ui style'
+	'<span class="token string">has style</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@style:</span> ]
+			'<span class="token string">style</span>' component <a href="#grammar-rule--ui-style">'ui style'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui collection parameter'
-	'default' stategroup (
-		'yes' ['@default:' 'map']
-			'entry filter' component 'ui node path tail'
-		'no'
+{: #grammar-rule--ui-collection-parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui collection parameter</span>'
+	'<span class="token string">default</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> <span class="token operator">map</span> ]
+			'<span class="token string">entry filter</span>' component <a href="#grammar-rule--ui-node-path-tail">'ui node path tail'</a>
+		'<span class="token string">no</span>'
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui text parameter'
-	'has validation' stategroup (
-		'no'
-		'yes' [ '@validate:' ]
-			'rules' component 'ui text validation'
+{: #grammar-rule--ui-text-parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui text parameter</span>'
+	'<span class="token string">has validation</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@validate:</span> ]
+			'<span class="token string">rules</span>' component <a href="#grammar-rule--ui-text-validation">'ui text validation'</a>
 	)
-	'default' stategroup (
-		'no'
-			'sticky' stategroup (
-				'yes' [ '@sticky' ]
-				'no'
+	'<span class="token string">default</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">sticky</span>' stategroup (
+				'<span class="token string">yes</span>' [ <span class="token operator">@sticky</span> ]
+				'<span class="token string">no</span>'
 			)
-		'yes' ['@default:']
-			'source' stategroup (
-				'guid' [ 'guid' ]
-				'current user' [ 'user' ]
-					'constraint' component 'EQ node type'
-				'expression'
-					'expression' component 'ui default text expression'
-			)
-	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
-	)
-```
-
-```js
-'ui number parameter'
-	'default' stategroup (
-		'no'
-			'sticky' stategroup (
-				'yes' [ '@sticky' ]
-				'no'
-			)
-		'yes' ['@default:']
-			'value' stategroup (
-				'today' ['today' ]
-				'now' ['now' ]
-				'one' ['one' ]
-				'zero' ['zero' ]
-				'property'
-					'path' component 'ui parametrized node path'
-					'number' [ '#' ] reference
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">source</span>' stategroup (
+				'<span class="token string">guid</span>' [ <span class="token operator">guid</span> ]
+				'<span class="token string">current user</span>' [ <span class="token operator">user</span> ]
+					'<span class="token string">constraint</span>' component <a href="#grammar-rule--EQ-node-type">'EQ node type'</a>
+				'<span class="token string">expression</span>'
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--ui-default-text-expression">'ui default text expression'</a>
 			)
 	)
-	'validation' group (
-		'has minimum' stategroup (
-			'no'
-			'yes' [ '@min:' ]
-				'minimum' component 'ui number limit'
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
+	)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--ui-number-parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui number parameter</span>'
+	'<span class="token string">default</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">sticky</span>' stategroup (
+				'<span class="token string">yes</span>' [ <span class="token operator">@sticky</span> ]
+				'<span class="token string">no</span>'
+			)
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">value</span>' stategroup (
+				'<span class="token string">today</span>' [ <span class="token operator">today</span> ]
+				'<span class="token string">now</span>' [ <span class="token operator">now</span> ]
+				'<span class="token string">one</span>' [ <span class="token operator">one</span> ]
+				'<span class="token string">zero</span>' [ <span class="token operator">zero</span> ]
+				'<span class="token string">property</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--ui-parametrized-node-path">'ui parametrized node path'</a>
+					'<span class="token string">number</span>' [ <span class="token operator">#</span> ] reference
+			)
+	)
+	'<span class="token string">validation</span>' group (
+		'<span class="token string">has minimum</span>' stategroup (
+			'<span class="token string">no</span>'
+			'<span class="token string">yes</span>' [ <span class="token operator">@min:</span> ]
+				'<span class="token string">minimum</span>' component <a href="#grammar-rule--ui-number-limit">'ui number limit'</a>
 		)
-		'has maximum' stategroup (
-			'no'
-			'yes' [ '@max:' ]
-				'maximum' component 'ui number limit'
+		'<span class="token string">has maximum</span>' stategroup (
+			'<span class="token string">no</span>'
+			'<span class="token string">yes</span>' [ <span class="token operator">@max:</span> ]
+				'<span class="token string">maximum</span>' component <a href="#grammar-rule--ui-number-limit">'ui number limit'</a>
 		)
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui file parameter'
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+{: #grammar-rule--ui-file-parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui file parameter</span>'
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui state group parameter'
-	'default state' stategroup (
-		'no'
-			'sticky' stategroup (
-				'yes' [ '@sticky' ]
-				'no'
+{: #grammar-rule--ui-state-group-parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui state group parameter</span>'
+	'<span class="token string">default state</span>' stategroup (
+		'<span class="token string">no</span>'
+			'<span class="token string">sticky</span>' stategroup (
+				'<span class="token string">yes</span>' [ <span class="token operator">@sticky</span> ]
+				'<span class="token string">no</span>'
 			)
-		'yes' [ '@default:' ]
-			'source' stategroup (
-				'state'
-					'state' reference
-				'state switch' ['switch' ]
-					'path' group (
-						'path' component 'conditional node path'
-						'state group' ['?'] reference
+		'<span class="token string">yes</span>' [ <span class="token operator">@default:</span> ]
+			'<span class="token string">source</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state</span>' reference
+				'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
+					'<span class="token string">path</span>' group (
+						'<span class="token string">path</span>' component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+						'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
 					)
-					'states' [ '(' , ')' ] collection  ( ['|']
-						'action' stategroup (
-							'do nothing' ['ignore']
-							'set state'
-								'state' ['='] reference
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection  ( [ <span class="token operator">|</span> ]
+						'<span class="token string">action</span>' stategroup (
+							'<span class="token string">do nothing</span>' [ <span class="token operator">ignore</span> ]
+							'<span class="token string">set state</span>'
+								'<span class="token string">state</span>' [ <span class="token operator">=</span> ] reference
 						)
 					)
 			)
 	)
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui todo'
-	'has description' stategroup (
-		'no'
-		'yes' [ '@description:' ]
-			'description' text
+{: #grammar-rule--ui-todo }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui todo</span>'
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>' text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'ui style'
-	'style' stategroup (
-		'foreground' ['foreground']
-		'background' ['background']
-		'brand' ['brand']
-		'link' ['link']
-		'accent' ['accent']
-		'success' ['success']
-		'warning' ['warning']
-		'error' ['error']
-		'blue' ['blue']
-		'orange' ['orange']
-		'green' ['green']
-		'red' ['red']
-		'purple' ['purple']
-		'teal' ['teal']
+{: #grammar-rule--ui-style }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui style</span>'
+	'<span class="token string">style</span>' stategroup (
+		'<span class="token string">foreground</span>' [ <span class="token operator">foreground</span> ]
+		'<span class="token string">background</span>' [ <span class="token operator">background</span> ]
+		'<span class="token string">brand</span>' [ <span class="token operator">brand</span> ]
+		'<span class="token string">link</span>' [ <span class="token operator">link</span> ]
+		'<span class="token string">accent</span>' [ <span class="token operator">accent</span> ]
+		'<span class="token string">success</span>' [ <span class="token operator">success</span> ]
+		'<span class="token string">warning</span>' [ <span class="token operator">warning</span> ]
+		'<span class="token string">error</span>' [ <span class="token operator">error</span> ]
+		'<span class="token string">blue</span>' [ <span class="token operator">blue</span> ]
+		'<span class="token string">orange</span>' [ <span class="token operator">orange</span> ]
+		'<span class="token string">green</span>' [ <span class="token operator">green</span> ]
+		'<span class="token string">red</span>' [ <span class="token operator">red</span> ]
+		'<span class="token string">purple</span>' [ <span class="token operator">purple</span> ]
+		'<span class="token string">teal</span>' [ <span class="token operator">teal</span> ]
 	)
-```
+</pre>
+</div>
+</div>
 ## Type checker annotation rules
 ---
 The rules below are for the type checker; they do not require keywords, so you can ignore them when writing a model.
 
-```js
-'KEYWORD'
-```
+{: #grammar-rule--KEYWORD }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">KEYWORD</span>'
+</pre>
+</div>
+</div>
 
-```js
-'value source base'
-```
+{: #grammar-rule--value-source-base }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">value source base</span>'
+</pre>
+</div>
+</div>
 
-```js
-'value source'
-```
+{: #grammar-rule--value-source }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">value source</span>'
+</pre>
+</div>
+</div>
 
-```js
-'dependency'
-```
+{: #grammar-rule--dependency }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dependency</span>'
+</pre>
+</div>
+</div>
 
-```js
-'direction type'
-```
+{: #grammar-rule--direction-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">direction type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'multiplicity type'
-```
+{: #grammar-rule--multiplicity-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">multiplicity type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'modifier'
-```
+{: #grammar-rule--modifier }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">modifier</span>'
+</pre>
+</div>
+</div>
 
-```js
-'type'
-```
+{: #grammar-rule--type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'set type'
-```
+{: #grammar-rule--set-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">set type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'entity'
-```
+{: #grammar-rule--entity }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity</span>'
+</pre>
+</div>
+</div>
 
-```js
-'member'
-```
+{: #grammar-rule--member }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">member</span>'
+</pre>
+</div>
+</div>
 
-```js
-'variable'
-```
+{: #grammar-rule--variable }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable</span>'
+</pre>
+</div>
+</div>
 
-```js
-'number variable'
-```
+{: #grammar-rule--number-variable }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number variable</span>'
+</pre>
+</div>
+</div>
 
-```js
-'parameter'
-```
+{: #grammar-rule--parameter }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">parameter</span>'
+</pre>
+</div>
+</div>
 
-```js
-'link'
-```
+{: #grammar-rule--link }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">link</span>'
+</pre>
+</div>
+</div>
 
-```js
-'reference'
-```
+{: #grammar-rule--reference }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">reference</span>'
+</pre>
+</div>
+</div>
 
-```js
-'delink'
-	'delink' stategroup ( 'yes' )
-```
+{: #grammar-rule--delink }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">delink</span>'
+	'<span class="token string">delink</span>' stategroup ( '<span class="token string">yes</span>' )
+</pre>
+</div>
+</div>
 
-```js
-'dereference'
-	'dereference' stategroup ( 'yes' )
-```
+{: #grammar-rule--dereference }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dereference</span>'
+	'<span class="token string">dereference</span>' stategroup ( '<span class="token string">yes</span>' )
+</pre>
+</div>
+</div>
 
-```js
-'linker'
-	'link' component 'link'
-```
+{: #grammar-rule--linker }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">linker</span>'
+	'<span class="token string">link</span>' component <a href="#grammar-rule--link">'link'</a>
+</pre>
+</div>
+</div>
 
-```js
-'referencer'
-	'dependable' component 'dependency'
-	'reference' component 'reference'
-	'linker' component 'linker'
-```
+{: #grammar-rule--referencer }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">referencer</span>'
+	'<span class="token string">dependable</span>' component <a href="#grammar-rule--dependency">'dependency'</a>
+	'<span class="token string">reference</span>' component <a href="#grammar-rule--reference">'reference'</a>
+	'<span class="token string">linker</span>' component <a href="#grammar-rule--linker">'linker'</a>
+</pre>
+</div>
+</div>
 
-```js
-'type eq'
-```
+{: #grammar-rule--type-eq }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">type eq</span>'
+</pre>
+</div>
+</div>
 
-```js
-'EQ modifier'
-```
+{: #grammar-rule--EQ-modifier }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">EQ modifier</span>'
+</pre>
+</div>
+</div>
 
-```js
-'EQ node type'
-```
+{: #grammar-rule--EQ-node-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">EQ node type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'EQ reference set'
-```
+{: #grammar-rule--EQ-reference-set }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">EQ reference set</span>'
+</pre>
+</div>
+</div>
 
-```js
-'EQ member'
-```
+{: #grammar-rule--EQ-member }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">EQ member</span>'
+</pre>
+</div>
+</div>
 
-```js
-'EQ direction'
-```
+{: #grammar-rule--EQ-direction }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">EQ direction</span>'
+</pre>
+</div>
+</div>
