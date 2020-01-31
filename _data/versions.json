@@ -25,7 +25,7 @@
 				"pages/docs/auto-webclient/neo.3.1/translations/grammar.html",
 				"pages/docs/connector/2/pipeline/grammar.md",
 				"pages/docs/connector/2/processor/grammar.md",
-				"pages/docs/connector/2/variables/grammar.md"
+				"pages/docs/connector/2/variables/grammar.md",
 				"pages/docs/datastore/52/consumed_interfaces_mapping/grammar.html",
 				"pages/docs/datastore/52/migration_mapping/grammar.html",
 				"pages/docs/datastore/52/provided_interface_implementation/grammar.html",
@@ -42,7 +42,7 @@
 				"pages/docs/webclient/neo.3.1/settings/grammar.html",
 				"pages/docs/webclient/neo.3.1/translations/grammar.html",
 				"pages/docs/webclient/neo.3.1/views/grammar.html",
-				"pages/docs/webclient/neo.3.1/widget/grammar.html",
+				"pages/docs/webclient/neo.3.1/widget/grammar.html"
 			]
 		}
 	]
