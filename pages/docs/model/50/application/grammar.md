@@ -685,7 +685,7 @@ The constraint ensures that `Product Price` computations terminate:
 				'graph edge'
 					'ancestor path' component 'ancestor node path'
 					'parent is collection' stategroup ( 'yes' )
-					'graph' ['graph'] reference // reference to a 'graph constraint'
+					'graph' ['graph'] reference
 			)
 		'forward' [ 'forward' ]
 			'head' component 'unresolved node selection'
@@ -1743,7 +1743,6 @@ Also, the `external` command needs to be consumed by the application model, like
 			'collection' ['collection']
 				'key property' ['[',']'] reference
 				'key constraint' stategroup (
-					// 'no' ( )
 					'yes'
 				)
 				'ui' component 'ui collection parameter'
@@ -1849,7 +1848,7 @@ Also, the `external` command needs to be consumed by the application model, like
 ```
 
 ```js
-'parameter referencer' // 'parameter reference constrain expression'
+'parameter referencer'
 	'head' component 'singular node path'
 	'collection' ['.'] reference
 	'tail' component 'derivation node content path'
@@ -1861,7 +1860,6 @@ Also, the `external` command needs to be consumed by the application model, like
 		'type' [ ':' ] stategroup (
 			'collection' [ 'collection' ]
 				'key constraint' stategroup (
-					// 'no'
 					'yes' ['=>']
 						'expression' component 'parametrized collection argument expression'
 				)
@@ -1872,10 +1870,6 @@ Also, the `external` command needs to be consumed by the application model, like
 				)
 				'expression' ['='] component 'parametrized number expression'
 			'text' [ 'text' ]
-				// 'has constraint' stategroup (
-				// 	'no' ['=']
-				// 	'yes' ['=>']
-				// )
 				'expression' ['='] component 'parametrized text expression'
 			'file' ['file']
 				'expression' ['='] component 'parametrized file expression'
@@ -2310,10 +2304,10 @@ $                // select variable
 			'output parameter' ['$'] reference
 		'state context parameter'
 			'parameter' [ '&' ] reference
-		'state' // ?'Color'|'Blue'
+		'state'
 			'state group' ['?'] reference
 			'state' ['|'] reference
-		'entry' // . 'Products' | [ .'Name' ]
+		'entry'
 			'collection' ['.'] reference
 			'key path' ['[',']'] group (
 				'type' stategroup (
@@ -2331,7 +2325,7 @@ $                // select variable
 						'text' ['.'] reference
 				)
 			)
-		'reference' // |>'My Link' or >'My Reference'
+		'reference'
 			'reference base' stategroup (
 				'link reference' ['|>']
 				'referencer reference' ['>']
@@ -2582,7 +2576,6 @@ $                // select variable
 
 ```js
 'calculated descendant node selection starting from node'
-	// 'group selection' component 'group node selection'
 	'type' stategroup (
 		'this node'
 		'group'
@@ -2638,7 +2631,6 @@ $                // select variable
 
 ```js
 'variable descendant node path'
-	//'context node path', head step:
 	'head' component 'ancestor variable path'
 	'type' stategroup ( 'variable' )
 	'tail' component 'calculated descendant node selection starting from node'
@@ -2722,7 +2714,7 @@ $                // select variable
 ```
 
 ```js
-'entity scoped number path' // for aggregates
+'entity scoped number path'
 	'head' component 'entity scoped ancestor node path'
 	'type' stategroup (
 		'state context parameter'
