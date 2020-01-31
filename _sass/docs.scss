@@ -1,14 +1,13 @@
 .doc {
     main.wide {
         max-width: none;
-        section > *:not(div) {
+        section>*:not(div) {
             max-width: $base-width;
             margin-right: auto;
             margin-left: 0;
         }
     }
-
-    h1 + p {
+    h1+p {
         list-style: none;
         margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;
         padding: 0;
@@ -18,7 +17,6 @@
     }
 }
 
-
 table {
     margin: 1em 0 1em*$ratio 0;
     tr {
@@ -26,7 +24,7 @@ table {
         @include breathe(background);
         &:hover {
             background: $grey6;
-            td:last-child > a {
+            td:last-child>a {
                 &,
                 &:link,
                 &:visited,
@@ -49,12 +47,11 @@ table {
         border-right: 1px dotted $grey6;
         font-weight: bold;
     }
-    th > a,
-    td > a {
+    th>a,
+    td>a {
         display: inline-block;
         width: 100%;
         padding: 0 1rem*$ratio;
-
         &,
         &:link,
         &:visited,
@@ -65,13 +62,11 @@ table {
             @include breathe(color);
         }
     }
-
     a[href$='application/grammar.html'] {
         font-weight: bold;
         font-style: italic;
     }
 }
-
 
 [aria-controls='doc-list'] {
     -webkit-appearance: none;
@@ -92,6 +87,7 @@ table {
         color: $blue;
     }
 }
+
 #doc-list {
     @keyframes slideMenuIn {
         from {
@@ -103,21 +99,18 @@ table {
             transform: translateY(0);
         }
     }
-
     display: none;
     width: 100%;
     position: absolute;
     z-index: 1;
     margin: -1em 0 0 0;
     opacity: 0;
-    will-change: opacity, transform;
+    will-change: opacity,
+    transform;
     animation: slideMenuIn .2s ease-in-out forwards;
-
-
     &[aria-expanded='true'] {
         display: block;
     }
-
     table {
         margin: 0 auto;
         border: 1px solid $grey5;
@@ -137,9 +130,32 @@ table {
     }
 }
 
-
 #markdown-toc {
     margin-bottom: 1rem*$ratio*$ratio;
     padding-bottom: 1rem*$ratio;
     border-bottom: 2px solid $grey6;
+}
+
+.code-custom {
+    font-family: 'pt mono', monospace;
+    font-size: 0.8em;
+    tab-size: 4;
+    line-height: 1.414;
+}
+
+.code-custom .punctuation {
+    color: #393b40;
+}
+
+.code-custom .string {
+    color: #4a80ff;
+}
+
+.code-custom .operator {
+    color: #ff641a;
+    font-weight: bold;
+}
+
+code {
+    line-height: 1.414 !important;
 }
