@@ -640,7 +640,6 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text expression</span>'
-	//NOTE: result node is an ugly way to enforce a location on type==id
 	'<span class="token string">type</span>' stategroup (
 		'<span class="token string">singular</span>'
 			'<span class="token string">expression</span>' component <a href="#grammar-rule--singular-text-expression">'singular text expression'</a>
