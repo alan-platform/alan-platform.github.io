@@ -749,7 +749,7 @@ References can be unidirectional or bidirectional. For bidirectional references,
 {
     'Name': text
       // reference-set holding Orders added by Product references:
-    'Orders': reference-set -> .'Orders' => inverse >'Product'
+    'Orders': reference-set -> .'Orders' = inverse >'Product'
 }
 'Orders': collection ['ID'] {
     'ID': text
@@ -1039,8 +1039,8 @@ The property holds the value of a `Default Contract` in case of a `Standard` `Ag
         'Contract': file
     }
 )
-'Contract':= file = switch ( ?'Agreement' ) (
-    |'Default' = $^ /'Default Contract'
+'Contract':= file = switch ?'Agreement' (
+    |'Default' = /'Default Contract'
     |'Custom' = $ /'Contract'
 )
 ```
@@ -1122,7 +1122,7 @@ root {
         'Price': integer 'eurocent'
         'Price (euro)':= integer 'euro' = from 'eurocent' #'Price'
         'Order Unit Quantity': natural 'items per unit'
-        'Orders': reference-set -> .'Orders' => inverse >'Product'
+        'Orders': reference-set -> .'Orders' = inverse >'Product'
         'Sales Value':= integer 'eurocent' = sum <'Orders'#'Price'
         'Items Sold':= integer 'items' = count <'Orders'
     }
@@ -1565,7 +1565,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
     'ID': text
     // a link to a 'Products' item from the catalog provider:
     'Product': text ~> ^ .'Products'
-    'Product found':= stategroup = any ( >'Product' ) (
+    'Product found':= stategroup = any |>'Product' (
         | true  = 'Yes' ( 'Product' => $ )
         | false = 'No'
     ) (
@@ -2661,7 +2661,8 @@ Examples of typical navigation steps:
 |'My State'      // select/require state
 +'My Group'      // select group node
 --
->>'My Text'               // go to referenced node
+>>'My Text'               // go to referenced node (for text with constraint)
+>|>'My Text'              // go to referenced node (for text with link)
 >>'My Text'$'Output'      // go to reference output node
 &'My State ctx'           // go to state context node
 ?'My Stategroup'$'Output' // go to stategroup output node
