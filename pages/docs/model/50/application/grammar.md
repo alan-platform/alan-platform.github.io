@@ -522,7 +522,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 						'<span class="token string">ui</span>' component <a href="#grammar-rule--ui-group-property">'ui group property'</a>
 						'<span class="token string">node</span>' component <a href="#grammar-rule--node">'node'</a>
 					'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
-						'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+						'<span class="token string">key property</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] reference
 						'<span class="token string">type</span>' stategroup (
 							'<span class="token string">elementary</span>'
 								'<span class="token string">graph constraints</span>' component <a href="#grammar-rule--graph-constraints-definition">'graph constraints definition'</a>
@@ -1021,7 +1021,7 @@ after the constraint expression for the `Product` property.
 		'<span class="token string">branch</span>' // branch of derived collection constructed using flatten expressions
 			'<span class="token string">branch</span>' [ <span class="token operator">from</span> ] reference
 			'<span class="token string">root entity constraint</span>' stategroup ( '<span class="token string">root</span>' )
-			'<span class="token string">expression</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>' ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+			'<span class="token string">expression</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
 		'<span class="token string">singular</span>'
 			'<span class="token string">expression</span>' component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
 	)
@@ -1645,7 +1645,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 				'<span class="token string">any key</span>' [ <span class="token operator">any</span> ]
 					'<span class="token string">collection selection</span>' component <a href="#grammar-rule--calculated-collection-selection-starting-from-property">'calculated collection selection starting from property'</a>
 					'<span class="token string">dereference key</span>' component <a href="#grammar-rule--dereference">'dereference'</a>
-					'<span class="token string">key path</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>' ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
+					'<span class="token string">key path</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--calculated-node-selection-starting-from-property">'calculated node selection starting from property'</a>
 					'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
 				'<span class="token string">any in set</span>' [ <span class="token operator">any</span> ]
 					'<span class="token string">expression</span>' component <a href="#grammar-rule--calculated-set-selection-starting-from-property">'calculated set selection starting from property'</a>
@@ -2064,7 +2064,7 @@ Also, the `external` command needs to be consumed by the application model, like
 		'<span class="token string">member</span>' component <a href="#grammar-rule--member">'member'</a>
 		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
-				'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+				'<span class="token string">key property</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] reference
 				'<span class="token string">key constraint</span>' stategroup (
 					'<span class="token string">yes</span>'
 				)
@@ -2499,7 +2499,7 @@ Also, the `external` command needs to be consumed by the application model, like
 			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 			'<span class="token string">filter</span>' component <a href="#grammar-rule--parameter-path-tail">'parameter path tail'</a>
 			'<span class="token string">context selection</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--parameter-entity-scoped-context-node-selection">'parameter entity scoped context node selection'</a>
-			'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+			'<span class="token string">key property</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] reference
 			'<span class="token string">arguments</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--argument-definition">'argument definition'</a>
 		'<span class="token string">property</span>' [ <span class="token operator">map</span> ]
 			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
@@ -2508,7 +2508,7 @@ Also, the `external` command needs to be consumed by the application model, like
 			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 			'<span class="token string">filter</span>' component <a href="#grammar-rule--parametrized-collection-filter-path">'parametrized collection filter path'</a>
 			'<span class="token string">context selection</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--parameter-entity-scoped-context-node-selection">'parameter entity scoped context node selection'</a>
-			'<span class="token string">key property</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] reference
+			'<span class="token string">key property</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] reference
 			'<span class="token string">arguments</span>' [ <span class="token operator">)</span> ] component <a href="#grammar-rule--argument-definition">'argument definition'</a>
 		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
 			'<span class="token string">type</span>' stategroup (
@@ -2549,14 +2549,14 @@ Also, the `external` command needs to be consumed by the application model, like
 			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 			'<span class="token string">filter</span>' component <a href="#grammar-rule--parameter-path-tail">'parameter path tail'</a>
 			'<span class="token string">key property</span>' [ <span class="token operator">(</span> <span class="token operator">[</span> ] reference
-			'<span class="token string">initialize node</span>' ['<span class="token string"> ]</span>''<span class="token string">)</span>'] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
+			'<span class="token string">initialize node</span>' [ <span class="token operator">]</span> <span class="token operator">)</span> ] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
 		'<span class="token string">property</span>' [ <span class="token operator">map</span> ]
 			'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
 			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 			'<span class="token string">variable assignment</span>' component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 			'<span class="token string">filter</span>' component <a href="#grammar-rule--parametrized-collection-filter-path">'parametrized collection filter path'</a>
 			'<span class="token string">key property</span>' [ <span class="token operator">(</span> <span class="token operator">[</span> ] reference
-			'<span class="token string">initialize node</span>' ['<span class="token string"> ]</span>''<span class="token string">)</span>'] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
+			'<span class="token string">initialize node</span>' [ <span class="token operator">]</span> <span class="token operator">)</span> ] component <a href="#grammar-rule--parametrized-initialize-node">'parametrized initialize node'</a>
 		'<span class="token string">state switch</span>' [ <span class="token operator">switch</span> ]
 			'<span class="token string">type</span>' stategroup (
 				'<span class="token string">parameter</span>'
@@ -2747,7 +2747,7 @@ $                // select variable
 			'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 		'<span class="token string">entry</span>'
 			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
-			'<span class="token string">key path</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>'] group (
+			'<span class="token string">key path</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] group (
 				'<span class="token string">type</span>' stategroup (
 					'<span class="token string">node</span>'
 						'<span class="token string">path</span>' component <a href="#grammar-rule--singular-node-path">'singular node path'</a>

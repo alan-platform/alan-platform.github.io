@@ -212,7 +212,7 @@ type: grammar
 '<span class="token string">filter expression</span>'
 	'<span class="token string">type</span>' stategroup (
 		'<span class="token string">wildcard</span>' [ <span class="token operator">*</span> ]
-		'<span class="token string">alternatives</span>' [ <span class="token operator">[</span>,'<span class="token string"> ]</span>' ]
+		'<span class="token string">alternatives</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
 			'<span class="token string">alternatives</span>' collection ( )
 	)
 	'<span class="token string">has more steps</span>' stategroup (
