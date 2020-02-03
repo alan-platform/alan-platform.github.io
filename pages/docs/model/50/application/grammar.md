@@ -1565,7 +1565,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
     'ID': text
     // a link to a 'Products' item from the catalog provider:
     'Product': text ~> ^ .'Products'
-    'Product found':= stategroup = any |>'Product' (
+    'Product found':= stategroup = any >'Product' (
         | true  = 'Yes' ( 'Product' => $ )
         | false = 'No'
     ) (
