@@ -20,14 +20,20 @@ resolution or larger to be crsip on high dpi displays.
 {
 	"include data in error log": true // include (potentially sensitive) data in error reports.
 }
-```
-/'logo.png'   ( = optional )
-/'logo-sideways.png' ( = optional )
-/'favicon.ico'   ( = required )
-/'config.json' ( = optional )
-/'controls' (
-	/'bundle.js' ( = required )
-	/'styles.css' ( = required )
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+/'<span class="token string">logo.png</span>'   ( = optional )
+/'<span class="token string">logo-sideways.png</span>' ( = optional )
+/'<span class="token string">favicon.ico</span>'   ( = required )
+/'<span class="token string">config.json</span>' ( = optional )
+/'<span class="token string">controls</span>' (
+	/'<span class="token string">bundle.js</span>' ( = required )
+	/'<span class="token string">styles.css</span>' ( = required )
 )
-```
-```
+</pre>
+</div>
+</div>
+</pre>
+</div>
+</div>

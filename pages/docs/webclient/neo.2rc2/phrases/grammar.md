@@ -7,7 +7,14 @@ type: grammar
 ---
 
 
-```js
-'phrases' collection indent ( )
-```
-```
+{: #grammar-rule--phrases }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">phrases</span>' collection indent ( )
+</pre>
+</div>
+</div>
+</pre>
+</div>
+</div>
