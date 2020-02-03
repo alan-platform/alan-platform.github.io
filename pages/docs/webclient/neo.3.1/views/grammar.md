@@ -7,512 +7,607 @@ type: grammar
 ---
 
 
-```js
-'dependencies' collection ( [ 'using' ] )
-```
+{: #grammar-rule--dependencies }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dependencies</span>' collection ( [ <span class="token operator">using</span> ] )
+</pre>
+</div>
+</div>
 
-```js
-'views' collection indent (
-	'translate title' stategroup (
-		'no'
-		'yes'
-			'title' [ 'as' ] reference
+{: #grammar-rule--views }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">views</span>' collection indent (
+	'<span class="token string">translate title</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">title</span>' [ <span class="token operator">as</span> ] reference
 	)
-	'start context' component 'model context'
-	'node type' ['(', ')'] component 'gui node type path'
-	'queries' collection ( [ 'query' ]
-		'tag' component 'context'
-		'context' [ 'from' ] stategroup (
-			'node'
-				'switch' stategroup (
-					'current'
-						'query context' component 'query property context path'
-					'root' [ 'root' ]
+	'<span class="token string">start context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+	'<span class="token string">node type</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--gui-node-type-path">'gui node type path'</a>
+	'<span class="token string">queries</span>' collection ( [ <span class="token operator">query</span> ]
+		'<span class="token string">tag</span>' component <a href="#grammar-rule--context">'context'</a>
+		'<span class="token string">context</span>' [ <span class="token operator">from</span> ] stategroup (
+			'<span class="token string">node</span>'
+				'<span class="token string">switch</span>' stategroup (
+					'<span class="token string">current</span>'
+						'<span class="token string">query context</span>' component <a href="#grammar-rule--query-property-context-path">'query property context path'</a>
+					'<span class="token string">root</span>' [ <span class="token operator">root</span> ]
 				)
-				'path' [ 'path' ] component 'query path'
-			'candidates' [ 'candidates' 'of' ]
-				'of' stategroup (
-					'reference'
-						'type' stategroup (
-							'text property'
-								'property context' component 'query property context path'
-								'property' [ 'reference:' ] reference
-							'text link property'
-								'property context' component 'query property context path'
-								'property' [ 'text' 'link:' ] reference
+				'<span class="token string">path</span>' [ <span class="token operator">path</span> ] component <a href="#grammar-rule--query-path">'query path'</a>
+			'<span class="token string">candidates</span>' [ <span class="token operator">candidates</span> <span class="token operator">of</span> ]
+				'<span class="token string">of</span>' stategroup (
+					'<span class="token string">reference</span>'
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">text property</span>'
+								'<span class="token string">property context</span>' component <a href="#grammar-rule--query-property-context-path">'query property context path'</a>
+								'<span class="token string">property</span>' [ <span class="token operator">reference:</span> ] reference
+							'<span class="token string">text link property</span>'
+								'<span class="token string">property context</span>' component <a href="#grammar-rule--query-property-context-path">'query property context path'</a>
+								'<span class="token string">property</span>' [ <span class="token operator">text</span> <span class="token operator">link:</span> ] reference
 						)
-					'command' [ 'command' ]
-						'property context' component 'query property context path'
-						'command property' reference
-						'command parameter context' component 'command parameters type path'
-						'type' stategroup (
-							'reference'
-								'reference parameter' [ 'reference:' ] reference
+					'<span class="token string">command</span>' [ <span class="token operator">command</span> ]
+						'<span class="token string">property context</span>' component <a href="#grammar-rule--query-property-context-path">'query property context path'</a>
+						'<span class="token string">command property</span>' reference
+						'<span class="token string">command parameter context</span>' component <a href="#grammar-rule--command-parameters-type-path">'command parameters type path'</a>
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">reference</span>'
+								'<span class="token string">reference parameter</span>' [ <span class="token operator">reference:</span> ] reference
 						)
 				)
 		)
-		'todo filter' stategroup (
-			'yes' ['where' 'has-todo']
-				'path' ['(',')'] component 'conditional path'
-			'no'
+		'<span class="token string">todo filter</span>' stategroup (
+			'<span class="token string">yes</span>' [ <span class="token operator">where</span> <span class="token operator">has-todo</span> ]
+				'<span class="token string">path</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+			'<span class="token string">no</span>'
 		)
-		'maximum amount of entries' [ 'limit:' ] number
-		'has columns' stategroup has 'columns' first 'first' 'yes' 'no'
-		'columns' [ '[' , ']' ] collection order 'column order' indent (
-			'has successor' stategroup has successor 'successor' 'yes' 'no'
-			'name' reference
-			'column type' stategroup (
-				'id' [ 'id' ]
-				'content'
+		'<span class="token string">maximum amount of entries</span>' [ <span class="token operator">limit:</span> ] number
+		'<span class="token string">has columns</span>' stategroup has '<span class="token string">columns</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+		'<span class="token string">columns</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] collection order '<span class="token string">column order</span>' indent (
+			'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+			'<span class="token string">name</span>' reference
+			'<span class="token string">column type</span>' stategroup (
+				'<span class="token string">id</span>' [ <span class="token operator">id</span> ]
+				'<span class="token string">content</span>'
 			)
-			'path' [ '->' ] component 'conditional path'
-			'type' [ ':' ] stategroup (
-				'text'
-					'text' [ 'text' ] reference
-					'filter' stategroup (
-						'none'
-						'simple' [ 'filter' ]
-							'criteria' text
-						'current id path' [ 'filter' ]
-							'constraint' component 'node constraint'
+			'<span class="token string">path</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+			'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+				'<span class="token string">text</span>'
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ] reference
+					'<span class="token string">filter</span>' stategroup (
+						'<span class="token string">none</span>'
+						'<span class="token string">simple</span>' [ <span class="token operator">filter</span> ]
+							'<span class="token string">criteria</span>' text
+						'<span class="token string">current id path</span>' [ <span class="token operator">filter</span> ]
+							'<span class="token string">constraint</span>' component <a href="#grammar-rule--node-constraint">'node constraint'</a>
 					)
-				'file' [ 'file' ]
-					'file' reference
-					'has filter' stategroup (
-						'no'
+				'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+					'<span class="token string">file</span>' reference
+					'<span class="token string">has filter</span>' stategroup (
+						'<span class="token string">no</span>'
 					)
-				'number'
-					'number' [ 'number' ] reference
-					'unit' text
-					'has decimal point translation' stategroup (
-						'yes'[ '<<' ]
-						'translation' number
-						'no'
+				'<span class="token string">number</span>'
+					'<span class="token string">number</span>' [ <span class="token operator">number</span> ] reference
+					'<span class="token string">unit</span>' text
+					'<span class="token string">has decimal point translation</span>' stategroup (
+						'<span class="token string">yes</span>'[ <span class="token operator"><<</span> ]
+						'<span class="token string">translation</span>' number
+						'<span class="token string">no</span>'
 					)
-					'has filter' stategroup (
-						'no'
-						'yes' [ 'filter' ]
-							'operator selected' stategroup (
-								'no'
-								'yes'
-									'operator' stategroup (
-										'smaller than' [ '<' ]
-										'smaller than or equal to' [ '<=' ]
-										'equal to' [ '=' ]
-										'greater than or equal to' [ '>=' ]
-										'greater than' [ '>' ]
+					'<span class="token string">has filter</span>' stategroup (
+						'<span class="token string">no</span>'
+						'<span class="token string">yes</span>' [ <span class="token operator">filter</span> ]
+							'<span class="token string">operator selected</span>' stategroup (
+								'<span class="token string">no</span>'
+								'<span class="token string">yes</span>'
+									'<span class="token string">operator</span>' stategroup (
+										'<span class="token string">smaller than</span>' [ <span class="token operator"><</span> ]
+										'<span class="token string">smaller than or equal to</span>' [ <span class="token operator"><=</span> ]
+										'<span class="token string">equal to</span>' [ <span class="token operator">=</span> ]
+										'<span class="token string">greater than or equal to</span>' [ <span class="token operator">>=</span> ]
+										'<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
 									)
 							)
-							'initial criteria' stategroup (
-								'none' [ 'none' ]
-								'yes'
-									'source' stategroup (
-										'now' [ 'now' ]
-											'has offset' stategroup (
-												'none'
-												'yes'
-													'offset' [ '+' ] number
+							'<span class="token string">initial criteria</span>' stategroup (
+								'<span class="token string">none</span>' [ <span class="token operator">none</span> ]
+								'<span class="token string">yes</span>'
+									'<span class="token string">source</span>' stategroup (
+										'<span class="token string">now</span>' [ <span class="token operator">now</span> ]
+											'<span class="token string">has offset</span>' stategroup (
+												'<span class="token string">none</span>'
+												'<span class="token string">yes</span>'
+													'<span class="token string">offset</span>' [ <span class="token operator">+</span> ] number
 											)
-										'static'
-											'number' number //fixme nest criteria in operator selected
+										'<span class="token string">static</span>'
+											'<span class="token string">number</span>' number //fixme nest criteria in operator selected
 									)
 							)
 						)
-				'state group'
-					'state group' [ 'stategroup' ] reference
-					'has filter' stategroup (
-						'no'
-						'yes' [ 'filter' ]
-							'filter enabled' stategroup (
-								'yes' [ 'enabled' ]
-								'no' [ 'disabled' ]
+				'<span class="token string">state group</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ] reference
+					'<span class="token string">has filter</span>' stategroup (
+						'<span class="token string">no</span>'
+						'<span class="token string">yes</span>' [ <span class="token operator">filter</span> ]
+							'<span class="token string">filter enabled</span>' stategroup (
+								'<span class="token string">yes</span>' [ <span class="token operator">enabled</span> ]
+								'<span class="token string">no</span>' [ <span class="token operator">disabled</span> ]
 							)
-							'states' [ '?' ] collection indent ( ['|']
-								'is selected' stategroup (
-									'no'
-									'yes' [ 'selected' ]
+							'<span class="token string">states</span>' [ <span class="token operator">?</span> ] collection indent ( [ <span class="token operator">|</span> ]
+								'<span class="token string">is selected</span>' stategroup (
+									'<span class="token string">no</span>'
+									'<span class="token string">yes</span>' [ <span class="token operator">selected</span> ]
 								)
 							)
 					)
 			)
 		)
 	)
-	'context switch' stategroup (
-		'no switch' [ '=' ]
-		'switch' [ '==' ]
-			'widget context constraint' component 'widget context constraint'
+	'<span class="token string">context switch</span>' stategroup (
+		'<span class="token string">no switch</span>' [ <span class="token operator">=</span> ]
+		'<span class="token string">switch</span>' [ <span class="token operator">==</span> ]
+			'<span class="token string">widget context constraint</span>' component <a href="#grammar-rule--widget-context-constraint">'widget context constraint'</a>
 	)
-	'widget' reference
-	'configuration node' component 'gui widget configuration node'
+	'<span class="token string">widget</span>' reference
+	'<span class="token string">configuration node</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'node constraint'
-```
+{: #grammar-rule--node-constraint }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node constraint</span>'
+</pre>
+</div>
+</div>
 
-```js
-'model context'
-	'context' component 'context'
-```
+{: #grammar-rule--model-context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">model context</span>'
+	'<span class="token string">context</span>' component <a href="#grammar-rule--context">'context'</a>
+</pre>
+</div>
+</div>
 
-```js
-'context'
-```
+{: #grammar-rule--context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context</span>'
+</pre>
+</div>
+</div>
 
-```js
-'command parameters type path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state group'
-					'property' [ '?' ] reference
-					'state' [ '|' ] reference
-				'collection'
-					'property' [ '.' ] reference
+{: #grammar-rule--command-parameters-type-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">command parameters type path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state group</span>'
+					'<span class="token string">property</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">collection</span>'
+					'<span class="token string">property</span>' [ <span class="token operator">.</span> ] reference
 			)
-			'tail' component 'command parameters type path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--command-parameters-type-path">'command parameters type path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'gui node type path step'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'collection'
-					'collection' [ '.' ] reference
-				'group'
-					'group' [ '+' ] reference
+{: #grammar-rule--gui-node-type-path-step }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">gui node type path step</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">collection</span>'
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
 			)
-			'tail' component 'gui node type path step'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--gui-node-type-path-step">'gui node type path step'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'query property context path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
-				'group'
-					'group' [ '+' ] reference
-				'collection'
-					'collection' ['.'] reference
+{: #grammar-rule--query-property-context-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">query property context path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+				'<span class="token string">collection</span>'
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
 			)
-			'tail' component 'query property context path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--query-property-context-path">'query property context path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'gui node type path'
-	'steps' component 'gui node type path step'
-```
+{: #grammar-rule--gui-node-type-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">gui node type path</span>'
+	'<span class="token string">steps</span>' component <a href="#grammar-rule--gui-node-type-path-step">'gui node type path step'</a>
+</pre>
+</div>
+</div>
 
-```js
-'gui widget configuration list'
-	'has steps' stategroup (
-		'no' [ ']' ]
-		'yes'
-			'configuration' component 'gui widget configuration node'
-			'tail' component 'gui widget configuration list'
+{: #grammar-rule--gui-widget-configuration-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">gui widget configuration list</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>' [ <span class="token operator">]</span> ]
+		'<span class="token string">yes</span>'
+			'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--gui-widget-configuration-list">'gui widget configuration list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'view context parent path'
-	'type' stategroup (
-		'state parent' [ '?^' ]
-		'collection parent' [ '.^' ]
-		'group parent' [ '+^' ]
+{: #grammar-rule--view-context-parent-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">view context parent path</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">state parent</span>' [ <span class="token operator">?^</span> ]
+		'<span class="token string">collection parent</span>' [ <span class="token operator">.^</span> ]
+		'<span class="token string">group parent</span>' [ <span class="token operator">+^</span> ]
 	)
-	'has tail' stategroup (
-		'no'
-		'yes'
-			'tail' component 'view context parent path'
+	'<span class="token string">has tail</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--view-context-parent-path">'view context parent path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'view context path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'query entry' [ 'entry' ]
-				'parent'
-					'path' component 'view context parent path'
-				'linked text node' [ ':>' ]
-				'reference' [ '>' ]
-				'command reference' [ '/>' ]
-				'entity' [ '$' ]
+{: #grammar-rule--view-context-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">view context path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">query entry</span>' [ <span class="token operator">entry</span> ]
+				'<span class="token string">parent</span>'
+					'<span class="token string">path</span>' component <a href="#grammar-rule--view-context-parent-path">'view context parent path'</a>
+				'<span class="token string">linked text node</span>' [ <span class="token operator">:></span> ]
+				'<span class="token string">reference</span>' [ <span class="token operator">></span> ]
+				'<span class="token string">command reference</span>' [ <span class="token operator">/></span> ]
+				'<span class="token string">entity</span>' [ <span class="token operator">$</span> ]
 			)
 	)
-	'widget context constraint'
-```
+	'<span class="token string">widget context constraint</span>'
+</pre>
+</div>
+</div>
 
-```js
-'gui widget configuration node' [ '{' , '}' ]
-	'configuration' collection indent (
-		'context switch' stategroup (
-			'no switch'
-			'switch' [ '$' ]
+{: #grammar-rule--gui-widget-configuration-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">gui widget configuration node</span>' [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">configuration</span>' collection indent (
+		'<span class="token string">context switch</span>' stategroup (
+			'<span class="token string">no switch</span>'
+			'<span class="token string">switch</span>' [ <span class="token operator">$</span> ]
 		)
-		'type' stategroup (
-			'widget'
-				'context switch' stategroup (
-					'no switch' [ '=' ]
-					'switch' [ '==' ]
-						'widget context constraint' component 'widget context constraint'
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">widget</span>'
+				'<span class="token string">context switch</span>' stategroup (
+					'<span class="token string">no switch</span>' [ <span class="token operator">=</span> ]
+					'<span class="token string">switch</span>' [ <span class="token operator">==</span> ]
+						'<span class="token string">widget context constraint</span>' component <a href="#grammar-rule--widget-context-constraint">'widget context constraint'</a>
 				)
-				'widget' reference
-				'configuration' component 'gui widget configuration node'
-			'window'
-				'window' [ 'window' ] reference
-				'configuration' component 'gui widget configuration node'
-			'view'
-				'render' stategroup (
-					'inline' [ ':' 'inline' 'view' ]
-					'in window'[ ':' 'open' 'view' ]
-						'window' [ '@' ] reference
+				'<span class="token string">widget</span>' reference
+				'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+			'<span class="token string">window</span>'
+				'<span class="token string">window</span>' [ <span class="token operator">window</span> ] reference
+				'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+			'<span class="token string">view</span>'
+				'<span class="token string">render</span>' stategroup (
+					'<span class="token string">inline</span>' [ <span class="token operator">:</span> <span class="token operator">inline</span> <span class="token operator">view</span> ]
+					'<span class="token string">in window</span>'[ <span class="token operator">:</span> <span class="token operator">open</span> <span class="token operator">view</span> ]
+						'<span class="token string">window</span>' [ <span class="token operator">@</span> ] reference
 				)
-				'using views'  stategroup (
-					'internal'
-					'external' [ 'from' ]
-						'views' reference
+				'<span class="token string">using views</span>'  stategroup (
+					'<span class="token string">internal</span>'
+					'<span class="token string">external</span>' [ <span class="token operator">from</span> ]
+						'<span class="token string">views</span>' reference
 				)
-				'view context' component 'view context path'
-				'view' [ ':' ] reference
-			'configuration' [ ':' ]
-				'type' stategroup (
-					'number'
-						'source' stategroup (
-							'now' [ 'now' ]
-								'has offset' stategroup (
-									'none'
-									'yes'
-										'offset' [ '+' ] number
+				'<span class="token string">view context</span>' component <a href="#grammar-rule--view-context-path">'view context path'</a>
+				'<span class="token string">view</span>' [ <span class="token operator">:</span> ] reference
+			'<span class="token string">configuration</span>' [ <span class="token operator">:</span> ]
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">number</span>'
+						'<span class="token string">source</span>' stategroup (
+							'<span class="token string">now</span>' [ <span class="token operator">now</span> ]
+								'<span class="token string">has offset</span>' stategroup (
+									'<span class="token string">none</span>'
+									'<span class="token string">yes</span>'
+										'<span class="token string">offset</span>' [ <span class="token operator">+</span> ] number
 								)
-							'static'
-								'number' number
+							'<span class="token string">static</span>'
+								'<span class="token string">number</span>' number
 						)
-					'text'
-						'type' stategroup (
-							'static'
-								'value' text
-							'phrase'
-								'value' reference
+					'<span class="token string">text</span>'
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">static</span>'
+								'<span class="token string">value</span>' text
+							'<span class="token string">phrase</span>'
+								'<span class="token string">value</span>' reference
 						)
-					'list'
-						'list' [ '[' ] component 'gui widget configuration list'
-					'state group'
-						'state' reference
-						'configuration' component 'gui widget configuration node'
+					'<span class="token string">list</span>'
+						'<span class="token string">list</span>' [ <span class="token operator">[</span> ] component <a href="#grammar-rule--gui-widget-configuration-list">'gui widget configuration list'</a>
+					'<span class="token string">state group</span>'
+						'<span class="token string">state</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
 				)
-			'model binding' [ '::' ]
-				'type' stategroup (
-					'window' [ 'window' ]
-						'window' reference
-						'configuration' component 'gui widget configuration node'
-					'entity' [ 'entity' ]
-						'context' component 'model context'
-						'configuration' component 'gui widget configuration node'
-					'current node' [ 'node' ]
-						'configuration' component 'gui widget configuration node'
-					'collection' [ 'collection' ]
-						'property path' component 'model binding property path'
-						'collection' [ '.' ] reference
-						'collection context' component 'model context'
-						'configuration' component 'gui widget configuration node'
-					'query' [ 'query' ]
-						'query context' stategroup (
-							'node'
-								'switch' stategroup (
-									'root' [ 'on' 'root' ]
-										'query' reference
-									'current node'
-										'property path' component 'model binding property path'
-										'query' reference
+			'<span class="token string">model binding</span>' [ <span class="token operator">::</span> ]
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">window</span>' [ <span class="token operator">window</span> ]
+						'<span class="token string">window</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">entity</span>' [ <span class="token operator">entity</span> ]
+						'<span class="token string">context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">current node</span>' [ <span class="token operator">node</span> ]
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+						'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+						'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+						'<span class="token string">collection context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">query</span>' [ <span class="token operator">query</span> ]
+						'<span class="token string">query context</span>' stategroup (
+							'<span class="token string">node</span>'
+								'<span class="token string">switch</span>' stategroup (
+									'<span class="token string">root</span>' [ <span class="token operator">on</span> <span class="token operator">root</span> ]
+										'<span class="token string">query</span>' reference
+									'<span class="token string">current node</span>'
+										'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+										'<span class="token string">query</span>' reference
 								)
-							'candidates' [ 'candidates' ]
-								'query' reference
+							'<span class="token string">candidates</span>' [ <span class="token operator">candidates</span> ]
+								'<span class="token string">query</span>' reference
 						)
-						'has refresh interval' stategroup (
-							'no'
-							'yes' [ 'refresh:' ]
-								'interval' number
+						'<span class="token string">has refresh interval</span>' stategroup (
+							'<span class="token string">no</span>'
+							'<span class="token string">yes</span>' [ <span class="token operator">refresh:</span> ]
+								'<span class="token string">interval</span>' number
 						)
-						'configuration' component 'gui widget configuration node'
-					'group'
-						'group context' component 'model context'
-						'group' [ 'group' ] reference
-						'configuration' component 'gui widget configuration node'
-					'state group' [ 'stategroup' ]
-						'property path' component 'model binding property path'
-						'state group' reference
-						'has states' stategroup has 'states' first 'first' 'yes' 'no'
-						'states' [ '(' , ')' ] collection order 'view order' indent (
-							'state context' component 'model context'
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'configuration' [ '->' ] component 'gui widget configuration node'
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">group</span>'
+						'<span class="token string">group context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">group</span>' [ <span class="token operator">group</span> ] reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+						'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+						'<span class="token string">state group</span>' reference
+						'<span class="token string">has states</span>' stategroup has '<span class="token string">states</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+						'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">view order</span>' indent (
+							'<span class="token string">state context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">configuration</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
 						)
-					'command' [ 'command' ]
-						'command context' component 'model context'
-						'property path' component 'model binding property path'
-						'command' reference
-						'configuration' component 'gui widget configuration node'
-					'number' [ 'number' ]
-						'number context' component 'model context'
-						'property path' component 'model binding property path'
-						'property' reference
-						'conversion' component 'number conversion'
-						'configuration' component 'gui widget configuration node'
-					'text' [ 'text' ]
-						'text context' component 'model context'
-						'property path' component 'model binding property path'
-						'property' reference
-						'configuration' component 'gui widget configuration node'
-					'file' [ 'file' ]
-						'file context' component 'model context'
-						'property path' component 'model binding property path'
-						'property' reference
-						'configuration' component 'gui widget configuration node'
-					'command parameter text' [ '>>' 'text' ]
-						'has constraint' stategroup (
-							'yes' [ 'reference' ]
-								'reference context' component 'model context'
-							'no'
+					'<span class="token string">command</span>' [ <span class="token operator">command</span> ]
+						'<span class="token string">command context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+						'<span class="token string">command</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+						'<span class="token string">number context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+						'<span class="token string">property</span>' reference
+						'<span class="token string">conversion</span>' component <a href="#grammar-rule--number-conversion">'number conversion'</a>
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+						'<span class="token string">text context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+						'<span class="token string">property</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+						'<span class="token string">file context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">property path</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
+						'<span class="token string">property</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">command parameter text</span>' [ <span class="token operator">>></span> <span class="token operator">text</span> ]
+						'<span class="token string">has constraint</span>' stategroup (
+							'<span class="token string">yes</span>' [ <span class="token operator">reference</span> ]
+								'<span class="token string">reference context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+							'<span class="token string">no</span>'
 						)
-						'property' reference
-						'configuration' component 'gui widget configuration node'
-					'command parameter file' [ '>>' 'file' ]
-						'property' reference
-						'configuration' component 'gui widget configuration node'
-					'command parameter number' [ '>>' 'number' ]
-						'property' reference
-						'conversion' component 'number conversion'
-						'configuration' component 'gui widget configuration node'
-					'command parameter state group' [ '>>' 'stategroup' ]
-						'property' reference
-						'has states' stategroup has 'states' first 'first' 'yes' 'no'
-						'states' collection order 'view order' indent ( [ '|' ]
-							'state context' component 'model context'
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'configuration' component 'gui widget configuration node'
+						'<span class="token string">property</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">command parameter file</span>' [ <span class="token operator">>></span> <span class="token operator">file</span> ]
+						'<span class="token string">property</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">command parameter number</span>' [ <span class="token operator">>></span> <span class="token operator">number</span> ]
+						'<span class="token string">property</span>' reference
+						'<span class="token string">conversion</span>' component <a href="#grammar-rule--number-conversion">'number conversion'</a>
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">command parameter state group</span>' [ <span class="token operator">>></span> <span class="token operator">stategroup</span> ]
+						'<span class="token string">property</span>' reference
+						'<span class="token string">has states</span>' stategroup has '<span class="token string">states</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+						'<span class="token string">states</span>' collection order '<span class="token string">view order</span>' indent ( [ <span class="token operator">|</span> ]
+							'<span class="token string">state context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
 						)
-					'command parameter collection' [ '>>' 'collection' ]
-						'collection context' component 'model context'
-						'property' reference
-						'configuration' component 'gui widget configuration node'
-					'query number'
-						'number' [ 'query' 'number' ] reference
-						'conversion' component 'number conversion'
-						'configuration' component 'gui widget configuration node'
-					'query text'
-						'text' [ 'query' 'text' ] reference
-						'configuration' component 'gui widget configuration node'
-					'query file'
-						'file' [ 'query' 'file' ] reference
-						'configuration' component 'gui widget configuration node'
+					'<span class="token string">command parameter collection</span>' [ <span class="token operator">>></span> <span class="token operator">collection</span> ]
+						'<span class="token string">collection context</span>' component <a href="#grammar-rule--model-context">'model context'</a>
+						'<span class="token string">property</span>' reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">query number</span>'
+						'<span class="token string">number</span>' [ <span class="token operator">query</span> <span class="token operator">number</span> ] reference
+						'<span class="token string">conversion</span>' component <a href="#grammar-rule--number-conversion">'number conversion'</a>
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">query text</span>'
+						'<span class="token string">text</span>' [ <span class="token operator">query</span> <span class="token operator">text</span> ] reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
+					'<span class="token string">query file</span>'
+						'<span class="token string">file</span>' [ <span class="token operator">query</span> <span class="token operator">file</span> ] reference
+						'<span class="token string">configuration</span>' component <a href="#grammar-rule--gui-widget-configuration-node">'gui widget configuration node'</a>
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'number conversion'
-	'has decimal point translation' stategroup (
-		'yes'[ '<<' ]
-			'translation' number
-		'no'
+{: #grammar-rule--number-conversion }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number conversion</span>'
+	'<span class="token string">has decimal point translation</span>' stategroup (
+		'<span class="token string">yes</span>'[ <span class="token operator"><<</span> ]
+			'<span class="token string">translation</span>' number
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'singular path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'collection parent' [ '.^' ]
-				'group parent' [ '+^' ]
-				'state parent' [ '?^' ]
-				'group'
-					'group' [ '+' ] reference
-				'reference'
-					'reference' [ '>' ] reference
-				'reference output'
-					'reference' ['>'] reference
-					'output parameter' ['$'] reference
-				'state constraint'
-					'input parameter' [ '&' ] reference
-				'state group output parameter'
-					'state group' ['?'] reference
-					'output parameter' ['$'] reference
+{: #grammar-rule--singular-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">singular path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">collection parent</span>' [ <span class="token operator">.^</span> ]
+				'<span class="token string">group parent</span>' [ <span class="token operator">+^</span> ]
+				'<span class="token string">state parent</span>' [ <span class="token operator">?^</span> ]
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+				'<span class="token string">reference</span>'
+					'<span class="token string">reference</span>' [ <span class="token operator">></span> ] reference
+				'<span class="token string">reference output</span>'
+					'<span class="token string">reference</span>' [ <span class="token operator">></span> ] reference
+					'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
+				'<span class="token string">state constraint</span>'
+					'<span class="token string">input parameter</span>' [ <span class="token operator">&</span> ] reference
+				'<span class="token string">state group output parameter</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">output parameter</span>' [ <span class="token operator">$</span> ] reference
 			)
-			'tail' component 'singular path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'conditional path'
-	'head' component 'singular path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
+{: #grammar-rule--conditional-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional path</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 			)
-			'tail' component 'conditional path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'model binding property path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'group'
-					'group' [ '+' ] reference
+{: #grammar-rule--model-binding-property-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">model binding property path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
 			)
-			'tail' component 'model binding property path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--model-binding-property-path">'model binding property path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'query path step'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'group'
-					'group' [ '+' ] reference
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '|' ] reference
+{: #grammar-rule--query-path-step }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">query path step</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 			)
-			'tail' component 'query path step'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--query-path-step">'query path step'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'query path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'head' component 'query path step'
-			'collection' [ '.' ] reference
-			'tail' component 'query path'
+{: #grammar-rule--query-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">query path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">head</span>' component <a href="#grammar-rule--query-path-step">'query path step'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--query-path">'query path'</a>
 	)
-```
+</pre>
+</div>
+</div>

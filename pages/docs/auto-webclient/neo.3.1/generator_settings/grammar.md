@@ -8,372 +8,452 @@ type: grammar
 
 Global settings for the user interface.
 
-```js
-'application creator' ['application' 'creator:'] text
-```
+{: #grammar-rule--application-creator }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">application creator</span>' [ <span class="token operator">application</span> <span class="token operator">creator:</span> ] text
+</pre>
+</div>
+</div>
 
-```js
-'application name' ['application' 'name:'] text
-```
+{: #grammar-rule--application-name }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">application name</span>' [ <span class="token operator">application</span> <span class="token operator">name:</span> ] text
+</pre>
+</div>
+</div>
 
-```js
-'allow anonymous user' [ 'anonymous' 'login:' ] stategroup (
-	'no' [ 'disabled' ]
-	'yes' [ 'enabled' ]
+{: #grammar-rule--allow-anonymous-user }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">allow anonymous user</span>' [ <span class="token operator">anonymous</span> <span class="token operator">login:</span> ] stategroup (
+	'<span class="token string">no</span>' [ <span class="token operator">disabled</span> ]
+	'<span class="token string">yes</span>' [ <span class="token operator">enabled</span> ]
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'enable csv actions' [ 'csv' 'actions:' ] stategroup (
-	'no' [ 'disabled' ]
-	'yes' [ 'enabled' ]
+{: #grammar-rule--enable-csv-actions }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">enable csv actions</span>' [ <span class="token operator">csv</span> <span class="token operator">actions:</span> ] stategroup (
+	'<span class="token string">no</span>' [ <span class="token operator">disabled</span> ]
+	'<span class="token string">yes</span>' [ <span class="token operator">enabled</span> ]
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'report limit' [ 'report' 'limit:' ] number
-```
+{: #grammar-rule--report-limit }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">report limit</span>' [ <span class="token operator">report</span> <span class="token operator">limit:</span> ] number
+</pre>
+</div>
+</div>
 
-```js
-'announcement title' [ 'announcement:' ] text
-```
+{: #grammar-rule--announcement-title }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">announcement title</span>' [ <span class="token operator">announcement:</span> ] text
+</pre>
+</div>
+</div>
 
-```js
-'announcements' [ '[' , ']' ] collection indent ( )
-```
+{: #grammar-rule--announcements }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">announcements</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] collection indent ( )
+</pre>
+</div>
+</div>
 
-```js
-'custom color theme' stategroup (
-	'no'
-	'yes' [ 'color' 'theme:' ]
-		'foreground' [ 'foreground:' ] text
-		'background' [ 'background:' ] text
-		'brand' [ 'brand:' ] text
-		'link' [ 'link:' ] text
-		'accent' [ 'accent:' ] text
-		'success' [ 'success:' ] text
-		'warning' [ 'warning:' ] text
-		'error' [ 'error:' ] text
-		'blue' [ 'blue:' ] text
-		'orange' [ 'orange:' ] text
-		'green' [ 'green:' ] text
-		'red' [ 'red:' ] text
-		'purple' [ 'purple:' ] text
-		'teal' [ 'teal:' ] text
+{: #grammar-rule--custom-color-theme }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">custom color theme</span>' stategroup (
+	'<span class="token string">no</span>'
+	'<span class="token string">yes</span>' [ <span class="token operator">color</span> <span class="token operator">theme:</span> ]
+		'<span class="token string">foreground</span>' [ <span class="token operator">foreground:</span> ] text
+		'<span class="token string">background</span>' [ <span class="token operator">background:</span> ] text
+		'<span class="token string">brand</span>' [ <span class="token operator">brand:</span> ] text
+		'<span class="token string">link</span>' [ <span class="token operator">link:</span> ] text
+		'<span class="token string">accent</span>' [ <span class="token operator">accent:</span> ] text
+		'<span class="token string">success</span>' [ <span class="token operator">success:</span> ] text
+		'<span class="token string">warning</span>' [ <span class="token operator">warning:</span> ] text
+		'<span class="token string">error</span>' [ <span class="token operator">error:</span> ] text
+		'<span class="token string">blue</span>' [ <span class="token operator">blue:</span> ] text
+		'<span class="token string">orange</span>' [ <span class="token operator">orange:</span> ] text
+		'<span class="token string">green</span>' [ <span class="token operator">green:</span> ] text
+		'<span class="token string">red</span>' [ <span class="token operator">red:</span> ] text
+		'<span class="token string">purple</span>' [ <span class="token operator">purple:</span> ] text
+		'<span class="token string">teal</span>' [ <span class="token operator">teal:</span> ] text
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'language' [ 'language:' ] text
-```
+{: #grammar-rule--language }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">language</span>' [ <span class="token operator">language:</span> ] text
+</pre>
+</div>
+</div>
 
-```js
-'engine language' [ 'engine' 'language:' ] stategroup (
-	'english' [ 'english' ]
-	'dutch' [ 'dutch' ]
+{: #grammar-rule--engine-language }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">engine language</span>' [ <span class="token operator">engine</span> <span class="token operator">language:</span> ] stategroup (
+	'<span class="token string">english</span>' [ <span class="token operator">english</span> ]
+	'<span class="token string">dutch</span>' [ <span class="token operator">dutch</span> ]
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'has dashboard' stategroup (
-	'yes'
-		'dashboard' ['dashboard:'] component 'dashboard'
-	'no'
+{: #grammar-rule--has-dashboard }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">has dashboard</span>' stategroup (
+	'<span class="token string">yes</span>'
+		'<span class="token string">dashboard</span>' [ <span class="token operator">dashboard:</span> ] component <a href="#grammar-rule--dashboard">'dashboard'</a>
+	'<span class="token string">no</span>'
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'has steps' stategroup (
-	'no'
-	'yes'
-		'type' stategroup (
-			'group'
-				'group' ['+'] reference
+{: #grammar-rule--has-steps }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">has steps</span>' stategroup (
+	'<span class="token string">no</span>'
+	'<span class="token string">yes</span>'
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">group</span>'
+				'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
 		)
-		'tail' component 'singular path'
+		'<span class="token string">tail</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'head' component 'singular path'
-```
+{: #grammar-rule--head }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">head</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'has steps' stategroup (
-	'no'
-	'yes'
-		'type' stategroup (
-			'state'
-				'state group' ['?'] reference
-				'state' ['|'] reference
+{: #grammar-rule--has-steps }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">has steps</span>' stategroup (
+	'<span class="token string">no</span>'
+	'<span class="token string">yes</span>'
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">state</span>'
+				'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+				'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 		)
-	'tail' component 'conditional path'
-```
+	'<span class="token string">tail</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+</pre>
+</div>
+</div>
 
-```js
-'has steps' stategroup (
-	'no'
-	'yes'
-		'head' component 'conditional path'
-		'collection' ['.'] reference
-		'tail' component 'collection path'
+{: #grammar-rule--has-steps }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">has steps</span>' stategroup (
+	'<span class="token string">no</span>'
+	'<span class="token string">yes</span>'
+		'<span class="token string">head</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+		'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">tail</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
 )
-```
+</pre>
+</div>
+</div>
 ### Dashboard
 Dashboards use a grid layout. The grid needs to be configured with a cell width and cell height. Optionally a gap between cells can be configured.
 Widgets are placed on the grid with a coordinate and a size in cells. The upper left cell of the grid is at coordinate (1, 1).
 Optionally the size and margin of a widget can be explicitly set. Widgets with axes should be provided with a margin as the axes and labels are placed in the margin.
 Each widget has a context node, all paths are relative to this node.
 
-```js
-'dashboard'
-	'cell width' ['('] group (
-		'size' number
-		'unit' stategroup (
-			'pixels' ['px']
-			'font size' ['fs']
+{: #grammar-rule--dashboard }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dashboard</span>'
+	'<span class="token string">cell width</span>' [ <span class="token operator">(</span> ] group (
+		'<span class="token string">size</span>' number
+		'<span class="token string">unit</span>' stategroup (
+			'<span class="token string">pixels</span>' [ <span class="token operator">px</span> ]
+			'<span class="token string">font size</span>' [ <span class="token operator">fs</span> ]
 		)
 	)
-	'cell height' [','] group (
-		'size' number
-		'unit' stategroup (
-			'pixels' ['px']
-			'font size' ['fs']
+	'<span class="token string">cell height</span>' [ <span class="token operator">,</span> ] group (
+		'<span class="token string">size</span>' number
+		'<span class="token string">unit</span>' stategroup (
+			'<span class="token string">pixels</span>' [ <span class="token operator">px</span> ]
+			'<span class="token string">font size</span>' [ <span class="token operator">fs</span> ]
 		)
 	)
-	'grid gap' stategroup (
-		'yes' [',',')']
-			'size' number
-			'unit' stategroup (
-				'pixels' ['px']
-				'font size' ['fs']
+	'<span class="token string">grid gap</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span>, <span class="token operator">)</span> ]
+			'<span class="token string">size</span>' number
+			'<span class="token string">unit</span>' stategroup (
+				'<span class="token string">pixels</span>' [ <span class="token operator">px</span> ]
+				'<span class="token string">font size</span>' [ <span class="token operator">fs</span> ]
 			)
-		'no' [')']
+		'<span class="token string">no</span>' [ <span class="token operator">)</span> ]
 	)
-	'widgets' collection order 'order' (
-		'has successor' stategroup has successor 'successor' 'yes' 'no'
-		'x' ['('] number
-		'width' ['/'] number
-		'y' [','] number
-		'height' ['/',')'] number
-		'dimension' component 'dashboard ui dimension'
-		'margin' component 'dashboard ui margin'
-		'context path' component 'conditional path'
-		'graph type' [':'] stategroup (
-			'number' ['number']
-				'value' ['#'] reference
-				'size' stategroup (
-					'large'
-					'fixed' ['size:']
-						'number size' stategroup (
-							'large'
-							'fixed'
-								'value' number
+	'<span class="token string">widgets</span>' collection order '<span class="token string">order</span>' (
+		'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+		'<span class="token string">x</span>' [ <span class="token operator">(</span> ] number
+		'<span class="token string">width</span>' [ <span class="token operator">/</span> ] number
+		'<span class="token string">y</span>' [ <span class="token operator">,</span> ] number
+		'<span class="token string">height</span>' [ <span class="token operator">/</span>, <span class="token operator">)</span> ] number
+		'<span class="token string">dimension</span>' component <a href="#grammar-rule--dashboard-ui-dimension">'dashboard ui dimension'</a>
+		'<span class="token string">margin</span>' component <a href="#grammar-rule--dashboard-ui-margin">'dashboard ui margin'</a>
+		'<span class="token string">context path</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+		'<span class="token string">graph type</span>' [ <span class="token operator">:</span> ] stategroup (
+			'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+				'<span class="token string">value</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">size</span>' stategroup (
+					'<span class="token string">large</span>'
+					'<span class="token string">fixed</span>' [ <span class="token operator">size:</span> ]
+						'<span class="token string">number size</span>' stategroup (
+							'<span class="token string">large</span>'
+							'<span class="token string">fixed</span>'
+								'<span class="token string">value</span>' number
 						)
-						'unit size' stategroup (
-							'auto'
-							'fixed' [',']
-								'value' number
+						'<span class="token string">unit size</span>' stategroup (
+							'<span class="token string">auto</span>'
+							'<span class="token string">fixed</span>' [ <span class="token operator">,</span> ]
+								'<span class="token string">value</span>' number
 						)
 				)
-			'range'
-				'chart type' stategroup (
-					'progress bar' ['progress']
-					'gauge' ['gauge']
+			'<span class="token string">range</span>'
+				'<span class="token string">chart type</span>' stategroup (
+					'<span class="token string">progress bar</span>' [ <span class="token operator">progress</span> ]
+					'<span class="token string">gauge</span>' [ <span class="token operator">gauge</span> ]
 				)
-				'range start' ['ranges:'] stategroup (
-					'static'
-						'value' number
-					'dynamic'
-						'value' ['#'] reference
+				'<span class="token string">range start</span>' [ <span class="token operator">ranges:</span> ] stategroup (
+					'<span class="token string">static</span>'
+						'<span class="token string">value</span>' number
+					'<span class="token string">dynamic</span>'
+						'<span class="token string">value</span>' [ <span class="token operator">#</span> ] reference
 				)
-				'ranges' component 'dashboard ranges'
-				'value' ['value:''#'] reference
-			'pie chart' ['pie-chart']
-				'collection' component 'collection path'
-				'label path' ['label:'] component 'conditional path'
-				'label property' [':'] reference
-				'value path' ['value:'] component 'conditional path'
-				'value property' ['#'] reference
-				'merge small slices' stategroup (
-					'yes' ['merge']
-						'below percentage' ['below','%'] number
-					'no'
+				'<span class="token string">ranges</span>' component <a href="#grammar-rule--dashboard-ranges">'dashboard ranges'</a>
+				'<span class="token string">value</span>' [ <span class="token operator">value:</span> <span class="token operator">#</span> ] reference
+			'<span class="token string">pie chart</span>' [ <span class="token operator">pie-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+				'<span class="token string">value path</span>' [ <span class="token operator">value:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">merge small slices</span>' stategroup (
+					'<span class="token string">yes</span>' [ <span class="token operator">merge</span> ]
+						'<span class="token string">below percentage</span>' [ <span class="token operator">below</span>, <span class="token operator">%</span> ] number
+					'<span class="token string">no</span>'
 				)
-				'sorting' stategroup (
-					'yes' ['sort:']
-						'direction' stategroup (
-							'ascending' ['ascending']
-							'descending' ['descending']
+				'<span class="token string">sorting</span>' stategroup (
+					'<span class="token string">yes</span>' [ <span class="token operator">sort:</span> ]
+						'<span class="token string">direction</span>' stategroup (
+							'<span class="token string">ascending</span>' [ <span class="token operator">ascending</span> ]
+							'<span class="token string">descending</span>' [ <span class="token operator">descending</span> ]
 						)
-					'no'
+					'<span class="token string">no</span>'
 				)
-			'bar chart' ['bar-chart']
-				'collection' component 'collection path'
-				'label path' ['label:'] component 'conditional path'
-				'label property' [':'] reference
-				'value path' ['value:'] component 'conditional path'
-				'value property' ['#'] reference
-				'sorting' stategroup (
-					'yes' ['sort:']
-						'direction' stategroup (
-							'ascending' ['ascending']
-							'descending' ['descending']
+			'<span class="token string">bar chart</span>' [ <span class="token operator">bar-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+				'<span class="token string">value path</span>' [ <span class="token operator">value:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">sorting</span>' stategroup (
+					'<span class="token string">yes</span>' [ <span class="token operator">sort:</span> ]
+						'<span class="token string">direction</span>' stategroup (
+							'<span class="token string">ascending</span>' [ <span class="token operator">ascending</span> ]
+							'<span class="token string">descending</span>' [ <span class="token operator">descending</span> ]
 						)
-					'no'
+					'<span class="token string">no</span>'
 				)
-			'grouped bar chart' ['grouped-bar-chart']
-				'collection' component 'collection path'
-				'label path' ['label:'] component 'conditional path'
-				'label property' [':'] reference
-				'values' ['(',')'] collection order 'order' (
-					'has successor' stategroup has successor 'successor' 'yes' 'no'
-					'value path' [':'] component 'conditional path'
-					'value property' ['#'] reference
-					'color' [','] component 'dashboard color'
+			'<span class="token string">grouped bar chart</span>' [ <span class="token operator">grouped-bar-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+				'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+					'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+					'<span class="token string">value path</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+					'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
+					'<span class="token string">color</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--dashboard-color">'dashboard color'</a>
 				)
-				'has value' stategroup has 'values' first 'first' 'yes' 'no'
-				'sorting' stategroup (
-					'yes' ['sort:']
-						'direction' stategroup (
-							'ascending' ['ascending']
-							'descending' ['descending']
+				'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+				'<span class="token string">sorting</span>' stategroup (
+					'<span class="token string">yes</span>' [ <span class="token operator">sort:</span> ]
+						'<span class="token string">direction</span>' stategroup (
+							'<span class="token string">ascending</span>' [ <span class="token operator">ascending</span> ]
+							'<span class="token string">descending</span>' [ <span class="token operator">descending</span> ]
 						)
-						'axis' stategroup (
-							'single'
-								'axis' reference
-							'sum' ['sum']
+						'<span class="token string">axis</span>' stategroup (
+							'<span class="token string">single</span>'
+								'<span class="token string">axis</span>' reference
+							'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
 						)
-					'no'
+					'<span class="token string">no</span>'
 				)
-			'stacked bar chart' ['stacked-bar-chart']
-				'collection' component 'collection path'
-				'label path' ['label:'] component 'conditional path'
-				'label property' [':'] reference
-				'values' ['(',')'] collection order 'order' (
-					'has successor' stategroup has successor 'successor' 'yes' 'no'
-					'value path' [':'] component 'conditional path'
-					'value property' ['#'] reference
-					'color' [','] component 'dashboard color'
+			'<span class="token string">stacked bar chart</span>' [ <span class="token operator">stacked-bar-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+				'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+					'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+					'<span class="token string">value path</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+					'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
+					'<span class="token string">color</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--dashboard-color">'dashboard color'</a>
 				)
-				'has value' stategroup has 'values' first 'first' 'yes' 'no'
-				'sorting' stategroup (
-					'yes' ['sort:']
-						'direction' stategroup (
-							'ascending' ['ascending']
-							'descending' ['descending']
+				'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+				'<span class="token string">sorting</span>' stategroup (
+					'<span class="token string">yes</span>' [ <span class="token operator">sort:</span> ]
+						'<span class="token string">direction</span>' stategroup (
+							'<span class="token string">ascending</span>' [ <span class="token operator">ascending</span> ]
+							'<span class="token string">descending</span>' [ <span class="token operator">descending</span> ]
 						)
-						'axis' stategroup (
-							'single'
-								'axis' reference
-							'sum' ['sum']
+						'<span class="token string">axis</span>' stategroup (
+							'<span class="token string">single</span>'
+								'<span class="token string">axis</span>' reference
+							'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
 						)
-					'no'
+					'<span class="token string">no</span>'
 				)
-			'line chart' ['line-chart']
-				'collection' component 'collection path'
-				'label path' ['label:'] component 'conditional path'
-				'label property' [':'] reference
-				'sort path' ['sort:'] component 'conditional path'
-				'sort property' ['#'] reference
-				'sort direction' [','] stategroup (
-					'ascending' ['ascending']
-					'descending' ['descending']
+			'<span class="token string">line chart</span>' [ <span class="token operator">line-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+				'<span class="token string">sort path</span>' [ <span class="token operator">sort:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">sort property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">sort direction</span>' [ <span class="token operator">,</span> ] stategroup (
+					'<span class="token string">ascending</span>' [ <span class="token operator">ascending</span> ]
+					'<span class="token string">descending</span>' [ <span class="token operator">descending</span> ]
 				)
-				'values' ['(',')'] collection order 'order' (
-					'has successor' stategroup has successor 'successor' 'yes' 'no'
-					'value path' [':'] component 'conditional path'
-					'value property' ['#'] reference
-					'color' [','] component 'dashboard color'
+				'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+					'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+					'<span class="token string">value path</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+					'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
+					'<span class="token string">color</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--dashboard-color">'dashboard color'</a>
 				)
-				'has value' stategroup has 'values' first 'first' 'yes' 'no'
-			'scatter chart' ['scatter-chart']
-				'collection' component 'collection path'
-				'label x' ['axis-x:'] text
-				'value x path' [','] component 'conditional path'
-				'value x property' ['#'] reference
-				'label y' ['axis-y:'] text
-				'value y path' [','] component 'conditional path'
-				'value y property' ['#'] reference
-			'bubble chart' ['bubble-chart']
-				'collection' component 'collection path'
-				'label x' ['axis-x:'] text
-				'value x path' [','] component 'conditional path'
-				'value x property' ['#'] reference
-				'label y' ['axis-y:'] text
-				'value y path' [','] component 'conditional path'
-				'value y property' ['#'] reference
-				'value z path' ['size:'] component 'conditional path'
-				'value z property' ['#'] reference
-			'connected scatter chart' ['connected-scatter-chart']
-				'collection' component 'collection path'
-				'sort path' ['sort:'] component 'conditional path'
-				'sort property' ['#'] reference
-				'sort direction' [','] stategroup (
-					'ascending' ['ascending']
-					'descending' ['descending']
+				'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+			'<span class="token string">scatter chart</span>' [ <span class="token operator">scatter-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label x</span>' [ <span class="token operator">axis-x:</span> ] text
+				'<span class="token string">value x path</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value x property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">label y</span>' [ <span class="token operator">axis-y:</span> ] text
+				'<span class="token string">value y path</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value y property</span>' [ <span class="token operator">#</span> ] reference
+			'<span class="token string">bubble chart</span>' [ <span class="token operator">bubble-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">label x</span>' [ <span class="token operator">axis-x:</span> ] text
+				'<span class="token string">value x path</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value x property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">label y</span>' [ <span class="token operator">axis-y:</span> ] text
+				'<span class="token string">value y path</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value y property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">value z path</span>' [ <span class="token operator">size:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value z property</span>' [ <span class="token operator">#</span> ] reference
+			'<span class="token string">connected scatter chart</span>' [ <span class="token operator">connected-scatter-chart</span> ]
+				'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+				'<span class="token string">sort path</span>' [ <span class="token operator">sort:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">sort property</span>' [ <span class="token operator">#</span> ] reference
+				'<span class="token string">sort direction</span>' [ <span class="token operator">,</span> ] stategroup (
+					'<span class="token string">ascending</span>' [ <span class="token operator">ascending</span> ]
+					'<span class="token string">descending</span>' [ <span class="token operator">descending</span> ]
 				)
-				'label x' ['axis-x:'] text
-				'value x path' [','] component 'conditional path'
-				'value x property'['#'] reference
-				'label y' ['axis-y:'] text
-				'value y path' [','] component 'conditional path'
-				'value y property' ['#'] reference
-			'spider chart' ['spider-chart']
-				'binding' stategroup (
-					'static'
-						'values' ['(',')'] collection order 'order' (
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'value' [':''#'] reference
+				'<span class="token string">label x</span>' [ <span class="token operator">axis-x:</span> ] text
+				'<span class="token string">value x path</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value x property</span>'[ <span class="token operator">#</span> ] reference
+				'<span class="token string">label y</span>' [ <span class="token operator">axis-y:</span> ] text
+				'<span class="token string">value y path</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+				'<span class="token string">value y property</span>' [ <span class="token operator">#</span> ] reference
+			'<span class="token string">spider chart</span>' [ <span class="token operator">spider-chart</span> ]
+				'<span class="token string">binding</span>' stategroup (
+					'<span class="token string">static</span>'
+						'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">value</span>' [ <span class="token operator">:</span> <span class="token operator">#</span> ] reference
 						)
-						'has value' stategroup has 'values' first 'first' 'yes' 'no'
-						'color' [','] component 'dashboard color'
-					'dynamic'
-						'collection' component 'collection path'
-						'label path' ['label:'] component 'conditional path'
-						'label property' [':'] reference
-						'values' ['(',')'] collection order 'order' (
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'value path' [':'] component 'conditional path'
-							'value property' ['#'] reference
+						'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+						'<span class="token string">color</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--dashboard-color">'dashboard color'</a>
+					'<span class="token string">dynamic</span>'
+						'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+						'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+						'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+						'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">value path</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+							'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
 						)
-						'has value' stategroup has 'values' first 'first' 'yes' 'no'
+						'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
 				)
-			'radar chart' ['radar-chart']
-				'binding' stategroup (
-					'static'
-						'values' ['(',')'] collection order 'order' (
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'value' [':''#'] reference
+			'<span class="token string">radar chart</span>' [ <span class="token operator">radar-chart</span> ]
+				'<span class="token string">binding</span>' stategroup (
+					'<span class="token string">static</span>'
+						'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">value</span>' [ <span class="token operator">:</span> <span class="token operator">#</span> ] reference
 						)
-						'has value' stategroup has 'values' first 'first' 'yes' 'no'
-						'color' [','] component 'dashboard color'
-					'dynamic'
-						'collection' component 'collection path'
-						'label path' ['label:'] component 'conditional path'
-						'label property' [':'] reference
-						'values' ['(',')'] collection order 'order' (
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'value path' [':'] component 'conditional path'
-							'value property' ['#'] reference
+						'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+						'<span class="token string">color</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--dashboard-color">'dashboard color'</a>
+					'<span class="token string">dynamic</span>'
+						'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+						'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+						'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
+						'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">value path</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+							'<span class="token string">value property</span>' [ <span class="token operator">#</span> ] reference
 						)
-						'has value' stategroup has 'values' first 'first' 'yes' 'no'
+						'<span class="token string">has value</span>' stategroup has '<span class="token string">values</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
 				)
-			'legend' ['legend']
-				'binding' stategroup (
-					'static'
-						'values' ['(',')'] collection order 'order' (
-							'has successor' stategroup has successor 'successor' 'yes' 'no'
-							'color' [':'] component 'dashboard color'
+			'<span class="token string">legend</span>' [ <span class="token operator">legend</span> ]
+				'<span class="token string">binding</span>' stategroup (
+					'<span class="token string">static</span>'
+						'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection order '<span class="token string">order</span>' (
+							'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+							'<span class="token string">color</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--dashboard-color">'dashboard color'</a>
 						)
-					'dynamic'
-						'collection' component 'collection path'
-						'label path' ['label:'] component 'conditional path'
-						'label property' [':'] reference
+					'<span class="token string">dynamic</span>'
+						'<span class="token string">collection</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+						'<span class="token string">label path</span>' [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+						'<span class="token string">label property</span>' [ <span class="token operator">:</span> ] reference
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
 #### Widget: Number
 Displays a single number found directly under the context node in a (by default) large font.
 The label of the numerical type is also shown, by default in the normal font size.
@@ -437,70 +517,90 @@ The query variant automatically assigns colors to the labels use the same algori
 Allows the default size of a widget to be changed.
 All values are in pixels.
 
-```js
-'dashboard ui dimension'
-	'dimension' stategroup (
-		'custom' ['@size(',')']
-			'x' number
-			'y' [','] number
-		'default'
+{: #grammar-rule--dashboard-ui-dimension }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dashboard ui dimension</span>'
+	'<span class="token string">dimension</span>' stategroup (
+		'<span class="token string">custom</span>' [ <span class="token operator">@size(</span>, <span class="token operator">)</span> ]
+			'<span class="token string">x</span>' number
+			'<span class="token string">y</span>' [ <span class="token operator">,</span> ] number
+		'<span class="token string">default</span>'
 	)
-```
+</pre>
+</div>
+</div>
 ### Widget Annotation: Margin
 Allows the default margin of a widget to be changed.
 All values are in pixels.
 
-```js
-'dashboard ui margin'
-	'margin' stategroup (
-		'custom' ['@margin(',')']
-			'x1' number
-			'x2' [','] number
-			'y1' [','] number
-			'y2' [','] number
-		'default'
+{: #grammar-rule--dashboard-ui-margin }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dashboard ui margin</span>'
+	'<span class="token string">margin</span>' stategroup (
+		'<span class="token string">custom</span>' [ <span class="token operator">@margin(</span>, <span class="token operator">)</span> ]
+			'<span class="token string">x1</span>' number
+			'<span class="token string">x2</span>' [ <span class="token operator">,</span> ] number
+			'<span class="token string">y1</span>' [ <span class="token operator">,</span> ] number
+			'<span class="token string">y2</span>' [ <span class="token operator">,</span> ] number
+		'<span class="token string">default</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'dashboard ranges'
-	'type' stategroup (
-		'green' ['green']
-		'blue' ['blue']
-		'orange' ['orange']
-		'red' ['red']
+{: #grammar-rule--dashboard-ranges }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dashboard ranges</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">green</span>' [ <span class="token operator">green</span> ]
+		'<span class="token string">blue</span>' [ <span class="token operator">blue</span> ]
+		'<span class="token string">orange</span>' [ <span class="token operator">orange</span> ]
+		'<span class="token string">red</span>' [ <span class="token operator">red</span> ]
 	)
-	'range size' stategroup (
-		'static'
-			'value' number
-		'dynamic'
-			'value' ['#'] reference
+	'<span class="token string">range size</span>' stategroup (
+		'<span class="token string">static</span>'
+			'<span class="token string">value</span>' number
+		'<span class="token string">dynamic</span>'
+			'<span class="token string">value</span>' [ <span class="token operator">#</span> ] reference
 	)
-	'has more' stategroup (
-		'yes' [',']
-			'tail' component 'dashboard ranges'
-		'no'
+	'<span class="token string">has more</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--dashboard-ranges">'dashboard ranges'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 ### Widget Color
 Allows the selection of a color. This can either be a predefined color or a custom color.
 Predefined colors are provided by the color theme.
 Custom colors are not bound to the theme and can be any CSS color, for example: `#FF8000`, `rgb(100%, 50%, 0%)` and `hsl(30deg, 100%, 50%)` all specify the same shade of orange.
 
-```js
-'dashboard color'
-	'color' stategroup (
-		'blue' ['blue']
-		'orange' ['orange']
-		'green' ['green']
-		'red' ['red']
-		'black' ['black']
-		'grey' ['grey']
-		'grey light' ['grey''light']
-		'grey dark' ['grey''dark']
-		'teal' ['teal']
-		'purple' ['purple']
-		'hex'
-			'value' text
+{: #grammar-rule--dashboard-color }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">dashboard color</span>'
+	'<span class="token string">color</span>' stategroup (
+		'<span class="token string">blue</span>' [ <span class="token operator">blue</span> ]
+		'<span class="token string">orange</span>' [ <span class="token operator">orange</span> ]
+		'<span class="token string">green</span>' [ <span class="token operator">green</span> ]
+		'<span class="token string">red</span>' [ <span class="token operator">red</span> ]
+		'<span class="token string">black</span>' [ <span class="token operator">black</span> ]
+		'<span class="token string">grey</span>' [ <span class="token operator">grey</span> ]
+		'<span class="token string">grey light</span>' [ <span class="token operator">grey</span> <span class="token operator">light</span> ]
+		'<span class="token string">grey dark</span>' [ <span class="token operator">grey</span> <span class="token operator">dark</span> ]
+		'<span class="token string">teal</span>' [ <span class="token operator">teal</span> ]
+		'<span class="token string">purple</span>' [ <span class="token operator">purple</span> ]
+		'<span class="token string">hex</span>'
+			'<span class="token string">value</span>' text
 	)
-```
+</pre>
+</div>
+</div>

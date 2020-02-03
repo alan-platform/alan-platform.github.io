@@ -7,20 +7,37 @@ type: grammar
 ---
 
 
-```js
-'language' ['language:'] text
-```
+{: #grammar-rule--language }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">language</span>' [ <span class="token operator">language:</span> ] text
+</pre>
+</div>
+</div>
 
-```js
-'engine language' ['engine' 'language:'] stategroup (
-	'english' ['english']
-	'dutch'['dutch']
+{: #grammar-rule--engine-language }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">engine language</span>' [ <span class="token operator">engine</span> <span class="token operator">language:</span> ] stategroup (
+	'<span class="token string">english</span>' [ <span class="token operator">english</span> ]
+	'<span class="token string">dutch</span>'[ <span class="token operator">dutch</span> ]
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'translations' collection indent (
-	'translation' [ ':' ] text
+{: #grammar-rule--translations }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">translations</span>' collection indent (
+	'<span class="token string">translation</span>' [ <span class="token operator">:</span> ] text
 )
-```
-```
+</pre>
+</div>
+</div>
+</pre>
+</div>
+</div>

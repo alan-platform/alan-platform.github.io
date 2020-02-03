@@ -7,482 +7,612 @@ type: grammar
 ---
 
 
-```js
-'binding context' stategroup (
-	'none' [ 'static' ]
-	'select'
-		'binding' [ 'binding' ] reference
-		'switch client binding context' stategroup (
-			'yes' [ 'on' ]
-				'constrained on containing binding' stategroup (
-					'yes'
-						'type path' component 'client binding type path'
-						'instance binding' reference
-					'no' [ 'unconstrained' ]
-						'instance binding' reference
+{: #grammar-rule--binding-context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">binding context</span>' stategroup (
+	'<span class="token string">none</span>' [ <span class="token operator">static</span> ]
+	'<span class="token string">select</span>'
+		'<span class="token string">binding</span>' [ <span class="token operator">binding</span> ] reference
+		'<span class="token string">switch client binding context</span>' stategroup (
+			'<span class="token string">yes</span>' [ <span class="token operator">on</span> ]
+				'<span class="token string">constrained on containing binding</span>' stategroup (
+					'<span class="token string">yes</span>'
+						'<span class="token string">type path</span>' component <a href="#grammar-rule--client-binding-type-path">'client binding type path'</a>
+						'<span class="token string">instance binding</span>' reference
+					'<span class="token string">no</span>' [ <span class="token operator">unconstrained</span> ]
+						'<span class="token string">instance binding</span>' reference
 				)
-			'no'
+			'<span class="token string">no</span>'
 		)
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'widget' component 'widget configuration node'
-```
+{: #grammar-rule--widget }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">widget</span>' component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
+</pre>
+</div>
+</div>
 
-```js
-'invalid implementation context' component 'widget implementation context'
-```
+{: #grammar-rule--invalid-implementation-context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">invalid implementation context</span>' component <a href="#grammar-rule--widget-implementation-context">'widget implementation context'</a>
+</pre>
+</div>
+</div>
 
-```js
-'root context' component 'valid widget implementation context'
-```
+{: #grammar-rule--root-context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">root context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+</pre>
+</div>
+</div>
 
-```js
-'root attribute location' component 'control attribute location'
-```
+{: #grammar-rule--root-attribute-location }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">root attribute location</span>' component <a href="#grammar-rule--control-attribute-location">'control attribute location'</a>
+</pre>
+</div>
+</div>
 
-```js
-'switch block' component 'state switch'
-```
+{: #grammar-rule--switch-block }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">switch block</span>' component <a href="#grammar-rule--state-switch">'state switch'</a>
+</pre>
+</div>
+</div>
 
-```js
-'client binding type path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'state'
-					'state group' [ '?' ] reference
-					'state' [ '*' ] reference
-				'collection'
-					'collection' [ '.' ] reference
-				'binding'
-					'instance binding' reference
+{: #grammar-rule--client-binding-type-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">client binding type path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">*</span> ] reference
+				'<span class="token string">collection</span>'
+					'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">binding</span>'
+					'<span class="token string">instance binding</span>' reference
 			)
-			'tail' component 'client binding type path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--client-binding-type-path">'client binding type path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'configuration attribute persistence'
-	'persist' stategroup (
-		'yes' [ '@persist' ]
-			'per session' stategroup (
-				'yes' ['session']
-				'no'
+{: #grammar-rule--configuration-attribute-persistence }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">configuration attribute persistence</span>'
+	'<span class="token string">persist</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">@persist</span> ]
+			'<span class="token string">per session</span>' stategroup (
+				'<span class="token string">yes</span>' [ <span class="token operator">session</span> ]
+				'<span class="token string">no</span>'
 			)
-			'per entry' stategroup (
-				'yes' ['entry']
-				'no'
+			'<span class="token string">per entry</span>' stategroup (
+				'<span class="token string">yes</span>' [ <span class="token operator">entry</span> ]
+				'<span class="token string">no</span>'
 			)
-		'no'
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'widget configuration node' [ '{' , '}' ]
-	'attributes' collection (
-		'switch client binding context' stategroup (
-			'yes' [ 'on' ]
-				'constrained on containing binding' stategroup (
-					'yes'
-						'type path' component 'client binding type path'
-					'no' [ 'unconstrained' ]
-						'instance binding' reference
+{: #grammar-rule--widget-configuration-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">widget configuration node</span>' [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">attributes</span>' collection (
+		'<span class="token string">switch client binding context</span>' stategroup (
+			'<span class="token string">yes</span>' [ <span class="token operator">on</span> ]
+				'<span class="token string">constrained on containing binding</span>' stategroup (
+					'<span class="token string">yes</span>'
+						'<span class="token string">type path</span>' component <a href="#grammar-rule--client-binding-type-path">'client binding type path'</a>
+					'<span class="token string">no</span>' [ <span class="token operator">unconstrained</span> ]
+						'<span class="token string">instance binding</span>' reference
 				)
-			'no'
+			'<span class="token string">no</span>'
 		)
-		'type' [ ':' ] stategroup (
-			'widget' [ 'widget' ]
-			'window' [ 'window' ]
-				'node' component 'widget configuration node'
-			'view' [ 'view' ]
-			'inline view' [ 'inline' 'view' ]
-			'configuration' [ 'configuration' ]
-				'type' stategroup (
-					'number' [ 'number' ]
-						'persistence' component 'configuration attribute persistence'
-					'text' [ 'text' ]
-						'persistence' component 'configuration attribute persistence'
-					'list' [ 'list' ]
-						'node' component 'widget configuration node'
-					'state group' [ 'stategroup' ]
-						'persistence' component 'configuration attribute persistence'
-						'states' [ '(' , ')' ] collection (
-							'node' [ '->' ] component 'widget configuration node'
+		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+			'<span class="token string">widget</span>' [ <span class="token operator">widget</span> ]
+			'<span class="token string">window</span>' [ <span class="token operator">window</span> ]
+				'<span class="token string">node</span>' component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
+			'<span class="token string">view</span>' [ <span class="token operator">view</span> ]
+			'<span class="token string">inline view</span>' [ <span class="token operator">inline</span> <span class="token operator">view</span> ]
+			'<span class="token string">configuration</span>' [ <span class="token operator">configuration</span> ]
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+						'<span class="token string">persistence</span>' component <a href="#grammar-rule--configuration-attribute-persistence">'configuration attribute persistence'</a>
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+						'<span class="token string">persistence</span>' component <a href="#grammar-rule--configuration-attribute-persistence">'configuration attribute persistence'</a>
+					'<span class="token string">list</span>' [ <span class="token operator">list</span> ]
+						'<span class="token string">node</span>' component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
+					'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+						'<span class="token string">persistence</span>' component <a href="#grammar-rule--configuration-attribute-persistence">'configuration attribute persistence'</a>
+						'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+							'<span class="token string">node</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
 						)
 				)
-			'binding' [ 'binding' ]
-				'constrained on containing binding' stategroup (
-					'yes'
-						'type path' component 'client binding type path'
-						'instance binding' reference
-					'no' [ 'unconstrained' ]
-						'instance binding' reference
+			'<span class="token string">binding</span>' [ <span class="token operator">binding</span> ]
+				'<span class="token string">constrained on containing binding</span>' stategroup (
+					'<span class="token string">yes</span>'
+						'<span class="token string">type path</span>' component <a href="#grammar-rule--client-binding-type-path">'client binding type path'</a>
+						'<span class="token string">instance binding</span>' reference
+					'<span class="token string">no</span>' [ <span class="token operator">unconstrained</span> ]
+						'<span class="token string">instance binding</span>' reference
 				)
-				'node' component 'widget configuration node'
+				'<span class="token string">node</span>' component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'widget implementation context'
-```
+{: #grammar-rule--widget-implementation-context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">widget implementation context</span>'
+</pre>
+</div>
+</div>
 
-```js
-'valid widget implementation context'
-	'context' component 'widget implementation context'
-```
+{: #grammar-rule--valid-widget-implementation-context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">valid widget implementation context</span>'
+	'<span class="token string">context</span>' component <a href="#grammar-rule--widget-implementation-context">'widget implementation context'</a>
+</pre>
+</div>
+</div>
 
-```js
-'attribute location'
-```
+{: #grammar-rule--attribute-location }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">attribute location</span>'
+</pre>
+</div>
+</div>
 
-```js
-'control attribute location'
-	'invalid attribute location' component 'attribute location'
-```
+{: #grammar-rule--control-attribute-location }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">control attribute location</span>'
+	'<span class="token string">invalid attribute location</span>' component <a href="#grammar-rule--attribute-location">'attribute location'</a>
+</pre>
+</div>
+</div>
 
-```js
-'widget implementation context parent path'
-	'has parent step' stategroup (
-		'no'
-		'yes' [ '^' ]
-			'tail' component 'widget implementation context parent path'
-		'root' [ 'root' ]
+{: #grammar-rule--widget-implementation-context-parent-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">widget implementation context parent path</span>'
+	'<span class="token string">has parent step</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--widget-implementation-context-parent-path">'widget implementation context parent path'</a>
+		'<span class="token string">root</span>' [ <span class="token operator">root</span> ]
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'control binding'
-	'binding type' stategroup (
-		'let declaration'
-			'path' [ '@' ] component 'widget implementation context parent path'
-			'on widget implementation node' stategroup (
-				'yes'
-					'declaration' reference
+{: #grammar-rule--control-binding }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">control binding</span>'
+	'<span class="token string">binding type</span>' stategroup (
+		'<span class="token string">let declaration</span>'
+			'<span class="token string">path</span>' [ <span class="token operator">@</span> ] component <a href="#grammar-rule--widget-implementation-context-parent-path">'widget implementation context parent path'</a>
+			'<span class="token string">on widget implementation node</span>' stategroup (
+				'<span class="token string">yes</span>'
+					'<span class="token string">declaration</span>' reference
 			)
-		'static'
-			'control' [ 'control' ] reference
-			'node binding' component 'widget implementation node'
-		'window'
-			'window' [ 'window' ] reference
-			'widget context' component 'valid widget implementation context'
-			'control binding' component 'control binding'
-		'widget'
-			'context' component 'context selection'
-			'widget' [ 'widget' ] reference
-		'inline view' [ 'inline' 'view' ]
-			'context' component 'context selection'
-			'view' reference
+		'<span class="token string">static</span>'
+			'<span class="token string">control</span>' [ <span class="token operator">control</span> ] reference
+			'<span class="token string">node binding</span>' component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
+		'<span class="token string">window</span>'
+			'<span class="token string">window</span>' [ <span class="token operator">window</span> ] reference
+			'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+			'<span class="token string">control binding</span>' component <a href="#grammar-rule--control-binding">'control binding'</a>
+		'<span class="token string">widget</span>'
+			'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+			'<span class="token string">widget</span>' [ <span class="token operator">widget</span> ] reference
+		'<span class="token string">inline view</span>' [ <span class="token operator">inline</span> <span class="token operator">view</span> ]
+			'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+			'<span class="token string">view</span>' reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'entries list'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'node binding' component 'widget implementation node'
-			'tail' component 'entries list'
+{: #grammar-rule--entries-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entries list</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">node binding</span>' component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--entries-list">'entries list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'context selection'
-	'change context to' stategroup (
-		'engine state' [ 'engine' ]
-			'engine state binding' reference
-		'other context'
-			'parent path' component 'widget implementation context parent path'
-			'path' component 'context selection path'
+{: #grammar-rule--context-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context selection</span>'
+	'<span class="token string">change context to</span>' stategroup (
+		'<span class="token string">engine state</span>' [ <span class="token operator">engine</span> ]
+			'<span class="token string">engine state binding</span>' reference
+		'<span class="token string">other context</span>'
+			'<span class="token string">parent path</span>' component <a href="#grammar-rule--widget-implementation-context-parent-path">'widget implementation context parent path'</a>
+			'<span class="token string">path</span>' component <a href="#grammar-rule--context-selection-path">'context selection path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'bound context selection'
-	'context' component 'context selection'
-	'cast' stategroup (
-		'to binding' [ '$' ]
+{: #grammar-rule--bound-context-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">bound context selection</span>'
+	'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+	'<span class="token string">cast</span>' stategroup (
+		'<span class="token string">to binding</span>' [ <span class="token operator">$</span> ]
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'context selection path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'unconstrained configuration attribute'
-					'configuration attribute' [ 'unconstrained' '::' ] reference
-				'constrained configuration attribute'
-					'configuration attribute' [ '::' ] reference
-				'client binding'
-					'binding' [ 'switch' 'to' ] reference
+{: #grammar-rule--context-selection-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context selection path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">unconstrained configuration attribute</span>'
+					'<span class="token string">configuration attribute</span>' [ <span class="token operator">unconstrained</span> <span class="token operator">::</span> ] reference
+				'<span class="token string">constrained configuration attribute</span>'
+					'<span class="token string">configuration attribute</span>' [ <span class="token operator">::</span> ] reference
+				'<span class="token string">client binding</span>'
+					'<span class="token string">binding</span>' [ <span class="token operator">switch</span> <span class="token operator">to</span> ] reference
 			)
-			'tail' component 'context selection path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--context-selection-path">'context selection path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'instruction selection'
-	'configuration attribute type' stategroup (
-		'binding'
-			'context' component 'bound context selection'
-			'instruction' [ '>>' ] reference
-			'instruction argument' stategroup (
-				'none'
-				'number' [ 'number' ]
-					'transform' stategroup (
-						'no'
-						'yes' [ 'transform' ]
-							'from' stategroup (
-								'text'
-									'transformer' reference
-								'number' [ '#' ]
-									'transformer' reference
+{: #grammar-rule--instruction-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruction selection</span>'
+	'<span class="token string">configuration attribute type</span>' stategroup (
+		'<span class="token string">binding</span>'
+			'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+			'<span class="token string">instruction</span>' [ <span class="token operator">>></span> ] reference
+			'<span class="token string">instruction argument</span>' stategroup (
+				'<span class="token string">none</span>'
+				'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+					'<span class="token string">transform</span>' stategroup (
+						'<span class="token string">no</span>'
+						'<span class="token string">yes</span>' [ <span class="token operator">transform</span> ]
+							'<span class="token string">from</span>' stategroup (
+								'<span class="token string">text</span>'
+									'<span class="token string">transformer</span>' reference
+								'<span class="token string">number</span>' [ <span class="token operator">#</span> ]
+									'<span class="token string">transformer</span>' reference
 							)
 					)
-				'text' [ 'text' ]
-				'file' [ 'file' ]
-				'view' [ '(' , ')' ]
-					'view configuration' reference
+				'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+				'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+				'<span class="token string">view</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+					'<span class="token string">view configuration</span>' reference
 			)
-		'collection'
-			'type' stategroup (
-				'configuration'
-					'context' component 'context selection'
-					'list' ['='] reference
-					'widget context' component 'valid widget implementation context'
-					'instruction selection' component 'instruction selection'
-				'binding'
-					'context' component 'bound context selection'
-					'collection property' ['.'] reference
-					'widget context' component 'valid widget implementation context'
-					'instruction selection' component 'instruction selection'
+		'<span class="token string">collection</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">configuration</span>'
+					'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+					'<span class="token string">list</span>' [ <span class="token operator">=</span> ] reference
+					'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+					'<span class="token string">instruction selection</span>' component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
+				'<span class="token string">binding</span>'
+					'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+					'<span class="token string">collection property</span>' [ <span class="token operator">.</span> ] reference
+					'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+					'<span class="token string">instruction selection</span>' component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
 			)
-		'switch'
-			'switch' component 'state switch'
-		'ignore' ['ignore']
-		'configuration'
-			'context' component 'context selection'
-			'instruction' stategroup (
-				'set state' [ 'set' 'state' ]
-					'state group' reference
-					'state' [ ':' ] reference
-					'node' component 'instruction argument configuration node'
-				'set number' [ 'set' 'number' ]
-					'number' reference
-				'set text' [ 'set' 'text' ]
-					'text' reference
+		'<span class="token string">switch</span>'
+			'<span class="token string">switch</span>' component <a href="#grammar-rule--state-switch">'state switch'</a>
+		'<span class="token string">ignore</span>' [ <span class="token operator">ignore</span> ]
+		'<span class="token string">configuration</span>'
+			'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+			'<span class="token string">instruction</span>' stategroup (
+				'<span class="token string">set state</span>' [ <span class="token operator">set</span> <span class="token operator">state</span> ]
+					'<span class="token string">state group</span>' reference
+					'<span class="token string">state</span>' [ <span class="token operator">:</span> ] reference
+					'<span class="token string">node</span>' component <a href="#grammar-rule--instruction-argument-configuration-node">'instruction argument configuration node'</a>
+				'<span class="token string">set number</span>' [ <span class="token operator">set</span> <span class="token operator">number</span> ]
+					'<span class="token string">number</span>' reference
+				'<span class="token string">set text</span>' [ <span class="token operator">set</span> <span class="token operator">text</span> ]
+					'<span class="token string">text</span>' reference
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'instruction argument configuration node' [ '(' , ')' ]
-	'attributes' collection (
-		'type' stategroup (
-			'configuration'
-				'type' [':'] stategroup (
-					'number' ['number']
-						'value type' stategroup (
-							'static'
-								'value' number
-							'instruction argument' ['argument']
+{: #grammar-rule--instruction-argument-configuration-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruction argument configuration node</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+	'<span class="token string">attributes</span>' collection (
+		'<span class="token string">type</span>' stategroup (
+			'<span class="token string">configuration</span>'
+				'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+					'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+						'<span class="token string">value type</span>' stategroup (
+							'<span class="token string">static</span>'
+								'<span class="token string">value</span>' number
+							'<span class="token string">instruction argument</span>' [ <span class="token operator">argument</span> ]
 						)
-					'text' ['text']
-						'value type' stategroup (
-							'static'
-								'value' text
-							'instruction argument' ['argument']
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+						'<span class="token string">value type</span>' stategroup (
+							'<span class="token string">static</span>'
+								'<span class="token string">value</span>' text
+							'<span class="token string">instruction argument</span>' [ <span class="token operator">argument</span> ]
 						)
-					'state group' ['state']
-						'state' reference
-						'node' component 'instruction argument configuration node'
+					'<span class="token string">state group</span>' [ <span class="token operator">state</span> ]
+						'<span class="token string">state</span>' reference
+						'<span class="token string">node</span>' component <a href="#grammar-rule--instruction-argument-configuration-node">'instruction argument configuration node'</a>
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'instruction list'
-	'instruction selection' component 'instruction selection'
-	'has steps' stategroup (
-		'no'
-		'yes' [ ',' ]
-			'tail' component 'instruction list'
+{: #grammar-rule--instruction-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruction list</span>'
+	'<span class="token string">instruction selection</span>' component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--instruction-list">'instruction list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'widget implementation node' [ '{' , '}' ]
-	'define context' stategroup (
-		'yes' [ 'define' 'context' ]
-			'widget context' component 'valid widget implementation context'
-			'context' component 'context selection'
-			'let declarations' collection ( [ 'let' ]
-				'let declaration attribute location' component 'control attribute location'
-				'switch block' [ ':' ] component 'state switch'
+{: #grammar-rule--widget-implementation-node }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">widget implementation node</span>' [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">define context</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">define</span> <span class="token operator">context</span> ]
+			'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+			'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+			'<span class="token string">let declarations</span>' collection ( [ <span class="token operator">let</span> ]
+				'<span class="token string">let declaration attribute location</span>' component <a href="#grammar-rule--control-attribute-location">'control attribute location'</a>
+				'<span class="token string">switch block</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--state-switch">'state switch'</a>
 			)
-		'no'
+		'<span class="token string">no</span>'
 	)
-	'attributes' collection (
-		'location' component 'attribute location'
-		'switch block' [':'] component 'state switch'
+	'<span class="token string">attributes</span>' collection (
+		'<span class="token string">location</span>' component <a href="#grammar-rule--attribute-location">'attribute location'</a>
+		'<span class="token string">switch block</span>' [ <span class="token operator">:</span> ] component <a href="#grammar-rule--state-switch">'state switch'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'state switch'
-	'type' stategroup (
-		'attribute'
-			'control attribute type' stategroup (
-				'instruction' [ 'instruction' ]
-					'type' stategroup (
-						'singular'
-							'instruction' component 'instruction selection'
-						'list'
-							'instruction list' [ '[' , ']' ] component 'instruction list'
+{: #grammar-rule--state-switch }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">state switch</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">attribute</span>'
+			'<span class="token string">control attribute type</span>' stategroup (
+				'<span class="token string">instruction</span>' [ <span class="token operator">instruction</span> ]
+					'<span class="token string">type</span>' stategroup (
+						'<span class="token string">singular</span>'
+							'<span class="token string">instruction</span>' component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
+						'<span class="token string">list</span>'
+							'<span class="token string">instruction list</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--instruction-list">'instruction list'</a>
 					)
-				'markup' [ 'markup' ]
-					'control binding' component 'control binding'
-				'property'
-						'type' stategroup (
-							'dictionary' [ 'collection' ]
-								'binding type' stategroup (
-									'empty' [ 'empty' ]
-									'widget binding'
-										'context' component 'bound context selection'
-										'collection property' ['.'] reference
-										'widget context' component 'valid widget implementation context'
-										'node binding' component 'widget implementation node'
+				'<span class="token string">markup</span>' [ <span class="token operator">markup</span> ]
+					'<span class="token string">control binding</span>' component <a href="#grammar-rule--control-binding">'control binding'</a>
+				'<span class="token string">property</span>'
+						'<span class="token string">type</span>' stategroup (
+							'<span class="token string">dictionary</span>' [ <span class="token operator">collection</span> ]
+								'<span class="token string">binding type</span>' stategroup (
+									'<span class="token string">empty</span>' [ <span class="token operator">empty</span> ]
+									'<span class="token string">widget binding</span>'
+										'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+										'<span class="token string">collection property</span>' [ <span class="token operator">.</span> ] reference
+										'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+										'<span class="token string">node binding</span>' component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
 								)
-							'list' [ 'list' ]
-								'binding type' stategroup (
-									'static'
-										'entries' [ '[' , ']' ] component 'entries list'
-									'configuration'
-										'context' component 'context selection'
-										'list' [ '=' ] reference
-										'widget context' component 'valid widget implementation context'
-										'node binding' component 'widget implementation node'
-									'widget binding'
-										'context' component 'bound context selection'
-										'collection property' ['.'] reference
-										'widget context' component 'valid widget implementation context'
-										'node binding' component 'widget implementation node'
+							'<span class="token string">list</span>' [ <span class="token operator">list</span> ]
+								'<span class="token string">binding type</span>' stategroup (
+									'<span class="token string">static</span>'
+										'<span class="token string">entries</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--entries-list">'entries list'</a>
+									'<span class="token string">configuration</span>'
+										'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+										'<span class="token string">list</span>' [ <span class="token operator">=</span> ] reference
+										'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+										'<span class="token string">node binding</span>' component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
+									'<span class="token string">widget binding</span>'
+										'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+										'<span class="token string">collection property</span>' [ <span class="token operator">.</span> ] reference
+										'<span class="token string">widget context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+										'<span class="token string">node binding</span>' component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
 							)
-							'number' ['number']
-								'binding type' stategroup (
-									'static number'
-										'value' number
-									'current time' [ 'current' 'time' ]
-										'throttle' stategroup (
-											'yes'
-												'interval' [ 'interval:' ] number
-											'no'
+							'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+								'<span class="token string">binding type</span>' stategroup (
+									'<span class="token string">static number</span>'
+										'<span class="token string">value</span>' number
+									'<span class="token string">current time</span>' [ <span class="token operator">current</span> <span class="token operator">time</span> ]
+										'<span class="token string">throttle</span>' stategroup (
+											'<span class="token string">yes</span>'
+												'<span class="token string">interval</span>' [ <span class="token operator">interval:</span> ] number
+											'<span class="token string">no</span>'
 										)
-									'configuration'
-										'context' component 'context selection'
-										'bound number' [ '=' ] reference
-									'widget binding'
-										'context' component 'bound context selection'
-										'property' [ '#' ] reference
+									'<span class="token string">configuration</span>'
+										'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+										'<span class="token string">bound number</span>' [ <span class="token operator">=</span> ] reference
+									'<span class="token string">widget binding</span>'
+										'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+										'<span class="token string">property</span>' [ <span class="token operator">#</span> ] reference
 								)
-								'transform' stategroup (
-									'no'
-									'yes' [ 'transform' ]
-										'transformer' reference
+								'<span class="token string">transform</span>' stategroup (
+									'<span class="token string">no</span>'
+									'<span class="token string">yes</span>' [ <span class="token operator">transform</span> ]
+										'<span class="token string">transformer</span>' reference
 								)
-							'text' [ 'text' ]
-								'type' stategroup (
-									'binding'
-										'text binding' component 'text binding'
-									'concatenation'
-										'strings' [ '[' , ']' ] component 'string list'
+							'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+								'<span class="token string">type</span>' stategroup (
+									'<span class="token string">binding</span>'
+										'<span class="token string">text binding</span>' component <a href="#grammar-rule--text-binding">'text binding'</a>
+									'<span class="token string">concatenation</span>'
+										'<span class="token string">strings</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--string-list">'string list'</a>
 								)
-							'state group' [ 'state' ]
-								'state' reference
-								'binding' component 'widget implementation node'
+							'<span class="token string">state group</span>' [ <span class="token operator">state</span> ]
+								'<span class="token string">state</span>' reference
+								'<span class="token string">binding</span>' component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
 						)
 			)
-		'control'
-			'control binding' component 'control binding'
-		'switch'
-			'type' stategroup (
-				'configuration'
-					'context' component 'context selection'
-					'state group' [ '?' ] reference
-					'states' [ '(' , ')' ] collection ( [ '|' ]
-						'state context' component 'valid widget implementation context'
-						'next' [ '->' ] component 'state switch'
+		'<span class="token string">control</span>'
+			'<span class="token string">control binding</span>' component <a href="#grammar-rule--control-binding">'control binding'</a>
+		'<span class="token string">switch</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">configuration</span>'
+					'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">state context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+						'<span class="token string">next</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--state-switch">'state switch'</a>
 					)
-				'binding'
-					'context' component 'bound context selection'
-					'property' [ '?' ] reference
-					'states' [ '(' , ')' ] collection ( [ '|' ]
-						'state context' component 'valid widget implementation context'
-						'next' ['->'] component 'state switch'
+				'<span class="token string">binding</span>'
+					'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+					'<span class="token string">property</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+						'<span class="token string">state context</span>' component <a href="#grammar-rule--valid-widget-implementation-context">'valid widget implementation context'</a>
+						'<span class="token string">next</span>' [ <span class="token operator">-></span> ] component <a href="#grammar-rule--state-switch">'state switch'</a>
 					)
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'text binding'
-	'binding type' stategroup (
-		'static'
-			'text' text
-		'phrase'
-			'phrase' [ 'phrase' ] reference
-		'configuration'
-			'context' component 'context selection'
-			'type' stategroup (
-				'text'
-					'bound text' [ '=' ] reference
-				'number'
-					'number' [ 'configuration' '#' ] reference
-					'format' stategroup (
-						'no'
-						'yes' [ 'format' ]
-							'formatter' reference
+{: #grammar-rule--text-binding }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">text binding</span>'
+	'<span class="token string">binding type</span>' stategroup (
+		'<span class="token string">static</span>'
+			'<span class="token string">text</span>' text
+		'<span class="token string">phrase</span>'
+			'<span class="token string">phrase</span>' [ <span class="token operator">phrase</span> ] reference
+		'<span class="token string">configuration</span>'
+			'<span class="token string">context</span>' component <a href="#grammar-rule--context-selection">'context selection'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">text</span>'
+					'<span class="token string">bound text</span>' [ <span class="token operator">=</span> ] reference
+				'<span class="token string">number</span>'
+					'<span class="token string">number</span>' [ <span class="token operator">configuration</span> <span class="token operator">#</span> ] reference
+					'<span class="token string">format</span>' stategroup (
+						'<span class="token string">no</span>'
+						'<span class="token string">yes</span>' [ <span class="token operator">format</span> ]
+							'<span class="token string">formatter</span>' reference
 					)
 			)
-		'widget binding'
-			'context' component 'bound context selection'
-			'type' stategroup (
-				'text'
-					'type' stategroup (
-						'key' [ '.key' ]
-						'reference' [ '>' ]
-							'property' reference
-						'text' [ ':' ]
-							'property' reference
+		'<span class="token string">widget binding</span>'
+			'<span class="token string">context</span>' component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">text</span>'
+					'<span class="token string">type</span>' stategroup (
+						'<span class="token string">key</span>' [ <span class="token operator">.key</span> ]
+						'<span class="token string">reference</span>' [ <span class="token operator">></span> ]
+							'<span class="token string">property</span>' reference
+						'<span class="token string">text</span>' [ <span class="token operator">:</span> ]
+							'<span class="token string">property</span>' reference
 					)
-					'format' stategroup (
-						'no'
-						'yes' [ 'format' ]
-							'formatter' reference
+					'<span class="token string">format</span>' stategroup (
+						'<span class="token string">no</span>'
+						'<span class="token string">yes</span>' [ <span class="token operator">format</span> ]
+							'<span class="token string">formatter</span>' reference
 					)
-				'number' [ '#' ]
-					'property' reference
-					'format' stategroup (
-						'no'
-						'yes' [ 'format' ]
-							'formatter' reference
+				'<span class="token string">number</span>' [ <span class="token operator">#</span> ]
+					'<span class="token string">property</span>' reference
+					'<span class="token string">format</span>' stategroup (
+						'<span class="token string">no</span>'
+						'<span class="token string">yes</span>' [ <span class="token operator">format</span> ]
+							'<span class="token string">formatter</span>' reference
 					)
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'string list'
-	'text binding' component 'text binding'
-	'has steps' stategroup (
-		'no'
-		'yes' [ ',' ]
-			'tail' component 'string list'
+{: #grammar-rule--string-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">string list</span>'
+	'<span class="token string">text binding</span>' component <a href="#grammar-rule--text-binding">'text binding'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--string-list">'string list'</a>
 	)
-```
+</pre>
+</div>
+</div>
