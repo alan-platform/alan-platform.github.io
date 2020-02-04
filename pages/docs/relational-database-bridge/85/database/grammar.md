@@ -7,270 +7,325 @@ type: grammar
 ---
 
 
-```js
-'base types' group (
-	'bool'   component 'base type'
-	'number' component 'base type'
-	'text'   component 'base type'
+{: #grammar-rule--base-types }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">base types</span>' group (
+	'<span class="token string">bool</span>'   component <a href="#grammar-rule--base-type">'base type'</a>
+	'<span class="token string">number</span>' component <a href="#grammar-rule--base-type">'base type'</a>
+	'<span class="token string">text</span>'   component <a href="#grammar-rule--base-type">'base type'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'numerical sets' group
+{: #grammar-rule--numerical-sets }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">numerical sets</span>' group
 (
-	'invalid' component 'set type'
-	'natural' component 'set type'
-	'integer' component 'set type'
-	'real'    component 'set type'
+	'<span class="token string">invalid</span>' component <a href="#grammar-rule--set-type">'set type'</a>
+	'<span class="token string">natural</span>' component <a href="#grammar-rule--set-type">'set type'</a>
+	'<span class="token string">integer</span>' component <a href="#grammar-rule--set-type">'set type'</a>
+	'<span class="token string">real</span>'    component <a href="#grammar-rule--set-type">'set type'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'tables' collection order 'dependency graph' (
-	'dependencies' collection predecessors
-	'source' [ ':' 'table' '=' ] group (
-		'scoped' stategroup (
-			'no'
-			'yes'
-				'namespace' text
-				'selection' component 'table selector'
+{: #grammar-rule--tables }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tables</span>' collection order '<span class="token string">dependency graph</span>' (
+	'<span class="token string">dependencies</span>' collection predecessors
+	'<span class="token string">source</span>' [ <span class="token operator">:</span> <span class="token operator">table</span> <span class="token operator">=</span> ] group (
+		'<span class="token string">scoped</span>' stategroup (
+			'<span class="token string">no</span>'
+			'<span class="token string">yes</span>'
+				'<span class="token string">namespace</span>' text
+				'<span class="token string">selection</span>' component <a href="#grammar-rule--table-selector">'table selector'</a>
 		)
-		'source' text
-		'inline tables' stategroup (
-			'no'
-			'yes'[ 'inline-tables' '(experimental)']
-				'sub tables' collection (
-					'fields' [ 'fields' ] collection (
-						'definition' component 'field'
+		'<span class="token string">source</span>' text
+		'<span class="token string">inline tables</span>' stategroup (
+			'<span class="token string">no</span>'
+			'<span class="token string">yes</span>'[ <span class="token operator">inline-tables</span> <span class="token operator">(experimental)</span> ]
+				'<span class="token string">sub tables</span>' collection (
+					'<span class="token string">fields</span>' [ <span class="token operator">fields</span> ] collection (
+						'<span class="token string">definition</span>' component <a href="#grammar-rule--field">'field'</a>
 					)
-					'join key' [ 'join' ] collection (
-						'contra field' [ '==' ] reference
-						'filter' stategroup ( 'constrain' )
+					'<span class="token string">join key</span>' [ <span class="token operator">join</span> ] collection (
+						'<span class="token string">contra field</span>' [ <span class="token operator">==</span> ] reference
+						'<span class="token string">filter</span>' stategroup ( '<span class="token string">constrain</span>' )
 					)
 				)
 		)
 	)
-	'fields' [ 'fields' ] collection (
-		'source' [ '=' ] stategroup (
-			'reference'
-				'field' text
-				'definition' component 'field'
-			'inline reference' [ 'inline' ]
-				'inline table' reference
-				'inline field' [ '.' ] reference
+	'<span class="token string">fields</span>' [ <span class="token operator">fields</span> ] collection (
+		'<span class="token string">source</span>' [ <span class="token operator">=</span> ] stategroup (
+			'<span class="token string">reference</span>'
+				'<span class="token string">field</span>' text
+				'<span class="token string">definition</span>' component <a href="#grammar-rule--field">'field'</a>
+			'<span class="token string">inline reference</span>' [ <span class="token operator">inline</span> ]
+				'<span class="token string">inline table</span>' reference
+				'<span class="token string">inline field</span>' [ <span class="token operator">.</span> ] reference
 		)
 	)
-	'has primary key' stategroup (
-		'no'
-		'yes' [ 'primary-key' ]
-			'primary key' collection (
-				'filter' stategroup ( 'constrain' )
-				'data type' stategroup (
-					'text' [ '(text)' ]
-					'integer' [ '(integer)' ]
-					'boolean' [ '(bool)' ]
-					'enum' [ '(enum)' ]
+	'<span class="token string">has primary key</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">primary-key</span> ]
+			'<span class="token string">primary key</span>' collection (
+				'<span class="token string">filter</span>' stategroup ( '<span class="token string">constrain</span>' )
+				'<span class="token string">data type</span>' stategroup (
+					'<span class="token string">text</span>' [ <span class="token operator">(text)</span> ]
+					'<span class="token string">integer</span>' [ <span class="token operator">(integer)</span> ]
+					'<span class="token string">boolean</span>' [ <span class="token operator">(bool)</span> ]
+					'<span class="token string">enum</span>' [ <span class="token operator">(enum)</span> ]
 				)
 			)
 	)
-	'unique indices' collection ( ['unique-index']
-		'fields' ['(',')'] collection (
-			'data type' stategroup (
-				'text' [ '(text)' ]
-				'integer' [ '(integer)' ]
-				'boolean' [ '(bool)' ]
-				'enum' [ '(enum)' ]
+	'<span class="token string">unique indices</span>' collection ( [ <span class="token operator">unique-index</span> ]
+		'<span class="token string">fields</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+			'<span class="token string">data type</span>' stategroup (
+				'<span class="token string">text</span>' [ <span class="token operator">(text)</span> ]
+				'<span class="token string">integer</span>' [ <span class="token operator">(integer)</span> ]
+				'<span class="token string">boolean</span>' [ <span class="token operator">(bool)</span> ]
+				'<span class="token string">enum</span>' [ <span class="token operator">(enum)</span> ]
 			)
-			'constrain' stategroup ( 'non null' )
+			'<span class="token string">constrain</span>' stategroup ( '<span class="token string">non null</span>' )
 		)
 	)
-	'foreign keys' [ 'foreign-keys' ] collection (
-		'table' [ '=>' 'table' ] reference
-		'on' ['where'] stategroup (
-			'primary key' [ 'primary-key' ]
-				'key fields' [ '(' , ')' ] collection (
-					'filter' stategroup ( 'constrain' )
-					'contra field' [ '==' ] reference
-					'data type' stategroup (
-						'text' [ '(text)' ]
-						'integer' [ '(integer)' ]
-						'boolean' [ '(bool)' ]
-						'enum' [ '(enum)' ]
+	'<span class="token string">foreign keys</span>' [ <span class="token operator">foreign-keys</span> ] collection (
+		'<span class="token string">table</span>' [ <span class="token operator">=></span> <span class="token operator">table</span> ] reference
+		'<span class="token string">on</span>' [ <span class="token operator">where</span> ] stategroup (
+			'<span class="token string">primary key</span>' [ <span class="token operator">primary-key</span> ]
+				'<span class="token string">key fields</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+					'<span class="token string">filter</span>' stategroup ( '<span class="token string">constrain</span>' )
+					'<span class="token string">contra field</span>' [ <span class="token operator">==</span> ] reference
+					'<span class="token string">data type</span>' stategroup (
+						'<span class="token string">text</span>' [ <span class="token operator">(text)</span> ]
+						'<span class="token string">integer</span>' [ <span class="token operator">(integer)</span> ]
+						'<span class="token string">boolean</span>' [ <span class="token operator">(bool)</span> ]
+						'<span class="token string">enum</span>' [ <span class="token operator">(enum)</span> ]
 					)
 				)
-			'unique index' [ 'unique-index' ]
-				'index' reference
-				'key fields' [ '(' , ')' ] collection (
-					'contra field' [ '==' ] reference
-					'data type' stategroup (
-						'text' [ '(text)' ]
-						'integer' [ '(integer)' ]
-						'boolean' [ '(bool)' ]
-						'enum' [ '(enum)' ]
+			'<span class="token string">unique index</span>' [ <span class="token operator">unique-index</span> ]
+				'<span class="token string">index</span>' reference
+				'<span class="token string">key fields</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection (
+					'<span class="token string">contra field</span>' [ <span class="token operator">==</span> ] reference
+					'<span class="token string">data type</span>' stategroup (
+						'<span class="token string">text</span>' [ <span class="token operator">(text)</span> ]
+						'<span class="token string">integer</span>' [ <span class="token operator">(integer)</span> ]
+						'<span class="token string">boolean</span>' [ <span class="token operator">(bool)</span> ]
+						'<span class="token string">enum</span>' [ <span class="token operator">(enum)</span> ]
 					)
 				)
 		)
 	)
-	'text encoding' stategroup (
-		'ascii'
-		'utf8' ['text-encoding' ':' 'utf8']
+	'<span class="token string">text encoding</span>' stategroup (
+		'<span class="token string">ascii</span>'
+		'<span class="token string">utf8</span>' [ <span class="token operator">text-encoding</span> <span class="token operator">:</span> <span class="token operator">utf8</span> ]
 	)
-	'prefilters' group (
-		'join statements' collection ( ['join'] )
-		'has where clause' stategroup (
-			'yes' ['where']
-				'where statement' component 'filter statement list'
-			'no'
+	'<span class="token string">prefilters</span>' group (
+		'<span class="token string">join statements</span>' collection ( [ <span class="token operator">join</span> ] )
+		'<span class="token string">has where clause</span>' stategroup (
+			'<span class="token string">yes</span>' [ <span class="token operator">where</span> ]
+				'<span class="token string">where statement</span>' component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
+			'<span class="token string">no</span>'
 		)
 	)
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'base type'
-```
+{: #grammar-rule--base-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">base type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'base type constraint'
-```
+{: #grammar-rule--base-type-constraint }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">base type constraint</span>'
+</pre>
+</div>
+</div>
 
-```js
-'set type'
-```
+{: #grammar-rule--set-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">set type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'number list'
-	'step type' stategroup (
-		'single value'
-			'value' number
-		'range'
-			'begin value' number
-			'end value' [ '...' ] number
+{: #grammar-rule--number-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number list</span>'
+	'<span class="token string">step type</span>' stategroup (
+		'<span class="token string">single value</span>'
+			'<span class="token string">value</span>' number
+		'<span class="token string">range</span>'
+			'<span class="token string">begin value</span>' number
+			'<span class="token string">end value</span>' [ <span class="token operator">...</span> ] number
 	)
-	'has more steps' stategroup (
-		'no'
-		'yes'
-			'tail' component 'number list'
+	'<span class="token string">has more steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--number-list">'number list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'field'
-	'data type' [ 'as' ] stategroup (
-		'text' [ 'text' ]
-			'import rule' stategroup (
-				'fixed length' ['(', ')']
-					'rule: trim' stategroup (
-						'both'  ['trim-both']
-						'left'  ['trim-left']
-						'right' ['trim-right']
-						'none'
+{: #grammar-rule--field }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">field</span>'
+	'<span class="token string">data type</span>' [ <span class="token operator">as</span> ] stategroup (
+		'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+			'<span class="token string">import rule</span>' stategroup (
+				'<span class="token string">fixed length</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+					'<span class="token string">rule: trim</span>' stategroup (
+						'<span class="token string">both</span>'  [ <span class="token operator">trim-both</span> ]
+						'<span class="token string">left</span>'  [ <span class="token operator">trim-left</span> ]
+						'<span class="token string">right</span>' [ <span class="token operator">trim-right</span> ]
+						'<span class="token string">none</span>'
 					)
-					'length' number
-				'no'
+					'<span class="token string">length</span>' number
+				'<span class="token string">no</span>'
 			)
-		'floating point' [ 'float' ]
-		'decimal' ['decimal']
-			'rounding' stategroup (
-				'ordinary' //['half-up']
-				'ceil'     ['ceil']
-				'floor'    ['floor']
+		'<span class="token string">floating point</span>' [ <span class="token operator">float</span> ]
+		'<span class="token string">decimal</span>' [ <span class="token operator">decimal</span> ]
+			'<span class="token string">rounding</span>' stategroup (
+				'<span class="token string">ordinary</span>' //[ <span class="token operator">half-up</span> ]
+				'<span class="token string">ceil</span>'     [ <span class="token operator">ceil</span> ]
+				'<span class="token string">floor</span>'    [ <span class="token operator">floor</span> ]
 			)
-			'scale' ['(', ')'] number
-		'integer' [ 'integer' ]
-		'boolean' [ 'bool' ]
-		'enum' [ 'enum' ]
-			'values' [ '(' , ')' ] collection ( )
+			'<span class="token string">scale</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] number
+		'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+		'<span class="token string">boolean</span>' [ <span class="token operator">bool</span> ]
+		'<span class="token string">enum</span>' [ <span class="token operator">enum</span> ]
+			'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( )
 	)
-	'nullable' stategroup (
-		'yes' [ '(nullable)' ]
-		'no'
+	'<span class="token string">nullable</span>' stategroup (
+		'<span class="token string">yes</span>' [ <span class="token operator">(nullable)</span> ]
+		'<span class="token string">no</span>'
 	)
-	'has description' stategroup (
-		'no'
-		'yes'
-			'description' ['</' , '/>'] text
+	'<span class="token string">has description</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">description</span>' [ <span class="token operator"></</span>, <span class="token operator">/></span> ] text
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'table selector'
-	'has step' stategroup (
-		'yes'
-			'name' ['.'] text
-			'tail' component 'table selector'
-		'no'
+{: #grammar-rule--table-selector }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">table selector</span>'
+	'<span class="token string">has step</span>' stategroup (
+		'<span class="token string">yes</span>'
+			'<span class="token string">name</span>' [ <span class="token operator">.</span> ] text
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--table-selector">'table selector'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'filter statement'
-	'type' stategroup (
-		'contains'
-			'field' ['.'] reference
-			'require text' component 'base type constraint'
-			'comparison' stategroup (
-				'in' ['in']
-					'arguments' ['(',')'] collection ( )
-				'not in' ['not' 'in']
-					'arguments' ['(',')'] collection ( )
+{: #grammar-rule--filter-statement }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">filter statement</span>'
+	'<span class="token string">type</span>' stategroup (
+		'<span class="token string">contains</span>'
+			'<span class="token string">field</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">require text</span>' component <a href="#grammar-rule--base-type-constraint">'base type constraint'</a>
+			'<span class="token string">comparison</span>' stategroup (
+				'<span class="token string">in</span>' [ <span class="token operator">in</span> ]
+					'<span class="token string">arguments</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( )
+				'<span class="token string">not in</span>' [ <span class="token operator">not</span> <span class="token operator">in</span> ]
+					'<span class="token string">arguments</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( )
 			)
-		'search'
-			'field' ['.'] reference
-			'require text' component 'base type constraint'
-			'type' stategroup (
-				'starts with' ['starts-with']
-				'contains' ['contains']
-				'equals' ['equals']
+		'<span class="token string">search</span>'
+			'<span class="token string">field</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">require text</span>' component <a href="#grammar-rule--base-type-constraint">'base type constraint'</a>
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">starts with</span>' [ <span class="token operator">starts-with</span> ]
+				'<span class="token string">contains</span>' [ <span class="token operator">contains</span> ]
+				'<span class="token string">equals</span>' [ <span class="token operator">equals</span> ]
 			)
-			'substring' text
-		'compare'
-			'field' ['.'] reference
-			'operator' stategroup (
-				'smaller' ['<']
-				'greater' ['>']
-				'equal' ['==']
-				'not equal' ['!=']
+			'<span class="token string">substring</span>' text
+		'<span class="token string">compare</span>'
+			'<span class="token string">field</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">operator</span>' stategroup (
+				'<span class="token string">smaller</span>' [ <span class="token operator"><</span> ]
+				'<span class="token string">greater</span>' [ <span class="token operator">></span> ]
+				'<span class="token string">equal</span>' [ <span class="token operator">==</span> ]
+				'<span class="token string">not equal</span>' [ <span class="token operator">!=</span> ]
 			)
-			'right' stategroup (
-				'property'
-					'right' ['.'] reference
-				'static number'
-					'require number' component 'base type constraint'
-					'value' number
-				'static text'
-					'require text' component 'base type constraint'
-					'value' text
-				'time span'
-					'require text' component 'base type constraint'
-					'days' ['current-date' '-'] number
+			'<span class="token string">right</span>' stategroup (
+				'<span class="token string">property</span>'
+					'<span class="token string">right</span>' [ <span class="token operator">.</span> ] reference
+				'<span class="token string">static number</span>'
+					'<span class="token string">require number</span>' component <a href="#grammar-rule--base-type-constraint">'base type constraint'</a>
+					'<span class="token string">value</span>' number
+				'<span class="token string">static text</span>'
+					'<span class="token string">require text</span>' component <a href="#grammar-rule--base-type-constraint">'base type constraint'</a>
+					'<span class="token string">value</span>' text
+				'<span class="token string">time span</span>'
+					'<span class="token string">require text</span>' component <a href="#grammar-rule--base-type-constraint">'base type constraint'</a>
+					'<span class="token string">days</span>' [ <span class="token operator">current-date</span> <span class="token operator">-</span> ] number
 			)
-		'in list'
-			'field' ['.'] reference
-			'require number' component 'base type constraint'
-			'number list' ['(',')'] component 'number list'
-		'foreign key' ['foreign-key']
-			'foreign key' reference
-		'incoming foreign key' ['this']
-			'source table' ['in' 'table'] reference
-			'incoming link' ['>'] reference
-		'invert' ['not']
-			'statement' component 'filter statement'
-		'list'
-			'statements' ['(',')'] component 'filter statement list'
+		'<span class="token string">in list</span>'
+			'<span class="token string">field</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">require number</span>' component <a href="#grammar-rule--base-type-constraint">'base type constraint'</a>
+			'<span class="token string">number list</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--number-list">'number list'</a>
+		'<span class="token string">foreign key</span>' [ <span class="token operator">foreign-key</span> ]
+			'<span class="token string">foreign key</span>' reference
+		'<span class="token string">incoming foreign key</span>' [ <span class="token operator">this</span> ]
+			'<span class="token string">source table</span>' [ <span class="token operator">in</span> <span class="token operator">table</span> ] reference
+			'<span class="token string">incoming link</span>' [ <span class="token operator">></span> ] reference
+		'<span class="token string">invert</span>' [ <span class="token operator">not</span> ]
+			'<span class="token string">statement</span>' component <a href="#grammar-rule--filter-statement">'filter statement'</a>
+		'<span class="token string">list</span>'
+			'<span class="token string">statements</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'filter statement list'
-	'statement' component 'filter statement'
-	'has more statements' stategroup (
-		'yes'
-			'operator' stategroup (
-				'and' ['and']
-				'or'  ['or']
+{: #grammar-rule--filter-statement-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">filter statement list</span>'
+	'<span class="token string">statement</span>' component <a href="#grammar-rule--filter-statement">'filter statement'</a>
+	'<span class="token string">has more statements</span>' stategroup (
+		'<span class="token string">yes</span>'
+			'<span class="token string">operator</span>' stategroup (
+				'<span class="token string">and</span>' [ <span class="token operator">and</span> ]
+				'<span class="token string">or</span>'  [ <span class="token operator">or</span> ]
 			)
-			'tail' component 'filter statement list'
-		'no'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
