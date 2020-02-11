@@ -10,10 +10,12 @@ permalink: /docs/
 - [**Getting started**](/pages/tuts/getting-started.html) with the Alan IDE: a tutorial
 - Background information on [the syntax](/pages/tuts/syntax.html)
 
-<a href="https://dist.alan-platform.com/share/versions/{{ site.data.versions.current }}/versions.json">{{ site.data.versions.current }} versions.json</a>
+
 
 <a name="languages"></a>
-### Languages
+### Languages ({{ site.data.versions.current }})
+
+<a href="https://dist.alan-platform.com/share/versions/{{ site.data.versions.current }}/versions.json">versions.json</a>
 
 {% include doc-index.html %}
 
