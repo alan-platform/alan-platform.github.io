@@ -159,12 +159,12 @@ This is how it would look like:
 
 ```
 root {
-	can-read: user
-	can-update: user
+	can-read: any user
+	can-update: any user
 
 	'Users': collection ['Username'] {
 		'Username': text
-		'User Data': group { can-update: equal ( user , $ ^ )
+		'User Data': group { can-update: user == ^
 			'Login Status': stategroup @default: 'Suspended' (
 				'Active'-> { }
 				'Password Reset'-> { }
@@ -183,12 +183,12 @@ That should work, but our app lacks purpose right now. Why not build a little mu
 
 ```
 root {
-	can-read: user
-	can-update: user
+	can-read: any user
+	can-update: any user
 
 	'Users': collection ['Username'] {
 		'Username': text
-		'User Data': group { can-update: equal ( user , $ ^ )
+		'User Data': group { can-update: user == ^
 			'Login Status': stategroup @default: 'Suspended' (
 				'Active'-> { }
 				'Password Reset'-> { }
