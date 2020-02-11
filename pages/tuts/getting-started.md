@@ -108,7 +108,7 @@ This will generate a default migration 'from_release' which should be updated un
 
 Complete [documentation of the migration language](https://alan-platform.com/pages/docs/datastore/48/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
 
-```
+```js
 root = root as $ (
 	'Name' : text = "John Doe"
 )
@@ -122,7 +122,7 @@ At some point, it might be useful to have newly generated migration based on you
 
 While getting an application for free is nice, it's even nicer to build your own. For that, lets start by wiping the **application.alan** file and then start over with this:
 
-```
+```js
 users
 	dynamic : . 'Users'
 	password : + 'User Data' . 'Password'
@@ -144,7 +144,7 @@ This clean slate for an application that has "users" and requires logging in.
 ### Add users
 Now let's add those users to the model:
 
-```
+```js
 root {
 	'Users': collection ['Username'] {
 		'Username': text
@@ -157,7 +157,7 @@ And we would like to have this personal data protected from updating by other us
 
 This is how it would look like:
 
-```
+```js
 root {
 	can-read: any user
 	can-update: any user
@@ -181,7 +181,7 @@ So, we've defined a 'Users' collection, where each key in the collection will se
 ### Add some collections
 That should work, but our app lacks purpose right now. Why not build a little multi-user todo app (when not sure what to do, make a todo app right?). So, let's say our users are involved in projects and each project has stuff that needs to be done.
 
-```
+```js
 root {
 	can-read: any user
 	can-update: any user
@@ -208,7 +208,7 @@ root {
 
 We should probably have a little more information for each todo, like when it was created, or to which user it was assigned. It probably doesn't hurt to be able to write down some details about the todo either.
 
-```
+```js
 'Todos': collection ['Todo'] {
 	'Todo': text
 	'Created': natural 'date and time'
@@ -221,20 +221,20 @@ Now we've already done some things I need to explain. Let's take them one by one
 
 
 ### Numbers
-```
+```js
 'Created': natural 'date and time'
 ```
 
 This creates a number property, typically a "natural": meaning it can't be zero or negative, which won't make sense for a timestamp. We also give it the type of 'date and time'. Properties that are the same kind of number (a "date", or "kilograms", or "minutes") all have the same numerical type. This makes sure that when you're making calculations, you also end up with the correct numerical type for the result value. More on that later, right now you need to register that numerical type:
 
-```
+```js
 numerical-types
 	'date and time'
 ```
 
 To help the user interface interpret this and serve up a nice date-time picker, we need to annotate this.
 
-```
+```js
 numerical-types
 	'date and time' @date-time
 ```
@@ -242,7 +242,7 @@ numerical-types
 ### References
 The other thing that's special here is the 'Assignee'.
 
-```
+```js
 'Assignee': text -> ^ ^ .'Users'
 ```
 
