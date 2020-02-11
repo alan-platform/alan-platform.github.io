@@ -8,6 +8,7 @@ type: grammar
 
 1. TOC
 {:toc}
+
 ## The *minimal model*
 ---
 Every valid Alan model instantiates the [`root` rule](#the-root-rule).
