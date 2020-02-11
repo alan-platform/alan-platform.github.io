@@ -57,32 +57,29 @@ Open the **interfaces/model/application.alan** file in an editor. We'll be using
 
 The template already has a little model set up that covers some basics. Let's walk through it before we wipe it clean and start our own.
 
-The model is a nested structure not unlike [JSON](https://json.org). At the first level you'll see some keywords:
-- [users](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L1)
-	There is some boiler plate here that currently allows anonymous users, so you can use the application without logging in.
-- [interfaces](https://github.com/M-industries/AlanProjectTemplate/blob/e12c45306d10461c47218ec11ed872002fbce1f5/interfaces/model/application.alan#L6)
-	Interfaces are declared here so that they can be assigned permissions to access parts of the application model.
-- [root](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L12)
-	This is where your model really starts.
-- [numerical-types](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L55)
-	Numbers have types, like "date" or units like "kg". Number types can be converted between for calculations (e.g. to get "meters per second") etc.
+The model is a nested structure not unlike [JSON](https://json.org). At the first level you'll see some keywords starting different sections of your model:
+- **users** configures authentication for your application. If you specify `anonymous` in this section, you can use the application without signing in.
+- **interfaces** declares the interfaces that your application consumes. You can define interface permissions in your data model, such that another application can update specific pieces of data via an interface (instead of an application user).
+- **root** is where your data model really starts. Here you define the structure of your application data, constraints, computations, authorization, validation, and so on.
+- **numerical-types** defines the different numerical types that numbers in your application can have, such as `date` or a unit type `kg`. For computations with numbers, the section also defines conversions between numerical types.
+	For example, from `kilogrammes` to `grammes` or from `meters` and `seconds` to `meters per second`.
 
-So, in **root**, you describe the data model of your application. You do so by combining properties of certain types. Essentially there are 5 data types in Alan:
+So, starting at the **root**, you describe the data model of your application. You compose a data model from properties of the 6 built-in data types that Alan defines:
 - **number** (integer or natural)
-	Numbers are things you can count, or do math with. [Dates and date-time values](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L42) are numbers too. Numbers are usually an integer, or a [natural](https://en.wikipedia.org/wiki/Natural_number) when they can't be zero or negative. Alan doesn't have floats, but uses conversions to maintain a specific accuracy.
+	Numbers are things you can count, or do math with. Dates and date-time values are numbers as well. Numbers are usually an integer, or a [natural](https://en.wikipedia.org/wiki/Natural_number) when they can't be zero or negative. Alan doesn't have floats; Alan requires explicit numerical type annotations to ensure a *predefined* accuracy for numbers.
 - **text**
-	Text is mostly just text, e.g. a "Name", or any other value that doesn't adhere to any rules. So [phone numbers](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L33) are `text`, not `number`.
-	You *can* put some [input rules](/pages/docs/model/33/application/grammar.html#node) on text for the user interface, e.g. minimum length or a specific pattern.
-	Text can also refer to an [entry in another collection](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L49) (like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key)).
+	Text properties hold plain, unbounded textual values like a name, a phone number, a license plate number, or remarks.
+	You can define [validation rules](/pages/docs/model/50/application/grammar.html#node) on text values for the user interface, e.g. minimum length or a specific pattern.
+	Also, a text value can reference an entry in another collection (like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key)).
 - **file**
-	When you connect file storage to your server (documentation about this will follow), you can store files as well. They can be viewed in the client, or downloaded.
+	When you connect file storage to your server (documentation about this will follow), you can store files as well. Files can be viewed directly in the client or downloaded to your local machine.
 - **collection**
-	You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) 😉 ) think of these as your tables. If you want to describe a bunch of "things" that are mostly the same, e.g. "Contacts", that's a collection.
-	Keys in a collection are just like a text property, but you don't have to define it explicitly. Like text properties, keys can also refer to keys in another collection.
-- **stategroup**
-	[State groups](https://github.com/M-industries/AlanProjectTemplate/blob/bb862edd3be27df167400cbbc405aa3509d47da4/interfaces/model/application.alan#L39) represent a choice. With state groups things in one state have different properties from things in another state. E.g. road bikes and fixies are both bikes, but one has gears and shifters, whereas the other doesn't. Or finished processes have and end time, unfinished processes don't.
-
-There is a fifth type called **group**, which is just a construct to create  grouping and name spaces: groups don't actually hold any data by themselves.
+	You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) 😉) think of these as your tables. If you want to describe a bunch of 'things' that are mostly the same like `Users`, that's a collection.
+	Collection entries are key-value pairs, where the key has to be unique for each different entry in the collection.
+	At a `collection` property, you define which text property holds the key of each entry in the collection, like the property `Name` for a collection of `Users`.
+- **stategroup** Stategroups represent a choice. With state groups things in one state have different properties from things in another state.
+	For example, road bikes and fixies are both bikes, but one has gears and shifters, whereas the other doesn't. Or finished processes have and end time, unfinished processes don't.
+- **group** Groups are for grouping properties that you think belong together: groups don't actually hold any data by themselves.
 
 
 ## Build It & Run It
@@ -94,11 +91,13 @@ This should be fairly easy:
 - If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom
 
 ## Upgrade with a migration
-Your first deployment should be an 'empty' deployment type. This will initialize your application with an empty dataset. After clicking 'Alan Deploy', you can choose your deployment type:
+When clicking the button 'Alan Deploy', you get a list from which you can choose a deployment type.
+For your first deployment, choose the **empty** option from the list.
+This will initialize your application with an empty dataset.
 
 ![](deploy1.png)
 
-After you have completed at least one successful deployment, you can make changes to your application model and you can choose for a deployment of the 'migrate' type which enables you to migrate your existing application data to your new application version:
+After you have completed at least one successful deployment, you can make changes to your application model and you can choose for a deployment of the **migrate** type which enables you to migrate your existing application data to your new application version:
 
 ![](deploy2.png)
 
@@ -106,7 +105,7 @@ This will generate a default migration 'from_release' which should be updated un
 
 ![](deploy3.png)
 
-Complete [documentation of the migration language](https://alan-platform.com/pages/docs/datastore/48/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
+Complete [documentation of the migration language](/pages/docs/datastore/52/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
 
 ```js
 root = root as $ (
@@ -124,11 +123,11 @@ While getting an application for free is nice, it's even nicer to build your own
 
 ```js
 users
-	dynamic : . 'Users'
-	password : + 'User Data' . 'Password'
-	password-status : ?'Login Status'
-		active : 'Active' ( )
-		reset  : 'Password Reset' ( )
+	dynamic : .'Users'
+		password : +'User Data'.'Password'
+		password-status : ?'Login Status'
+			active : 'Active' ( )
+			reset  : 'Password Reset' ( )
 
 interfaces
 
@@ -139,10 +138,10 @@ root {
 numerical-types
 ```
 
-This clean slate for an application that has "users" and requires logging in.
+This is a clean slate for an application that has `users` and requires authentication.
 
 ### Add users
-Now let's add those users to the model:
+Now let's add those users to the data model:
 
 ```js
 root {
@@ -152,15 +151,37 @@ root {
 }
 ```
 
-We specified that for each user we store their password in the `'Password'`property and the Login Status in a 'Login Status' stategroup.
-And we would like to have this personal data protected from updating by other users. Finally, you would want to tell Alan who has read and update right of the root type. This will be inherited until overridden.
+But we're not there yet. In the `users` section, we specified that we store user passwords in the `'Password'` property and the login status in a `'Login Status'` stategroup.
+Let's also add `Type` to the `Users`, such that we can configure some basic authorization rules.
+```js
+root {
+	'Users': collection ['Username'] {
+		'Username': text
+		'User Data': group {
+			'Login Status': stategroup @default: 'Suspended' (
+				'Active'-> { }
+				'Password Reset'-> { }
+				'Suspended'-> { }
+			)
+			'Password': text
+		}
+		'Type': stategroup (
+			'Admin'-> { }
+			'Reader'-> { }
+		)
+	}
+}
+```
 
-This is how it would look like:
+#### Add permissions
+We only want `Admin` users to create and delete `Users`.
+Also, the password (hash) and login status are personal data that should not be updated by other users.
+To achieve that, we need to configure some permissions:
 
 ```js
 root {
 	can-read: any user
-	can-update: any user
+	can-update: any user ?'Type'|'Admin'
 
 	'Users': collection ['Username'] {
 		'Username': text
@@ -172,31 +193,49 @@ root {
 			)
 			'Password': text
 		}
+		'Type': stategroup (
+			'Admin'-> { }
+			'Reader'-> { }
+		)
 	}
 }
 ```
 
-So, we've defined a 'Users' collection, where each key in the collection will serve as the "username" and there is a password they'll need to provide to log in. The default user interface will pick this up and present the login form next time you run the application. In this demo setup, it will inject a user **'root'** with password **'welcome'** by default, so you can login and add other users.
+So, now we've defined a `'Users'` collection, where each key in the collection will serve as the 'username' and there is a password they'll need to provide to log in.
+Below we will give you some specifics about how this works, but first: let's take a look at what we have built.
+
+Click 'Alan Deploy', and select the **empty** deployment type from this list.
+This will inject a default username and password for first time use.
+When it's done deploying, open your application and sign in with these credentials:
+- username: **root**
+- password: **welcome**
+
+Set your password, attempt a password reset, and add an account for a family member if you like.
+
+So, what just happened... how does this work?
+First, some context.
+The `user` keyword is special: it refers to an authenticated user.
+An authenticated user is an entry from the collection of `Users` because we specified `dynamic : .'Users'` in the `users` section.
+
+With `can-read: any user` at the root type, we have specified that any authenticated `user` can read data downwards from the root node.
+Similarly, `can-update: any user ?'Type'|'Admin'` specifies that only admins can update data downwards from the `root`.
+That is, until overridden by a redefinition of `can-read` or `can-update`.
+
+For the `User Data`, that is exactly what we want to do: the `User Data` should only be updated when the signed in `user` equals the to-be-updated user.
+The expression `user == ^` takes care of that: the runtime takes the authenticated user node and ensures that it equals the parent (`^`) node of the to-be-updated `User Data` node.
+
 
 ### Add some collections
-That should work, but our app lacks purpose right now. Why not build a little multi-user todo app (when not sure what to do, make a todo app right?). So, let's say our users are involved in projects and each project has stuff that needs to be done.
+We have authentication and authorization, but our app lacks purpose right now.
+Why not build a little multi-user todo app (when not sure what to do, make a todo app right?).
+So, let's say our users are involved in projects and each project has stuff that needs to be done.
 
 ```js
 root {
 	can-read: any user
 	can-update: any user
 
-	'Users': collection ['Username'] {
-		'Username': text
-		'User Data': group { can-update: user == ^
-			'Login Status': stategroup @default: 'Suspended' (
-				'Active'-> { }
-				'Password Reset'-> { }
-				'Suspended'-> { }
-			)
-			'Password': text
-		}
-	}
+	'Users': collection ['Username'] {...}
 	'Projects': collection ['Project Name'] {
 	'Project Name': text
 		'Todos': collection ['Todo'] {
@@ -206,7 +245,8 @@ root {
 }
 ```
 
-We should probably have a little more information for each todo, like when it was created, or to which user it was assigned. It probably doesn't hurt to be able to write down some details about the todo either.
+We should probably have a little more information for each todo, like when it was created, or to which user it was assigned.
+It probably doesn't hurt to be able to write down some details about the todo either.
 
 ```js
 'Todos': collection ['Todo'] {
@@ -217,7 +257,7 @@ We should probably have a little more information for each todo, like when it wa
 }
 ```
 
-Now we've already done some things I need to explain. Let's take them one by one.
+Now we have written several things that need some explaining. Let's take them one by one.
 
 
 ### Numbers
@@ -225,7 +265,7 @@ Now we've already done some things I need to explain. Let's take them one by one
 'Created': natural 'date and time'
 ```
 
-This creates a number property, typically a "natural": meaning it can't be zero or negative, which won't make sense for a timestamp. We also give it the type of 'date and time'. Properties that are the same kind of number (a "date", or "kilograms", or "minutes") all have the same numerical type. This makes sure that when you're making calculations, you also end up with the correct numerical type for the result value. More on that later, right now you need to register that numerical type:
+The property `Created` is a `natural` number property, which holds a value greater than zero. We also specified a numerical type: `date and time`. Properties that are the same kind of number (a 'date', 'kilograms', or 'minutes') all have the same numerical type. This ensures that when you're defining computations, you will end up with the correct numerical type for the resulting value. More on that later, right now you need to register that numerical type:
 
 ```js
 numerical-types
@@ -246,20 +286,20 @@ The other thing that's special here is the 'Assignee'.
 'Assignee': text -> ^ ^ .'Users'
 ```
 
-It's a text property, but we want it to refer to one of the users of the application. Let's break down the syntax here:
+An `Assignee` property holds a text value, but we want to ensure that it refers to an entry from the `Users` collection. Let's break down the syntax here:
 
 - `->`: says "hey, this should refer to something"
 - `^`: this is the first step in what we call the **path** to the thing we want to refer to. It tells the program to step "up" (`^`) out of the current collection.
 - `^`: the first step took us from 'Todos' to 'Project', so we take another step up.
 - `.'Users'`: now that we've arrived at the root of the model, we can simply point to the 'Users' collection.
 
-If you would like to check your addition, build the project again. And if all is well, just deploy it to see how it works in practice.
+To check your new additions, build the project again. If all is well, just deploy it to see how it works in practice.
 
 ## Next steps
 
 The project template has a model filled with examples that cover what we call **derivations**: ways to do math with numbers or derive state groups from other data.
 
-You can [annotate your model](/pages/docs/model/45/application/grammar.html#node) to set default values and [number formats](/pages/docs/model/45/application/grammar.html#numerical-types). Check the [model language docs](/pages/docs/model/45/application/grammar.html) for more details.
+You can [annotate your model](/pages/docs/model/50/application/grammar.html#node) to set default values and [number formats](/pages/docs/model/50/application/grammar.html#numerical-types). Check the [model language docs](/pages/docs/model/50/application/grammar.html) for more details.
 
 Migrations can be edited by hand, for instance to bootstrap your application with more data than is automatically generated. Learn more about it in the [migrations tutorial](migration.html).
 
