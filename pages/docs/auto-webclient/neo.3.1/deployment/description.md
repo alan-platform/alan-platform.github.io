@@ -6,6 +6,9 @@ version: neo.3.1
 type: description
 ---
 
+1. TOC
+{:toc}
+
 Images to be supplied to the client to customize its appearance:
 - **favicon.ico**:         bookmark icon (required)
 - **logo.png**:            94x94 logo to be displayed at login
@@ -17,19 +20,16 @@ resolution or larger to be crsip on high dpi displays.
 - **config.json**          Configuration options for the client.
  An example:
 
+```json
 {
 	"include data in error log": true // include (potentially sensitive) data in error reports.
 }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-/'<span class="token string">logo.png</span>'   ( = optional )
-/'<span class="token string">logo-sideways.png</span>' ( = optional )
-/'<span class="token string">favicon.ico</span>'   ( = required )
-/'<span class="token string">config.json</span>' ( = optional )
-</pre>
-</div>
-</div>
-</pre>
-</div>
-</div>
+```
+```js
+support data deployment
+	/'logo.png'   ( = optional )
+	/'logo-sideways.png' ( = optional )
+	/'favicon.ico'   ( = required )
+	/'config.json' ( = optional )
+conversions
+```
