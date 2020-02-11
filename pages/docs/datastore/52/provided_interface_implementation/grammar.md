@@ -8,6 +8,7 @@ type: grammar
 
 1. TOC
 {:toc}
+
 ## The *minimal implementation*
 ---
 Every provided interface implementation contains at least

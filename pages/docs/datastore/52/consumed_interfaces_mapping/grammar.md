@@ -6,6 +6,9 @@ version: 52
 type: grammar
 ---
 
+1. TOC
+{:toc}
+
 
 {: #grammar-rule--interfaces-to-imported-interfaces }
 <div class="language-js highlighter-rouge">

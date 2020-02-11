@@ -6,6 +6,9 @@ version: 52
 type: grammar
 ---
 
+1. TOC
+{:toc}
+
 
 {: #grammar-rule--formatting }
 <div class="language-js highlighter-rouge">
