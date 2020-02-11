@@ -173,6 +173,14 @@ root {
 }
 ```
 
+Now, let's press 'Alan Build' to see if everything is ok.
+There should be exactly one error: something is wrong in our client settings.
+Press `F8` to quickly go to the error, or navigate to `./systems/client/settings.alan` in the explorer.
+In `settings.alan` it says: `anonymous login: enabled`.
+But wait... we removed `anonymous` from `users` section in our application model, so that is no longer ok.
+To fix it, simply change `enabled` to `disabled`, and you should now be able to build the project successfully.
+
+
 #### Add permissions
 We only want `Admin` users to create and delete `Users`.
 Also, the password (hash) and login status are personal data that should not be updated by other users.
@@ -237,7 +245,7 @@ root {
 
 	'Users': collection ['Username'] {...}
 	'Projects': collection ['Project Name'] {
-	'Project Name': text
+		'Project Name': text
 		'Todos': collection ['Todo'] {
 			'Todo': text
 		}
