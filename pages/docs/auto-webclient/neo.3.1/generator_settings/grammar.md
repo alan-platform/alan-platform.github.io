@@ -6,7 +6,11 @@ version: neo.3.1
 type: grammar
 ---
 
-Global settings for the user interface.
+1. TOC
+{:toc}
+
+### Settings
+Global settings for the user interface:
 
 {: #grammar-rule--application-creator }
 <div class="language-js highlighter-rouge">
@@ -132,64 +136,6 @@ Global settings for the user interface.
 	'<span class="token string">yes</span>'
 		'<span class="token string">dashboard</span>' [ <span class="token operator">dashboard:</span> ] component <a href="#grammar-rule--dashboard">'dashboard'</a>
 	'<span class="token string">no</span>'
-)
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--has-steps }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">has steps</span>' stategroup (
-	'<span class="token string">no</span>'
-	'<span class="token string">yes</span>'
-		'<span class="token string">type</span>' stategroup (
-			'<span class="token string">group</span>'
-				'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
-		)
-		'<span class="token string">tail</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
-)
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--head }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">head</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--has-steps }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">has steps</span>' stategroup (
-	'<span class="token string">no</span>'
-	'<span class="token string">yes</span>'
-		'<span class="token string">type</span>' stategroup (
-			'<span class="token string">state</span>'
-				'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
-				'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
-		)
-	'<span class="token string">tail</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--has-steps }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">has steps</span>' stategroup (
-	'<span class="token string">no</span>'
-	'<span class="token string">yes</span>'
-		'<span class="token string">head</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
-		'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
-		'<span class="token string">tail</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
 )
 </pre>
 </div>
@@ -602,5 +548,59 @@ Custom colors are not bound to the theme and can be any CSS color, for example: 
 			'<span class="token string">value</span>' text
 	)
 </pre>
+</div>
+</div>
+### Navigation expressions
+
+{: #grammar-rule--singular-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">singular path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+			)
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
+	)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--conditional-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">conditional path</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--singular-path">'singular path'</a>
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
+			)
+		'<span class="token string">tail</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--collection-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">collection path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">head</span>' component <a href="#grammar-rule--conditional-path">'conditional path'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--collection-path">'collection path'</a>
+	)</pre>
 </div>
 </div>

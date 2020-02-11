@@ -6,6 +6,9 @@ version: neo.3.1
 type: grammar
 ---
 
+1. TOC
+{:toc}
+
 
 {: #grammar-rule--settings }
 <div class="language-js highlighter-rouge">
@@ -53,9 +56,6 @@ type: grammar
 		'<span class="token string">target window</span>' reference
 	'<span class="token string">no</span>'
 )
-</pre>
-</div>
-</div>
 </pre>
 </div>
 </div>
