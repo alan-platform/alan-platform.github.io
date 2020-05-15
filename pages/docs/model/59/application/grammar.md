@@ -3850,7 +3850,7 @@ supported icons can be found at: https://octicons.github.com/.
 		'<span class="token string">target collection</span>' {
 			'<span class="token string">collection type</span>': stategroup (
 				'<span class="token string">parameter</span>' { [ <span class="token operator">@</span> <span class="token operator">create</span> ] }
-				'<span class="token string">node</span>'{ [ <span class="token operator">create</span> ] }
+				'<span class="token string">node</span>' { [ <span class="token operator">create</span> ] }
 			)
 			'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-action-expression">'ui action expression'</a>
 		}
