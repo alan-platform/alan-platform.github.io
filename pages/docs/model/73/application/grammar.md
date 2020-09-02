@@ -916,7 +916,7 @@ after the constraint expression for the `Product` property.
 'Orders': collection ['ID'] {
     'ID': text
     'Product': text -> ^ .'Products' ( 'Manufacturer' => >'Manufacturer' )
-    'Manufacturer': text => ^ .'Manufacturers' = >'Product'$'Manufacturer'
+    'Manufacturer': text = ^ .'Manufacturers' = >'Product'$'Manufacturer'
 }
 ```
 
@@ -1516,7 +1516,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
     // a link to a 'Products' item from the catalog provider:
     'Product': text ~> ^ .'Products'
     'Product found': stategroup = any >'Product' (
-        | true  = 'Yes' ( 'Product' => $ )
+        | true  = 'Yes' ( 'Product' = $ )
         | false = 'No'
     ) (
         'Yes' ( 'Product': +'Catalog'.'Products' ) -> {
@@ -1966,16 +1966,16 @@ Also, the `external` command needs to be consumed by the application model, like
     'Status': stategroup (
         'New' -> {
             'Order from Manufacturer': command { }
-                execute .'Place Order' ( 'Product' = ^ .'Product' )
-                and update ^ (
-                    'Status': stategroup = create 'Waiting for Manufacturer' ( )
+                => execute .'Place Order' ( 'Product' = ^ .'Product' )
+                => update ^ (
+                    'Status' = create 'Waiting for Manufacturer' ( )
                 )
         }
         'Delivered' -> { }
         'Delayed' -> { }
         'Waiting for Manufacturer' -> {
             'Agreed Upon Delivery Time': integer 'date and time'
-                timer ontimeout update ^ (
+                timer ontimeout => update ^ (
                     'Status' = ensure 'Delayed' ( )
                 )
         }
@@ -1984,7 +1984,7 @@ Also, the `external` command needs to be consumed by the application model, like
 // for external system 'Delivery Service':
 'Register Delivery': command { 'Order': text -> .'Orders' }
     update @ >'Order' (
-        'Status': stategroup = 'Delivered' ( )
+        'Status' = create 'Delivered' ( )
     )
 ```
 
@@ -3478,9 +3478,9 @@ supported icons can be found at: https://octicons.github.com/.
 		'<span class="token string">execute operation</span>' { [ <span class="token operator">execute</span> ]
 			/*
 			*	execute .'<span class="token string">My Command or Action</span>' (
-			*		'<span class="token string">P1</span>' = integer 10
-			*		'<span class="token string">P2</span>' = "text"
-			*		'<span class="token string">P2</span>' = ( //collection initializer; dictionary.
+			*		'<span class="token string">MyInt</span>' = integer 10
+			*		'<span class="token string">MyText</span>' = "text"
+			*		'<span class="token string">MyCol</span>' = (
 			*			create (
 			*				'<span class="token string">K</span>' = @ .'<span class="token string">new key</span>'
 			*				'<span class="token string">T</span>' = 10
@@ -3498,15 +3498,14 @@ supported icons can be found at: https://octicons.github.com/.
 				'<span class="token string">object</span>' {
 					/*
 					*	update >'<span class="token string">Node</span>' (
-					*		'<span class="token string">P1</span>' = "2"
-					*		'<span class="token string">P2</span>' = "3"
+					*		'<span class="token string">Text</span>' = "2"
 					*		'<span class="token string">Col</span>' = (
 					*			create (
 					*				'<span class="token string">User</span>' = "E1"
 					*			)
 					*		)
 					*		'<span class="token string">Group</span>' = (
-					*			'<span class="token string">Prop1</span>' = integer 2
+					*			'<span class="token string">Int</span>' = integer 2
 					*		)
 					*	)
 					*/
@@ -3515,7 +3514,7 @@ supported icons can be found at: https://octicons.github.com/.
 				'<span class="token string">state</span>' {
 					/*
 					*	update >'<span class="token string">Node</span>' (
-					*		'<span class="token string">MySG</span>' = state '<span class="token string">Open</span>' (
+					*		'<span class="token string">StateGroup</span>' = create '<span class="token string">Open</span>' (
 					*			'<span class="token string">P1</span>' = "1"
 					*		)
 					*	)
@@ -3523,35 +3522,6 @@ supported icons can be found at: https://octicons.github.com/.
 					'<span class="token string">state</span>': [ <span class="token operator">create</span> ] reference
 					'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-object-expression">'ui object expression'</a>
 				}
-				// '<span class="token string">collection</span>' {
-				// 	/*
-				// 	*	update >'<span class="token string">Node</span>' (
-				// 	*		'<span class="token string">Mycol</span>' = empty
-				// 	*		'<span class="token string">Mycol2</span>' = switch ?'<span class="token string">sg</span>' (
-				// 	*			|'<span class="token string">a</span>' => empty
-				// 	*			|'<span class="token string">b</span>' => (
-				// 	*				create ( .. ) ,
-				// 	*				switch .. (
-				// 	*					|'<span class="token string">1</span>' => create ( ... )
-				// 	*					|'<span class="token string">2</span>' => ignore
-				// 	*				)
-				// 	*			)
-				// 	*		)
-				// 	*	)
-				// 	*	update >'<span class="token string">Node</span>' (
-				// 	*		'<span class="token string">Mycol</span>' = (
-				// 	*			create ( '<span class="token string">K</span>' = "1" ) ,
-				// 	*			create ( '<span class="token string">K</span>' = @ .'<span class="token string">new K</span>' )
-				// 	*		)
-				// 	*	)
-				// 	*/
-				// 	'<span class="token string">initialization</span>': stategroup (
-				// 		'<span class="token string">empty</span>' { [ <span class="token operator">empty</span> ] }
-				// 		'<span class="token string">entries</span>' {
-				// 			'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-action-expression">'ui action expression'</a>
-				// 		}
-				// 	)
-				// }
 				'<span class="token string">scalar</span>' {
 					'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-scalar-default">'ui scalar default'</a>
 				}
