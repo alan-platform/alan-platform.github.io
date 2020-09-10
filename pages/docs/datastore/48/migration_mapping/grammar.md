@@ -6,710 +6,887 @@ version: 48
 type: grammar
 ---
 
+1. TOC
+{:toc}
 
-```js
-'none' group
-(
-	'operation' component 'tag: operation type'
-	'stack'     component 'tag: variable stack'
-)
-```
 
-```js
-'context' group
+{: #grammar-rule--none }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">none</span>' group
 (
-	'singular' component 'tag: context type'
-	'plural'   component 'tag: context type'
+	'<span class="token string">operation</span>' component <a href="#grammar-rule--tag--operation-type">'tag: operation type'</a>
+	'<span class="token string">stack</span>'     component <a href="#grammar-rule--tag--variable-stack">'tag: variable stack'</a>
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'root' ['root'] group
+{: #grammar-rule--context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context</span>' group
 (
-	'context'  component 'context creation'
-	'variable' ['=' 'root' 'as' '$'] component 'variable assignment: context'
-	'root'     component 'node mapping'
+	'<span class="token string">singular</span>' component <a href="#grammar-rule--tag--context-type">'tag: context type'</a>
+	'<span class="token string">plural</span>'   component <a href="#grammar-rule--tag--context-type">'tag: context type'</a>
 )
-```
-```
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--root }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">root</span>' [ <span class="token operator">root</span> ] group
+(
+	'<span class="token string">context</span>'  component <a href="#grammar-rule--context-creation">'context creation'</a>
+	'<span class="token string">variable</span>' [ <span class="token operator">=</span> <span class="token operator">root</span> <span class="token operator">as</span> <span class="token operator">$</span> ] component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+	'<span class="token string">root</span>'     component <a href="#grammar-rule--node-mapping">'node mapping'</a>
+)
+</pre>
+</div>
+</div>
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
 /* data context information */
-```
+</pre>
+</div>
+</div>
 
-```js
-'tag: context type'
-```
+{: #grammar-rule--tag--context-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tag: context type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'tag: context'
-```
+{: #grammar-rule--tag--context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tag: context</span>'
+</pre>
+</div>
+</div>
 
-```js
-'context creation'
-	'tag' component 'tag: context'
+{: #grammar-rule--context-creation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context creation</span>'
+	'<span class="token string">tag</span>' component <a href="#grammar-rule--tag--context">'tag: context'</a>
 /* execution context information */
-```
+</pre>
+</div>
+</div>
 
-```js
-'tag: operation type'
-```
+{: #grammar-rule--tag--operation-type }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tag: operation type</span>'
+</pre>
+</div>
+</div>
 
-```js
-'unguaranteed operation'
-	'is' ['<!', '!>'] stategroup
+{: #grammar-rule--unguaranteed-operation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">unguaranteed operation</span>'
+	'<span class="token string">is</span>' [ <span class="token operator"><!</span>, <span class="token operator">!></span> ] stategroup
 	(
-		'unguarded'
-			'annotation' text
-		'guarded'
+		'<span class="token string">unguarded</span>'
+			'<span class="token string">annotation</span>' text
+		'<span class="token string">guarded</span>'
 	)
 /* static data descriptors */
-```
+</pre>
+</div>
+</div>
 
-```js
-'static: number list'
-	'type' stategroup
+{: #grammar-rule--static--number-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">static: number list</span>'
+	'<span class="token string">type</span>' stategroup
 	(
-		'single'
-			'value' number
-		'range'
-			'begin' number
-			'end' ['-'] number
+		'<span class="token string">single</span>'
+			'<span class="token string">value</span>' number
+		'<span class="token string">range</span>'
+			'<span class="token string">begin</span>' number
+			'<span class="token string">end</span>' [ <span class="token operator">-</span> ] number
 	)
-	'has more' stategroup
+	'<span class="token string">has more</span>' stategroup
 	(
-		'yes'
-			'tail' [','] component 'static: number list'
-		'no'
+		'<span class="token string">yes</span>'
+			'<span class="token string">tail</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--static--number-list">'static: number list'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'static: text list'
-	'value' text
-	'has more' stategroup
+{: #grammar-rule--static--text-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">static: text list</span>'
+	'<span class="token string">value</span>' text
+	'<span class="token string">has more</span>' stategroup
 	(
-		'yes'
-			'tail' [','] component 'static: text list'
-		'no'
+		'<span class="token string">yes</span>'
+			'<span class="token string">tail</span>' [ <span class="token operator">,</span> ] component <a href="#grammar-rule--static--text-list">'static: text list'</a>
+		'<span class="token string">no</span>'
 	)
 /* variable stack */
-```
+</pre>
+</div>
+</div>
 
-```js
-'tag: variable stack'
-```
+{: #grammar-rule--tag--variable-stack }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tag: variable stack</span>'
+</pre>
+</div>
+</div>
 
-```js
-'tag: variable'
-	'tag' component 'tag: variable stack'
-```
+{: #grammar-rule--tag--variable }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tag: variable</span>'
+	'<span class="token string">tag</span>' component <a href="#grammar-rule--tag--variable-stack">'tag: variable stack'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable selector'
-	'is' stategroup ('stack frame')
-	'select' stategroup
+{: #grammar-rule--variable-selector }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable selector</span>'
+	'<span class="token string">is</span>' stategroup ('<span class="token string">stack frame</span>')
+	'<span class="token string">select</span>' stategroup
 	(
-		'this' ['$']
-		'parent' ['$^']
-			'tail' component 'variable selector'
-		'partition'
-			'select' stategroup
+		'<span class="token string">this</span>' [ <span class="token operator">$</span> ]
+		'<span class="token string">parent</span>' [ <span class="token operator">$^</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+		'<span class="token string">partition</span>'
+			'<span class="token string">select</span>' stategroup
 			(
-				'key' ['$key']
-				'set' ['$set']
+				'<span class="token string">key</span>' [ <span class="token operator">$key</span> ]
+				'<span class="token string">set</span>' [ <span class="token operator">$set</span> ]
 			)
-		'branch' ['$']
-			'branch' reference
+		'<span class="token string">branch</span>' [ <span class="token operator">$</span> ]
+			'<span class="token string">branch</span>' reference
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: context'
-	'variable' component 'tag: variable'
-```
+{: #grammar-rule--variable-assignment--context }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: context</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: number'
-	'variable' component 'tag: variable'
-```
+{: #grammar-rule--variable-assignment--number }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: number</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: text'
-	'variable' component 'tag: variable'
-```
+{: #grammar-rule--variable-assignment--text }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: text</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: regexp'
-	'variable' component 'tag: variable'
-```
+{: #grammar-rule--variable-assignment--regexp }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: regexp</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: array'
-	'variable' component 'tag: variable'
-```
+{: #grammar-rule--variable-assignment--array }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: array</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: partition'
-	'variable' component 'tag: variable'
-```
+{: #grammar-rule--variable-assignment--partition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: partition</span>'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
+</pre>
+</div>
+</div>
 
-```js
-'variable assignment: block'
-	'branches' ['(',')'] collection indent
-	( ['$']
-		'type' stategroup
+{: #grammar-rule--variable-assignment--block }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">variable assignment: block</span>'
+	'<span class="token string">branches</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection indent
+	( [ <span class="token operator">$</span> ]
+		'<span class="token string">type</span>' stategroup
 		(
-			'context' ['=']
-				'expression' component 'context selector'
-				'context' component 'context creation'
-				'assignment' component 'variable assignment: context'
-			'array' [':''array''=']
-				'selection' component 'context selector'
-				'is' stategroup ('plural context')
-				'transformation' stategroup
+			'<span class="token string">context</span>' [ <span class="token operator">=</span> ]
+				'<span class="token string">expression</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+				'<span class="token string">context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+				'<span class="token string">assignment</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+			'<span class="token string">array</span>' [ <span class="token operator">:</span> <span class="token operator">array</span> <span class="token operator">=</span> ]
+				'<span class="token string">selection</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+				'<span class="token string">is</span>' stategroup ('<span class="token string">plural context</span>')
+				'<span class="token string">transformation</span>' stategroup
 				(
-					'none' ['on']
-						'unguaranteed operation' component 'unguaranteed operation'
-					'partition' ['partition']
-						'bucket context' component 'context creation'
+					'<span class="token string">none</span>' [ <span class="token operator">on</span> ]
+						'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+					'<span class="token string">partition</span>' [ <span class="token operator">partition</span> ]
+						'<span class="token string">bucket context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
 				)
-				'index' ['[',']'] group
+				'<span class="token string">index</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] group
 				(
-					'context' component 'context creation'
-					'variable' component 'variable assignment: context'
-					'expression' component 'number expression'
+					'<span class="token string">context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+					'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
 				)
-				'assignment' component 'variable assignment: array'
-			'regexp' [':''regexp']
-				'regexp' ['='] reference
-				'unguaranteed operation' component 'unguaranteed operation'
-				'value' ['on'] component 'text expression'
-				'assignment' component 'variable assignment: regexp'
-			'number' [':''number']
-				'expression' ['='] component 'number expression'
-				'assignment' component 'variable assignment: number'
-			'text' [':''text']
-				'expression' ['='] component 'text expression'
-				'assignment' component 'variable assignment: text'
+				'<span class="token string">assignment</span>' component <a href="#grammar-rule--variable-assignment--array">'variable assignment: array'</a>
+			'<span class="token string">regexp</span>' [ <span class="token operator">:</span> <span class="token operator">regexp</span> ]
+				'<span class="token string">regexp</span>' [ <span class="token operator">=</span> ] reference
+				'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+				'<span class="token string">value</span>' [ <span class="token operator">on</span> ] component <a href="#grammar-rule--text-expression">'text expression'</a>
+				'<span class="token string">assignment</span>' component <a href="#grammar-rule--variable-assignment--regexp">'variable assignment: regexp'</a>
+			'<span class="token string">number</span>' [ <span class="token operator">:</span> <span class="token operator">number</span> ]
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression">'number expression'</a>
+				'<span class="token string">assignment</span>' component <a href="#grammar-rule--variable-assignment--number">'variable assignment: number'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">:</span> <span class="token operator">text</span> ]
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--text-expression">'text expression'</a>
+				'<span class="token string">assignment</span>' component <a href="#grammar-rule--variable-assignment--text">'variable assignment: text'</a>
 		)
 	)
-	'variable' component 'tag: variable'
+	'<span class="token string">variable</span>' component <a href="#grammar-rule--tag--variable">'tag: variable'</a>
 /* type specific context selection */
-```
+</pre>
+</div>
+</div>
 
-```js
-'context selector recursive'
-	'step' stategroup
+{: #grammar-rule--context-selector-recursive }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context selector recursive</span>'
+	'<span class="token string">step</span>' stategroup
 	(
-		'yes'
-			'type' stategroup
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup
 			(
-				'group'
-					'is' stategroup
+				'<span class="token string">group</span>'
+					'<span class="token string">is</span>' stategroup
 					(
-						'singular context'
-							'group' ['+'] reference
-						'plural context'
-							'group' ['+','*'] reference
+						'<span class="token string">singular context</span>'
+							'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+						'<span class="token string">plural context</span>'
+							'<span class="token string">group</span>' [ <span class="token operator">+</span>, <span class="token operator">*</span> ] reference
 					)
-				'collection'
-					'is' stategroup
+				'<span class="token string">collection</span>'
+					'<span class="token string">is</span>' stategroup
 					(
-						'singular context'
-							'collection' ['.'] reference
-						'plural context'
-							'collection' ['.','*'] reference
+						'<span class="token string">singular context</span>'
+							'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+						'<span class="token string">plural context</span>'
+							'<span class="token string">collection</span>' [ <span class="token operator">.</span>, <span class="token operator">*</span> ] reference
 					)
-				'entry'
-					'is' stategroup
+				'<span class="token string">entry</span>'
+					'<span class="token string">is</span>' stategroup
 					(
-						'singular context'
-							'collection' ['.'] reference
-							'key' ['[',']'] group
+						'<span class="token string">singular context</span>'
+							'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+							'<span class="token string">key</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] group
 							(
-								'expression' component 'text expression'
+								'<span class="token string">expression</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
 							)
-							'unguaranteed operation' component 'unguaranteed operation'
-						'plural context'
-							'collection' ['.','*'] reference
-							'key' ['[',']'] group
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+						'<span class="token string">plural context</span>'
+							'<span class="token string">collection</span>' [ <span class="token operator">.</span>, <span class="token operator">*</span> ] reference
+							'<span class="token string">key</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ] group
 							(
-								'context' component 'context creation'
-								'variable' component 'variable assignment: context'
-								'expression' component 'text expression'
+								'<span class="token string">context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+								'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+								'<span class="token string">expression</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
 							)
-							'unguaranteed operation' component 'unguaranteed operation'
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
 					)
-				'reference'
-					'is' stategroup
+				'<span class="token string">reference</span>'
+					'<span class="token string">is</span>' stategroup
 					(
-						'singular context'
-							'reference' ['>'] reference
-							'has' stategroup ('referencer')
-						'plural context'
-							'reference' ['>','*'] reference
-							'has' stategroup ('referencer')
+						'<span class="token string">singular context</span>'
+							'<span class="token string">reference</span>' [ <span class="token operator">></span> ] reference
+							'<span class="token string">has</span>' stategroup ('<span class="token string">referencer</span>')
+						'<span class="token string">plural context</span>'
+							'<span class="token string">reference</span>' [ <span class="token operator">></span>, <span class="token operator">*</span> ] reference
+							'<span class="token string">has</span>' stategroup ('<span class="token string">referencer</span>')
 					)
-				'parent'
-					'is' stategroup
+				'<span class="token string">parent</span>'
+					'<span class="token string">is</span>' stategroup
 					(
-						'singular context' ['^']
-						'plural context' ['^','*']
+						'<span class="token string">singular context</span>' [ <span class="token operator">^</span> ]
+						'<span class="token string">plural context</span>' [ <span class="token operator">^</span>, <span class="token operator">*</span> ]
 					)
 			)
-			'temp' component 'context creation'
-			'optional assignment' stategroup
+			'<span class="token string">temp</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+			'<span class="token string">optional assignment</span>' stategroup
 			(
-				'assign' ['as' '$']
-					'variable' component 'variable assignment: context'
-				'skip'
+				'<span class="token string">assign</span>' [ <span class="token operator">as</span> <span class="token operator">$</span> ]
+					'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+				'<span class="token string">skip</span>'
 			)
-			'tail' component 'context selector recursive'
-		'no'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--context-selector-recursive">'context selector recursive'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'context selector'
-	'source' stategroup
+{: #grammar-rule--context-selector }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">context selector</span>'
+	'<span class="token string">source</span>' stategroup
 	(
-		'stack'
-			'selection' component 'variable selector'
-			'is' stategroup ('context variable')
-		'array'
-			'operation' stategroup
+		'<span class="token string">stack</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">context variable</span>')
+		'<span class="token string">array</span>'
+			'<span class="token string">operation</span>' stategroup
 			(
-				'predecessor' ['predecessor']
-				'successor' ['successor']
+				'<span class="token string">predecessor</span>' [ <span class="token operator">predecessor</span> ]
+				'<span class="token string">successor</span>' [ <span class="token operator">successor</span> ]
 			)
-			'key expression' ['of'] component 'number expression'
-			'selection' ['in'] component 'variable selector'
-			'unguaranteed operation' component 'unguaranteed operation'
-			'is' stategroup ('array variable')
+			'<span class="token string">key expression</span>' [ <span class="token operator">of</span> ] component <a href="#grammar-rule--number-expression">'number expression'</a>
+			'<span class="token string">selection</span>' [ <span class="token operator">in</span> ] component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">array variable</span>')
 	)
-	'steps' component 'context selector recursive'
-	'guaranteed' stategroup ('by implementation')
+	'<span class="token string">steps</span>' component <a href="#grammar-rule--context-selector-recursive">'context selector recursive'</a>
+	'<span class="token string">guaranteed</span>' stategroup ('<span class="token string">by implementation</span>')
 /* generic sub expressions */
-```
+</pre>
+</div>
+</div>
 
-```js
-'regexp selector'
-	'source' stategroup
+{: #grammar-rule--regexp-selector }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">regexp selector</span>'
+	'<span class="token string">source</span>' stategroup
 	(
-		'stack'
-			'selection' component 'variable selector'
-			'is' stategroup ('regexp')
-		'inline' ['inline']
-			'regexp' reference
-			'unguaranteed operation' component 'unguaranteed operation'
-			'value' ['on'] component 'text expression'
+		'<span class="token string">stack</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">regexp</span>')
+		'<span class="token string">inline</span>' [ <span class="token operator">inline</span> ]
+			'<span class="token string">regexp</span>' reference
+			'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			'<span class="token string">value</span>' [ <span class="token operator">on</span> ] component <a href="#grammar-rule--text-expression">'text expression'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'number expression list'
-	'expression' component 'number expression'
-	'has more' stategroup (
-		'no'
-		'yes' [',']
-			'tail' component 'number expression list'
+{: #grammar-rule--number-expression-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number expression list</span>'
+	'<span class="token string">expression</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
+	'<span class="token string">has more</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--number-expression-list">'number expression list'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'number expression'
-	'type' stategroup
+{: #grammar-rule--number-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">number expression</span>'
+	'<span class="token string">type</span>' stategroup
 	(
-		'convert text'
-			'value constraint' stategroup
+		'<span class="token string">convert text</span>'
+			'<span class="token string">value constraint</span>' stategroup
 			(
-				'integer' ['to-integer']
-				'natural' ['to-natural']
+				'<span class="token string">integer</span>' [ <span class="token operator">to-integer</span> ]
+				'<span class="token string">natural</span>' [ <span class="token operator">to-natural</span> ]
 			)
-			'unguaranteed operation' component 'unguaranteed operation'
-			'value' component 'text expression'
-		'cast to natural' ['(natural)']
-			'unguaranteed operation' component 'unguaranteed operation'
-			'value' component 'number expression'
-		'convert date' ['to-date']
-			'unguaranteed operation' component 'unguaranteed operation'
-			'selection' component 'regexp selector'
-			'year' ['where' 'year' '='] reference
-			'offset' stategroup
+			'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			'<span class="token string">value</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
+		'<span class="token string">cast to natural</span>' [ <span class="token operator">(natural)</span> ]
+			'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			'<span class="token string">value</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
+		'<span class="token string">convert date</span>' [ <span class="token operator">to-date</span> ]
+			'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--regexp-selector">'regexp selector'</a>
+			'<span class="token string">year</span>' [ <span class="token operator">where</span> <span class="token operator">year</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">offset</span>' stategroup
 			(
-				'month based'
-					'month'        ['month' '='] reference
-					'day of month' ['day' '='] reference
-				'week based'
-					'week' ['week' '='] reference
-					'day of week' ['day' '='] stategroup
+				'<span class="token string">month based</span>'
+					'<span class="token string">month</span>'        [ <span class="token operator">month</span> <span class="token operator">=</span> ] reference
+					'<span class="token string">day of month</span>' [ <span class="token operator">day</span> <span class="token operator">=</span> ] reference
+				'<span class="token string">week based</span>'
+					'<span class="token string">week</span>' [ <span class="token operator">week</span> <span class="token operator">=</span> ] reference
+					'<span class="token string">day of week</span>' [ <span class="token operator">day</span> <span class="token operator">=</span> ] stategroup
 					(
-						'monday'    ['Monday']
-						'tuesday'	['Tuesday']
-						'wednesday'	['Wednesday']
-						'thursday'	['Thursday']
-						'friday'	['Friday']
-						'saturday'	['Saturday']
-						'sunday'    ['Sunday']
+						'<span class="token string">monday</span>'    [ <span class="token operator">Monday</span> ]
+						'<span class="token string">tuesday</span>'	[ <span class="token operator">Tuesday</span> ]
+						'<span class="token string">wednesday</span>'	[ <span class="token operator">Wednesday</span> ]
+						'<span class="token string">thursday</span>'	[ <span class="token operator">Thursday</span> ]
+						'<span class="token string">friday</span>'	[ <span class="token operator">Friday</span> ]
+						'<span class="token string">saturday</span>'	[ <span class="token operator">Saturday</span> ]
+						'<span class="token string">sunday</span>'    [ <span class="token operator">Sunday</span> ]
 					)
 			)
-		'convert date and time' ['to-datetime']
-			'unguaranteed operation' component 'unguaranteed operation'
-			'selection' component 'regexp selector'
-			'year'         ['where' 'year' '='] reference
-			'month'        ['month' '='] reference
-			'day of month' ['day' '='] reference
-			'hour'         ['hour' '='] reference
-			'minute'       ['minute' '='] reference
-			'second'       ['second' '='] reference
-		'from context'
-			'is' stategroup
+		'<span class="token string">convert date and time</span>' [ <span class="token operator">to-datetime</span> ]
+			'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--regexp-selector">'regexp selector'</a>
+			'<span class="token string">year</span>'         [ <span class="token operator">where</span> <span class="token operator">year</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">month</span>'        [ <span class="token operator">month</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">day of month</span>' [ <span class="token operator">day</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">hour</span>'         [ <span class="token operator">hour</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">minute</span>'       [ <span class="token operator">minute</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">second</span>'       [ <span class="token operator">second</span> <span class="token operator">=</span> ] reference
+		'<span class="token string">from context</span>'
+			'<span class="token string">is</span>' stategroup
 			(
-				'singular context'
-				'plural context'
-					'operation' stategroup
+				'<span class="token string">singular context</span>'
+				'<span class="token string">plural context</span>'
+					'<span class="token string">operation</span>' stategroup
 					(
-						'shared value' ['shared']
-							'unguaranteed operation' component 'unguaranteed operation'
-						'sum' ['sum']
-						'max' ['max']
-							'unguaranteed operation' component 'unguaranteed operation'
-						'min' ['min']
-							'unguaranteed operation' component 'unguaranteed operation'
+						'<span class="token string">shared value</span>' [ <span class="token operator">shared</span> ]
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+						'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+						'<span class="token string">max</span>' [ <span class="token operator">max</span> ]
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+						'<span class="token string">min</span>' [ <span class="token operator">min</span> ]
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
 					)
 			)
-			'selection' ['#'] component 'context selector' // NOTE: temporary keyword
-			'number' ['.'] reference
-		'from variable'
-			'selection' component 'variable selector'
-			'is' stategroup ('number variable')
-		'unary operation'
-			'operation' stategroup (
-				'additive inverse' ['-']
+			'<span class="token string">selection</span>' [ <span class="token operator">#</span> ] component <a href="#grammar-rule--context-selector">'context selector'</a> // NOTE: temporary keyword
+			'<span class="token string">number</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">from variable</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">number variable</span>')
+		'<span class="token string">unary operation</span>'
+			'<span class="token string">operation</span>' stategroup (
+				'<span class="token string">additive inverse</span>' [ <span class="token operator">-</span> ]
 			)
-			'expression' component 'number expression'
-		'list operation'
-			'operation' stategroup (
-				'sum' ['sum']
-				'product' ['product']
+			'<span class="token string">expression</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
+		'<span class="token string">list operation</span>'
+			'<span class="token string">operation</span>' stategroup (
+				'<span class="token string">sum</span>' [ <span class="token operator">sum</span> ]
+				'<span class="token string">product</span>' [ <span class="token operator">product</span> ]
 			)
-			'list' ['(',')'] component 'number expression list'
-		'division' ['division']
-			'left' ['('] component 'number expression'
-			'right' [',',')'] component 'number expression'
-		'static value'
-			'value constraint' stategroup
+			'<span class="token string">list</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--number-expression-list">'number expression list'</a>
+		'<span class="token string">division</span>' [ <span class="token operator">division</span> ]
+			'<span class="token string">left</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--number-expression">'number expression'</a>
+			'<span class="token string">right</span>' [ <span class="token operator">,</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--number-expression">'number expression'</a>
+		'<span class="token string">static value</span>'
+			'<span class="token string">value constraint</span>' stategroup
 			(
-				'integer' ['integer']
-					'value' number
-				'natural' ['natural']
-					'value' number
-			)
-	)
-```
-
-```js
-'numerical set constraint'
-```
-
-```js
-'text expression: concatenate'
-	'expression' component 'text expression'
-	'has more' stategroup
-	(
-		'yes' [',']
-			'tail' component 'text expression: concatenate'
-		'no'
-	)
-```
-
-```js
-'text expression'
-	'type' stategroup
-	(
-		'convert number' ['to-text']
-			'value' component 'number expression'
-		'from context'
-			'is' stategroup
-			(
-				'singular context'
-				'plural context'
-					'operation' stategroup
-					(
-						'shared value' ['shared']
-							'unguaranteed operation' component 'unguaranteed operation'
-						'join' ['join']
-							'separator' text
-					)
-			)
-			'selection' component 'context selector'
-			'text' ['.'] reference
-		'from regexp' ['regexp']
-			'selection' component 'regexp selector'
-			'capture' ['@'] reference
-		'from variable'
-			'selection' component 'variable selector'
-			'is' stategroup ('text')
-		'concatenation' ['concat']
-			'expressions' ['(', ')'] component 'text expression: concatenate'
-		'static value'
-			'value' text
-	)
-```
-
-```js
-'boolean expression: candidates'
-	'expression' component 'boolean expression'
-	'has more' stategroup
-	(
-		'yes' [',']
-			'tail' component 'boolean expression: candidates'
-		'no'
-	)
-```
-
-```js
-'boolean expression'
-	'type' stategroup
-	(
-		'logic operation'
-			'operation' stategroup
-			(
-				'and' ['and']
-				'or'  ['or']
-			)
-			'expressions' ['(', ')'] component 'boolean expression: candidates'
-		'compare number'
-			'sub type' stategroup
-			(
-				'binary operation'
-					'left' component 'number expression'
-					'operation' stategroup
-					(
-						'equal' ['==']
-						'greater' ['>']
-						'greater equal' ['>=']
-						'smaller' ['<']
-						'smaller equal' ['<=']
-					)
-					'right' component 'number expression'
-				'set operation'
-					'find' ['is','in'] component 'number expression'
-					'in' ['(', ')'] component 'static: number list'
-			)
-		'compare text'
-			'sub type' stategroup
-			(
-				'binary operation'
-					'left' component 'text expression'
-					'operation' stategroup
-					(
-						'equals' ['equals']
-						'starts with' ['starts-with']
-						'ends with' ['ends-with']
-					)
-					'right' component 'text expression'
-				'set operation'
-					'find' ['is','in'] component 'text expression'
-					'in' ['(', ')'] component 'static: text list'
+				'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+					'<span class="token string">value</span>' number
+				'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
+					'<span class="token string">value</span>' number
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'collection expression'
-	'variable type' ['(', ')'] stategroup
+{: #grammar-rule--numerical-set-constraint }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">numerical set constraint</span>'
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--text-expression--concatenate }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">text expression: concatenate</span>'
+	'<span class="token string">expression</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
+	'<span class="token string">has more</span>' stategroup
 	(
-		'context'
-			'selection' component 'context selector'
-			'context'  component 'context creation'
-		'array' ['array']
-			'selection' component 'variable selector'
-			'is' stategroup ('array context')
-			'guaranteed' stategroup ('by implementation')
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--text-expression--concatenate">'text expression: concatenate'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'collection mapping'['=']
-	'source' stategroup
+{: #grammar-rule--text-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">text expression</span>'
+	'<span class="token string">type</span>' stategroup
 	(
-		'empty' ['empty']
-		'static entry'
-			'mapping' component 'node mapping'
-		'from variable'
-			'transformation' stategroup
+		'<span class="token string">convert number</span>' [ <span class="token operator">to-text</span> ]
+			'<span class="token string">value</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
+		'<span class="token string">from context</span>'
+			'<span class="token string">is</span>' stategroup
 			(
-				'none'
-					'is' stategroup
+				'<span class="token string">singular context</span>'
+				'<span class="token string">plural context</span>'
+					'<span class="token string">operation</span>' stategroup
 					(
-						'singular context'
-						'plural context'
-							'unguaranteed operation' component 'unguaranteed operation'
+						'<span class="token string">shared value</span>' [ <span class="token operator">shared</span> ]
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+						'<span class="token string">join</span>' [ <span class="token operator">join</span> ]
+							'<span class="token string">separator</span>' text
 					)
-					'expression' component 'collection expression'
-					'optional assignment' stategroup
+			)
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+			'<span class="token string">text</span>' [ <span class="token operator">.</span> ] reference
+		'<span class="token string">from regexp</span>' [ <span class="token operator">regexp</span> ]
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--regexp-selector">'regexp selector'</a>
+			'<span class="token string">capture</span>' [ <span class="token operator">@</span> ] reference
+		'<span class="token string">from variable</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">text</span>')
+		'<span class="token string">concatenation</span>' [ <span class="token operator">concat</span> ]
+			'<span class="token string">expressions</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--text-expression--concatenate">'text expression: concatenate'</a>
+		'<span class="token string">static value</span>'
+			'<span class="token string">value</span>' text
+	)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--boolean-expression--candidates }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">boolean expression: candidates</span>'
+	'<span class="token string">expression</span>' component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+	'<span class="token string">has more</span>' stategroup
+	(
+		'<span class="token string">yes</span>' [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--boolean-expression--candidates">'boolean expression: candidates'</a>
+		'<span class="token string">no</span>'
+	)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--boolean-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">boolean expression</span>'
+	'<span class="token string">type</span>' stategroup
+	(
+		'<span class="token string">logic operation</span>'
+			'<span class="token string">operation</span>' stategroup
+			(
+				'<span class="token string">and</span>' [ <span class="token operator">and</span> ]
+				'<span class="token string">or</span>'  [ <span class="token operator">or</span> ]
+			)
+			'<span class="token string">expressions</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--boolean-expression--candidates">'boolean expression: candidates'</a>
+		'<span class="token string">compare number</span>'
+			'<span class="token string">sub type</span>' stategroup
+			(
+				'<span class="token string">binary operation</span>'
+					'<span class="token string">left</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
+					'<span class="token string">operation</span>' stategroup
 					(
-						'assign' ['as' '$']
-							'variable' component 'variable assignment: context'
-						'skip'
+						'<span class="token string">equal</span>' [ <span class="token operator">==</span> ]
+						'<span class="token string">greater</span>' [ <span class="token operator">></span> ]
+						'<span class="token string">greater equal</span>' [ <span class="token operator">>=</span> ]
+						'<span class="token string">smaller</span>' [ <span class="token operator"><</span> ]
+						'<span class="token string">smaller equal</span>' [ <span class="token operator"><=</span> ]
 					)
-					'mapping' component 'node mapping'
-				'partition' ['partition']
-					'set is' stategroup
+					'<span class="token string">right</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
+				'<span class="token string">set operation</span>'
+					'<span class="token string">find</span>' [ <span class="token operator">is</span>, <span class="token operator">in</span> ] component <a href="#grammar-rule--number-expression">'number expression'</a>
+					'<span class="token string">in</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--static--number-list">'static: number list'</a>
+			)
+		'<span class="token string">compare text</span>'
+			'<span class="token string">sub type</span>' stategroup
+			(
+				'<span class="token string">binary operation</span>'
+					'<span class="token string">left</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
+					'<span class="token string">operation</span>' stategroup
 					(
-						'plural context'
-							'unguaranteed operation' component 'unguaranteed operation'
+						'<span class="token string">equals</span>' [ <span class="token operator">equals</span> ]
+						'<span class="token string">starts with</span>' [ <span class="token operator">starts-with</span> ]
+						'<span class="token string">ends with</span>' [ <span class="token operator">ends-with</span> ]
 					)
-					'row is' stategroup ('singular context')
-					'expression' component 'collection expression'
-					'index' group
-					( ['[', ']']
-						'variable' component 'variable assignment: context'
-						'expression' component 'text expression'
-					)
-					'set context' component 'context creation'
-					'optional assignment' stategroup
-					(
-						'assign' ['as' '(' '$key' ',' '$set' ')']
-							'key variable' component 'variable assignment: text'
-							'set variable' component 'variable assignment: context'
-							'variable' component 'variable assignment: partition'
-						'skip'
-					)
-					'mapping' component 'node mapping'
+					'<span class="token string">right</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
+				'<span class="token string">set operation</span>'
+					'<span class="token string">find</span>' [ <span class="token operator">is</span>, <span class="token operator">in</span> ] component <a href="#grammar-rule--text-expression">'text expression'</a>
+					'<span class="token string">in</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--static--text-list">'static: text list'</a>
 			)
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'state mapping' ['=']
-	'type' stategroup
+{: #grammar-rule--collection-expression }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">collection expression</span>'
+	'<span class="token string">variable type</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] stategroup
 	(
-		'panic' ['panic']
-			'comment' text
-		'conditional' ['match']
-			'condition' ['(', ')'] component 'boolean expression'
-			'on true'  ['|' 'true'] component 'state mapping'
-			'on false' ['|' 'false'] component 'state mapping'
-		'enrich' ['try']
-			'try assign' component 'variable assignment: block'
-			'guarded operation' component 'tag: operation type'
-			'on success' ['|' 'success'] component 'state mapping'
-			'on failure' ['|' 'failure'] component 'state mapping'
-		'context switch'
-			'selection' component 'context selector'
-			'is' stategroup ('plural context')
-			'on singular' ['|''singular'] group
+		'<span class="token string">context</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+			'<span class="token string">context</span>'  component <a href="#grammar-rule--context-creation">'context creation'</a>
+		'<span class="token string">array</span>' [ <span class="token operator">array</span> ]
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">array context</span>')
+			'<span class="token string">guaranteed</span>' stategroup ('<span class="token string">by implementation</span>')
+	)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--collection-mapping }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">collection mapping</span>'[ <span class="token operator">=</span> ]
+	'<span class="token string">source</span>' stategroup
+	(
+		'<span class="token string">empty</span>' [ <span class="token operator">empty</span> ]
+		'<span class="token string">static entry</span>'
+			'<span class="token string">mapping</span>' component <a href="#grammar-rule--node-mapping">'node mapping'</a>
+		'<span class="token string">from variable</span>'
+			'<span class="token string">transformation</span>' stategroup
 			(
-				'context' component 'context creation'
-				'variable' component 'variable assignment: context'
-				'mapping' component 'state mapping'
+				'<span class="token string">none</span>'
+					'<span class="token string">is</span>' stategroup
+					(
+						'<span class="token string">singular context</span>'
+						'<span class="token string">plural context</span>'
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+					)
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--collection-expression">'collection expression'</a>
+					'<span class="token string">optional assignment</span>' stategroup
+					(
+						'<span class="token string">assign</span>' [ <span class="token operator">as</span> <span class="token operator">$</span> ]
+							'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+						'<span class="token string">skip</span>'
+					)
+					'<span class="token string">mapping</span>' component <a href="#grammar-rule--node-mapping">'node mapping'</a>
+				'<span class="token string">partition</span>' [ <span class="token operator">partition</span> ]
+					'<span class="token string">set is</span>' stategroup
+					(
+						'<span class="token string">plural context</span>'
+							'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+					)
+					'<span class="token string">row is</span>' stategroup ('<span class="token string">singular context</span>')
+					'<span class="token string">expression</span>' component <a href="#grammar-rule--collection-expression">'collection expression'</a>
+					'<span class="token string">index</span>' group
+					( [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
+						'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+						'<span class="token string">expression</span>' component <a href="#grammar-rule--text-expression">'text expression'</a>
+					)
+					'<span class="token string">set context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+					'<span class="token string">optional assignment</span>' stategroup
+					(
+						'<span class="token string">assign</span>' [ <span class="token operator">as</span> <span class="token operator">(</span> <span class="token operator">$key</span> <span class="token operator">,</span> <span class="token operator">$set</span> <span class="token operator">)</span> ]
+							'<span class="token string">key variable</span>' component <a href="#grammar-rule--variable-assignment--text">'variable assignment: text'</a>
+							'<span class="token string">set variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+							'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--partition">'variable assignment: partition'</a>
+						'<span class="token string">skip</span>'
+					)
+					'<span class="token string">mapping</span>' component <a href="#grammar-rule--node-mapping">'node mapping'</a>
 			)
-			'on plural' ['|''plural'] group
+	)
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--state-mapping }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">state mapping</span>' [ <span class="token operator">=</span> ]
+	'<span class="token string">type</span>' stategroup
+	(
+		'<span class="token string">panic</span>' [ <span class="token operator">panic</span> ]
+			'<span class="token string">comment</span>' text
+		'<span class="token string">conditional</span>' [ <span class="token operator">match</span> ]
+			'<span class="token string">condition</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
+			'<span class="token string">on true</span>'  [ <span class="token operator">|</span> <span class="token operator">true</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on false</span>' [ <span class="token operator">|</span> <span class="token operator">false</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+		'<span class="token string">enrich</span>' [ <span class="token operator">try</span> ]
+			'<span class="token string">try assign</span>' component <a href="#grammar-rule--variable-assignment--block">'variable assignment: block'</a>
+			'<span class="token string">guarded operation</span>' component <a href="#grammar-rule--tag--operation-type">'tag: operation type'</a>
+			'<span class="token string">on success</span>' [ <span class="token operator">|</span> <span class="token operator">success</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on failure</span>' [ <span class="token operator">|</span> <span class="token operator">failure</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+		'<span class="token string">context switch</span>'
+			'<span class="token string">selection</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">plural context</span>')
+			'<span class="token string">on singular</span>' [ <span class="token operator">|</span> <span class="token operator">singular</span> ] group
 			(
-				'context' component 'context creation'
-				'variable' component 'variable assignment: context'
-				'mapping' component 'state mapping'
+				'<span class="token string">context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+				'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+				'<span class="token string">mapping</span>' component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 			)
-		'from context'
-			'is' stategroup
+			'<span class="token string">on plural</span>' [ <span class="token operator">|</span> <span class="token operator">plural</span> ] group
 			(
-				'singular context' ['switch']
-				'plural context' ['switch-shared']
-					'unguaranteed operation' component 'unguaranteed operation'
+				'<span class="token string">context</span>' component <a href="#grammar-rule--context-creation">'context creation'</a>
+				'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+				'<span class="token string">mapping</span>' component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 			)
-			'selection' ['('] component 'context selector'
-			'state group' ['?',')'] reference
-			'mappings' ['(',')'] collection indent
-			( ['|']
-				'optional variable assignment' stategroup
+		'<span class="token string">from context</span>'
+			'<span class="token string">is</span>' stategroup
+			(
+				'<span class="token string">singular context</span>' [ <span class="token operator">switch</span> ]
+				'<span class="token string">plural context</span>' [ <span class="token operator">switch-shared</span> ]
+					'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
+			)
+			'<span class="token string">selection</span>' [ <span class="token operator">(</span> ] component <a href="#grammar-rule--context-selector">'context selector'</a>
+			'<span class="token string">state group</span>' [ <span class="token operator">?</span>, <span class="token operator">)</span> ] reference
+			'<span class="token string">mappings</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection indent
+			( [ <span class="token operator">|</span> ]
+				'<span class="token string">optional variable assignment</span>' stategroup
 				(
-					'assign' ['as' '$']
-						'context'  component 'context creation'
-						'variable' component 'variable assignment: context'
-					'skip'
+					'<span class="token string">assign</span>' [ <span class="token operator">as</span> <span class="token operator">$</span> ]
+						'<span class="token string">context</span>'  component <a href="#grammar-rule--context-creation">'context creation'</a>
+						'<span class="token string">variable</span>' component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+					'<span class="token string">skip</span>'
 				)
-				'mapping' component 'state mapping'
+				'<span class="token string">mapping</span>' component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 			)
-		'from array'
-			'operation' stategroup
+		'<span class="token string">from array</span>'
+			'<span class="token string">operation</span>' stategroup
 			(
-				'first' ['first']
-				'last' ['last']
+				'<span class="token string">first</span>' [ <span class="token operator">first</span> ]
+				'<span class="token string">last</span>' [ <span class="token operator">last</span> ]
 			)
-			'selection' ['in'] component 'variable selector'
-			'is' stategroup ('array variable')
-			'optional variable assignment' stategroup
+			'<span class="token string">selection</span>' [ <span class="token operator">in</span> ] component <a href="#grammar-rule--variable-selector">'variable selector'</a>
+			'<span class="token string">is</span>' stategroup ('<span class="token string">array variable</span>')
+			'<span class="token string">optional variable assignment</span>' stategroup
 			(
-				'assign'
-					'variable' ['as' '$'] component 'variable assignment: context'
-				'skip'
+				'<span class="token string">assign</span>'
+					'<span class="token string">variable</span>' [ <span class="token operator">as</span> <span class="token operator">$</span> ] component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+				'<span class="token string">skip</span>'
 			)
-			'on success' ['|' 'success' ] component 'state mapping'
-			'on failure' ['|' 'failure' ] component 'state mapping'
-		'set state'
-			'state' reference
-			'mapping' component 'node mapping'
+			'<span class="token string">on success</span>' [ <span class="token operator">|</span> <span class="token operator">success</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on failure</span>' [ <span class="token operator">|</span> <span class="token operator">failure</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+		'<span class="token string">set state</span>'
+			'<span class="token string">state</span>' reference
+			'<span class="token string">mapping</span>' component <a href="#grammar-rule--node-mapping">'node mapping'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'node mapping' ['(',')']
-	'define block' stategroup
+{: #grammar-rule--node-mapping }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node mapping</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+	'<span class="token string">define block</span>' stategroup
 	(
-		'yes'
-			'block' component 'variable assignment: block'
-		'no'
+		'<span class="token string">yes</span>'
+			'<span class="token string">block</span>' component <a href="#grammar-rule--variable-assignment--block">'variable assignment: block'</a>
+		'<span class="token string">no</span>'
 	)
-	'properties' collection indent
+	'<span class="token string">properties</span>' collection indent
 	(
-		'type' [':'] stategroup
+		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup
 		(
-			'group' ['group']
-				'optional binding' ['='] stategroup
+			'<span class="token string">group</span>' [ <span class="token operator">group</span> ]
+				'<span class="token string">optional binding</span>' [ <span class="token operator">=</span> ] stategroup
 				(
-					'bind'
-						'selection' component 'context selector'
-						'context' ['as'] component 'context creation'
-						'variable' ['$'] component 'variable assignment: context'
-					'skip'
+					'<span class="token string">bind</span>'
+						'<span class="token string">selection</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+						'<span class="token string">context</span>' [ <span class="token operator">as</span> ] component <a href="#grammar-rule--context-creation">'context creation'</a>
+						'<span class="token string">variable</span>' [ <span class="token operator">$</span> ] component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
+					'<span class="token string">skip</span>'
 				)
-				'mapping' component 'node mapping'
-			'collection' ['collection']
-				'mapping' component 'collection mapping'
-			'stategroup' ['stategroup']
-				'mapping' component 'state mapping'
-			'number'
-				'set type' stategroup
+				'<span class="token string">mapping</span>' component <a href="#grammar-rule--node-mapping">'node mapping'</a>
+			'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+				'<span class="token string">mapping</span>' component <a href="#grammar-rule--collection-mapping">'collection mapping'</a>
+			'<span class="token string">stategroup</span>' [ <span class="token operator">stategroup</span> ]
+				'<span class="token string">mapping</span>' component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">number</span>'
+				'<span class="token string">set type</span>' stategroup
 				(
-					'integer' ['integer']
-					'natural' ['natural']
-						'equivalent set type' component 'numerical set constraint'
+					'<span class="token string">integer</span>' [ <span class="token operator">integer</span> ]
+					'<span class="token string">natural</span>' [ <span class="token operator">natural</span> ]
+						'<span class="token string">equivalent set type</span>' component <a href="#grammar-rule--numerical-set-constraint">'numerical set constraint'</a>
 				)
-				'value source' ['='] stategroup
+				'<span class="token string">value source</span>' [ <span class="token operator">=</span> ] stategroup
 				(
-					'clock' ['now']
-					'source'
-						'expression' component 'number expression'
+					'<span class="token string">clock</span>' [ <span class="token operator">now</span> ]
+					'<span class="token string">source</span>'
+						'<span class="token string">expression</span>' component <a href="#grammar-rule--number-expression">'number expression'</a>
 				)
-			'text' ['text']
-				'expression' ['='] component 'text expression'
-			'file' ['file']
-				'value source' ['='] stategroup
+			'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+				'<span class="token string">expression</span>' [ <span class="token operator">=</span> ] component <a href="#grammar-rule--text-expression">'text expression'</a>
+			'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+				'<span class="token string">value source</span>' [ <span class="token operator">=</span> ] stategroup
 				(
-					'static' ['[', ']']
-						'token' text
-						'extension' [','] text
-					'context'
-						'is' ['/'] stategroup
+					'<span class="token string">static</span>' [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
+						'<span class="token string">token</span>' text
+						'<span class="token string">extension</span>' [ <span class="token operator">,</span> ] text
+					'<span class="token string">context</span>'
+						'<span class="token string">is</span>' [ <span class="token operator">/</span> ] stategroup
 						(
-							'singular context'
-							'plural context' ['shared']
-								'unguaranteed operation' component 'unguaranteed operation'
+							'<span class="token string">singular context</span>'
+							'<span class="token string">plural context</span>' [ <span class="token operator">shared</span> ]
+								'<span class="token string">unguaranteed operation</span>' component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
 						)
-						'selection' component 'context selector'
-						'file' ['.'] reference
+						'<span class="token string">selection</span>' component <a href="#grammar-rule--context-selector">'context selector'</a>
+						'<span class="token string">file</span>' [ <span class="token operator">.</span> ] reference
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
