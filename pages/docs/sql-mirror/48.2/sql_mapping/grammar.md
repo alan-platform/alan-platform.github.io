@@ -6,154 +6,212 @@ version: 48.2
 type: grammar
 ---
 
+1. TOC
+{:toc}
 
-```js
-'formatting' group (
-	'identifier wrapping' ['identifier-delimiter:'] group (
-		'open' text
-		'close' text
+
+{: #grammar-rule--formatting }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">formatting</span>' group (
+	'<span class="token string">identifier wrapping</span>' [ <span class="token operator">identifier-delimiter:</span> ] group (
+		'<span class="token string">open</span>' text
+		'<span class="token string">close</span>' text
 	)
-	'data type mapping' ['data-types'] group (
-		'key' ['key:'] text
-		'text' ['text:'] text
-		'number' ['number:'] text
-		'state' ['state:'] text
+	'<span class="token string">data type mapping</span>' [ <span class="token operator">data-types</span> ] group (
+		'<span class="token string">key</span>' [ <span class="token operator">key:</span> ] text
+		'<span class="token string">text</span>' [ <span class="token operator">text:</span> ] text
+		'<span class="token string">number</span>' [ <span class="token operator">number:</span> ] text
+		'<span class="token string">state</span>' [ <span class="token operator">state:</span> ] text
 	)
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'tables' ['schema'] collection indent (
-	'table' component 'table'
-	'primary key' ['<--'] group (
-		'root key field' stategroup (
-			'no'
-				'entity type path' component 'entity type path'
-			'yes'
-				'root key' ['(',')'] text
+{: #grammar-rule--tables }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">tables</span>' [ <span class="token operator">schema</span> ] collection indent (
+	'<span class="token string">table</span>' component <a href="#grammar-rule--table">'table'</a>
+	'<span class="token string">primary key</span>' [ <span class="token operator"><--</span> ] group (
+		'<span class="token string">root key field</span>' stategroup (
+			'<span class="token string">no</span>'
+				'<span class="token string">entity type path</span>' component <a href="#grammar-rule--entity-type-path">'entity type path'</a>
+			'<span class="token string">yes</span>'
+				'<span class="token string">root key</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] text
 		)
-		'key fields' collection ( ['[']
-			'has predecessor' stategroup has predecessor 'predecessor' 'yes' 'no'
-			'has successor' stategroup has successor 'successor' 'yes' 'no'
-			'has tail' [']'] stategroup (
-				'no'
-				'yes'
-					'entity type path' component 'entity type path'
+		'<span class="token string">key fields</span>' collection ( [ <span class="token operator">[</span> ]
+			'<span class="token string">has predecessor</span>' stategroup has predecessor '<span class="token string">predecessor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+			'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+			'<span class="token string">has tail</span>' [ <span class="token operator">]</span> ] stategroup (
+				'<span class="token string">no</span>'
+				'<span class="token string">yes</span>'
+					'<span class="token string">entity type path</span>' component <a href="#grammar-rule--entity-type-path">'entity type path'</a>
 			)
 		)
-		'has key fields' stategroup has 'key fields' first 'first' last 'last' 'yes' 'no'
+		'<span class="token string">has key fields</span>' stategroup has '<span class="token string">key fields</span>' first '<span class="token string">first</span>' last '<span class="token string">last</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
 	)
-	'fields' ['{','}'] collection indent (
-		'has successor' stategroup has successor 'successor' 'yes' 'no'
-		'type' [':'] stategroup (
-			'key'
-				'type' stategroup (
-					'primary key' ['primary-key']
-					'foreign key' ['foreign-key']
+	'<span class="token string">fields</span>' [ <span class="token operator">{</span>, <span class="token operator">}</span> ] collection indent (
+		'<span class="token string">has successor</span>' stategroup has successor '<span class="token string">successor</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
+		'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+			'<span class="token string">key</span>'
+				'<span class="token string">type</span>' stategroup (
+					'<span class="token string">primary key</span>' [ <span class="token operator">primary-key</span> ]
+					'<span class="token string">foreign key</span>' [ <span class="token operator">foreign-key</span> ]
 				)
-			'text' ['text']
-			'number' ['number']
-			'state' ['state']
-				'values' ['(', ')'] collection ( )
+			'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+			'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+			'<span class="token string">state</span>' [ <span class="token operator">state</span> ]
+				'<span class="token string">values</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( )
 		)
 	)
-	'has fields' stategroup has 'fields' first 'first' 'yes' 'no'
+	'<span class="token string">has fields</span>' stategroup has '<span class="token string">fields</span>' first '<span class="token string">first</span>' '<span class="token string">yes</span>' '<span class="token string">no</span>'
 )
-```
+</pre>
+</div>
+</div>
 
-```js
-'undefined table' component 'table'
-```
+{: #grammar-rule--undefined-table }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">undefined table</span>' component <a href="#grammar-rule--table">'table'</a>
+</pre>
+</div>
+</div>
 
-```js
-'root table' ['mapping' 'root'] component 'optional table selection'
-```
+{: #grammar-rule--root-table }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">root table</span>' [ <span class="token operator">mapping</span> <span class="token operator">root</span> ] component <a href="#grammar-rule--optional-table-selection">'optional table selection'</a>
+</pre>
+</div>
+</div>
 
-```js
-'mapping' component 'mapping definition'
-```
+{: #grammar-rule--mapping }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">mapping</span>' component <a href="#grammar-rule--mapping-definition">'mapping definition'</a>
+</pre>
+</div>
+</div>
 
-```js
-'entity scoped node type path'
-	'has steps' stategroup (
-		'no'
-		'yes'
-			'type' stategroup (
-				'group'
-					'group' ['+'] reference
-				'state'
-					'state group' ['?'] reference
-					'state' ['|'] reference
+{: #grammar-rule--entity-scoped-node-type-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity scoped node type path</span>'
+	'<span class="token string">has steps</span>' stategroup (
+		'<span class="token string">no</span>'
+		'<span class="token string">yes</span>'
+			'<span class="token string">type</span>' stategroup (
+				'<span class="token string">group</span>'
+					'<span class="token string">group</span>' [ <span class="token operator">+</span> ] reference
+				'<span class="token string">state</span>'
+					'<span class="token string">state group</span>' [ <span class="token operator">?</span> ] reference
+					'<span class="token string">state</span>' [ <span class="token operator">|</span> ] reference
 			)
-			'tail' component 'entity scoped node type path'
+			'<span class="token string">tail</span>' component <a href="#grammar-rule--entity-scoped-node-type-path">'entity scoped node type path'</a>
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'entity type path'
-	'head' component 'entity scoped node type path'
-	'collection' ['.'] reference
-```
+{: #grammar-rule--entity-type-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entity type path</span>'
+	'<span class="token string">head</span>' component <a href="#grammar-rule--entity-scoped-node-type-path">'entity scoped node type path'</a>
+	'<span class="token string">collection</span>' [ <span class="token operator">.</span> ] reference
+</pre>
+</div>
+</div>
 
-```js
-'table'
-```
+{: #grammar-rule--table }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">table</span>'
+</pre>
+</div>
+</div>
 
-```js
-'table selection'
-	'table' ['-->' 'table'] reference
-```
+{: #grammar-rule--table-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">table selection</span>'
+	'<span class="token string">table</span>' [ <span class="token operator">--></span> <span class="token operator">table</span> ] reference
+</pre>
+</div>
+</div>
 
-```js
-'optional table selection'
-	'select table' stategroup (
-		'yes'
-			'table' component 'table selection'
-		'no'
+{: #grammar-rule--optional-table-selection }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">optional table selection</span>'
+	'<span class="token string">select table</span>' stategroup (
+		'<span class="token string">yes</span>'
+			'<span class="token string">table</span>' component <a href="#grammar-rule--table-selection">'table selection'</a>
+		'<span class="token string">no</span>'
 	)
-```
+</pre>
+</div>
+</div>
 
-```js
-'mapping definition' ['(',')']
-	'properties' collection (
-		'include' stategroup (
-			'no' ['(ignore)']
-			'yes'
-				'type' [':'] stategroup (
-					'text' ['text']
-						'has constraint' stategroup (
-							'no'
-								'field' ['-->'] reference
-							'yes' ['(->)']
-								'field' ['-->'] reference
+{: #grammar-rule--mapping-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">mapping definition</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+	'<span class="token string">properties</span>' collection (
+		'<span class="token string">include</span>' stategroup (
+			'<span class="token string">no</span>' [ <span class="token operator">(ignore)</span> ]
+			'<span class="token string">yes</span>'
+				'<span class="token string">type</span>' [ <span class="token operator">:</span> ] stategroup (
+					'<span class="token string">text</span>' [ <span class="token operator">text</span> ]
+						'<span class="token string">has constraint</span>' stategroup (
+							'<span class="token string">no</span>'
+								'<span class="token string">field</span>' [ <span class="token operator">--></span> ] reference
+							'<span class="token string">yes</span>' [ <span class="token operator">(->)</span> ]
+								'<span class="token string">field</span>' [ <span class="token operator">--></span> ] reference
 						)
-					'number' ['number']
-						'field' ['-->'] reference
-					'file' ['file']
-						'token field' ['-->'] reference
-						'extension field' ['.'] reference
-					'group' ['group']
-						// 'optional table' component 'optional table selection'
-						'mapping' component 'mapping definition'
-					'state group' ['stategroup']
-						'state group to field mapping' stategroup (
-							'no'
-							'yes' ['-->']
-								'field' reference // reference !&'table'.'fields'
+					'<span class="token string">number</span>' [ <span class="token operator">number</span> ]
+						'<span class="token string">field</span>' [ <span class="token operator">--></span> ] reference
+					'<span class="token string">file</span>' [ <span class="token operator">file</span> ]
+						'<span class="token string">token field</span>' [ <span class="token operator">--></span> ] reference
+						'<span class="token string">extension field</span>' [ <span class="token operator">.</span> ] reference
+					'<span class="token string">group</span>' [ <span class="token operator">group</span> ]
+						// '<span class="token string">optional table</span>' component <a href="#grammar-rule--optional-table-selection">'optional table selection'</a>
+						'<span class="token string">mapping</span>' component <a href="#grammar-rule--mapping-definition">'mapping definition'</a>
+					'<span class="token string">state group</span>' [ <span class="token operator">stategroup</span> ]
+						'<span class="token string">state group to field mapping</span>' stategroup (
+							'<span class="token string">no</span>'
+							'<span class="token string">yes</span>' [ <span class="token operator">--></span> ]
+								'<span class="token string">field</span>' reference // reference !&'<span class="token string">table</span>'.'<span class="token string">fields</span>'
 						)
-						'states' ['(',')'] collection ( ['|']
-							'state to state value mapping' stategroup (
-								'no'
-								'yes' ['-->']
-									'value' reference
+						'<span class="token string">states</span>' [ <span class="token operator">(</span>, <span class="token operator">)</span> ] collection ( [ <span class="token operator">|</span> ]
+							'<span class="token string">state to state value mapping</span>' stategroup (
+								'<span class="token string">no</span>'
+								'<span class="token string">yes</span>' [ <span class="token operator">--></span> ]
+									'<span class="token string">value</span>' reference
 							)
-							// 'optional table' component 'optional table selection'
-							'mapping' component 'mapping definition'
+							// '<span class="token string">optional table</span>' component <a href="#grammar-rule--optional-table-selection">'optional table selection'</a>
+							'<span class="token string">mapping</span>' component <a href="#grammar-rule--mapping-definition">'mapping definition'</a>
 						)
-					'collection' ['collection']
-						'table' component 'table selection'
-						'mapping' component 'mapping definition'
+					'<span class="token string">collection</span>' [ <span class="token operator">collection</span> ]
+						'<span class="token string">table</span>' component <a href="#grammar-rule--table-selection">'table selection'</a>
+						'<span class="token string">mapping</span>' component <a href="#grammar-rule--mapping-definition">'mapping definition'</a>
 				)
 		)
 	)
-```
+</pre>
+</div>
+</div>
