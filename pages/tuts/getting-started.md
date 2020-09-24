@@ -88,8 +88,9 @@ While getting an application for free is nice, it's even nicer to build your own
 Let's quickly try to actually boot up this example project, before we proceed to make our own application.
 
 This should be fairly easy:
-- Use the button 'Alan Build' at the bottom left to run a build go over the problems with F8
-- If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom
+- Use the button 'Alan Fetch' at the bottom left to download the latest version of the Alan developer tools. You will need to do this once.
+- Use the button 'Alan Build' at the bottom left to run a build. It should complete without any errors.
+- If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom.
 
 ## Upgrade with a migration
 When clicking the button 'Alan Deploy', you get a list from which you can choose a deployment type.
