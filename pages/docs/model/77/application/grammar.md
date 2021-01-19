@@ -315,7 +315,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 			'<span class="token string">first</span>' = first
 			'<span class="token string">last</span>' = last
 		}
-		| none = '<span class="token string">no</span>'
+		| none  = '<span class="token string">no</span>'
 	)
 	'<span class="token string">attributes</span>': @raw dictionary { @block
 		'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
@@ -3349,7 +3349,7 @@ supported icons can be found at: https://octicons.github.com/.
 '<span class="token string">ui identifying property selection</span>' {
 	'<span class="token string">has properties</span>': stategroup = node-switch .'<span class="token string">properties</span>' (
 		| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
-		| none = '<span class="token string">no</span>'
+		| none  = '<span class="token string">no</span>'
 	)
 	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary @order: .'<span class="token string">view order</span>' { @block indent
 		'<span class="token string">has successor</span>': stategroup = node-switch successor (
