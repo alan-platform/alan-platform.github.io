@@ -599,12 +599,12 @@ References can be unidirectional or bidirectional. For bidirectional references,
     'assembly': acyclic-graph
 {
     'Name': text
-      // reference-set holding Orders added by Product references:
-    'Orders': reference-set -> .'Orders' = inverse >'Product'
+     // reference-set holding downstream references to Orders added by Product references,
+    'Orders': reference-set -> downstream ^ .'Orders' = inverse >'Product'
 }
 'Orders': collection ['ID'] {
     'ID': text
-      // a (bidirectional) upstream reference:
+     // a (bidirectional) upstream reference:
     'Product': text -> ^ .'Products'[] -<'Orders'
 }
 ```
@@ -776,42 +776,6 @@ As `Catalog Provider` can remove `Products` at any given time, we cannot put con
 </pre>
 </div>
 </div>
-Node type identification path for reference sets.
-
-{: #grammar-rule--node-type-id }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">node type id</span>' {
-	'<span class="token string">steps</span>': component <a href="#grammar-rule--node-type-id-path">'node type id path'</a>
-}
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--node-type-id-path }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">node type id path</span>' {
-	'<span class="token string">has steps</span>': stategroup (
-		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' {
-			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">value type</span>': stategroup (
-				'<span class="token string">choice</span>' {
-					'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
-				}
-				'<span class="token string">node</span>' { }
-				'<span class="token string">collection</span>' { [ <span class="token operator">*</span> ] }
-			)
-			'<span class="token string">tail</span>': component <a href="#grammar-rule--node-type-id-path">'node type id path'</a>
-		}
-	)
-}
-</pre>
-</div>
-</div>
 
 {: #grammar-rule--ancestor-attribute-path }
 <div class="language-js highlighter-rouge">
@@ -914,7 +878,7 @@ root {
         'Price': number 'eurocent'
         'Price (euro)': number 'euro' = from 'eurocent' .'Price'
         'Order Unit Quantity': number positive 'items per unit'
-        'Orders': reference-set -> .'Orders' = inverse >'Product'
+        'Orders': reference-set -> downstream ^ .'Orders' = inverse >'Product'
         'Sales Value': number 'eurocent' = sum <'Orders'* .'Price'
         'Items Sold': number 'items' = count <'Orders'*
     }
@@ -2985,6 +2949,41 @@ supported icons can be found at: https://octicons.github.com/.
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui node path tail</span>' {
 	'<span class="token string">path</span>': component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--node-type-id }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node type id</span>' {
+	'<span class="token string">steps</span>': component <a href="#grammar-rule--node-type-id-path">'node type id path'</a>
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--node-type-id-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">node type id path</span>' {
+	'<span class="token string">has steps</span>': stategroup (
+		'<span class="token string">no</span>' { }
+		'<span class="token string">yes</span>' {
+			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
+			'<span class="token string">value type</span>': stategroup (
+				'<span class="token string">choice</span>' {
+					'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
+				}
+				'<span class="token string">node</span>' { }
+				'<span class="token string">collection</span>' { [ <span class="token operator">*</span> ] }
+			)
+			'<span class="token string">tail</span>': component <a href="#grammar-rule--node-type-id-path">'node type id path'</a>
+		}
+	)
 }
 </pre>
 </div>
