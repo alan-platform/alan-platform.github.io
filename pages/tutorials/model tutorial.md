@@ -42,7 +42,7 @@ A restaurant is nothing without a good menu. So, first, we take a look at the me
 | Cappuccino | 3,50 |
 | Mint tea | 3 |
 | Mojito | 6,30 |
----
+
 This menu shows 5 kinds of data:
 1. The item that can be ordered (`Item name`)
 2. The price per item in Euro (`Selling price`)
