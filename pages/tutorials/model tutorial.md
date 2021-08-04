@@ -58,7 +58,7 @@ If we want to organise these data elements in an Alan-model we could start with 
 }
 ```
 This small, unfinished model tells us that `Menu` is a container that is defined as ***collection***. This means `Menu` is a collection of sets of data, where a set consists of the values for `Item name` and `Selling price`. Each set in the collection is identified by the value of `Item name` (eg. 'Chocolate mouse'). `Item name` defines what is known as the ***key*** for the collection `Menu`. And for example 'Chocolate mouse' is known as the ***key value***.
-A set of values is called a ***node*** (eg. 'Chocolate mouse', '4,50'). So the collection `Menu` contains several *nodes* (the sets of data). In the model the containers between curly braces ( ***{ ... }*** ) define what is called the ***node type***. 
+A set of values is called a ***node*** (eg. 'Chocolate mouse', '4,50'). So the collection `Menu` contains several nodes (the sets of values). In the model the containers between curly braces ( ***{ ... }*** ) define what is called the ***node type***. 
 
 `Item name` is a container that is defined as ***text***: the value of `Item name` will be text
 
@@ -66,7 +66,7 @@ A set of values is called a ***node*** (eg. 'Chocolate mouse', '4,50'). So the c
 
 >The words *collection*, *text* and *number* are called ***types*** and are ***attributes*** of a container. In other words, the type attributed to a container defines what kind of data a container can hold.
 
->The curly braces ( ***{ ... }*** ) define the start and end of a *node type* definition. The ***node type*** defines the types of data and its structure in a node.
+>The curly braces ( ***{ ... }*** ) define the start and end of a node type definition. The ***node type*** defines the types of data and its structure in a node.
 
 ![node](./images_model/000A.png)
 
@@ -74,7 +74,7 @@ A set of values is called a ***node*** (eg. 'Chocolate mouse', '4,50'). So the c
 
 ## 2. The minimal model
 Let's make an app from these few lines of model code.
-First, we need to place these lines in a template with a few standard headings, that looks like this:
+We need to place these lines in a template with some standard headers:
 ```
 users
 
@@ -84,15 +84,15 @@ root { }
 
 numerical-types
 ```
-This is the minimal model that is needed for every application that is build on the Alan platform. 
+This is the ***minimal model*** that is needed for every application that is build on the Alan platform. 
 
-`Users` defines who can access your application and what their access rights are. Let's use `anonymous` for now, which means anyone can access our app and can read, add and change data within the app. Later we will explain what other options are available and how access rights can be specified for each part of your model.
+`Users` defines who can access your application and which access rights they have. Let's use `anonymous` for now, which means anyone can access our app and can read, add and change data within the app. More on `users` in the *Users tutorial*, where we explain what other options are available and how access rights can be specified for each part of your model.
 
-`Interfaces` defines with which other apps and/or databases this app is connected. For now we are 'disconnected' from other apps and databases.
+`Interfaces` defines what other apps and/or databases this app is connected with. For now we are 'disconnected' from other apps and databases.
 
-`Root { }` is a node, as you can guess by the curly braces. It is the fundamental node in all Alan models. In between these curly braces we will place our model.
+`Root { }` is a node, as you can guess by the curly braces. It is the fundamental node in all Alan models. Between these curly braces we will place our model.
 
-`Numerical-types` defines how different number units used in a model should be interpreted. In our case `'euro'` will be added here, since we used it in the model as unit for the number of `Selling price`.
+`Numerical-types` define which units are used in a model and how to interpret them. In our case `'euro'` will be added here, since we used it in the model as unit for the number of `Selling price`.
 
 Now, our model looks like this:
 ```
@@ -111,12 +111,12 @@ root {
 numerical-types
 	'euro'
 ```
-This model needs to be stored in the file ***application.alan*** and located in the file tree at ***[app name]/interfaces/model/***
+This model needs to be stored in the file ***application.alan*** and located in the file tree at *[app name]/interfaces/model/*
 
 By the way, when you retype the different lines of code from this tutorial, make sure the individual spaces are correct! For the model to be understood these spaces are important.
 
 ## 3. Build the app
-How to get this app up and running? The model needs to be processed to produce executable code for a server. This is done by a ***compiler*** that is part of the Alan development environment integrated in VS Code (we use VS Code as our Integrated Development Environment). Before the compiler can translate our model we have to let the compiler know which elements and versions of the Alan platform it needs to properly translate the model. This is done by simply clicking the button `Alan Fetch` in the bottom line of the VS Code window. VS Code will download the correct files needed. This is necessary only once. 
+How to get this app up and running? The model needs to be processed to produce executable code for a server. This is done by a ***compiler*** that is part of the Alan development environment integrated in VS Code (we use VS Code as our Integrated Development Environment). Before the compiler can translate our model we have to let the compiler know which elements and versions of the Alan platform it needs to properly translate the model. This is done by simply clicking the button `Alan Fetch` in the bottom line of the VS Code window. VS Code will download the correct files needed for compilation. This is necessary only once. 
 
 Now we can ***build*** (compile) the model by clicking the button `Alan Build` (next to `Alan Fetch`). If everything is correct the compiler should show no errors and the model is built into an executable app, ready for you to be used.
 
@@ -126,12 +126,13 @@ When opening the app in a webbrowser (we assume you use a chromium-based browser
 
 The data from the menu card is already there, but you can add some data yourself by clicking `Add`. A new window opens. Fill in the required fields, click `Save` and `Close` (top right corner) when you're done. We return to the table `Menu`. Repeat to add more data.
 
-Maybe you've noticed that when you enter a number with decimals, the price is rounded to a whole number:
-![wrong numbers](./images_model/002.png)
-
 <tutorial folder: ./_tutorial/step_01/>
 
 ## 4. Numerical-types
+
+Maybe you've noticed that when you enter a number with decimals, the price is rounded to a whole number:
+![wrong numbers](./images_model/002.png)
+
 Of course, we want to correct this. Go back to your model and make sure your `numerical-types` looks like this:
 ```
 numerical-types
@@ -142,7 +143,7 @@ numerical-types
 		)
 ```
 
-Here we define the label it should show if it should differ from the label of the numerical-type (here `Euro` instead of `euro`) and the number of decimals that can be entered by the user (in this case 2 so we can also set euro cents).
+Here we define the label it should show if it should differ from the label of the numerical-type (here `Euro` instead of `euro`) and the number of decimals that can be entered by the user (in this case 2 to be able to also set euro cents).
 There's much more to numerical-types, but we'll leave it at this for now.
 
 ## 5. Stategroup
@@ -187,17 +188,18 @@ root {
 	}
 }
 ```
-It shows that states of a stategroup can in itself have other stategroups with states and that the number of states is not limited to two. We also get to see a glimps of the hierarchical form all data models have: `Root` contains `Menu` collections and each `Menu` collection can have state `Dish` or `Beverage` that itself can have states like `Appetizer` or `Cocktail` on even more detailed level.
+It shows that states of a stategroup can in itself have other stategroups with states and that the number of states is not limited to two. We also get to see a glimps of the hierarchical form all data models have: `Root` contains a `Menu` collection and each set of values (node) within the `Menu` collection can have state `Dish` or `Beverage` that itself can have states like `Appetizer` or `Cocktail` on an even more detailed level.
 
 Build the model (`Alan Build`) and find out what stategroups and numerical-types do for your app:
-<tutorial folder: ./_tutorial/step_02/>
 
 ![added states](./images_model/003.png)
 
-The table has a few more columns, but the data you might have entered yourself in previous steps is gone! In a real world situation that would be catastrophic and now it's maybe a little annoying. To solve this issue you need to migrate your data from one model version to the other. This topic is described in the tutorial 'Migrations and deployments'.
+The table has a few more columns, but the data you might have entered yourself in previous steps is gone! In a real world situation that would be catastrophic and now it's maybe a little annoying. To solve this issue you need to migrate your data from one model version to the other. This subject is described in the tutorial *Migrations and deployments*.
 
 If you add an item yourself you'll see we have some selection boxes available to determine the states of our added stategroups:
 ![selection boxes](./images_model/004.png)
+
+<tutorial folder: ./_tutorial/step_02/>
 
 ## 6. Expand the model
 We continue with our model. Add the additional containers to the `root` below `Menu`:
@@ -254,9 +256,9 @@ Build and check the app in your browser, selecting `Tables` from the left menu b
 
 ![tables](./images_model/005.png)
 
-In the left column we see that `Tables` is parent to the child `Orders`, just like in our model: We have a container of type *collection* within another container of type *collection*. This means that several `Order lines` can be added to `Orders` that is part of one single `Table`. And `Tables` can have several `Table number`'s. This is in line with the business process: In our restaurant with `Tables` a particular `Table number` could have multiple `Order lines` for example for two different dishes and some beers.
+In the left column we see that `Tables` is parent to the child `Orders`, just like in our model: We have a container of type collection within another container of type collection. This means that several `Order lines` can be added to `Orders` that is part of one single `Table`. And `Tables` can have several `Table number`'s. In our restaurant with `Tables` a particular `Table number` could have multiple `Order lines` for example for two different dishes and some beers.
 
-As we can see from this model, *stategroups* and *collections* can contain other types, not necessarily of their own type. *Collections* can contain *stategroups*, *collections*, *texts*, etc. The same counts for *stategroups* and *groups*. With these types we can build more complex models that describe the contents of and relations between data and that suit the desired business processes.
+As we can see from this model, stategroups and collections can contain other types, not necessarily of their own type. Collections can contain stategroups, collections, texts, etc. The same counts for stategroups and groups. With these types we can build more complex models that describe the contents of and relations between data and that suit the desired business processes.
 
 <tutorial folder: ./_tutorial/step_03/>
 
@@ -275,7 +277,7 @@ There's an interesting line in the model that needs our attention:
 ```
 'Item': text -> ^ ^ .'Menu'[]
 ```
-What's going on here? This line seems to somehow relate the container `Item` (within the collection `Tables`) with the collection `Menu`. `Menu` and `Tables` are collections on the same level, both contained within `Root`. Let's explain by going to the application first. Select a table from the list (as shown in the previous image) and click `Add` in the line `Orders`:
+This line seems to somehow relate the container `Item` (within the collection `Tables`) with the collection `Menu`. `Menu` and `Tables` are collections on the same level, both contained within `Root`. Let's explain by going to the application first. Select a table from the list (shown in the previous image) and click `Add` in the line `Orders`:
 
 ![table number](./images_model/006.png)
 
@@ -288,14 +290,14 @@ Now select the magnifying glass on the right of `Item` and you'll see this:
 ![menu items](./images_model/008.png)
 
 Here we see the items of `Menu` and we can select an item from the table. Or, if we start typing in the box `Item name` the table will be filtered. We can only choose an item that is in the table, specifically in the column `Item name`. This is the result of that line in the model: An `Item` is constraint to the entries in the referenced collection `Menu`. Formally, this is known as a (mandatory) ***reference (constraint)*** and is used in the model by typing this arrow **`->`**. 
-A *reference (constraint)* always references a *node type* by supplying a *path* to the *node type*. A ***node type path*** uniquely identifies every *node type* in the model from the `root` (eg. `.'Menu'` which is short for `root .'Menu'`). The *reference* can only be applied to a container with type *text* (eg. `Item`). It can't be applied to the types *number*, *file*, *collection*, *stategroup* and *group*.
-Also notice the square brackets `[` and `]` behind `.'Menu'`. This implies that we refer to one unspecified set of values (a *node*) in the collection `Menu` which is identified by the value of the *key* `Item name` of the collection `Menu`. This value is known as the ***key value*** of the selected node: `Item` has the value 'Beef stew' after selecting it, as presented in this image:
+A reference (constraint) always references a node type by supplying a path to the node type. A ***node type path*** uniquely identifies every node type in the model from the `root` (eg. `.'Menu'` which is short for `root .'Menu'`). The reference can only be applied to a container with type *text* (eg. `Item`). It can't be applied to the types *number*, *file*, *collection*, *stategroup* or *group*.
+Also notice the square brackets `[` and `]` behind `.'Menu'`. This implies that we refer to one unspecified node in the collection `Menu` which is identified by the value of the key `Item name` of the collection `Menu`. This value is known as the ***key value*** of the selected node: `Item` has the value 'Beef stew' after selecting it, as presented in this image:
 
 ![beef stew](./images_model/009.png)
 
-Once models get more complex this construction is very powerful, because by knowing the *key value* we can get information from within the *node* that is identified by this key value. In our case, by knowing table 'T01' ordered 2 'Beef stews' and by definition of the collection `Menu` knowing that a 'Beef stew' has a price of '18 Euro' we could calculate that this table needs to pay 36 Euro at this point in time.
+Once models get more complex this construction is very powerful, because by knowing the key value we can get information from within the node that is identified by this key value. In our case, by knowing table 'T01' ordered 2 'Beef stews' and by definition of the collection `Menu` knowing that a 'Beef stew' has a price of '18 Euro' we could calculate that this table needs to pay 36 Euro at this point in time.
 
->Next to `Item` being defined as of type *text* it is additionally being defined by its (mandatory) reference to `Menu`: Values of `Item` can only consist of *key values* from `Menu`. 
+>Next to `Item` being defined as of type text it is additionally being defined by its (mandatory) reference to `Menu`: Values of `Item` can only consist of key values from `Menu`. 
 This extention of the definition of `Item` is also an important concept of the Alan platform.
 
 Entering an amount and selecting `Save` get this result:
@@ -304,7 +306,7 @@ Entering an amount and selecting `Save` get this result:
 
 Not all references can be made mandatory. When a text container references a collection that is defined outside the scope of the current model, for example in another app or in an external database, we can't technically make sure that the reference constraint is always met, but we do want to keep our apps and models close knit. So we make these references optional by using the symbol **~>** (curly arrow, not to be confused with **->** ) and call these ***links***.
 
-The definition of a text, like we've seen above, can be extended with what is called a ***reference rule***. We can use the word `where` to apply one or more *reference rules* to a text. An example, apart from our current model:
+The definition of a text, like we've seen above, can be extended with what is called a ***reference rule***. We can use the word `where` to apply one or more reference rules to a text. An example, apart from our current model:
 ```
 'Car': text -> .'Electric vehicles'[]
 	where 'blue' ~> .'Blue objects'[]
@@ -316,7 +318,7 @@ The definition of a text, like we've seen above, can be extended with what is ca
 - `Car` can have key values from the collection `American products`, by definition of the rule `american`
 This way `Car` is much more specified. The rule names `blue` and `american` can be used as references themselves in subsequent parts of the model, which can come in handy.
 
-By the way, *links* are used in this example because it is not technically possible yet and it has not been neccesary to make mandatory references to several collections (although within the same model).
+By the way, links are used in this example because it is not technically possible yet and it has not been neccesary to make mandatory references to several collections (although within the same model).
 
 `Where` is not restricted to be used with text containers, it can also be used with states of a stategroup. More on this in the topic *Advanced references*.
 
@@ -341,7 +343,7 @@ To summarize, `'Item': text -> ^ ^ .'Menu'[]` is:
 ## 9. Modify the model
 Hopefully by now you can 'read' this model and understand its components and structure. Meanwhile our restaurant is in full swing, so no time to waste!
 
-You might have experienced in your restaurant that having a static set of beverage types might not be very practical. Let's change the model accordingly and make a dynamic set of beverage types, which means the *stategroup* `Beverage type` is removed and replaced with a *collection* `Beverages types`. 
+You might have experienced in your restaurant that having a static set of beverage types might not be very practical. Let's change the model accordingly and make a dynamic set of beverage types, which means the stategroup `Beverage type` is removed and replaced with a collection `Beverages types`. 
 
 Since we still want to be able to select a beverage type when we compose our menu, we need to be able to reference `Beverages types` from `Beverage type` within the state `Beverage` in our model. Therefore it needs to be above `Menu`. Modify your model according to this new one:
 ```
@@ -459,8 +461,8 @@ What changed?
 - If the state of an orde is `In-house` we also like to know which `Table` it belongs to, so we added a text `Table` that references the collection `Tables` inside the node of state `In-house`
 
 And now for the interestingly new parts: 
-We would also like to know for each `Table` which `Orders` it has. So far we could only know for each `Order` which `Table` it has, by means of the *reference constraint* on `Table` (by the way, did you check if two ^ are correct here?). The ***reference set*** makes it possible to know which `Orders` are pointing to each `Table`, so for each `Table` we can have insight into its `Orders`. 
-We achieve this by adding `Orders` to the collection `Tables` and define it as type *reference set*. Then we have to make the reference to the desired location by supplying the path: `-> .'Orders'* .'Order type'?'In-house'` This is called an *absolute node type path*:
+We would also like to know for each `Table` which `Orders` it has. So far we could only know for each `Order` which `Table` it is for, by means of the reference on `Table` (by the way, did you check if two ^ are correct here?). The ***reference set*** makes it possible to know which `Orders` are pointing to each `Table`, so for each `Table` we can have insight into its `Orders`. 
+We achieve this by adding `Orders` to the collection `Tables` and define it as type reference set. Then we have to make the reference to the desired location by supplying the path: `-> .'Orders'* .'Order type'?'In-house'` This is called an *absolute node type path*:
 - Absolute since it starts from the root and no `^` are used
 - Node type path since it descibes a path in several node types: `.'Order type'?'In-house'` within `.'Orders'*`
 
@@ -537,7 +539,7 @@ Now click `Place new order` below the form en `Close` (top right). Then go to `O
 We have successfully added an entry to the collection `Order` by providing the data in the form.
 On closer inspection of this example we can see that the selection `At the restaurant` for the question `Where is the meal consumed?` is translated into the state `In-house` of stategroup `Order type`.
 
-Let's review the added *command* in the model. The first part of the *command* looks a lot like familiar model language and actually is similar:
+Let's review the added command in the model. The first part of the command looks a lot like familiar model language and actually is similar:
 ```
 'Place new order': command {
 	'Provide an order number': text
@@ -554,23 +556,23 @@ Let's review the added *command* in the model. The first part of the *command* l
 	}
 } ...
 ```
-It defines the command by providing containers in between curly braces (just like with for example a *collection*) that can hold specific data types. Some containers also have reference constraints to control the allowable values. These containers are called the ***parameters*** of the command.
+It defines the command by providing containers in between curly braces (just like with for example a collection) that can hold specific data types. Some containers also have reference constraints to control the allowable values. These containers are called the ***parameters*** of the command.
 Although the labels are different, the structure of the command is the same as the collection `Orders`. In this case we want to manipulate this collection with the command and often the command definition is identical to the definition of that collection.
-The *parameters* (containers within the command) correspond with the fields in the GUI-form to be filled in and thus hold the inserted values after submitting the form.
+The parameters (containers within the command) correspond with the fields in the GUI-form to be filled in and thus hold the inserted values after submitting the form.
 
 Then the start of the second part of the *command*: 
 ```
 ... => update .'Orders' ...
 ```
-It consists of a double arrow ( ***=>*** ), the word ***update*** and a *(absolute) node type path*. The double arrow can be read as 'do this'. *Update* means we want to update a collection or stategroup. And the path points to the collection or stategroup we want to update with the provided data, in this case collection `Orders`.
-Instead of *update* we can also use these key words: *switch*, *match*, *ignore*, *walk*, *execute* and *external*, each with their own definition and required structure that should follow the key word. Let's stick with *update* for now, since we want to update the specified collection.
+It consists of a double arrow ( ***=>*** ), the word ***update*** and a (absolute) node type path. The double arrow can be read as 'do this'. Update means we want to update a collection or stategroup. And the path points to the collection or stategroup we want to update with the provided data, in this case collection `Orders`.
+Instead of update we can also use these key words: *switch*, *match*, *ignore*, *walk*, *execute* and *external*, each with their own definition and required structure that should follow the key word. Let's stick with update for now, since we want to update the specified collection.
 
 The end of the second part: 
 ```
 			... = create ( ... )
 ```
 This tells us what the update should be about: 'the update is ( ***=*** ) the creation (***create***) of a node.
-The key word *create* can be replaced by only the key word ***ensure***. *Create* will check if an entry in the target collection already exists (if there is a node that is similar to the values the user filled in). If so, an error will be thrown and the command will be aborted. Otherwise, the new node is created. *Ensure* will also create the node, but if it already existed it will overwrite its data.
+The key word *create* can be replaced by only the key word ***ensure***. Create will check if an entry in the target collection already exists (if there is a node that is similar to the values the user filled in). If so, an error will be thrown and the command will be aborted. Otherwise, the new node is created. Ensure will also create the node, but if it already existed it will overwrite its data.
 
 And lastly, the part between the parentheses of the key word *create*:
 ```
@@ -589,39 +591,39 @@ And lastly, the part between the parentheses of the key word *create*:
 	)
 )
 ```
-Each container within the collection `Orders` is equated with the parameter defined in the *command*, much like this:
+Each container within the collection `Orders` is equated with the parameter defined in the command, much like this:
 ```
 'container in collection' = @ .'parameter of command'
 ```
 This means the values inserted in the form are copied to a node that is being created within the collection `Orders`. The symbol ***@*** is used to tell the compiler a given path is within the command definition. Otherwise the compiler will consider these paths as within `root`. 
 As an experiment to show you how the compiler responds without this symbol, remove the @ in this line: `'Order' = @ .'Provide an order number'` and build the model. The compiler will throw an error telling you it can't find `Provide an order numer` in `root` and will show what it does find in `root`.
 
-Additionally, we see two new key words: ***switch*** and ***walk***. Let's discuss *switch*:
+Additionally, we see two new key words: ***switch*** and ***walk***. Let's discuss switch:
 ```
 'Order type' = switch @ .'Where is the meal consumed?' (
 	|'Outside of restaurant' => create 'Takeaway' ( )
 	|'At the restaurant' => create 'In-house' ( ...	)
 )
 ```
-Since we don't know which selection the user is going to make we need a way to link al possible states of the input (parameter) stategroup with all possible states of the output stategroup. The statement *switch* expresses that we want to switch between possible states of `Order type`, depending on the state of the stategroup `Where is the meal consumed?`.
+Since we don't know which selection the user is going to make we need a way to link al possible states of the input (parameter) stategroup with all possible states of the output stategroup. The statement switch expresses that we want to switch between possible states of `Order type`, depending on the state of the stategroup `Where is the meal consumed?`.
 You can read it like this: 
 'If the state of `Where is the meal consumed?` is `Outside of restaurant`, then 'do this': create the state `Takeaway` for stategroup `Order type`. If the state of `Where is the meal consumed?` is `At the restaurant`, then 'do this': create the state `In-house` with a node that contains a value for `Table` for stategroup `Order type`.'
 
-Let's look at *walk*:
+Let's look at walk:
 ```
 'Order lines' = walk @ .'Order lines' (
 	create ( ... )
 )
 ```
-The statement *walk*, followed by the node type path, expresses that we want to 'walk along' all entries in the collection `Order lines`. The statements between the parentheses are evaluated for each of the entries in the collection. In this case for each entry in the parameter `Order lines` a node is created in the collection `Order lines` according to the supplied structure and values.
+The statement walk, followed by the node type path, expresses that we want to 'walk along' all entries in the collection `Order lines`. The statements between the parentheses are evaluated for each of the entries in the collection. In this case for each entry in the parameter `Order lines` a node is created in the collection `Order lines` according to the supplied structure and values.
 
-Finally, *command*s can also be used to transmit data from one app to another through an interface. More on this in the tutorial 'Interfaces'.
+Finally, commands can also be used to transmit data from one app to another through an interface. More on this in the tutorial 'Interfaces'.
 
 >Before we continu with the next topic it is good to know that *reference-set* and *command* are also considered possible *attributes* for a container. The previously mentioned types *text*, *number*, *file*, *collection*, *stategroup* and *group* are more specifically *property attributes*, in short ***properties***, of the container. This in contrast to the *attributes* *reference-set* and *command*. 
 
 ## 12 Derivations: numbers
-Whenever you want to derive a value from other values, we use derivations. Derivations can be recognized in the model by the symbol **=**. This means we've already seen some derivations in the previous topic on *command*s. 
-We've seen for example a state of a stategroup being derived from the state of another stategroup by using = and the statement *switch*. Such a ***state derivation*** can also be used  outside of a *command* attribute, more generally in a model. More on this in the topic *Derivations: conditional expressions*.
+Whenever you want to derive a value from other values, we use derivations. Derivations can be recognized in the model by the symbol **=**. This means we've already seen some derivations in the previous topic on commands. 
+We've seen for example a state of a stategroup being derived from the state of another stategroup by using = and the statement switch. Such a ***state derivation*** can also be used  outside of a command attribute, more generally in a model. More on this in the topic *Derivations: conditional expressions*.
 
 Here we focus on number derivations. Let's make the also previously mentioned example (in the topic *References*) of calculating a subtotal per order line. Add these lines below `Amount` to your model:
 ```
@@ -635,7 +637,7 @@ Here we focus on number derivations. Let's make the also previously mentioned ex
 	)
 }
 ```
-A property `Line total` of type *number* with numerical-type 'euro' is added. The value of `Line total` is derived by multiplying the selling price with the amount. The ***product*** statement takes two terms: the two numbers to be multiplied.
+A property `Line total` of type number with numerical-type 'euro' is added. The value of `Line total` is derived by multiplying the selling price with the amount. The ***product*** statement takes two terms: the two numbers to be multiplied.
 
 >An important concept arises when we focus on the symbol ***>*** in front of `Item` (the first term in the *product* statement for calculating `Line total`). This line of code means:
 'With the current value of `Item` (a key value of `Menu`) of this specific `Order line` follow its reference and from the resulting node in that referenced collection provide the value of property `Selling price`.' 
@@ -852,7 +854,7 @@ Now let's add a stategroup `Discount applicable`, also within `Orders`. These li
 	}
 )
 ```
-Add the numercial type `percent-fraction`, the *product conversion rule* and the *singular conversion rule* to the numerical types. It should now look like this:
+Add the numercial type `percent-fraction`, the product conversion rule and the singular conversion rule to the numerical types. It should now look like this:
 ```
 numerical-types
 	'euro'
@@ -918,9 +920,9 @@ It's time to calculate the VAT. To do this we need to know the `Total` and calcu
 We define `VAT` as a `number` of numerical type `euro` and derive (=) it depending on (switch) the states of stategroup `Discount applicable`: either `Yes` or `No`. In both cases we end up using the product statement and supply this with the appropriate terms. The interesting parts are where the ***\$*** symbols are used. If we look back at our definition of the stategroup `Discount applicable` (at the start of this topic) we see that each state has a node type definition by providing properties and derivations within the curly braces: `'Yes' { ... }` and `'No' { ... }`. When `as $'...'` is used a specific node (all the values of that particular node of the specified state within a node of collection `Order`) is pinpointed and can be referenced as `$'...'`. In our case that pinpointed node is given the temporary name `discount` for nodes in the state `Yes` and `no discount` for nodes in the state `No`. So, when we say `$'discount' .'Total'` we mean the value of `Total` within a node of state `Yes`. And similar for `$'no discount'`.
 `$'discount'` and `$'no discount'` are called ***named objects***.
 
-<tutorial folder: ./_tutorial/step_05/>
-
 Derivations come in several forms and are powerful tools. We've shown you some examples, but want to provide an in depth overview in the *Derivations tutorial*.
+
+<tutorial folder: ./_tutorial/step_05/>
 
 ## 15 Upstream and downstream
 
