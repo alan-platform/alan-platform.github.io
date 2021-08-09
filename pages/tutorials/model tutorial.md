@@ -1,4 +1,8 @@
-# ALAN TUTORIAL: An introduction to the Model Language
+---
+layout: page
+title: "An introduction to the Model Language"
+category: docs
+---
 
 ## Introduction
 In the range of tutorials concerning the Alan platform this tutorial will focus on the model language and is a good start to learn the ins and outs of the Alan platform. By means of a story we will take you along several topics and build up the model at the same time. At the end of some topics a reference to a tutorial folder is provided in case you need extra help with producing the appropriate result. Enjoy!
