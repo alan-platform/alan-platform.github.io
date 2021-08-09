@@ -20,26 +20,26 @@ A restaurant is nothing without a good menu. So, first, we take a look at the me
 
 ### Menu
 
-| *appetizer* | *price (€)* |
-| --- | --- |
+| *Appetizer* | *Price (€)* |
+| :- | :-: |
 | Shrimp salad | 3,50 |
 | Tomato soup | 4,50 |
 | Ciabatta with tapenade | 2,50 |
 
-| *main course* | *price (€)* |
-| --- | --- |
+| *Main course* | *Price (€)* |
+| :- | :-: |
 | Beef stew | 18 |
 | Grilled salmon | 16,50 |
 | Mashed potato with sauerkraut | 14 |
 
-| *dessert* | *price (€)* |
-| --- | --- |
+| *Dessert* | *Price (€)* |
+| :- | :-: |
 | Chocolate mouse | 4,50 |
 | Vanilla ice cream | 3,50 |
 | Cherry pie | 4 |
 
-| *drinks* | *price (€)* |
-| --- | --- |
+| *Drinks* | *Price (€)* |
+| :- | :-: |
 | Orange juice | 4,50 |
 | Spa rood | 3 |
 | Heineken pilsner | 4,20 |
@@ -295,7 +295,7 @@ Now select the magnifying glass on the right of `Item` and you'll see this:
 
 Here we see the items of `Menu` and we can select an item from the table. Or, if we start typing in the box `Item name` the table will be filtered. We can only choose an item that is in the table, specifically in the column `Item name`. This is the result of that line in the model: An `Item` is constraint to the entries in the referenced collection `Menu`. Formally, this is known as a (mandatory) ***reference (constraint)*** and is used in the model by typing this arrow **`->`**. 
 A reference (constraint) always references a node type by supplying a path to the node type. A ***node type path*** uniquely identifies every node type in the model from the `root` (eg. `.'Menu'` which is short for `root .'Menu'`). The reference can only be applied to a container with type *text* (eg. `Item`). It can't be applied to the types *number*, *file*, *collection*, *stategroup* or *group*.
-Also notice the square brackets `[` and `]` behind `.'Menu'`. This implies that we refer to one unspecified node in the collection `Menu` which is identified by the value of the key `Item name` of the collection `Menu`. This value is known as the ***key value*** of the selected node: `Item` has the value 'Beef stew' after selecting it, as presented in this image:
+Also notice the square brackets `[` and `]` behind `.'Menu'`. This implies that we refer to one unspecified node in the collection `Menu` which is identified by the value of the key `Item name` of the collection `Menu`. As mentioned earlier this is the ***key value*** of the selected node: `Item` has the value 'Beef stew' after selecting it, as presented in this image:
 
 ![beef stew](./images_model/009.png)
 
@@ -304,33 +304,33 @@ Once models get more complex this construction is very powerful, because by know
 >Next to `Item` being defined as of type text it is additionally being defined by its (mandatory) reference to `Menu`: Values of `Item` can only consist of key values from `Menu`. 
 This extention of the definition of `Item` is also an important concept of the Alan platform.
 
-Entering an amount and selecting `Save` get this result:
+Entering an amount and selecting `Save` gives this result:
 
 ![first order line](./images_model/010.png)
 
 Not all references can be made mandatory. When a text container references a collection that is defined outside the scope of the current model, for example in another app or in an external database, we can't technically make sure that the reference constraint is always met, but we do want to keep our apps and models close knit. So we make these references optional by using the symbol **~>** (curly arrow, not to be confused with **->** ) and call these ***links***.
 
-The definition of a text, like we've seen above, can be extended with what is called a ***reference rule***. We can use the word `where` to apply one or more reference rules to a text. An example, apart from our current model:
+The definition of a container of type text and a reference, like we've seen above, can be extended with what is called a ***reference rule***. We can use the word `where` to apply one or more reference rules to a text. An example, apart from our current model:
 ```
 'Car': text -> .'Electric vehicles'[]
 	where 'blue' ~> .'Blue objects'[]
 	where 'american' ~> .'American products'[]
 ```
 `Car` in this example has one *reference* and two *links* which all define `Car`:
-- `Car` can have key values from the collection `Electric vehicles`
-- `Car` can have key values from the collection `Blue objects`, by definition of the rule `blue`
-- `Car` can have key values from the collection `American products`, by definition of the rule `american`
+- `Car` can contain key values from the collection `Electric vehicles`
+- `Car` can contain key values from the collection `Blue objects`, by definition of the rule `blue`
+- `Car` can contain key values from the collection `American products`, by definition of the rule `american`
 This way `Car` is much more specified. The rule names `blue` and `american` can be used as references themselves in subsequent parts of the model, which can come in handy.
 
-By the way, links are used in this example because it is not technically possible yet and it has not been neccesary to make mandatory references to several collections (although within the same model).
+By the way, in this example we used links for the reference rules because it is not yet technically possible  and it has not been neccesary to make mandatory references to several seperate collections within the same model.
 
-`Where` is not restricted to be used with text containers, it can also be used with states of a stategroup. More on this in the topic *Advanced references*.
+`Where` is not restricted to the use with text containers. It can also be used with states of a stategroup. More on this in the topic *Advanced references*.
 
 ## 8. Hierarchy
 We explained this: **->**, but why do we need this: **^ ^**? As mentioned earlier, there are parent and child relations between different parts of the model, thus between different data. These parts, or this data, exists on different levels, created by the node types (the containers between curly braces **{** and **}** ). For explanatory purposes, let's say `root` is on level 0. Then collection `Menu` is on level 1, while text `Item` is on level 3:
 
 | 0 | 1 | 2 | 3 | ... | 2 | 1 |
-|---|---|---|---|---|---|---|
+|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
 |`root` | `{ Menu` | `{ ... }` | | | | `}` |
 |`root` | `{ Tables` | `{ Orders` | `{ Item }` | | `}` | `}` |
 
@@ -400,8 +400,6 @@ numerical-types
 ```
 
 Again, build and check your app, selecting `Beverages types` from the left menu bar:
-<tutorial folder: ./_tutorial/step_04/>
-
 ![beverages types collection](./images_model/011.png)
 
 Now you are free to add or adjust the types of beverages you have in your restaurant and still be able to use those in your menu setup:
@@ -417,6 +415,8 @@ And finally the magnifying glass on the right of `Beverage type`:
 ![edit beverage type](./images_model/014.png)
 
 Here, we can edit the `Beverage type` of 'Mojito'. The collection `Beverages types` is shown just like before with `Orders`. This *graphical user interface* ***(GUI)*** is also automatically updated just by changing our model.
+
+<tutorial folder: ./_tutorial/step_04/>
 
 ## 10. Reference set
 You decided that your restaurant will also provide a take-away service. This means adjusting the model accordingly. Let's see what is needed.
