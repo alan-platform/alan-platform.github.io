@@ -1,7 +1,7 @@
 #### TEST
 
-| from | derive | | | | | |
-| | text | number | file | collection | stategroup | group |
+|from|derive| | | | | |
+| |text|number|file|collection|stategroup|group|
 | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
 | text | 1 | 2 |  | 3 | 4 |  |  |
 | number | 5 | 6 | 7? | 8? | 9? |  |  |
