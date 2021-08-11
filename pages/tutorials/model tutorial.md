@@ -810,7 +810,7 @@ So far we've seen numerical derivation, but we can also derive other types of da
 
 ## 13 Another model expansion
 To show examples of other types of derivation we need to create a more intricate model.
-Let's create a group `Management` at the top of the model that contains a new collection `Discount peroids`, a number `VAT percentage` and the existing collection `Beverages types` (because this is a more suitable place):
+Let's create a group `Management` at the top of the model that contains a new collection `Discount periods`, a number `VAT percentage` and the existing collection `Beverages types` (because this is a more suitable place):
 ```
 'Management': group {
 	'Discount periods': collection ['Period'] {
@@ -819,7 +819,7 @@ Let's create a group `Management` at the top of the model that contains a new co
 		'Minimal spendings': number 'euro'
 	}
 
-	'VAT percentage': number 'percent' = 21
+	'VAT percentage': number 'percent'
 
 	'Beverages types': collection ['Beverage type'] {
 		'Beverage type': text
@@ -831,10 +831,12 @@ And since we've added a new numerical type, we need to add this to our `numerica
 'percent'
 ```
 We will use the collection `Discount periods` for selecting a certain discount percentage (`Percentage`), depending on the amount of money spend (`Minimal spendings`). `VAT percentage` will be used to calculate value added tax (VAT).
-Change the number property `Total` within collection `Orders` into `Subtotal`, because the new `Total` will take into account the appropriate discount:
+Change the number property `Total` within collection `Orders` into `Subtotal`, because the new `Total` will take the appropriate discount into account:
 ```
 'Subtotal': number 'euro' = sum .'Order lines'* .'Line total'
 ```
+
+<tutorial folder: ./_tutorial/step_05/>
 
 ## 14 Derivations: conditional expressions
 
@@ -880,7 +882,7 @@ If discount is applicable (state `Yes`) and a discount period is selected, the `
 - If `Subtotal` is smaller than `Minimal spendings` then `Discount` will be equal to 0
 - If `Subtotal` is bigger than or equal to `Minimal spendings` then `Discount` will be equal to the product of the appropriate `Percentage` and `Subtotal`. The value of `Percentage` is first transformed from `percent` to `percent-fraction` (from 3% to 0,03). The value of `Subtotal` is this number of `percent-fraction` times number of `euro`. Its unit is equal to `euro`
 
-Because we `switch` on a `compare` we can provide the desired states with operators like 'greater than', 'equal', 'less than' and combinations of these.
+Because we `switch` on a `compare` we can provide the desired states with operators like 'greater than', 'equal to', 'less than' and combinations of these.
 Finally, the `Total` is calculated by adding `Subtotal` to the negative of `Discount` (subtraction).
 If discount is not applicable (state`No`) `Discount` is equal to 0 and `Total` is equal to `Subtotal`.
 
@@ -921,12 +923,15 @@ It's time to calculate the VAT. To do this we need to know the `Total` and calcu
 	)
 )
 ```
-We define `VAT` as a `number` of numerical type `euro` and derive (=) it depending on (switch) the states of stategroup `Discount applicable`: either `Yes` or `No`. In both cases we end up using the product statement and supply this with the appropriate terms. The interesting parts are where the ***\$*** symbols are used. If we look back at our definition of the stategroup `Discount applicable` (at the start of this topic) we see that each state has a node type definition by providing properties and derivations within the curly braces: `'Yes' { ... }` and `'No' { ... }`. When `as $'...'` is used a specific node (all the values of that particular node of the specified state within a node of collection `Order`) is pinpointed and can be referenced as `$'...'`. In our case that pinpointed node is given the temporary name `discount` for nodes in the state `Yes` and `no discount` for nodes in the state `No`. So, when we say `$'discount' .'Total'` we mean the value of `Total` within a node of state `Yes`. And similar for `$'no discount'`.
+We define `VAT` as a `number` of numerical type `euro` and derive (=) it depending on the states of stategroup `Discount applicable` (switch): either `Yes` or `No`. In both cases we end up using the product statement and supply this with the appropriate terms. The interesting parts are where the ***\$*** symbols are used. If we look back at our definition of the stategroup `Discount applicable` (at the start of this topic) we see that each state has a node type definition by providing properties and derivations within the curly braces: `'Yes' { ... }` and `'No' { ... }`. When `as $'...'` is used a specific node (all the values of that particular node of the specified state within a node of collection `Order`) is temporarily marked as `$'...'` and can be referenced to with this name. In our case that marked node is given the temporary name `discount` for nodes in the state `Yes` and `no discount` for nodes in the state `No`. So, when we write `$'discount' .'Total'` we point at the value of `Total` within a temporarily marked node of state `Yes`. And similar for `$'no discount'`.
 `$'discount'` and `$'no discount'` are called ***named objects***.
+
+Here's the result of our work:
+![VAT](./images_model/024.png)
 
 Derivations come in several forms and are powerful tools. We've shown you some examples, but want to provide an in depth overview in the *Derivations tutorial*.
 
-<tutorial folder: ./_tutorial/step_05/>
+<tutorial folder: ./_tutorial/step_06/>
 
 ## 15 Upstream and downstream
 
