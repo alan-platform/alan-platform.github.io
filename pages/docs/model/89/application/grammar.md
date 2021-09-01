@@ -175,10 +175,10 @@ If you do so, be sure to set `@label:` to `"sec"` as well!
 		}
 		'<span class="token string">absolute</span>' {
 			'<span class="token string">product conversions</span>': dictionary { [ <span class="token operator">=</span> ]
-				'<span class="token string">right</span>': [ <span class="token operator">*</span>@trim-none ] reference
+				'<span class="token string">right</span>': [ <span class="token operator">*</span> ] reference
 			}
 			'<span class="token string">division conversions</span>': dictionary { [ <span class="token operator">=</span> ]
-				'<span class="token string">denominator</span>': [ <span class="token operator">/</span>@trim-none ] reference
+				'<span class="token string">denominator</span>': [ <span class="token operator">/</span> ] reference
 			}
 		}
 	)
@@ -186,16 +186,16 @@ If you do so, be sure to set `@label:` to `"sec"` as well!
 		'<span class="token string">type</span>': stategroup (
 			'<span class="token string">factor</span>' {
 				'<span class="token string">invert</span>': stategroup (
-					'<span class="token string">no</span>' { [ <span class="token operator">*</span>@trim-none ] }
-					'<span class="token string">yes</span>' { [ <span class="token operator">/</span>@trim-none ] }
+					'<span class="token string">no</span>' { [ <span class="token operator">*</span> ] }
+					'<span class="token string">yes</span>' { [ <span class="token operator">/</span> ] }
 				)
 				'<span class="token string">factor</span>': integer
-				'<span class="token string">base</span>': [ <span class="token operator">*</span>@trim-none ] integer
+				'<span class="token string">base</span>': [ <span class="token operator">*</span> ] integer
 				'<span class="token string">exponent</span>': [ <span class="token operator">^</span> ] integer
 			}
 			'<span class="token string">base</span>' {
 				'<span class="token string">offset</span>': [ <span class="token operator">+</span> ] integer
-				'<span class="token string">base</span>': [ <span class="token operator">*</span>@trim-none ] integer
+				'<span class="token string">base</span>': [ <span class="token operator">*</span> ] integer
 				'<span class="token string">exponent</span>': [ <span class="token operator">^</span> ] integer
 				'<span class="token string">unit conversion</span>': stategroup (
 					'<span class="token string">no</span>' { }
@@ -391,7 +391,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 											'<span class="token string">dot</span>' { [ <span class="token operator">.</span> ] }
 											'<span class="token string">dash</span>' { [ <span class="token operator">-</span> ] }
 											'<span class="token string">colon</span>' { [ <span class="token operator">:</span> ] }
-											'<span class="token string">greater than</span>' { [ <span class="token operator">></span>@trim-none ] }
+											'<span class="token string">greater than</span>' { [ <span class="token operator">></span> ] }
 											'<span class="token string">space</span>' { [ <span class="token operator">space</span> ] }
 										)
 									}
@@ -988,13 +988,13 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group { dynamic-order
 				'<span class="token string">match none</span>': stategroup (
 					'<span class="token string">no</span>' { }
-					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">none</span>@pad1 <span class="token operator">=></span> ]
+					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=></span> ]
 						'<span class="token string">expression</span>': component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
 				)
 				'<span class="token string">match node</span>': stategroup (
 					'<span class="token string">no</span>' { }
-					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">node</span>@pad1 ]
+					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">node</span> ]
 						'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
 						'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
