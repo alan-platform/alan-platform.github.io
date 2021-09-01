@@ -12,11 +12,12 @@ type: grammar
 ## The *minimal model*
 ---
 Every valid Alan model instantiates the [`root` rule](#the-root-rule).
-We can use that rule for extracting a minimal model.
-For the `application` language, the minimal model is
+From that rule we can extract a minimal model.
+In the `application` language, the minimal model is
 
 > ```js
 users
+    anonymous
 interfaces
 root { }
 numerical-types
@@ -34,9 +35,76 @@ Anonymous users do not require login; dynamic users do.
 The keyword `anonymous` enables `anonymous` user access to your application.
 If you do not plan to support anonymous users, you just leave it out: the `'no'` state for `'allow anonymous user'` is the default, requiring no code at all.
 
-User authentication can either be application-specific, or it can be done via a separate module for single sign-on.
-If you want user authentication to be application-specific, you need to specify which collection and text property holds (hashed) user passwords.
+If your application supports a `dynamic` collection of users, you can enable user sign-up and authentication.
+Enabling user sign-up means that your application will have a sign-up page for new users.
+
+User authentication can either be application-specific, or it can be done via a single application for single sign-on.
+For an application that handles user authentication, you need to specify:
+- a collection that holds `Passwords` and some required properties, or
+- an `Authorities` collection listing third parties that handle authorization using the OAuth standard (Google, Microsoft, etc.).
+For application-specific user authentication, you need to specify which collection and text property holds (hashed) user passwords.
 In addition, you have to specify states for the 'active' and 'reset' status of the password.
+
+The following model expresses an application that supports all aforementioned features:
+- user sign-up, by providing a `user-initializer`
+- password authentication, by specifying a `Passwords` collection and required properties
+- third party authentication, by specifying an `Authorities` and `Identities` collection
+
+```js
+users
+    dynamic: .'Users'
+        user-initializer: (
+            'User Type' = create 'Other' ( )
+        )
+
+        passwords: .'Passwords'
+            password-value: .'Data'.'Password'
+            password-status: .'Data'.'Active'
+                active: 'Yes' ( )
+                reset: 'No' ( )
+            password-initializer: (
+                'Data' = ( )
+            )
+
+        authorities: .'Authorities'
+            identities: .'Identities'>'User'
+            identity-initializer: ( )
+
+root {
+    can-update: user .'Type'?'Admin'
+
+    'Users': collection ['Name'] {
+        'Name': text
+        'Type': stategroup (
+            'Admin' { }
+            'Unknown' { }
+        )
+    }
+    'Passwords': collection ['User'] {
+        'User': text -> ^ .'Users'[]
+        'Data': group {
+            can-update: user is ( ^ >'User' )
+
+            'Password': text
+            'Active': stategroup (
+                'No' { }
+                'Yes' { }
+            )
+        }
+    }
+    'Authorities': collection ['Authority'] {
+        'Authority': text
+        'Identities': collection ['Identity'] {
+            'Identity': text
+            'User': text -> ^ ^ .'Users'[]
+        }
+    }
+}
+```
+
+The initializers are for setting initial values for a user, password or identity node.
+For example, the `user-initializer` sets the `Type` of users that sign up to `Other`.
+Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#users-permissions-and-todos) are needed to make a new user `Admin`.
 
 {: #grammar-rule--allow-anonymous-user }
 <div class="language-js highlighter-rouge">
@@ -1314,7 +1382,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 </pre>
 </div>
 </div>
-## Users, Identities, Permissions, and Todos
+## Users, Permissions, and Todos
 ---
 
 Examples for permissions and todos:
