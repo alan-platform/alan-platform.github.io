@@ -552,8 +552,8 @@ Resets a user's password.
 	'<span class="token string">has element</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' {
-			'<span class="token string">signed number property</span>': @block component <a href="#grammar-rule--signed-number-property2">'signed number property2'</a>
-			'<span class="token string">tail</span>': @raw component <a href="#grammar-rule--signed-number-property-list">'signed number property list'</a>
+			'<span class="token string">signed number property</span>': component <a href="#grammar-rule--signed-number-property2">'signed number property2'</a>
+			'<span class="token string">tail</span>': component <a href="#grammar-rule--signed-number-property-list">'signed number property list'</a>
 		}
 	)
 }
@@ -601,7 +601,7 @@ Resets a user's password.
 		'<span class="token string">state based</span>' { [ <span class="token operator">switch</span> <span class="token operator">(</span> ]
 			'<span class="token string">path</span>': component <a href="#grammar-rule--singular-path">'singular path'</a>
 			'<span class="token string">state group</span>': [ <span class="token operator">?</span>, <span class="token operator">)</span> ] reference
-			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block [ <span class="token operator">|</span> ]
+			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">value</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--number-expression2">'number expression2'</a>
 			}
 		}

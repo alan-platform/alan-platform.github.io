@@ -42,9 +42,9 @@ In addition, you have to specify states for the 'active' and 'reset' status of t
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">allow anonymous user</span>': @section [ <span class="token operator">users</span> ] stategroup (
+'<span class="token string">allow anonymous user</span>': [ <span class="token operator">users</span> ] stategroup (
 	'<span class="token string">no</span>' { }
-	'<span class="token string">yes</span>' { @block indent [ <span class="token operator">anonymous</span> ] }
+	'<span class="token string">yes</span>' { [ <span class="token operator">anonymous</span> ] }
 )
 </pre>
 </div>
@@ -56,39 +56,39 @@ In addition, you have to specify states for the 'active' and 'reset' status of t
 <pre class="highlight language-js code-custom">
 '<span class="token string">has dynamic users</span>': stategroup (
 	'<span class="token string">no</span>' { }
-	'<span class="token string">yes</span>' { @block indent
+	'<span class="token string">yes</span>' {
 		'<span class="token string">users collection path</span>': [ <span class="token operator">dynamic:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
 		'<span class="token string">supports user sign-up</span>': stategroup (
-			'<span class="token string">yes</span>' { @block indent
+			'<span class="token string">yes</span>' {
 				'<span class="token string">user initializer</span>': [ <span class="token operator">user-initializer:</span> ] component <a href="#grammar-rule--user-initializer">'user initializer'</a>
 			}
 			'<span class="token string">no</span>' { }
 		)
 		'<span class="token string">has password authentication</span>': stategroup (
-			'<span class="token string">yes</span>' { @block indent
+			'<span class="token string">yes</span>' {
 				'<span class="token string">passwords collection path</span>': [ <span class="token operator">passwords:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
-				'<span class="token string">password text path</span>': @block indent [ <span class="token operator">password-value:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
-				'<span class="token string">password status</span>': @block indent [ <span class="token operator">password-status:</span> ] group {
+				'<span class="token string">password text path</span>': [ <span class="token operator">password-value:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
+				'<span class="token string">password status</span>': [ <span class="token operator">password-status:</span> ] group {
 					'<span class="token string">state group path</span>': component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
-					'<span class="token string">active state</span>': @block indent [ <span class="token operator">active:</span> ] group {
+					'<span class="token string">active state</span>': [ <span class="token operator">active:</span> ] group {
 						'<span class="token string">state</span>': reference
 						'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
 					}
-					'<span class="token string">reset state</span>': @block indent [ <span class="token operator">reset:</span> ] group {
+					'<span class="token string">reset state</span>': [ <span class="token operator">reset:</span> ] group {
 						'<span class="token string">state</span>': reference
 						'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
 					}
 				}
-				'<span class="token string">password initializer</span>': @block indent [ <span class="token operator">password-initializer:</span> ] component <a href="#grammar-rule--password-initializer">'password initializer'</a>
+				'<span class="token string">password initializer</span>': [ <span class="token operator">password-initializer:</span> ] component <a href="#grammar-rule--password-initializer">'password initializer'</a>
 			}
 			'<span class="token string">no</span>' { }
 		)
 		'<span class="token string">has external authentication</span>': stategroup (
-			'<span class="token string">yes</span>' { @block indent
+			'<span class="token string">yes</span>' {
 				'<span class="token string">authorities path</span>': [ <span class="token operator">authorities:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
-				'<span class="token string">identities path</span>': @block indent [ <span class="token operator">identities:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
+				'<span class="token string">identities path</span>': [ <span class="token operator">identities:</span> ] component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
 				'<span class="token string">user reference</span>': [ <span class="token operator">></span> ] reference
-				'<span class="token string">identity initializer</span>': @block indent [ <span class="token operator">identity-initializer:</span> ] component <a href="#grammar-rule--identity-initializer">'identity initializer'</a>
+				'<span class="token string">identity initializer</span>': [ <span class="token operator">identity-initializer:</span> ] component <a href="#grammar-rule--identity-initializer">'identity initializer'</a>
 			}
 			'<span class="token string">no</span>' { }
 		)
@@ -107,7 +107,7 @@ The `node type` specifying the context node, requires a permission definition to
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">imported interfaces</span>': @section [ <span class="token operator">interfaces</span> ] dictionary { @block indent
+'<span class="token string">imported interfaces</span>': [ <span class="token operator">interfaces</span> ] dictionary {
 	'<span class="token string">path</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--descendant-node-path">'descendant node path'</a>
 }
 </pre>
@@ -129,7 +129,7 @@ as we define `node types` in a model (for legacy reasons it is called the `'node
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">root</span>': @section [ <span class="token operator">root</span> ] component <a href="#grammar-rule--node">'node'</a>
+'<span class="token string">root</span>': [ <span class="token operator">root</span> ] component <a href="#grammar-rule--node">'node'</a>
 </pre>
 </div>
 </div>
@@ -164,7 +164,7 @@ If you do so, be sure to set `@label:` to `"sec"` as well!
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">numerical types</span>': @section [ <span class="token operator">numerical-types</span> ] dictionary { @block indent
+'<span class="token string">numerical types</span>': [ <span class="token operator">numerical-types</span> ] dictionary {
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">relative</span>' {
 			'<span class="token string">timer resolution</span>': stategroup (
@@ -174,15 +174,15 @@ If you do so, be sure to set `@label:` to `"sec"` as well!
 			'<span class="token string">range type</span>': [ <span class="token operator">in</span> ] reference
 		}
 		'<span class="token string">absolute</span>' {
-			'<span class="token string">product conversions</span>': dictionary { @block indent [ <span class="token operator">=</span> ]
+			'<span class="token string">product conversions</span>': dictionary { [ <span class="token operator">=</span> ]
 				'<span class="token string">right</span>': [ <span class="token operator">*</span>@trim-none ] reference
 			}
-			'<span class="token string">division conversions</span>': dictionary { @block indent [ <span class="token operator">=</span> ]
+			'<span class="token string">division conversions</span>': dictionary { [ <span class="token operator">=</span> ]
 				'<span class="token string">denominator</span>': [ <span class="token operator">/</span>@trim-none ] reference
 			}
 		}
 	)
-	'<span class="token string">singular conversions</span>': dictionary { @block indent [ <span class="token operator">=</span> ]
+	'<span class="token string">singular conversions</span>': dictionary { [ <span class="token operator">=</span> ]
 		'<span class="token string">type</span>': stategroup (
 			'<span class="token string">factor</span>' {
 				'<span class="token string">invert</span>': stategroup (
@@ -303,8 +303,8 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ] indent
-	'<span class="token string">permissions definition</span>': @section component <a href="#grammar-rule--node-permissions-definition">'node permissions definition'</a>
+'<span class="token string">node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">permissions definition</span>': component <a href="#grammar-rule--node-permissions-definition">'node permissions definition'</a>
 	'<span class="token string">todo definition</span>': component <a href="#grammar-rule--todo-definition">'todo definition'</a>
 	'<span class="token string">has attributes</span>': stategroup = node-switch .'<span class="token string">attributes</span>' (
 		| nodes = '<span class="token string">yes</span>' {
@@ -313,7 +313,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 		}
 		| none  = '<span class="token string">no</span>'
 	)
-	'<span class="token string">attributes</span>': @section dictionary { @block
+	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 			| node = '<span class="token string">yes</span>' { '<span class="token string">attribute</span>' = predecessor }
 			| none = '<span class="token string">no</span>'
@@ -382,7 +382,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 								'<span class="token string">evaluation</span>': component <a href="#grammar-rule--explicit-evaluation-annotation">'explicit evaluation annotation'</a>
 								'<span class="token string">key constraint</span>': stategroup (
 									'<span class="token string">no</span>' {
-										'<span class="token string">branches</span>': [ <span class="token operator">flatten</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block
+										'<span class="token string">branches</span>': [ <span class="token operator">flatten</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 											'<span class="token string">expression</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--flatten-expression">'flatten expression'</a>
 											'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
 											'<span class="token string">node initializer</span>': component <a href="#grammar-rule--node-initializer">'node initializer'</a>
@@ -401,9 +401,9 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 								)
 							}
 						)
-						'<span class="token string">permissions</span>': @block indent component <a href="#grammar-rule--item-permissions-definition">'item permissions definition'</a>
-						'<span class="token string">ui</span>': @raw component <a href="#grammar-rule--ui-collection-property">'ui collection property'</a>
-						'<span class="token string">node</span>': @raw component <a href="#grammar-rule--node">'node'</a>
+						'<span class="token string">permissions</span>': component <a href="#grammar-rule--item-permissions-definition">'item permissions definition'</a>
+						'<span class="token string">ui</span>': component <a href="#grammar-rule--ui-collection-property">'ui collection property'</a>
+						'<span class="token string">node</span>': component <a href="#grammar-rule--node">'node'</a>
 					}
 					'<span class="token string">number</span>' { [ <span class="token operator">number</span> ]
 						'<span class="token string">set type</span>': stategroup (
@@ -474,10 +474,10 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 					'<span class="token string">text</span>' { [ <span class="token operator">text</span> ]
 						'<span class="token string">has reference</span>': stategroup (
 							'<span class="token string">no</span>' { }
-							'<span class="token string">yes</span>' { indent
+							'<span class="token string">yes</span>' {
 								'<span class="token string">behaviour</span>': component <a href="#grammar-rule--reference-behaviour">'reference behaviour'</a>
 								'<span class="token string">expression</span>': component <a href="#grammar-rule--entry-reference-definition">'entry reference definition'</a>
-								'<span class="token string">rules</span>': dictionary { @block [ <span class="token operator">where</span> ]
+								'<span class="token string">rules</span>': dictionary { [ <span class="token operator">where</span> ]
 									'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 										| node = '<span class="token string">yes</span>' { '<span class="token string">rule</span>' = predecessor }
 										| none = '<span class="token string">no</span>'
@@ -502,11 +502,11 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 								}
 							}
 						)
-						'<span class="token string">type</span>': @break? stategroup (
-							'<span class="token string">base</span>' { indent
+						'<span class="token string">type</span>': stategroup (
+							'<span class="token string">base</span>' {
 								'<span class="token string">metadata recording</span>': component <a href="#grammar-rule--metadata-recording">'metadata recording'</a>
 							}
-							'<span class="token string">derived</span>' { indent [ <span class="token operator">=</span> ]
+							'<span class="token string">derived</span>' { [ <span class="token operator">=</span> ]
 								'<span class="token string">value source</span>': stategroup (
 									'<span class="token string">parameter</span>' { [ <span class="token operator">parameter</span> ] }
 									'<span class="token string">derived key</span>' { [ <span class="token operator">key</span> ] }
@@ -517,7 +517,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 								)
 							}
 						)
-						'<span class="token string">ui</span>': @break? component <a href="#grammar-rule--ui-text-property">'ui text property'</a>
+						'<span class="token string">ui</span>': component <a href="#grammar-rule--ui-text-property">'ui text property'</a>
 					}
 					'<span class="token string">state group</span>' { [ <span class="token operator">stategroup</span> ]
 						'<span class="token string">type</span>': stategroup (
@@ -534,7 +534,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 						)
 						'<span class="token string">ui</span>': component <a href="#grammar-rule--ui-state-group-property">'ui state group property'</a>
 						'<span class="token string">first state</span>': reference = first
-						'<span class="token string">states</span>': @raw [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @order: .'<span class="token string">view order</span>' { @block
+						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 							'<span class="token string">has successor</span>': stategroup = node-switch successor (
 								| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 								| none = '<span class="token string">no</span>'
@@ -546,7 +546,7 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 								}
 								'<span class="token string">no</span>' { }
 							)
-							'<span class="token string">rules</span>': @list indent dictionary { @block [ <span class="token operator">where</span> ]
+							'<span class="token string">rules</span>': dictionary { [ <span class="token operator">where</span> ]
 								'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 									| node = '<span class="token string">yes</span>' { '<span class="token string">rule</span>' = predecessor }
 									| none = '<span class="token string">no</span>'
@@ -565,9 +565,9 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 									'<span class="token string">node path</span>': component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
 								}
 							}
-							'<span class="token string">permissions</span>': @block indent component <a href="#grammar-rule--item-permissions-definition">'item permissions definition'</a>
-							'<span class="token string">ui</span>': @raw indent component <a href="#grammar-rule--ui-state">'ui state'</a>
-							'<span class="token string">node</span>': @raw component <a href="#grammar-rule--node">'node'</a>
+							'<span class="token string">permissions</span>': component <a href="#grammar-rule--item-permissions-definition">'item permissions definition'</a>
+							'<span class="token string">ui</span>': component <a href="#grammar-rule--ui-state">'ui state'</a>
+							'<span class="token string">node</span>': component <a href="#grammar-rule--node">'node'</a>
 						}
 					}
 				)
@@ -717,7 +717,7 @@ As `Catalog Provider` can remove `Products` at any given time, we cannot put con
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">graph constraints definition</span>' {
-	'<span class="token string">graphs</span>': dictionary { @block indent
+	'<span class="token string">graphs</span>': dictionary {
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">acyclic</span>' { [ <span class="token operator">acyclic-graph</span> ] }
 			'<span class="token string">ordered</span>' { [ <span class="token operator">ordered-graph</span> ]
@@ -962,7 +962,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 		}
 		'<span class="token string">state switch</span>' { [ <span class="token operator">switch</span> ]
 			'<span class="token string">state group path</span>': component <a href="#grammar-rule--singular-variablized-object-path">'singular variablized object path'</a>
-			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @tabular { @block [ <span class="token operator">|</span> ]
+			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
 				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 			}
@@ -975,31 +975,31 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 				}
 				'<span class="token string">existence</span>' { }
 			)
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group { dynamic-order
-				'<span class="token string">node</span>': @block group { [ <span class="token operator">|</span> <span class="token operator">node</span> ]
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group { dynamic-order
+				'<span class="token string">node</span>': group { [ <span class="token operator">|</span> <span class="token operator">node</span> ]
 					'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
 					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 				}
-				'<span class="token string">none</span>': @block [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
+				'<span class="token string">none</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 			}
 		}
 		'<span class="token string">set switch</span>' { [ <span class="token operator">switch</span> ]
 			'<span class="token string">nodes path</span>': component <a href="#grammar-rule--object-set-path">'object set path'</a>
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group { dynamic-order
-				'<span class="token string">match none</span>': @block stategroup (
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group { dynamic-order
+				'<span class="token string">match none</span>': stategroup (
 					'<span class="token string">no</span>' { }
 					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">none</span>@pad1 <span class="token operator">=></span> ]
 						'<span class="token string">expression</span>': component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
 				)
-				'<span class="token string">match node</span>': @block stategroup (
+				'<span class="token string">match node</span>': stategroup (
 					'<span class="token string">no</span>' { }
 					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">node</span>@pad1 ]
 						'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
 						'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
 				)
-				'<span class="token string">match nodes</span>': @block stategroup (
+				'<span class="token string">match nodes</span>': stategroup (
 					'<span class="token string">no</span>' { }
 					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">nodes</span> ]
 						'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
@@ -1019,14 +1019,14 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 				}
 			)
 			'<span class="token string">last case</span>': reference = last
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @tabular (
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary (
 				static '<span class="token string">equals</span>' [ <span class="token operator">==</span> ]
 				static '<span class="token string">less than or greater than</span>' [ <span class="token operator"><></span> ]
 				static '<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
 				static '<span class="token string">greater than or equals</span>' [ <span class="token operator">>=</span> ]
 				static '<span class="token string">less than</span>' [ <span class="token operator"><</span> ]
 				static '<span class="token string">less than or equals</span>' [ <span class="token operator"><=</span> ]
-			) { @block [ <span class="token operator">|</span> ]
+			) { [ <span class="token operator">|</span> ]
 				'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 					| node = '<span class="token string">yes</span>' { '<span class="token string">case</span>' = predecessor }
 					| none = '<span class="token string">no</span>'
@@ -1069,7 +1069,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 				'<span class="token string">static</span>' {
 					'<span class="token string">value</span>': text
 				}
-				'<span class="token string">concatenation</span>' { [ <span class="token operator">concat</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
+				'<span class="token string">concatenation</span>' { [ <span class="token operator">concat</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
 					'<span class="token string">expression</span>': component <a href="#grammar-rule--derivation-expression-list">'derivation expression list'</a>
 				}
 			)
@@ -1093,7 +1093,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">derivation expression list</span>' { @block
+'<span class="token string">derivation expression list</span>' {
 	'<span class="token string">head</span>': component <a href="#grammar-rule--derivation-expression-tail">'derivation expression tail'</a>
 	'<span class="token string">has tail</span>': stategroup (
 		'<span class="token string">no</span>' { }
@@ -1144,9 +1144,9 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 						}
 					)
 				}
-				'<span class="token string">remainder</span>' { [ <span class="token operator">remainder</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
-					'<span class="token string">numerator</span>': @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
-					'<span class="token string">denominator</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+				'<span class="token string">remainder</span>' { [ <span class="token operator">remainder</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
+					'<span class="token string">numerator</span>': component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+					'<span class="token string">denominator</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 				}
 				'<span class="token string">division</span>' { [ <span class="token operator">division</span> ]
 					'<span class="token string">rounding</span>': stategroup (
@@ -1154,16 +1154,16 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 						'<span class="token string">ceil</span>' { [ <span class="token operator">ceil</span> ] }
 						'<span class="token string">floor</span>' { [ <span class="token operator">floor</span> ] }
 					)
-					'<span class="token string">expressions</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-						'<span class="token string">numerator</span>': @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+					'<span class="token string">expressions</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+						'<span class="token string">numerator</span>': component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 						'<span class="token string">conversion rule</span>': [ <span class="token operator">as</span> ] reference
-						'<span class="token string">denominator</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+						'<span class="token string">denominator</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 					}
 				}
-				'<span class="token string">product</span>' { [ <span class="token operator">product</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
-					'<span class="token string">left</span>': @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+				'<span class="token string">product</span>' { [ <span class="token operator">product</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
+					'<span class="token string">left</span>': component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 					'<span class="token string">conversion rule</span>': [ <span class="token operator">as</span> ] reference
-					'<span class="token string">right</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+					'<span class="token string">right</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 				}
 				'<span class="token string">list operation</span>' {
 					'<span class="token string">operation</span>': stategroup (
@@ -1171,17 +1171,17 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 						'<span class="token string">maximum</span>' { [ <span class="token operator">max</span> ] }
 						'<span class="token string">minimum</span>' { [ <span class="token operator">min</span> ] }
 					)
-					'<span class="token string">numbers</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] @list indent component <a href="#grammar-rule--derivation-expression-list">'derivation expression list'</a>
+					'<span class="token string">numbers</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--derivation-expression-list">'derivation expression list'</a>
 				}
-				'<span class="token string">addition</span>' { [ <span class="token operator">add</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
-					'<span class="token string">left</span>': @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
-					'<span class="token string">right</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+				'<span class="token string">addition</span>' { [ <span class="token operator">add</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
+					'<span class="token string">left</span>': component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+					'<span class="token string">right</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 				}
 				'<span class="token string">difference</span>' { [ <span class="token operator">diff</span> ]
 					'<span class="token string">relative numerical type</span>': reference
-					'<span class="token string">expressions</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-						'<span class="token string">left</span>': @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
-						'<span class="token string">right</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+					'<span class="token string">expressions</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+						'<span class="token string">left</span>': component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
+						'<span class="token string">right</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--unary-number-expression">'unary number expression'</a>
 					}
 				}
 			)
@@ -1220,10 +1220,10 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 <pre class="highlight language-js code-custom">
 '<span class="token string">state initializer</span>' {
 	'<span class="token string">state</span>': reference
-	'<span class="token string">rule arguments</span>': @list indent dictionary { @block [ <span class="token operator">where</span> ]
+	'<span class="token string">rule arguments</span>': dictionary { [ <span class="token operator">where</span> ]
 		'<span class="token string">path</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--singular-variablized-object-path">'singular variablized object path'</a>
 	}
-	'<span class="token string">node initializer</span>': @raw component <a href="#grammar-rule--node-initializer">'node initializer'</a>
+	'<span class="token string">node initializer</span>': component <a href="#grammar-rule--node-initializer">'node initializer'</a>
 }
 </pre>
 </div>
@@ -1234,7 +1234,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node initializer</span>' {
-	'<span class="token string">arguments</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] @list indent dictionary { @block
+	'<span class="token string">arguments</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 		'<span class="token string">expression</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 	}
 }
@@ -1266,7 +1266,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 			'<span class="token string">filter path</span>': [ <span class="token operator">*</span> ] component <a href="#grammar-rule--descendant-object-path">'descendant object path'</a>
 		}
 		'<span class="token string">union</span>' { [ <span class="token operator">union</span> ]
-			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block
+			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 				'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 					| node = '<span class="token string">yes</span>' { }
 					| none = '<span class="token string">no</span>'
@@ -1353,13 +1353,13 @@ Examples for permissions and todos:
 '<span class="token string">node permissions definition</span>' { dynamic-order
 	'<span class="token string">read permission</span>': stategroup (
 		'<span class="token string">inherited</span>' { }
-		'<span class="token string">explicit</span>' { @block [ <span class="token operator">can-read:</span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">can-read:</span> ]
 			'<span class="token string">permission</span>': component <a href="#grammar-rule--permission">'permission'</a>
 		}
 	)
 	'<span class="token string">update permission</span>': stategroup (
 		'<span class="token string">inherited</span>' { }
-		'<span class="token string">explicit</span>' { @block [ <span class="token operator">can-update:</span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">can-update:</span> ]
 			'<span class="token string">permission</span>': component <a href="#grammar-rule--permission">'permission'</a>
 		}
 	)
@@ -1375,13 +1375,13 @@ Examples for permissions and todos:
 '<span class="token string">item permissions definition</span>' { dynamic-order
 	'<span class="token string">create permission</span>': stategroup (
 		'<span class="token string">inherited</span>' { }
-		'<span class="token string">explicit</span>' { @block [ <span class="token operator">can-create:</span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">can-create:</span> ]
 			'<span class="token string">permission</span>': component <a href="#grammar-rule--permission">'permission'</a>
 		}
 	)
 	'<span class="token string">delete permission</span>': stategroup (
 		'<span class="token string">inherited</span>' { }
-		'<span class="token string">explicit</span>' { @block [ <span class="token operator">can-delete:</span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">can-delete:</span> ]
 			'<span class="token string">permission</span>': component <a href="#grammar-rule--permission">'permission'</a>
 		}
 	)
@@ -1403,7 +1403,7 @@ That is, the application only verifies that the user is permitted to execute com
 '<span class="token string">command permission definition</span>' {
 	'<span class="token string">execute permission</span>': stategroup (
 		'<span class="token string">reachable</span>' { }
-		'<span class="token string">explicit</span>' { @block indent [ <span class="token operator">can-execute:</span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">can-execute:</span> ]
 			'<span class="token string">requirement</span>': component <a href="#grammar-rule--user-requirement">'user requirement'</a>
 		}
 	)
@@ -1437,9 +1437,9 @@ That is, the application only verifies that the user is permitted to execute com
 '<span class="token string">todo definition</span>' {
 	'<span class="token string">todo</span>': stategroup (
 		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' { @block [ <span class="token operator">has-todo:</span> ]
+		'<span class="token string">yes</span>' { [ <span class="token operator">has-todo:</span> ]
 			'<span class="token string">requirement</span>': component <a href="#grammar-rule--user-requirement">'user requirement'</a>
-			'<span class="token string">ui</span>': @break? indent component <a href="#grammar-rule--ui-todo">'ui todo'</a>
+			'<span class="token string">ui</span>': component <a href="#grammar-rule--ui-todo">'ui todo'</a>
 		}
 	)
 }
@@ -1550,7 +1550,7 @@ Also, the `external` command needs to be consumed by the application model, like
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command object expression</span>' {
-	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block
+	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 		'<span class="token string">expression</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 	}
 }
@@ -1583,19 +1583,19 @@ Also, the `external` command needs to be consumed by the application model, like
 				'<span class="token string">path</span>': component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
 				'<span class="token string">stategroup</span>': [ <span class="token operator">.</span> ] reference
 			}
-			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @tabular { @block [ <span class="token operator">|</span> ]
+			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 			}
 		}
 		'<span class="token string">node switch</span>' { [ <span class="token operator">switch</span> ]
 			'<span class="token string">expression</span>': component <a href="#grammar-rule--node-expression">'node expression'</a>
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-				'<span class="token string">node case</span>': @block [ <span class="token operator">|</span> <span class="token operator">node</span> ] group {
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+				'<span class="token string">node case</span>': [ <span class="token operator">|</span> <span class="token operator">node</span> ] group {
 					'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 				}
-				'<span class="token string">none case</span>': @block [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
+				'<span class="token string">none case</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
 					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 				}
 			}
@@ -1694,7 +1694,7 @@ Also, the `external` command needs to be consumed by the application model, like
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">scalar expression list</span>' { @block
+'<span class="token string">scalar expression list</span>' {
 	'<span class="token string">head</span>': component <a href="#grammar-rule--scalar-expression">'scalar expression'</a>
 	'<span class="token string">has tail</span>': stategroup (
 		'<span class="token string">no</span>' { }
@@ -1736,7 +1736,7 @@ Also, the `external` command needs to be consumed by the application model, like
 						'<span class="token string">maximum</span>' { [ <span class="token operator">max</span> ] }
 						'<span class="token string">product</span>' { [ <span class="token operator">product</span> ] }
 					)
-					'<span class="token string">expression</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent component <a href="#grammar-rule--scalar-expression-list">'scalar expression list'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--scalar-expression-list">'scalar expression list'</a>
 				}
 				'<span class="token string">binary expression</span>' {
 					'<span class="token string">operation</span>': stategroup (
@@ -1749,9 +1749,9 @@ Also, the `external` command needs to be consumed by the application model, like
 						}
 						'<span class="token string">remainder</span>' { [ <span class="token operator">remainder</span> ] }
 					)
-					'<span class="token string">expressions</span>': group { [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
-						'<span class="token string">left</span>': @block component <a href="#grammar-rule--scalar-expression">'scalar expression'</a>
-						'<span class="token string">right</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--scalar-expression">'scalar expression'</a>
+					'<span class="token string">expressions</span>': group { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+						'<span class="token string">left</span>': component <a href="#grammar-rule--scalar-expression">'scalar expression'</a>
+						'<span class="token string">right</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--scalar-expression">'scalar expression'</a>
 					}
 				}
 			)
@@ -1782,7 +1782,7 @@ The metadata recording enables you to record the mutation times of scalar values
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">metadata recording</span>' {
-	'<span class="token string">record mutation time</span>': @block stategroup (
+	'<span class="token string">record mutation time</span>': stategroup (
 		'<span class="token string">yes</span>' { [ <span class="token operator">mutation-time</span> ]
 			'<span class="token string">meta property</span>': [ <span class="token operator">=</span> <span class="token operator">.</span> ] reference
 		}
@@ -2309,7 +2309,7 @@ supported icons can be found at: https://fonts.google.com/icons
 		| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
 		| none  = '<span class="token string">no</span>'
 	)
-	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @order: .'<span class="token string">view order</span>' { @block
+	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 		'<span class="token string">has successor</span>': stategroup = node-switch successor (
 			| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 			| none = '<span class="token string">no</span>'
@@ -2329,7 +2329,7 @@ supported icons can be found at: https://fonts.google.com/icons
 							'<span class="token string">yes</span>' { }
 						)
 						'<span class="token string">first state</span>': reference = first
-						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @order: .'<span class="token string">view order</span>' { @block
+						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 							'<span class="token string">has successor</span>': stategroup = node-switch successor (
 								| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 								| none = '<span class="token string">no</span>'
@@ -2379,7 +2379,7 @@ supported icons can be found at: https://fonts.google.com/icons
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui object expression</span>' {
-	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block
+	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 		'<span class="token string">default</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 	}
 }
@@ -2415,19 +2415,19 @@ supported icons can be found at: https://fonts.google.com/icons
 				'<span class="token string">path</span>': component <a href="#grammar-rule--ui-parametrized-node-path">'ui parametrized node path'</a>
 				'<span class="token string">stategroup</span>': [ <span class="token operator">.</span> ] reference
 			}
-			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary @tabular { @block [ <span class="token operator">|</span> ]
+			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 			}
 		}
 		'<span class="token string">node switch</span>' { [ <span class="token operator">switch</span> ]
 			'<span class="token string">expression</span>': component <a href="#grammar-rule--node-expression">'node expression'</a>
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-				'<span class="token string">node case</span>': @block [ <span class="token operator">|</span> <span class="token operator">node</span> ] group {
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+				'<span class="token string">node case</span>': [ <span class="token operator">|</span> <span class="token operator">node</span> ] group {
 					'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
 					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 				}
-				'<span class="token string">none case</span>': @block [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
+				'<span class="token string">none case</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
 					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 				}
 			}
@@ -2548,7 +2548,7 @@ supported icons can be found at: https://fonts.google.com/icons
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui scalar value expression list</span>' { @block
+'<span class="token string">ui scalar value expression list</span>' {
 	'<span class="token string">value</span>': component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
 	'<span class="token string">has tail</span>': stategroup (
 		'<span class="token string">no</span>' { }
@@ -2588,7 +2588,7 @@ supported icons can be found at: https://fonts.google.com/icons
 					)
 					'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
 				}
-				'<span class="token string">concatenation</span>' { [ <span class="token operator">concat</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
+				'<span class="token string">concatenation</span>' { [ <span class="token operator">concat</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
 					'<span class="token string">list</span>': component <a href="#grammar-rule--ui-scalar-value-expression-list">'ui scalar value expression list'</a>
 				}
 			)
@@ -2620,7 +2620,7 @@ supported icons can be found at: https://fonts.google.com/icons
 						'<span class="token string">maximum</span>' { [ <span class="token operator">max</span> ] }
 						'<span class="token string">product</span>' { [ <span class="token operator">product</span> ] }
 					)
-					'<span class="token string">value</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent component <a href="#grammar-rule--ui-scalar-value-expression-list">'ui scalar value expression list'</a>
+					'<span class="token string">value</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--ui-scalar-value-expression-list">'ui scalar value expression list'</a>
 				}
 				'<span class="token string">binary expression</span>' {
 					'<span class="token string">operation</span>': stategroup (
@@ -2633,9 +2633,9 @@ supported icons can be found at: https://fonts.google.com/icons
 						}
 						'<span class="token string">remainder</span>' { [ <span class="token operator">remainder</span> ] }
 					)
-					'<span class="token string">expressions</span>': group { [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent
-						'<span class="token string">left</span>': @block component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
-						'<span class="token string">right</span>': [ <span class="token operator">,</span> ] @block component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
+					'<span class="token string">expressions</span>': group { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+						'<span class="token string">left</span>': component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
+						'<span class="token string">right</span>': [ <span class="token operator">,</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
 					}
 				}
 			)
@@ -2671,7 +2671,7 @@ supported icons can be found at: https://fonts.google.com/icons
 '<span class="token string">ui scalar default</span>' {
 	'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 	'<span class="token string">has fallback</span>': stategroup (
-		'<span class="token string">yes</span>' { [ <span class="token operator">||</span> ] @break? indent
+		'<span class="token string">yes</span>' { [ <span class="token operator">||</span> ]
 			'<span class="token string">fallback</span>': component <a href="#grammar-rule--ui-scalar-default">'ui scalar default'</a>
 		}
 		'<span class="token string">no</span>' { }
@@ -2764,8 +2764,8 @@ supported icons can be found at: https://fonts.google.com/icons
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui numerical type</span>' { @list indent
-	'<span class="token string">represent as</span>': @block stategroup (
+'<span class="token string">ui numerical type</span>' {
+	'<span class="token string">represent as</span>': stategroup (
 		'<span class="token string">model</span>' { }
 		'<span class="token string">date</span>' { [ <span class="token operator">@date</span> ] }
 		'<span class="token string">date and time</span>' { [ <span class="token operator">@date-time</span> ] }
@@ -2784,9 +2784,9 @@ supported icons can be found at: https://fonts.google.com/icons
 					'<span class="token string">assignment</span>': [ <span class="token operator">as</span> ] component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
 				}
 			)
-			'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-				'<span class="token string">label</span>': @block [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
-				'<span class="token string">conversion</span>': @block stategroup (
+			'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+				'<span class="token string">label</span>': [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
+				'<span class="token string">conversion</span>': stategroup (
 					'<span class="token string">none</span>' { }
 					'<span class="token string">point translation</span>' {
 						'<span class="token string">decimals</span>': [ <span class="token operator">decimals:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
@@ -2804,8 +2804,8 @@ supported icons can be found at: https://fonts.google.com/icons
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui command attribute</span>' { @list indent
-	'<span class="token string">visible</span>': @block stategroup (
+'<span class="token string">ui command attribute</span>' {
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' { }
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
@@ -2824,8 +2824,8 @@ That is, if a group is inside a state or another group, it is not added to the t
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui group property</span>' { @list indent dynamic-order
-	'<span class="token string">visible</span>': @block stategroup (
+'<span class="token string">ui group property</span>' { dynamic-order
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' {
 			'<span class="token string">break out</span>': stategroup (
 				'<span class="token string">no</span>' { }
@@ -2834,13 +2834,13 @@ That is, if a group is inside a state or another group, it is not added to the t
 		}
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
-	'<span class="token string">has description</span>': @block stategroup (
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
 		}
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
@@ -2903,8 +2903,8 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui collection property</span>' { @list indent dynamic-order
-	'<span class="token string">sort</span>': @block stategroup (
+'<span class="token string">ui collection property</span>' { dynamic-order
+	'<span class="token string">sort</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' {
 			'<span class="token string">direction</span>': stategroup (
@@ -2915,7 +2915,7 @@ the keys are the same.
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
 		}
 	)
-	'<span class="token string">visible</span>': @block stategroup (
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' {
 			'<span class="token string">break out</span>': stategroup (
 				'<span class="token string">no</span>' { }
@@ -2924,37 +2924,37 @@ the keys are the same.
 		}
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
-	'<span class="token string">size</span>': @block stategroup (
+	'<span class="token string">size</span>': stategroup (
 		'<span class="token string">small</span>' { [ <span class="token operator">@small</span> ] }
 		'<span class="token string">large</span>' { }
 	)
-	'<span class="token string">can be dormant</span>': @block stategroup (
+	'<span class="token string">can be dormant</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@dormant:</span> ]
 			'<span class="token string">state group path</span>': component <a href="#grammar-rule--descendant-property-path">'descendant property path'</a>
 			'<span class="token string">dormant state</span>': [ <span class="token operator">?</span> ] reference
 		}
 	)
-	'<span class="token string">has description</span>': @block stategroup (
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
 		}
 	)
-	'<span class="token string">default</span>': @block stategroup (
+	'<span class="token string">default</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@default:</span> ]
 			'<span class="token string">key reference</span>': component <a href="#grammar-rule--entry-reference-selector">'entry reference selector'</a>
 			'<span class="token string">entry filter</span>': component <a href="#grammar-rule--ui-node-path-tail">'ui node path tail'</a>
 		}
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
 		}
 	)
-	'<span class="token string">has style</span>': @block stategroup (
+	'<span class="token string">has style</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@style:</span> ]
 			'<span class="token string">style expression</span>': component <a href="#grammar-rule--ui-expression">'ui expression'</a>
@@ -2969,36 +2969,36 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui number property</span>' { @list indent dynamic-order
-	'<span class="token string">visible</span>': @block stategroup (
+'<span class="token string">ui number property</span>' { dynamic-order
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' { }
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
-	'<span class="token string">identifying</span>': @block stategroup (
+	'<span class="token string">identifying</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@identifying</span> ] }
 	)
-	'<span class="token string">emphasis</span>': @block stategroup (
+	'<span class="token string">emphasis</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@emphasis</span> ] }
 	)
-	'<span class="token string">default</span>': @block stategroup (
+	'<span class="token string">default</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@default:</span> ]
 			'<span class="token string">default</span>': component <a href="#grammar-rule--ui-scalar-default">'ui scalar default'</a>
 		}
 	)
-	'<span class="token string">dynamic numerical type</span>': @block stategroup (
+	'<span class="token string">dynamic numerical type</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@numerical-type:</span> ]
 			'<span class="token string">binding path</span>': component <a href="#grammar-rule--node-path">'node path'</a>
 		}
 	)
-	'<span class="token string">metadata</span>': @block stategroup (
+	'<span class="token string">metadata</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@metadata</span> ] }
 	)
-	'<span class="token string">validation</span>': @block group {
+	'<span class="token string">validation</span>': group {
 		'<span class="token string">has minimum</span>': stategroup (
 			'<span class="token string">no</span>' { }
 			'<span class="token string">yes</span>' { [ <span class="token operator">@min:</span> ]
@@ -3012,13 +3012,13 @@ the keys are the same.
 			}
 		)
 	}
-	'<span class="token string">has description</span>': @block stategroup (
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
 		}
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
@@ -3033,30 +3033,30 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui file property</span>' { @list indent dynamic-order
-	'<span class="token string">file name expression</span>': @block stategroup (
+'<span class="token string">ui file property</span>' { dynamic-order
+	'<span class="token string">file name expression</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@name:</span> ]
 			'<span class="token string">file name expression</span>': component <a href="#grammar-rule--ui-scalar-default">'ui scalar default'</a>
 		}
 	)
-	'<span class="token string">visible</span>': @block stategroup (
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' { }
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
-	'<span class="token string">has description</span>': @block stategroup (
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
 		}
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
 		}
 	)
-	'<span class="token string">identifying</span>': @block stategroup (
+	'<span class="token string">identifying</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@identifying</span> ] }
 	)
@@ -3069,31 +3069,31 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui text property</span>' { @list indent dynamic-order
-	'<span class="token string">visible</span>': @block stategroup (
+'<span class="token string">ui text property</span>' { dynamic-order
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' { }
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
-	'<span class="token string">identifying</span>': @block stategroup (
+	'<span class="token string">identifying</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@identifying</span> ] }
 	)
-	'<span class="token string">emphasis</span>': @block stategroup (
+	'<span class="token string">emphasis</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@emphasis</span> ] }
 	)
-	'<span class="token string">type</span>': @block stategroup (
+	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">default</span>' { }
 		'<span class="token string">multi-line</span>' { [ <span class="token operator">@multi-line</span> ] }
 		'<span class="token string">color</span>' { [ <span class="token operator">@color</span> ] }
 	)
-	'<span class="token string">default value</span>': @block stategroup (
+	'<span class="token string">default value</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@default:</span> ]
 			'<span class="token string">default</span>': component <a href="#grammar-rule--ui-scalar-default">'ui scalar default'</a>
 		}
 	)
-	'<span class="token string">has validation</span>': @block stategroup (
+	'<span class="token string">has validation</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@validate:</span> ]
 			'<span class="token string">type</span>': stategroup (
@@ -3104,25 +3104,25 @@ the keys are the same.
 			)
 		}
 	)
-	'<span class="token string">has description</span>': @block stategroup (
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
 		}
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
 		}
 	)
-	'<span class="token string">has custom identifying properties</span>': @block stategroup (
+	'<span class="token string">has custom identifying properties</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@show:</span> ]
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--ui-identifying-property-selection">'ui identifying property selection'</a>
 		}
 	)
-	'<span class="token string">is label</span>': @block stategroup (
+	'<span class="token string">is label</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@label</span> ] }
 	)
@@ -3135,32 +3135,32 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui state group property</span>' { @list indent dynamic-order
-	'<span class="token string">visible</span>': @block stategroup (
+'<span class="token string">ui state group property</span>' { dynamic-order
+	'<span class="token string">visible</span>': stategroup (
 		'<span class="token string">true</span>' { }
 		'<span class="token string">false</span>' { [ <span class="token operator">@hidden</span> ] }
 	)
-	'<span class="token string">identifying</span>': @block stategroup (
+	'<span class="token string">identifying</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@identifying</span> ] }
 	)
-	'<span class="token string">emphasis</span>': @block stategroup (
+	'<span class="token string">emphasis</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@emphasis</span> ] }
 	)
-	'<span class="token string">default state</span>': @block stategroup (
+	'<span class="token string">default state</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@default:</span> ]
 			'<span class="token string">default</span>': component <a href="#grammar-rule--ui-scalar-default">'ui scalar default'</a>
 		}
 	)
-	'<span class="token string">has description</span>': @block stategroup (
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
 		}
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
@@ -3175,28 +3175,28 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui state</span>' { @list indent dynamic-order
-	'<span class="token string">desired state</span>': @block stategroup (
+'<span class="token string">ui state</span>' { dynamic-order
+	'<span class="token string">desired state</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@desired</span> ] }
 	)
-	'<span class="token string">verified state</span>': @block stategroup (
+	'<span class="token string">verified state</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@verified</span> ] }
 	)
-	'<span class="token string">icon</span>': @block stategroup (
+	'<span class="token string">icon</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@icon:</span> ]
 			'<span class="token string">name</span>': text
 		}
 	)
-	'<span class="token string">has style</span>': @block stategroup (
+	'<span class="token string">has style</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@style:</span> ]
 			'<span class="token string">style expression</span>': component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 		}
 	)
-	'<span class="token string">transitions</span>': dictionary { @block [ <span class="token operator">@transition:</span> ]
+	'<span class="token string">transitions</span>': dictionary { [ <span class="token operator">@transition:</span> ]
 		'<span class="token string">action</span>': [ <span class="token operator">=></span> <span class="token operator">execute</span> ] reference
 	}
 }
@@ -3208,8 +3208,8 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui todo</span>' { @list indent
-	'<span class="token string">has description</span>': @block stategroup (
+'<span class="token string">ui todo</span>' {
+	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
 			'<span class="token string">description</span>': text
@@ -3224,8 +3224,8 @@ the keys are the same.
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui style</span>' { @list indent
-	'<span class="token string">style</span>': @block stategroup (
+'<span class="token string">ui style</span>' {
+	'<span class="token string">style</span>': stategroup (
 		'<span class="token string">foreground</span>' { [ <span class="token operator">foreground</span> ] }
 		'<span class="token string">background</span>' { [ <span class="token operator">background</span> ] }
 		'<span class="token string">brand</span>' { [ <span class="token operator">brand</span> ] }
