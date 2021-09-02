@@ -34,7 +34,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">tables</span>': [ <span class="token operator">schema</span> ] dictionary { @block indent
+'<span class="token string">tables</span>': [ <span class="token operator">schema</span> ] dictionary {
 	'<span class="token string">primary key</span>': [ <span class="token operator"><--</span> ] group {
 		'<span class="token string">root key field</span>': stategroup (
 			'<span class="token string">no</span>' {
@@ -68,7 +68,7 @@ type: grammar
 			| none  = '<span class="token string">no</span>'
 		)
 	}
-	'<span class="token string">fields</span>': [ <span class="token operator">{</span>, <span class="token operator">}</span> ] dictionary { @block indent
+	'<span class="token string">fields</span>': [ <span class="token operator">{</span>, <span class="token operator">}</span> ] dictionary {
 		'<span class="token string">has successor</span>': stategroup = node-switch successor (
 			| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 			| none = '<span class="token string">no</span>'
