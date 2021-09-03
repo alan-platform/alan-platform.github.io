@@ -48,4 +48,13 @@ window.onload = function() {
             doc_menu_button.ariaExpanded = 'false';
         });
     }
+
+    document.querySelectorAll('pre.code-custom').forEach(function(block) {
+        var button = document.createElement('a');
+        button.href = "/pages/tuts/syntax.html"
+        button.classList.add('grammar-button');
+        button.innerText = 'Grammar';
+        button.title = "Go to grammar guide"
+        block.appendChild(button);
+    });
 };

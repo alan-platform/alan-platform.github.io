@@ -141,6 +141,7 @@ table {
     font-size: 0.8em;
     tab-size: 4;
     line-height: 1.414;
+    background-color: #ffce5d17;
 }
 
 .code-custom .punctuation {
@@ -158,4 +159,33 @@ table {
 
 code {
     line-height: 1.414 !important;
+}
+
+div.highlight {
+    position: relative;
+
+    // &:not(.expanded) {
+    //     max-height: 50vh;
+    //     overflow: auto;
+    // }
+
+    .grammar-button {
+        -webkit-appearance: none;
+        position: absolute;
+        top: .5rem/$ratio;
+        right: .5rem/$ratio;
+        padding: .5ex 1ex;
+        border: none;
+        border-radius: 3px;
+        font-size: 1rem/$ratio;
+        background: $blue;
+        color: #FFF;
+        cursor: pointer;
+        font: bold 11px Arial;
+
+        &:hover,
+        &:active {
+            background: darken($blue, 6%);
+        }
+    }
 }
