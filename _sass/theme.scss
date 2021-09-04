@@ -81,7 +81,7 @@ small {
 ol,
 ul {
     margin: 1em auto 1em*$ratio auto;
-    padding: 0;
+    // padding: 0;
     li {
         margin-bottom: 1em/$ratio/$ratio;
     }
