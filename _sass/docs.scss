@@ -1,12 +1,4 @@
 .doc {
-    main.wide {
-        max-width: none;
-        section>*:not(div) {
-            max-width: $base-width;
-            margin-right: auto;
-            margin-left: 0;
-        }
-    }
     h1+p {
         list-style: none;
         margin: -1em*$ratio*$ratio 0 1em*$ratio*$ratio 0;
@@ -89,14 +81,14 @@ table {
 }
 
 #doc-list {
+    left: 50%;
+    transform: translateX(-50%);
     @keyframes slideMenuIn {
         from {
             opacity: 0;
-            transform: translateY(-20px);
         }
         to {
             opacity: 1;
-            transform: translateY(0);
         }
     }
     display: none;
