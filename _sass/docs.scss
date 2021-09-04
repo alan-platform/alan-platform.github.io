@@ -161,13 +161,12 @@ code {
     line-height: 1.414 !important;
 }
 
+pre.highlight {
+    overflow: auto;
+}
+
 div.highlight {
     position: relative;
-
-    // &:not(.expanded) {
-    //     max-height: 50vh;
-    //     overflow: auto;
-    // }
 
     .grammar-button {
         -webkit-appearance: none;
