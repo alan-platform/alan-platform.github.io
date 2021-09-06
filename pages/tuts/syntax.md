@@ -18,11 +18,9 @@ A comma indicates if keywords go before or after a property value. For example:
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-<!-- <code> -->
 '<span class="token string">name</span>' [ <span class="token operator">&</span> ] text     // means: & <b>before</b> a text value: &"Alice"
 '<span class="token string">name</span>' [ <span class="token operator">&</span> , <span class="token operator">*</span> ] text // means: & <b>before</b> and * <b>after</b> a text value: &"Alice"*
 '<span class="token string">name</span>' [ , <span class="token operator">*</span> ] text   // means: * <b>after</b> a text value: "Alice"*
-<!-- </code> -->
 </pre>
 </div>
 </div>
@@ -33,17 +31,35 @@ A comma indicates if keywords go before or after a property value. For example:
 - `reference` properties require a single quoted string: **`'reference to Bob'`**
 - `number` properties require a number value: **`10`**
 - `stategroup` properties indicate a *choice* between different states, such as allowing or disallowing `anonymous` users
-- `collection` properties require *key-value pairs*, where keys are single-quoted strings. For example, a `collection` of `properties` is written like this, depending on the required keywords and properties for the value:
-
-```js
-'First Name': text = "Alice"
-'Last Name': text = "Ecila"
-```
-
+- `dictionary` properties require *key-value pairs*, where keys are single-quoted strings (`'Alice' 'Bob'`).
 - `component` properties reference a rule in the grammar, to be instantiated at that point: `component 'abc'` references rule `'abc'`
 - `group` properties just group properties that belong together
 
-Properties with an `=`-sign like `stategroup = ` do not require your input, as the compiler derives them for you.
+For example, suppose that we have the following grammar where an Alan file expects a `dictionary` of `'users'` with user specific fields `'age'` and a choice between a `red` and a `blue` `pill`:
+
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">users</span>' dictionary { [ <span class="token operator">User</span> ]      // keyword User comes before the user key
+	'<span class="token string">age</span>': [ <span class="token operator">:</span> ] number            // keyword : comes before a number value
+	'<span class="token string">pill</span>': [ , <span class="token operator">!</span> ] stategroup (   // choose a pill, followed by !
+		'<span class="token string">red</span>' { [ <span class="token operator">R</span> ] }            // 'red' requires keyword R
+		'<span class="token string">blue</span>' { [ <span class="token operator">B</span> ] }           // 'blue' requires keyword B
+	)
+}
+</pre>
+</div>
+</div>
+
+then a valid model is:
+
+```js
+// your model file (e.g. application.alan)
+User 'Alice' : 42 R !
+User 'Bob'   : 43 B !
+```
+
+Note that properties with an `=`-sign like `stategroup = ` do not require your input, as the compiler derives them for you.
 
 ## Typical quirks of the Alan compiler
 
