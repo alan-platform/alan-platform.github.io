@@ -1,16 +1,19 @@
 ---
 layout: page
-title: "Alan grammar syntax"
+title: "Alan Grammars"
 category: docs
 ---
 
-
-# Syntax
-
 ## How to read grammars
 
+The documentation for the Alan languages describes the syntax of those languages in the form of an Alan grammar,
+often accompanied by a description and/or examples.
+An Alan grammar describes what you can write in an Alan file:
+the keywords to use, values to provide, and options to choose from.
+
 ### Keywords
-- Literals between square brackets indicate required keywords, where a comma indicates if keywords go before or after a property value. For example:
+The orange literals between square brackets indicate required keywords.
+A comma indicates if keywords go before or after a property value. For example:
 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
