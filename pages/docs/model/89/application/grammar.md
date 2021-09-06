@@ -677,13 +677,26 @@ Mandatory references (specified with keyword `->`) are constraints that are enfo
 That is, they ensure that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
 Optional references (specified with keyword `~>`) do not have to resolve to a collection entry.
 
+
+{: #grammar-rule--reference-behaviour }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">reference behaviour</span>' {
+	'<span class="token string">type</span>': stategroup (
+		'<span class="token string">mandatory</span>' { [ <span class="token operator">-></span> ] }
+		'<span class="token string">optional</span>' { [ <span class="token operator">~></span> ] }
+	)
+}
+</pre>
+</div>
+</div>
 The language ensures that references either point to a *single specific collection entry, or none at all*.
 Thus, mandatory references unambiguously point to a single specific item.
 Because of that, derived value computations and command invocations can safely use them.
 
 Optional references are especially useful when you want user data to reference imported data (`can-update: interface '...'`).
-Mandatory references are not allowed between data from different sources, such that data import is always successfull.
-
+Mandatory references are not allowed among data from different sources, such that data import is always successfull.
 ##### Upstream & downstream
 Reference constraint expressions exist in two different flavours:
 (1) `upstream` reference expressions that use earlier defined attributes and (2)
@@ -699,10 +712,51 @@ For that reason, mandatory upstream references cannot depend on mandatory downst
 Optional references follow a similar approach, but are evaluated in separate phases.
 That is because they are only used for derived values, as the runtime does not enforce them.
 
+
+{: #grammar-rule--evaluation-phase-annotation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">evaluation phase annotation</span>' {
+	'<span class="token string">phase</span>': stategroup (
+		'<span class="token string">upstream</span>' { }
+		'<span class="token string">downstream</span>' { [ <span class="token operator">downstream</span> ] }
+	)
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--explicit-evaluation-annotation }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">explicit evaluation annotation</span>' {
+	'<span class="token string">phase</span>': component <a href="#grammar-rule--evaluation-phase-annotation">'evaluation phase annotation'</a>
+	'<span class="token string">sibling navigation</span>': stategroup (
+		'<span class="token string">no</span>' { }
+		'<span class="token string">yes</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
+			'<span class="token string">graph traversal</span>': [ <span class="token operator">sibling</span> ] stategroup (
+				'<span class="token string">no</span>' { }
+				'<span class="token string">yes</span>' { [ <span class="token operator">in</span> ]
+					'<span class="token string">traversal type</span>': stategroup (
+						'<span class="token string">base order</span>' { }
+						'<span class="token string">inverse order</span>' { [ <span class="token operator">inverse</span> ] }
+					)
+					'<span class="token string">ancestor path</span>': component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+					'<span class="token string">graph</span>': reference
+				}
+			)
+		}
+	)
+}
+</pre>
+</div>
+</div>
+[Below](#sibling-references) we explain the annotation for `sibling navigation`.
 ##### Bidirectional references
 References are either unidirectional or bidirectional.
 For bidirectional references, you specify a reference-set.
-
 If a reference is `downstream` reference, then the `reference-set` holds upstream references.
 Conversely, if a reference is `upstream`, then the `reference-set` holds downstream references:
 
@@ -725,47 +779,13 @@ starting from the `Orders` node, go to the parent node (as expressed by the navi
 then select the `Products` collection found on that node.
 Thus, at runtime, navigation expressions are executed relative to the context node for which the expression should be evaluated.
 
-___Graph constraints___ ensure termination for recursive computations traversing a graph.
-Graph constraints constrain that a set of references (edges) together form a graph satisfying a specific property.
-For example, an `acyclic-graph` constraint ensures that references that partake in the graph, form a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
-For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
-
-The code sample below presents a graph constraint `assembly`.
-`Product` references of `Parts` partake in the acyclic `assembly` graph on `Products`.
-The constraint ensures that `Product Price` computations terminate:
-
+##### Sibling references
+If you want to references from `Products` to other `Products`, you will find that this specification under `Products` gives an error:
 ```js
-'Products': collection ['Name']
-	'assembly': acyclic-graph
-{
-	'Name': text
-	'Parts': collection ['Product'] {
-		// an 'upstream' sibling Product reference that partakes in the 'assembly' graph:
-		'Product': text -> ^ sibling in ('assembly')
-		'Part Price': number 'euro' = ( sibling in ^ 'assembly' ) >'Product'.'Product Price'
-	}
-	'Product Price': number 'euro' = ( sibling in 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
-}
-'Orders': collection ['Year']
-	'timeline': ordered-graph .'First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
-{
-	'Year': text
-	'Price': number 'euro'
-	'First Order': stategroup (
-		'Yes' { }
-		'No' {
-			'Previous Order': text -> ^ sibling in ('timeline')
-		}
-	)
-	'Total Sales Value': number 'euro' = ( sibling in 'timeline' ) switch .'First Order' (
-		|'Yes' => .'Price'
-		|'No' as $'no' => sum (
-			.'Price',
-			$'no'>'Previous Order'.'Total Sales Value' // recursion!
-		)
-	)
-}
+`Other Product`: text -> ^ .'Products'[]
 ```
+The compiler requires that you reference an earlier defined property, and not the `Products` property that defines the expression.
+For references from `Products` to other other `Products`, you need special `sibling` references, as the grammar shows:
 
 
 {: #grammar-rule--entry-reference-definition }
@@ -809,20 +829,49 @@ The constraint ensures that `Product Price` computations terminate:
 </pre>
 </div>
 </div>
+The following model expresses sibling references from `Products` to other `Products` which are corresponding (`Parts`),
+and also from `Orders` to a `Previous Order`:
 
-{: #grammar-rule--reference-behaviour }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">reference behaviour</span>' {
-	'<span class="token string">type</span>': stategroup (
-		'<span class="token string">mandatory</span>' { [ <span class="token operator">-></span> ] }
-		'<span class="token string">optional</span>' { [ <span class="token operator">~></span> ] }
+```js
+'Products': collection ['Name']
+	'assembly': acyclic-graph
+{
+	'Name': text
+	'Parts': collection ['Product'] {
+		// an 'upstream' sibling Product reference that partakes in the 'assembly' graph:
+		'Product': text -> ^ sibling in ('assembly')
+		'Part Price': number 'euro' = ( sibling in ^ 'assembly' ) >'Product'.'Product Price'
+	}
+	'Product Price': number 'euro' = ( sibling in 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
+}
+'Orders': collection ['Year']
+	'timeline': ordered-graph .'First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
+{
+	'Year': text
+	'Price': number 'euro'
+	'First Order': stategroup (
+		'Yes' { }
+		'No' {
+			'Previous Order': text -> ^ sibling in ('timeline')
+		}
+	)
+	'Total Sales Value': number 'euro' = ( sibling in 'timeline' ) switch .'First Order' (
+		|'Yes' => .'Price'
+		|'No' as $'no' => sum (
+			.'Price',
+			$'no'>'Previous Order'.'Total Sales Value' // recursion!
+		)
 	)
 }
-</pre>
-</div>
-</div>
+```
+
+##### Graph constraints
+The model above also expresses graph constraints.
+Graph constraints ensure termination for recursive computations traversing a graph.
+Graph constraints ensure that a set of references (edges) together form a graph satisfying a specific property.
+For example, an `acyclic-graph` constraint ensures that references that partake in the graph, form a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
+For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
+
 
 {: #grammar-rule--graph-constraints-definition }
 <div class="language-js highlighter-rouge">
@@ -849,81 +898,19 @@ The constraint ensures that `Product Price` computations terminate:
 </div>
 </div>
 
-{: #grammar-rule--evaluation-phase-annotation }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">evaluation phase annotation</span>' {
-	'<span class="token string">phase</span>': stategroup (
-		'<span class="token string">upstream</span>' { }
-		'<span class="token string">downstream</span>' { [ <span class="token operator">downstream</span> ] }
-	)
-}
-</pre>
-</div>
-</div>
+The example model expresses that `Products` form an acyclic `assembly` graph via their `Parts`:
+`Product` references of `Parts` partake in the acyclic `assembly` graph on `Products`.
+The constraint ensures that recursive `Product Price` computations terminate.
 
-{: #grammar-rule--explicit-evaluation-annotation }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">explicit evaluation annotation</span>' {
-	'<span class="token string">phase</span>': component <a href="#grammar-rule--evaluation-phase-annotation">'evaluation phase annotation'</a>
-	'<span class="token string">sibling navigation</span>': stategroup (
-		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
-			'<span class="token string">graph traversal</span>': [ <span class="token operator">sibling</span> ] stategroup (
-				'<span class="token string">no</span>' { }
-				'<span class="token string">yes</span>' { [ <span class="token operator">in</span> ]
-					'<span class="token string">traversal type</span>': stategroup (
-						'<span class="token string">base order</span>' { }
-						'<span class="token string">inverse order</span>' { [ <span class="token operator">inverse</span> ] }
-					)
-					'<span class="token string">ancestor path</span>': component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
-					'<span class="token string">graph</span>': reference
-				}
-			)
-		}
-	)
-}
-</pre>
-</div>
-</div>
+For orders, the model expresses an ordered `timeline` graph, which means that a strict total ordering exists for all `Orders`.
+That is: only one `Orders` item does not have preceding `Order`. All other `Orders` do.
+For ordered graphs, the application language supports deriving the `source` and the `sink` of the graph: the first `Order` and the most recent `Order`.
 
-{: #grammar-rule--ancestor-attribute-path }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">ancestor attribute path</span>' {
-	'<span class="token string">has steps</span>': stategroup (
-		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' { [ <span class="token operator">^</span> ]
-			'<span class="token string">tail</span>': component <a href="#grammar-rule--ancestor-attribute-path">'ancestor attribute path'</a>
-		}
-	)
-}
-</pre>
-</div>
-</div>
+Note that the `Product Price` expression starts with an [annotation](#grammar-rule--explicit-evaluation-annotation): `( sibling in 'assembly' )`.
+When you want to use a sibling reference in a computation, you have to provide the `( sibling )` annotation.
+In order to succesfully compile recursive computations, you have to add the `in 'assembly'` part, such that
+the compiler knows that an acyclic graph will be traversed. That is: that the computation is guaranteed to be finite.
 
-{: #grammar-rule--entry-reference-selector }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">entry reference selector</span>' {
-	'<span class="token string">definer</span>': stategroup (
-		'<span class="token string">property</span>' {
-			'<span class="token string">property</span>': [ <span class="token operator">></span> ] reference
-		}
-		'<span class="token string">rule</span>' {
-			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
-		}
-	)
-}
-</pre>
-</div>
-</div>
 ## Derivations
 ---
 Derivation expressions use earlier defined properties for deriving values for ensuring terminating computations of derived values (derivations).
@@ -931,7 +918,7 @@ After a navigation step for following a reference, derivation expressions can us
 Please note that some work remains to be done on the `application` language to fully ensure safe computations.
 For more details on this, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
 
-### Derived texts without constraint
+### Derived texts
 A derived text property holds a (sequence of) static text values and text values from other properties:
 
 ```js
@@ -939,36 +926,14 @@ A derived text property holds a (sequence of) static text values and text values
 	'Street'       : text // e.g. "Huntington Rd"
 	'Street number': text // e.g. "12B"
 }
- // label for an external billing system:
-'Address label': text
-	= .'Address'.'Street' " " .'Address'.'Street number' // "Huntington Rd 12B"
-```
-### Derived texts with constraint (derived references)
-The `application` language supports two types of derived references: `singular` and `branch`.
-The `singular` type creates a direct relation between nodes using other relations.
-The `branch` type is required for creating derived references to items in derived collections merge nodes of different types (see [node type rule](#node-types)).
-The example below shows a property ` for deriving a (`singular`) direct reference from an `Orders` item to a `Manufacturers` item.
-The expression for the `Manufacturer` reference an `Orders` item requires specifying an [`output parameter`](#output-parameters-legacy)
-after the constraint expression for the `Product` property.
-
-```js
-'Manufacturers': collection ['Name'] { 'Name': text }
-'Products': collection ['Name'] {
-	'Name': text
-	'Manufacturer': text -> ^ .'Manufacturers'[]
-}
-'Orders': collection ['ID'] {
-	'ID': text
-	'Product': text -> ^ .'Products'[]
-		where 'Manufacturer' -> >'Manufacturer'
-	'Manufacturer': text -> ^ .'Manufacturers'[] = .'Product'&'Manufacturer'
-}
+// label for an external billing system, like "Huntington Rd 12B":
+'Address label': text = concat ( .'Address'.'Street', " ", .'Address'.'Street number' )
 ```
 ### Derived files
 An example of a derived file property `Contract`.
 The property holds the value of a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
 ```js
-'Default Contract': file
+'Standard Contract': file
 'Agreement': stategroup (
 	'Standard' { }
 	'Custom' {
@@ -976,13 +941,13 @@ The property holds the value of a `Default Contract` in case of a `Standard` `Ag
 	}
 )
 'Contract': file = switch .'Agreement' (
-	|'Default' = .'Default Contract'
-	|'Custom' = $ .'Contract'
+	|'Standard' => .'Standard Contract'
+	|'Custom' as $'con'  => $'con'.'Contract'
 )
 ```
+
 ### Derived numbers
 Examples of derived number properties, including required conversion rules:
-
 ```js
 root {
 	'Tax Percentage': number positive 'percent'
@@ -990,12 +955,12 @@ root {
 		'Name': text
 		'Price': number 'eurocent'
 		'Price (euro)': number 'euro' = from 'eurocent' .'Price'
-		'Order Unit Quantity': number positive 'items per unit'
-		'Orders': reference-set -> downstream ^ .'Orders' = inverse >'Product'
-		'Sales Value': number 'eurocent' = sum <'Orders'* .'Price'
+		'Order Unit Quantity': number positive 'items'
+		'Orders': reference-set -> downstream ^ .'Orders'* = inverse >'Product'
+		'Sales Value': number 'eurocent' = downstream sum <'Orders'* .'Price'
 		'Items Sold': number 'items' = count <'Orders'*
 	}
-	'Total Sales Value': number 'eurocent' = sum .'Products'* .'Sales Value'
+	'Total Sales Value': number 'eurocent' = downstream sum .'Products'* .'Sales Value'
 	'Number of Products': number 'items' = count .'Products'*
 	'Orders': collection ['ID'] {
 		'ID': text
@@ -1029,9 +994,8 @@ numerical-types
 		= 'eurocent' * 1 * 10 ^ -2
 	'eurocent'
 		= 'eurocent' * 'items'
-	'items per unit'
 	'units'
-		= 'items' / 'items per unit'
+		= 'items' / 'items'
 	'items'
 	'date and time' in 'seconds'
 	'seconds'
@@ -1050,18 +1014,39 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 }
 'Orders': collection ['ID'] {
 	'ID': text
-	// a link to a 'Products' item from the catalog provider:
-	'Product': text ~> ^ .'Products'[]
+	// an optional reference to a 'Products' item from the catalog provider:
+	'Product': text ~> ^ .'Catalog'.'Products'[]
 	'Product found': stategroup = switch >'Product' (
-		| node as $ = 'Yes' ( 'Product' = $ )
-		| none = 'No' ( )
+		| node as $ => 'Yes' where 'Product' = $ ( 'Price' = $ .'Price' )
+		| none => 'No' ( )
 	) (
-		'Yes' {
-			'Product': text -> .'Catalog'.'Products'[] = parameter
-			'Price': number 'eurocent' = .&'Product'.'Price'
+		'Yes' where 'Product' -> >'Product' {
+			'Price': number 'eurocent' = parameter
 		}
 		'No' { }
 	)
+}
+```
+
+### Derived references
+The `application` language supports two types of derived references: `singular` and `branch`.
+The `singular` type creates a direct relation between nodes using other relations.
+The `branch` type is required for creating derived references to items in derived collections merge nodes of different types (see [node type rule](#node-types)).
+The example below shows a property ` for deriving a (`singular`) direct reference from an `Orders` item to a `Manufacturers` item.
+The expression for the `Manufacturer` reference an `Orders` item requires specifying an [`output parameter`](#output-parameters-legacy)
+after the constraint expression for the `Product` property.
+
+```js
+'Manufacturers': collection ['Name'] { 'Name': text }
+'Products': collection ['Name'] {
+	'Name': text
+	'Manufacturer': text -> ^ .'Manufacturers'[]
+}
+'Orders': collection ['ID'] {
+	'ID': text
+	'Product': text -> ^ .'Products'[]
+		where 'Manufacturer' -> >'Manufacturer'
+	'Manufacturer': text -> ^ .'Manufacturers'[] = .'Product'&'Manufacturer'
 }
 ```
 
@@ -2278,6 +2263,22 @@ $				// select nearest $ object
 </div>
 </div>
 
+{: #grammar-rule--ancestor-attribute-path }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ancestor attribute path</span>' {
+	'<span class="token string">has steps</span>': stategroup (
+		'<span class="token string">no</span>' { }
+		'<span class="token string">yes</span>' { [ <span class="token operator">^</span> ]
+			'<span class="token string">tail</span>': component <a href="#grammar-rule--ancestor-attribute-path">'ancestor attribute path'</a>
+		}
+	)
+}
+</pre>
+</div>
+</div>
+
 {: #grammar-rule--property-step }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -2360,6 +2361,25 @@ $				// select nearest $ object
 '<span class="token string">object set path</span>' {
 	'<span class="token string">collection path</span>': component <a href="#grammar-rule--singular-variablized-object-path">'singular variablized object path'</a>
 	'<span class="token string">value path</span>': [ <span class="token operator">*</span> ] component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--entry-reference-selector }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">entry reference selector</span>' {
+	'<span class="token string">definer</span>': stategroup (
+		'<span class="token string">property</span>' {
+			'<span class="token string">property</span>': [ <span class="token operator">></span> ] reference
+		}
+		'<span class="token string">rule</span>' {
+			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
+			'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+		}
+	)
 }
 </pre>
 </div>
