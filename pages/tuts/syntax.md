@@ -35,17 +35,18 @@ A comma indicates if keywords go before or after a property value. For example:
 - `component` properties reference a rule in the grammar, to be instantiated at that point: `component 'abc'` references rule `'abc'`
 - `group` properties just group properties that belong together
 
-For example, suppose that we have the following grammar where an Alan file expects a `dictionary` of `'users'` with user specific fields `'age'` and a choice between a `red` and a `blue` `pill`:
+For example, take following extract from the grammar of the application language:
 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">users</span>' dictionary { [ <span class="token operator">User</span> ]      // keyword User comes before the user key
-	'<span class="token string">age</span>': [ <span class="token operator">:</span> ] number            // keyword : comes before a number value
-	'<span class="token string">pill</span>': [ , <span class="token operator">!</span> ] stategroup (   // choose a pill, followed by !
-		'<span class="token string">red</span>' { [ <span class="token operator">R</span> ] }            // 'red' requires keyword R
-		'<span class="token string">blue</span>' { [ <span class="token operator">B</span> ] }           // 'blue' requires keyword B
-	)
+'<span class="token string">node</span>' { [ <span class="token operator">{</span> , <span class="token operator">}</span> ]                       // curly braces wrap a node type
+	'<span class="token string">attributes</span>' dictionary {            // an attribute starts with a key, followed by
+		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (       // a chosen type, preceded by keyword :
+			'<span class="token string">text</span>' { [ <span class="token operator">text</span> ] }          // 'text' requires keyword text
+			'<span class="token string">number</span>' { [ <span class="token operator">number</span> ] }      // 'number' requires keyword number
+		)
+	}
 }
 </pre>
 </div>
@@ -54,9 +55,11 @@ For example, suppose that we have the following grammar where an Alan file expec
 then a valid model is:
 
 ```js
-// your model file (e.g. application.alan)
-User 'Alice' : 42 R !
-User 'Bob'   : 43 B !
+// application.alan (your model file)
+{
+	'A': text
+	'B': number
+}
 ```
 
 Note that properties with an `=`-sign like `stategroup = ` do not require your input, as the compiler derives them for you.
