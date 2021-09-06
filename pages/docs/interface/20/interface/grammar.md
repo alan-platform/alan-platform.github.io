@@ -14,7 +14,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">context keys</span>': @section [ <span class="token operator">root</span> ] indent dictionary { @block }
+'<span class="token string">context keys</span>': [ <span class="token operator">root</span> ] dictionary { }
 </pre>
 </div>
 </div>
@@ -32,7 +32,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">numerical types</span>': @section [ <span class="token operator">numerical-types</span> ] indent dictionary { @block }
+'<span class="token string">numerical types</span>': [ <span class="token operator">numerical-types</span> ] dictionary { }
 </pre>
 </div>
 </div>
@@ -41,8 +41,8 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ] indent
-	'<span class="token string">attributes</span>': dictionary { @block
+'<span class="token string">node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
+	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 			| node = '<span class="token string">yes</span>' { '<span class="token string">attribute</span>' = predecessor }
 			| none = '<span class="token string">no</span>'
@@ -85,9 +85,9 @@ type: grammar
 						'<span class="token string">node</span>': component <a href="#grammar-rule--node">'node'</a>
 					}
 					'<span class="token string">state group</span>' { [ <span class="token operator">stategroup</span> ]
-						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block
-							'<span class="token string">context rules</span>': @list indent component <a href="#grammar-rule--where-clause">'where clause'</a>
-							'<span class="token string">node</span>': @raw component <a href="#grammar-rule--node">'node'</a>
+						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
+							'<span class="token string">context rules</span>': component <a href="#grammar-rule--where-clause">'where clause'</a>
+							'<span class="token string">node</span>': component <a href="#grammar-rule--node">'node'</a>
 						}
 					}
 				)
@@ -170,7 +170,7 @@ type: grammar
 	}
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">unrestricted</span>' {
-			'<span class="token string">collection step</span>': [ <span class="token operator">.</span>,'<span class="token string">[ ]</span>'] component <a href="#grammar-rule--property-step">'property step'</a>
+			'<span class="token string">collection step</span>': [ <span class="token operator">.</span>, <span class="token operator">[]</span> ] component <a href="#grammar-rule--property-step">'property step'</a>
 		}
 		'<span class="token string">sibling</span>' { [ <span class="token operator">sibling</span> ]
 			'<span class="token string">graph participation</span>': stategroup (
@@ -187,7 +187,7 @@ type: grammar
 		}
 	)
 	'<span class="token string">tail</span>': component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
-	'<span class="token string">rules</span>': @block indent component <a href="#grammar-rule--where-clause">'where clause'</a>
+	'<span class="token string">rules</span>': component <a href="#grammar-rule--where-clause">'where clause'</a>
 }
 </pre>
 </div>
@@ -202,7 +202,7 @@ type: grammar
 		| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
 		| none  = '<span class="token string">no</span>'
 	)
-	'<span class="token string">rules</span>': dictionary @tabular { @block [ <span class="token operator">where</span> ]
+	'<span class="token string">rules</span>': dictionary { [ <span class="token operator">where</span> ]
 		'<span class="token string">has successor</span>': stategroup = node-switch successor (
 			| node = '<span class="token string">yes</span>' { '<span class="token string">rule</span>' = successor }
 			| none = '<span class="token string">no</span>'
@@ -227,8 +227,8 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">graphs definition</span>' { indent
-	'<span class="token string">graphs</span>': dictionary { @block
+'<span class="token string">graphs definition</span>' {
+	'<span class="token string">graphs</span>': dictionary {
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">acyclic</span>' { [ <span class="token operator">acyclic-graph</span> ] }
 			'<span class="token string">ordered</span>' { [ <span class="token operator">ordered-graph</span> ]
