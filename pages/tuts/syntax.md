@@ -35,7 +35,7 @@ A comma indicates if keywords go before or after a property value. For example:
 - `component` properties reference a rule in the grammar, to be instantiated at that point: `component 'abc'` references rule `'abc'`
 - `group` properties just group properties that belong together
 
-For example, take following extract from the grammar of the application language:
+For example, take the following extract from the grammar of the application language:
 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
