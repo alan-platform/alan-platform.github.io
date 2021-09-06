@@ -15,9 +15,9 @@ Every valid Alan model instantiates the [`root` rule](#the-root-rule).
 From that rule we can extract a minimal model.
 In the `application` language, the minimal model is
 
-> ```js
+```js
 users
-    anonymous
+	anonymous
 interfaces
 root { }
 numerical-types
@@ -52,59 +52,59 @@ The following model expresses an application that supports all aforementioned fe
 
 ```js
 users
-    dynamic: .'Users'
-        user-initializer: (
-            'User Type' = create 'Other' ( )
-        )
+	dynamic: .'Users'
+		user-initializer: (
+			'Type' = create 'Unknown' ( )
+		)
 
-        passwords: .'Passwords'
-            password-value: .'Data'.'Password'
-            password-status: .'Data'.'Active'
-                active: 'Yes' ( )
-                reset: 'No' ( )
-            password-initializer: (
-                'Data' = ( )
-            )
+		passwords: .'Passwords'
+			password-value: .'Data'.'Password'
+			password-status: .'Data'.'Active'
+				active: 'Yes' ( )
+				reset: 'No' ( )
+			password-initializer: (
+				'Data' = ( )
+			)
 
-        authorities: .'Authorities'
-            identities: .'Identities'>'User'
-            identity-initializer: ( )
+		authorities: .'Authorities'
+			identities: .'Identities'>'User'
+			identity-initializer: ( )
 
 root {
-    can-update: user .'Type'?'Admin'
+	can-update: user .'Type'?'Admin'
 
-    'Users': collection ['Name'] {
-        'Name': text
-        'Type': stategroup (
-            'Admin' { }
-            'Unknown' { }
-        )
-    }
-    'Passwords': collection ['User'] {
-        'User': text -> ^ .'Users'[]
-        'Data': group {
-            can-update: user is ( ^ >'User' )
+	'Users': collection ['Name'] {
+		'Name': text
+		'Type': stategroup (
+			'Admin' { }
+			'Unknown' { }
+		)
+	}
+	'Passwords': collection ['User'] {
+		'User': text -> ^ .'Users'[]
+		'Data': group {
+			can-update: user is ( ^ >'User' )
 
-            'Password': text
-            'Active': stategroup (
-                'No' { }
-                'Yes' { }
-            )
-        }
-    }
-    'Authorities': collection ['Authority'] {
-        'Authority': text
-        'Identities': collection ['Identity'] {
-            'Identity': text
-            'User': text -> ^ ^ .'Users'[]
-        }
-    }
+			'Password': text
+			'Active': stategroup (
+				'No' { }
+				'Yes' { }
+			)
+		}
+	}
+	'Authorities': collection ['Authority'] {
+		'Authority': text
+		'Identities': collection ['Identity'] {
+			'Identity': text
+			'User': text -> ^ ^ .'Users'[]
+		}
+	}
 }
 ```
 
 The initializers are for setting initial values for a user, password or identity node.
-For example, the `user-initializer` sets the `Type` of users that sign up to `Other`.
-Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#users-permissions-and-todos) are needed to make a new user `Admin`.
+For example, the `user-initializer` sets the `Type` of users that sign up to `Unknown`.
+Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#users-permissions-and-todos) are required to make a new user `Admin`.
 
 {: #grammar-rule--allow-anonymous-user }
 <div class="language-js highlighter-rouge">
@@ -167,9 +167,26 @@ Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#users-permissio
 </div>
 ##### Interfaces
 If your application consumes data from external sources, you will have defined an Alan `interface`.
-In order to consume an `interface`, you mention it in a list of `interfaces`, so that you can reference the `interface` when configuring [permissions](#permissions-and-todos).
-The `path` is a navigation path that produces a context node on which interface conformant data will be imported at runtime.
-The `node type` specifying the context node, requires a permission definition to satisfy the modifier constraint: `can-update: interface '<imported interfaces id>'`.
+In order to consume an `interface`, you have to mention it in the `interfaces` section.
+This way, you can reference the `interface` when configuring [permissions](#permissions-and-todos).
+The `path` is for specifying on which node the `interface` conformant data will be imported at runtime.
+
+The node itself may only be modified via the interface: the value source has to be `interface`.
+You express that at the `node type` with `can-update: interface '<imported interfaces id>'`.
+
+```js
+interfaces
+	'Supplier' = .'Supplier Data'
+
+root {
+	'Supplier Data': group {
+		can-update: interface 'Supplier'
+
+		'Delivery Time': number 'days'
+	}
+}
+```
+
 
 {: #grammar-rule--imported-interfaces }
 <div class="language-js highlighter-rouge">
@@ -184,7 +201,7 @@ The `node type` specifying the context node, requires a permission definition to
 ##### The `root` node type
 Alan models are hierarchical models specifying hierarchical data.
 An Alan model is a hierarchy of nested types with a single root type:
-> ```js
+```js
 root { }
 ```
 
@@ -204,24 +221,24 @@ as we define `node types` in a model (for legacy reasons it is called the `'node
 ##### Numerical types
 Numbers in an application model require a numerical type. Also, computations with numbers of different numerical types require conversion rules.
 Divisions require a division conversion rule, products require a product conversion rule, and so on. Some examples of numerical types, with conversion rules are
-> ```js
+```js
 'date' in 'days' @date
 'date and time' in 'seconds' @date-time
 'days'
 'milliseconds'
-    = 'seconds' * 1 * 10 ^ 3 // rule for converting 'seconds' to milliseconds
-    @factor: 10^ 3
-    @label: "sec"
+	= 'seconds' * 1 * 10 ^ 3 // rule for converting 'seconds' to milliseconds
+	@factor: 10^ 3
+	@label: "sec"
 'minutes' @duration: minutes
 'seconds'
-    = 'seconds' * 'factor' // 'seconds' times a 'factor' produces 'seconds'
-    = 'seconds' / 'factor'
-    = 'milliseconds' * 1 * 10 ^ -3
-    = 'minutes' * 60 * 10 ^ 0
-    @duration: seconds
+	= 'seconds' * 'factor' // 'seconds' times a 'factor' produces 'seconds'
+	= 'seconds' / 'factor'
+	= 'milliseconds' * 1 * 10 ^ -3
+	= 'minutes' * 60 * 10 ^ 0
+	@duration: seconds
 'factor'
-    = 'factor' * 'factor'
-    = 'seconds' / 'seconds'
+	= 'factor' * 'factor'
+	= 'seconds' / 'seconds'
 ```
 
 Annotations like `@date` map numerical types to formats for easy modification in the GUI.
@@ -297,7 +314,7 @@ value greater than zero.
 For ensuring that number values have a predefined accuracy, Alan does not support number values with a fractional component.
 For expressing the accuracy of a number, number properties reference a [`numerical type`](#numerical-types).
 
-> ```js
+```js
 'Name'        : text
 'Price'       : number 'euro'
 'Release Date': number positive 'date and time'
@@ -307,29 +324,29 @@ A *collection* property holds a map of key-value pairs. Keys are text values tha
 to be unique such that we can reference them unambiguously.
 A key field has to be specified explicitly, after the keyword `collection`; values are nodes of an inline defined type that specifies the key field:
 
-> ```js
+```js
 Customers : collection ['Customer ID'] {
-    'Customer ID': text
-    ... /* other attributes of this type */ ...
+	'Customer ID': text
+	... /* other attributes of this type */ ...
 }
 ```
 
 A *state group* property holds a value indicating a state. States are the alternatives to an aspect
 that a state group property indicates. For example, `red`, `orange`, or `green` for a `color` property of a traffic light. The type of the property value corresponds to one out of multiple
 predefined state types, such as `simple` or `assembled`:
-> ```js
+```js
 'Product Type': stategroup (
-    'Simple' { ... /* attributes of this type */ ... }
-    'Assembled' { ... /* attributes of this type */ ... }
+	'Simple' { ... /* attributes of this type */ ... }
+	'Assembled' { ... /* attributes of this type */ ... }
 )
 ```
 
 A *group* property groups related property values, which is useful for presentational purposes:
-> ```js
+```js
 'Address': group {
-    'City': text
-    'State': text
-    'Zip Code': text
+	'City': text
+	'State': text
+	'Zip Code': text
 }
 ```
 
@@ -337,8 +354,8 @@ ___Derived values.___ Properties of the different types hold either *base* value
 *Derived* values are computed from base values and other derived values.
 Application users cannot modify derived values.
 Properties holding *derived* values require an expression for computing their values at runtime:
-> ```js
-'City': text                    // property holding a base value
+```js
+'City': text					// property holding a base value
 'copy of City': text = .'City'  // property with an expression for deriving its value
 ```
 
@@ -646,35 +663,63 @@ A `command` attribute on a `node type` consists of a `parameter definition` and 
 </pre>
 </div>
 </div>
-## Constraints & links
+## References
 ---
-The `application` language supports two types of constraints on data: *reference constraints* and *graph constraints*.
 
-___Reference constraints___ ensure that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
-This ensures that derived value computations and command invocations can safely use references.
-In the GUI, reference constraints translate to a select list from which the application user has to choose an item.
+Sometimes we want a `text` value to reference an item in a `collection`.
+The code sample below expresses that.
+`Product` values of `Orders` reference items from the `Products` `collection`.
+In the GUI, references translate to a select list from which the application user has to choose an item.
 
+##### Reference behaviour
+The *reference behaviour* that you specify, determines how the runtime treats a reference.
+Mandatory references (specified with keyword `->`) are constraints that are enforced by the runtime.
+That is, they ensure that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
+Optional references (specified with keyword `~>`) do not have to resolve to a collection entry.
+
+The language ensures that references either point to a *single specific collection entry, or none at all*.
+Thus, mandatory references unambiguously point to a single specific item.
+Because of that, derived value computations and command invocations can safely use them.
+
+Optional references are especially useful when you want user data to reference imported data (`can-update: interface '...'`).
+Mandatory references are not allowed between data from different sources, such that data import is always successfull.
+
+##### Upstream & downstream
 Reference constraint expressions exist in two different flavours:
 (1) `upstream` reference expressions that use earlier defined attributes and (2)
 `downstream` reference expressions that freely use earlier and later defined attributes.
+Downstream references require an explicit annotation: `downstream` after the arrow (`->`/`~>`) specifying the reference behaviour.
 
-References can be unidirectional or bidirectional. For bidirectional references, you specify a reference-set:
-> ```js
-'Products': collection ['Name']
-    'assembly': acyclic-graph
-{
-    'Name': text
-     // reference-set holding downstream references to Orders added by Product references,
-    'Orders': reference-set -> downstream ^ .'Orders' = inverse >'Product'
+The runtime evaluates references in a predefined order in several different phases.
+The order and the different phases ensure that resolution can be done deterministically,
+ and in such a way that references do not depend on other unresolved references.
+First, mandatory upstream references are resolved. Then, mandatory downstream references are resolved.
+For that reason, mandatory upstream references cannot depend on mandatory downstream references.
+
+Optional references follow a similar approach, but are evaluated in separate phases.
+That is because they are only used for derived values, as the runtime does not enforce them.
+
+##### Bidirectional references
+References are either unidirectional or bidirectional.
+For bidirectional references, you specify a reference-set.
+
+If a reference is `downstream` reference, then the `reference-set` holds upstream references.
+Conversely, if a reference is `upstream`, then the `reference-set` holds downstream references:
+
+```js
+'Products': collection ['Name'] {
+	'Name': text
+	// reference-set holding downstream references to Orders added by Product references,
+	'Orders': reference-set -> downstream ^ .'Orders'* = inverse >'Product'
 }
 'Orders': collection ['ID'] {
-    'ID': text
-     // a (bidirectional) upstream reference:
-    'Product': text -> ^ .'Products'[] -<'Orders'
+	'ID': text
+	// a (bidirectional) upstream reference:
+	'Product': text -> ^ .'Products'[] -<'Orders'
 }
 ```
 
-The expression `^ .'Products'` is a navigation expression that produces exactly one collection at runtime.
+>The expression `^ .'Products'` is a navigation expression that produces exactly one collection at runtime.
 The Alan runtime interpretes such [navigation expressions](#navigation) as follows:
 starting from the `Orders` node, go to the parent node (as expressed by the navigation step `^`);
 then select the `Products` collection found on that node.
@@ -688,41 +733,40 @@ For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eed
 The code sample below presents a graph constraint `assembly`.
 `Product` references of `Parts` partake in the acyclic `assembly` graph on `Products`.
 The constraint ensures that `Product Price` computations terminate:
-> ```js
-'Products': collection ['Name']
-    'assembly': acyclic-graph
-{
-    'Name': text
-    'Parts': collection ['Product'] {
-         // an 'upstream' sibling reference that partakes in a graph:
-        'Product': text -> ^ sibling in ('assembly') // reference to a 'Products' item in the assembly graph
-        'Part Price': number 'euro' = >'Product'.'Product Price'
-    }
-    'Product Price': number 'euro' = sum .'Parts'* .'Part Price' // recursion!
-}
-```
----
-Links mark relations between nodes that are not, or cannot be enforced by the runtime.
-Similar to constraints, they also feature select lists in the generated GUI.
 
-Links are especially useful when importing data from external systems via an Alan `interface`.
-An Alan `application` requires that imports via an Alan `interface` always succeed.
-Therefore, `application` data cannot put constraints on imported data; that is, unless the `interface` specifies them.
-To exemplify this, suppose that order management application imports `Products` from a `Catalog Provider`.
-As `Catalog Provider` can remove `Products` at any given time, we cannot put constraints on them.
-`Orders` have to *link* to `Products` instead:
-> ```js
-'Catalog': group { can-update: interface 'Catalog Provider'
-    'Products': collection ['Name'] {
-        'Name': text
-    }
+```js
+'Products': collection ['Name']
+	'assembly': acyclic-graph
+{
+	'Name': text
+	'Parts': collection ['Product'] {
+		// an 'upstream' sibling Product reference that partakes in the 'assembly' graph:
+		'Product': text -> ^ sibling in ('assembly')
+		'Part Price': number 'euro' = ( sibling in ^ 'assembly' ) >'Product'.'Product Price'
+	}
+	'Product Price': number 'euro' = ( sibling in 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
 }
-'Orders': collection ['ID'] {
-    'ID': text
-     // a link to a 'Products' item from the catalog provider:
-    'Product': text ~> ^ .'Catalog' .'Products'[]
+'Orders': collection ['Year']
+	'timeline': ordered-graph .'First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
+{
+	'Year': text
+	'Price': number 'euro'
+	'First Order': stategroup (
+		'Yes' { }
+		'No' {
+			'Previous Order': text -> ^ sibling in ('timeline')
+		}
+	)
+	'Total Sales Value': number 'euro' = ( sibling in 'timeline' ) switch .'First Order' (
+		|'Yes' => .'Price'
+		|'No' as $'no' => sum (
+			.'Price',
+			$'no'>'Previous Order'.'Total Sales Value' // recursion!
+		)
+	)
 }
 ```
+
 
 {: #grammar-rule--entry-reference-definition }
 <div class="language-js highlighter-rouge">
@@ -733,7 +777,7 @@ As `Catalog Provider` can remove `Products` at any given time, we cannot put con
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">simple</span>' {
 			'<span class="token string">head</span>': component <a href="#grammar-rule--context-object-step">'context object step'</a>
-			'<span class="token string">collection path</span>': [,'<span class="token string">[ ]</span>'] component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
+			'<span class="token string">collection path</span>': [, <span class="token operator">[]</span> ] component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
 		}
 		'<span class="token string">sibling</span>' {
 			'<span class="token string">context</span>': stategroup (
@@ -890,14 +934,14 @@ For more details on this, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb
 ### Derived texts without constraint
 A derived text property holds a (sequence of) static text values and text values from other properties:
 
-> ```js
+```js
 'Address': group {
-    'Street'       : text // e.g. "Huntington Rd"
-    'Street number': text // e.g. "12B"
+	'Street'       : text // e.g. "Huntington Rd"
+	'Street number': text // e.g. "12B"
 }
  // label for an external billing system:
 'Address label': text
-    = .'Address'.'Street' " " .'Address'.'Street number' // "Huntington Rd 12B"
+	= .'Address'.'Street' " " .'Address'.'Street number' // "Huntington Rd 12B"
 ```
 ### Derived texts with constraint (derived references)
 The `application` language supports two types of derived references: `singular` and `branch`.
@@ -907,114 +951,117 @@ The example below shows a property ` for deriving a (`singular`) direct referenc
 The expression for the `Manufacturer` reference an `Orders` item requires specifying an [`output parameter`](#output-parameters-legacy)
 after the constraint expression for the `Product` property.
 
-> ```js
+```js
 'Manufacturers': collection ['Name'] { 'Name': text }
 'Products': collection ['Name'] {
-    'Name': text
-    'Manufacturer': text -> ^ .'Manufacturers'[]
+	'Name': text
+	'Manufacturer': text -> ^ .'Manufacturers'[]
 }
 'Orders': collection ['ID'] {
-    'ID': text
-    'Product': text -> ^ .'Products'[]
-        where 'Manufacturer' -> >'Manufacturer'
-    'Manufacturer': text -> ^ .'Manufacturers'[] = .'Product'&'Manufacturer'
+	'ID': text
+	'Product': text -> ^ .'Products'[]
+		where 'Manufacturer' -> >'Manufacturer'
+	'Manufacturer': text -> ^ .'Manufacturers'[] = .'Product'&'Manufacturer'
 }
 ```
 ### Derived files
 An example of a derived file property `Contract`.
 The property holds the value of a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
-> ```js
+```js
 'Default Contract': file
 'Agreement': stategroup (
-    'Standard' { }
-    'Custom' {
-        'Contract': file
-    }
+	'Standard' { }
+	'Custom' {
+		'Contract': file
+	}
 )
 'Contract': file = switch .'Agreement' (
-    |'Default' = .'Default Contract'
-    |'Custom' = $ .'Contract'
+	|'Default' = .'Default Contract'
+	|'Custom' = $ .'Contract'
 )
 ```
 ### Derived numbers
 Examples of derived number properties, including required conversion rules:
 
-> ```js
+```js
 root {
-    'Tax Percentage': number positive 'percent'
-    'Products': collection ['Name'] {
-        'Name': text
-        'Price': number 'eurocent'
-        'Price (euro)': number 'euro' = from 'eurocent' .'Price'
-        'Order Unit Quantity': number positive 'items per unit'
-        'Orders': reference-set -> downstream ^ .'Orders' = inverse >'Product'
-        'Sales Value': number 'eurocent' = sum <'Orders'* .'Price'
-        'Items Sold': number 'items' = count <'Orders'*
-    }
-    'Total Sales Value': number 'eurocent' = sum .'Products'* .'Sales Value'
-    'Number of Products': number 'items' = count .'Products'*
-    'Orders': collection ['ID'] {
-        'ID': text
-        'Product': text -> ^ .'Products'[] -<'Orders'
-        'Quantity': number positive 'items'
-        'Loss': number 'items' = remainder ( .'Quantity', >'Product' .'Order Unit Quantity' )
-        'Price': number 'eurocent' = product ( >'Product'.'Price' as 'eurocent' , .'Quantity' )
-        'Order Units': number positive 'units' = division ceil ( .'Quantity' as 'items' , >'Product'.'Order Unit Quantity' )
-        'Tax': number 'eurocent'
-        'Gross Price': number 'eurocent' = sum ( .'Price', .'Tax' )
-        'Creation Time': number 'date and time'
-        'Estimated Lead Time': number 'seconds'
-        'Estimated Delivery Time': number 'date and time' = add ( .'Creation Time', .'Estimated Lead Time' )
-        'Delivered': stategroup (
-            'No' { }
-            'Yes' {
-                'Delivery Time': number positive 'date and time'
-                'Lead Time': number 'seconds' = diff 'date and time' ( .'Delivery Time', ^ .'Creation Time' )
-            }
-        )
-    }
-    'Gross Income': number 'eurocent' = sum .'Orders'* .'Gross Price'
+	'Tax Percentage': number positive 'percent'
+	'Products': collection ['Name'] {
+		'Name': text
+		'Price': number 'eurocent'
+		'Price (euro)': number 'euro' = from 'eurocent' .'Price'
+		'Order Unit Quantity': number positive 'items per unit'
+		'Orders': reference-set -> downstream ^ .'Orders' = inverse >'Product'
+		'Sales Value': number 'eurocent' = sum <'Orders'* .'Price'
+		'Items Sold': number 'items' = count <'Orders'*
+	}
+	'Total Sales Value': number 'eurocent' = sum .'Products'* .'Sales Value'
+	'Number of Products': number 'items' = count .'Products'*
+	'Orders': collection ['ID'] {
+		'ID': text
+		'Product': text -> ^ .'Products'[] -<'Orders'
+		'Quantity': number positive 'items'
+		'Loss': number 'items' = remainder ( .'Quantity', >'Product' .'Order Unit Quantity' )
+		'Price': number 'eurocent' = product ( >'Product'.'Price' as 'eurocent' , .'Quantity' )
+		'Order Units': number positive 'units' = division ceil (
+			.'Quantity' as 'items' ,
+			>'Product'.'Order Unit Quantity' )
+		'Tax': number 'eurocent'
+		'Gross Price': number 'eurocent' = sum ( .'Price', .'Tax' )
+		'Creation Time': number 'date and time'
+		'Estimated Lead Time': number 'seconds'
+		'Estimated Delivery Time': number 'date and time' = add (
+			.'Creation Time',
+			.'Estimated Lead Time' )
+		'Delivered': stategroup (
+			'No' { }
+			'Yes' {
+				'Delivery Time': number positive 'date and time'
+				'Lead Time': number 'seconds' = diff 'date and time' ( .'Delivery Time', ^ .'Creation Time' )
+			}
+		)
+	}
+	'Gross Income': number 'eurocent' = sum .'Orders'* .'Gross Price'
 }
 numerical-types
-    'percent'
-    'euro'
-        = 'eurocent' * 1 * 10 ^ -2
-    'eurocent'
-        = 'eurocent' * 'items'
-    'items per unit'
-    'units'
-        = 'items' / 'items per unit'
-    'items'
-        = 'items' / 'items per unit' // required by 'remainder'; to be fixed
-    'date and time' in 'seconds'
-    'seconds'
+	'percent'
+	'euro'
+		= 'eurocent' * 1 * 10 ^ -2
+	'eurocent'
+		= 'eurocent' * 'items'
+	'items per unit'
+	'units'
+		= 'items' / 'items per unit'
+	'items'
+	'date and time' in 'seconds'
+	'seconds'
 ```
 
 ### Derived states
 The code sample exemplifies a derived state group property `Product found`.
 The expression for deriving the state checks if the `Product` link produces a `Products` item from a `Products` `Catalog`.
 This `Catalog` is provided by an external system, via an Alan `interface`: the `Catalog Provider`.
-> ```js
+```js
 'Catalog': group { can-update: interface 'Catalog Provider'
-    'Products': collection ['Name'] {
-        'Name': text
-        'Price': number 'eurocent'
-    }
+	'Products': collection ['Name'] {
+		'Name': text
+		'Price': number 'eurocent'
+	}
 }
 'Orders': collection ['ID'] {
-    'ID': text
-    // a link to a 'Products' item from the catalog provider:
-    'Product': text ~> ^ .'Products'[]
-    'Product found': stategroup = switch >'Product' (
-        | node as $ = 'Yes' ( 'Product' = $ )
-        | none = 'No' ( )
-    ) (
-        'Yes' {
-            'Product': text -> .'Catalog'.'Products'[] = parameter
-            'Price': number 'eurocent' = .&'Product'.'Price'
-        }
-        'No' { }
-    )
+	'ID': text
+	// a link to a 'Products' item from the catalog provider:
+	'Product': text ~> ^ .'Products'[]
+	'Product found': stategroup = switch >'Product' (
+		| node as $ = 'Yes' ( 'Product' = $ )
+		| none = 'No' ( )
+	) (
+		'Yes' {
+			'Product': text -> .'Catalog'.'Products'[] = parameter
+			'Price': number 'eurocent' = .&'Product'.'Price'
+		}
+		'No' { }
+	)
 }
 ```
 
@@ -1387,29 +1434,29 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 
 Examples for permissions and todos:
 
-> ```js
+```js
 'Users': collection ['ID']
-    can-create: user .'Type'?'Admin'
-    can-delete: user .'Type'?'Admin'
+	can-create: user .'Type'?'Admin'
+	can-delete: user .'Type'?'Admin'
 { can-update: user .'Type'?'Admin'
-    'ID': text
-    'Address': group { can-update: equal ( /*this*/ , user )
-        'Street': text
-        'City': text
-    }
-    'Type': stategroup (
-        'Admin' { }
-        'Employee' { }
-        'Unknown' { has-todo: user .'Type'?'Admin' }
-    )
+	'ID': text
+	'Address': group { can-update: equal ( /*this*/ , user )
+		'Street': text
+		'City': text
+	}
+	'Type': stategroup (
+		'Admin' { }
+		'Employee' { }
+		'Unknown' { has-todo: user .'Type'?'Admin' }
+	)
 }
 // only team members can read team information:
 'Teams': collection ['Name'] { can-read: .'Members' [ user ]
-    'Name': text
-    'Members': collection ['Member'] {
-        'Member': text ~> ^ ^ .'Users'
-    }
-    'Description': text
+	'Name': text
+	'Members': collection ['Member'] {
+		'Member': text ~> ^ ^ .'Users'
+	}
+	'Description': text
 }
 ```
 
@@ -1579,38 +1626,38 @@ Furthermore, commands can perform operations on other systems that other systems
 For this to work, interfaces have to be listed in the `interfaces` section of an `application` model.
 Also, the `external` command needs to be consumed by the application model, like the `Place Order` command in the example:
 
-> ```js
+```js
 'Products': collection ['Name'] {
-    'Name': text
+	'Name': text
 }
 'Place Order': command { 'Product': text -> .'Products'[] } external
 'Orders': collection ['ID'] {
-    'ID': text
-    'Product': text -> ^ .'Products'[]
-    'Creation Time': number 'date and time' = creation-time
-    'Status': stategroup (
-        'New' {
-            'Order from Manufacturer': command { }
-                => execute .'Place Order' ( 'Product' = ^ .'Product' )
-                => update ^ (
-                    'Status' = create 'Waiting for Manufacturer' ( )
-                )
-        }
-        'Delivered' { }
-        'Delayed' { }
-        'Waiting for Manufacturer' {
-            'Agreed Upon Delivery Time': number 'date and time'
-                timer ontimeout => update ^ (
-                    'Status' = ensure 'Delayed' ( )
-                )
-        }
-    )
+	'ID': text
+	'Product': text -> ^ .'Products'[]
+	'Creation Time': number 'date and time' = creation-time
+	'Status': stategroup (
+		'New' {
+			'Order from Manufacturer': command { }
+				=> execute .'Place Order' ( 'Product' = ^ .'Product' )
+				=> update ^ (
+					'Status' = create 'Waiting for Manufacturer' ( )
+				)
+		}
+		'Delivered' { }
+		'Delayed' { }
+		'Waiting for Manufacturer' {
+			'Agreed Upon Delivery Time': number 'date and time'
+				timer ontimeout => update ^ (
+					'Status' = ensure 'Delayed' ( )
+				)
+		}
+	)
 }
 // for external system 'Delivery Service':
 'Register Delivery': command { 'Order': text -> .'Orders'[] }
-    update @ >'Order' (
-        'Status' = create 'Delivered' ( )
-    )
+	update @ >'Order' (
+		'Status' = create 'Delivered' ( )
+	)
 ```
 
 {: #grammar-rule--command-object-expression }
@@ -1863,19 +1910,18 @@ The metadata recording enables you to record the mutation times of scalar values
 ## Navigation
 ---
 Navigation steps:
-> ```js
-.'My Property'            // select property value
-?'My State'               // require state
->>'My Text'               // get referenced node (for text properties with a reference)
-.'My Text'&'Where'        // get 'where'-rule value from property
-.&'My State Where'        // get 'where'-rule result from context state
-.'My Collection'*         // iterate collection
+```js
+.'My Property'			// get property value
+?'My State'			   // require state
+>'My Text'				// get referenced node (for text properties with a reference)
+.'My Text'&'Where'		// get 'where'-rule value from property
+.&'My State Where'		// get 'where'-rule result from context state
+.'My Collection'*		 // iterate collection
 --
-^                // go to parent node
-$^               // go to parent assigned $ object
-$                // select assigned $ object
-@                // select parameter object
-@^               // select parent parameter object
+^				// go to parent node
+$^			   // go to parent assigned $ object
+$				// select nearest $ object
+@				// select nearest parameter node
 ```
 
 ### Node navigation
@@ -2941,7 +2987,7 @@ A subset of the entries from the source collection can be copied by specifying a
 This only applies to new nodes holding collections. This annotation does nothing for
 collections on the root node:
 
-> ```js
+```js
 root {
 	'People': collection ['Name'] {
 		'Name': text
@@ -2957,7 +3003,7 @@ using the key property, or using a derived link that derives from the key. In
 the latter case, other collections can be used to initialize an entry as long as
 the keys are the same.
 
-> ```js`
+```js`
 'Imported Categories': collection ['Id'] {
 	'Id': text
 }
