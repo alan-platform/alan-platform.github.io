@@ -227,8 +227,10 @@ Divisions require a division conversion rule, products require a product convers
 'days'
 'milliseconds'
 	= 'seconds' * 1 * 10 ^ 3 // rule for converting 'seconds' to milliseconds
-	@factor: 10^ 3
-	@label: "sec"
+	@numerical-type: (
+		label: "sec"
+		decimals: 3
+	)
 'minutes' @duration: minutes
 'seconds'
 	= 'seconds' * 'factor' // 'seconds' times a 'factor' produces 'seconds'
@@ -305,12 +307,11 @@ An attribute is of type `property`, `reference-set`, `command`, or `action`.
 ##### Property attributes
 A `property` specifies a part of the data structure.
 Alan supports six different property types:
-`text`, `file`, `number` (with subtypes `integer` and `natural`), `collection`, `stategroup`, and `group`.
+`text`, `file`, `number`, `collection`, `stategroup`, and `group`.
 
 *Text*, *file*, and *number* are primitive property types. Text properties hold an unbounded
 string value. File properties hold two unbounded string values: a file token and a file extension.
-Integer number properties hold an integer value, and natural number properties hold an integer
-value greater than zero.
+Number properties hold an integer value, with an optional `positive` annotation to ensure values greater zero.
 For ensuring that number values have a predefined accuracy, Alan does not support number values with a fractional component.
 For expressing the accuracy of a number, number properties reference a [`numerical type`](#numerical-types).
 
@@ -350,7 +351,7 @@ A *group* property groups related property values, which is useful for presentat
 }
 ```
 
-___Derived values.___ Properties of the different types hold either *base* values or *derived* values (derivations).
+___Derived values.___ Properties hold either *base* values or *derived* values (derivations).
 *Derived* values are computed from base values and other derived values.
 Application users cannot modify derived values.
 Properties holding *derived* values require an expression for computing their values at runtime:
@@ -360,7 +361,7 @@ Properties holding *derived* values require an expression for computing their va
 ```
 
 The [derivations](#derivations) section provides the grammar for derivation expressions,
-detailing the different computations that the language supports.
+detailing the different types of computations that the language supports.
 
 ___Presentation options.___ The `ui` component properties reference [GUI annotation rules](#gui-annotations) for tweaking and tuning the behaviour and presentation of properties in the generated GUI.
 Some examples of GUI annotations are
@@ -377,12 +378,12 @@ Some examples of GUI annotations are
 - `@multi-line`: presents a multi-line text area for a text property.
 
 ##### Reference set attributes
-A `reference-set` is a special property that holds a set of inverse references created by reference [constraints](#constraints).
+A `reference-set` is a special attribute that holds a set of inverse references created by [references](#references).
 Derivation expressions use them for computations (e.g. [derived numbers](#derived-numbers)).
 
 ##### Command attributes
 A `command` is a complex parametrized atomic operation on the dataset; a `command` is executed in a single transaction.
-A `command` attribute on a `node type` consists of a `parameter definition` and an [implementation](#commands-and-timers).
+A `command` attribute on a `node type` consists of a definition of its `parameters` and an [implementation](#commands-and-timers).
 
 {: #grammar-rule--node }
 <div class="language-js highlighter-rouge">
@@ -785,7 +786,7 @@ If you want to references from `Products` to other `Products`, you will find tha
 `Other Product`: text -> ^ .'Products'[]
 ```
 The compiler requires that you reference an earlier defined property, and not the `Products` property that defines the expression.
-For references from `Products` to other other `Products`, you need special `sibling` references, as the grammar shows:
+For references from `Products` to other other `Products`, you need special `sibling` references.
 
 
 {: #grammar-rule--entry-reference-definition }
@@ -845,17 +846,17 @@ and also from `Orders` to a `Previous Order`:
 	'Product Price': number 'euro' = ( sibling in 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
 }
 'Orders': collection ['Year']
-	'timeline': ordered-graph .'First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
+	'timeline': ordered-graph .'Is First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
 {
 	'Year': text
 	'Price': number 'euro'
-	'First Order': stategroup (
+	'Is First Order': stategroup (
 		'Yes' { }
 		'No' {
 			'Previous Order': text -> ^ sibling in ('timeline')
 		}
 	)
-	'Total Sales Value': number 'euro' = ( sibling in 'timeline' ) switch .'First Order' (
+	'Total Sales Value': number 'euro' = ( sibling in 'timeline' ) switch .'Is First Order' (
 		|'Yes' => .'Price'
 		|'No' as $'no' => sum (
 			.'Price',
@@ -920,7 +921,6 @@ For more details on this, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb
 
 ### Derived texts
 A derived text property holds a (sequence of) static text values and text values from other properties:
-
 ```js
 'Address': group {
 	'Street'       : text // e.g. "Huntington Rd"
@@ -929,6 +929,7 @@ A derived text property holds a (sequence of) static text values and text values
 // label for an external billing system, like "Huntington Rd 12B":
 'Address label': text = concat ( .'Address'.'Street', " ", .'Address'.'Street number' )
 ```
+
 ### Derived files
 An example of a derived file property `Contract`.
 The property holds the value of a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
@@ -966,11 +967,18 @@ root {
 		'ID': text
 		'Product': text -> ^ .'Products'[] -<'Orders'
 		'Quantity': number positive 'items'
-		'Loss': number 'items' = remainder ( .'Quantity', >'Product' .'Order Unit Quantity' )
-		'Price': number 'eurocent' = product ( >'Product'.'Price' as 'eurocent' , .'Quantity' )
+		'Loss': number 'items' = remainder (
+			.'Quantity',
+			>'Product' .'Order Unit Quantity'
+		)
+		'Price': number 'eurocent' = product (
+			>'Product'.'Price' as 'eurocent',
+			.'Quantity'
+		)
 		'Order Units': number positive 'units' = division ceil (
 			.'Quantity' as 'items' ,
-			>'Product'.'Order Unit Quantity' )
+			>'Product'.'Order Unit Quantity'
+		)
 		'Tax': number 'eurocent'
 		'Gross Price': number 'eurocent' = sum ( .'Price', .'Tax' )
 		'Creation Time': number 'date and time'
@@ -982,7 +990,10 @@ root {
 			'No' { }
 			'Yes' {
 				'Delivery Time': number positive 'date and time'
-				'Lead Time': number 'seconds' = diff 'date and time' ( .'Delivery Time', ^ .'Creation Time' )
+				'Lead Time': number 'seconds' = diff 'date and time' (
+					.'Delivery Time',
+					^ .'Creation Time'
+				)
 			}
 		)
 	}
@@ -1010,6 +1021,7 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 	'Products': collection ['Name'] {
 		'Name': text
 		'Price': number 'eurocent'
+		'Description': text
 	}
 }
 'Orders': collection ['ID'] {
@@ -1017,10 +1029,11 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 	// an optional reference to a 'Products' item from the catalog provider:
 	'Product': text ~> ^ .'Catalog'.'Products'[]
 	'Product found': stategroup = switch >'Product' (
-		| node as $ => 'Yes' where 'Product' = $ ( 'Price' = $ .'Price' )
+		| node as $ => 'Yes' where 'Found Product' = $ ( 'Price' = $ .'Price' )
 		| none => 'No' ( )
 	) (
-		'Yes' where 'Product' -> >'Product' {
+		'Yes' where 'Found Product' -> >'Product' {
+			'Description': text = .&'Found Product'.'Description'
 			'Price': number 'eurocent' = parameter
 		}
 		'No' { }
@@ -1028,27 +1041,59 @@ This `Catalog` is provided by an external system, via an Alan `interface`: the `
 }
 ```
 
-### Derived references
-The `application` language supports two types of derived references: `singular` and `branch`.
-The `singular` type creates a direct relation between nodes using other relations.
-The `branch` type is required for creating derived references to items in derived collections merge nodes of different types (see [node type rule](#node-types)).
-The example below shows a property ` for deriving a (`singular`) direct reference from an `Orders` item to a `Manufacturers` item.
-The expression for the `Manufacturer` reference an `Orders` item requires specifying an [`output parameter`](#output-parameters-legacy)
-after the constraint expression for the `Product` property.
+The expression for deriving a state, has to satisfy all `where` rules for the state.
+In the example, the `where` rule expresses that the optional `Product` reference is no longer optional.
+Instead, the reference is mandatory in context of the `Yes` state. The expression 'proves' that.
+You can use the `Product Found` reference for deriving values such as `Description` on the state node.
 
+An expression for deriving a state can express how to initialize property values of the state as well, such as `Price` in the example.
+To make this work, you have to specify `= parameter` for properties that you want to set with the [state initializer](#grammar-rule--state-initializer).
+This language construct is especially useful when a reference to a node like `'Found Product'` is not available.
+Furthermore, it useful for special operations such as `source-of` and `sink-of`, which we discuss below.
+
+### Derived references
+Sometimes it is useful to derive a reference to a collection entry for use by the application user and other computations.
+Similar to base references, derived references require you to express a text property follow by a reference definition.
+For deriving a reference, you have to provide an expression that produces a node that matches the reference definition.
+The definition of `'Product copy'` depicts that:
 ```js
-'Manufacturers': collection ['Name'] { 'Name': text }
 'Products': collection ['Name'] {
 	'Name': text
-	'Manufacturer': text -> ^ .'Manufacturers'[]
 }
-'Orders': collection ['ID'] {
-	'ID': text
+'Orders': collection ['Year']
+	'timeline': ordered-graph .'Is First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
+{
+	'Year': text
 	'Product': text -> ^ .'Products'[]
-		where 'Manufacturer' -> >'Manufacturer'
-	'Manufacturer': text -> ^ .'Manufacturers'[] = .'Product'&'Manufacturer'
+	'Product copy': text -> ^ .'Products'[] = >'Product' /* simple derived reference */
+	'Is First Order': stategroup (
+		'Yes' { }
+		'No' {
+			'Previous Order': text -> ^ sibling in ('timeline')
+		}
+	)
 }
+
+/* derived references: source/sink of graph */
+'Has Orders': stategroup = switch .'Orders'* (
+	| nodes as $ => 'Yes' (
+		'First Order' = sink-of $ in 'timeline'
+		'Most Recent Order' = source-of $ in 'timeline'
+	)
+	| none => 'No' ( )
+) (
+	'Yes' {
+		'First Order': text -> ^ .'Orders'[] = parameter
+		'Most Recent Order': text -> ^ .'Orders'[] = parameter
+	}
+	'No' { }
+)
 ```
+
+With the special `source-of` and `sink-of` operation, you can derive a reference to the respective nodes in an ordered graph.
+These operations can only be applied to a collection for which we can guarantee non-emptiness, as otherwise the source/sink do not exist.
+Therefore, we first `switch` on the content of the `'Orders'` collection.
+If it holds `nodes` (meaning that it is not empty), then we can apply the `source-of` and `sink-of` operations.
 
 
 {: #grammar-rule--derivation-expression }
