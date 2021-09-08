@@ -104,7 +104,7 @@ root {
 
 The initializers are for setting initial values for a user, password or identity node.
 For example, the `user-initializer` sets the `Type` of users that sign up to `Unknown`.
-Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#users-permissions-and-todos) are required to make a new user `Admin`.
+Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#permissions-and-todos) are required to make a new user `Admin`.
 
 {: #grammar-rule--allow-anonymous-user }
 <div class="language-js highlighter-rouge">
@@ -360,7 +360,7 @@ Properties holding *derived* values require an expression for computing their va
 'copy of City': text = .'City'  // property with an expression for deriving its value
 ```
 
-The [derivations](#derivations) section provides the grammar for derivation expressions,
+The [derivations](#derived-values) section provides the grammar for derivation expressions,
 detailing the different types of computations that the language supports.
 
 ___Presentation options.___ The `ui` component properties reference [GUI annotation rules](#gui-annotations) for tweaking and tuning the behaviour and presentation of properties in the generated GUI.
@@ -378,8 +378,10 @@ Some examples of GUI annotations are
 - `@multi-line`: presents a multi-line text area for a text property.
 
 ##### Reference set attributes
-A `reference-set` is a special attribute that holds a set of inverse references created by [references](#references).
-Derivation expressions use them for computations (e.g. [derived numbers](#derived-numbers)).
+A `reference-set` is for creating [bidirectional references](#bidirectional-references).
+A *reference set* attribute holds the *inverse* of a [reference](#references) which is by default unidirectional.
+References determine the values for reference sets; they create *inverse* references when your model specifies it.
+Derivation expressions refer to them for computations (e.g. [derived numbers](#derived-numbers)).
 
 ##### Command attributes
 A `command` is a complex parametrized atomic operation on the dataset; a `command` is executed in a single transaction.
@@ -675,7 +677,7 @@ In the GUI, references translate to a select list from which the application use
 ##### Reference behaviour
 The *reference behaviour* that you specify, determines how the runtime treats a reference.
 Mandatory references (specified with keyword `->`) are constraints that are enforced by the runtime.
-That is, they ensure that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
+That is, the runtime ensures that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
 Optional references (specified with keyword `~>`) do not have to resolve to a collection entry.
 
 
@@ -711,7 +713,7 @@ First, mandatory upstream references are resolved. Then, mandatory downstream re
 For that reason, mandatory upstream references cannot depend on mandatory downstream references.
 
 Optional references follow a similar approach, but are evaluated in separate phases.
-That is because they are only used for derived values, as the runtime does not enforce them.
+That is because they are only used for [derived values](#derived-values), as the runtime does not enforce them.
 
 
 {: #grammar-rule--evaluation-phase-annotation }
@@ -912,188 +914,54 @@ When you want to use a sibling reference in a computation, you have to provide t
 In order to succesfully compile recursive computations, you have to add the `in 'assembly'` part, such that
 the compiler knows that an acyclic graph will be traversed. That is: that the computation is guaranteed to be finite.
 
-## Derivations
+## Derived values
 ---
-Derivation expressions use earlier defined properties for deriving values for ensuring terminating computations of derived values (derivations).
-After a navigation step for following a reference, derivation expressions can use later defined properties as well.
-Please note that some work remains to be done on the `application` language to fully ensure safe computations.
-For more details on this, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
+Derived values (derivations) are computed from base values and other derived values.
+The application language supports derived texts, numbers, files, states, references, and collections.
+Derived texts, numbers, files, states, and references share common grammar rules:
+ the [derivation expression](#grammar-rule--derivation-expression) rule and corresponding parts presented below.
+The language has special rules for [deriving collections](#derived-collections).
 
-### Derived texts
-A derived text property holds a (sequence of) static text values and text values from other properties:
+A derivation expression starts with optional `switch` statements followed by a subexpression that produces a value.
+The following code sample exemplifies the use of the different types of `switch` statements, where each case produces a text value:
 ```js
-'Address': group {
-	'Street'       : text // e.g. "Huntington Rd"
-	'Street number': text // e.g. "12B"
+'Orders': collection ['Order'] {
+	'Order': text
+	'Price': number 'euro'
 }
-// label for an external billing system, like "Huntington Rd 12B":
-'Address label': text = concat ( .'Address'.'Street', " ", .'Address'.'Street number' )
-```
-
-### Derived files
-An example of a derived file property `Contract`.
-The property holds the value of a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
-```js
-'Standard Contract': file
-'Agreement': stategroup (
-	'Standard' { }
-	'Custom' {
-		'Contract': file
-	}
+'Store Status': stategroup (
+	'Open' { }
+	'Closed' { }
 )
-'Contract': file = switch .'Agreement' (
-	|'Standard' => .'Standard Contract'
-	|'Custom' as $'con'  => $'con'.'Contract'
+
+/* state switch */
+'Store Status Label': text = switch .'Store Status' (
+	|'Open'   => "Open"
+	|'Closed' => "Closed"
 )
-```
 
-### Derived numbers
-Examples of derived number properties, including required conversion rules:
-```js
-root {
-	'Tax Percentage': number positive 'percent'
-	'Products': collection ['Name'] {
-		'Name': text
-		'Price': number 'eurocent'
-		'Price (euro)': number 'euro' = from 'eurocent' .'Price'
-		'Order Unit Quantity': number positive 'items'
-		'Orders': reference-set -> downstream ^ .'Orders'* = inverse >'Product'
-		'Sales Value': number 'eurocent' = downstream sum <'Orders'* .'Price'
-		'Items Sold': number 'items' = count <'Orders'*
-	}
-	'Total Sales Value': number 'eurocent' = downstream sum .'Products'* .'Sales Value'
-	'Number of Products': number 'items' = count .'Products'*
-	'Orders': collection ['ID'] {
-		'ID': text
-		'Product': text -> ^ .'Products'[] -<'Orders'
-		'Quantity': number positive 'items'
-		'Loss': number 'items' = remainder (
-			.'Quantity',
-			>'Product' .'Order Unit Quantity'
-		)
-		'Price': number 'eurocent' = product (
-			>'Product'.'Price' as 'eurocent',
-			.'Quantity'
-		)
-		'Order Units': number positive 'units' = division ceil (
-			.'Quantity' as 'items' ,
-			>'Product'.'Order Unit Quantity'
-		)
-		'Tax': number 'eurocent'
-		'Gross Price': number 'eurocent' = sum ( .'Price', .'Tax' )
-		'Creation Time': number 'date and time'
-		'Estimated Lead Time': number 'seconds'
-		'Estimated Delivery Time': number 'date and time' = add (
-			.'Creation Time',
-			.'Estimated Lead Time' )
-		'Delivered': stategroup (
-			'No' { }
-			'Yes' {
-				'Delivery Time': number positive 'date and time'
-				'Lead Time': number 'seconds' = diff 'date and time' (
-					.'Delivery Time',
-					^ .'Creation Time'
-				)
-			}
-		)
-	}
-	'Gross Income': number 'eurocent' = sum .'Orders'* .'Gross Price'
-}
-numerical-types
-	'percent'
-	'euro'
-		= 'eurocent' * 1 * 10 ^ -2
-	'eurocent'
-		= 'eurocent' * 'items'
-	'units'
-		= 'items' / 'items'
-	'items'
-	'date and time' in 'seconds'
-	'seconds'
-```
+/* node switch */
+'Favorite Order': text ~> .'Orders'[]
+'Favorite Order Exists?': text = switch >'Favorite Order' (
+	| none => "No"
+	| node => "Yes"
+)
 
-### Derived states
-The code sample exemplifies a derived state group property `Product found`.
-The expression for deriving the state checks if the `Product` link produces a `Products` item from a `Products` `Catalog`.
-This `Catalog` is provided by an external system, via an Alan `interface`: the `Catalog Provider`.
-```js
-'Catalog': group { can-update: interface 'Catalog Provider'
-	'Products': collection ['Name'] {
-		'Name': text
-		'Price': number 'eurocent'
-		'Description': text
-	}
-}
-'Orders': collection ['ID'] {
-	'ID': text
-	// an optional reference to a 'Products' item from the catalog provider:
-	'Product': text ~> ^ .'Catalog'.'Products'[]
-	'Product found': stategroup = switch >'Product' (
-		| node as $ => 'Yes' where 'Found Product' = $ ( 'Price' = $ .'Price' )
-		| none => 'No' ( )
-	) (
-		'Yes' where 'Found Product' -> >'Product' {
-			'Description': text = .&'Found Product'.'Description'
-			'Price': number 'eurocent' = parameter
-		}
-		'No' { }
-	)
-}
-```
+/* node set switch */
+'How Many Orders?': text = switch .'Orders'* (
+	| none  => "No Orders"
+	| node  => "One Order"
+	| nodes => "More Than One Order"
+)
 
-The expression for deriving a state, has to satisfy all `where` rules for the state.
-In the example, the `where` rule expresses that the optional `Product` reference is no longer optional.
-Instead, the reference is mandatory in context of the `Yes` state. The expression 'proves' that.
-You can use the `Product Found` reference for deriving values such as `Description` on the state node.
-
-An expression for deriving a state can express how to initialize property values of the state as well, such as `Price` in the example.
-To make this work, you have to specify `= parameter` for properties that you want to set with the [state initializer](#grammar-rule--state-initializer).
-This language construct is especially useful when a reference to a node like `'Found Product'` is not available.
-Furthermore, it useful for special operations such as `source-of` and `sink-of`, which we discuss below.
-
-### Derived references
-Sometimes it is useful to derive a reference to a collection entry for use by the application user and other computations.
-Similar to base references, derived references require you to express a text property follow by a reference definition.
-For deriving a reference, you have to provide an expression that produces a node that matches the reference definition.
-The definition of `'Product copy'` depicts that:
-```js
-'Products': collection ['Name'] {
-	'Name': text
-}
-'Orders': collection ['Year']
-	'timeline': ordered-graph .'Is First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
-{
-	'Year': text
-	'Product': text -> ^ .'Products'[]
-	'Product copy': text -> ^ .'Products'[] = >'Product' /* simple derived reference */
-	'Is First Order': stategroup (
-		'Yes' { }
-		'No' {
-			'Previous Order': text -> ^ sibling in ('timeline')
-		}
-	)
-}
-
-/* derived references: source/sink of graph */
-'Has Orders': stategroup = switch .'Orders'* (
-	| nodes as $ => 'Yes' (
-		'First Order' = sink-of $ in 'timeline'
-		'Most Recent Order' = source-of $ in 'timeline'
-	)
-	| none => 'No' ( )
-) (
-	'Yes' {
-		'First Order': text -> ^ .'Orders'[] = parameter
-		'Most Recent Order': text -> ^ .'Orders'[] = parameter
-	}
-	'No' { }
+/* number switch */
+'Order Count': number 'count' = count .'Orders'*
+'More Than 10 Orders?': text = switch .'Order Count' compare ( 10 ) (
+	| >  => "More than 10"
+	| <  => "Less than 10"
+	| == => "Exactly 10"
 )
 ```
-
-With the special `source-of` and `sink-of` operation, you can derive a reference to the respective nodes in an ordered graph.
-These operations can only be applied to a collection for which we can guarantee non-emptiness, as otherwise the source/sink do not exist.
-Therefore, we first `switch` on the content of the `'Orders'` collection.
-If it holds `nodes` (meaning that it is not empty), then we can apply the `source-of` and `sink-of` operations.
 
 
 {: #grammar-rule--derivation-expression }
@@ -1186,6 +1054,23 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </div>
 </div>
 
+{: #grammar-rule--derivation-expression-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">derivation expression list</span>' {
+	'<span class="token string">head</span>': component <a href="#grammar-rule--derivation-expression-tail">'derivation expression tail'</a>
+	'<span class="token string">has tail</span>': stategroup (
+		'<span class="token string">no</span>' { }
+		'<span class="token string">yes</span>' { [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>': component <a href="#grammar-rule--derivation-expression-list">'derivation expression list'</a>
+		}
+	)
+}
+</pre>
+</div>
+</div>
+
 {: #grammar-rule--derivation-expression-tail }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -1233,23 +1118,82 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </pre>
 </div>
 </div>
-
-{: #grammar-rule--derivation-expression-list }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">derivation expression list</span>' {
-	'<span class="token string">head</span>': component <a href="#grammar-rule--derivation-expression-tail">'derivation expression tail'</a>
-	'<span class="token string">has tail</span>': stategroup (
-		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' { [ <span class="token operator">,</span> ]
-			'<span class="token string">tail</span>': component <a href="#grammar-rule--derivation-expression-list">'derivation expression list'</a>
-		}
-	)
+### Derived texts
+A derived text value can consist of static text values and text values from other properties:
+```js
+'Address': group {
+	'Street'       : text // e.g. "Huntington Rd"
+	'Street number': text // e.g. "12B"
 }
-</pre>
-</div>
-</div>
+// label for an external billing system, like "Huntington Rd 12B":
+'Address label': text = concat ( .'Address'.'Street', " ", .'Address'.'Street number' )
+```
+
+### Derived numbers
+Examples of derived number properties, including required conversion rules:
+```js
+root {
+	'Tax Percentage': number positive 'percent'
+	'Products': collection ['Name'] {
+		'Name': text
+		'Price': number 'eurocent'
+		'Price (euro)': number 'euro' = from 'eurocent' .'Price'
+		'Order Unit Quantity': number positive 'items'
+		'Orders': reference-set -> downstream ^ .'Orders'* = inverse >'Product'
+		'Sales Value': number 'eurocent' = downstream sum <'Orders'* .'Price'
+		'Items Sold': number 'items' = count <'Orders'*
+	}
+	'Total Sales Value': number 'eurocent' = downstream sum .'Products'* .'Sales Value'
+	'Number of Products': number 'items' = count .'Products'*
+	'Orders': collection ['ID'] {
+		'ID': text
+		'Product': text -> ^ .'Products'[] -<'Orders'
+		'Quantity': number positive 'items'
+		'Loss': number 'items' = remainder (
+			.'Quantity',
+			>'Product' .'Order Unit Quantity'
+		)
+		'Price': number 'eurocent' = product (
+			>'Product'.'Price' as 'eurocent',
+			.'Quantity'
+		)
+		'Order Units': number positive 'units' = division ceil (
+			.'Quantity' as 'items' ,
+			>'Product'.'Order Unit Quantity'
+		)
+		'Tax': number 'eurocent'
+		'Gross Price': number 'eurocent' = sum ( .'Price', .'Tax' )
+		'Creation Time': number 'date and time'
+		'Estimated Lead Time': number 'seconds'
+		'Estimated Delivery Time': number 'date and time' = add (
+			.'Creation Time',
+			.'Estimated Lead Time' )
+		'Delivered': stategroup (
+			'No' { }
+			'Yes' {
+				'Delivery Time': number positive 'date and time'
+				'Lead Time': number 'seconds' = diff 'date and time' (
+					.'Delivery Time',
+					^ .'Creation Time'
+				)
+			}
+		)
+	}
+	'Gross Income': number 'eurocent' = sum .'Orders'* .'Gross Price'
+}
+numerical-types
+	'percent'
+	'euro'
+		= 'eurocent' * 1 * 10 ^ -2
+	'eurocent'
+		= 'eurocent' * 'items'
+	'units'
+		= 'items' / 'items'
+	'items'
+	'date and time' in 'seconds'
+	'seconds'
+```
+
 
 {: #grammar-rule--number-expression }
 <div class="language-js highlighter-rouge">
@@ -1358,6 +1302,61 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </pre>
 </div>
 </div>
+### Derived files
+Derived `file` values take their value (token + extension) from another `file` value.
+For example, you can derive a `Contract` which is a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
+```js
+'Standard Contract': file
+'Agreement': stategroup (
+	'Standard' { }
+	'Custom' {
+		'Contract': file
+	}
+)
+'Contract': file = switch .'Agreement' (
+	|'Standard' => .'Standard Contract'
+	|'Custom' as $'con'  => $'con'.'Contract'
+)
+```
+
+### Derived states
+Derived states are computed using the abovementioned `switch` expressions, where different cases lead to different states.
+For example, we can derive if a `Product` exists in a `Catalog` of `Products` from a `Catalog Provider`.
+For this purpose, we check if the *optional* `Product` reference on an `Order` produces a node or nothing:
+```js
+'Catalog': group { can-update: interface 'Catalog Provider'
+	'Products': collection ['Name'] {
+		'Name': text
+		'Price': number 'eurocent'
+		'Description': text
+	}
+}
+'Orders': collection ['ID'] {
+	'ID': text
+	'Product': text ~> ^ .'Catalog'.'Products'[]
+	'Product found': stategroup = switch >'Product' (
+		| node as $ => 'Yes' where 'Found Product' = $ ( 'Price' = $ .'Price' )
+		| none => 'No' ( )
+	) (
+		'Yes' where 'Found Product' -> >'Product' {
+			'Description': text = .&'Found Product'.'Description'
+			'Price': number 'eurocent' = parameter
+		}
+		'No' { }
+	)
+}
+```
+
+The expression for deriving a state, has to satisfy all `where` rules for the state.
+In the example, the `where` rule expresses that the optional `Product` reference is no longer optional.
+Instead, the reference is mandatory in context of the `Yes` state. The expression 'proves' that.
+You can use the `Found Product` for deriving values such as `Description` on the state node.
+
+An expression for deriving a state can express how to initialize property values of the state as well, such as `Price` in the example.
+To make this work, you have to specify `= parameter` for properties that you want to set with the [state initializer](#grammar-rule--state-initializer).
+This language construct is especially useful when a reference to a node like `'Found Product'` is not available.
+Furthermore, it useful for special operations such as `source-of` and `sink-of`, which we discuss below.
+
 
 {: #grammar-rule--state-initializer }
 <div class="language-js highlighter-rouge">
@@ -1386,6 +1385,49 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </pre>
 </div>
 </div>
+### Derived references
+Sometimes it is useful to derive a reference to a collection entry for use by the application user and other computations.
+Similar to base references, derived references require you to express a text property follow by a reference definition.
+For deriving a reference, you have to provide an expression that produces a node that matches the reference definition.
+The definition of `'Product copy'` depicts that:
+```js
+'Products': collection ['Name'] {
+	'Name': text
+}
+'Orders': collection ['Year']
+	'timeline': ordered-graph .'Is First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
+{
+	'Year': text
+	'Product': text -> ^ .'Products'[]
+	'Product copy': text -> ^ .'Products'[] = >'Product' /* derived reference */
+	'Is First Order': stategroup (
+		'Yes' { }
+		'No' {
+			'Previous Order': text -> ^ sibling in ('timeline')
+		}
+	)
+}
+
+/* source-of/sink-of of graph */
+'Has Orders': stategroup = switch .'Orders'* (
+	| nodes as $ => 'Yes' (
+		'Oldest Order' = sink-of $ in 'timeline'
+		'Most Recent Order' = source-of $ in 'timeline'
+	)
+	| none => 'No' ( )
+) (
+	'Yes' {
+		'Oldest Order'     : text -> ^ .'Orders'[] = parameter /* derived reference */
+		'Most Recent Order': text -> ^ .'Orders'[] = parameter /* derived reference */
+	}
+	'No' { }
+)
+```
+
+With the special `source-of` and `sink-of` operation, you can derive a reference to the respective nodes in an ordered graph.
+These operations can only be applied to a collection for which we can guarantee non-emptiness, as otherwise the source/sink do not exist.
+Therefore, we first `switch` on the content of the `'Orders'` collection.
+If it holds `nodes` (meaning that it is not empty), then we can apply the `source-of` and `sink-of` operations.
 ### Derived collections
 
 {: #grammar-rule--flatten-expression }
@@ -1459,36 +1501,14 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </pre>
 </div>
 </div>
-## Users, Permissions, and Todos
+## Permissions and Todos
 ---
+The application language supports expression permission and todo requirements down to the level of a single specific `user` or `interface`.
+At the `node type` level you can specify permissions for nodes: read and update permissions.
+In addition, you can express that a node creates a todo-item in a [todo-list](#todo-items) of your application.
+At collection properties and states, you can specify item permissions: create and delete permissions for collection entries and states.
+At command attributes you can express permission requirements for executing a command.
 
-Examples for permissions and todos:
-
-```js
-'Users': collection ['ID']
-	can-create: user .'Type'?'Admin'
-	can-delete: user .'Type'?'Admin'
-{ can-update: user .'Type'?'Admin'
-	'ID': text
-	'Address': group { can-update: equal ( /*this*/ , user )
-		'Street': text
-		'City': text
-	}
-	'Type': stategroup (
-		'Admin' { }
-		'Employee' { }
-		'Unknown' { has-todo: user .'Type'?'Admin' }
-	)
-}
-// only team members can read team information:
-'Teams': collection ['Name'] { can-read: .'Members' [ user ]
-	'Name': text
-	'Members': collection ['Member'] {
-		'Member': text ~> ^ ^ .'Users'
-	}
-	'Description': text
-}
-```
 
 
 {: #grammar-rule--node-permissions-definition }
@@ -1534,28 +1554,6 @@ Examples for permissions and todos:
 </pre>
 </div>
 </div>
-By default, a user can execute a command if it is reachable.
-A command is reachable when a user can read a node for which the command can be executed.
-
-Note that if a command A calls another command B, then required permissions for B are not checked.
-That is, the application only verifies that the user is permitted to execute command A.
-
-
-{: #grammar-rule--command-permission-definition }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">command permission definition</span>' {
-	'<span class="token string">execute permission</span>': stategroup (
-		'<span class="token string">reachable</span>' { }
-		'<span class="token string">explicit</span>' { [ <span class="token operator">can-execute:</span> ]
-			'<span class="token string">requirement</span>': component <a href="#grammar-rule--user-requirement">'user requirement'</a>
-		}
-	)
-}
-</pre>
-</div>
-</div>
 
 {: #grammar-rule--permission }
 <div class="language-js highlighter-rouge">
@@ -1574,6 +1572,94 @@ That is, the application only verifies that the user is permitted to execute com
 </pre>
 </div>
 </div>
+### Permissions
+When *read permissions* and *update permissions* are not specified at the root node type, **all** application users can read and update all application data.
+Thus, if your applications supports `anonymous` users, anyone with your application's url can access all application data.
+
+To restrict access to your application data, you can start by specifying some permissions at the root node type.
+The line `can-read: user` at the `root` expresses that only users with a user account (in the `Users` collection), have access to application data:
+```js
+root {
+	can-read: user
+	can-update: user .'Type'?'Admin'
+
+	'Users': collection ['ID']
+		can-create: user .'Type'?'Admin'
+		can-delete: user .'Type'?'Admin'
+	{
+		can-read: user is ( /*this*/ ) || user .'Type'?'Admin'
+		can-update: user .'Type'?'Admin' // NOTE: unneeded
+
+		'ID': text
+		'Address': group { can-update: ^ is ( user )
+			'Street': text
+			'City': text
+		}
+		'Type': stategroup (
+			'Admin' { }
+			'Employee' { }
+			'Unknown' { has-todo: user .'Type'?'Admin' }
+		)
+	}
+	// only team members can read team information:
+	'Teams': collection ['Name'] { can-read: .'Members' [ user .'ID' ]
+		'Name': text
+		'Members': collection ['Member'] {
+			'Member': text ~> ^ ^ .'Users'[]
+		}
+		'Description': text
+	}
+}
+```
+
+Node types **inherit** *read* and *update* permission requirements from their ancestor node types.
+That is, if you specify required permissions at the `root` node type, you do not have to repeat it a child node type.
+The child node type takes the permission requirements from the `root` node type.
+##### Read permissions
+Read permission requirements are **cumulative**.
+That is, in order to read a node, a user requires read permission for *all ancestors nodes* of that node as well.
+For example, in order to read a `Members` node specified above,
+ a user needs permissions for the ancestor `Teams`-node, as well as the `root` node.
+##### Update permissions
+Update permission requirements are **not cumulative**.
+Instead, update permissions for child nodes **override** permission requirements for parent nodes.
+For example, for updates to the root node, we can require an admin: `user .'Type'?'Admin'`.
+If we were to omit other permission requirements, only admins would be able to update application data because of inheritance.
+But, because of `can-update: ^ is ( user )` at `Address` in the model, users can (only!) update their *own* `Address` information.
+> NOTE: for updating a node, users have to be able to *read* ancestor nodes!
+
+##### Create and delete permissions
+Create and delete permission requirements for collection entries and states (items) inherit *update* permission requirements from the parent node type.
+The permissions are **one-off overrides** that are not carried down in the node type hierarchy.
+That is, they only applied to the state type or collection attribute where they are specified.
+##### Command execution permissions
+Command execution permissions are independent of aforementioned permissions.
+Execution permission requirements only apply to the command for which they are specified.
+If a command A calls another command B, then required permissions for B are not checked.
+That is, the application only verifies that the user is permitted to execute command A.
+> NOTE: for executing a command, the command has to be reachable, meaning that users need read access for the node on which they want to execute the command!
+
+
+{: #grammar-rule--command-permission-definition }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">command permission definition</span>' {
+	'<span class="token string">execute permission</span>': stategroup (
+		'<span class="token string">reachable</span>' { }
+		'<span class="token string">explicit</span>' { [ <span class="token operator">can-execute:</span> ]
+			'<span class="token string">requirement</span>': component <a href="#grammar-rule--user-requirement">'user requirement'</a>
+		}
+	)
+}
+</pre>
+</div>
+</div>
+### Todo items
+Todo items are shown in a special section of your generated application.
+The list of todo items is constructed from nodes that are marked as todos.
+You express that in your model with `has-todo:` followed by an expression that specifies to which users the todo item applies.
+
 
 {: #grammar-rule--todo-definition }
 <div class="language-js highlighter-rouge">
@@ -1591,6 +1677,11 @@ That is, the application only verifies that the user is permitted to execute com
 </pre>
 </div>
 </div>
+### User requirements
+For user requirements you can depend on your application data via complex expressions that traverse your model.
+With the `||` keyword, you specify alternatives.
+With a `where` clause, you specify requirements on top of requirements ('and').
+
 
 {: #grammar-rule--user-requirement }
 <div class="language-js highlighter-rouge">
@@ -1611,39 +1702,6 @@ That is, the application only verifies that the user is permitted to execute com
 			'<span class="token string">alternative</span>': component <a href="#grammar-rule--user-requirement">'user requirement'</a>
 		}
 	)
-}
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--user-initializer }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">user initializer</span>' {
-	'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
-}
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--password-initializer }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">password initializer</span>' {
-	'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
-}
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--identity-initializer }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">identity initializer</span>' {
-	'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
 }
 </pre>
 </div>
@@ -1830,6 +1888,39 @@ Also, the `external` command needs to be consumed by the application model, like
 		}
 		'<span class="token string">no</span>' { }
 	)
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--user-initializer }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">user initializer</span>' {
+	'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--password-initializer }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">password initializer</span>' {
+	'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--identity-initializer }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">identity initializer</span>' {
+	'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
 }
 </pre>
 </div>
