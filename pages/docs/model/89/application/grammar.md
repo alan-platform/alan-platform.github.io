@@ -2032,17 +2032,17 @@ The metadata recording enables you to record the mutation times of scalar values
 ---
 Navigation steps:
 ```js
-.'My Property'			// get property value
-?'My State'			   // require state
->'My Text'				// get referenced node (for text properties with a reference)
-.'My Text'&'Where'		// get 'where'-rule value from property
-.&'My State Where'		// get 'where'-rule result from context state
-.'My Collection'*		 // iterate collection
+.'My Property'          // get property value
+?'My State'             // require state
+>'My Text'              // get referenced node (for text properties with a reference)
+.'My Text'&'Where'      // get 'where'-rule value from property
+.&'My State Where'      // get 'where'-rule result from context state
+.'My Collection'*       // iterate collection
 --
-^				// go to parent node
-$^			   // go to parent assigned $ object
-$				// select nearest $ object
-@				// select nearest parameter node
+^              // go to parent node
+$^             // go to parent context with $ object
+$              // select nearest $ object
+@              // select nearest parameter node
 ```
 
 ### Node navigation
