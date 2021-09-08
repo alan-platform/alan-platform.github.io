@@ -122,7 +122,7 @@ By the way, when you retype the different lines of code from this tutorial, make
 ## 3. Build the app
 How to get this app up and running? The model needs to be processed to produce executable code for a server. This is done by a ***compiler*** that is part of the Alan development environment integrated in VS Code (we use VS Code as our Integrated Development Environment). Before the compiler can translate our model we have to let the compiler know which elements and versions of the Alan platform it needs to properly translate the model. This is done by simply clicking the button `Alan Fetch` in the bottom line of the VS Code window. VS Code will download the correct files needed for compilation. This is necessary only once. 
 
-Now we can ***build*** (compile) the model by clicking the button `Alan Build` (next to `Alan Fetch`). If everything is correct the compiler should show no errors and the model is built into an executable app, ready for you to be used.
+Now we can ***build*** (compile) the model by clicking the button `Alan Build`. If everything is correct the compiler should show no errors and the model is built into an executable app, ready for you to be used.
 
 When opening the app in a webbrowser (we assume you use a chromium-based browser) it looks like this, after you clicked `Menu` in the left column:
 
@@ -198,7 +198,8 @@ Build the model (`Alan Build`) and find out what stategroups and numerical-types
 
 ![added states](./images_model/003.png)
 
-The table has a few more columns, but the data you might have entered yourself in previous steps is gone! In a real world situation that would be catastrophic and now it's maybe a little annoying. To solve this issue you need to migrate your data from one model version to the other. This subject is described in the tutorial *Migrations and deployments*.
+The table has a few more columns, but the data you might have entered yourself in previous steps is gone! In a real world situation that would be catastrophic and now it's maybe a little annoying. To solve this issue you need to migrate your data from one model version to the other. For this tutorial we provided migration files for each topic. Location of the appropriate files within the folder `_tutorials` (available in your project) can be found at the end of each topic. By copying and pasting the migration file the data within the migration file becomes available within your app.
+More information on migrations in the tutorial *Migrations and deployments*.
 
 If you add an item yourself you'll see we have some selection boxes available to determine the states of our added stategroups:
 ![selection boxes](./images_model/004.png)
