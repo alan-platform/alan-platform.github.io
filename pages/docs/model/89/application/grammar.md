@@ -668,17 +668,46 @@ A `command` attribute on a `node type` consists of a definition of its `paramete
 </div>
 ## References
 ---
+References indicate relations between different parts of your application data.
+For example, suppose that you have `Orders` and `Products`, where `Orders` reference a `Product`.
+You can express that reference in your model, such that your users can see it, and such that you can use it in computations:
+```js
+'Products': collection ['Name'] {
+	'Name': text
+	'In Stock': stategroup (
+		'No' { }
+		'Yes' { }
+	)
+}
+'Orders': collection ['ID'] {
+	'ID': text
+	'Product': text -> ^ .'Products'[]          // reference rule for text
+		where 'In Stock' -> $ .'In Stock'?'Yes' // additional reference rule for the text
+	'Ready': stategroup (
+		'No' { }
+		'Yes' { }
+	)
+	'Sent for Delivery': stategroup (
+		'No' { }
+		'Yes' where 'Order Ready' -> .'Ready'?'Yes' { } // reference rule for state
+	)
+}
+```
+The example indicates that you can specify multiple references at a text property.
+You can also specify additional rules for the 'main' reference with keyword `$`, which refers to the referenced node.
 
-Sometimes we want a `text` value to reference an item in a `collection`.
-The code sample below expresses that.
-`Product` values of `Orders` reference items from the `Products` `collection`.
+In order for the text value to reference an item in a collection, its value has to equal the key value of an item in the specified `collection`.
+At runtime, reference expressions always produce a single specific node (or none at all, if the reference is broken).
+The language ensures that.
 In the GUI, references translate to a select list from which the application user has to choose an item.
+
+Alternatively, sometimes a specific state for a state group is related to another node.
+The `where`-rule `Order Ready` expresses that: an order can be `Sent for Delivery` if and only if it is `Ready`.
 
 ##### Reference behaviour
 The *reference behaviour* that you specify, determines how the runtime treats a reference.
-Mandatory references (specified with keyword `->`) are constraints that are enforced by the runtime.
-That is, the runtime ensures that text properties hold a key value that uniquely identifies an item in a single specific `collection`.
-Optional references (specified with keyword `~>`) do not have to resolve to a collection entry.
+Mandatory references (specified with keyword `->`) are constraints that are enforced by the runtime: they have to resolve to a node.
+Optional references (specified with keyword `~>`) do not have to resolve to a node.
 
 
 {: #grammar-rule--reference-behaviour }
@@ -694,8 +723,8 @@ Optional references (specified with keyword `~>`) do not have to resolve to a co
 </pre>
 </div>
 </div>
-The language ensures that references either point to a *single specific collection entry, or none at all*.
-Thus, mandatory references unambiguously point to a single specific item.
+The language ensures that references either point to a *single specific node, or none at all*.
+Thus, mandatory references unambiguously point to a single specific node.
 Because of that, derived value computations and command invocations can safely use them.
 
 Optional references are especially useful when you want user data to reference imported data (`can-update: interface '...'`).
@@ -758,7 +787,7 @@ That is because they are only used for [derived values](#derived-values), as the
 </div>
 [Below](#sibling-references) we explain the annotation for `sibling navigation`.
 ##### Bidirectional references
-References are either unidirectional or bidirectional.
+Text references are either unidirectional or bidirectional.
 For bidirectional references, you specify a reference-set.
 If a reference is `downstream` reference, then the `reference-set` holds upstream references.
 Conversely, if a reference is `upstream`, then the `reference-set` holds downstream references:
@@ -834,7 +863,7 @@ For references from `Products` to other other `Products`, you need special `sibl
 </div>
 The following model expresses sibling references from `Products` to other `Products` which are corresponding (`Parts`),
 and also from `Orders` to a `Previous Order`:
-
+{: #example--sibling-recursion }
 ```js
 'Products': collection ['Name']
 	'assembly': acyclic-graph
@@ -843,9 +872,11 @@ and also from `Orders` to a `Previous Order`:
 	'Parts': collection ['Product'] {
 		// an 'upstream' sibling Product reference that partakes in the 'assembly' graph:
 		'Product': text -> ^ sibling in ('assembly')
-		'Part Price': number 'euro' = ( sibling in ^ 'assembly' ) >'Product'.'Product Price'
+		'Part Price': number 'euro'
+			= ( sibling in ^ 'assembly' ) >'Product'.'Product Price'
 	}
-	'Product Price': number 'euro' = ( sibling in 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
+	'Product Price': number 'euro'
+		= ( sibling in 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
 }
 'Orders': collection ['Year']
 	'timeline': ordered-graph .'Is First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
@@ -914,6 +945,8 @@ When you want to use a sibling reference in a computation, you have to provide t
 In order to succesfully compile recursive computations, you have to add the `in 'assembly'` part, such that
 the compiler knows that an acyclic graph will be traversed. That is: that the computation is guaranteed to be finite.
 
+Sometimes, computations traverse the `inverse` of a graph (by using a `reference-set` attribute).
+For such computations, you need to add the annotation `inverse`: `( sibling in inverse 'assembly' )`.
 ## Derived values
 ---
 Derived values (derivations) are computed from base values and other derived values.
@@ -922,6 +955,38 @@ Derived texts, numbers, files, states, and references share common grammar rules
  the [derivation expression](#grammar-rule--derivation-expression) rule and corresponding parts presented below.
 The language has special rules for [deriving collections](#derived-collections).
 
+### Upstream, downstream, and sibling dependence
+In the [references](#references) section we already discussed upstream, downstream, and sibling references.
+A reference is a downstream reference or has a sibling (node of the same type) dependency when the model expresses that with an annotation.
+The annotations are part of our solution for ensuring termination of derived value computations, without needing the compiler to do complex analyses.
+It also requires you to think about the flow of data through your application, which we think leads to more well-structured data models.
+
+In summary, computations are divided over the following four different phases:
+1. upstream constraints (mandatory *upstream* references)
+2. downstream constraints (mandatory *downstream* references)
+3. upstream derivations
+4. downstream derivations
+
+During both upstream phases, the runtime traverses your model from **top to bottom**.
+During the downstream phases, the runtime traverses your model in a compiler-optimized order.
+> NOTE: the order of properties in your model is important to the compiler: `application` models are **ordered** data models!
+
+Computations that are evaluated in a specific phase, can depend on all computations from an earlier phase.
+So, computations from phase 4 can depend on computations evaluated in all preceding phases.
+Furthermore, as the runtime traverse your model from top to bottom during phase 1,
+ computations for properties specified at the top of your model will be done before later defined property values.
+You can therefore depend on values that are computed in an identical phase as well,
+ as long as it satisfies the corresponding upstream/downstream order:
+```js
+'A': text = .'B' //ERROR: using later defined 'B' in the upstream derivations phase
+'B': text = .'A' //OK:    using earlier defined 'A' in the upstream derivations phase
+```
+
+The annotation `( sibling )` is required when you want to use a sibling reference in a computation.
+For recursive computations, you need to specify which (acyclic) graph the computation traverses,
+such that termination is guaranteed, as shown in the [sibling references example](#example--sibling-recursion).
+
+### Expressions
 A derivation expression starts with optional `switch` statements followed by a subexpression that produces a value.
 The following code sample exemplifies the use of the different types of `switch` statements, where each case produces a text value:
 ```js
@@ -1118,7 +1183,7 @@ The following code sample exemplifies the use of the different types of `switch`
 </pre>
 </div>
 </div>
-### Derived texts
+#### Derived texts
 A derived text value can consist of static text values and text values from other properties:
 ```js
 'Address': group {
@@ -1129,7 +1194,7 @@ A derived text value can consist of static text values and text values from othe
 'Address label': text = concat ( .'Address'.'Street', " ", .'Address'.'Street number' )
 ```
 
-### Derived numbers
+#### Derived numbers
 Examples of derived number properties, including required conversion rules:
 ```js
 root {
@@ -1302,7 +1367,7 @@ numerical-types
 </pre>
 </div>
 </div>
-### Derived files
+#### Derived files
 Derived `file` values take their value (token + extension) from another `file` value.
 For example, you can derive a `Contract` which is a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
 ```js
@@ -1319,7 +1384,7 @@ For example, you can derive a `Contract` which is a `Default Contract` in case o
 )
 ```
 
-### Derived states
+#### Derived states
 Derived states are computed using the abovementioned `switch` expressions, where different cases lead to different states.
 For example, we can derive if a `Product` exists in a `Catalog` of `Products` from a `Catalog Provider`.
 For this purpose, we check if the *optional* `Product` reference on an `Order` produces a node or nothing:
@@ -1385,7 +1450,7 @@ Furthermore, it useful for special operations such as `source-of` and `sink-of`,
 </pre>
 </div>
 </div>
-### Derived references
+#### Derived references
 Sometimes it is useful to derive a reference to a collection entry for use by the application user and other computations.
 Similar to base references, derived references require you to express a text property follow by a reference definition.
 For deriving a reference, you have to provide an expression that produces a node that matches the reference definition.
@@ -1428,7 +1493,7 @@ With the special `source-of` and `sink-of` operation, you can derive a reference
 These operations can only be applied to a collection for which we can guarantee non-emptiness, as otherwise the source/sink do not exist.
 Therefore, we first `switch` on the content of the `'Orders'` collection.
 If it holds `nodes` (meaning that it is not empty), then we can apply the `source-of` and `sink-of` operations.
-### Derived collections
+#### Derived collections
 
 {: #grammar-rule--flatten-expression }
 <div class="language-js highlighter-rouge">
