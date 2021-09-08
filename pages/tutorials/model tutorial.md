@@ -1216,7 +1216,7 @@ Each state got a command that can change the current state to the next one. Noti
 Build the model and view it in your browser by going to 'Orders' and selecting order 001 (or input an order first):
 ![Place order line commands](./images_model/026.png)
 Set the view to `Full`. This will reveil some extra columns with in the first column a button `Place order line` (if you inserted an order yourself you must have selected `On hold` as line state).
-Click the button of an order line to place it and refresh the table `Order lines`. As you can see the button disappears from the column `PLace order line` and a new one appears in the column `Ready for service`. Repeat for this button and see what happens.
+Click the button of an order line to place it and refresh the table `Order lines`. As you can see the button disappears from the column `Place order line` and a new one appears in the column `Ready for service`. Repeat for this button and see what happens.
 If you can imagine that different people with different roles within the restaurant have access to specific parts of the model, you could organise who gets to push which button. This is possible by implementing `users` and their access rights, which will be discussed in another topic.
 Now clicking each line individually can become a hassle, so let's create a command that can set all lines with state `On hold` within one order to `Placed`:
 ```
@@ -1674,5 +1674,5 @@ If you want to add an item to the menu, you can now select from a list:
 <tutorial folder: ./_tutorial/step_10/>
 
 ## The End
-With this we like to end this introductory tutorial into the model language and hopefully begin your journey in the world of Alan. There is still a lot to discover. And "exercise makes perfect" (in Dutch:"Oefening baart kuntst").
+With this we like to end this introductory tutorial into the model language and hopefully begin your journey in the world of Alan. There is still a lot to discover. And "exercise makes perfect" (in Dutch:"Oefening baart kunst").
 Enjoy!
