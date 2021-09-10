@@ -1,5 +1,5 @@
 {
-	"current": "2020.3",
+	"current": "2021.10.3",
 	"versions": [
 		{
 			"name": "2019.7",
@@ -81,7 +81,7 @@
 			]
 		},
 		{
-			"name": "2021.10.2",
+			"name": "2021.10.3",
 			"pages": [
 				"pages/docs/auto-webclient/seven.5/generator_settings/grammar.html",
 				"pages/docs/auto-webclient/seven.5/phrases/grammar.html",
