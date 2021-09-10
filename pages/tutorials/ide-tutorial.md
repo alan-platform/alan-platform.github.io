@@ -21,7 +21,7 @@ This screenshot shows the main areas in the layout:
 ![Basic layout](./images_IDE/002.png)
 
 1. Explorer: overview of files and folders in your project
-2. Text editor: content of open file can be edited here (on startup you'll see the README.md file with additional info)
+2. Text editor: content of open file can be edited here (on startup you'll see the `README.md` file with additional info)
 3. Terminal/Output/Problems:
     - Tab 'Terminal' for executing instructions (you probably won't be needing this, but it is active by default)
     - Tab 'Output' for output from the compiler (when you want to inspect what happens when you build your project)
@@ -70,7 +70,7 @@ This will send your project to the server which will publish (deploy) your appli
 > NOTE: we recommend that you also run `Alan Fetch` from time to time (e.g. weekly) to get the latest platform tools for building and deploying your project. Furthermore, if you ever change the `versions.json` file, you need to run `Alan Fetch` as well to get the right tools.
 
 ## Your published Application
-After deploying your work, you can find the latest published version of your application at the URL provided in the README.md file of your project.
+After deploying your work, you can find the latest published version of your application at the URL provided in the `README.md` file of your project.
 
 More information about Visual Studio Code can be found [here](https://code.visualstudio.com/).
 

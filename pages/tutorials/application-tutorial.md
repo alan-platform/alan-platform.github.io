@@ -22,7 +22,7 @@ Alan is a platform that provides a language to model your data and processes in 
 
 So, let's dive in!
 
-## A data model
+## Modeling data
 A restaurant is nothing without a good menu. So, first, let's take a look at the menu that shows us all the good food and nice drinks you offer.
 
 ### Menu
@@ -74,11 +74,11 @@ This small, unfinished model tells us that a `Menu` is a **collection**: a colle
 
 A single `Menu` item consisting of an `Item name` and a `Selling price` is called a **node** (e.g. 'Chocolate mouse', '4,50'). So, a `Menu`-collection stores nodes (menu items). In the model, curly braces ( **{ ... }** ) and everything inbetween define the *type* of a node (`Menu` item).
 
-`Item name` is a container that holds a value of type `text`: an `Item name` is a piece of text.
+`Item name` holds a value of type `text`: an `Item name` is a piece of text.
 
-`Selling price` is a container that holds a value of type **number**. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
+`Selling price` holds a value of type **number**. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
 
-`Menu`, `Item name`, and `Selling Price` are **attributes** of a node. The keywords *collection*, *text* and *number* in a model express the **types** of the attributes. The *attribute types* specifies what kind of data a container or attribute can hold.
+`Menu`, `Item name`, and `Selling Price` are **attributes** of a node. The keywords *collection*, *text* and *number* in a model express the **types** of the attributes. An *attribute type* specifies what kind of data an attribute can hold.
 
 <!-- >Curly braces ( ***{ ... }*** ) describe the start and end of a **node type** definition. A *node type* defines the types of data and its structure in a node. -->
 
@@ -138,7 +138,7 @@ numerical-types
 By the way, when you type Alan code, make sure to use **whitespace between keywords**, and **tabs for indentation**!
 Otherwise, the compiler will start complaining.
 
-## Build the app
+## Deploying the app
 How to get this app up and running? The model needs to be processed to produce executable code for a server.
 This is done by a ***compiler*** that is part of the Alan platform tools.
 You can download the platform tools by clicking `Alan Fetch` in VS Code, or by running `./alan fetch` from the commandline.
@@ -181,7 +181,7 @@ We can specify the label that we want to see if we want it to be different from 
 Furthermore, we can specify the number of decimals that the user can enter: 2 as the accuracy is `eurocent`.
 There's much more to numerical-types, but we'll leave it at this for now.
 
-## Stategroup
+## Stategroups
 For our `Menu` items, we want our application to store some additional information.
 For example, we want to store if an item is a dish or a beverage.
 For that, we add an `Item type` to our model:
@@ -254,7 +254,7 @@ You have to copy the `migration.alan` for the step that you are working on, to `
 
 > <tutorial folder: `./_tutorial/step_02/`>
 
-## Expand the model
+## Built-in attribute types
 Our restaurant is more than just a menu. We also have `Tables`; let's express that in our model:
 ```js
 root {
@@ -316,7 +316,7 @@ This means that in the app, each `Tables` item can have its own collection of `O
 
 > <tutorial folder: `./_tutorial/step_03/`>
 
-### Built-in types
+### Overview of attribute types
 {:.no_toc}
 The application language supports the following built-in attribute types:
 >- A ***text*** attribute holds an unbounded string value (eg. *"this is text"*)
@@ -363,11 +363,20 @@ Other values are not accepted by your application.
 This is because in our model, we have used this arrow keyword `->`, which is for **mandatory** references (also: constraints).
 
 The navigation expression that follows the `->` in the model, expresses how the application can find the collection holding `Menu` items.
-The keyword `^` means: go to the parent node.
-For an `Orders` item, the parent node is a `Tables` item.
-Then we have another `^`, so the application knows another parent step is required: from the `Tables` item to the `root` node. The `root` node holds the collection of `Menu` items.
+The keyword `^` tells the application to go to the parent node.
+For an `Orders` item "01" (a node), the parent node is a `Tables` item "T01" (which is also a node).
+Then we have another `^`, so the application knows that another parent step is required: from the `Tables` item to the `root` node. The `root` node holds the `Menu` items.
 To instruct the application to look in that collection, the expression concludes with `.'Menu'[]`.
 Which means: look up the `Item` value in the `Menu` collection.
+
+In a model you can just count opening curly braces (`{`) above an expression to see where a series of `^` leads to, as each curly brace corresponds to a node in your application when navigating from a child node to a parent node:
+```js
+root {
+	'Tables': collection ['Table number'] {   // curly brace 2 (match second ^)
+		'Orders': collection ['Order line'] { // curly brace 1 (match first ^)
+			'Item': text -> ^ ^ .'Menu'[]
+...
+```
 
 > **In summary**, the expression states that `Item` is a text value and references a `Menu` item. Therefore, the text value of an item has to equal the `Item name` (key value) of a `Menu` item.
 
@@ -377,49 +386,32 @@ Entering an amount and clicking `Save` gives this result:
 
 ![first order line](./images_model/010.png)
 
-Not all references can be made mandatory.
-When a text container references a collection that is defined outside the scope of the current model, for example in another app or in an external database, we can't technically make sure that the reference constraint is always met, but we do want to keep our apps and models close knit.
-So we make these references optional by using the symbol **~>** (tilde arrow, not to be confused with **->**) and call these **optional references**.
+Sometimes you may want references to be *optional* rather than *mandatory*.
+When you import data from other apps this is necessary, as you can typically not force those apps to respect your wishes concerning your text values.
+For **optional references**, you use the keyword **~>** (tilde arrow) instead of **->** (dash arrow).
 
-The definition of a container of type text and a reference, like we've seen above, can be extended with what is called a ***reference rule***. We can use the word `where` to apply one or more reference rules to a text. An example, apart from our current model:
+The specification of an attribute with a reference, can be extended with `where`-rules for creating additional references.
+This is especially useful when an application combines data from multiple different sources.
+For example, suppose for a second that our application imports a menu from two other restaurants: `Blue` and `Red`. We can request a menu `Item` from the other restaurants in case we ever run out of stock:
 ```js
-'Car': text -> .'Electric vehicles'[]
-	where 'blue' ~> .'Blue objects'[]
-	where 'american' ~> .'American products'[]
+'Item': text -> .'Menu'[]
+	where 'blue' ~> .'Menu from restaurant Blue'[]
+	where 'red' ~> .'Menu from restaurant Red'[]
 ```
 
-`Car` in this example has one *mandatory* reference and two *optional* references which all define `Car`:
-- `Car` can contain key values from the collection `Electric vehicles`
-- `Car` can contain key values from the collection `Blue objects`, by definition of the rule `blue`
-- `Car` can contain key values from the collection `American products`, by definition of the rule `american`
-This way `Car` is much more specified. The rule names `blue` and `american` can be used as references themselves in subsequent parts of the model, which can come in handy.
+`Item` has one *mandatory* reference to our own `Menu` and two *optional* references to the `Menu`'s from restaurant `Blue` and `Red`.
 
-By the way, in this example we used optional references for the `where`-rules because it is not yet technically possible and it has not been neccesary to make mandatory references to several seperate collections within the same model.
+<sup>NOTE: in `application` language `where`-rules that require a lookup in a collection can currently not be mandatory; only the main reference (expressed by `-> .'Menu'[]` can be mandatory. Support may be added in future versions.</sup>
 
-`Where` is not restricted to the use with text containers. It can also be used with states of a stategroup. More on this in the topic 'Advanced references'.
+The `where`-rules can also be used for states of a `stategroup` attribute. More on this in the topic [Advanced references](#advanced-references).
 
-## Hierarchy
-We explained this: **->**, but why do we need this: **^ ^**? As mentioned earlier, there are parent and child relations between different parts of the model, thus between different data. These parts, or this data, exists on different levels, created by the node types (the containers between curly braces **{** and **}** ). For explanatory purposes, let's say `root` is on level 0. Then collection `Menu` is on level 1, while text `Item` is on level 3:
 
-| 0 | 1 | 2 | 3 | ... | 2 | 1 |
-|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
-|`root` | `{ Menu` | `{ ... }` | | | | `}` |
-|`root` | `{ Tables` | `{ Orders` | `{ Item }` | | `}` | `}` |
+## Rewrite 1: states versus references
+Hopefully by now you can 'read' this model and understand its components and structure.
+Meanwhile our restaurant is in full swing, so no time to waste!
 
-So, to reference `Menu` we have to 'jump up' two levels relative to `Item`, therefore the two 'arrows' up: **^ ^** . This makes it clear to the compiler where it can find `Menu`.
-Additionally, for the compiler to understand this jump up, the referenced collection also needs to be positioned above the reference constraint, i.e. `Menu` needs to be defined before `Item` can reference it, reading the model from top to bottom.
-
-To summarize, `'Item': text -> ^ ^ .'Menu'[]` is:
-- a container with the name 'Item'
-- that is of type *text*
-- that is constrained by a *reference constraint*
-- which is defined by a *relative node type path*
-- that points to a *node type*.
-
-## Modify the model
-Hopefully by now you can 'read' this model and understand its components and structure. Meanwhile our restaurant is in full swing, so no time to waste!
-
-You might have experienced in your restaurant that having a static set of beverage types might not be very practical. Let's change the model accordingly and make a dynamic set of beverage types, which means the stategroup `Beverage type` is removed and replaced with a collection `Beverages types`.
+You may have noticed in your restaurant that having a fixed set of beverage types is not practical.
+Let's change the model accordingly and make a dynamic set of beverage types, which means the stategroup `Beverage type` is removed and replaced with a collection `Beverages types`.
 
 Since we still want to be able to select a beverage type when we compose our menu, we need to be able to reference `Beverages types` from `Beverage type` within the state `Beverage` in our model. Therefore it needs to be above `Menu`. Modify your model according to this new one:
 ```js
@@ -490,7 +482,7 @@ Here, we can edit the `Beverage type` of 'Mojito'. The collection `Beverages typ
 
 > <tutorial folder: `./_tutorial/step_04/`>
 
-## Reference set
+## Reference sets
 You decided that your restaurant will also provide a take-away service. This means adjusting the model accordingly. Let's see what is needed.
 
 `Orders` will no longer be a child to the parent `Tables`, which makes more sense anyway: If we consider these entities more accurately, `Orders` and `Tables` don't have a parent-child relation, since they are of different order. For example the relation between `Tables` and `Seatings` is more natural, like wheels to a car or zebras to mammals.
@@ -570,7 +562,7 @@ If we click the order, we jump to the order with its order lines.
 
 > <tutorial folder: `./_tutorial/step_04a/`>
 
-## Command
+## Commands
 
 At this point in the tutorial we would like to show you the ***command*** statement. The model however doesn't necessarily need a command, therefore the example presented here is not the best usecase. Nevertheless it will give a glimpse into the structure of a command.
 With a command we can for example create nodes in a collection, provided the data is available to create the node. Having this data is achieved by deriving it from other data (more on derivations later), receiving data through an interface or ask the user to enter data. Although commonly an ***action*** is used in the later case (an action takes into account the access rights a user has, while a command does not), we will use this scenario here.
@@ -794,10 +786,8 @@ As mentioned before, this is only an example of a command. Commands are commonly
 >Before we continu with the next topic it is good to know that *reference-set* and *command* are also considered possible *attributes* for a container. The previously mentioned types *text*, *number*, *file*, *collection*, *stategroup* and *group* are more specifically *property attributes*, in short ***properties***, of the container. This in contrast to the *attributes* *reference-set* and *command*.
 
 ## Derivations: numbers
-Whenever you want to derive a value from other values, we use derivations. Derivations can be recognized in the model by the symbol **=**. This means we've already seen some derivations in the previous topic on commands.
-We've seen for example a state of a stategroup being derived from the state of another stategroup by using = and the statement switch. Such a ***state derivation*** can also be used  outside of a command attribute, more generally in a model. More on this in the topic 'Derivations: conditional expressions'.
-
-Here we focus on number derivations. Let's make the also previously mentioned example (in the topic 'References') of calculating a subtotal per order line. Add these lines below `Amount` to your model:
+Our customers in the restaurant have to pay us, and for that we need to compute the cost of their orders.
+Let's start with the `Line total`: the cost of a single `Order line`:
 ```js
 'Order lines': collection ['Order line'] {
 	'Order line': text
@@ -809,7 +799,8 @@ Here we focus on number derivations. Let's make the also previously mentioned ex
 	)
 }
 ```
-A property `Line total` of type number with numerical-type 'eurocent' is added. The value of `Line total` is derived by multiplying the selling price with the amount. The ***product*** statement takes two terms: the two numbers to be multiplied.
+Notice that after `eurocent` for the `Line total` we have have written a formula for deriving the value.
+A derived value (derivation) `Line total` is computed by multiplying the `Selling price` with the `Amount`.
 
 >An important concept arises when we focus on the symbol ***>*** in front of `Item` (the first term in the *product* statement for calculating `Line total`). This line of code means:
 'With the current value of `Item` (a key value of `Menu`) of this specific `Order line` follow its reference and from the resulting node in that referenced collection provide the value of property `Selling price`.'
@@ -955,30 +946,30 @@ And at runtime (in the webbrowser) it looks like this:
 ![(line totals and total](./images_model/022.png)
 
 Other possible calculations that can be used in ***number derivations*** are:
-***min***: determines the minimum of a set of values
-***max***: determines the maximumof a set of values
-***std***: determines the standard deviation of a set of values
-***count***: counts the number of values in a set
-***remainder***: calculates the remainder of a division (10 mod 3 = 1)
-***division***: calculates the division of two numbers
-***add***: calculates the addition of two numbers
-***diff***: calculates the difference of two (relative!) numbers, for example the difference between two dates or two degrees Celcius
+`min`: determines the minimum of a set of values
+`max`: determines the maximum of a set of values
+`std`: determines the standard deviation of a set of values
+`count`: counts the number of values in a set
+`remainder`: calculates the remainder of a division (10 mod 3 = 1)
+`division`: calculates the division of two numbers
+`add`: calculates the addition of two numbers
+`diff`: calculates the difference of two (relative!) numbers, for example the difference between two dates or two temperatures
 
 Examples of absolute and relative numbers:
-(number of) days: absolute, "28 days"
-date: relative, "28-7-2021"
-years: absolute, "5 years"
-year: relative, "2021"
-degrees: absolute, "21 degrees"
-degrees Celcius: relative, "21˚C"
-seconds, minutes, hours: absolute, "2 hours, 35 minutes and 8 seconds" (duration)
-time of day or 'the time': relative "14:35:08"
+- (number of) days: absolute, "28 days"
+- date: relative, "28-7-2021"
+- years: absolute, "5 years"
+- year: relative, "2021"
+- degrees: absolute, "21 degrees"
+- temperature: relative, "21˚C"
+- seconds, minutes, hours: absolute, "2 hours, 35 minutes and 8 seconds" (duration)
+- time of day or 'the time': relative "14:35:08"
 
-So far we've seen numerical derivation, but we can also derive other types of data.
+So far we've seen number derivations, but we can also derive other types of data.
 
 > <tutorial folder: `./_tutorial/step_04c/`>
 
-## Another model expansion
+## Rewrite 2: more derivations
 To show examples of other types of derivation we need to create a more intricate model.
 Let's create a group `Management` at the top of the model for more permanent data, while still being able to adjust it. This group contains a new collection `Discount periods`, a number `VAT percentage` and the existing collections `Beverages types` and `Tables` (we're not going to change this data on a daily basis):
 ```js
@@ -1004,12 +995,14 @@ Let's create a group `Management` at the top of the model for more permanent dat
 ```
 When you moved `Beverages types` and `Tables` to the group `Management` rebuild your app. You'll get some errors saying the compiler can't find these properties. Correct the errors according to the changes made.
 
-And since we've added a new numerical type, we need to add this to our `numerical-types` in the model:
+And since we use a new numerical type, we need to add this to our `numerical-types` section in the model:
 ```js
 'percent'
 ```
-We will use the collection `Discount periods` for selecting a certain discount percentage (`Percentage`), depending on the amount of money spend (`Minimal spendings`). `VAT percentage` will be used to calculate value added tax (VAT).
-Change the number property `Total` within collection `Orders` into `Subtotal`, because the new `Total` will take the appropriate discount into account:
+We will use the collection `Discount periods` for discounts during different time periods, where the discount depends on the amount of money spent at the restaurant.
+`VAT percentage` will be used for calculating the value added tax (VAT).
+
+Rename the number property `Total` for `Orders` to `Subtotal`, because the new `Total` will take the appropriate discount into account:
 ```js
 'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
 ```
@@ -1054,6 +1047,7 @@ numerical-types
 	'percent-fraction'
 	= 'percent' / 1 * 10 ^ 2
 ```
+
 In short, this model extension makes it possible to apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`; for example 'Summer holiday' that will give 3% discount on spendings over €35.
 If discount is applicable (state `Yes`) and a discount period is selected, the `Discount` will be calculated:
 - Compare the `Subtotal` with the `Minimal spendings` that belong to the selected `Discount period`
@@ -1152,9 +1146,9 @@ Please revert your model to the previous state, because this example is not good
 
 In some situations we can't avoid needing `downstream`, for example as we've seen with the reference-set `Orders` in collection `Tables` (discusse in the topic 'Reference set'). There we need to add `downstream` to this reference-set to make the compiler find the referenced property `Table`, because `Table` needs to be below collection `Tables` to be able to reference it.
 
-## Reorganise and extend the model
+## Extensions and GUI annotations
 
-In the topic 'Derivations: conditional expressions' we've calculated the number `Total` as part of the stategroup `Discount applicable`. In our app it is therefore shown inside a box along `Discount period` and `Discount`. Both visually and model-wise it's more appropriate to show and calculate `Total` outside of `Discount applicable`. Let's adjust the model accordingly. The tail of collection `Orders` now looks like this:
+In the topic 'Derivations: conditional expressions' we've calculated the number `Total` as part of the stategroup `Discount applicable`. In our app it is therefore shown inside a box along `Discount period` and `Discount`. Both visually and model-wise it's more appropriate to show and calculate `Total` outside of `Discount applicable`. Let's adjust the model accordingly. The last part for the `Orders` collection should look like this:
 ```js
 'Orders': collection ['Order'] {
 	...
@@ -1277,7 +1271,7 @@ As you might have noticed it is easy to make adjustments to your model: Moving a
 > <tutorial folder: `./_tutorial/step_07/`>
 
 
-## More model extentions
+## State machines
 In the previous topic we've added `Line status` but the different states do not have any effect yet. The order line status needs to change according to the process in our restaurant. In short the process looks like this: Service goes to a table, customers order their drinks and/or dishes and might change their minds, orders are placed to be prepared and finally, the orders are delivered to the table.
 So, we want to change the state without accidentilly skip a state. Let's implement this:
 ```js
