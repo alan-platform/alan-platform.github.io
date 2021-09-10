@@ -410,10 +410,11 @@ The `where`-rules can also be used for states of a `stategroup` attribute. More 
 Hopefully by now you can 'read' this model and understand its components and structure.
 Meanwhile our restaurant is in full swing, so no time to waste!
 
-You may have noticed in your restaurant that having a fixed set of beverage types is not practical.
-Let's change the model accordingly and make a dynamic set of beverage types, which means the stategroup `Beverage type` is removed and replaced with a collection `Beverages types`.
+You may have noticed in your restaurant that having a fixed set of beverage types is impractical.
+Let's change that by supporting a dynamic set of beverage types.
+For that, you need to remove the code for the `Beverage type` attribute, and express that you have a collection of `Beverages types` instead.
 
-Since we still want to be able to select a beverage type when we compose our menu, we need to be able to reference `Beverages types` from `Beverage type` within the state `Beverage` in our model. Therefore it needs to be above `Menu`. Modify your model according to this new one:
+As we still want to be able to select a `Beverage type` when we compose our `Menu`, we need to be able to reference a `Beverages types` item from the state `Beverage` in our model.
 ```js
 users
 	anonymous
@@ -463,22 +464,27 @@ numerical-types
 	'units'
 ```
 
+Notice that we place `Beverage types` above the `Menu`.
+That is quite logical as `Beverage types` should be entered before creating a `Menu`, but the compiler requires it as well.
+By default, expressions in an `application` model point to earlier defined attributes.
+This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/89/application/grammar.html).
+
 Again, build and check your app, selecting `Beverages types` from the left menu bar:
 ![beverages types collection](./images_model/011.png)
 
-Now you are free to add or adjust the types of beverages you have in your restaurant and still be able to use those in your menu setup:
+Now you are free to add or adjust the `Beverage types` you have in your restaurant while also being able to use them in your menu setup:
 
 ![similar menu layout](./images_model/012.png)
 
-Select 'Mojito', then `Edit` (top right):
+Click on 'Mojito', click on the **Edit** button (top right):
 
 ![mojito](./images_model/013.png)
 
-And finally the magnifying glass on the right of `Beverage type`:
+and finally hit the magnifying glass on the right side of `Beverage type`:
 
 ![edit beverage type](./images_model/014.png)
 
-Here, we can edit the `Beverage type` of 'Mojito'. The collection `Beverages types` is shown just like before with `Orders`. This *graphical user interface* ***(GUI)*** is also automatically updated just by changing our model.
+Here, we can choose the `Beverage type` of 'Mojito'. The collection `Beverages types` is shown, just like the `Menu` items earlier in this tutorial.
 
 > <tutorial folder: `./_tutorial/step_04/`>
 
