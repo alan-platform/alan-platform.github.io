@@ -568,229 +568,6 @@ If we click the order, we jump to the order with its order lines.
 
 > <tutorial folder: `./_tutorial/step_04a/`>
 
-## Commands
-
-At this point in the tutorial we would like to show you the ***command*** statement. The model however doesn't necessarily need a command, therefore the example presented here is not the best usecase. Nevertheless it will give a glimpse into the structure of a command.
-With a command we can for example create nodes in a collection, provided the data is available to create the node. Having this data is achieved by deriving it from other data (more on derivations later), receiving data through an interface or ask the user to enter data. Although commonly an ***action*** is used in the later case (an action takes into account the access rights a user has, while a command does not), we will use this scenario here.
-
-In short, in our model we will add a command to gather data for placing a new order by means of a user form and then use this data to update the collection `Orders`:
-
-```js
-'Place new order': command {
-	'Provide an order number': text
-	'Where is the meal consumed?': stategroup (
-		'Outside of restaurant' { }
-		'At the restaurant' {
-			'Where is the customer seated?': text -> .'Tables'[]
-		}
-	)
-	'Order lines': collection ['Provide an order line number'] {
-		'Provide an order line number': text
-		'Item to be consumed': text -> .'Menu'[]
-		'Amount of this item': number 'units'
-	}
-} => update .'Orders' = create (
-	'Order' = @ .'Provide an order number'
-	'Order type' = switch @ .'Where is the meal consumed?' (
-		|'Outside of restaurant' => create 'Takeaway' ( )
-		|'At the restaurant' as $ => create 'In-house' (
-			'Table' = $ .'Where is the customer seated?'
-		)
-	)
-	'Order lines' = walk @ .'Order lines' as $ (
-		create (
-			'Order line' = $ .'Provide an order line number'
-			'Item' = $ .'Item to be consumed'
-			'Amount' = $ .'Amount of this item'
-		)
-	)
-)
-```
-
-That's a lot to take in! Let's take a look at the result in the webbrowser. So, add this to the model, below `Orders`, but within `root`. Build the app and go to your browser. In the left column a button 'Place new order...' appeared:
-
-![command](./images_model/019.png)
-
-This button's title corresponds with the label of our command: `Place new order`
-Click it and fill in the fields, for example like this:
-
-![form filled](./images_model/020.png)
-
-Now click `Place new order` below the form en `Close` (top right). Then go to `Orders` and select your order:
-
-![added order](./images_model/021.png)
-
-We have successfully added an entry to the collection `Order` by providing the data in the form.
-On closer inspection of this example we can see that the selection `At the restaurant` for the question `Where is the meal consumed?` is translated into the state `In-house` of stategroup `Order type`.
-
-Let's review the added command in the model. The first part of the command looks a lot like familiar model language and actually is similar:
-```js
-'Place new order': command {
-	'Provide an order number': text
-	'Where is the meal consumed?': stategroup (
-		'Outside of restaurant' { }
-		'At the restaurant' {
-			'Where is the customer seated?': text -> .'Tables'[]
-		}
-	)
-	'Order lines': collection ['Provide an order line number'] {
-		'Provide an order line number': text
-		'Item to be consumed': text -> .'Menu'[]
-		'Amount of this item': number 'units'
-	}
-} ...
-```
-It defines the command by providing containers in between curly braces (just like when defining a collection) that can hold specific data types. Some containers also have reference constraints to control the allowable values. These references have paths starting at the node type where the command is placed, in this case `root`. So the reference constraint of `'Where is the customer seated?'` starts at `root`. Don't be fooled by this: It still is a relative node type path, but from the node type that contains the command!
-To illustrate this more clearly, let's temporarily add the command to a group `Temporary` and see how this effects the paths:
-```js
-'Temporary': group {
-	'Place new order': command {
-		'Provide an order number': text
-		'Where is the meal consumed?': stategroup (
-			'Outside of restaurant' { }
-			'At the restaurant' {
-				'Where is the customer seated?': text -> ^ .'Management' .'Tables'[]  // ^ added!!
-			}
-		)
-		'Order lines': collection ['Provide an order line number'] {
-			'Provide an order line number': text
-			'Item to be consumed': text -> ^ .'Menu'[]             // ^ added!!
-			'Amount of this item': number 'units'
-		}
-		'Apply discount?': stategroup (
-			'Yes' {
-				'Discount period': text -> ^ .'Management' .'Discount periods'[]  // ^ added!!
-			}
-			'No' { }
-		)
-	} => update ^ .'Orders' = create (                // ^ added!!
-		'Order' = @ .'Provide an order number'
-		'Order type' = switch @ .'Where is the meal consumed?' (
-			|'Outside of restaurant' => create 'Takeaway' ( )
-			|'At the restaurant' as $ => create 'In-house' (
-				'Table' = $ .'Where is the customer seated?'
-			)
-		)
-		'Order lines' = walk @ .'Order lines' as $ (
-			create (
-				'Order line' = $ .'Provide an order line number'
-				'Item' = $ .'Item to be consumed'
-				'Amount' = $ .'Amount of this item'
-				'Line status' = create 'Placed' ( )
-			)
-		)
-		'Order status' = create 'Open' ( )
-		'Discount applicable' = switch @ .'Apply discount?' (
-			|'Yes' as $ => create 'Yes' (
-				'Discount period' = $ .'Discount period'
-			)
-			|'No' => create 'No' ( )
-		)
-	)
-}
-```
-This change makes it necessary to add `^` to the paths, as indicated in the four comment lines, and shows that the paths are relative, but from the node type where the command is defined, in this case the node type `Temporary`.
-Please revert the model to the original state to undo this example.
-
-All these containers are called the ***parameters*** of the command.
-Although the labels are different, the structure of the command definition is the same as the collection `Orders`. In this case we want to manipulate this collection with the command and often the command definition is identical to the definition of that collection.
-The parameters (containers within the command definition) correspond with the fields in the GUI-form to be filled in and thus hold the inserted values after submitting the form.
-The values of the parameters together form a ***parameter node*** that can be accessed.
-
-Then the second part of the command, the *command implementation* starts with:
-```js
-... => update .'Orders' ...
-```
-It consists of a double arrow ( ***=>*** ), the word ***update*** and a (relative!) node type path. The double arrow can be read as 'do this'. Update means we want to update a collection or stategroup. And the path points to the collection or stategroup we want to update with the provided data, in this case collection `Orders`.
-Instead of update we can also use these key words: *switch*, *ignore*, *walk*, *execute* and *external*, each with their own definition and required structure that should follow the key word. Let's stick with update for now, since we want to update the specified collection with the provided data, but just so you know there are many more possibilities.
-
-The command implementation ends with:
-```js
-			... = create ( ... )
-```
-This tells us what the update should be about: 'the update is ( ***=*** ) the creation (***create***) of a node.
-The key word *create* can be replaced by only the key word ***ensure***. Create will check if an entry in the target collection already exists (if there is a node that is similar to the values the user filled in). If so, an error will be thrown and the command will be aborted. Otherwise, the new node is created.
-Ensure will also create the node, but if it already existed it will overwrite its data.
-
-And lastly, the part between the parentheses of the key word *create*:
-```js
-'Order' = @ .'Provide an order number'
-'Order type' = switch @ .'Where is the meal consumed?' (
-	|'Outside of restaurant' => create 'Takeaway' ( )
-	|'At the restaurant' as $ => create 'In-house' (
-		'Table' = $ .'Where is the customer seated?'
-	)
-)
-'Order lines' = walk @ .'Order lines' as $ (
-	create (
-		'Order line' = $ .'Provide an order line number'
-		'Item' = $ .'Item to be consumed'
-		'Amount' = $ .'Amount of this item'
-	)
-)
-```
-The containers `Order`, `Order type` and `Order lines` within the collection `Orders` are equated with a parameter defined in the command, much like this:
-```js
-'container in collection' = @ .'parameter of command'
-```
-This means access the parameter node, lookup the specified value (inserted in the form by the user) and copy it to the container of the collection. The symbol ***@*** is used here to tell the compiler a given path is within the command definition. Otherwise the compiler will consider these paths as within `root`.
-As an experiment to show you how the compiler responds without this symbol, remove the @ in this line: `'Order' = @ .'Provide an order number'` and build the model. The compiler will throw an error telling you it can't find `Provide an order numer` in 'attributes' and will show what it does find in 'attributes', in this case `root`.
-
-Additionally, we see two new key words: ***switch*** and ***walk***. Let's discuss switch:
-```js
-'Order type' = switch @ .'Where is the meal consumed?' (
-	|'Outside of restaurant' => create 'Takeaway' ( )
-	|'At the restaurant' as $ => create 'In-house' ( ... )
-)
-```
-Since we don't know which selection the user has made we need a way to link al possible states of the input (parameter) stategroup with all possible states of the output stategroup. The statement switch expresses that, depending on the state of the stategroup `Where is the meal consumed?`, we want to switch between possible states of `Order type`.
-You can read it like this:
-***"*** If the state of `Where is the meal consumed?` is `Outside of restaurant`, then 'do this': create the state `Takeaway` for stategroup `Order type`. If the state of `Where is the meal consumed?` is `At the restaurant`, then 'do this': create the state `In-house` for stategroup `Order type`. ***"***
-
-It doesn't end there, because if the customer wants to eat at the restaurant we need to know at what table the customer is seated. The meaning of:
-```js
-	|'At the restaurant' as $ ...
-```
-is to say: Temporarily store the contents of the parameter node of the state 'At the restaurant' as $. The ***\$-symbol*** is like a sticky note with all the values within the node written down on it. The node type of this state ({...}) is defined in the command definition as:
-```js
-'At the restaurant' {
-	'Where is the customer seated?': text -> .'Management' .'Tables'[]
-}
-```
-With `$` we thus have access to the value of `Where is the customer seated?`.
-
-Then when the state `In-house` is created we have to fill the node by providing the value for `Table`:
-```js
-=> create 'In-house' (
-		'Table' = $ .'Where is the customer seated?'
-	)
-```
-Here we refer to the temporarily stored node of state `At the restaurant` as `$` and of that node we refer to the (one and only) container `Where is the customer seated?` (Look at the sticky note and provide the value of `Where is the customer seated?`).
-Next time we use the command to create a new order, these values can be different, therefore we only need to store these values temporarily. The goal of our command is to permanently store these values in a new node in the collection `Orders`.
-
-Let's look at walk:
-```js
-'Order lines' = walk @ .'Order lines' as $ (
-	create ( ... )
-)
-```
-The statement walk, followed by the node type path, expresses that we want to 'walk along' all entries in the parameter collection `Order lines`. The statements between the parentheses are evaluated for each of the entries in the collection. In this case for each entry in the parameter collection `Order lines` a node is created in the collection `Order lines` according to the supplied structure and values.
-Again, the $-symbol is used to temporarily store each node within the collection `Order lines`.
-So once we start to create the node in the collection `Order lines`, we derive the values for each container within the node by refering to \$ and from this \$ we want a specific container.
-```js
-		'Order line' = $ .'Provide an order line number'
-		'Item' = $ .'Item to be consumed'
-		'Amount' = $ .'Amount of this item'
-```
-
-The use of the $-symbol is not restricted to commands and can be applied throughout a model to refer to temporarily stored nodes or states.
-
-As mentioned before, this is only an example of a command. Commands are commonly used to automatically create or change nodes or states without bothering the user with this or to transmit data from one app to another through an interface. More on the use of commands in interfaces in the tutorial 'Interfaces'.
-
-> <tutorial folder: `./_tutorial/step_04b/`>
-
->Before we continu with the next topic it is good to know that *reference-set* and *command* are also considered possible *attributes* for a container. The previously mentioned types *text*, *number*, *file*, *collection*, *stategroup* and *group* are more specifically *property attributes*, in short ***properties***, of the container. This in contrast to the *attributes* *reference-set* and *command*.
-
 ## Derivations: numbers
 Our customers in the restaurant have to pay us, and for that we need to compute the cost of their orders.
 Let's start with the `Line total`: the cost of a single `Order line`:
@@ -1151,6 +928,229 @@ Build the model again and you'll notice that the compiler is at ease with this. 
 Please revert your model to the previous state, because this example is not good practice: For good readability of your model it is best to stick to the rule that whatever you would like to reference has to come first in your model.
 
 In some situations we can't avoid needing `downstream`, for example as we've seen with the reference-set `Orders` in collection `Tables` (discusse in the topic 'Reference set'). There we need to add `downstream` to this reference-set to make the compiler find the referenced property `Table`, because `Table` needs to be below collection `Tables` to be able to reference it.
+
+## Commands
+At this point in the tutorial we would like to show you the ***command*** statement. The model however doesn't necessarily need a command, therefore the example presented here is not the best usecase. Nevertheless it will give a glimpse into the structure of a command.
+With a command we can for example create nodes in a collection, provided the data is available to create the node. Having this data is achieved by deriving it from other data (more on derivations later), receiving data through an interface or ask the user to enter data. Although commonly an ***action*** is used in the later case (an action takes into account the access rights a user has, while a command does not), we will use this scenario here.
+
+In short, in our model we will add a command to gather data for placing a new order by means of a user form and then use this data to update the collection `Orders`:
+
+```js
+'Place new order': command {
+	'Provide an order number': text
+	'Where is the meal consumed?': stategroup (
+		'Outside of restaurant' { }
+		'At the restaurant' {
+			'Where is the customer seated?': text -> .'Management'.'Tables'[]
+		}
+	)
+	'Order lines': collection ['Provide an order line number'] {
+		'Provide an order line number': text
+		'Item to be consumed': text -> .'Menu'[]
+		'Amount of this item': number 'units'
+	}
+} => update .'Orders' = create (
+	'Order' = @ .'Provide an order number'
+	'Order type' = switch @ .'Where is the meal consumed?' (
+		|'Outside of restaurant' => create 'Takeaway' ( )
+		|'At the restaurant' as $ => create 'In-house' (
+			'Table' = $ .'Where is the customer seated?'
+		)
+	)
+	'Order lines' = walk @ .'Order lines' as $ (
+		create (
+			'Order line' = $ .'Provide an order line number'
+			'Item' = $ .'Item to be consumed'
+			'Amount' = $ .'Amount of this item'
+		)
+	)
+	'Discount applicable' = create 'No' ( )
+)
+```
+
+That's a lot to take in! Let's take a look at the result in the webbrowser. So, add this to the model, below `Orders`, but within `root`. Build the app and go to your browser. In the left column a button 'Place new order...' appeared:
+
+![command](./images_model/019.png)
+
+This button's title corresponds with the label of our command: `Place new order`
+Click it and fill in the fields, for example like this:
+
+![form filled](./images_model/020.png)
+
+Now click `Place new order` below the form en `Close` (top right). Then go to `Orders` and select your order:
+
+![added order](./images_model/021.png)
+
+We have successfully added an entry to the collection `Order` by providing the data in the form.
+On closer inspection of this example we can see that the selection `At the restaurant` for the question `Where is the meal consumed?` is translated into the state `In-house` of stategroup `Order type`.
+
+Let's review the added command in the model. The first part of the command looks a lot like familiar model language and actually is similar:
+```js
+'Place new order': command {
+	'Provide an order number': text
+	'Where is the meal consumed?': stategroup (
+		'Outside of restaurant' { }
+		'At the restaurant' {
+			'Where is the customer seated?': text -> .'Tables'[]
+		}
+	)
+	'Order lines': collection ['Provide an order line number'] {
+		'Provide an order line number': text
+		'Item to be consumed': text -> .'Menu'[]
+		'Amount of this item': number 'units'
+	}
+} ...
+```
+It defines the command by providing containers in between curly braces (just like when defining a collection) that can hold specific data types. Some containers also have reference constraints to control the allowable values. These references have paths starting at the node type where the command is placed, in this case `root`. So the reference constraint of `'Where is the customer seated?'` starts at `root`. Don't be fooled by this: It still is a relative node type path, but from the node type that contains the command!
+To illustrate this more clearly, let's temporarily add the command to a group `Temporary` and see how this effects the paths:
+```js
+'Temporary': group {
+	'Place new order': command {
+		'Provide an order number': text
+		'Where is the meal consumed?': stategroup (
+			'Outside of restaurant' { }
+			'At the restaurant' {
+				'Where is the customer seated?': text -> ^ .'Management' .'Tables'[]  // ^ added!!
+			}
+		)
+		'Order lines': collection ['Provide an order line number'] {
+			'Provide an order line number': text
+			'Item to be consumed': text -> ^ .'Menu'[]             // ^ added!!
+			'Amount of this item': number 'units'
+		}
+		'Apply discount?': stategroup (
+			'Yes' {
+				'Discount period': text -> ^ .'Management' .'Discount periods'[]  // ^ added!!
+			}
+			'No' { }
+		)
+	} => update ^ .'Orders' = create (                // ^ added!!
+		'Order' = @ .'Provide an order number'
+		'Order type' = switch @ .'Where is the meal consumed?' (
+			|'Outside of restaurant' => create 'Takeaway' ( )
+			|'At the restaurant' as $ => create 'In-house' (
+				'Table' = $ .'Where is the customer seated?'
+			)
+		)
+		'Order lines' = walk @ .'Order lines' as $ (
+			create (
+				'Order line' = $ .'Provide an order line number'
+				'Item' = $ .'Item to be consumed'
+				'Amount' = $ .'Amount of this item'
+				'Line status' = create 'Placed' ( )
+			)
+		)
+		'Order status' = create 'Open' ( )
+		'Discount applicable' = switch @ .'Apply discount?' (
+			|'Yes' as $ => create 'Yes' (
+				'Discount period' = $ .'Discount period'
+			)
+			|'No' => create 'No' ( )
+		)
+	)
+}
+```
+This change makes it necessary to add `^` to the paths, as indicated in the four comment lines, and shows that the paths are relative, but from the node type where the command is defined, in this case the node type `Temporary`.
+Please revert the model to the original state to undo this example.
+
+All these containers are called the ***parameters*** of the command.
+Although the labels are different, the structure of the command definition is the same as the collection `Orders`. In this case we want to manipulate this collection with the command and often the command definition is identical to the definition of that collection.
+The parameters (containers within the command definition) correspond with the fields in the GUI-form to be filled in and thus hold the inserted values after submitting the form.
+The values of the parameters together form a ***parameter node*** that can be accessed.
+
+Then the second part of the command, the *command implementation* starts with:
+```js
+... => update .'Orders' ...
+```
+It consists of a double arrow ( ***=>*** ), the word ***update*** and a (relative!) node type path. The double arrow can be read as 'do this'. Update means we want to update a collection or stategroup. And the path points to the collection or stategroup we want to update with the provided data, in this case collection `Orders`.
+Instead of update we can also use these key words: *switch*, *ignore*, *walk*, *execute* and *external*, each with their own definition and required structure that should follow the key word. Let's stick with update for now, since we want to update the specified collection with the provided data, but just so you know there are many more possibilities.
+
+The command implementation ends with:
+```js
+			... = create ( ... )
+```
+This tells us what the update should be about: 'the update is ( ***=*** ) the creation (***create***) of a node.
+The key word *create* can be replaced by only the key word ***ensure***. Create will check if an entry in the target collection already exists (if there is a node that is similar to the values the user filled in). If so, an error will be thrown and the command will be aborted. Otherwise, the new node is created.
+Ensure will also create the node, but if it already existed it will overwrite its data.
+
+And lastly, the part between the parentheses of the key word *create*:
+```js
+'Order' = @ .'Provide an order number'
+'Order type' = switch @ .'Where is the meal consumed?' (
+	|'Outside of restaurant' => create 'Takeaway' ( )
+	|'At the restaurant' as $ => create 'In-house' (
+		'Table' = $ .'Where is the customer seated?'
+	)
+)
+'Order lines' = walk @ .'Order lines' as $ (
+	create (
+		'Order line' = $ .'Provide an order line number'
+		'Item' = $ .'Item to be consumed'
+		'Amount' = $ .'Amount of this item'
+	)
+)
+```
+The containers `Order`, `Order type` and `Order lines` within the collection `Orders` are equated with a parameter defined in the command, much like this:
+```js
+'container in collection' = @ .'parameter of command'
+```
+This means access the parameter node, lookup the specified value (inserted in the form by the user) and copy it to the container of the collection. The symbol ***@*** is used here to tell the compiler a given path is within the command definition. Otherwise the compiler will consider these paths as within `root`.
+As an experiment to show you how the compiler responds without this symbol, remove the @ in this line: `'Order' = @ .'Provide an order number'` and build the model. The compiler will throw an error telling you it can't find `Provide an order numer` in 'attributes' and will show what it does find in 'attributes', in this case `root`.
+
+Additionally, we see two new key words: ***switch*** and ***walk***. Let's discuss switch:
+```js
+'Order type' = switch @ .'Where is the meal consumed?' (
+	|'Outside of restaurant' => create 'Takeaway' ( )
+	|'At the restaurant' as $ => create 'In-house' ( ... )
+)
+```
+Since we don't know which selection the user has made we need a way to link al possible states of the input (parameter) stategroup with all possible states of the output stategroup. The statement switch expresses that, depending on the state of the stategroup `Where is the meal consumed?`, we want to switch between possible states of `Order type`.
+You can read it like this:
+***"*** If the state of `Where is the meal consumed?` is `Outside of restaurant`, then 'do this': create the state `Takeaway` for stategroup `Order type`. If the state of `Where is the meal consumed?` is `At the restaurant`, then 'do this': create the state `In-house` for stategroup `Order type`. ***"***
+
+It doesn't end there, because if the customer wants to eat at the restaurant we need to know at what table the customer is seated. The meaning of:
+```js
+	|'At the restaurant' as $ ...
+```
+is to say: Temporarily store the contents of the parameter node of the state 'At the restaurant' as $. The ***\$-symbol*** is like a sticky note with all the values within the node written down on it. The node type of this state ({...}) is defined in the command definition as:
+```js
+'At the restaurant' {
+	'Where is the customer seated?': text -> .'Management' .'Tables'[]
+}
+```
+With `$` we thus have access to the value of `Where is the customer seated?`.
+
+Then when the state `In-house` is created we have to fill the node by providing the value for `Table`:
+```js
+=> create 'In-house' (
+		'Table' = $ .'Where is the customer seated?'
+	)
+```
+Here we refer to the temporarily stored node of state `At the restaurant` as `$` and of that node we refer to the (one and only) container `Where is the customer seated?` (Look at the sticky note and provide the value of `Where is the customer seated?`).
+Next time we use the command to create a new order, these values can be different, therefore we only need to store these values temporarily. The goal of our command is to permanently store these values in a new node in the collection `Orders`.
+
+Let's look at walk:
+```js
+'Order lines' = walk @ .'Order lines' as $ (
+	create ( ... )
+)
+```
+The statement walk, followed by the node type path, expresses that we want to 'walk along' all entries in the parameter collection `Order lines`. The statements between the parentheses are evaluated for each of the entries in the collection. In this case for each entry in the parameter collection `Order lines` a node is created in the collection `Order lines` according to the supplied structure and values.
+Again, the $-symbol is used to temporarily store each node within the collection `Order lines`.
+So once we start to create the node in the collection `Order lines`, we derive the values for each container within the node by refering to \$ and from this \$ we want a specific container.
+```js
+		'Order line' = $ .'Provide an order line number'
+		'Item' = $ .'Item to be consumed'
+		'Amount' = $ .'Amount of this item'
+```
+
+The use of the $-symbol is not restricted to commands and can be applied throughout a model to refer to temporarily stored nodes or states.
+
+As mentioned before, this is only an example of a command. Commands are commonly used to automatically create or change nodes or states without bothering the user with this or to transmit data from one app to another through an interface. More on the use of commands in interfaces in the tutorial 'Interfaces'.
+
+> <tutorial folder: `./_tutorial/step_06b/`>
+
+>Before we continu with the next topic it is good to know that *reference-set* and *command* are also considered possible *attributes* for a container. The previously mentioned types *text*, *number*, *file*, *collection*, *stategroup* and *group* are more specifically *property attributes*, in short ***properties***, of the container. This in contrast to the *attributes* *reference-set* and *command*.
 
 ## Extensions and GUI annotations
 
