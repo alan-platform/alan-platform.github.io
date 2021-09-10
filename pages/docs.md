@@ -5,11 +5,15 @@ category: main
 permalink: /docs/
 ---
 
+### To get started with Alan:
 - [An introduction to Alan](/pages/tuts/introducing.html)
+- [**Tutorial A**: an IDE for Alan](/pages/tutorials/ide-tutorial.html)
+- [**Tutorial B**: a Restaurant Management app](/pages/tutorials/application-tutorial.html)
 - [The Alan stack from the bottom up](/pages/tuts/bottom-up.html)
-- [**Getting started**](/pages/tuts/getting-started.html) with the Alan IDE: a tutorial
-- Background information on [the syntax](/pages/tuts/syntax.html)
 
+### Other useful resources:
+- Background information on [the syntax](/pages/tuts/syntax.html)
+- An [older tutorial](/pages/tuts/getting-started.html) with useful information about migrations
 
 
 <a name="languages"></a>

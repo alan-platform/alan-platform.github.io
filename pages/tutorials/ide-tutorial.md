@@ -8,7 +8,7 @@ category: docs
 {:toc}
 
 ## Introduction
-In this tutorial you'll get familiar with the environment in which application on the Alan platform are created.
+In this tutorial you'll get familiar with the environment for creating Alan applications.
 
 ## Application for building applications
 For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognises the Alan code, and many other useful tools.
@@ -75,5 +75,5 @@ After deploying your work, you can find the latest published version of your app
 More information about Visual Studio Code can be found [here](https://code.visualstudio.com/).
 
 ## Next up
-Now you are all set to get started with the `application` language tutorial, which can be found [here](https://alan-platform.com/pages/tutorials/model%20tutorial.html). Good luck!
+Now you are all set to get started with the `application` language tutorial, which can be found [here](/pages/tutorials/application-tutorial.html). Good luck!
 

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Application Tutorial: a Restaurant App"
+title: "Application Tutorial:<br>a Restaurant app"
 category: docs
 version: 89
 ---
@@ -10,7 +10,7 @@ version: 89
 
 ## Introduction
 This tutorial aims to give you a basis for working with the application language: the main language for building Alan apps.
-Before you get started, make sure that you have completed the [IDE tutorial](/pages/tutorials/IDE%20tutorial.html).
+Before you get started, make sure that you have completed the [IDE tutorial](/pages/tutorials/ide-tutorial.html).
 
 By means of a story we will take you along several topics and build up the model at the same time. At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
 
