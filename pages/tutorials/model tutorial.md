@@ -255,7 +255,7 @@ You have to copy the `migration.alan` for the step that you are working on, to `
 > <tutorial folder: `./_tutorial/step_02/`>
 
 ## Expand the model
-Our restaurant is more than just a menu. We also have `Tables`; let's describe that in our model:
+Our restaurant is more than just a menu. We also have `Tables`; let's express that in our model:
 ```js
 root {
 	'Menu': collection ['Item name'] {
@@ -331,42 +331,49 @@ There's an interesting line in the model that needs our attention:
 ```js
 'Item': text -> ^ ^ .'Menu'[]
 ```
-This line seems to somehow relate the container `Item` (within the collection `Tables`) with the collection `Menu`.
-`Menu` and `Tables` are collections on the same level, both contained within `Root`.
-Let's explain by going to the application first.
-Select a table from the list (shown in the previous image) and click `Add` in the line `Orders`:
+This line says that an `Item` on an order from a table refers to a `Menu` item.
+First, let's see what this means for our application.
+
+Click on `Tables` on the left hand side.
+Click on a table from the list (shown in the previous image) and then click the **Add** button next to `Orders`:
 
 ![table number](./images_model/006.png)
 
-Enter an `Order line` ("01" since its the first order from this table):
+Enter an `Order line`, like "01" since its the first order from this table:
 
 ![order line](./images_model/007.png)
 
-Now select the magnifying glass on the right of `Item` and you'll see this:
+Now, click the magnifying glass next to the field for `Item` and you'll see this:
 
 ![menu items](./images_model/008.png)
 
-Here we see the items of `Menu` and we can select an item from the table.
-Or, if we start typing in the box `Item name` the table will be filtered.
-We can only choose an item that is in the table, specifically in the column `Item name`.
-This is the result of that line in the model: An `Item` is constraint to the entries in the referenced collection `Menu`.
-Formally, this is known as a (mandatory) ***reference (constraint)*** and is used in the model by typing this arrow **`->`**.
-A reference (constraint) always references a node type by supplying a path to the node type.
-A ***node type path*** uniquely identifies every node type in the model from the `root` (eg. `.'Menu'` which is short for `root .'Menu'`).
-The reference can only be applied to a container with type *text* (eg. `Item`). It can't be applied to the types *number*, *file*, *collection*, *stategroup* or *group*.
-Also notice the square brackets `[` and `]` behind `.'Menu'`.
-This implies that we refer to one unspecified node in the collection `Menu` which is identified by the value of the key `Item name` of the collection `Menu`.
-As mentioned earlier this is the ***key value*** of the selected node: `Item` has the value 'Beef stew' after selecting it, as presented in this image:
+Here we see the items from the `Menu` and we can choose an item from the table.
+Or, if we start typing in the box `Item name`, the table will be filtered.
+We can only choose an item that is in the table.
+When we click an item, the `Item name` from the item we clicked will be placed in the text field.
 
 ![beef stew](./images_model/009.png)
 
-Once models get more complex this construction is very powerful, because by knowing the key value we can get information from within the node that is identified by this key value.
-In our case, by knowing table 'T01' ordered 2 'Beef stews' and by definition of the collection `Menu` knowing that a 'Beef stew' has a price of '18 Euro' we could calculate that this table needs to pay 36 Euro at this point in time.
+As explained above, the `Item name` is the key value of the `Menu` item.
+It uniquely identifies a `Menu` item, and we can therefore use it to unambiguously reference an item.
+With the lock-symbol you can now follow the reference from `Beef stew` to the actual `Menu` item.
 
->Next to `Item` being defined as of type text it is additionally being defined by its (mandatory) reference to `Menu`: Values of `Item` can only consist of key values from `Menu`.
-This extention of the definition of `Item` is also an important concept of the Alan platform.
+Notice that the field for `Item` must contain the `Item name` of a `Menu` item such as `Beef stew`.
+Other values are not accepted by your application.
+This is because in our model, we have used this arrow keyword `->`, which is for **mandatory** references (also: constraints).
 
-Entering an amount and selecting `Save` gives this result:
+The navigation expression that follows the `->` in the model, expresses how the application can find the collection holding `Menu` items.
+The keyword `^` means: go to the parent node.
+For an `Orders` item, the parent node is a `Tables` item.
+Then we have another `^`, so the application knows another parent step is required: from the `Tables` item to the `root` node. The `root` node holds the collection of `Menu` items.
+To instruct the application to look in that collection, the expression concludes with `.'Menu'[]`.
+Which means: look up the `Item` value in the `Menu` collection.
+
+> **In summary**, the expression states that `Item` is a text value and references a `Menu` item. Therefore, the text value of an item has to equal the `Item name` (key value) of a `Menu` item.
+
+---
+
+Entering an amount and clicking `Save` gives this result:
 
 ![first order line](./images_model/010.png)
 
