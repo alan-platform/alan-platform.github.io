@@ -98,12 +98,12 @@
 				"pages/docs/relational-database-bridge/101/database/grammar.html",
 				"pages/docs/relational-database-bridge/101/database_transformation/grammar.html",
 				"pages/docs/sql-mirror/85/sql_mapping/grammar.html",
-				"pages/docs/webclient/seven.5/gui_model/grammar.html",
-				"pages/docs/webclient/seven.5/phrases/grammar.html",
-				"pages/docs/webclient/seven.5/settings/grammar.html",
-				"pages/docs/webclient/seven.5/translations/grammar.html",
-				"pages/docs/webclient/seven.5/views/grammar.html",
-				"pages/docs/webclient/seven.5/widget/grammar.html",
+				"pages/docs/webclient/seven.5.0/gui_model/grammar.html",
+				"pages/docs/webclient/seven.5.0/phrases/grammar.html",
+				"pages/docs/webclient/seven.5.0/settings/grammar.html",
+				"pages/docs/webclient/seven.5.0/translations/grammar.html",
+				"pages/docs/webclient/seven.5.0/views/grammar.html",
+				"pages/docs/webclient/seven.5.0/widget/grammar.html",
 				"pages/docs/project-build-environment/34/wiring/grammar.html",
 				"pages/docs/project-build-environment/34/deployment/grammar.html"
 			]
