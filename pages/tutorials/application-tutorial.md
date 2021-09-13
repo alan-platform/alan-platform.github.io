@@ -404,7 +404,8 @@ For example, suppose for a second that our application imports a menu from two o
 
 <sup>NOTE: in `application` language `where`-rules that require a lookup in a collection can currently not be mandatory; only the main reference (expressed by `-> .'Menu'[]` can be mandatory. Support may be added in future versions.</sup>
 
-The `where`-rules can also be used for states of a `stategroup` attribute. More on this in the topic [Advanced references](#advanced-references).
+The `where`-rules can also be used for states of a `stategroup` attribute. More on this in a next tutorial.
+<!-- topic [Advanced references](#advanced-references). -->
 
 
 ## States versus references
