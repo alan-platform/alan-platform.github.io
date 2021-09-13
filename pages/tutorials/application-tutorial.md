@@ -336,7 +336,7 @@ This line says that an `Item` on an order from a table refers to a `Menu` item.
 First, let's see what this means for our application.
 
 Click on `Tables` on the left hand side.
-Click on a table from the list (shown in the previous image) and then click the **Add** button next to `Orders`:
+Click table "T01" from the list (shown in the previous image) and then click the **Add** button next to `Orders`:
 
 ![table number](./images_model/006.png)
 
