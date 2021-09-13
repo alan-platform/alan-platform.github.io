@@ -407,7 +407,7 @@ For example, suppose for a second that our application imports a menu from two o
 The `where`-rules can also be used for states of a `stategroup` attribute. More on this in the topic [Advanced references](#advanced-references).
 
 
-## Rewrite 1: states versus references
+## States versus references
 Hopefully by now you can 'read' this model and understand its components and structure.
 Meanwhile our restaurant is in full swing, so no time to waste!
 
@@ -491,10 +491,11 @@ Here, we can choose the `Beverage type` of 'Mojito'. The collection `Beverages t
 
 ## Next
 This concludes the introductory tutorial into the `application` language, and hopefully begins your journey in the world of Alan.
-We've only touched the basics; there is still a lot to discover.
+We've only touched the basics: you can now create your own data model and generate an app for it.
+But, there is still a lot to discover.
 
-An additional tutorial for the `application language` will be made available soon.
-In that tutorial we will show you how you can express computed values, use commands, and more.
+An additional tutorial for the `application` language will be made available soon.
+In that tutorial we will show you how you can express computed values, commands, and more.
 
 For now, to learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/89/application/grammar.html).
 The documentation gives an overview of *all* features that the `application` language supports.
