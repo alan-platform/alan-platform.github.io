@@ -156,7 +156,7 @@ The data from the menu is already there. You can add some data yourself by click
 Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
 That will bring you back to the `Menu` table, where you can `Add` more data and modify existing `Menu` items.
 
-> <tutorial folder: `./_tutorial/step_01/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_01/`>
 
 ## Numerical-types
 Maybe you've noticed that when you enter a number with decimals, the price is rounded to a whole number:
@@ -252,7 +252,7 @@ For this tutorial we provide migration files for each topic, that you can find i
 You have to copy the `migration.alan` for the step that you are working on, to `migrations\initialization\migration.alan` before deploying your app.
 <!-- More information on migrations can be found in the tutorial *Migrations and deployments*. -->
 
-> <tutorial folder: `./_tutorial/step_02/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_02/`>
 
 ## Built-in attribute types
 Our restaurant is more than just a menu. We also have `Tables`; let's express that in our model:
@@ -314,7 +314,7 @@ In the left column we see that `Tables` is parent to the child `Orders`, just li
  we have specified a collection attribute `Tables` that nests a collection attribute `Orders`.
 This means that in the app, each `Tables` item can have its own collection of `Orders`.
 
-> <tutorial folder: `./_tutorial/step_03/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_03/`>
 
 ### Overview of attribute types
 {:.no_toc}
@@ -486,7 +486,7 @@ and finally hit the magnifying glass on the right side of `Beverage type`:
 
 Here, we can choose the `Beverage type` of 'Mojito'. The collection `Beverages types` is shown, just like the `Menu` items earlier in this tutorial.
 
-> <tutorial folder: `./_tutorial/step_04/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_04/`>
 
 ## Reference sets
 You decided that your restaurant will also provide a take-away service. This means adjusting the model accordingly. Let's see what is needed.
@@ -566,7 +566,7 @@ We can see that `Order` '001' is using table 'T03':
 
 If we click the order, we jump to the order with its order lines.
 
-> <tutorial folder: `./_tutorial/step_04a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_04a/`>
 
 ## Derivations: numbers
 Our customers in the restaurant have to pay us, and for that we need to compute the cost of their orders.
@@ -750,7 +750,7 @@ Examples of absolute and relative numbers:
 
 So far we've seen number derivations, but we can also derive other types of data.
 
-> <tutorial folder: `./_tutorial/step_04c/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_04c/`>
 
 ## Rewrite 2: more derivations
 To show examples of other types of derivation we need to create a more intricate model.
@@ -790,7 +790,7 @@ Rename the number property `Total` for `Orders` to `Subtotal`, because the new `
 'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
 ```
 
-> <tutorial folder: `./_tutorial/step_05/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_05/`>
 
 ## Derivations: conditional expressions
 
@@ -890,7 +890,7 @@ Here's the result of our work:
 
 Derivations come in several forms and are powerful tools. We've shown you some examples, but want to provide an in depth overview in the *Derivations tutorial*.
 
-> <tutorial folder: `./_tutorial/step_06/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_06/`>
 
 ## Upstream and downstream
 
@@ -1148,7 +1148,7 @@ The use of the $-symbol is not restricted to commands and can be applied through
 
 As mentioned before, this is only an example of a command. Commands are commonly used to automatically create or change nodes or states without bothering the user with this or to transmit data from one app to another through an interface. More on the use of commands in interfaces in the tutorial 'Interfaces'.
 
-> <tutorial folder: `./_tutorial/step_06b/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_06b/`>
 
 >Before we continu with the next topic it is good to know that *reference-set* and *command* are also considered possible *attributes* for a container. The previously mentioned types *text*, *number*, *file*, *collection*, *stategroup* and *group* are more specifically *property attributes*, in short ***properties***, of the container. This in contrast to the *attributes* *reference-set* and *command*.
 
@@ -1274,7 +1274,7 @@ Finally, let's create a group `Service` and add `Menu`, `Orders` and `Place new 
 
 As you might have noticed it is easy to make adjustments to your model: Moving a block of code, adding a derivation or property, changing the layout and applying a GUI annotation. Finetuning your model is quite easy without losing the integrity of your data.
 
-> <tutorial folder: `./_tutorial/step_07/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_07/`>
 
 
 ## State machines
@@ -1362,7 +1362,7 @@ Check out the app:
 ![All served?](./images_model/028.png)
 ![All served!](./images_model/029.png)
 
-> <tutorial folder: `./_tutorial/step_08/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_08/`>
 
 ## Advanced references
 Before we get to the advaced part we add some more common lines to the model.
@@ -1526,7 +1526,7 @@ Here is the result of ouw efforts in the app:
 
 The example is a bit far fetched but it gives a preview into how intricate models can become.
 
-> <tutorial folder: `./_tutorial/step_09/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_09/`>
 
 ## More advanced references
 We haven't even touched on the subject 'kitchen' yet. The kitchen is where ingredients are turned into dishes. Basic ingredients need to be in stock, prices of products need to be monitored, etc. Let's start easy and create a seperate group `Kitchen` (between `Management` and `Service`), a collection `Products` and a stategroup that show if a product is a basic ingredient or a composed product (for example a dish):
@@ -1758,7 +1758,7 @@ The definition of `Item name` is extended with a reference to the collection `Pr
 If you want to add an item to the menu, you can now select from a list:
 ![Menu items](./images_model/037.png)
 
-> <tutorial folder: `./_tutorial/step_10/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_10/`>
 
 ## The End
 This concludes the introductory tutorial into the `application` language, and hopefully begins your journey in the world of Alan.
