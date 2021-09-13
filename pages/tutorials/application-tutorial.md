@@ -42,7 +42,7 @@ A restaurant is nothing without a good menu. So, first, let's take a look at the
 
 | *Dessert* | *Price (€)* |
 | :- | :-: |
-| Chocolate mouse | 4,50 |
+| Chocolate mousse | 4,50 |
 | Vanilla ice cream | 3,50 |
 | Cherry pie | 4 |
 
@@ -70,9 +70,9 @@ If we want to store the menu in Alan application, we can start with this Alan mo
 }
 ```
 
-This small, unfinished model tells us that a `Menu` is a **collection**: a collection of `Menu` items. Each menu item has an `Item name` and a `Selling price`. Each menu item can be uniquely identified by its `Item name`, like 'Chocolate mouse'. `['Item name']` after `collection` expresses that: `Item Name` is the **key attribute**. An `Item Name` such as 'Chocolate mouse' is a **key** of a `Menu` item.
+This small, unfinished model tells us that a `Menu` is a **collection**: a collection of `Menu` items. Each menu item has an `Item name` and a `Selling price`. Each menu item can be uniquely identified by its `Item name`, like 'Chocolate mousse'. `['Item name']` after `collection` expresses that: `Item Name` is the **key attribute**. An `Item Name` such as 'Chocolate mousse' is a **key** of a `Menu` item.
 
-A single `Menu` item consisting of an `Item name` and a `Selling price` is called a **node** (e.g. 'Chocolate mouse', '4,50'). So, a `Menu`-collection stores nodes (menu items). In the model, curly braces ( **{ ... }** ) and everything inbetween define the *type* of a node (`Menu` item).
+A single `Menu` item consisting of an `Item name` and a `Selling price` is called a **node** (e.g. 'Chocolate mousse', '4,50'). So, a `Menu`-collection stores nodes (menu items). In the model, curly braces ( **{ ... }** ) and everything inbetween define the *type* of a node (`Menu` item).
 
 `Item name` holds a value of type `text`: an `Item name` is a piece of text.
 
