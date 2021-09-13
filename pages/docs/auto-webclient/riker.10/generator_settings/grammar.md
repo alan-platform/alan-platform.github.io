@@ -76,7 +76,7 @@ Global settings for the user interface:
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">announcements</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary { @block indent }
+'<span class="token string">announcements</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary { }
 </pre>
 </div>
 </div>
@@ -237,7 +237,7 @@ Global settings for the user interface:
 		}
 		'<span class="token string">collection lookup</span>' {
 			'<span class="token string">collection</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">tail</span>': [ <span class="token operator">[</span> <span class="token operator">user</span>'<span class="token string"> ]</span>'] component <a href="#grammar-rule--landing-page-selector">'landing page selector'</a>
+			'<span class="token string">tail</span>': [ <span class="token operator">[</span> <span class="token operator">user</span> <span class="token operator">]</span> ] component <a href="#grammar-rule--landing-page-selector">'landing page selector'</a>
 		}
 		'<span class="token string">branches</span>' {
 			'<span class="token string">list</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--landing-page-branches">'landing page branches'</a>

@@ -32,7 +32,7 @@ type: grammar
 	)
 	'<span class="token string">report limit</span>': [ <span class="token operator">report</span> <span class="token operator">limit</span> <span class="token operator">:</span> ] integer
 	'<span class="token string">announcement title</span>': [ <span class="token operator">announcement</span> <span class="token operator">:</span> ] text
-	'<span class="token string">announcements</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary { @block indent }
+	'<span class="token string">announcements</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary { }
 }
 </pre>
 </div>
@@ -42,7 +42,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">windows</span>': [ <span class="token operator">windows</span> ] dictionary { @block indent }
+'<span class="token string">windows</span>': [ <span class="token operator">windows</span> ] dictionary { }
 </pre>
 </div>
 </div>

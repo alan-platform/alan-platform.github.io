@@ -51,7 +51,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">expression</span>': @section component <a href="#grammar-rule--expression">'expression'</a>
+'<span class="token string">expression</span>': component <a href="#grammar-rule--expression">'expression'</a>
 </pre>
 </div>
 </div>
@@ -121,7 +121,7 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget configuration node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
-	'<span class="token string">attributes</span>': dictionary { @block indent
+	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">switch client binding context</span>': stategroup (
 			'<span class="token string">yes</span>' { [ <span class="token operator">on</span> ]
 				'<span class="token string">constrained on containing binding</span>': stategroup (
@@ -178,7 +178,7 @@ type: grammar
 							'<span class="token string">no</span>' { }
 						)
 						'<span class="token string">persistence</span>': component <a href="#grammar-rule--configuration-attribute-persistence">'configuration attribute persistence'</a>
-						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent
+						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 							'<span class="token string">state default</span>': component <a href="#grammar-rule--optional-state-HACK">'optional state HACK'</a>
 							'<span class="token string">node</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
 						}
@@ -272,7 +272,7 @@ implementation.
 	'<span class="token string">has steps</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' {
-			'<span class="token string">node binding</span>': @block component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
+			'<span class="token string">node binding</span>': component <a href="#grammar-rule--widget-implementation-node">'widget implementation node'</a>
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--entries-list">'entries list'</a>
 		}
 	)
@@ -433,7 +433,7 @@ implementation.
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction argument configuration node</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
-	'<span class="token string">attributes</span>': @list dictionary @tabular {
+	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">type</span>': stategroup (
 			'<span class="token string">configuration</span>' {
 				'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
@@ -461,7 +461,7 @@ implementation.
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction list</span>' {
-	'<span class="token string">instruction selection</span>': @block component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
+	'<span class="token string">instruction selection</span>': component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
 	'<span class="token string">has steps</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' { [ <span class="token operator">,</span> ]
@@ -490,15 +490,15 @@ implementation.
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget implementation node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
 	'<span class="token string">define context</span>': stategroup (
-		'<span class="token string">yes</span>' { @block indent [ <span class="token operator">define</span> <span class="token operator">context</span> ]
+		'<span class="token string">yes</span>' { [ <span class="token operator">define</span> <span class="token operator">context</span> ]
 			'<span class="token string">context</span>': component <a href="#grammar-rule--context-selection">'context selection'</a>
-			'<span class="token string">let declarations</span>': dictionary { @block indent [ <span class="token operator">let</span> ]
+			'<span class="token string">let declarations</span>': dictionary { [ <span class="token operator">let</span> ]
 				'<span class="token string">expression</span>': [ <span class="token operator">:</span> ] component <a href="#grammar-rule--expression">'expression'</a>
 			}
 		}
 		'<span class="token string">no</span>' { }
 	)
-	'<span class="token string">attributes</span>': dictionary { @block indent
+	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">attribute</span>': component <a href="#grammar-rule--widget-implementation-attribute">'widget implementation attribute'</a>
 	}
 }
@@ -520,7 +520,7 @@ implementation.
 							'<span class="token string">instruction</span>': component <a href="#grammar-rule--instruction-selection">'instruction selection'</a>
 						}
 						'<span class="token string">list</span>' {
-							'<span class="token string">instruction list</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] @list indent component <a href="#grammar-rule--instruction-list">'instruction list'</a>
+							'<span class="token string">instruction list</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--instruction-list">'instruction list'</a>
 						}
 					)
 				}
@@ -546,7 +546,7 @@ implementation.
 						'<span class="token string">list</span>' { [ <span class="token operator">list</span> ]
 							'<span class="token string">binding type</span>': stategroup (
 								'<span class="token string">static</span>' {
-									'<span class="token string">entries</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] @list indent component <a href="#grammar-rule--entries-list">'entries list'</a>
+									'<span class="token string">entries</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--entries-list">'entries list'</a>
 								}
 								'<span class="token string">configuration</span>' {
 									'<span class="token string">context</span>': component <a href="#grammar-rule--context-selection">'context selection'</a>
@@ -598,9 +598,9 @@ implementation.
 					'<span class="token string">index</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--number-binding">'number binding'</a>
 				}
 			)
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-				'<span class="token string">true</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
-				'<span class="token string">false</span>': @block [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+				'<span class="token string">true</span>': [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
+				'<span class="token string">false</span>': [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
 			}
 		}
 		'<span class="token string">switch</span>' {
@@ -608,14 +608,14 @@ implementation.
 				'<span class="token string">configuration</span>' {
 					'<span class="token string">context</span>': component <a href="#grammar-rule--context-selection">'context selection'</a>
 					'<span class="token string">state group</span>': [ <span class="token operator">?</span> ] reference
-					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 						'<span class="token string">next</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
 					}
 				}
 				'<span class="token string">binding</span>' {
 					'<span class="token string">context</span>': component <a href="#grammar-rule--bound-context-selection">'bound context selection'</a>
 					'<span class="token string">property</span>': [ <span class="token operator">?</span> ] reference
-					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 						'<span class="token string">next</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
 					}
 				}
@@ -632,9 +632,9 @@ implementation.
 					'<span class="token string">right expression</span>': [ <span class="token operator">==</span> ] component <a href="#grammar-rule--number-binding">'number binding'</a>
 				}
 			)
-			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent group {
-				'<span class="token string">true</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
-				'<span class="token string">false</span>': @block [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
+			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+				'<span class="token string">true</span>': [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
+				'<span class="token string">false</span>': [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">-></span> ] component <a href="#grammar-rule--expression">'expression'</a>
 			}
 		}
 		'<span class="token string">sort collection</span>' {
