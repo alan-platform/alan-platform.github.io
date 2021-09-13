@@ -74,7 +74,7 @@ This small, unfinished model tells us that a `Menu` is a **collection**: a colle
 
 A single `Menu` item consisting of an `Item name` and a `Selling price` is called a **node** (e.g. 'Chocolate mouse', '4,50'). So, a `Menu`-collection stores nodes (menu items). In the model, curly braces ( **{ ... }** ) and everything inbetween define the *type* of a node (`Menu` item).
 
-`Item name` holds a value of type **text**: an `Item name` is a piece of text.
+`Item name` holds a value of type `text`: an `Item name` is a piece of text.
 
 `Selling price` holds a value of type `number`. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
 
