@@ -201,7 +201,7 @@ An `Item type` is a stategroup atttribute, which holds a choice between states: 
 Notice that you can specify attributes specific to `Dish` and `Beverage` in your model between the curly braces.
 So, depending on the state that a user chooses, different data will be stored.
 
-For example, a dish can be an appitizer, main course, or dessert.
+For example, a dish can be an appetizer, main course, or dessert.
 This again is a choice, so let's make the states available by adding the attribute `Dish type` of type `stategroup` to the state type `Dish`.
 In addition, let's do something similar for `Beverages`, such that we can neatly organize menu items in our application:
 ```js
