@@ -74,7 +74,7 @@ This small, unfinished model tells us that a `Menu` is a **collection**: a colle
 
 A single `Menu` item consisting of an `Item name` and a `Selling price` is called a **node** (e.g. 'Chocolate mouse', '4,50'). So, a `Menu`-collection stores nodes (menu items). In the model, curly braces ( **{ ... }** ) and everything inbetween define the *type* of a node (`Menu` item).
 
-`Item name` holds a value of type `text`: an `Item name` is a piece of text.
+`Item name` holds a value of type **text**: an `Item name` is a piece of text.
 
 `Selling price` holds a value of type `number`. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
 
@@ -201,7 +201,7 @@ An `Item type` is a stategroup atttribute, which holds a choice between states: 
 Notice that you can specify attributes specific to `Dish` and `Beverage` in your model between the curly braces.
 So, depending on the state that a user chooses, different data will be stored.
 
-For example, a dish can be an appitizer, main course, or dessert.
+For example, a dish can be an appetizer, main course, or dessert.
 This again is a choice, so let's make the states available by adding the attribute `Dish type` of type `stategroup` to the state type `Dish`.
 In addition, let's do something similar for `Beverages`, such that we can neatly organize menu items in our application:
 ```js
