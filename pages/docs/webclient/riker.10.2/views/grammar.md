@@ -23,7 +23,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">views</span>': dictionary { @block indent
+'<span class="token string">views</span>': dictionary {
 	'<span class="token string">translate title</span>': stategroup (
 		'<span class="token string">no</span>' { }
 		'<span class="token string">yes</span>' {
@@ -80,7 +80,7 @@ type: grammar
 			| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
 			| none  = '<span class="token string">no</span>'
 		)
-		'<span class="token string">columns</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary @order: .'<span class="token string">column order</span>' { @block indent
+		'<span class="token string">columns</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary {
 			'<span class="token string">has successor</span>': stategroup = node-switch successor (
 				| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 				| none = '<span class="token string">no</span>'
@@ -152,7 +152,7 @@ type: grammar
 								'<span class="token string">yes</span>' { [ <span class="token operator">enabled</span> ] }
 								'<span class="token string">no</span>' { [ <span class="token operator">disabled</span> ] }
 							)
-							'<span class="token string">states</span>': [ <span class="token operator">?</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+							'<span class="token string">states</span>': [ <span class="token operator">?</span> ] dictionary { [ <span class="token operator">|</span> ]
 								'<span class="token string">is selected</span>': stategroup (
 									'<span class="token string">no</span>' { }
 									'<span class="token string">yes</span>' { [ <span class="token operator">selected</span> ] }
@@ -360,7 +360,7 @@ type: grammar
 		}
 		'<span class="token string">switch</span>' {
 			'<span class="token string">state group</span>': [ <span class="token operator">switch</span> ] reference
-			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ] @block
+			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">state context</span>': component <a href="#grammar-rule--model-context">'model context'</a>
 				'<span class="token string">next</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--widget-expression">'widget expression'</a>
 			}
@@ -377,7 +377,7 @@ type: grammar
 		}
 		'<span class="token string">parameter switch</span>' {
 			'<span class="token string">state group</span>': [ <span class="token operator">switch</span> <span class="token operator">>></span> ] reference
-			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ] @block
+			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">state context</span>': component <a href="#grammar-rule--model-context">'model context'</a>
 				'<span class="token string">next</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--widget-expression">'widget expression'</a>
 			}
@@ -467,7 +467,7 @@ type: grammar
 						| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
 						| none  = '<span class="token string">no</span>'
 					)
-					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary @order: .'<span class="token string">view order</span>' { @block indent
+					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 						'<span class="token string">has successor</span>': stategroup = node-switch successor (
 							| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 							| none = '<span class="token string">no</span>'
@@ -480,7 +480,7 @@ type: grammar
 						| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
 						| none  = '<span class="token string">no</span>'
 					)
-					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary @order: .'<span class="token string">view order</span>' { @block indent
+					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 						'<span class="token string">has successor</span>': stategroup = node-switch successor (
 							| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 							| none = '<span class="token string">no</span>'
@@ -608,7 +608,7 @@ type: grammar
 					'<span class="token string">action</span>': reference
 					'<span class="token string">can use containing view</span>': stategroup (
 						'<span class="token string">no</span>' { }
-						'<span class="token string">yes</span>' { @block [ <span class="token operator">use</span> <span class="token operator">containing</span> <span class="token operator">view</span> ] }
+						'<span class="token string">yes</span>' { [ <span class="token operator">use</span> <span class="token operator">containing</span> <span class="token operator">view</span> ] }
 					)
 					'<span class="token string">view bindings</span>': dictionary {
 						'<span class="token string">window</span>': [ <span class="token operator">:</span> <span class="token operator">open</span> <span class="token operator">view</span> <span class="token operator">@</span> ] reference
@@ -717,7 +717,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">gui widget configuration node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ] @block indent
+'<span class="token string">gui widget configuration node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
 	'<span class="token string">configuration</span>': dictionary {
 		'<span class="token string">attribute</span>': component <a href="#grammar-rule--gui-widget-configuration-attribute">'gui widget configuration attribute'</a>
 	}

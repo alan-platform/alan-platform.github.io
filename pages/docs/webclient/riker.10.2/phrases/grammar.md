@@ -14,7 +14,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">phrases</span>': dictionary @order: canonical { @block }
+'<span class="token string">phrases</span>': dictionary { }
 </pre>
 </div>
 </div>

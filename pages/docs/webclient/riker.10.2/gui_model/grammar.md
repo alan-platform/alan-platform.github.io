@@ -38,7 +38,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">numerical types</span>': [ <span class="token operator">numerical</span> <span class="token operator">types</span> ] dictionary { @block indent
+'<span class="token string">numerical types</span>': [ <span class="token operator">numerical</span> <span class="token operator">types</span> ] dictionary {
 	'<span class="token string">representation type</span>': [ <span class="token operator">{</span>, <span class="token operator">}</span> ] stategroup (
 		'<span class="token string">model</span>' { }
 		'<span class="token string">date</span>' { [ <span class="token operator">date</span> ] }
@@ -62,7 +62,7 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">duplication node mapping</span>' {
-	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent
+	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 		'<span class="token string">type</span>': [ <span class="token operator">-></span> ] stategroup (
 			'<span class="token string">number</span>' { [ <span class="token operator">number</span> ] }
 			'<span class="token string">text</span>' { [ <span class="token operator">text</span> ] }
@@ -71,7 +71,7 @@ type: grammar
 				'<span class="token string">mapping</span>': component <a href="#grammar-rule--duplication-node-mapping">'duplication node mapping'</a>
 			}
 			'<span class="token string">state group</span>' { [ <span class="token operator">stategroup</span> ]
-				'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+				'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 					'<span class="token string">mapping</span>': component <a href="#grammar-rule--duplication-node-mapping">'duplication node mapping'</a>
 				}
 			}
@@ -211,7 +211,7 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">parameter definition</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
-	'<span class="token string">properties</span>': dictionary { @block indent
+	'<span class="token string">properties</span>': dictionary {
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">number</span>' { [ <span class="token operator">number</span> ]
 				'<span class="token string">numerical type</span>': reference
@@ -303,7 +303,7 @@ type: grammar
 						)
 					}
 				)
-				'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary @order: .'<span class="token string">view order</span>' { @block indent
+				'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 					'<span class="token string">has successor</span>': stategroup = node-switch successor (
 						| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 						| none = '<span class="token string">no</span>'
@@ -326,7 +326,7 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
-	'<span class="token string">attributes</span>': dictionary { @block indent
+	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">type</span>': stategroup (
 			'<span class="token string">reference set</span>' { [ <span class="token operator">:</span> <span class="token operator">reference-set</span> ] }
 			'<span class="token string">command</span>' { [ <span class="token operator">:</span> <span class="token operator">command</span> ]
@@ -463,7 +463,7 @@ type: grammar
 							| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
 							| none  = '<span class="token string">no</span>'
 						)
-						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary @order: .'<span class="token string">view order</span>' { @block indent
+						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 							'<span class="token string">has successor</span>': stategroup = node-switch successor (
 								| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 								| none = '<span class="token string">no</span>'
@@ -605,12 +605,12 @@ type: grammar
 		'<span class="token string">state switch</span>' { [ <span class="token operator">state-switch</span> ]
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">parameter</span>' { [ <span class="token operator">parameter</span> ]
-					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block [ <span class="token operator">|</span> ]
+					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 						'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
 					}
 				}
 				'<span class="token string">property</span>' { [ <span class="token operator">property</span> ]
-					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block [ <span class="token operator">|</span> ]
+					'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 						'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
 					}
 				}
@@ -694,7 +694,7 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object expression</span>' {
-	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] indent dictionary { @block
+	'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 		'<span class="token string">default</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
 	}
 }
