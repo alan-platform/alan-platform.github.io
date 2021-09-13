@@ -76,7 +76,7 @@ A single `Menu` item consisting of an `Item name` and a `Selling price` is calle
 
 `Item name` holds a value of type `text`: an `Item name` is a piece of text.
 
-`Selling price` holds a value of type **number**. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
+`Selling price` holds a value of type `number`. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
 
 `Menu`, `Item name`, and `Selling Price` are **attributes** of a node. The keywords *collection*, *text* and *number* in a model express the **types** of the attributes. An *attribute type* specifies what kind of data an attribute can hold.
 
