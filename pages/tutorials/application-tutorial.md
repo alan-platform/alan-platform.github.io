@@ -156,7 +156,7 @@ When opening the app in a webbrowser (we assume you use a chromium-based browser
 You can add several items yourself, to get familiar with the Graphical User Interface (GUI). 
 By clicking `Add` a new window opens. Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
 That will bring you back to the `Menu` table, where you can `Add` more data and modify existing `Menu` items.
-You can also add predefined data by copy the migration file from the appropriate step in the folder `_docs/tutorial/restaurant1/`, in this case `step_01/migration/`. When copying this file make sure you paste it in the folder `migrations/from_empty` and, if available, in `migrations/from-release`. The migration files already in thse destination folders should be removed first.
+After your first deployment you can also add predefined data by copy the migration file from the appropriate step in the folder `_docs/tutorial/restaurant1/`, in this case `step_01/migration/`. When copying this file make sure you paste it in the folder `migrations/from-release`. The migration files already in this destination folder should be removed first. Deploying your app after this make sure to select the option `migrate` to see the data.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_01/`>
 
