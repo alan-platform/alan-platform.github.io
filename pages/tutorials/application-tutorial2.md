@@ -645,4 +645,4 @@ This concludes the tutorial into the `application` language, at least for now: t
 For a sneak preview, you can take a look at the additional tutorial folders we provided, and see if you can understand the models yourself.
 The [documentation](/pages/docs/model/89/application/grammar.html) can also help you a lot there, and don't forget about the [forum](https://forum.alan-platform.com/)!
 
-You are now ready to start building your own applications.
+Have fun building your own applications!
