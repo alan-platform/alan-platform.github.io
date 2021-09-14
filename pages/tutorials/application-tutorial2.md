@@ -258,8 +258,8 @@ This group captures a new collection `Discount periods`, a `VAT percentage`, and
 	}
 }
 ```
-When you moved `Beverages types` and `Tables` to the group `Management` rebuild your app.
-You'll get some errors saying the compiler can't find these properties.
+When you have moved `Beverages types` and `Tables` to the group `Management`, rebuild your app.
+You'll get some errors saying the compiler can't find certain properties.
 Correct the errors according to the changes made, by adding missing navigation steps such as `.'Management'`.
 
 The `VAT percentage` will be used for calculating the value added tax (VAT).
@@ -278,9 +278,8 @@ The actual `Total` cost will depend on a discount when applicable.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_05/`>
 
-## Derivations: conditional expressions
-
-Now let's add a stategroup `Discount applicable` to `Orders`. These lines of code also show some more examples of the keyword **>** :
+## Conditional expressions
+Now let's add a stategroup `Discount applicable` to `Orders`:
 ```js
 'Discount applicable': stategroup (
 	'Yes' {
@@ -288,7 +287,7 @@ Now let's add a stategroup `Discount applicable` to `Orders`. These lines of cod
 		'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period' .'Minimal spendings' ) (
 			| < => 0
 			| >= => product (
-				from 'percent' >'Discount period' .'Percentage' as 'percent-fraction',
+				from 'percent' >'Discount period' .'Percentage' as 'fraction',
 				^ .'Subtotal'
 			)
 		)
@@ -297,12 +296,13 @@ Now let's add a stategroup `Discount applicable` to `Orders`. These lines of cod
 	'No' { }
 )
 ```
-Add the numercial type `percent-fraction`, the product conversion rule and the singular conversion rule to the numerical types. It should now look like this:
+
+Now, add the required numerical type `fraction`, the product conversion rule, and the singular conversion rule to the `numerical-types` section:
 ```js
 numerical-types
 	'eurocent'
-	= 'units' * 'eurocent'
-	= 'percent-fraction' * 'eurocent'
+		= 'units' * 'eurocent'
+		= 'fraction' * 'eurocent'
 		@numerical-type: (
 			label: "Euro"
 			decimals: 2
@@ -310,15 +310,15 @@ numerical-types
 	'chairs'
 	'units'
 	'percent'
-	'percent-fraction'
-	= 'percent' / 1 * 10 ^ 2
+	'fraction'
+		= 'percent' / 1 * 10 ^ 2
 ```
 
-In short, this model extension makes it possible to apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`; for example 'Summer holiday' that will give 3% discount on spendings over €35.
+This model extension makes it possible to apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`; for example 'Summer holiday' that will give 3% discount on spendings over €35.
 If discount is applicable (state `Yes`) and a discount period is selected, the `Discount` will be calculated:
 - Compare the `Subtotal` with the `Minimal spendings` that belong to the selected `Discount period`
 - If `Subtotal` is smaller than `Minimal spendings` then `Discount` will be equal to 0
-- If `Subtotal` is bigger than or equal to `Minimal spendings` then `Discount` will be equal to the product of the appropriate `Percentage` and `Subtotal`. The value of `Percentage` is first transformed from `percent` to `percent-fraction` (from 3% to 0,03). The value of `Subtotal` is this number of `percent-fraction` times number of `euro`. Its unit is equal to `euro`
+- If `Subtotal` is bigger than or equal to `Minimal spendings` then `Discount` will be equal to the product of the appropriate `Percentage` and `Subtotal`. The value of `Percentage` is first transformed from `percent` to `fraction` (from 3% to 0,03). The value of `Subtotal` is this number of `fraction` times number of `euro`. Its unit is equal to `euro`
 
 Because we `switch` on a `compare` we can provide the desired states with operators like 'greater than', 'equal to', 'less than' and combinations of these.
 Finally, the `Total` is calculated by adding `Subtotal` to the negative of `Discount` (subtraction).
@@ -337,7 +337,7 @@ It's time to calculate the VAT. To do this we need to know the `Total` and calcu
 	|'No' => .'Subtotal'
 )
 'VAT': number 'eurocent' = product (
-	from 'percent' ^ .'Management' .'VAT percentage' as 'percent-fraction' ,
+	from 'percent' ^ .'Management' .'VAT percentage' as 'fraction' ,
 	.'Total'
 )
 ```
@@ -661,7 +661,7 @@ In the topic 'Derivations: conditional expressions' we've calculated the number 
 			'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period' .'Minimal spendings' ) (
 				| < => 0
 				| >= => product (
-					from 'percent' >'Discount period' .'Percentage' as 'percent-fraction',
+					from 'percent' >'Discount period' .'Percentage' as 'fraction',
 					^ .'Subtotal'
 				)
 			)
@@ -675,7 +675,7 @@ In the topic 'Derivations: conditional expressions' we've calculated the number 
 	)
 
 	'VAT': number 'eurocent' = product (
-		from 'percent' ^ .'Management' .'VAT percentage' as 'percent-fraction' ,
+		from 'percent' ^ .'Management' .'VAT percentage' as 'fraction' ,
 		.'Total'
 	)
 }
