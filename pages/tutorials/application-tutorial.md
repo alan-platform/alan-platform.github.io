@@ -501,3 +501,5 @@ In that tutorial we will show you how you can express computed values, commands,
 For now, to learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/89/application/grammar.html).
 The documentation gives an overview of *all* features that the `application` language supports.
 It includes many useful examples that you can use to build your own application.
+
+For any questions or comments about the tutorial or the platform, feel free to post on the [forum](https://forum.alan-platform.com/) that we have just set up for you.
