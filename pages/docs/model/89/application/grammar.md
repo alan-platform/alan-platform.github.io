@@ -812,7 +812,7 @@ then select the `Products` collection found on that node.
 Thus, at runtime, navigation expressions are executed relative to the context node for which the expression should be evaluated.
 
 ##### Sibling references
-If you want to references from `Products` to other `Products`, you will find that this specification under `Products` gives an error:
+If you want references from `Products` to other `Products`, you will find that this line gives an error:
 ```js
 `Other Product`: text -> ^ .'Products'[]
 ```

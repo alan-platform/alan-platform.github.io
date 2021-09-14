@@ -63,7 +63,7 @@ This menu shows 5 kinds of data:
 4. The type of dish or beverge (`Dish type` / `Beverage type`)
 5. And of course, that this collectively is a menu (`Menu`)
 
-If we want to store the menu in Alan application, we can start with this Alan model of a menu:
+If we want to describe the data in this menu in an Alan application, we can start with an Alan model of a menu:
 ```js
 'Menu': collection ['Item name'] {
 	'Item name': text
@@ -147,15 +147,17 @@ You can download the platform tools by clicking `Alan Fetch` in VS Code, or by r
 
 When `Alan Fetch` is done, you can ***build*** (compile) the application by clicking the button `Alan Build` or running `./alan build` from the commandline.
 If everything is correct, the compiler shows no errors.
-You can then run `Alan Deploy` to transform your project into an app, ready for you to be used.
+You can then run `Alan Deploy` to transform your project into an app, ready for you to be used. At top of the IDE a text box `data source for this deployment` with selection option appears. Select `empty` (The first time; after your first deployment another option will appear: `migrate`)
 
-When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column:
+When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there is no data:
 
 ![first app](./images_model/001.png)
 
-The data from the menu is already there. You can add some data yourself by clicking `Add`. A new window opens.
-Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
+You can add several items yourself, to get familiar with the Graphical User Interface (GUI). 
+By clicking `Add` a new window opens. Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
 That will bring you back to the `Menu` table, where you can `Add` more data and modify existing `Menu` items.
+After your first deployment you can also add predefined data by copy the migration file from the appropriate step in the folder `_docs/tutorial/restaurant1/`, in this case `step_01/migration/`. When copying this file make sure you paste it in the folder `migrations/from-release`. The migration files already in this destination folder should be removed first. 
+Deploy your app after this and select the option `migrate` to find the data availalbe in your app.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_01/`>
 
@@ -249,8 +251,7 @@ If you add an item yourself you'll see radio buttons and a drop-down for choosin
 > You may notice that data you entered yourself in a previous step is gone!
 In a real world situation you of course want to keep your data.
 For that, you have to migrate it from the running application version to the next.
-For this tutorial we provide migration files for each topic, that you can find in the `_tutorial` folder.
-You have to copy the `migration.alan` for the step that you are working on, to `migrations\initialization\migration.alan` before deploying your app.
+As discussed before, for this tutorial we provide migration files for each topic, that you can find in the `_docs/tutorials` folder.
 <!-- More information on migrations can be found in the tutorial *Migrations and deployments*. -->
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_02/`>

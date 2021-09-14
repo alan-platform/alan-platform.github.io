@@ -37,10 +37,11 @@ At the bottom left side you'll see these texts:
 
 ![Texts](./images_IDE/004.png)
 
-These are three buttons that execute important tasks:
+These are four buttons that execute important tasks:
 1. Alan Fetch for downloading and updating the Alan platform tools
-3. Alan Build for building your project
-2. Alan Deploy for deploying your project
+2. Alan Build for building your project
+3. Alan Deploy for deploying your project
+4. Alan Show opens an new browser tab with your application
 
 ## Files and folders
 You develop an Alan application by defining application models, defining interfaces, creating migrations, configuring settings, etc.
@@ -51,10 +52,10 @@ The following files and folders are important while working on the `application`
 ![Files](./images_IDE/005.png)
 
 The `application.alan` file in folder `models/model` contains the model of your application.
-The `migration.alan` file in folder `migration/initialization` describes how your application data needs to be migrated from the current to a next version of your application.
+The `migration.alan` file in folder `migration/from_release` (available after your first deployment) describes how your application data needs to be migrated from the current to a next version of your application.
 
 In order to keep focus on the application language, migration files are available for each topic of the tutorial.
-The location of the relevant files in the folder `_tutorials` (available in your project) can be found at the end of each topic.
+The location of the relevant files in the folders `_docs/tutorials` (available in your project) can be found at the end of each topic.
 By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
 To make sure you don't get stuck while working on the Application Language tutorial, the `_tutorials` folder contains a valid `application.alan` file for each topic as well.
 
