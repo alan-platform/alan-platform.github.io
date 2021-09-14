@@ -371,75 +371,80 @@ You can find many examples in the `application` language [documentation](/pages/
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06/`>
 
 
-## Reference sets
-We would also like to know for each `Table` which `Orders` it has.
-So far we could only know for each `Order` which `Table` it is for, by means of the reference on `Table` (by the way, did you check if two ^ are correct here?).
-The ***reference set*** makes it possible to know which `Orders` are pointing to each `Table`, so for each `Table` we can have insight into its `Orders`.
-We achieve this by adding `Orders` to the collection `Tables` and define it as type reference set.
-Then we have to express the with a path that captures the possible `Orders` for each `Table`: `-> downstream ^ .'Orders'* .'Order type'?'In-house'`.
+## Usages and Reference sets
+References are by default unidirectional.
+However, it is often useful to 'invert' those references: for `Tables` we may want to know which `Orders` it has placed.
 
-`Downstream` tells us the node type the compiler needs to find is further down in the model. More on `downstream` in the topic [Upstream and downstream](#upstream-and-downstream).
-Here we use * instead of [ ] behind `.'Orders'` because we want to reference *all* the nodes (not a single node) of `Orders` that have the state `In-house`.
-Finally we say 'follow the reference of `Table`', written like this: `>'Table'` (more on the keyword > in the topic 'Navigation'), but do it 'backwards' (`inverse`). If we 'jump' to `Table` we see a kind of inverse reference `-<` (instead of `->`) at the end of the line with label `Orders`. This links `Table` from collection `Orders` to `Orders` from collection `Tables`.
+You may have noticed the `Usages` button in your app, when viewing a `Tables` item.
+Clicking on `Usages`, gives you a screen with exactly that information: which `Orders` exist for `Tables`.
 
-Make the changes to your model, build it and take a look at the app.
-Select `Order` in the left column and click `Add`:
+Let's try that with a new order.
+Select `Orders` in the left column and click `Add`:
 
 ![order](./images_model/015.png)
 
-Insert '001' as order number, select 'In-house' and select a table. Add some order lines:
+Insert '001' as the order number, choose `In-house` and select a table.
+Just for fun, add some order lines as well:
 
 ![order lines](./images_model/016.png)
 
-Hit `Save`!
-Now go to `Tables`, select the table you selected when placing the order and click `Usages`:
+Now, hit `Save`!
+Go to `Tables`, pick the table you selected when placing the order and click `Usages`:
 
 ![usages](./images_model/017.png)
 
-We can see that `Order` '001' is using table 'T03':
+We can see that in our version `Order` '001' is using table 'T03':
 
 ![table used](./images_model/018.png)
 
 If we click the order, we jump to the order with its order lines.
 
+---
+In the web app, we have this nice 'Usages' screen.
+The web app computes these screens for us.
+However, we cannot use these 'Usages' in computations.
+For that, we need bidirectional references.
+
+You can turn unidirectional references into bidirectional references with a **reference set**.
+A *reference set* holds inverse references, which are identical to the usages that we just saw.
+Let's add that reference set, and some derivations that use it:
+```js
+'Tables': collection ['Table number'] {
+	'Table number': text
+	'Seatings': number 'chairs'
+	'Orders': reference-set -> downstream ^ ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
+	'Number of orders': number 'units' = count <'Orders'*
+	'Total order value': number 'eurocent' = downstream sum <'Orders'* ^ .'Total'
+}
+```
+Also, add `-<'Orders'` at the `Table` reference below `'In-house'` in your model.
+```js
+'Table': text -> ^ ^ ^ .'Management' .'Tables'[] -<'Orders'
+```
+
+Now, build it and take a look at the app.
+For each `Tables` node we can now see how many `Orders` have been placed at that table.
+Furthermore, we can see the `Total order value` for the `Orders` placed at a specific table.
+Nice stats that may enable us to optimize the placement of our `Tables`.
+
+For expressing the reference set, we use a special keyword `downstream` followed by a navigation path.
+The keyword `downstream` indicates in which computation phase the reference set is available.
+You can read more about that in the [next section](#upstream-and-downstream).
+
+The navigation path contains the keyword `*` instead of `[]` that we saw for unidirectional references.
+That is because multiple `Orders` can reference the same table; the `reference-set` for a specific table will hold *all* `Orders` that refer to that specific table.
+Finally we say: take the `inverse` of the `Table` reference that you find under `In-house`.
+
+For the `Table`, we expressed that for the reference, its inverse (`-<` instead of `->`) should be stored in the reference set `Orders` of the `Tables` item.
+
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06a/`>
 
 
 ## Upstream and downstream
-As mentioned before, when we click `Alan Build` the compiler will compile the model into code that is executable for a computer. When models get really intricate, with lots of references and all kinds of derivations, the compiler builds code that supports calculations in an order that not neccesarily corresponds with the order in which we built our model.
-At runtime applications perform calculations in four phases:
-1. determining constraints while calculating top-to-bottom
-2. determining constraints while calculating bottom-to-top
-3. determining derivations while calculating top-to-bottom
-4. determining derivations while calculating bottom-to-top
+Computations for Alan applications are divided over multiple different phases to guarantee that derivations can always be evaluated.
 
-If at runtime a reference constraint can't be determined in the first phase because the referenced collection is below the point of reference, the compiler will throw an error during the build. We can bypass this by telling the compiler it will be possible to determine the reference in the second phase of calculations at runtime, when calculations are performed bottom-to-top. We use the statement ***downstream*** for this, since in our readable model the reference constraint points to a collection further down. From the perspective of the calculation it is as if the referenced collection is still 'before' the point of reference, since its calculating bottom-to-top.
-The model can make use of either the statement ***upstream*** or downstream for each calculation phase:
-- determining constraints phase 1: upstream
-- determining constraints phase 2: downstream
-- determining derivations phase 3: upstream
-- determining derivations phase 4: downstream
 
-To create an example without the need for building a very intricate model, let's change the model slightly. Move the `Menu` collection below the `Orders` collection. This disobeys the previously mentioned rule (in the topic 'Hierarchy') that collections referenced at some point in the model need to be above that point.
-Build the model and the compiler will throw an error:
->order constraint violation. `Menu` needs to be a 'predecessors' entry in 'attributes'. Available 'predecessors':
-	- `Management`
-
-The error refers to this line, within the collection `Orders`:
-```js
-'Item': text -> ^ ^ .'Menu'[]
-```
-
-The compiler expected to find the referenced collection `Menu` above this point in the model. As we've learned just now we can bypass this error by adding the statement `downstream` like this:
-```js
-'Item': text -> downstream ^ ^ .'Menu'[]
-```
-
-Build the model again and you'll notice that the compiler is at ease with this. We've told the compiler to look for `Menu` further down in the model, in the second phase of calculations.
-
-Please revert your model to the previous state, because this example is not good practice: For good readability of your model it is best to stick to the rule that whatever you would like to reference has to come first in your model.
-
-In some situations we can't avoid needing `downstream`, for example as we've seen with the reference-set `Orders` in collection `Tables` (discusse in the topic 'Reference set'). There we need to add `downstream` to this reference-set to make the compiler find the referenced property `Table`, because `Table` needs to be below collection `Tables` to be able to reference it.
+In the [documentation](/pages/docs/model/89/application/grammar.html#upstream-downstream-and-sibling-dependence) we computation phases this in more detail.
 
 ## Commands
 At this point in the tutorial we would like to show you the ***command*** statement. The model however doesn't necessarily need a command, therefore the example presented here is not the best usecase. Nevertheless it will give a glimpse into the structure of a command.
