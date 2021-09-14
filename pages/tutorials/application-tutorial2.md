@@ -19,7 +19,7 @@ In this second part you will learn about [derived values](#derived-values), more
 
 ## Take-away
 You decided that your restaurant will also provide a take-away service.
-For that, we have to make so adjustments to the model.
+For that, we have to make adjustments to the model.
 Let's see what is needed.
 
 `Orders` will no longer be part of `Tables`: we can have `Orders` without `Tables`.
@@ -65,7 +65,7 @@ to this:
 What changed?
 - We moved `Orders` one level up, to the `root`.
 - Previously, we had a list of `Order lines` per table.
-That is inconvenient, because we want to know which `Order lines` belong to the same order.
+That is inconvenient, because we want to know which `Order lines` belong to the same order. 
 Therefore, we updated our model to express that `Orders` have a collection of `Order lines`.
 - We've added a stategroup `Order type` with two possible states: `Takeaway` or `In-house`
 - For `In-house` `Orders`, we also want to know for which `Table` they are. Therefore, `In-house` orders now have a `Table` attribute, that references a `Tables` item.
@@ -90,7 +90,7 @@ The formula (derivation expression) expresses that the `Line total` is computed 
 
 For retrieving the `Selling price` of the `Item` we use the notation `>'Item'`.
 That means, starting at the `Order lines` node, follow the `Item` reference (expressed by `-> ^ ^ .'Menu'[]`).
-So, at runtime, `>'Item'` gives us the `Menu` item that corresponding to an `Order line`.
+So, at runtime, `>'Item'` gives us the `Menu` item that corresponds to an `Order line`.
 
 After `Selling price`, there is some special code: `as 'eurocent'`.
 To explain what this means and for the health of our model we need to add this line:
@@ -405,7 +405,7 @@ The web app computes these screens for us.
 However, we cannot use these 'Usages' in computations.
 For that, we need bidirectional references.
 
-You can turn unidirectional references into bidirectional references with a **reference set**.
+You can turn unidirectional references into bidirectional references with a **reference set**. 
 A *reference set* holds inverse references, which are identical to the usages that we just saw.
 Let's add that reference set, and some derivations that use it:
 ```js
@@ -423,7 +423,7 @@ Also, add `-<'Orders'` at the `Table` reference below `'In-house'` in your model
 ```
 
 Now, build it and take a look at the app.
-For each `Tables` node we can now see how many `Orders` have been placed at that table.
+For each `Tables` node we can now see how many `Orders` have been placed at that table. 
 Furthermore, we can see the `Total order value` for the `Orders` placed at a specific table.
 Nice stats that may enable us to optimize the placement of our `Tables`.
 
@@ -435,7 +435,7 @@ The navigation path contains the keyword `*` instead of `[]` that we saw for uni
 That is because multiple `Orders` can reference the same table; the `reference-set` for a specific table will hold *all* `Orders` that refer to that specific table.
 Finally we say: take the `inverse` of the `Table` reference that you find under `In-house`.
 
-For the `Table`, we expressed that for the reference, its inverse (`-<` instead of `->`) should be stored in the reference set `Orders` of the `Tables` item.
+For `Table`, we expressed that for the reference, its inverse (`-<` instead of `->`) should be stored in the reference set `Orders` of the `Tables` item.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06a/`>
 
@@ -458,19 +458,19 @@ In short, it boils down to this:
 
 Upstream is the default phase for constraints and derivations; upstream computations do *not* require an annotation.
 You can think of the *compiler-optimized* order for *downstream* computations as the opposite of *upstream*: from **bottom-to-top**.
-This often applies, as expressions for have that immediate implication.
+This often applies, as expressions have that immediate implication.
 For example, take this `Table` reference:
 ```js
 'Table': text -> ^ ^ ^ .'Management' .'Tables'[]
 ```
 
-The `Management` group has be specified before `Table` in the model, as the code expresses an upstream reference.
+The `Management` group has been specified before `Table` in the model, as the code expresses an upstream reference.
 Because of that, the expression for the reference set `Orders` must be a downstream reference (opposite direction in the model).
 Therefore, the language requires the `downstream` annotation.
 
 Computations can depend on earlier computed values.
-Thus, values that are computed in earlier phase, or values that are computed earlier according to the model-traversal order.
-For example, the `Table` reference are computed in phase 1.
+Thus, values that are computed in an earlier phase, or values that are computed earlier according to the model-traversal order.
+For example, the `Table` reference is computed in phase 1.
 Therefore, references in a reference-set of `Orders` are available in phase 2.
 The `'Number of orders'` is an upstream derivation evaluated in phase 3: it can depend on the reference set.
 
