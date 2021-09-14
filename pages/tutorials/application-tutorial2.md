@@ -16,7 +16,7 @@ Make sure that you have completed [the first part](/pages/tutorials/application-
 
 Let's recap: in the first part, we wrote a small data model for our restaurant.
 From that data model, we generated a web application for entering a menu, tables, and orders.
-In this second part you will learn about [derived values](#derived-values), more [advanced references](#advanced-references), [evaluation phases](#upstream-and-downstream), and [commands](#commands).
+In this second part you will learn about [derived values](#derived-values), [evaluation phases](#upstream-and-downstream), and [commands & actions](#commands-and-actions).
 
 ## Take-away
 You decided that your restaurant will also provide a take-away service.
@@ -446,16 +446,16 @@ Computations for Alan applications are divided over multiple different phases to
 Alan distinguishes between two different types of computations: constraints and derivations.
 
 The application language supports a single class of constraints: mandatory references.
-The application engine ensures that derivations can always be evaluated when constraints are checked.
+The runtime ensures that derivations can always be evaluated when constraints are checked.
 That means that every derivation will *always* produce a valid value as specified in your model (and never an undefined/null-value).
 
-Alan (specifically: an Alan application engine) evaluates computations in several different phases.
+The Alan runtime evaluates computations in several different phases.
 You can find a detailed explanation in the [documentation](/pages/docs/model/89/application/grammar.html#upstream-downstream-and-sibling-dependence).
 In short, it boils down to this:
-1. The engine checks **upstream** constraints by traversing your model in a **top-to-bottom** order.
-2. The engine checks **downstream** constraints by traversing your model in a **compiler-optimized** order.
-3. The engine computes **upstream** derivations by traversing your model in a **top-to-bottom** order.
-4. The engine computes **downstream** derivations by traversing your model in a **compiler-optimized** order.
+1. The runtime checks **upstream** constraints by traversing your model in a **top-to-bottom** order.
+2. The runtime checks **downstream** constraints by traversing your model in a **compiler-optimized** order.
+3. The runtime computes **upstream** derivations by traversing your model in a **top-to-bottom** order.
+4. The runtime computes **downstream** derivations by traversing your model in a **compiler-optimized** order.
 
 Upstream is the default phase for constraints and derivations; upstream computations do *not* require an annotation.
 You can think of the *compiler-optimized* order for *downstream* computations as the opposite of *upstream*: from **bottom-to-top**.
