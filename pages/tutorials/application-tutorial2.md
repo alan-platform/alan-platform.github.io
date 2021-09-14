@@ -314,23 +314,36 @@ numerical-types
 		= 'percent' / 1 * 10 ^ 2
 ```
 
-This model extension makes it possible to apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`; for example 'Summer holiday' that will give 3% discount on spendings over €35.
-If discount is applicable (state `Yes`) and a discount period is selected, the `Discount` will be calculated:
+With this model extension, you can apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`.
+For example, selecting 'Summer holiday' will give 3% discount on spendings over €35.
+If a discount is applicable (state `Yes`) and a `Discount period` is selected, the `Discount` will be computed after saving your changes:
 - Compare the `Subtotal` with the `Minimal spendings` that belong to the selected `Discount period`
 - If `Subtotal` is smaller than `Minimal spendings` then `Discount` will be equal to 0
-- If `Subtotal` is bigger than or equal to `Minimal spendings` then `Discount` will be equal to the product of the appropriate `Percentage` and `Subtotal`. The value of `Percentage` is first transformed from `percent` to `fraction` (from 3% to 0,03). The value of `Subtotal` is this number of `fraction` times number of `euro`. Its unit is equal to `euro`
+- If `Subtotal` is bigger than or equal to `Minimal spendings` then the `Discount` will be computed using the corresponding `Percentage`.
+The `Percentage` is first converted from `percent` to `fraction` (from 3% to 0.03).
+The `Total` is then computed as the product of the computed `fraction` and the `Subtotal`.
 
-Because we `switch` on a `compare` we can provide the desired states with operators like 'greater than', 'equal to', 'less than' and combinations of these.
-Finally, the `Total` is calculated by adding `Subtotal` to the negative of `Discount` (subtraction).
-If discount is not applicable (state`No`) `Discount` is equal to 0 and `Total` is equal to `Subtotal`.
+With the expression, we `switch` on the comparison (`compare`) result of two numbers.
+We can match against the following possible results for the comparison:
+- 'greater than' (`>`)
+- 'greater than or equal to' (`>=`)
+- 'less than' (`<`)
+- 'less than or equal to' (`<=`)
+- 'equal to' (`==`)
+- 'less than or greater than' (`<>`)
+Cases may not overlap, so you cannot match against `<` as well as `<=`.
 
-Although the inputs and outcome are numbers, we also call this a ***state derivation*** because the result is determined from which state is true.
+Finally, the `Total` is calculated by subtracting `Discount` from the `Subtotal` using the `sum` operation and a sign inversion (`-`).
+If discount is not applicable (state `No`), then the `Total` is identical to `Subtotal`.
 
 Let's take a look at the app and enter an order:
 ![discount](./images_model/023.png)
-An order with a subtotal of €40,20 receives during the summer holiday a discount of 3%  when spending €35 or over.
+An order with a subtotal of €40,20 receives a discount of 3% when spending €35 or more during the summer holiday.
 
-It's time to calculate the VAT. To do this we need to know the `Total` and calculate a percentage of it. But we have two kinds of `Total` depending on whether a discount was applied or not. This means our calculation should depend on which state that specific `Total` is in. Again we can use the `switch` statement for this:
+Now, let's calculate the tax (`VAT`).
+To do this we need to know the `Total` cost and take a percentage of it.
+But, the actual `Total` cost of an `Orders` item depends on whether a discount was applied or not.
+For that purpose, we use a `switch` statement for switching on the state of a stategroup attribute, after which we can compute the `VAT` from the `Total` of the order:
 ```js
 'Total': number 'eurocent' = switch .'Discount applicable' (
 	|'Yes' as $'discount' => $'discount'.'Total'
@@ -342,15 +355,18 @@ It's time to calculate the VAT. To do this we need to know the `Total` and calcu
 )
 ```
 
-We define `VAT` as a `number` of numerical type `euro` and derive it (=) depending on the states of stategroup `Discount applicable` (switch): either `Yes` or `No`. In both cases we end up using the product statement and supply this with the appropriate terms. The interesting parts are where the `$`-keywords are used. If we look back at our definition of the stategroup `Discount applicable` (at the start of this topic) we see that each state has a node type definition by providing properties and derivations within the curly braces: `'Yes' { ... }` and `'No' { ... }`.
-As explained previously, when `as $` is used a specific node (all the values of that particular node of the specified state within a node of collection `Order`) is temporarily marked as `$`. Here we added a name to each specific temporary node and can reference these with `$'name'`. We could have added names in the previous example as well, or leave them out here. It can be convenient to apply these names to differentiate them when several temporary nodes are needed and a model gets cluttered with `$`'s. Although not necessary for the compiler, it is more readable for humans.
-Here we've given the marked node the temporary name `discount` for nodes in the state `Yes` and `no discount` for nodes in the state `No`. So, when we write `$'discount' .'Total'` we point at the value of `Total` within a temporarily marked node of state `Yes`. And similar for `$'no discount'`.
-`$'discount'` and `$'no discount'` are called ***named objects***.
+For computing the `Total`, we `switch` on the state of `Discount applicable`.
+In case of state `Yes` we use a special instruction `as $'discount'`.
+This stores the `Yes` node under the name `$'discount'`.
+Because of that, we can refer to it in the remaining part of the expression (and only there): `$'discount'.'Total'`.
+We call this a **named object** (or constant variable).
 
 Here's the result of our work:
 ![VAT](./images_model/024.png)
 
-Derivations come in several forms and are powerful tools. We've shown you some examples, but want to provide an in depth overview in the *Derivations tutorial*.
+For each property type that the `application` language supports, the language also supports expressing for deriving such values.
+So, you can derive text values, file values, references, stategroup states, and even collections.
+You can find many examples in the `application` language [documentation](/pages/docs/model/89/application/grammar.html#derived-values).
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06/`>
 
