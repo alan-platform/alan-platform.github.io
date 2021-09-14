@@ -89,8 +89,7 @@ main {
 	list-style: none;
 	display: flex;
 	position: relative;
-	margin-right: -2rem*$ratio*$ratio;
-	margin-left: -2rem*$ratio*$ratio;
+	padding: 0;
 	margin-bottom: 1rem*$ratio*$ratio;
 
 	&::before,
