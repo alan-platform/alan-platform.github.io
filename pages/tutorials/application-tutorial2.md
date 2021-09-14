@@ -612,8 +612,8 @@ The command implementation concludes with:
 ```js
 		... = create ( ... )
 ```
-This tells us what the update should be about: 'the update is ( ***=*** ) the creation (***create***) of a node.
-Instead of `create`, you can also use `ensure` here.
+This tells us what the update should be about: 'the update is (`=`) the creation (`create`) of a node.
+Instead of `create`, you can also use `ensure`.
 Create will check if an entry in the target collection with the provided key already exists, and reject the whole command in that case.
 The `ensure` operation does not fail. It creates the node, or otherwise overwrites values in the way that you specify in your model.
 
