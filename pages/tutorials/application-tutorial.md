@@ -494,14 +494,11 @@ Here, we can choose the `Beverage type` of 'Mojito'. The collection `Beverages t
 
 ## Next
 This concludes the introductory tutorial into the `application` language, and hopefully begins your journey in the world of Alan.
-We've only touched the basics: you can now create your own data model and generate an app for it.
+If you have any questions or comments about the tutorial or the platform, feel free to post on the [forum](https://forum.alan-platform.com/)!
+
+In this tutorial, we've only touched the basics: you can now create your own data model and generate an app for it.
 But, there is still a lot to discover.
+In [Tutorial C: a Restaurant app, Part II](/pages/) we discuss derived values, inverse references, commands, and more.
 
-An additional tutorial for the `application` language will be made available soon.
-In that tutorial we will show you how you can express computed values, commands, and more.
 
-For now, to learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/89/application/grammar.html).
-The documentation gives an overview of *all* features that the `application` language supports.
-It includes many useful examples that you can use to build your own application.
 
-For any questions or comments about the tutorial or the platform, feel free to post on the [forum](https://forum.alan-platform.com/) that we have just set up for you.
