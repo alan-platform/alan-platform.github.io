@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Application Tutorial:<br>a Restaurant app"
+title: "Application Tutorial:<br>a Restaurant app<br>Part II"
 category: docs
 version: 89
 ---
@@ -10,14 +10,23 @@ version: 89
 {:toc}
 
 ## Introduction
+This is the second part of the application language tutorial where we build a restaurant app.
+Make sure that you have completed [the first part](/pages/tutorials/application-tutorial.html) before continuing.
 
+Let's recap: in the first part, we wrote a small data model for our restaurant.
+From that data model, we generated a web application for entering a menu, tables, and orders.
+In this second part you will learn about [derived values](#derived-values), more [advanced references](#advanced-references), [evaluation phases](#upstream-and-downstream), and [commands](#commands).
 
-## Reference sets
-You decided that your restaurant will also provide a take-away service. This means adjusting the model accordingly. Let's see what is needed.
+## Take-away
+You decided that your restaurant will also provide a take-away service.
+For that, we have to make so adjustments to the model.
+Let's see what is needed.
 
-`Orders` will no longer be a child to the parent `Tables`, which makes more sense anyway: If we consider these entities more accurately, `Orders` and `Tables` don't have a parent-child relation, since they are of different order. For example the relation between `Tables` and `Seatings` is more natural, like wheels to a car or zebras to mammals.
-`Orders` need to be defined as either takeaway or in-house. And if in-house, it can be linked to a table.
-We will change this part of the model:
+`Orders` will no longer be part of `Tables`: we can have `Orders` without `Tables`.
+But, for an `Order`, we do want to know if it is a `Takeaway` order, or if it is an `In-house` order for a table.
+For that, we add an `Order type`.
+
+So, we rewrite this piece of code:
 ```js
 'Tables': collection ['Table number'] {
 	'Table number': text
@@ -30,12 +39,11 @@ We will change this part of the model:
 }
 ```
 
-Into this:
+to this:
 ```js
 'Tables': collection ['Table number'] {
 	'Table number': text
 	'Seatings': number 'chairs'
-	'Orders': reference-set -> downstream ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
 }
 
 'Orders': collection ['Order'] {
@@ -43,7 +51,7 @@ Into this:
 	'Order type': stategroup (
 		'Takeaway' { }
 		'In-house' {
-			'Table': text -> ^ ^ .'Tables'[] -< 'Orders'
+			'Table': text -> ^ ^ .'Tables'[]
 		}
 	)
 	'Order lines': collection ['Order line'] {
@@ -55,46 +63,17 @@ Into this:
 ```
 
 What changed?
-- We moved `Orders` one level up, alongside `Tables`
-- Since we don't want a long list of `Order lines`, we organized the `Order lines` in a subcollection `Order lines` . Now each `Order` can have multiple `Order lines` (previously each `Table number` could have multiple `Order lines`)
-- We've added a stategroup `Order type` to indicate the kind of order: state `Takeaway` or state `In-house`
-- If the state of an orde is `In-house` we also like to know which `Table` it belongs to, so we added a text `Table` that references the collection `Tables` inside the node of state `In-house`
+- We moved `Orders` one level up, to the `root`.
+- Previously, we had a list of `Order lines` per table.
+That is inconvenient, because we want to know which `Order lines` belong to the same order.
+Therefore, we updated our model to express that `Orders` have a collection of `Order lines`.
+- We've added a stategroup `Order type` with two possible states: `Takeaway` or `In-house`
+- For `In-house` `Orders`, we also want to know for which `Table` they are. Therefore, `In-house` orders now have a `Table` attribute, that references a `Tables` item.
 
-And now for the interestingly new parts:
-We would also like to know for each `Table` which `Orders` it has. So far we could only know for each `Order` which `Table` it is for, by means of the reference on `Table` (by the way, did you check if two ^ are correct here?). The ***reference set*** makes it possible to know which `Orders` are pointing to each `Table`, so for each `Table` we can have insight into its `Orders`.
-We achieve this by adding `Orders` to the collection `Tables` and define it as type reference set. Then we have to make the reference to the desired location by supplying the path: `-> downstream ^ .'Orders'* .'Order type'?'In-house'` This is called a *relative node type path*:
-- It's relative since we start from our current position and first have to jump up one level (`^`) and then follow the node types
-- It's a node type path since it descibes a path of consecutive node types on ever deeper levels: `.'Order type'?'In-house'` within `.'Orders'*`
-
-`Downstream` tells us the node type the compiler needs to find is further down in the model. More on `downstream` in the topic 'Upstream and downstream'.
-Here we use * instead of [ ] behind `.'Orders'` because we want to reference *all* the nodes (not a single node) of `Orders` that have the state `In-house`.
-Finally we say 'follow the reference of `Table`', written like this: `>'Table'` (more on the symbol > in the topic 'Navigation'), but do it 'backwards' (`inverse`). If we 'jump' to `Table` we see a kind of inverse reference `-<` (instead of `->`) at the end of the line with label `Orders`. This links `Table` from collection `Orders` to `Orders` from collection `Tables`.
-
-Make the changes to your model, build it and take a look at the app.
-Select `Order` in the left column and click `Add`:
-
-![order](./images_model/015.png)
-
-Insert '001' as order number, select 'In-house' and select a table. Add some order lines:
-
-![order lines](./images_model/016.png)
-
-Hit `Save`!
-Now go to `Tables`, select the table you selected when placing the order and click `Usages`:
-
-![usages](./images_model/017.png)
-
-We can see that `Order` '001' is using table 'T03':
-
-![table used](./images_model/018.png)
-
-If we click the order, we jump to the order with its order lines.
-
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_04a/`>
-
-## Derivations: numbers
-Our customers in the restaurant have to pay us, and for that we need to compute the cost of their orders.
-Let's start with the `Line total`: the cost of a single `Order line`:
+## Derived values
+Our customers have to pay us, and for that we need to compute the cost of their orders.
+Let's start with a `Line total`: the cost of a single `Order line`:
+The `Line total` of an `Order line` is a derived value, computed from the (base values) `Selling price` and the `Amount`:
 ```js
 'Order lines': collection ['Order line'] {
 	'Order line': text
@@ -106,21 +85,20 @@ Let's start with the `Line total`: the cost of a single `Order line`:
 	)
 }
 ```
-Notice that after `eurocent` for the `Line total` we have have written a formula for deriving the value.
-A derived value (derivation) `Line total` is computed by multiplying the `Selling price` with the `Amount`.
+After `eurocent` for the `Line total` we have have written a formula for deriving the `Line total` of an `Order line`.
+The formula (derivation expression) expresses that the `Line total` is computed by multiplying (taking the `product` of) the `Selling price` and `Amount`.
 
->An important concept arises when we focus on the symbol ***>*** in front of `Item` (the first term in the *product* statement for calculating `Line total`). This line of code means:
-'With the current value of `Item` (a key value of `Menu`) of this specific `Order line` follow its reference and from the resulting node in that referenced collection provide the value of property `Selling price`.'
->So, from a specific node of `Order lines`, that has a specific value for `Item`, a reference is made to another specific node of `Menu` from which the value of the property `Selling price` is provided.
->In short, *>* makes sure that during runtime the current value of `Item` is used to reference the appropriate node of the referenced collection.
+For retrieving the `Selling price` of the `Item` we use the notation `>'Item'`.
+That means, starting at the `Order lines` node, follow the `Item` reference (expressed by `-> ^ ^ .'Menu'[]`).
+So, at runtime, `>'Item'` gives us the `Menu` item that corresponding to an `Order line`.
 
-Now we want to focus on the ***as*** statement followed by `'eurocent'`.
+After `Selling price`, there is some special code: `as 'eurocent'`.
 To explain what this means and for the health of our model we need to add this line:
-`= 'eurocent' * 'units'` below `euro` so our numerical-types now looks like this:
+`= 'eurocent' * 'units'` below `euro` so our `numerical-types` section now looks like this:
 ```js
 numerical-types
 	'eurocent'
-	= 'eurocent' * 'units'
+		= 'eurocent' * 'units'
 		@numerical-type: (
 			label: "Euro"
 			decimals: 2
@@ -128,11 +106,14 @@ numerical-types
 	'chairs'
 	'units'
 ```
-The *as* statement is followed by what is called a ***product conversion rule***, that describes how the numerical-types of the two properties are multiplied, in this case `euro` and `unit`. So the general format of a *product conversion rule* is `= 'num-type1' * 'num-type2'`.
+The *as* statement is followed by what is called a ***product conversion rule***.
+Such a rule describes how `numerical-types` of the two properties are multiplied, like `euro` and `unit`.
+So the general format of a *product conversion rule* is `= 'num-type1' * 'num-type2'`.
+The first part (`num-type1`) is wat we mention after the keyword `as`.
 
-Another possible calculation is for example a division:
+For a `division`, we see something similar:
 `= division ( 'property1' as 'division conversion rule' , 'property2' )`
-that uses a ***division conversion rule***:
+The `division` uses a ***division conversion rule***:
 `= 'num-type1' / 'num-type2'`
 
 And we can do conversion of units by a constant factor, using the ***from*** statement, for example:
@@ -142,8 +123,13 @@ And a ***singular conversion rule***:
 ```js
 numerical-types
 	'circum'
-	= 'diameter' * 314159265 * 10 ^ -8	// = diameter * pi
+		= 'diameter' * 314159265 * 10 ^ -8	// = diameter * pi
 ```
+
+Conversion rules ensure that `numerical-types` for derived values are correct.
+They also let you reuse (singular) conversions.
+
+---
 
 Let's add another useful line to the model:
 ```js
@@ -184,7 +170,6 @@ root {
 	'Tables': collection ['Table number'] {
 		'Table number': text
 		'Seatings': number 'chairs'
-		'Orders': reference-set -> downstream ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
 	}
 
 	'Orders': collection ['Order'] {
@@ -192,7 +177,7 @@ root {
 		'Order type': stategroup (
 			'Takeaway' { }
 			'In-house' {
-				'Table': text -> ^ ^ .'Tables'[] -< 'Orders'
+				'Table': text -> ^ ^ .'Tables'[]
 			}
 		)
 		'Order lines': collection ['Order line'] {
@@ -206,41 +191,11 @@ root {
 		}
 		'Total': number 'eurocent' = sum .'Order lines'* .'Line total' // <-- ;-)
 	}
-
-	'Place new order': command {
-		'Provide an order number': text
-		'Where is the meal consumed?': stategroup (
-			'Outside of restaurant' { }
-			'At the restaurant' {
-				'Where is the customer seated?': text -> .'Tables'[]
-			}
-		)
-		'Order lines': collection ['Provide an order line number'] {
-			'Provide an order line number': text
-			'Item to be consumed': text -> .'Menu'[]
-			'Amount of this item': number 'units'
-		}
-	} => update .'Orders' = create (
-		'Order' = @ .'Provide an order number'
-		'Order type' = switch @ .'Where is the meal consumed?' (
-			|'Outside of restaurant' => create 'Takeaway' ( )
-			|'At the restaurant' as $ => create 'In-house' (
-				'Table' = $ .'Where is the customer seated?'
-			)
-		)
-		'Order lines' = walk @ .'Order lines' as $ (
-			create (
-				'Order line' = $ .'Provide an order line number'
-				'Item' = $ .'Item to be consumed'
-				'Amount' = $ .'Amount of this item'
-			)
-		)
-	)
 }
 
 numerical-types
 	'eurocent'
-	= 'eurocent' * 'units'
+		= 'eurocent' * 'units'
 		@numerical-type: (
 			label: "Euro"
 			decimals: 2
@@ -252,15 +207,15 @@ numerical-types
 And at runtime (in the webbrowser) it looks like this:
 ![(line totals and total](./images_model/022.png)
 
-Other possible calculations that can be used in ***number derivations*** are:
-`min`: determines the minimum of a set of values
-`max`: determines the maximum of a set of values
-`std`: determines the standard deviation of a set of values
-`count`: counts the number of values in a set
-`remainder`: calculates the remainder of a division (10 mod 3 = 1)
-`division`: calculates the division of two numbers
-`add`: calculates the addition of two numbers
-`diff`: calculates the difference of two (relative!) numbers, for example the difference between two dates or two temperatures
+The possible operations that can be used for deriving number values can be found [here](/pages/docs/model/89/application/grammar.html#derived-numbers).
+- `min`: determines the minimum of a set of values
+- `max`: determines the maximum of a set of values
+- `std`: determines the standard deviation of a set of values
+- `count`: counts the number of values in a set
+- `remainder`: calculates the remainder of a division (10 mod 3 = 1)
+- `division`: calculates the division of two numbers
+- `add`: calculates the addition of two numbers
+- `diff 'date'`: calculates the difference of two (relative!) numbers, for example the difference between two dates or two temperatures
 
 Examples of absolute and relative numbers:
 - (number of) days: absolute, "28 days"
@@ -274,7 +229,8 @@ Examples of absolute and relative numbers:
 
 So far we've seen number derivations, but we can also derive other types of data.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_04c/`>
+
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_04a/`>
 
 ## Rewrite 2: more derivations
 To show examples of other types of derivation we need to create a more intricate model.
@@ -296,7 +252,6 @@ Let's create a group `Management` at the top of the model for more permanent dat
 	'Tables': collection ['Table number'] {
 		'Table number': text
 		'Seatings': number 'chairs'
-		'Orders': reference-set -> downstream ^ ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
 	}
 }
 ```
@@ -332,10 +287,7 @@ Now let's add a stategroup `Discount applicable`, also within `Orders`. These li
 		)
 		'Total': number 'eurocent' = sum ( ^ .'Subtotal' , - .'Discount' )
 	}
-	'No' {
-		'Discount': number 'eurocent' = 0
-		'Total': number 'eurocent' = ^ .'Subtotal'
-	}
+	'No' { }
 )
 ```
 Add the numercial type `percent-fraction`, the product conversion rule and the singular conversion rule to the numerical types. It should now look like this:
@@ -367,40 +319,19 @@ If discount is not applicable (state`No`) `Discount` is equal to 0 and `Total` i
 
 Although the inputs and outcome are numbers, we also call this a ***state derivation*** because the result is determined from which state is true.
 
-We also have to adjust the command `Place new order`, since this comand updates collection `Orders` and this collection has changed. Can you find out where these seperate parts of code should go and what they mean?:
-```js
-'Apply discount?': stategroup (
-	'Yes' {
-		'Discount period': text -> .'Management' .'Discount periods'[]
-	}
-	'No' { }
-)
-```
-
-And:
-```js
-'Discount applicable' = switch @ .'Apply discount?' (
-	|'Yes' as $ => create 'Yes' (
-		'Discount period' = $ .'Discount period'
-	)
-	|'No' => create 'No' ( )
-)
-```
 Let's take a look at the app and enter an order:
 ![discount](./images_model/023.png)
 An order with a subtotal of €40,20 receives during the summer holiday a discount of 3%  when spending €35 or over.
 
 It's time to calculate the VAT. To do this we need to know the `Total` and calculate a percentage of it. But we have two kinds of `Total` depending on whether a discount was applied or not. This means our calculation should depend on which state that specific `Total` is in. Again we can use the `switch` statement for this:
 ```js
-'VAT': number 'eurocent' = switch .'Discount applicable' (
-	|'Yes' as $'discount' => product (
-		from 'percent' ^ .'Management' .'VAT percentage' as 'percent-fraction' ,
-		$'discount' .'Total'
-	)
-	|'No' as $'no discount' => product (
-		from 'percent' ^ .'Management' .'VAT percentage' as 'percent-fraction' ,
-		$'no discount' .'Total'
-	)
+'Total': number 'eurocent' = switch .'Discount applicable' (
+	|'Yes' as $'discount' => $'discount'.'Total'
+	|'No' => .'Subtotal'
+)
+'VAT': number 'eurocent' = product (
+	from 'percent' ^ .'Management' .'VAT percentage' as 'percent-fraction' ,
+	.'Total'
 )
 ```
 
@@ -416,8 +347,42 @@ Derivations come in several forms and are powerful tools. We've shown you some e
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06/`>
 
-## Upstream and downstream
 
+## Reference sets
+We would also like to know for each `Table` which `Orders` it has.
+So far we could only know for each `Order` which `Table` it is for, by means of the reference on `Table` (by the way, did you check if two ^ are correct here?).
+The ***reference set*** makes it possible to know which `Orders` are pointing to each `Table`, so for each `Table` we can have insight into its `Orders`.
+We achieve this by adding `Orders` to the collection `Tables` and define it as type reference set.
+Then we have to express the with a path that captures the possible `Orders` for each `Table`: `-> downstream ^ .'Orders'* .'Order type'?'In-house'`.
+
+`Downstream` tells us the node type the compiler needs to find is further down in the model. More on `downstream` in the topic [Upstream and downstream](#upstream-and-downstream).
+Here we use * instead of [ ] behind `.'Orders'` because we want to reference *all* the nodes (not a single node) of `Orders` that have the state `In-house`.
+Finally we say 'follow the reference of `Table`', written like this: `>'Table'` (more on the symbol > in the topic 'Navigation'), but do it 'backwards' (`inverse`). If we 'jump' to `Table` we see a kind of inverse reference `-<` (instead of `->`) at the end of the line with label `Orders`. This links `Table` from collection `Orders` to `Orders` from collection `Tables`.
+
+Make the changes to your model, build it and take a look at the app.
+Select `Order` in the left column and click `Add`:
+
+![order](./images_model/015.png)
+
+Insert '001' as order number, select 'In-house' and select a table. Add some order lines:
+
+![order lines](./images_model/016.png)
+
+Hit `Save`!
+Now go to `Tables`, select the table you selected when placing the order and click `Usages`:
+
+![usages](./images_model/017.png)
+
+We can see that `Order` '001' is using table 'T03':
+
+![table used](./images_model/018.png)
+
+If we click the order, we jump to the order with its order lines.
+
+> <tutorial folder: `./_docs/tutorials/restaurant1/step_06a/`>
+
+
+## Upstream and downstream
 As mentioned before, when we click `Alan Build` the compiler will compile the model into code that is executable for a computer. When models get really intricate, with lots of references and all kinds of derivations, the compiler builds code that supports calculations in an order that not neccesarily corresponds with the order in which we built our model.
 At runtime applications perform calculations in four phases:
 1. determining constraints while calculating top-to-bottom
@@ -694,14 +659,12 @@ In the topic 'Derivations: conditional expressions' we've calculated the number 
 				)
 			)
 		}
-		'No' {
-			'Discount': number 'eurocent' = 0
-		}
+		'No' { }
 	)
 
 	'Total': number 'eurocent' = switch .'Discount applicable' (
 		|'Yes' as $'discount' => sum ( $'discount' ^ .'Subtotal' , - $'discount' .'Discount' )
-		|'No' as $'no discount' => $'no discount' ^ .'Subtotal'
+		|'No' => .'Subtotal'
 	)
 
 	'VAT': number 'eurocent' = product (
@@ -1285,39 +1248,11 @@ If you want to add an item to the menu, you can now select from a list:
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_10/`>
 
 ## The End
-This concludes the introductory tutorial into the `application` language, and hopefully begins your journey in the world of Alan.
-There is still a lot to discover. And "practice makes perfect" (in Dutch:"Oefening baart kunst").
+This concludes the tutorial into the `application` language.
+You can now start building your own application, if you haven't done so already.
 
 To learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/89/application/grammar.html).
 The documentation gives an overview of *all* features that the `application` language supports.
+It also provides many useful examples that you can use while building your own application.
 
-<!--
-## (... Permissions and) Todo's
-has todo
-
-(
-...
-can read
-can create
-can update
-can delete
-can execute (command)
-)
-
-## (... Actions)
-...
-
-
-## (... GUI annotations)
-(verwijzing naar documentatie)
-
-
-## A. Other tutorials
-1. Migrations and deployments
-2. Interfaces
-3. Users
-4. Derivations
-5. The import module (?)
-6. Wiring
-7. The stack (?; system types)
-8. ... -->
+If you have questions, suggestions, or if you want to discuss the Alan platform, please go the [forum](https://forum.alan-platform.com/) that we have just set up for you.
