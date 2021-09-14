@@ -442,13 +442,52 @@ For the `Table`, we expressed that for the reference, its inverse (`-<` instead 
 
 ## Upstream and downstream
 Computations for Alan applications are divided over multiple different phases to guarantee that derivations can always be evaluated.
+Alan distinguishes between two different types of computations: constraints and derivations.
 
+The application language supports a single class of constraints: mandatory references.
+The application engine ensures that derivations can always be evaluated when constraints are checked.
+That means that every derivation will *always* produce a valid value as specified in your model (and never an undefined/null-value).
 
-In the [documentation](/pages/docs/model/89/application/grammar.html#upstream-downstream-and-sibling-dependence) we computation phases this in more detail.
+Alan (specifically: an Alan application engine) evaluates computations in several different phases.
+You can find a detailed explanation in the [documentation](/pages/docs/model/89/application/grammar.html#upstream-downstream-and-sibling-dependence).
+In short, it boils down to this:
+1. The engine checks **upstream** constraints by traversing your model in a **top-to-bottom** order.
+2. The engine checks **downstream** constraints by traversing your model in a **compiler-optimized** order.
+3. The engine computes **upstream** derivations by traversing your model in a **top-to-bottom** order.
+4. The engine computes **downstream** derivations by traversing your model in a **compiler-optimized** order.
+
+Upstream is the default phase for constraints and derivations; upstream computations do *not* require an annotation.
+You can think of the *compiler-optimized* order for *downstream* computations as the opposite of *upstream*: from **bottom-to-top**.
+This often applies, as expressions for have that immediate implication.
+For example, take this `Table` reference:
+```js
+'Table': text -> ^ ^ ^ .'Management' .'Tables'[]
+```
+
+The `Management` group has be specified before `Table` in the model, as the code expresses an upstream reference.
+Because of that, the expression for the reference set `Orders` must be a downstream reference (opposite direction in the model).
+Therefore, the language requires the `downstream` annotation.
+
+Computations can depend on earlier computed values.
+Thus, values that are computed in earlier phase, or values that are computed earlier according to the model-traversal order.
+For example, the `Table` reference are computed in phase 1.
+Therefore, references in a reference-set of `Orders` are available in phase 2.
+The `'Number of orders'` is an upstream derivation evaluated in phase 3: it can depend on the reference set.
+
+Finally, `'Total order value'` is a downstream derivation evaluated in phase 4.
+The derivation depends on the `Total` of the `Orders`, which we compute in phase 3.
+Notice that you cannot remove the keyword `downstream` there.
+If you do so, you move the computation to phase 3: the upstream derivations phase.
+But, for the `Orders`, the `Total` will not yet be computed, as upstream means traversal from top to bottom.
+
 
 ## Commands
-At this point in the tutorial we would like to show you the ***command*** statement. The model however doesn't necessarily need a command, therefore the example presented here is not the best usecase. Nevertheless it will give a glimpse into the structure of a command.
-With a command we can for example create nodes in a collection, provided the data is available to create the node. Having this data is achieved by deriving it from other data (more on derivations later), receiving data through an interface or ask the user to enter data. Although commonly an ***action*** is used in the later case (an action takes into account the access rights a user has, while a command does not), we will use this scenario here.
+At this point in the tutorial we would like to show you the ***command*** statement.
+The model however doesn't necessarily need a command, therefore the example presented here is not the best usecase.
+Nevertheless it will give a glimpse into the structure of a command.
+With a command we can for example create nodes in a collection, provided the data is available to create the node.
+Having this data is achieved by deriving it from other data (more on derivations later), receiving data through an interface or ask the user to enter data.
+Although commonly an ***action*** is used in the later case (an action takes into account the access rights a user has, while a command does not), we will use this scenario here.
 
 In short, in our model we will add a command to gather data for placing a new order by means of a user form and then use this data to update the collection `Orders`:
 
@@ -880,7 +919,7 @@ Check out the app:
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_08/`>
 
 ## Advanced references
-Before we get to the advaced part we add some more common lines to the model.
+Before we get to the advanced part we add some more common lines to the model.
 When food and drinks are prepared and ready for service, we would like to provide service with additional information, for example the priority of service (when food is hot it needs to be served asap) and the table to serve to. We will add this information in steps. Take a look at the overview Order lines, with the view set to `Full`:
 ![Overview order lines!](./images_model/030.png)
 Add `Priority` to the state `Service` of stategroup `Line status`:
