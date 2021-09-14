@@ -72,7 +72,7 @@ Therefore, we updated our model to express that `Orders` have a collection of `O
 
 ## Derived values
 Our customers have to pay us, and for that we need to compute the cost of their orders.
-Let's start with a `Line total`: the cost of a single `Order line`:
+Let's start with a `Line total`: the cost of a single `Order line`.
 The `Line total` of an `Order line` is a derived value, computed from the (base values) `Selling price` and the `Amount`:
 ```js
 'Order lines': collection ['Order line'] {
