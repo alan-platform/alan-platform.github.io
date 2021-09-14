@@ -147,15 +147,16 @@ You can download the platform tools by clicking `Alan Fetch` in VS Code, or by r
 
 When `Alan Fetch` is done, you can ***build*** (compile) the application by clicking the button `Alan Build` or running `./alan build` from the commandline.
 If everything is correct, the compiler shows no errors.
-You can then run `Alan Deploy` to transform your project into an app, ready for you to be used.
+You can then run `Alan Deploy` to transform your project into an app, ready for you to be used. At top of the IDE a text box `data source for this deployment` with selection option appears. Select `empty` (The first time; after your first deployment another option will appear: `migrate`)
 
-When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column:
+When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there is no data:
 
 ![first app](./images_model/001.png)
 
-The data from the menu is already there. You can add some data yourself by clicking `Add`. A new window opens.
-Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
+You can add several items yourself, to get familiar with the Graphical User Interface (GUI). 
+By clicking `Add` a new window opens. Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
 That will bring you back to the `Menu` table, where you can `Add` more data and modify existing `Menu` items.
+You can also add predefined data by copy the migration file from the appropriate step in the folder `_docs/tutorial/restaurant1/`, in this case `step_01/migration/`. When copying this file make sure you paste it in the folder `migrations/from_empty` and, if available, in `migrations/from-release`. The migration files already in thse destination folders should be removed first.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_01/`>
 
