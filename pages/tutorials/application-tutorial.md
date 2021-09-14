@@ -63,7 +63,7 @@ This menu shows 5 kinds of data:
 4. The type of dish or beverge (`Dish type` / `Beverage type`)
 5. And of course, that this collectively is a menu (`Menu`)
 
-If we want to store the menu in an Alan application, we can start with this Alan model of a menu:
+If we want to describe the data in this menu in an Alan application, we can start with an Alan model of a menu:
 ```js
 'Menu': collection ['Item name'] {
 	'Item name': text
