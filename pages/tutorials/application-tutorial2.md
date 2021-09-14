@@ -204,7 +204,7 @@ numerical-types
 	'units'
 ```
 
-And at runtime (in the webbrowser) it looks like this:
+And at runtime (in your app) it looks like this:
 ![(line totals and total](./images_model/022.png)
 
 The possible operations that can be used for deriving number values can be found [here](/pages/docs/model/89/application/grammar.html#derived-numbers).
@@ -232,9 +232,12 @@ So far we've seen number derivations, but we can also derive other types of data
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_04a/`>
 
-## Rewrite 2: more derivations
-To show examples of other types of derivation we need to create a more intricate model.
-Let's create a group `Management` at the top of the model for more permanent data, while still being able to adjust it. This group contains a new collection `Discount periods`, a number `VAT percentage` and the existing collections `Beverages types` and `Tables` (we're not going to change this data on a daily basis):
+## Growing our business
+Our restaurant business is growing.
+Many people are now working with our app, and its time for some reorganizations.
+We have more permanent data that only `Management` should touch, and we want to show that in our application.
+For that, we express a group called `Management` at the top of the model.
+This group captures a new collection `Discount periods`, a `VAT percentage`, and the existing collections `Beverages types` and `Tables`:
 ```js
 'Management': group {
 	'Discount periods': collection ['Period'] {
@@ -255,25 +258,29 @@ Let's create a group `Management` at the top of the model for more permanent dat
 	}
 }
 ```
-When you moved `Beverages types` and `Tables` to the group `Management` rebuild your app. You'll get some errors saying the compiler can't find these properties. Correct the errors according to the changes made.
+When you moved `Beverages types` and `Tables` to the group `Management` rebuild your app.
+You'll get some errors saying the compiler can't find these properties.
+Correct the errors according to the changes made, by adding missing navigation steps such as `.'Management'`.
 
-And since we use a new numerical type, we need to add this to our `numerical-types` section in the model:
+The `VAT percentage` will be used for calculating the value added tax (VAT).
+For the `VAT percentage`, we also have to add a numerical type to the `numerical-types` section in the model:
 ```js
 'percent'
 ```
-We will use the collection `Discount periods` for discounts during different time periods, where the discount depends on the amount of money spent at the restaurant.
-`VAT percentage` will be used for calculating the value added tax (VAT).
 
-Rename the number property `Total` for `Orders` to `Subtotal`, because the new `Total` will take the appropriate discount into account:
+The `Discount periods` are for discounts during different time periods, where the discount depends on the amount of money spent at the restaurant.
+
+Rename the attribute `Total` for `Orders` to `Subtotal`:
 ```js
 'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
 ```
+The actual `Total` cost will depend on a discount when applicable.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_05/`>
 
 ## Derivations: conditional expressions
 
-Now let's add a stategroup `Discount applicable`, also within `Orders`. These lines of code also show some more examples of the symbol **>** :
+Now let's add a stategroup `Discount applicable` to `Orders`. These lines of code also show some more examples of the keyword **>** :
 ```js
 'Discount applicable': stategroup (
 	'Yes' {
@@ -335,8 +342,8 @@ It's time to calculate the VAT. To do this we need to know the `Total` and calcu
 )
 ```
 
-We define `VAT` as a `number` of numerical type `euro` and derive it (=) depending on the states of stategroup `Discount applicable` (switch): either `Yes` or `No`. In both cases we end up using the product statement and supply this with the appropriate terms. The interesting parts are where the \$-symbols are used. If we look back at our definition of the stategroup `Discount applicable` (at the start of this topic) we see that each state has a node type definition by providing properties and derivations within the curly braces: `'Yes' { ... }` and `'No' { ... }`.
-As explained previously, when `as $` is used a specific node (all the values of that particular node of the specified state within a node of collection `Order`) is temporarily marked as `$`. Here we added a name to each specific temporary node and can reference these with \$'name'. We could have added names in the previous example as well, or leave them out here. It can be convenient to apply these names to differentiate them when several temporary nodes are needed and a model gets cluttered with \$'s. Although not necessary for the compiler, it is more readable for humans.
+We define `VAT` as a `number` of numerical type `euro` and derive it (=) depending on the states of stategroup `Discount applicable` (switch): either `Yes` or `No`. In both cases we end up using the product statement and supply this with the appropriate terms. The interesting parts are where the `$`-keywords are used. If we look back at our definition of the stategroup `Discount applicable` (at the start of this topic) we see that each state has a node type definition by providing properties and derivations within the curly braces: `'Yes' { ... }` and `'No' { ... }`.
+As explained previously, when `as $` is used a specific node (all the values of that particular node of the specified state within a node of collection `Order`) is temporarily marked as `$`. Here we added a name to each specific temporary node and can reference these with `$'name'`. We could have added names in the previous example as well, or leave them out here. It can be convenient to apply these names to differentiate them when several temporary nodes are needed and a model gets cluttered with `$`'s. Although not necessary for the compiler, it is more readable for humans.
 Here we've given the marked node the temporary name `discount` for nodes in the state `Yes` and `no discount` for nodes in the state `No`. So, when we write `$'discount' .'Total'` we point at the value of `Total` within a temporarily marked node of state `Yes`. And similar for `$'no discount'`.
 `$'discount'` and `$'no discount'` are called ***named objects***.
 
@@ -357,7 +364,7 @@ Then we have to express the with a path that captures the possible `Orders` for 
 
 `Downstream` tells us the node type the compiler needs to find is further down in the model. More on `downstream` in the topic [Upstream and downstream](#upstream-and-downstream).
 Here we use * instead of [ ] behind `.'Orders'` because we want to reference *all* the nodes (not a single node) of `Orders` that have the state `In-house`.
-Finally we say 'follow the reference of `Table`', written like this: `>'Table'` (more on the symbol > in the topic 'Navigation'), but do it 'backwards' (`inverse`). If we 'jump' to `Table` we see a kind of inverse reference `-<` (instead of `->`) at the end of the line with label `Orders`. This links `Table` from collection `Orders` to `Orders` from collection `Tables`.
+Finally we say 'follow the reference of `Table`', written like this: `>'Table'` (more on the keyword > in the topic 'Navigation'), but do it 'backwards' (`inverse`). If we 'jump' to `Table` we see a kind of inverse reference `-<` (instead of `->`) at the end of the line with label `Orders`. This links `Table` from collection `Orders` to `Orders` from collection `Tables`.
 
 Make the changes to your model, build it and take a look at the app.
 Select `Order` in the left column and click `Add`:
@@ -583,8 +590,8 @@ The containers `Order`, `Order type` and `Order lines` within the collection `Or
 ```js
 'container in collection' = @ .'parameter of command'
 ```
-This means access the parameter node, lookup the specified value (inserted in the form by the user) and copy it to the container of the collection. The symbol ***@*** is used here to tell the compiler a given path is within the command definition. Otherwise the compiler will consider these paths as within `root`.
-As an experiment to show you how the compiler responds without this symbol, remove the @ in this line: `'Order' = @ .'Provide an order number'` and build the model. The compiler will throw an error telling you it can't find `Provide an order numer` in 'attributes' and will show what it does find in 'attributes', in this case `root`.
+This means access the parameter node, lookup the specified value (inserted in the form by the user) and copy it to the container of the collection. The keyword ***@*** is used here to tell the compiler a given path is within the command definition. Otherwise the compiler will consider these paths as within `root`.
+As an experiment to show you how the compiler responds without this keyword, remove the @ in this line: `'Order' = @ .'Provide an order number'` and build the model. The compiler will throw an error telling you it can't find `Provide an order numer` in 'attributes' and will show what it does find in 'attributes', in this case `root`.
 
 Additionally, we see two new key words: ***switch*** and ***walk***. Let's discuss switch:
 ```js
@@ -601,7 +608,7 @@ It doesn't end there, because if the customer wants to eat at the restaurant we 
 ```js
 	|'At the restaurant' as $ ...
 ```
-is to say: Temporarily store the contents of the parameter node of the state 'At the restaurant' as $. The ***\$-symbol*** is like a sticky note with all the values within the node written down on it. The node type of this state ({...}) is defined in the command definition as:
+is to say: Temporarily store the contents of the parameter node of the state 'At the restaurant' as `$`. The ***`$`-keyword*** is like a sticky note with all the values within the node written down on it. The node type of this state ({...}) is defined in the command definition as:
 ```js
 'At the restaurant' {
 	'Where is the customer seated?': text -> .'Management' .'Tables'[]
@@ -625,15 +632,15 @@ Let's look at walk:
 )
 ```
 The statement walk, followed by the node type path, expresses that we want to 'walk along' all entries in the parameter collection `Order lines`. The statements between the parentheses are evaluated for each of the entries in the collection. In this case for each entry in the parameter collection `Order lines` a node is created in the collection `Order lines` according to the supplied structure and values.
-Again, the $-symbol is used to temporarily store each node within the collection `Order lines`.
-So once we start to create the node in the collection `Order lines`, we derive the values for each container within the node by refering to \$ and from this \$ we want a specific container.
+Again, the `$`-keyword is used to temporarily store each node within the collection `Order lines`.
+So once we start to create the node in the collection `Order lines`, we derive the values for each container within the node by refering to `$` and from this `$` we want a specific container.
 ```js
 		'Order line' = $ .'Provide an order line number'
 		'Item' = $ .'Item to be consumed'
 		'Amount' = $ .'Amount of this item'
 ```
 
-The use of the $-symbol is not restricted to commands and can be applied throughout a model to refer to temporarily stored nodes or states.
+The use of the `$`-keyword is not restricted to commands and can be applied throughout a model to refer to temporarily stored nodes or states.
 
 As mentioned before, this is only an example of a command. Commands are commonly used to automatically create or change nodes or states without bothering the user with this or to transmit data from one app to another through an interface. More on the use of commands in interfaces in the tutorial 'Interfaces'.
 
