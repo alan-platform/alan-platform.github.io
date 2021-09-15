@@ -229,6 +229,7 @@ root {
 					'Beer' { }
 					'Wine' { }
 					'Coffee & tea' { }
+				)
 			}
 		)
 	}
