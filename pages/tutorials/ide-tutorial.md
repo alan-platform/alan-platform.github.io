@@ -59,6 +59,17 @@ The location of the relevant files in the folders `_docs/tutorials` (available i
 By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
 To make sure you don't get stuck while working on the Application Language tutorial, the `_tutorials` folder contains a valid `application.alan` file for each topic as well.
 
+If, at some point, you seem to miss files or folders in the explorer (area 1) that are refered to in the tutorial, click the refresh button. This button is not always visible, but will appear when you move your cursor into area 1 (while the online IDE is active):
+![Refresh](./images_IDE/006.png)
+
+Files are automatically saved when you:
+- switch between files in area 2
+- switch between areas
+- click one of the four `Alan`-buttons
+
+Otherwise `Save` and other options are also available here:
+![Menu](./images_IDE/007.png)
+
 ## Compile and deploy
 Once you've written or updated a model and want to see the result, you need to do two things:
 1. Click on the button `Alan Build`.
