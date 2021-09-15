@@ -38,9 +38,9 @@ At the bottom left side you'll see these texts:
 ![Texts](./images_IDE/004.png)
 
 These are four buttons that execute important tasks:
-1. Alan Fetch for downloading and updating the Alan platform tools
-2. Alan Build for building your project
-3. Alan Deploy for deploying your project
+1. Alan Fetch downloads and updates the Alan platform tools
+2. Alan Build builds your project
+3. Alan Deploy deploys your project
 4. Alan Show opens an new browser tab with your application
 
 ## Files and folders
