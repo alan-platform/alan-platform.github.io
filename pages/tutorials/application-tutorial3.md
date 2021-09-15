@@ -86,7 +86,7 @@ Working towards the processes of order preparation and service let's take this o
 ```
 
 Customers sometimes change their mind while ordering, so we don't want to place evey order line immediately, but place all lines once everybody is happy. To support this process we've added `Line status`. It has these states:
-- state `On hold` for when an order line is inserted but the customer might change his/her mind
+- state `On hold` for when an order line is inserted but the customer might change their mind
 - state `Placed` for an order line that is 'approved' and ready to be prepared
 - state `Service` for when the order line is prepared and can be served to the customer
 - state `Served` for an order line that is served to the customer
