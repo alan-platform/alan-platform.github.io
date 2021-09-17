@@ -59,7 +59,8 @@ The location of the relevant files in the folders `_docs/tutorials` (available i
 By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
 To make sure you don't get stuck while working on the Application Language tutorial, the `_tutorials` folder contains a valid `application.alan` file for each topic as well.
 
-If, at some point, you seem to miss files or folders in the explorer (area 1) that are refered to in the tutorial, click the refresh button. This button is not always visible, but will appear when you move your cursor into area 1 (while the online IDE is active):
+If, at some point, you seem to miss files or folders in the explorer (area 1) that are refered to in the tutorial, click the refresh button.
+This button is not always visible, but will appear when you move your cursor into area 1 (while the online IDE is active):
 ![Refresh](./images_IDE/006.png)
 
 Files are automatically saved when you:
@@ -79,7 +80,8 @@ Solve any problems, until you can succesfully build your project.
 2. Click on the button `Alan Deploy`.
 This will send your project to the server which will publish (deploy) your application.
 
-> NOTE: we recommend that you also run `Alan Fetch` from time to time (e.g. weekly) to get the latest platform tools for building and deploying your project. Furthermore, if you ever change the `versions.json` file, you need to run `Alan Fetch` as well to get the right tools.
+> NOTE: we recommend that you also run `Alan Fetch` from time to time (e.g. weekly) to get the latest platform tools for building and deploying your project.
+Furthermore, if you ever change the `versions.json` file, you need to run `Alan Fetch` as well to get the right tools.
 
 ## Your published Application
 After deploying your work, you can find the latest published version of your application at the URL provided in the `README.md` file of your project.
