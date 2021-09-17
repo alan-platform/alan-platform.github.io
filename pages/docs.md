@@ -13,7 +13,7 @@ permalink: /docs/
 - [The Alan stack from the bottom up](/pages/tuts/bottom-up.html)
 
 ### Other useful resources:
-- [**Version control** & **offline editing**](/pages/tutorials/ide-version-control.html) for Alan IDE projects
+- [**Version control** & **offline editing**](/pages/tutorials/ide-version-control.html) for Alan IDE projects <sup style="color: #F0BF4C">***NEW***</sup>
 - Background information on [the syntax](/pages/tuts/syntax.html)
 - An [older tutorial](/pages/tuts/getting-started.html) with useful information about migrations
 
