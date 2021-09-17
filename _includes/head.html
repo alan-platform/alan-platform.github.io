@@ -7,10 +7,10 @@
 	{% else %}
 		{% if page.head %}
 			<title>{{ page.head }} - {{ site.title }}</title>
-		{% else if page.title %}
+		{% elsif page.title %}
 			<title>{{ page.title }} - {{ site.title }}</title>
 		{% else %}
-			<title>{{ page.origin }} {{ page.language}} {{ page.type}} - {{ site.title }}</title>
+			<title>{{ page.origin }}/{{ page.language}} {{ page.type}} - {{ site.title }}</title>
 		{% endif %}
 	{% endif %}
 
