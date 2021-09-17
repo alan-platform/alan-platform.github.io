@@ -9,6 +9,7 @@ category: docs
 
 ## Introduction
 In this tutorial you'll get familiar with the environment for creating Alan applications.
+For *version control* and *local editing* of Alan projects, read [this guide](/pages/tutorials/ide-version-control.html).
 
 ## Application for building applications
 For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognises the Alan code, and many other useful tools.
