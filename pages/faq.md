@@ -16,7 +16,7 @@ If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Ala
 It has characteristics that make it really suited for something like a visual application builder, so who knows what the future brings here.
 
 ## Can I change how a property is visualized
-The generated user interface reads the annotations in an application.alan to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/40/application/grammar.html).
+The generated user interface reads the annotations in an `application.alan` file to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/89/application/grammar.html).
 
 If you want more control over the user interface, e.g. to create one for a specific work flow, you may want to create a custom client. Documentation about this is being worked on.
 
@@ -56,14 +56,14 @@ Finally there is a "patch" level of versions (in semver-speak), for which we sim
 
 ## What is the roadmap for Alan
 
-Alan is already used by [M-industries](https://www.m-industries.com) and [Kjerner](https://www.kjerner.com/) to build solutions for their customers. However, we're not done yet improving the platform and creating new and better features. 
+Alan is already used by [M-industries](https://www.m-industries.com) and [Kjerner](https://www.kjerner.com/) to build solutions for their customers. However, we're not done yet improving the platform and creating new and better features.
 
 Long term plans include:
 
 - Open up our online development and hosting solution for quick experiments and proof of concept by any developer
 - Extend the generated GUI so that there are even less reasons to go with a custom gui
 - Make custom gui's (on the platform) easily extendible for third-party control & widget developers
-- Make todo's the primary driver for the interaction with an application. 
+- Make todo's the primary driver for the interaction with an application.
 - Improved querying, reporting and data visualization features.
 - Improved support for creating "live dashboard" applications.
 - Making development more accessible to first-time application developers by providing a graphical modeler

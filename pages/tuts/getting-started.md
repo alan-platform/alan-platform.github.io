@@ -69,7 +69,7 @@ So, starting at the **root**, you describe the data model of your application. Y
 	Numbers are things you can count, or do math with. Dates and date-time values are numbers as well. Numbers are usually an integer, or a [natural](https://en.wikipedia.org/wiki/Natural_number) when they can't be zero or negative. Alan doesn't have floats; Alan requires explicit numerical type annotations to ensure a *predefined* accuracy for numbers.
 - **text**
 	Text properties hold plain, unbounded textual values like a name, a phone number, a license plate number, or remarks.
-	You can define [validation rules](/pages/docs/model/51/application/grammar.html#node) on text values for the user interface, e.g. minimum length or a specific pattern.
+	You can define [validation rules](/pages/docs/model/89/application/grammar.html#user-interface-annotations) on text values for the user interface, e.g. minimum length or a specific pattern.
 	Also, a text value can reference an entry in another collection (like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key)).
 - **file**
 	When you connect file storage to your server (documentation about this will follow), you can store files as well. Files can be viewed directly in the client or downloaded to your local machine.
@@ -107,7 +107,7 @@ This will generate a default migration 'from_release' which should be updated un
 
 ![](deploy3.png)
 
-Complete [documentation of the migration language](/pages/docs/datastore/54/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
+Complete [documentation of the migration language](/pages/docs/datastore/85/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
 
 ```js
 root = root as $ (
@@ -309,7 +309,7 @@ To check your new additions, build the project again. If all is well, just deplo
 
 The project template has a model filled with examples that cover what we call **derivations**: ways to do math with numbers or derive state groups from other data.
 
-You can [annotate your model](/pages/docs/model/51/application/grammar.html#node) to set default values and [number formats](/pages/docs/model/51/application/grammar.html#numerical-types). Check the [model language docs](/pages/docs/model/50/application/grammar.html) for more details.
+You can [annotate your model](/pages/docs/model/89/application/grammar.html#user-interface-annotations) to set default values and [number formats](/pages/docs/model/89/application/grammar.html#numerical-types). Check the [model language docs](/pages/docs/model/89/application/grammar.html) for more details.
 
 Migrations can be edited by hand, for instance to bootstrap your application with more data than is automatically generated. Learn more about it in the [migrations tutorial](migration.html).
 
