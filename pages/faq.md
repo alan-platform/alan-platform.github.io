@@ -28,7 +28,7 @@ Permissions are set on nodes, i.e. groups, entries and states. You can set read 
 ## Can I create 2-way many-to-many relations?
 If you want to simply get a list of everything that has a reference to a certain entry, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction.
 
-To make derivations and calculations based on this relation, you need to specify [bidirectional references](pages/docs/model/89/application/grammar.html#bidirectional-references).
+To make derivations and calculations based on this relation, you need to specify [bidirectional references](/pages/docs/model/89/application/grammar.html#bidirectional-references).
 
 
 ## Can I write SQL queries?
@@ -46,7 +46,7 @@ It is possible to connect to other systems using XML Schema or third party API's
 
 
 ## What does that versions.json do?
-You'll have noticed the versions.json at the root of your project. It defines a set of packages that should be compatible. Builds of version X are guaranteed to be based on the exact same language and configuration, but may contain bugfixes. We call these "major" versions.
+You'll have noticed the `versions.json` at the root of your project. It defines a set of packages that should be compatible. Builds of version X are guaranteed to be based on the exact same language and configuration, but may contain bugfixes. We call these "major" versions.
 
 The [project.pkg](/pages/tuts/bottom-up.html#project) also contains this versions list, to ensure that each next step uses the same major versions as your design.
 
