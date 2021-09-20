@@ -374,10 +374,10 @@ You can find many examples in the `application` language [documentation](/pages/
 
 ## Usages and reference sets
 References are by default unidirectional.
-However, it is often useful to 'invert' those references: for `Tables` we may want to know which `Orders` it has placed.
+However, it is often useful to 'invert' those references: for `Tables` we may want to know which `Orders` have been placed for it.
 
 You may have noticed the `Usages` button in your app, when viewing a `Tables` item.
-Clicking on `Usages`, gives you a screen with exactly that information: which `Orders` exist for `Tables`.
+Clicking on `Usages`, gives you a screen with exactly that information: which `Orders` were placed for the `Tables` item.
 
 Let's try that with a new order.
 Select `Orders` in the left column and click `Add`:
