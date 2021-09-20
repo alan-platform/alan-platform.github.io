@@ -201,7 +201,7 @@ root {
 	}
 }
 ```
-An `Item type` is a stategroup atttribute, which holds a choice between states: `Dish` or `Beverage`.
+An `Item type` is a stategroup attribute, which holds a choice between states: `Dish` or `Beverage`.
 Notice that you can specify attributes specific to `Dish` and `Beverage` in your model between the curly braces.
 So, depending on the state that a user chooses, different data will be stored.
 
