@@ -19,12 +19,16 @@ Generate an SSH key for the Alan IDE.
 We recommend that you do not use your own private key, but generate one instead as shown below.
 For details on SSH, see [this guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
-From the **Terminal** in the Alan IDE environment, run:
+- From the **Terminal** in the Alan IDE environment, run
 ```sh
 ssh-keygen -t ed25519 -C "<user>@<domain>.<ext>"
+```
+and **just press Enter** when asked for a file, unless you know exactly what you are doing.
+
+- Copy the contents of the public key file to your clipboard:
+```
 cat ~/.ssh/id_ed25519.pub # contents of public key file
 ```
-Copy the contents of the public key file to your clipboard.
 
 
 ## Git hosting provider
@@ -38,7 +42,7 @@ Go back to the online IDE.
 Run these commands from the **Terminal**:
 ```sh
 git config --global user.email "<user>@<domain>.<ext>"
-git config --global user.name "<User Name>"
+git config --global user.name "<your name>"
 git init
 git add .
 git commit -m "first commit"
