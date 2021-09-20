@@ -50,7 +50,7 @@ table {
         &:hover,
         &:active {
             text-decoration: none;
-            color: $black;
+            // color: $black;
             @include breathe(color);
         }
     }

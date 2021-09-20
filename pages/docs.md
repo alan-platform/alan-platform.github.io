@@ -19,7 +19,7 @@ permalink: /docs/
 
 
 <a name="languages"></a>
-### Languages ({{ site.data.versions.current }})
+### Language documentation ({{ site.data.versions.current }}):
 
 <a href="https://dist.alan-platform.com/share/versions/{{ site.data.versions.current }}/versions.json">versions.json</a>
 
