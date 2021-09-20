@@ -395,23 +395,6 @@ Sometimes you may want references to be *optional* rather than *mandatory*.
 When you import data from other apps this is necessary, as you can typically not force those apps to respect your wishes concerning your text values.
 For **optional references**, you use the keyword **~>** (tilde arrow) instead of **->** (dash arrow).
 
-The specification of an attribute with a reference, can be extended with `where`-rules for creating additional references.
-This is especially useful when an application combines data from multiple different sources.
-For example, suppose for a second that our application imports a menu from two other restaurants: `Blue` and `Red`. We can request a menu `Item` from the other restaurants in case we ever run out of stock:
-```js
-'Item': text -> .'Menu'[]
-	where 'blue' ~> .'Menu from restaurant Blue'[]
-	where 'red' ~> .'Menu from restaurant Red'[]
-```
-
-`Item` has one *mandatory* reference to our own `Menu` and two *optional* references to the `Menu`'s from restaurant `Blue` and `Red`.
-
-<sup>NOTE: in `application` language `where`-rules that require a lookup in a collection can currently not be mandatory; only the main reference (expressed by `-> .'Menu'[]` can be mandatory. Support may be added in future versions.</sup>
-
-The `where`-rules can also be used for states of a `stategroup` attribute. More on this in a next tutorial.
-<!-- topic [Advanced references](#advanced-references). -->
-
-
 ## States versus references
 Hopefully by now you can 'read' this model and understand its components and structure.
 Meanwhile our restaurant is in full swing, so no time to waste!
