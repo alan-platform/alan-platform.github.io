@@ -9,6 +9,7 @@ type: grammar
 1. TOC
 {:toc}
 
+## Request types
 
 {: #grammar-rule--type }
 <div class="language-js highlighter-rouge">
@@ -151,17 +152,17 @@ type: grammar
 </pre>
 </div>
 </div>
-## Collection query
+### Collection query
 Queries an hierarchy of collections and produces a `select` and/or `aggregate` result the entries that match the filters.
-## Acyclic graph tree query
+### Acyclic graph tree query
 Produces a dependency tree showing the dependencies of a node in a predefined 'graph'.
 The 'context node' is the root of the tree.
-## Acyclic graph list query
+### Acyclic graph list query
 Queries a collection of references and create a flat subgraph of the provided 'graph' for each of them.
 The 'query' group defines what data will be queried for each of the entries.
 
 For example, suppose we have this model, specifying `Products` and `Orders`:
-> ```js
+```js
 'Products': collection ['Name']
 	'assembly': acyclic-graph
 {
@@ -180,7 +181,7 @@ For example, suppose we have this model, specifying `Products` and `Orders`:
 ```
 
 And the following query:
-> ```js
+```js
 on /* root */
 from .'Orders'.'Products'>'Product'
 flatten 'assembly'
@@ -189,7 +190,7 @@ select .'Parts'
 ```
 
 Then we get a result of the form:
-> ```js
+```js
 'Orders': (
 	['A'] (
 		'Products': (
@@ -213,19 +214,21 @@ Then we get a result of the form:
 	)
 )
 ```
-## Mutation
+
+### Mutation
 Updates specified parts of your data.
-## Subscription
+### Subscription
 Subscribes to specific pieces of data.
 The subscriber will get notifications in case subscribed data are modified.
-## Subscription deletion
+### Subscription deletion
 Request unsubscribe, and thus halt notifications for a subscription.
-## Command execution
+### Command execution
 Request to execute a command as defined in an application model.
-## Password mutation
+### Password mutation
 Updates a user's password.
-## Password reset
+### Password reset
 Resets a user's password.
+## Rules
 
 {: #grammar-rule--filter-expression }
 <div class="language-js highlighter-rouge">
