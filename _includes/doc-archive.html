@@ -1,4 +1,5 @@
 <table>
+	{% assign prev = site %}
 	{% for version in site.data.versions.versions %}
 		{% for url in version.pages %}
 			<tr>
@@ -12,12 +13,16 @@
 				{% assign item_url = url | remove_first: "pages/docs/" %}
 				{% assign item_url_parts = item_url | split: "/" %}
 				{% assign name = item_url_parts | first %}
+				{% assign num = item_url_parts | slice: 1, 1 %}
 				<td>
-					{{ name }}
+					{% if prev != name %}
+						{{ name }}
+						{{ num }}
+					{% endif %}
 				</td>
 				<td>
 					<a href="{{url | relative_url }}">
-						{% for part in item_url_parts offset:1 %}
+						{% for part in item_url_parts offset:2 %}
 							{% unless part contains '.html' %}
 								{{ part }}
 							{% endunless %}
@@ -25,6 +30,7 @@
 					</a>
 				</td>
 			</tr>
+			{% assign prev = name %}
 		{% endfor %}
 	{% endfor %}
 </table>
