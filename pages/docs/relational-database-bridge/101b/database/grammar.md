@@ -14,7 +14,7 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">tables</span>': dictionary @order: .'<span class="token string">dependency graph</span>' { @section
+'<span class="token string">tables</span>': dictionary {
 	'<span class="token string">source</span>': [ <span class="token operator">:</span> <span class="token operator">table</span> <span class="token operator">=</span> ] group {
 		'<span class="token string">scoped</span>': stategroup (
 			'<span class="token string">yes</span>' {
@@ -26,11 +26,11 @@ type: grammar
 		'<span class="token string">source</span>': text
 		'<span class="token string">inline tables</span>': stategroup (
 			'<span class="token string">yes</span>' { [ <span class="token operator">inline-tables</span> <span class="token operator">(experimental)</span> ]
-				'<span class="token string">sub tables</span>': dictionary { @block indent
-					'<span class="token string">fields</span>': [ <span class="token operator">fields</span> ] dictionary { @block indent
+				'<span class="token string">sub tables</span>': dictionary {
+					'<span class="token string">fields</span>': [ <span class="token operator">fields</span> ] dictionary {
 						'<span class="token string">definition</span>': component <a href="#grammar-rule--field">'field'</a>
 					}
-					'<span class="token string">join key</span>': [ <span class="token operator">join</span> ] dictionary { @block indent
+					'<span class="token string">join key</span>': [ <span class="token operator">join</span> ] dictionary {
 						'<span class="token string">contra field</span>': [ <span class="token operator">==</span> ] reference
 					}
 				}
@@ -38,7 +38,7 @@ type: grammar
 			'<span class="token string">no</span>' { }
 		)
 	}
-	'<span class="token string">fields</span>': @block indent [ <span class="token operator">fields</span> ] dictionary { @block indent
+	'<span class="token string">fields</span>': [ <span class="token operator">fields</span> ] dictionary {
 		'<span class="token string">source</span>': [ <span class="token operator">=</span> ] stategroup (
 			'<span class="token string">reference</span>' {
 				'<span class="token string">field</span>': text
@@ -51,25 +51,25 @@ type: grammar
 		)
 	}
 	'<span class="token string">has primary key</span>': stategroup (
-		'<span class="token string">yes</span>' { @block indent [ <span class="token operator">primary-key</span> ]
-			'<span class="token string">primary key</span>': dictionary { @block indent }
+		'<span class="token string">yes</span>' { [ <span class="token operator">primary-key</span> ]
+			'<span class="token string">primary key</span>': dictionary { }
 		}
 		'<span class="token string">no</span>' { }
 	)
-	'<span class="token string">unique indices</span>': dictionary { @block indent [ <span class="token operator">unique-index</span> ]
-		'<span class="token string">fields</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent }
+	'<span class="token string">unique indices</span>': dictionary { [ <span class="token operator">unique-index</span> ]
+		'<span class="token string">fields</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { }
 	}
-	'<span class="token string">foreign keys</span>': @block indent [ <span class="token operator">foreign-keys</span> ] dictionary { @block indent
+	'<span class="token string">foreign keys</span>': [ <span class="token operator">foreign-keys</span> ] dictionary {
 		'<span class="token string">table</span>': [ <span class="token operator">=></span> <span class="token operator">table</span> ] reference
-		'<span class="token string">on</span>': @block indent [ <span class="token operator">where</span> ] stategroup (
+		'<span class="token string">on</span>': [ <span class="token operator">where</span> ] stategroup (
 			'<span class="token string">primary key</span>' { [ <span class="token operator">primary-key</span> ]
-				'<span class="token string">key fields</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent
+				'<span class="token string">key fields</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 					'<span class="token string">contra field</span>': [ <span class="token operator">==</span> ] reference
 				}
 			}
 			'<span class="token string">unique index</span>' { [ <span class="token operator">unique-index</span> ]
 				'<span class="token string">index</span>': reference
-				'<span class="token string">key fields</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent
+				'<span class="token string">key fields</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 					'<span class="token string">contra field</span>': [ <span class="token operator">==</span> ] reference
 				}
 			}
@@ -77,12 +77,12 @@ type: grammar
 	}
 	'<span class="token string">text encoding</span>': stategroup (
 		'<span class="token string">ascii</span>' { }
-		'<span class="token string">utf8</span>' { @block indent [ <span class="token operator">text-encoding</span> <span class="token operator">:</span> <span class="token operator">utf8</span> ] }
+		'<span class="token string">utf8</span>' { [ <span class="token operator">text-encoding</span> <span class="token operator">:</span> <span class="token operator">utf8</span> ] }
 	)
 	'<span class="token string">prefilters</span>': group {
-		'<span class="token string">join statements</span>': dictionary { @block indent [ <span class="token operator">join</span> ] }
+		'<span class="token string">join statements</span>': dictionary { [ <span class="token operator">join</span> ] }
 		'<span class="token string">has where clause</span>': stategroup (
-			'<span class="token string">yes</span>' { @block indent [ <span class="token operator">where</span> ]
+			'<span class="token string">yes</span>' { [ <span class="token operator">where</span> ]
 				'<span class="token string">where statement</span>': component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
 			}
 			'<span class="token string">no</span>' { }
@@ -252,7 +252,7 @@ type: grammar
 			'<span class="token string">statement</span>': component <a href="#grammar-rule--filter-statement">'filter statement'</a>
 		}
 		'<span class="token string">list</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
-			'<span class="token string">statements</span>': @block indent component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
+			'<span class="token string">statements</span>': component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
 		}
 	)
 }
@@ -272,7 +272,7 @@ type: grammar
 				'<span class="token string">and</span>' { [ <span class="token operator">and</span> ] }
 				'<span class="token string">or</span>' { [ <span class="token operator">or</span> ] }
 			)
-			'<span class="token string">tail</span>': @block component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
+			'<span class="token string">tail</span>': component <a href="#grammar-rule--filter-statement-list">'filter statement list'</a>
 		}
 		'<span class="token string">no</span>' { }
 	)

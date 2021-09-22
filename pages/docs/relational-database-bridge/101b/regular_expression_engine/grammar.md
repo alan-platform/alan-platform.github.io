@@ -14,8 +14,8 @@ type: grammar
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">library</span>': dictionary { @section [ <span class="token operator">regexp</span> ]
-	'<span class="token string">captures</span>': dictionary @tabular { @block indent [ <span class="token operator">@</span> ]
+'<span class="token string">library</span>': dictionary { [ <span class="token operator">regexp</span> ]
+	'<span class="token string">captures</span>': dictionary { [ <span class="token operator">@</span> ]
 		'<span class="token string">next</span>': stategroup = node-switch successor (
 			| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
 			| none = '<span class="token string">no</span>'
