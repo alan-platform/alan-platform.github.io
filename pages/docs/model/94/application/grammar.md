@@ -2618,7 +2618,7 @@ stategroup is not in that state, the default won't be applied. In the following
 example the `Score` property will not be set when the state of `Default Score`
 is anything other than `Known`.
 
->```js
+```js
 'Score': number positive 'score' @default: .'Default Score'?'Known'.'Value'
 ```
 
@@ -2630,7 +2630,7 @@ and will therefore not be included in default values.
 
 The property description would get set to: `Deliver  pieces`.
 
->```js
+```js
 'Description': text @default: "Deliver ", to-text . 'To deliver' " pieces."
 'To deliver' : number 'pieces' = ^ >'Order'.'Amount'
 ```
@@ -3226,7 +3226,7 @@ That is, if a group is inside a state or another group, it is not added to the t
 The `@default:` annotation copies entries of a source collection into the annotated collection.
 A subset of the entries from the source collection can be copied by specifying a state filter:
 
->```js
+```js
 'Labels': collection ['Name'] {
 	'Name': text
 	'Default': stategroup (
