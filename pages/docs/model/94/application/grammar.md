@@ -384,8 +384,17 @@ References determine the values for reference sets; they create *inverse* refere
 Derivation expressions refer to them for computations (e.g. [derived numbers](#derived-numbers)).
 
 ##### Command attributes
-A `command` is a complex parametrized atomic operation on the dataset; a `command` is executed in a single transaction.
-A `command` attribute on a `node type` consists of a definition of its `parameters` and an [implementation](#commands-and-timers).
+A `command` is a complex parametrized atomic operation on the dataset.
+The application engine executes a `command` in a single transaction.
+A `command` attribute specification consists of a definition of `parameters` for the command and an [implementation](#commands-and-timers).
+
+##### Action attributes
+An `action` is a sequence of operations that a webclient (GUI) executes.
+That is, unlike a `command`, an action can perform multiple different operations, interactively.
+Actions provide users with wizards to guide them through their processes.
+For an `action`, you can specify parameters that users have to provide before starting the execution of the action.
+After the parameters, you have specify which operations should be performed.
+
 
 {: #grammar-rule--node }
 <div class="language-js highlighter-rouge">
@@ -2611,7 +2620,10 @@ It is possible to use multiple annotations on a single property. Be aware that
 they should be added in a specific order. Consult this grammar for the order of
 annotations.
 
-### Defaults
+### Overview
+Different attribute types support the same types of annotations.
+This overview presents the commonly used annotations that different attribute types share.
+#### Defaults
 Most property types support the `@default:` annotation. Defaults apply default values to properties of new
 nodes only and fail silently. That is, if the path contains a state navigation step and the
 stategroup is not in that state, the default won't be applied. In the following
@@ -2634,9 +2646,14 @@ The property description would get set to: `Deliver  pieces`.
 'Description': text @default: "Deliver ", to-text . 'To deliver' " pieces."
 'To deliver' : number 'pieces' = ^ >'Order'.'Amount'
 ```
-
-### Identifying properties
-
+#### Descriptions
+All attribute types support the `@description:` annotation.
+This annotation adds additional information about an attribute: what it is meant for.
+Alan GUI's typically present it as alt text, or a compact description at an input field.
+#### Visibility
+Commands and attributes that hold derived values, support the `@hidden` annotation.
+The annotation hides an attribute from the UI.
+#### Identifying properties
 Properties that are important for the identification of a collection entry can be marked
 with the `@identifying` annotation. Identifying properties are shown together with the
 unique identifier of a collection entry, whenever the entry is referenced.
@@ -2644,11 +2661,6 @@ For example, when an employee has a uniquely identifying personnel number
 in a collection of employees, a reference to employee will show the name of the employee
 when the 'name' property is marked as identifying.
 
-### Icons
-
-For better visual identification an icon can be specified using the @icon
-attribute. As an argument it takes an icon name. A complete list of the
-supported icons can be found at: https://fonts.google.com/icons
 
 {: #grammar-rule--ui-identifying-property-selection }
 <div class="language-js highlighter-rouge">
@@ -2695,6 +2707,49 @@ supported icons can be found at: https://fonts.google.com/icons
 </pre>
 </div>
 </div>
+#### Icons
+For better visual identification, attributes support the `@icon:` annotation
+attribute. As an argument it takes an icon name. A complete list of the
+supported icons can be found at: [fonts.google.com/icons](https://fonts.google.com/icons).
+
+### Actions
+
+
+{: #grammar-rule--ui-action-attribute }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui action attribute</span>' {
+	'<span class="token string">has description</span>': stategroup (
+		'<span class="token string">no</span>' { }
+		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
+			'<span class="token string">description</span>': text
+		}
+	)
+}
+</pre>
+</div>
+</div>
+An action attribute describes a sequence of actions (operations), as explained in the section on [action attributes](#action-attributes).
+
+
+{: #grammar-rule--ui-action }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui action</span>' { [ <span class="token operator">=></span> ]
+	'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-expression">'ui expression'</a>
+	'<span class="token string">has next action</span>': stategroup (
+		'<span class="token string">yes</span>' {
+			'<span class="token string">action</span>': component <a href="#grammar-rule--ui-action">'ui action'</a>
+		}
+		'<span class="token string">no</span>' { }
+	)
+}
+</pre>
+</div>
+</div>
+The keyword `interactive` instructs your application to display a screen to the user for applying/executing an operation.
 
 {: #grammar-rule--ui-action-interaction }
 <div class="language-js highlighter-rouge">
@@ -2709,6 +2764,7 @@ supported icons can be found at: https://fonts.google.com/icons
 </pre>
 </div>
 </div>
+The keyword `show` presents the result of an operation after performing it.
 
 {: #grammar-rule--ui-action-visualization }
 <div class="language-js highlighter-rouge">
@@ -2804,18 +2860,6 @@ supported icons can be found at: https://fonts.google.com/icons
 			)
 		}
 		'<span class="token string">execute operation</span>' { [ <span class="token operator">execute</span> ]
-			/*
-			*	execute .'<span class="token string">My Command or Action</span>' (
-			*		'<span class="token string">MyInt</span>' = integer 10
-			*		'<span class="token string">MyText</span>' = "text"
-			*		'<span class="token string">MyCol</span>' = (
-			*			create (
-			*				'<span class="token string">K</span>' = @ .'<span class="token string">new key</span>'
-			*				'<span class="token string">T</span>' = 10
-			*			)
-			*		)
-			*	)
-			*/
 			'<span class="token string">interaction</span>': component <a href="#grammar-rule--ui-action-interaction">'ui action interaction'</a>
 			'<span class="token string">path</span>': component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
 			'<span class="token string">operation</span>': [ <span class="token operator">.</span> ] reference
@@ -2824,29 +2868,9 @@ supported icons can be found at: https://fonts.google.com/icons
 		'<span class="token string">produce value</span>' {
 			'<span class="token string">value</span>': stategroup (
 				'<span class="token string">object</span>' {
-					/*
-					*	update >'<span class="token string">Node</span>' (
-					*		'<span class="token string">Text</span>' = "2"
-					*		'<span class="token string">Col</span>' = (
-					*			create (
-					*				'<span class="token string">User</span>' = "E1"
-					*			)
-					*		)
-					*		'<span class="token string">Group</span>' = (
-					*			'<span class="token string">Int</span>' = integer 2
-					*		)
-					*	)
-					*/
 					'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-object-expression">'ui object expression'</a>
 				}
 				'<span class="token string">state</span>' {
-					/*
-					*	update >'<span class="token string">Node</span>' (
-					*		'<span class="token string">StateGroup</span>' = create '<span class="token string">Open</span>' (
-					*			'<span class="token string">P1</span>' = "1"
-					*		)
-					*	)
-					*/
 					'<span class="token string">state</span>': [ <span class="token operator">create</span> ] reference
 					'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-object-expression">'ui object expression'</a>
 				}
@@ -2871,23 +2895,6 @@ supported icons can be found at: https://fonts.google.com/icons
 				}
 			)
 		}
-	)
-}
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--ui-action }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">ui action</span>' { [ <span class="token operator">=></span> ]
-	'<span class="token string">expression</span>': component <a href="#grammar-rule--ui-expression">'ui expression'</a>
-	'<span class="token string">has next action</span>': stategroup (
-		'<span class="token string">yes</span>' {
-			'<span class="token string">action</span>': component <a href="#grammar-rule--ui-action">'ui action'</a>
-		}
-		'<span class="token string">no</span>' { }
 	)
 }
 </pre>
@@ -3031,6 +3038,26 @@ supported icons can be found at: https://fonts.google.com/icons
 </div>
 </div>
 
+{: #grammar-rule--ui-style }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">ui style</span>' {
+	'<span class="token string">style</span>': stategroup (
+		'<span class="token string">foreground</span>' { [ <span class="token operator">foreground</span> ] }
+		'<span class="token string">background</span>' { [ <span class="token operator">background</span> ] }
+		'<span class="token string">brand</span>' { [ <span class="token operator">brand</span> ] }
+		'<span class="token string">link</span>' { [ <span class="token operator">link</span> ] }
+		'<span class="token string">accent</span>' { [ <span class="token operator">accent</span> ] }
+		'<span class="token string">success</span>' { [ <span class="token operator">success</span> ] }
+		'<span class="token string">warning</span>' { [ <span class="token operator">warning</span> ] }
+		'<span class="token string">error</span>' { [ <span class="token operator">error</span> ] }
+	)
+}
+</pre>
+</div>
+</div>
+
 {: #grammar-rule--ui-text-validation }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -3109,62 +3136,7 @@ supported icons can be found at: https://fonts.google.com/icons
 </pre>
 </div>
 </div>
-
-{: #grammar-rule--ui-numerical-type }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">ui numerical type</span>' {
-	'<span class="token string">represent as</span>': stategroup (
-		'<span class="token string">model</span>' { }
-		'<span class="token string">date</span>' { [ <span class="token operator">@date</span> ] }
-		'<span class="token string">date and time</span>' { [ <span class="token operator">@date-time</span> ] }
-		'<span class="token string">duration</span>' { [ <span class="token operator">@duration:</span> ]
-			'<span class="token string">unit</span>': stategroup (
-				'<span class="token string">seconds</span>' { [ <span class="token operator">seconds</span> ] }
-				'<span class="token string">minutes</span>' { [ <span class="token operator">minutes</span> ] }
-				'<span class="token string">hours</span>' { [ <span class="token operator">hours</span> ] }
-			)
-		}
-		'<span class="token string">custom type</span>' { [ <span class="token operator">@numerical-type:</span> ]
-			'<span class="token string">binding</span>': stategroup (
-				'<span class="token string">root</span>' { }
-				'<span class="token string">dynamic</span>' { [ <span class="token operator">bind</span> ]
-					'<span class="token string">path</span>': component <a href="#grammar-rule--node-type-id">'node type id'</a>
-					'<span class="token string">assignment</span>': [ <span class="token operator">as</span> ] component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
-				}
-			)
-			'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
-				'<span class="token string">label</span>': [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
-				'<span class="token string">conversion</span>': stategroup (
-					'<span class="token string">none</span>' { }
-					'<span class="token string">point translation</span>' {
-						'<span class="token string">decimals</span>': [ <span class="token operator">decimals:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
-					}
-				)
-			}
-		}
-	)
-}
-</pre>
-</div>
-</div>
-
-{: #grammar-rule--ui-action-attribute }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">ui action attribute</span>' {
-	'<span class="token string">has description</span>': stategroup (
-		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' { [ <span class="token operator">@description:</span> ]
-			'<span class="token string">description</span>': text
-		}
-	)
-}
-</pre>
-</div>
-</div>
+### Commands
 
 {: #grammar-rule--ui-command-attribute }
 <div class="language-js highlighter-rouge">
@@ -3185,7 +3157,7 @@ supported icons can be found at: https://fonts.google.com/icons
 </pre>
 </div>
 </div>
-### Group
+### Groups
 The `@breakout` annotation indicates that a group property
 should not be displayed together with the other properties. At the time of
 this writing, the group is put in a separate tab in the details view of an entry.
@@ -3222,7 +3194,7 @@ That is, if a group is inside a state or another group, it is not added to the t
 </pre>
 </div>
 </div>
-### Collection
+### Collections
 The `@default:` annotation copies entries of a source collection into the annotated collection.
 A subset of the entries from the source collection can be copied by specifying a state filter:
 
@@ -3336,6 +3308,7 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### Numbers
 
 {: #grammar-rule--ui-number-property }
 <div class="language-js highlighter-rouge">
@@ -3400,6 +3373,7 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### Files
 
 {: #grammar-rule--ui-file-property }
 <div class="language-js highlighter-rouge">
@@ -3436,6 +3410,7 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### Texts
 
 {: #grammar-rule--ui-text-property }
 <div class="language-js highlighter-rouge">
@@ -3502,6 +3477,7 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### State groups
 
 {: #grammar-rule--ui-state-group-property }
 <div class="language-js highlighter-rouge">
@@ -3542,6 +3518,7 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### States
 
 {: #grammar-rule--ui-state }
 <div class="language-js highlighter-rouge">
@@ -3575,6 +3552,7 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### Todo items
 
 {: #grammar-rule--ui-todo }
 <div class="language-js highlighter-rouge">
@@ -3591,21 +3569,42 @@ the keys are the same.
 </pre>
 </div>
 </div>
+### Numerical types
 
-{: #grammar-rule--ui-style }
+{: #grammar-rule--ui-numerical-type }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">ui style</span>' {
-	'<span class="token string">style</span>': stategroup (
-		'<span class="token string">foreground</span>' { [ <span class="token operator">foreground</span> ] }
-		'<span class="token string">background</span>' { [ <span class="token operator">background</span> ] }
-		'<span class="token string">brand</span>' { [ <span class="token operator">brand</span> ] }
-		'<span class="token string">link</span>' { [ <span class="token operator">link</span> ] }
-		'<span class="token string">accent</span>' { [ <span class="token operator">accent</span> ] }
-		'<span class="token string">success</span>' { [ <span class="token operator">success</span> ] }
-		'<span class="token string">warning</span>' { [ <span class="token operator">warning</span> ] }
-		'<span class="token string">error</span>' { [ <span class="token operator">error</span> ] }
+'<span class="token string">ui numerical type</span>' {
+	'<span class="token string">represent as</span>': stategroup (
+		'<span class="token string">model</span>' { }
+		'<span class="token string">date</span>' { [ <span class="token operator">@date</span> ] }
+		'<span class="token string">date and time</span>' { [ <span class="token operator">@date-time</span> ] }
+		'<span class="token string">duration</span>' { [ <span class="token operator">@duration:</span> ]
+			'<span class="token string">unit</span>': stategroup (
+				'<span class="token string">seconds</span>' { [ <span class="token operator">seconds</span> ] }
+				'<span class="token string">minutes</span>' { [ <span class="token operator">minutes</span> ] }
+				'<span class="token string">hours</span>' { [ <span class="token operator">hours</span> ] }
+			)
+		}
+		'<span class="token string">custom type</span>' { [ <span class="token operator">@numerical-type:</span> ]
+			'<span class="token string">binding</span>': stategroup (
+				'<span class="token string">root</span>' { }
+				'<span class="token string">dynamic</span>' { [ <span class="token operator">bind</span> ]
+					'<span class="token string">path</span>': component <a href="#grammar-rule--node-type-id">'node type id'</a>
+					'<span class="token string">assignment</span>': [ <span class="token operator">as</span> ] component <a href="#grammar-rule--variable-assignment">'variable assignment'</a>
+				}
+			)
+			'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+				'<span class="token string">label</span>': [ <span class="token operator">label:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
+				'<span class="token string">conversion</span>': stategroup (
+					'<span class="token string">none</span>' { }
+					'<span class="token string">point translation</span>' {
+						'<span class="token string">decimals</span>': [ <span class="token operator">decimals:</span> ] component <a href="#grammar-rule--ui-scalar-value-expression">'ui scalar value expression'</a>
+					}
+				)
+			}
+		}
 	)
 }
 </pre>
