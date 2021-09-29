@@ -1,0 +1,26 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Products': collection ['Name'] {
+		'Name': text
+		'Description': text
+		'Type': stategroup (
+			'Assembled' { }
+			'Simple' {
+				'Price': number 'eurocent'
+			}
+		)
+	}
+}
+
+numerical-types
+	'eurocent' @numerical-type: (
+		label: "€"
+		decimals: 2
+	)
+	'count' @numerical-type: (
+		label: ""
+	)
