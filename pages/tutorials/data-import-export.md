@@ -25,7 +25,7 @@ For example, for the application from the figure, a CSV download gives you a fil
 ```
 Products,item_operation,Description:,Type?,Type_operation?,Price#Simple*Type?
 Car,update,A vehicle that can drive you places.,Assembled,update,
-Steering wheel,update,A steering wheel for a car.,Simple,update,210
+Steering wheel,update,A steering wheel for a car.,Simple,update,209.99
 Tire,update,A car part.,Simple,update,25
 ```
 Note that we can immediately upload the downloaded CSV file again by dragging it to the drop zone.
@@ -40,7 +40,7 @@ If you upload a CSV file that contains errors, you will get an error report expl
 
 To explain the data format requirements, let's look at the CSV data from the `Products` collection.
 The first column is for the key of `Products` items.
-Keys have to be *unique*: you cannot add multiple `Products` with the same key.
+Keys of collection entries have to be *unique*: you cannot add multiple `Products` with the same key.
 
 For the second column, the `item_operation`, you can choose from:
 - `add` to add a new item
@@ -48,10 +48,14 @@ For the second column, the `item_operation`, you can choose from:
 - `remove` to remove an existing item
 
 For the stategroup `Type` of the `Products`, you see a column `Type_operation?`.
-Two different operations are supported there:
-- `update` to update the existing state
-- `set` to change the existing state to a new state
-For new `Products` (when the `item_operation` is `add`), you have to use a blank field.
+Two different operations are supported for **stategroups**:
+- `update` to update the existing state.
+- `set` to change the existing state to a new state.
+
+For new `Products` (when the `item_operation` is `add`), you need a blank field.
+
+The notation for **number** values is identical to the input format that the app expects. For example, if you can enter a price with two decimal places in your app then you should provide numbers with (at most) two decimal places in your CSV.
+That is, unless numbers use a *dynamic* number of decimals in your app. In that case, you should provide number values without decimals.
 
 Some examples of updates for the `Products` collection:
 - add a new `Products` item called 'Seat':
@@ -70,3 +74,4 @@ Steering wheel,update,A steering wheel for a car.,Assembled,set,
 	```
 Tire,update,A car part.,Simple,update,29.99
 	```
+
