@@ -1,4 +1,4 @@
 ﻿Products,item_operation,Description:,Type?,Type_operation?,Price#Simple*Type?
 Car,add,A vehicle that can drive you places.,Assembled,,
-Steering wheel,add,A steering wheel for a car.,Simple,,"21,000"
-Tire,add,A car part.,Simple,,"2,500"
+Steering wheel,add,A steering wheel for a car.,Simple,,210
+Tire,add,A car part.,Simple,,25

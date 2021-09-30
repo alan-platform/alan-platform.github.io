@@ -1,5 +1,5 @@
 ﻿Products,item_operation,Description:,Type?,Type_operation?,Price#Simple*Type?
 Car,remove,,,,
 Steering wheel,update,A steering wheel for a car.,Assembled,set,
-Tire,update,A car part.,Simple,update,"9,900"
-Seat,add,A car part for sitting.,Simple,,25000
+Tire,update,A car part.,Simple,update,79.99
+Seat,add,A car part for sitting.,Simple,,249.99

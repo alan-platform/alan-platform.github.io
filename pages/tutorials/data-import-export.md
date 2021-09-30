@@ -25,8 +25,8 @@ For example, for the application from the figure, a CSV download gives you a fil
 ```
 Products,item_operation,Description:,Type?,Type_operation?,Price#Simple*Type?
 Car,update,A vehicle that can drive you places.,Assembled,update,
-Steering wheel,update,A steering wheel for a car.,Simple,update,"21,000"
-Tire,update,A car part.,Simple,update,"2,500"
+Steering wheel,update,A steering wheel for a car.,Simple,update,210
+Tire,update,A car part.,Simple,update,25
 ```
 Note that we can immediately upload the downloaded CSV file again by dragging it to the drop zone.
 This should always succeed and may not affect the application data.
@@ -57,7 +57,7 @@ For new `Products` (when the `item_operation` is `add`), you have to use a blank
 Some examples of updates for the `Products` collection:
 - add a new `Products` item called 'Seat':
 	```
-Seat,add,A car part for sitting.,Simple,,25000
+Seat,add,A car part for sitting.,Simple,,249.99
 	```
 - remove an item with key 'Car':
 	```
@@ -69,5 +69,5 @@ Steering wheel,update,A steering wheel for a car.,Assembled,set,
 	```
 - update the `Selling price` of a `Tire`
 	```
-Tire,update,A car part.,Simple,update,"9,900"
+Tire,update,A car part.,Simple,update,79.99
 	```
