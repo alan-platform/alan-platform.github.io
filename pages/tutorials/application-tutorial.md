@@ -171,7 +171,7 @@ For that:
 - click `Alan Deploy` and choose the 'migrate' option to create the folder `migrations/from_release`,
 - open the `migration.alan` file for the relevant tutorial step in `_docs/tutorial/restaurant1/`: `step_01/migration/migration.alan` for the current step,
 - copy the contents of the `migration.alan` file to the clipboard,
-- paste the clipboard contents in `migrations/from-release/migration.alan`, overwriting the  existing file contents.
+- paste the clipboard contents in `migrations/from-release/migration.alan`, overwriting the existing file contents.
 - click `Alan Deploy` and choose the 'migrate' option again.
 After succesful deployment, you can find the data in your app.
 
