@@ -259,7 +259,8 @@ Each `Menu` item (a node) has an `Item type` which can be `Dish` or `Beverage`.
 The value of `Dish type` can be `Appetizer`, `Main course`, `Dessert`.
 Similarly the `Beverage type` can be `Juice` or one of the other possible states that the model specifies.
 
-Build the model (`Alan Build`) and find out what stategroups and numerical-types do for your app. Make sure you set the view to `full`, which will reveil extra columns:
+Build and deploy to find out what stategroups and numerical-types do for your app.
+Make sure you set the view to **Full**, so you can see all columns:
 
 ![added states](./images_model/003.png)
 
