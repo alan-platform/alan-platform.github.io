@@ -29,17 +29,16 @@ Steering wheel,update,A steering wheel for a car.,Simple,update,210
 Tire,update,A car part.,Simple,update,25
 ```
 Note that we can immediately upload the downloaded CSV file again by dragging it to the drop zone.
-This should always succeed and may not affect the application data.
+The upload should always succeed and may not affect the application data.
 
 ## CSV upload/import
-To import data in CSV format, you can to drag and drop a CSV file to the drop zone.
+To import data in CSV format, you can drop a CSV file at the drop zone.
 The CSV file contents should adhere to a specific format.
 The CSV file that you can [download](#csv-downloadexport), specifies this format.
 Specifically, it shows you for which columns you need to provide values.
-Below we explain the specifics of the CSV format.
-Note that if you drop a CSV file that contains errors, you will get an error report explaining what should be fixed.
+If you upload a CSV file that contains errors, you will get an error report explaining what should be fixed.
 
-To explain the data format requirements, let's look at the CSV file from the `Products` collection.
+To explain the data format requirements, let's look at the CSV data from the `Products` collection.
 The first column is for the key of `Products` items.
 Keys have to be *unique*: you cannot add multiple `Products` with the same key.
 
@@ -69,5 +68,5 @@ Steering wheel,update,A steering wheel for a car.,Assembled,set,
 	```
 - update the `Selling price` of a `Tire`
 	```
-Tire,update,A car part.,Simple,update,79.99
+Tire,update,A car part.,Simple,update,29.99
 	```
