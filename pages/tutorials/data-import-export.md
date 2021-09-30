@@ -49,8 +49,8 @@ For the second column, the `item_operation`, you can choose from:
 
 For the stategroup `Type` of the `Products`, you see a column `Type_operation?`.
 Two different operations are supported for **stategroups**:
-- `update` to update the existing state.
-- `set` to change the existing state to a new state.
+- `update` to update the existing state
+- `set` to change from the existing state to a new state
 
 For new `Products` (when the `item_operation` is `add`), you need a blank field.
 
