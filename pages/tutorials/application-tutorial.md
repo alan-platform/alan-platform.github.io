@@ -146,19 +146,34 @@ This is done by a ***compiler*** that is part of the Alan platform tools.
 You can download the platform tools by clicking `Alan Fetch` in VS Code, or by running `./alan fetch` from the commandline.
 `Alan Fetch` uses the `versions.json` file in your project root to determine which versions of the tools are needed.
 
-When `Alan Fetch` is done, you can ***build*** (compile) the application by clicking the button `Alan Build` or running `./alan build` from the commandline.
-If everything is correct, the compiler shows no errors.
-You can then run `Alan Deploy` to transform your project into an app, ready for you to be used. At top of the IDE a text box `data source for this deployment` with selection option appears. Select `empty` (The first time; after your first deployment another option will appear: `migrate`)
+When `Alan Fetch` is done, you can ***build*** (compile) an application by clicking the button `Alan Build` or running `./alan build` from the commandline.
+If your model and other parts of your Alan project are valid, the compiler shows no errors.
+After editing your model, you need to run Alan build again to see if the model is still valid.
+Note that if you build your application regularly, it is easier to troubleshoot errors.
 
-When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there is no data:
+When you can successfully build your application, you can run `Alan Deploy` to transform your project into an app, ready for you to be used.
+When clicking `Alan Deploy`, you get a menu where you can choose a *'data source for this deployment'*.
+For your first deployment, select the **empty** option.
+For subsequent deployments you may use the **migrate** option to keep existing application data.
+
+When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there will be no data:
 
 ![first app](./images_model/001.png)
 
-You can add several items yourself, to get familiar with the Graphical User Interface (GUI).
-By clicking `Add` a new window opens. Fill in the required fields, and click `Save` and `Close` (top right corner) when you're done.
-That will bring you back to the `Menu` table, where you can `Add` more data and modify existing `Menu` items.
-After your first deployment you can also add predefined data by copy the migration file from the appropriate step in the folder `_docs/tutorial/restaurant1/`, in this case `step_01/migration/`. When copying this file make sure you paste it in the folder `migrations/from-release`. The migration files already in this destination folder should be removed first.
-Deploy your app after this and select the option `migrate` to find the data availalbe in your app.
+Add some `Menu` items to familiarize yourself with the *Graphical User Interface* (GUI).
+Click **Add** to start adding a new item.
+Then, fill in the required fields for the item.
+Click **Save** and **Close** (top right corner) when you're done.
+This will bring you back to the `Menu` table, where you can add more items and modify existing ones.
+
+For this tutorial, you can use test data from the `_docs` folder, such that you do not start with an empty app after updating your model.
+For that:
+- click `Alan Deploy` and choose the 'migrate' option to create the folder `migrations/from_release`,
+- open the `migration.alan` file for the relevant tutorial step in `_docs/tutorial/restaurant1/`: `step_01/migration/migration.alan` for the current step,
+- copy the contents of the `migration.alan` file to the clipboard,
+- paste the clipboard contents in `migrations/from-release/migration.alan`, overwriting the  existing file contents.
+- click `Alan Deploy` and choose the 'migrate' option again.
+After succesful deployment, you can find the data in your app.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_01/`>
 
@@ -184,6 +199,8 @@ The `@numerical-type:` part is a GUI annotation; an instruction for the graphica
 We can specify the label that we want to see if we want it to be different from the label of the numerical-type (here `Euro` instead of `eurocent`).
 Furthermore, we can specify the number of decimals that the user can enter: 2 as the accuracy is `eurocent`.
 There's much more to numerical-types, but we'll leave it at this for now.
+
+<sup>For a better understanding of the syntax, we refer you to the [syntax guide](/pages/tuts/syntax.html).</sup>
 
 ## Stategroups
 For our `Menu` items, we want our application to store some additional information.
@@ -242,7 +259,8 @@ Each `Menu` item (a node) has an `Item type` which can be `Dish` or `Beverage`.
 The value of `Dish type` can be `Appetizer`, `Main course`, `Dessert`.
 Similarly the `Beverage type` can be `Juice` or one of the other possible states that the model specifies.
 
-Build the model (`Alan Build`) and find out what stategroups and numerical-types do for your app:
+Build and deploy to find out what stategroups and numerical-types do for your app.
+Make sure you set the view to **Full**, so you can see all columns:
 
 ![added states](./images_model/003.png)
 

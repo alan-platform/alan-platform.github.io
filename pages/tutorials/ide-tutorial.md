@@ -39,9 +39,9 @@ At the bottom left side you'll see these texts:
 ![Texts](./images_IDE/004.png)
 
 These are four buttons that execute important tasks:
-1. Alan Fetch for downloading and updating the Alan platform tools
-2. Alan Build for building your project
-3. Alan Deploy for deploying your project
+1. Alan Fetch downloads and updates the Alan platform tools
+2. Alan Build builds your project
+3. Alan Deploy deploys your project
 4. Alan Show opens an new browser tab with your application
 
 ## Files and folders
@@ -60,6 +60,20 @@ The location of the relevant files in the folders `_docs/tutorials` (available i
 By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
 To make sure you don't get stuck while working on the Application Language tutorial, the `_tutorials` folder contains a valid `application.alan` file for each topic as well.
 
+If, at some point, you seem to miss files or folders in the explorer (area 1) that are referred to in the tutorial, click the refresh button.
+This button appears when you move your cursor into area 1 (while the online IDE is active):
+
+![Refresh](./images_IDE/006.png)
+
+Files are automatically saved when you:
+- switch between files in area 2
+- switch between areas
+- click one of the `Alan`-buttons
+
+`Save` and other options are also available here:
+
+![Menu](./images_IDE/007.png)
+
 ## Compile and deploy
 Once you've written or updated a model and want to see the result, you need to do two things:
 1. Click on the button `Alan Build`.
@@ -69,7 +83,14 @@ Solve any problems, until you can succesfully build your project.
 2. Click on the button `Alan Deploy`.
 This will send your project to the server which will publish (deploy) your application.
 
-> NOTE: we recommend that you also run `Alan Fetch` from time to time (e.g. weekly) to get the latest platform tools for building and deploying your project. Furthermore, if you ever change the `versions.json` file, you need to run `Alan Fetch` as well to get the right tools.
+> NOTE: we recommend that you also run `Alan Fetch` from time to time (e.g. weekly).
+This ensures that you have the latest builds of the platform tools at the version specified in your `versions.json` file.
+Newer builds should never include breaking changes that break your project build.
+
+Sometimes, you may want to upgrade to a new platform version or system type version.
+For that, you need to modify the `versions.json` file.
+For the latest official platform and system type versions, you can find a `versions.json` file on the [docs page](/pages/docs.html).
+Make sure to run `Alan Fetch` to get the right tools after updating your `versions.json` file.
 
 ## Your published Application
 After deploying your work, you can find the latest published version of your application at the URL provided in the `README.md` file of your project.
