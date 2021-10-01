@@ -11,11 +11,11 @@ type: grammar
 
 ## Deployment
 ---
-In order to run an Alan application it needs to be deployed to the Application Server.
-The Alan `deployment` contains instructions for the deployment, such as the source of the initial data and configuration.
+In order to run an Alan application it needs to be deployed by an Alan Application Server.
+A `deployment.alan` file contains instructions for the deployment, such as the source of the initial data and configuration.
 ### Application Servers
-The `application-servers` lists all the Application Servers required for the deployment.
-For the Application Server performing the deployment can be referred to with `local`.
+The `application-servers` section lists all the Application Servers needed for the deployment.
+The Application Server performing the deployment can be referenced with the keyword `local`.
 
 {: #grammar-rule--application-servers }
 <div class="language-js highlighter-rouge">
@@ -33,11 +33,11 @@ For the Application Server performing the deployment can be referred to with `lo
 </div>
 </div>
 ### External Systems
-The Alan `wiring` declared the external sources required by the application.
-In the deployment, you need to specify the exact location of the sources.
-A source can be specified as either
-- a TCP/IP address where the source excepts connections
-- a path on an Application Server, the path consists of the `application-servers` name, the stack name and the `provided-connections` name from that stacks wiring.
+The `wiring.alan` file declares which external sources your applications require.
+In the `deployment.alan`, you need to provide the exact location of these sources.
+For specifying a source location, you can use
+- a TCP/IP address describing where the source excepts connections, or
+- a path on an Alan Application Server, consisting of an `application-servers` name, a *stack* name and a `provided-connections` name, taken from the `wiring.alan` of the other stack.
 
 {: #grammar-rule--external-systems }
 <div class="language-js highlighter-rouge">
@@ -70,7 +70,27 @@ A source can be specified as either
 </div>
 </div>
 ### Systems
-Here we provide deployment specific information for each system in the wiring.
+The `systems` section provides deployment specific information for each system mentioned in a `wiring.alan` file.
+Depending on the System Type, a system may require additional configuration, instance data, or a schedule.
+
+#### Configuration
+For systems requiring additional configuration, you can either
+- use a template from a list of templates for the System Type, and override specific options, or
+- use a `custom` configuration, where all options are set by the deployment.
+
+#### Instance Data
+Some systems require data to function (instance data).
+To provide data for a system, you can either
+- use the keyword `local` for the local file system, or
+- use the keyword `from` followed by the name of an Application Server, to download the most recent version of the instance data from another stack.
+
+At deploy time, transformations can be applied to your instance data.
+A transformation can be
+- a `migration`, transforming data conforming to an older model to instance data conforming to a new model, or
+- a `conversion` from a list of predefined conversions for the System Type.
+
+#### Schedule
+Some systems require a schedule to perform tasks at specific moments in time.
 
 {: #grammar-rule--systems }
 <div class="language-js highlighter-rouge">
@@ -123,23 +143,7 @@ Here we provide deployment specific information for each system in the wiring.
 </pre>
 </div>
 </div>
-#### Configuration
-Some System Types require additional configuration.
-To configure a system, you can either
-- use a template provided by the System Type and override specific options
-- use a `custom` configuration, where all options are set by the deployment
-#### Instance Data
-Some System Types require instance data.
-To provide data to a system, you can either
-- use `local` for the local file system
-- use `from` Application Server to download the most recent version of the instance data of another stack
-
-In addition to the source of the instance data, transformations can be applied at deploy time to the data.
-This can be either
-- a `migration` to transform data for an older model to the current model
-- a `conversion` to apply a predefined transformation to the data, the available conversions are defined by the System Type
-#### Schedule
-Some System Types require a schedule to perform tasks at specific moments in time.
+## Component rules
 
 {: #grammar-rule--tcp-socket }
 <div class="language-js highlighter-rouge">

@@ -9,10 +9,10 @@ type: grammar
 1. TOC
 {:toc}
 
-## The *basic wiring*
+## The *minimal wiring*
 ---
-Every Alan application needs a [`wiring`](#wiring).
-The minimal wiring for a simple server and client is
+Every Alan project needs a [`wiring`](#wiring).
+The *minimal wiring* for a single Alan application with client, server, and authentication is
 
 ```js
 interfaces
@@ -49,9 +49,11 @@ provided-connections
 
 ## Wiring
 ---
-The wiring of an application defines the individual components and how they interact with each other.
+The wiring describes which components make up the Alan project, and how they interact with each other.
 ### Interfaces
-If your application consumes or provides data from internal or external sources, you need to define an Alan `interface` for each source.
+If your application consumes data from, or provide data to another application, you need an Alan `interface`.
+In the `interfaces` section of the wiring, you list the names of the `interface`s.
+For each item in the list, you need a file `interfaces/<name>/interface.alan` in your project, which specifies the interface.
 
 {: #grammar-rule--interfaces }
 <div class="language-js highlighter-rouge">
@@ -62,7 +64,8 @@ If your application consumes or provides data from internal or external sources,
 </div>
 </div>
 ### Models
-An application usually only has one Alan `model`, but more complex application can have multiple models.
+An Alan project typically has one Alan `application` model, but projects can have multiple `application` models.
+For each item in the `models` section, you need a corresponding file `models/<name>/application.alan` in your project.
 
 {: #grammar-rule--models }
 <div class="language-js highlighter-rouge">
@@ -73,11 +76,11 @@ An application usually only has one Alan `model`, but more complex application c
 </div>
 </div>
 ### External Systems
-If your application consumes data from external sources, you need to declare the type of these sources.
-The type of an external source must be one of the following:
-- `interface` when the data is defined by an Alan `interface`
-- `model` when the data is defined by an Alan `model`.
-- when a custom protocol is used, this should be the name of the protocol
+If your application consumes data from external sources, you need to specify the types of these sources.
+The type of an external source must be one of:
+- `interface` when the data conforms to an Alan `interface`,
+- `model` when the data conforms to an Alan `application` model, or
+- when a custom protocol is used: the name of the protocol.
 
 {: #grammar-rule--external-systems }
 <div class="language-js highlighter-rouge">
@@ -117,14 +120,15 @@ The type of an external source must be one of the following:
 </div>
 </div>
 ### Internal Systems
-The internal `systems` are the active components of an application.
+The internal `systems` are the active components of your Alan project.
 Each system is an instance of a System Type, which defines the structure of the connection mapping.
 
 The mapping of a system is divided into two mappings.
 - the `project` mapping, which follows the project structure of the System Type
 - the `consume` mapping, which is a list of additional connection of the System Type
 
-Not all System Types have both mappings.
+Whether a mapping is required, depends on the System Type.
+The compiler can tell you which one(s) you need.
 
 {: #grammar-rule--systems }
 <div class="language-js highlighter-rouge">
@@ -157,7 +161,7 @@ Not all System Types have both mappings.
 </div>
 </div>
 ### Provided Connections
-The `provided-connections` define all the parts of the application that can be accessed from outside the application.
+The `provided-connections` section describes which parts of your systems can be accessed from the outside world.
 
 {: #grammar-rule--provided-connections }
 <div class="language-js highlighter-rouge">
@@ -177,6 +181,7 @@ The `provided-connections` define all the parts of the application that can be a
 </pre>
 </div>
 </div>
+## Components
 
 {: #grammar-rule--library-mapping }
 <div class="language-js highlighter-rouge">
