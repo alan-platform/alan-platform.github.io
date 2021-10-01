@@ -28,8 +28,6 @@ Car,update,A vehicle that can drive you places.,Assembled,update,
 Steering wheel,update,A steering wheel for a car.,Simple,update,209.99
 Tire,update,A car part.,Simple,update,25
 ```
-Note that we can immediately upload the downloaded CSV file again by dragging it to the drop zone.
-The upload should always succeed and may not affect the application data.
 
 ## CSV upload/import
 To import data in CSV format, you can drop a CSV file at the drop zone.
