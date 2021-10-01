@@ -77,6 +77,8 @@ git config --global user.name "Your Name"
 ```
 
 - For a private repository, ask someone to add you as a collaborator.
+- Make sure that the repository does not contain the `./deployments` directory.
+	If it does: remove it and add `/deployments/*` to the `.gitignore` file. *
 - Then, run the following commands from the **Terminal** in the Alan IDE environment:
 
 ```sh
@@ -94,3 +96,7 @@ git fetch origin
 git checkout master # or other branch from teammate
 ```
 
+
+\* Deployments are your own: `./deployments/*/deployment.alan` files contain your Alan app url/ide name.
+If you overwrite your deployments with those of someone else, you need to update your `deployment.alan` files.
+You can do that by replacing all occurences of the `<name-of-someone-else>` with `<your-ide-name>`.
