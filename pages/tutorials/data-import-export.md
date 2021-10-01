@@ -1,6 +1,7 @@
 ---
 layout: page
-title: "Spreadsheet data import and export"
+head: "Spreadsheet data import & export"
+title: "Spreadsheet data<br>import & export"
 category: docs
 ---
 
