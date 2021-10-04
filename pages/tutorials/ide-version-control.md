@@ -78,7 +78,7 @@ git config --global user.name "Your Name"
 
 - For a private repository, ask someone to add you as a collaborator.
 - Make sure that the repository does not contain the `./deployments` directory.
-	If it does: remove it and add `/deployments/*` to the `.gitignore` file. *
+	If it does: remove it and add `/deployments` to the `.gitignore` file. *
 - Then, run the following commands from the **Terminal** in the Alan IDE environment:
 
 ```sh
