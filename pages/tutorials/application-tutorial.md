@@ -31,25 +31,25 @@ A restaurant is nothing without a good menu. So, first, let's take a look at the
 {:.no_toc}
 
 | *Appetizer* | *Price (€)* |
-| :- | :-: |
+| :- | -: |
 | Shrimp salad | 3,50 |
 | Tomato soup | 4,50 |
 | Ciabatta with tapenade | 2,50 |
 
 | *Main course* | *Price (€)* |
-| :- | :-: |
+| :- | -: |
 | Beef stew | 18 |
 | Grilled salmon | 16,50 |
 | Mashed potato with sauerkraut | 14 |
 
 | *Dessert* | *Price (€)* |
-| :- | :-: |
+| :- | -: |
 | Chocolate mousse | 4,50 |
 | Vanilla ice cream | 3,50 |
 | Cherry pie | 4 |
 
 | *Drinks* | *Price (€)* |
-| :- | :-: |
+| :- | -: |
 | Orange juice | 4,50 |
 | Spa rood | 3 |
 | Heineken pilsner | 4,20 |
@@ -200,7 +200,7 @@ We can specify the label that we want to see if we want it to be different from 
 Furthermore, we can specify the number of decimals that the user can enter: 2 as the accuracy is `eurocent`.
 There's much more to numerical-types, but we'll leave it at this for now.
 
-<sup>For a better understanding of the syntax, we refer you to the [syntax guide](/pages/tuts/syntax.html).</sup>
+<sup>For a better understanding of the syntax, read the [syntax guide](/pages/tuts/syntax.html).</sup>
 
 ## Stategroups
 For our `Menu` items, we want our application to store some additional information.
@@ -348,15 +348,17 @@ An `Orders` item consists of order lines. An `Order line` describes an order for
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_03/`>
 
+---
+
 ### Overview of attribute types
 {:.no_toc}
-The application language supports the following built-in attribute types:
->- A ***text*** attribute holds an unbounded string value (eg. *"this is text"*)
->- A ***number*** attribute holds an integer value (eg. *31415927*)
->- A ***file*** attribute holds two unbounded string values representing a file token and a file extension (eg. *"screenshot"* and *"png"*)
->- A ***collection*** attribute holds a map of key-value pairs. Keys are string values that have to be unique such that we can reference them unambiguously. Keys are implicitly defined for collection attributes; values are nodes of an inline defined type (eg. *{"001"; "Eggs"; 6; 'stired', 'fried'; 'omelette.jpg'}*)
->- A ***stategroup*** attribute holds a value indicating a state. States are alternatives to a property that a state group attribute indicates, such as `'Main course'`.
->- A ***group*** attribute holds a node of an inline defined node type. Group attributes add structure by grouping other attributes that belong together or share permission requirements, which we'll discuss later in this tutorial.
+The application language supports six built-in attribute types.
+- A ***text*** attribute holds an unbounded string value (e.g. *"this is text"*).
+- A ***number*** attribute holds an integer value (e.g. *31415927*).
+- A ***file*** attribute holds two unbounded string values representing a file token and a file extension (e.g. *"screenshot"* and *"png"*).
+- A ***collection*** attribute holds a map of key-value pairs. Keys are string values that have to be unique such that we can reference them unambiguously. Keys are implicitly defined for collection attributes; values are nodes of an inline defined type (e.g. `{"001"; "Eggs"; 6; 'stired', 'fried'; 'omelette.jpg'}`).
+- A ***stategroup*** attribute holds a value indicating a state. States are alternatives to a property that a state group attribute indicates, such as `'Main course'`.
+- A ***group*** attribute holds a node of an inline defined node type. Group attributes add structure by grouping other attributes that belong together or share permission requirements, which we'll discuss later in this tutorial.
 
 ## References
 There's an interesting line in the model that needs our attention:
