@@ -392,7 +392,7 @@ You may have noticed the `Usages` button in your app, when viewing a `Tables` it
 Clicking on `Usages`, gives you a screen with exactly that information: which `Orders` were placed for the `Tables` item.
 
 Let's try that with a new order.
-Select `Orders` in the left column and click `Add`:
+Select `Orders` **in the left column** and click **'Add'** (note that you can currently not **'Add'** items from the Usages screen directly):
 
 ![order](./images_model/015.png)
 
