@@ -145,7 +145,7 @@ The `object set path` starts with navigation steps that lead to a `collection`: 
 Subsequently, the keyword `*` expresses expansion of the `collection` to a set of objects: `Order line` nodes.
 The expression concludes with a value path (`.'Line total'`) expressing which value from each `Order line` should be retrieved.
 
-Can you determine where the `Total` line needs to go? Spoiler alert: answer ahead...
+Can you determine where the line needs to go? Spoiler alert: answer ahead...
 
 So now our whole model looks like this:
 ```js
