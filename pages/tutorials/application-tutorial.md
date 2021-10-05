@@ -336,7 +336,8 @@ Deploy and check the app in your browser: click `Tables` in the left menu bar. `
 In the left column we see that `Tables` is parent to the child `Orders`, just like in our model:
  we have specified a collection attribute `Tables` that nests a collection attribute `Orders`.
 This means that in the app, each `Tables` item has its own collection of `Orders`.
-An `Orders` item consists of order lines. An `Order line` describes an order for a specific `Item` with an ordered `Amount`:
+An `Orders` collection holds order lines.
+An `Order line` describes an order for a specific `Item` with an ordered `Amount`:
 
 | *Order line* | *Item* | *Amount* |
 | :- | :- | -: |
