@@ -111,6 +111,7 @@ The *as* statement is followed by what is called a ***product conversion rule***
 Such a rule describes how `numerical-types` of the two properties are multiplied, like `euro` and `unit`.
 So the general format of a *product conversion rule* is `= 'num-type1' * 'num-type2'`.
 The first part (`num-type1`) is wat we mention after the keyword `as`.
+<sup>NOTE: for future versions of Alan, we plan to let the compiler infer this.</sup>
 
 For a `division`, we see something similar:
 `= division ( 'property1' as 'division conversion rule' , 'property2' )`
