@@ -333,7 +333,6 @@ We can match against the following possible results for the comparison:
 Cases may not overlap, so you cannot match against `<` as well as `<=`.
 
 Finally, the `Total` is calculated by subtracting `Discount` from the `Subtotal` using the `sum` operation and a sign inversion (`-`).
-If discount is not applicable (state `No`), then the `Total` is identical to `Subtotal`.
 
 Let's take a look at the app and enter an order:
 ![discount](./images_model/023.png)
