@@ -138,7 +138,14 @@ Let's add another useful line to the model:
 'Total': number 'eurocent' = sum .'Order lines'* .'Line total'
 ```
 
-Can you determine where it needs to go? Spoiler alert: answer ahead...
+This line expresses that `Total` is the sum of the `Line total` from a set of `Order lines`.
+For that purpose, the expression starts with the keyword `sum`, followed by a path that produces a set of numbers to sum.
+The grammar calls this an [`object set path`](/pages/docs/model/89/application/grammar.html#grammar-rule--object-set-path).
+The `object set path` starts with navigation steps that lead to a `collection`: `.'Order lines'`.
+Subsequently, the keyword `*` expresses expansion of the `collection` to a set of objects: `Order line` nodes.
+The expression concludes with a value path (`.'Line total'`) expressing which value from each `Order line` should be retrieved.
+
+Can you determine where the `Total` line needs to go? Spoiler alert: answer ahead...
 
 So now our whole model looks like this:
 ```js
@@ -209,9 +216,16 @@ numerical-types
 And at runtime (in your app) it looks like this:
 ![(line totals and total](./images_model/022.png)
 
-The possible operations that can be used for deriving number values can be found [here](/pages/docs/model/89/application/grammar.html#derived-numbers).
-- `min`: determines the minimum of a set of values
-- `max`: determines the maximum of a set of values
+Note that operations such as `sum` work on both a set of values as well as on a list of values.
+For summing a list of separate values, you use parentheses after the `sum` keyword, as we did for `product`:
+```js
+sum ( .'value A', .'value B', .'value C', .'value D' )
+```
+
+The supported operations for deriving number values can be found [here](/pages/docs/model/89/application/grammar.html#derived-numbers).
+- `sum`: determines the sum of a *set or list* of values
+- `min`: determines the minimum of a *set or list* of values
+- `max`: determines the maximum of a *set or list* of values
 - `std`: determines the standard deviation of a set of values
 - `count`: counts the number of values in a set
 - `remainder`: calculates the remainder of a division (10 mod 3 = 1)
