@@ -335,7 +335,16 @@ Deploy and check the app in your browser: click `Tables` in the left menu bar. `
 
 In the left column we see that `Tables` is parent to the child `Orders`, just like in our model:
  we have specified a collection attribute `Tables` that nests a collection attribute `Orders`.
-This means that in the app, each `Tables` item can have its own collection of `Orders`.
+This means that in the app, each `Tables` item has its own collection of `Orders`.
+An `Orders` item consists of order lines. An `Order line` describes an order for a specific `Item` with an ordered `Amount`:
+
+| *Order line* | *Item* | *Amount* |
+| :- | :- | -: |
+| 01 | Orange juice | 2 |
+| 02 | Tomato soup | 2 |
+| 03 | Beef stew | 2 |
+| 04 | Chocolate mousse | 1 |
+| 05 | Cappuccino | 1 |
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_03/`>
 
