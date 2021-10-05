@@ -235,10 +235,14 @@ So far we've seen number derivations, but we can also derive other types of data
 
 ## Growing our business
 Our restaurant business is growing.
-Many people are now working with our app, and its time for some reorganizations.
+Many people are now working with our app, and its time for some reorganization.
 We have more permanent data that only `Management` should touch, and we want to show that in our application.
 For that, we express a group called `Management` at the top of the model.
-This group captures a new collection `Discount periods`, a `VAT percentage`, and the existing collections `Beverages types` and `Tables`:
+This group captures a new collection `Discount periods`, a `VAT percentage`, and the existing collections `Beverages types` and `Tables` as shown below.
+
+When rebuilding the app, you'll get some **errors** saying the compiler can't find certain properties.
+Correct the errors according to the changes made, by adding missing navigation steps such as `.'Management'`.
+
 ```js
 'Management': group {
 	'Discount periods': collection ['Period'] {
@@ -246,22 +250,16 @@ This group captures a new collection `Discount periods`, a `VAT percentage`, and
 		'Percentage' : number 'percent'
 		'Minimal spendings': number 'eurocent'
 	}
-
 	'VAT percentage': number 'percent'
-
 	'Beverages types': collection ['Beverage type'] {
 		'Beverage type': text
 	}
-
 	'Tables': collection ['Table number'] {
 		'Table number': text
 		'Seatings': number 'chairs'
 	}
 }
 ```
-When you have moved `Beverages types` and `Tables` to the group `Management`, rebuild your app.
-You'll get some errors saying the compiler can't find certain properties.
-Correct the errors according to the changes made, by adding missing navigation steps such as `.'Management'`.
 
 The `VAT percentage` will be used for calculating the value added tax (VAT).
 For the `VAT percentage`, we also have to add a numerical type to the `numerical-types` section in the model:
