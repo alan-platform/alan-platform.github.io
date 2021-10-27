@@ -1705,7 +1705,7 @@ But, because of `can-update: ^ is ( user )` at `Address` in the model, users can
 ##### Create and delete permissions
 Create and delete permission requirements for collection entries and states (items) inherit *update* permission requirements from the parent node type.
 The permissions are **one-off overrides** that are not carried down in the node type hierarchy.
-That is, they only applied to the state type or collection attribute where they are specified.
+That is, they only apply to the state type or collection attribute where they are specified.
 ##### Command execution permissions
 Command execution permissions are independent of aforementioned permissions.
 Execution permission requirements only apply to the command for which they are specified.
