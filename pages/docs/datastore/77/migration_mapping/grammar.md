@@ -188,7 +188,7 @@ type: grammar
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variable assignment: block</span>' {
-	'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">$</span> ]
+	'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">$</span> ]
 		'<span class="token string">type</span>': stategroup (
 			'<span class="token string">context</span>' { [ <span class="token operator">=</span> ]
 				'<span class="token string">expression</span>': component <a href="#grammar-rule--context-selector">'context selector'</a>
@@ -407,16 +407,16 @@ type: grammar
 		'<span class="token string">convert date</span>' { [ <span class="token operator">to-date</span> ]
 			'<span class="token string">unguaranteed operation</span>': component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--regexp-selector">'regexp selector'</a>
-			'<span class="token string">components</span>': @block indent [ <span class="token operator">where</span> ] group {
-				'<span class="token string">year</span>': @block indent [ <span class="token operator">year</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">components</span>': [ <span class="token operator">where</span> ] group {
+				'<span class="token string">year</span>': [ <span class="token operator">year</span> <span class="token operator">=</span> ] reference
 				'<span class="token string">offset</span>': stategroup (
 					'<span class="token string">month based</span>' {
-						'<span class="token string">month</span>': @block indent [ <span class="token operator">month</span> <span class="token operator">=</span> ] reference
-						'<span class="token string">day of month</span>': @block indent [ <span class="token operator">day</span> <span class="token operator">=</span> ] reference
+						'<span class="token string">month</span>': [ <span class="token operator">month</span> <span class="token operator">=</span> ] reference
+						'<span class="token string">day of month</span>': [ <span class="token operator">day</span> <span class="token operator">=</span> ] reference
 					}
 					'<span class="token string">week based</span>' {
-						'<span class="token string">week</span>': @block indent [ <span class="token operator">week</span> <span class="token operator">=</span> ] reference
-						'<span class="token string">day of week</span>': @block indent [ <span class="token operator">day</span> <span class="token operator">=</span> ] stategroup (
+						'<span class="token string">week</span>': [ <span class="token operator">week</span> <span class="token operator">=</span> ] reference
+						'<span class="token string">day of week</span>': [ <span class="token operator">day</span> <span class="token operator">=</span> ] stategroup (
 							'<span class="token string">monday</span>' { [ <span class="token operator">Monday</span> ] }
 							'<span class="token string">tuesday</span>' { [ <span class="token operator">Tuesday</span> ] }
 							'<span class="token string">wednesday</span>' { [ <span class="token operator">Wednesday</span> ] }
@@ -432,13 +432,13 @@ type: grammar
 		'<span class="token string">convert date and time</span>' { [ <span class="token operator">to-datetime</span> ]
 			'<span class="token string">unguaranteed operation</span>': component <a href="#grammar-rule--unguaranteed-operation">'unguaranteed operation'</a>
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--regexp-selector">'regexp selector'</a>
-			'<span class="token string">components</span>': @block indent [ <span class="token operator">where</span> ] group {
-				'<span class="token string">year</span>': @block indent [ <span class="token operator">year</span> <span class="token operator">=</span> ] reference
-				'<span class="token string">month</span>': @block indent [ <span class="token operator">month</span> <span class="token operator">=</span> ] reference
-				'<span class="token string">day of month</span>': @block indent [ <span class="token operator">day</span> <span class="token operator">=</span> ] reference
-				'<span class="token string">hour</span>': @block indent [ <span class="token operator">hour</span> <span class="token operator">=</span> ] reference
-				'<span class="token string">minute</span>': @block indent [ <span class="token operator">minute</span> <span class="token operator">=</span> ] reference
-				'<span class="token string">second</span>': @block indent [ <span class="token operator">second</span> <span class="token operator">=</span> ] reference
+			'<span class="token string">components</span>': [ <span class="token operator">where</span> ] group {
+				'<span class="token string">year</span>': [ <span class="token operator">year</span> <span class="token operator">=</span> ] reference
+				'<span class="token string">month</span>': [ <span class="token operator">month</span> <span class="token operator">=</span> ] reference
+				'<span class="token string">day of month</span>': [ <span class="token operator">day</span> <span class="token operator">=</span> ] reference
+				'<span class="token string">hour</span>': [ <span class="token operator">hour</span> <span class="token operator">=</span> ] reference
+				'<span class="token string">minute</span>': [ <span class="token operator">minute</span> <span class="token operator">=</span> ] reference
+				'<span class="token string">second</span>': [ <span class="token operator">second</span> <span class="token operator">=</span> ] reference
 			}
 		}
 		'<span class="token string">make date</span>' { [ <span class="token operator">make-date</span> ]
@@ -480,7 +480,7 @@ type: grammar
 			)
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--context-selector">'context selector'</a>
 			'<span class="token string">attribute</span>': [ <span class="token operator">?</span> ] reference
-			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 					| node = '<span class="token string">yes</span>' { '<span class="token string">predecessor</span>' = predecessor }
 					| none = '<span class="token string">no</span>'
@@ -587,7 +587,7 @@ type: grammar
 			)
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--context-selector">'context selector'</a>
 			'<span class="token string">attribute</span>': [ <span class="token operator">?</span> ] reference
-			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">optional variable assignment</span>': stategroup (
 					'<span class="token string">assign</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ]
 						'<span class="token string">create context</span>': component <a href="#grammar-rule--context-creation">'context creation'</a>
@@ -743,7 +743,7 @@ type: grammar
 			)
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--context-selector">'context selector'</a>
 			'<span class="token string">attribute</span>': [ <span class="token operator">?</span> ] reference
-			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+			'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">optional variable assignment</span>': stategroup (
 					'<span class="token string">assign</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ]
 						'<span class="token string">create context</span>': component <a href="#grammar-rule--context-creation">'context creation'</a>
@@ -758,7 +758,7 @@ type: grammar
 			'<span class="token string">mapping</span>': component <a href="#grammar-rule--node-mapping">'node mapping'</a>
 		}
 		'<span class="token string">sub expression</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
-			'<span class="token string">list</span>': @block indent component <a href="#grammar-rule--collection-expression-list">'collection expression list'</a>
+			'<span class="token string">list</span>': component <a href="#grammar-rule--collection-expression-list">'collection expression list'</a>
 		}
 		'<span class="token string">none</span>' { [ <span class="token operator">none</span> ] }
 	)
@@ -774,7 +774,7 @@ type: grammar
 '<span class="token string">collection expression list</span>' {
 	'<span class="token string">has expressions</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">expression</span>': @block component <a href="#grammar-rule--collection-expression">'collection expression'</a>
+			'<span class="token string">expression</span>': component <a href="#grammar-rule--collection-expression">'collection expression'</a>
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--collection-expression-list">'collection expression list'</a>
 		}
 		'<span class="token string">no</span>' { }
@@ -807,22 +807,22 @@ type: grammar
 		}
 		'<span class="token string">conditional</span>' { [ <span class="token operator">match</span> ]
 			'<span class="token string">condition</span>': component <a href="#grammar-rule--boolean-expression">'boolean expression'</a>
-			'<span class="token string">on true</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">true</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
-			'<span class="token string">on false</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">false</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on true</span>': [ <span class="token operator">|</span> <span class="token operator">true</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on false</span>': [ <span class="token operator">|</span> <span class="token operator">false</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 		}
-		'<span class="token string">enrich</span>' { @block indent [ <span class="token operator">try</span> ]
+		'<span class="token string">enrich</span>' { [ <span class="token operator">try</span> ]
 			'<span class="token string">try assign</span>': component <a href="#grammar-rule--variable-assignment--block">'variable assignment: block'</a>
-			'<span class="token string">on success</span>': @block [ <span class="token operator">|</span> <span class="token operator">success</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
-			'<span class="token string">on failure</span>': @block [ <span class="token operator">|</span> <span class="token operator">failure</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on success</span>': [ <span class="token operator">|</span> <span class="token operator">success</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on failure</span>': [ <span class="token operator">|</span> <span class="token operator">failure</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 		}
 		'<span class="token string">context switch</span>' {
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--context-selector">'context selector'</a>
-			'<span class="token string">on singular</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">singular</span> ] group {
+			'<span class="token string">on singular</span>': [ <span class="token operator">|</span> <span class="token operator">singular</span> ] group {
 				'<span class="token string">create context</span>': component <a href="#grammar-rule--context-creation">'context creation'</a>
 				'<span class="token string">assignment</span>': component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
 				'<span class="token string">mapping</span>': component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 			}
-			'<span class="token string">on plural</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">plural</span> ] group {
+			'<span class="token string">on plural</span>': [ <span class="token operator">|</span> <span class="token operator">plural</span> ] group {
 				'<span class="token string">create context</span>': component <a href="#grammar-rule--context-creation">'context creation'</a>
 				'<span class="token string">assignment</span>': component <a href="#grammar-rule--variable-assignment--context">'variable assignment: context'</a>
 				'<span class="token string">mapping</span>': component <a href="#grammar-rule--state-mapping">'state mapping'</a>
@@ -837,7 +837,7 @@ type: grammar
 			)
 			'<span class="token string">selection</span>': component <a href="#grammar-rule--context-selector">'context selector'</a>
 			'<span class="token string">attribute</span>': [ <span class="token operator">?</span> ] reference
-			'<span class="token string">mappings</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { @block indent [ <span class="token operator">|</span> ]
+			'<span class="token string">mappings</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">optional variable assignment</span>': stategroup (
 					'<span class="token string">assign</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ]
 						'<span class="token string">create context</span>': component <a href="#grammar-rule--context-creation">'context creation'</a>
@@ -860,8 +860,8 @@ type: grammar
 				}
 				'<span class="token string">skip</span>' { }
 			)
-			'<span class="token string">on success</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">success</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
-			'<span class="token string">on failure</span>': @block indent [ <span class="token operator">|</span> <span class="token operator">failure</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on success</span>': [ <span class="token operator">|</span> <span class="token operator">success</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
+			'<span class="token string">on failure</span>': [ <span class="token operator">|</span> <span class="token operator">failure</span> ] component <a href="#grammar-rule--state-mapping">'state mapping'</a>
 		}
 		'<span class="token string">set state</span>' {
 			'<span class="token string">state</span>': reference
@@ -879,12 +879,12 @@ type: grammar
 <pre class="highlight language-js code-custom">
 '<span class="token string">node mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
 	'<span class="token string">define block</span>': stategroup (
-		'<span class="token string">yes</span>' { @block indent
+		'<span class="token string">yes</span>' {
 			'<span class="token string">block</span>': component <a href="#grammar-rule--variable-assignment--block">'variable assignment: block'</a>
 		}
 		'<span class="token string">no</span>' { }
 	)
-	'<span class="token string">properties</span>': dictionary { @block indent
+	'<span class="token string">properties</span>': dictionary {
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">group</span>' { [ <span class="token operator">group</span> ]
 				'<span class="token string">optional binding</span>': [ <span class="token operator">=</span> ] stategroup (

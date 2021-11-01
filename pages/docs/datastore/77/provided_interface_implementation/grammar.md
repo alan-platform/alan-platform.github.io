@@ -122,7 +122,7 @@ This path can be used for expressing the context node for an interface (the inte
 										'<span class="token string">no</span>' { }
 										'<span class="token string">yes</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
 											'<span class="token string">branch</span>': [ <span class="token operator">from</span> ] reference
-											'<span class="token string">key path</span>': [ <span class="token operator">>[</span>,'<span class="token string"> ]</span>'] component <a href="#grammar-rule--collection-key-node-path">'collection key node path'</a>
+											'<span class="token string">key path</span>': [ <span class="token operator">>[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--collection-key-node-path">'collection key node path'</a>
 										}
 									)
 									'<span class="token string">node</span>': component <a href="#grammar-rule--node-type-mapping">'node type mapping'</a>
