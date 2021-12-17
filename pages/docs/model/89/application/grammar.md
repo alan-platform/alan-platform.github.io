@@ -2624,11 +2624,10 @@ rules or constraints apply, a default value can be invalid.
 When a derived value is used, make sure it is not a part of the new
 node. Derived values on new nodes are computed after the node is saved,
 and will therefore not be included in default values.
-
-The property description would get set to: `Deliver  pieces`.
+For example, this initializes the `Description` with `Deliver  pieces`:
 
 ```js
-'Description': text @default: "Deliver ", to-text . 'To deliver' " pieces."
+'Description': text @default: concat ( "Deliver ", to-text .'To deliver', " pieces." )
 'To deliver' : number 'pieces' = ^ >'Order'.'Amount'
 ```
 #### Descriptions
