@@ -38,12 +38,9 @@ If you really need SQL, the datastore can expose a data stream that can be used 
 
 
 ## Can I connect to another system?
-Alan datastore systems can talk to each other with interfaces. You can talk with relational databases using the Relational Database Bridge system.
-
-More documentation will follow.
-
-It is possible to connect to other systems using XML Schema or third party API's. This requires additional tooling that isn't available publicly. Please contact us for more information.
-
+Alan `datastore` systems talk to each other via Alan interfaces.
+You can communicate with relational databases using the system type [`relational-database-bridge`](/docs).
+You can interact with other systems over HTTP using the system type [`connector`](/docs).
 
 ## What does that versions.json do?
 You'll have noticed the `versions.json` at the root of your project. It defines a set of packages that should be compatible. Builds of version X are guaranteed to be based on the exact same language and configuration, but may contain bugfixes. We call these "major" versions.
