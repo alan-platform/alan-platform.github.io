@@ -239,6 +239,13 @@ These functions require UTF-8 encoded data.
 define 'trim style' as @API choice ( 'leading' 'trailing' 'both' 'none' )
 
 library
+	/* Removes all whitespace from a text value.
+	 */
+	function 'strip'
+		< text , text >
+		( )
+		binds: "ecc93f85ae7d8b594c2babc62e934ee7858e3fc5"
+
 	/* Removes leading and/or trailing whitespace from a text value.
 	 */
 	function 'trim'
