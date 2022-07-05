@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: connector
-language: variables
-version: 33.10
-type: grammar
+layout: "doc"
+origin: "connector"
+language: "variables"
+version: "33.10"
+type: "grammar"
 ---
 
 1. TOC
