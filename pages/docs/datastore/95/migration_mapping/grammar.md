@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: datastore
-language: migration_mapping
-version: 95
-type: grammar
+layout: "doc"
+origin: "datastore"
+language: "migration_mapping"
+version: "95"
+type: "grammar"
 ---
 
 1. TOC

@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: datastore
-language: regular_expression_engine
-version: 95
-type: grammar
+layout: "doc"
+origin: "datastore"
+language: "regular_expression_engine"
+version: "95"
+type: "grammar"
 ---
 
 1. TOC
