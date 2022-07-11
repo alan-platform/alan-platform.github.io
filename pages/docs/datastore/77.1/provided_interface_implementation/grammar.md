@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: datastore
-language: provided_interface_implementation
-version: 77.1
-type: grammar
+layout: "doc"
+origin: "datastore"
+language: "provided_interface_implementation"
+version: "77.1"
+type: "grammar"
 ---
 
 1. TOC

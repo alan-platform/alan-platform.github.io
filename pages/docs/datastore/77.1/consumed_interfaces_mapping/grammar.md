@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: datastore
-language: consumed_interfaces_mapping
-version: 77.1
-type: grammar
+layout: "doc"
+origin: "datastore"
+language: "consumed_interfaces_mapping"
+version: "77.1"
+type: "grammar"
 ---
 
 1. TOC

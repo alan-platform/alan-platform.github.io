@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: sql-mirror
-language: sql_mapping
-version: 77.1
-type: grammar
+layout: "doc"
+origin: "sql-mirror"
+language: "sql_mapping"
+version: "77.1"
+type: "grammar"
 ---
 
 1. TOC
