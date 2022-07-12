@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: webclient
-language: translations
-version: uhura.dev.0
-type: grammar
+layout: "doc"
+origin: "webclient"
+language: "translations"
+version: "uhura.dev.0"
+type: "grammar"
 ---
 
 1. TOC

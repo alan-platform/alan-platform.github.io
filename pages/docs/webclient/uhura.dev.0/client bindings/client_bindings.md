@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: webclient
-language: client bindings
-version: uhura.dev.0
-type: client_bindings
+layout: "doc"
+origin: "webclient"
+language: "client bindings"
+version: "uhura.dev.0"
+type: "client_bindings"
 ---
 
 1. TOC

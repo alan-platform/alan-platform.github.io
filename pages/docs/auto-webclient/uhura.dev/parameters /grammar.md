@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: auto-webclient
-language: parameters 
-version: uhura.dev
-type: grammar
+layout: "doc"
+origin: "auto-webclient"
+language: "parameters "
+version: "uhura.dev"
+type: "grammar"
 ---
 
 1. TOC
