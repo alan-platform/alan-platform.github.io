@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: auto-webclient
-language: generator_settings
-version: q.5
-type: grammar
+layout: "doc"
+origin: "auto-webclient"
+language: "generator_settings"
+version: "q.5"
+type: "grammar"
 ---
 
 1. TOC

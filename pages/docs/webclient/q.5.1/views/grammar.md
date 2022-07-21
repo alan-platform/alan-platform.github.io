@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: webclient
-language: views
-version: q.5.1
-type: grammar
+layout: "doc"
+origin: "webclient"
+language: "views"
+version: "q.5.1"
+type: "grammar"
 ---
 
 1. TOC
