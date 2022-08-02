@@ -1,7 +1,7 @@
 ---
 layout: "doc"
 origin: "auto-webclient"
-language: "parameters "
+language: "parameters"
 version: "uhura.5"
 type: "grammar"
 ---
