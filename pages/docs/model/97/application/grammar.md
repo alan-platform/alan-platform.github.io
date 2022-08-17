@@ -985,8 +985,12 @@ If the annotation is missing, the compiler produces an error message indicating 
 The existence of an order for evaluating recursion ensures that the recursive computations are finite.
 
 A `recursion annotation` should be placed at a property or reference definition
-1. if the expression contains a sibling navigation step, like `>'Product'` [1] in the example.
+1. if the recursive expression contains a sibling navigation step, like `>'Product'` [1] in the example.
 2. if it is used by another recursive expression after a sibling navigation step, like the `'Product Price'` [2b], because it is used after the `>'Product'` step [2a].
+
+Note that when providing a [recursion annotation](#grammar-rule--recursion-annotation), only sibling references that partake in the indicated graphs may be used.
+That is, when a computation depends on multiple sibling references partaking in different graphs, you need to split it up into separate computations (derivations).
+For computing the value that you need, you can combine the results from the separate computations.
 
 Sometimes, computations traverse the `inverse` of a graph (by using a `reference-set` attribute).
 For such computations, you need to add the annotation `inverse`: `( recurse inverse 'assembly' )`.
