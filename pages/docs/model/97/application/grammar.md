@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: model
-language: application
-version: 97
-type: grammar
+layout: "doc"
+origin: "model"
+language: "application"
+version: "97"
+type: "grammar"
 ---
 
 1. TOC
@@ -909,10 +909,12 @@ and also from `Orders` to a `Previous Order`:
 		// an 'upstream' sibling Product reference that partakes in the 'assembly' graph:
 		'Product': text -> ^ sibling in ('assembly')
 		'Part Price': number 'euro'
-			= ( recurse ^ 'assembly' ) >'Product'.'Product Price'
+			= ( recurse ^ 'assembly' ) >'Product' /*[1]*/ .'Product Price' /*[2a]*/
 	}
+	'Parts Cost': number 'euro' = sum .'Parts'* .'Part Price'
+	'Assembly Cost': number 'euro'
 	'Product Price': number 'euro'
-		= ( recurse 'assembly' ) sum .'Parts'* .'Part Price' // recursion!
+		= ( recurse 'assembly' ) sum ( .'Parts Cost', .'Assembly Cost' ) /*[2b]*/
 }
 'Orders': collection ['Year']
 	'timeline': ordered-graph .'Is First Order' ( ?'Yes'|| ?'No'>'Previous Order' )
@@ -970,19 +972,25 @@ For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eed
 
 The example model expresses that `Products` form an acyclic `assembly` graph via their `Parts`:
 `Product` references of `Parts` partake in the acyclic `assembly` graph on `Products`.
-The constraint ensures that recursive `Product Price` computations terminate.
+The constraint ensures that recursive `Part Price`, `Parts Cost` and `Product Price` computations terminate.
 
-For orders, the model expresses an ordered `timeline` graph, which means that a strict total ordering exists for all `Orders`.
+For `Orders`, the model expresses an ordered `timeline` graph, which means that a strict total ordering exists for all `Orders`.
 That is: only one `Orders` item does not have preceding `Order`. All other `Orders` do.
 For ordered graphs, the application language supports deriving the `source` and the `sink` of the graph: the first `Order` and the most recent `Order`.
 
-Note that the `Product Price` expression starts with an [annotation](#grammar-rule--explicit-evaluation-annotation): `( sibling in 'assembly' )`.
-When you want to use a sibling reference in a computation, you have to provide the `( sibling )` annotation.
-In order to succesfully compile recursive computations, you have to add the `in 'assembly'` part, such that
-the compiler knows that an acyclic graph will be traversed. That is: that the computation is guaranteed to be finite.
+Note that the expression for computing a `Part Price` starts with an [annotation](#grammar-rule--recursion-annotation): `( recurse ^ 'assembly' )`.
+That is because the `Part Price` is computed recursively: for all recursive computations, the annotation is required.
+The (hierarchy of) graph(s) that you have to name as part of the annotation, imply an order in which recursive computations can be evaluated.
+If the annotation is missing, the compiler produces an error message indicating that a 'cyclic dependency' exists.
+The existence of an order for evaluating recursion ensures that the recursive computations are finite.
+
+A `recursion annotation` should be placed at a property or reference definition
+1. if the expression contains a sibling navigation step, like `>'Product'` [1] in the example.
+2. if it is used by another recursive expression after a sibling navigation step, like the `'Product Price'` [2b], because it is used after the `>'Product'` step [2a].
 
 Sometimes, computations traverse the `inverse` of a graph (by using a `reference-set` attribute).
 For such computations, you need to add the annotation `inverse`: `( recurse inverse 'assembly' )`.
+
 ## Derived values
 ---
 Derived values (derivations) are computed from base values and other derived values.

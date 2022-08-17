@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: model
-language: client_request
-version: 97
-type: grammar
+layout: "doc"
+origin: "model"
+language: "client_request"
+version: "97"
+type: "grammar"
 ---
 
 1. TOC
