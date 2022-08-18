@@ -107,6 +107,36 @@
 				"pages/docs/project-build-environment/34/wiring/grammar.html",
 				"pages/docs/project-build-environment/34/deployment/grammar.html"
 			]
+		},
+		{
+			"name": "2022.2",
+			"pages": [
+				"pages/docs/model/97/application/grammar.html",
+				"pages/docs/model/97/client_request/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/uhura.6/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/uhura.6/phrases/grammar.html",
+				"pages/docs/auto-webclient/uhura.6/translations/grammar.html",
+				"pages/docs/auto-webclient/uhura.6/parameters/grammar.html",
+				"pages/docs/connector/33.11/processor/grammar.html",
+				"pages/docs/connector/33.11/variables/grammar.html",
+				"pages/docs/datastore/97/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/97/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/97/migration_mapping/grammar.html",
+				"pages/docs/datastore/97/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/105/database/grammar.html",
+				"pages/docs/relational-database-bridge/105/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/97/sql_mapping/grammar.html",
+				"pages/docs/webclient/uhura.6.0/gui_model/grammar.html",
+				"pages/docs/webclient/uhura.6.0/phrases/grammar.html",
+				"pages/docs/webclient/uhura.6.0/settings/grammar.html",
+				"pages/docs/webclient/uhura.6.0/translations/grammar.html",
+				"pages/docs/webclient/uhura.6.0/views/grammar.html",
+				"pages/docs/webclient/uhura.6.0/widget/grammar.html",
+				"pages/docs/webclient/uhura.6.0/parameters/grammar.html",
+				"pages/docs/project-build-environment/34/wiring/grammar.html",
+				"pages/docs/project-build-environment/34/deployment/grammar.html"
+			]
 		}
 	]
 }

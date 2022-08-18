@@ -13,9 +13,9 @@ permalink: /docs/
 - [The Alan stack from the bottom up](/pages/tuts/bottom-up.html)
 
 ### Other useful resources:
-- [**Version control** & **offline editing**](/pages/tutorials/ide-version-control.html) for Alan IDE projects <sup style="color: #F0BF4C">***NEW***</sup>
-- [**Spreadsheet data import & export**](/pages/tutorials/data-import-export.html) in Alan apps <sup style="color: #F0BF4C">***NEW***</sup>
-- [**Users & Authentication**](/pages/tutorials/application-users.html) in Alan apps <sup style="color: #F0BF4C">***NEW***</sup>
+- [**Version control** & **offline editing**](/pages/tutorials/ide-version-control.html) for Alan IDE projects
+- [**Spreadsheet data import & export**](/pages/tutorials/data-import-export.html) in Alan apps
+- [**Users & Authentication**](/pages/tutorials/application-users.html) in Alan apps
 - Background information on [the syntax](/pages/tuts/syntax.html)
 - An [older tutorial](/pages/tuts/getting-started.html) with useful information about migrations
 
@@ -27,5 +27,5 @@ permalink: /docs/
 
 {% include doc-index.html %}
 
-[previous versions...](/docs/archive)
+[other versions...](/docs/archive)
 {: style="text-align: right"}
