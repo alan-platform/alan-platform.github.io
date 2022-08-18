@@ -986,7 +986,7 @@ The existence of an order for evaluating recursion ensures that the recursive co
 
 A [recursion annotation](#grammar-rule--recursion-annotation) should be placed at a property or reference definition
 1. if the recursive expression for computing the value contains a sibling navigation step, like `>'Product'` [1] in the example.
-2. if it is used by another recursive expression after a sibling navigation step, like the `'Product Price'` [2b], because it is used after the `>'Product'` step [2a].
+2. if the property or reference (`'Product Price'` at [2b]) is referenced by another recursive expression after a sibling navigation step (`>'Product'` at [2a]).
 
 Note that when providing a recursion annotation, only sibling references that partake in the indicated graphs may be used.
 That is, when a computation depends on multiple sibling references partaking in different graphs, you need to split it up into separate computations (derivations).
