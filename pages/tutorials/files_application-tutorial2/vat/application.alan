@@ -1,0 +1,8 @@
+'Total': number 'eurocent' = switch .'Discount applicable' (
+	|'Yes' as $'discount' => $'discount'.'Total'
+	|'No' => .'Subtotal'
+)
+'VAT': number 'eurocent' = product (
+	from 'percent' ^ .'Management' .'VAT percentage' as 'fraction' ,
+	.'Total'
+)

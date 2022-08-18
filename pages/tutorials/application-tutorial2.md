@@ -29,38 +29,12 @@ For that, we add an `Order type`.
 
 So, we rewrite this piece of code:
 ```js
-'Tables': collection ['Table number'] {
-	'Table number': text
-	'Seatings': number 'chairs'
-	'Orders': collection ['Order line'] {
-		'Order line': text
-		'Item': text -> ^ ^ .'Menu'[]
-		'Amount': number 'units'
-	}
-}
+{% include_relative files_application-tutorial2/take-away1/application.alan %}
 ```
 
 to this:
 ```js
-'Tables': collection ['Table number'] {
-	'Table number': text
-	'Seatings': number 'chairs'
-}
-
-'Orders': collection ['Order'] {
-	'Order': text
-	'Order type': stategroup (
-		'Takeaway' { }
-		'In-house' {
-			'Table': text -> ^ ^ .'Tables'[]
-		}
-	)
-	'Order lines': collection ['Order line'] {
-		'Order line': text
-		'Item': text -> ^ ^ .'Menu'[]
-		'Amount': number 'units'
-	}
-}
+{% include_relative files_application-tutorial2/take-away2/application.alan %}
 ```
 
 What changed?
@@ -76,15 +50,7 @@ Our customers have to pay us, and for that we need to compute the cost of their 
 Let's start with a `Line total`: the cost of a single `Order line`.
 The `Line total` of an `Order line` is a derived value, computed from the (base values) `Selling price` and the `Amount`:
 ```js
-'Order lines': collection ['Order line'] {
-	'Order line': text
-	'Item': text -> ^ ^ .'Menu'[]
-	'Amount': number 'units'
-	'Line total': number 'eurocent' = product (
-		>'Item'.'Selling price' as 'eurocent' ,
-		.'Amount'
-	)
-}
+{% include_relative files_application-tutorial2/derived-values/application.alan %}
 ```
 After `eurocent` for the `Line total` we have have written a formula for deriving the `Line total` of an `Order line`.
 The formula (derivation expression) expresses that the `Line total` is computed by multiplying (taking the `product` of) the `Selling price` and `Amount`.
@@ -97,39 +63,24 @@ After `Selling price`, there is some special code: `as 'eurocent'`.
 To explain what this means and for the health of our model we need to add this line:
 `= 'eurocent' * 'units'` below `euro` so our `numerical-types` section now looks like this:
 ```js
-numerical-types
-	'eurocent'
-		= 'eurocent' * 'units'
-		@numerical-type: (
-			label: "Euro"
-			decimals: 2
-		)
-	'chairs'
-	'units'
+{% include_relative files_application-tutorial2/derived-values-numtypes/application.alan %}
 ```
-The *as* statement is followed by what is called a ***product conversion rule***.
+The `as` keyword is followed by a ***product conversion rule***.
 Such a rule describes how `numerical-types` of the two properties are multiplied, like `euro` and `unit`.
 So the general format of a *product conversion rule* is `= 'num-type1' * 'num-type2'`.
-The first part (`num-type1`) is wat we mention after the keyword `as`.
+The first part (`'num-type1'`) is wat we mention after the keyword `as`.
+For a `division` the `as` keyword is followed by a ***division conversion rule*** indicated by the `/` in place of the `*` keyword.
 <sup>NOTE: for future versions of Alan, we plan to let the compiler infer this.</sup>
 
-For a `division`, we see something similar:
-`= division ( 'property1' as 'division conversion rule' , 'property2' )`
-The `division` uses a ***division conversion rule***:
-`= 'num-type1' / 'num-type2'`
 
-And we can do conversion of units by a constant factor, using the ***from*** statement, for example:
-`'Circle circumference': number 'circum' = from 'diameter' .'Circle diameter'`
-And a ***singular conversion rule***:
-`= 'num-typ' * constant`, according to the example:
+For converting number values with a constant factor, you can use the `from` keyword followed by the name of a ***singular conversion rule***, like `'diameter'`:
 ```js
-numerical-types
-	'circum'
-		= 'diameter' * 314159265 * 10 ^ -8	// = diameter * pi
+{% include_relative files_application-tutorial2/derived-values-pi/application.alan %}
 ```
+In the example, `diameter` refers to the *singular conversion rule* on the last line.
 
 Conversion rules ensure that `numerical-types` for derived values are correct.
-They also let you reuse (singular) conversions.
+Also, they enable reuse of (singular) conversions.
 
 ---
 
@@ -149,68 +100,7 @@ Can you determine where the line needs to go? Spoiler alert: answer ahead...
 
 So now our whole model looks like this:
 ```js
-users
-	anonymous
-
-interfaces
-
-root {
-	'Beverages types': collection ['Beverage type'] {
-		'Beverage type': text
-	}
-
-	'Menu': collection ['Item name'] {
-		'Item name': text
-		'Selling price': number 'eurocent'
-		'Item type': stategroup (
-			'Dish' {
-				'Dish type': stategroup (
-					'Appetizer' { }
-					'Main course' { }
-					'Dessert' { }
-				)
-			}
-			'Beverage' {
-				'Beverage type': text -> ^ ^ .'Beverages types'[]
-			}
-		)
-	}
-
-	'Tables': collection ['Table number'] {
-		'Table number': text
-		'Seatings': number 'chairs'
-	}
-
-	'Orders': collection ['Order'] {
-		'Order': text
-		'Order type': stategroup (
-			'Takeaway' { }
-			'In-house' {
-				'Table': text -> ^ ^ .'Tables'[]
-			}
-		)
-		'Order lines': collection ['Order line'] {
-			'Order line': text
-			'Item': text -> ^ ^ .'Menu'[]
-			'Amount': number 'units'
-			'Line total': number 'eurocent' = product (
-				>'Item'.'Selling price' as 'eurocent' ,
-				.'Amount'
-			)
-		}
-		'Total': number 'eurocent' = sum .'Order lines'* .'Line total' // <-- ;-)
-	}
-}
-
-numerical-types
-	'eurocent'
-		= 'eurocent' * 'units'
-		@numerical-type: (
-			label: "Euro"
-			decimals: 2
-		)
-	'chairs'
-	'units'
+{% include_relative files_application-tutorial2/step_04a/application.alan %}
 ```
 
 And at runtime (in your app) it looks like this:
@@ -228,10 +118,10 @@ The supported operations for deriving number values can be found [here](/pages/d
 - `max`: determines the maximum of a *set or list* of values
 - `std`: determines the standard deviation of a set of values
 - `count`: counts the number of values in a set
-- `remainder`: calculates the remainder of a division (10 mod 3 = 1)
-- `division`: calculates the division of two numbers
-- `add`: calculates the addition of two numbers
-- `diff 'date'`: calculates the difference of two (relative!) numbers, for example the difference between two dates or two temperatures
+- `remainder`: computes the remainder of a division (10 mod 3 = 1)
+- `division`: computes the division of two numbers
+- `add`: computes the addition of two numbers
+- `diff 'date'`: computes the difference of two (relative!) numbers, for example the difference between two dates or two temperatures
 
 Examples of absolute and relative numbers:
 - (number of) days: absolute, "28 days"
@@ -259,24 +149,10 @@ When rebuilding the app, you'll get some **errors** saying the compiler can't fi
 Correct the errors according to the changes made, by adding missing navigation steps such as `.'Management'`.
 
 ```js
-'Management': group {
-	'Discount periods': collection ['Period'] {
-		'Period': text
-		'Percentage' : number 'percent'
-		'Minimal spendings': number 'eurocent'
-	}
-	'VAT percentage': number 'percent'
-	'Beverages types': collection ['Beverage type'] {
-		'Beverage type': text
-	}
-	'Tables': collection ['Table number'] {
-		'Table number': text
-		'Seatings': number 'chairs'
-	}
-}
+{% include_relative files_application-tutorial2/management/application.alan %}
 ```
 
-The `VAT percentage` will be used for calculating the value added tax (VAT).
+The `VAT percentage` will be used for computing the value added tax (VAT).
 For the `VAT percentage`, we also have to add a numerical type to the `numerical-types` section in the model:
 ```js
 'percent'
@@ -293,51 +169,25 @@ The actual `Total` cost will depend on a discount when applicable.
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_05/`>
 
 ## Conditional expressions
-Now let's add a stategroup `Discount applicable` to `Orders`:
+Now, let's add a stategroup `Discount applicable` to `Orders`.
+Note that we also need to update the `numerical-types` section with the new numerical type `fraction`, a corresponding product conversion rule, and a singular conversion rule `percent`:
 ```js
-'Discount applicable': stategroup (
-	'Yes' {
-		'Discount period': text -> ^ ^ .'Management' .'Discount periods'[]
-		'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period' .'Minimal spendings' ) (
-			| < => 0
-			| >= => product (
-				from 'percent' >'Discount period' .'Percentage' as 'fraction',
-				^ .'Subtotal'
-			)
-		)
-		'Total': number 'eurocent' = sum ( ^ .'Subtotal' , - .'Discount' )
-	}
-	'No' { }
-)
-```
-
-Now, add the required numerical type `fraction`, the product conversion rule, and the singular conversion rule to the `numerical-types` section:
-```js
-numerical-types
-	'eurocent'
-		= 'units' * 'eurocent'
-		= 'fraction' * 'eurocent'
-		@numerical-type: (
-			label: "Euro"
-			decimals: 2
-		)
-	'chairs'
-	'units'
-	'percent'
-	'fraction'
-		= 'percent' / 1 * 10 ^ 2
+{% include_relative files_application-tutorial2/discount-applicable/application.alan %}
 ```
 
 With this model extension, you can apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`.
-For example, selecting 'Summer holiday' will give 3% discount on spendings over €35.
-If a discount is applicable (state `Yes`) and a `Discount period` is selected, the `Discount` will be computed after saving your changes:
+For example, selecting 'Summer holiday' will give a 3% discount on spendings over €35.
+If a discount is applicable (state `Yes`) and a `Discount period` is selected, the `Discount` will be computed after saving your changes, as follows:
 - Compare the `Subtotal` with the `Minimal spendings` that belong to the selected `Discount period`
 - If `Subtotal` is smaller than `Minimal spendings` then `Discount` will be equal to 0
 - If `Subtotal` is bigger than or equal to `Minimal spendings` then the `Discount` will be computed using the corresponding `Percentage`.
 The `Percentage` is first converted from `percent` to `fraction` (from 3% to 0.03).
-The `Total` is then computed as the product of the computed `fraction` and the `Subtotal`.
+The `Discount` is then computed as the `product` of the computed `fraction` and the `Subtotal`.
 
-With the expression, we `switch` on the comparison (`compare`) result of two numbers.
+The `Total` cost is computed by subtracting `Discount` from the `Subtotal` using the `sum` operation and a sign inversion (`-`).
+
+
+With the `switch` expression for the `Discount`, you switch on the comparison (`compare`) result of two numbers.
 We can match against the following possible results for the comparison:
 - 'greater than' (`>`)
 - 'greater than or equal to' (`>=`)
@@ -345,27 +195,21 @@ We can match against the following possible results for the comparison:
 - 'less than or equal to' (`<=`)
 - 'equal to' (`==`)
 - 'less than or greater than' (`<>`)
+
 Cases may not overlap, so you cannot match against `<` as well as `<=`.
 
-Finally, the `Total` is calculated by subtracting `Discount` from the `Subtotal` using the `sum` operation and a sign inversion (`-`).
+---
 
 Let's take a look at the app and enter an order:
 ![discount](./images_model/023.png)
 An order with a subtotal of €40,20 receives a discount of 3% when spending €35 or more during the summer holiday.
 
-Now, let's calculate the tax (`VAT`).
+Now, let's compute the tax (`VAT`).
 To do this we need to know the `Total` cost and take a percentage of it.
 But, the actual `Total` cost of an `Orders` item depends on whether a discount was applied or not.
 For that purpose, we use a `switch` statement for switching on the state of a stategroup attribute, after which we can compute the `VAT` from the `Total` of the order:
 ```js
-'Total': number 'eurocent' = switch .'Discount applicable' (
-	|'Yes' as $'discount' => $'discount'.'Total'
-	|'No' => .'Subtotal'
-)
-'VAT': number 'eurocent' = product (
-	from 'percent' ^ .'Management' .'VAT percentage' as 'fraction' ,
-	.'Total'
-)
+{% include_relative files_application-tutorial2/vat/application.alan %}
 ```
 
 For computing the `Total`, we `switch` on the state of `Discount applicable`.
@@ -422,17 +266,11 @@ You can turn unidirectional references into bidirectional references with a **re
 A *reference set* holds inverse references, which are identical to the usages that we just saw.
 Let's add that reference set, and some derivations that use it:
 ```js
-'Tables': collection ['Table number'] {
-	'Table number': text
-	'Seatings': number 'chairs'
-	'Orders': reference-set -> downstream ^ ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
-	'Number of orders': number 'units' = count <'Orders'*
-	'Total order value': number 'eurocent' = downstream sum <'Orders'* ^ .'Total'
-}
+{% include_relative files_application-tutorial2/refsets1/application.alan %}
 ```
 Also, add `-<'Orders'` at the `Table` reference below `'In-house'` in your model.
 ```js
-'Table': text -> ^ ^ ^ .'Management' .'Tables'[] -<'Orders'
+{% include_relative files_application-tutorial2/refsets2/application.alan %}
 ```
 
 Now, build it and take a look at the app.
@@ -454,6 +292,8 @@ For `Table`, we expressed that for the reference, its inverse (`-<` instead of `
 
 
 ## Upstream and downstream
+<sup style="color: red;">**IMPORTANT: Starting with platform version 2022.2, this was simplified significantly and this section is no longer relevant. Please consider upgrading.**</sup>
+
 Computations for Alan applications are divided over multiple different phases to guarantee that derivations can always be evaluated.
 Alan distinguishes between two different types of computations: constraints and derivations.
 
@@ -518,36 +358,7 @@ Which of the two you should choose depends entirely on your use case, as illustr
 
 Now let's look at our implementation of `Place new order` for the third party app:
 ```js
-'Place new order': command {
-	'Provide an order number': text
-	'Where is the meal consumed?': stategroup (
-		'Outside of restaurant' { }
-		'At the restaurant' {
-			'Where is the customer seated?': text -> .'Management'.'Tables'[]
-		}
-	)
-	'Order lines': collection ['Provide an order line number'] {
-		'Provide an order line number': text
-		'Item to be consumed': text -> .'Menu'[]
-		'Amount of this item': number 'units'
-	}
-} => update .'Orders' = create (
-	'Order' = @ .'Provide an order number'
-	'Order type' = switch @ .'Where is the meal consumed?' (
-		|'Outside of restaurant' => create 'Takeaway' ( )
-		|'At the restaurant' as $ => create 'In-house' (
-			'Table' = $ .'Where is the customer seated?'
-		)
-	)
-	'Order lines' = walk @ .'Order lines' as $ (
-		create (
-			'Order line' = $ .'Provide an order line number'
-			'Item' = $ .'Item to be consumed'
-			'Amount' = $ .'Amount of this item'
-		)
-	)
-	'Discount applicable' = create 'No' ( )
-)
+{% include_relative files_application-tutorial2/commands1/application.alan %}
 ```
 
 That's a lot to take in!
@@ -575,20 +386,7 @@ Let's take a closer look at our code for the command.
 The first part of the command looks a lot like a data model.
 And that is what it is: for expressing the required parameters (fields) for a command, we define a small data model:
 ```js
-'Place new order': command {
-	'Provide an order number': text
-	'Where is the meal consumed?': stategroup (
-		'Outside of restaurant' { }
-		'At the restaurant' {
-			'Where is the customer seated?': text -> .'Tables'[]
-		}
-	)
-	'Order lines': collection ['Provide an order line number'] {
-		'Provide an order line number': text
-		'Item to be consumed': text -> .'Menu'[]
-		'Amount of this item': number 'units'
-	}
-} ...
+{% include_relative files_application-tutorial2/commands2/application.alan %}
 ```
 
 In this small data model inside our main model, we can express references to the main model, like `-> .'Tables'[]`.
@@ -598,12 +396,7 @@ If instead we have a command called `Remove order line` for `Orders`, we will ge
 When picking a `Line` from the `Order lines`, we can choose from the lines from the open `Orders` item.
 Navigation expressions are evaluated with respect to the `Orders` item for which we click the command button, called the **'this'**-node.
 ```js
-'Orders': collection ['Order'] {
-	'Order': text
-	'Remove order line': command {
-		'Line': text -> .'Order lines'[]
-	} => update .'Order lines' = delete @ >'Line'
-}
+{% include_relative files_application-tutorial2/commands3/application.alan %}
 ```
 
 If needed, you can also express references inside the small data model by starting the reference with the special keyword **`@`**.
@@ -631,20 +424,7 @@ The `ensure` operation does not fail. It creates the node, or otherwise overwrit
 
 The part between the parentheses of keyword `create` reads:
 ```js
-'Order' = @ .'Provide an order number'
-'Order type' = switch @ .'Where is the meal consumed?' (
-	|'Outside of restaurant' => create 'Takeaway' ( )
-	|'At the restaurant' as $ => create 'In-house' (
-		'Table' = $ .'Where is the customer seated?'
-	)
-)
-'Order lines' = walk @ .'Order lines' as $ (
-	create (
-		'Order line' = $ .'Provide an order line number'
-		'Item' = $ .'Item to be consumed'
-		'Amount' = $ .'Amount of this item'
-	)
-)
+{% include_relative files_application-tutorial2/commands4/application.alan %}
 ```
 This part expresses how the new order is constructed from the command parameters.
 For example, the attribute `Order` will hold whatever the external app provides for `Provide an order number`.

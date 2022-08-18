@@ -1,0 +1,62 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Beverages types': collection ['Beverage type'] {
+		'Beverage type': text
+	}
+
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': text -> ^ ^ .'Beverages types'[]
+			}
+		)
+	}
+
+	'Tables': collection ['Table number'] {
+		'Table number': text
+		'Seatings': number 'chairs'
+	}
+
+	'Orders': collection ['Order'] {
+		'Order': text
+		'Order type': stategroup (
+			'Takeaway' { }
+			'In-house' {
+				'Table': text -> ^ ^ .'Tables'[]
+			}
+		)
+		'Order lines': collection ['Order line'] {
+			'Order line': text
+			'Item': text -> ^ ^ .'Menu'[]
+			'Amount': number 'units'
+			'Line total': number 'eurocent' = product (
+				>'Item'.'Selling price' as 'eurocent' ,
+				.'Amount'
+			)
+		}
+		'Total': number 'eurocent' = sum .'Order lines'* .'Line total' // <-- ;-)
+	}
+}
+
+numerical-types
+	'eurocent'
+		= 'eurocent' * 'units'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'

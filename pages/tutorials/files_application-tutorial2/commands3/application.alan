@@ -1,0 +1,6 @@
+'Orders': collection ['Order'] {
+	'Order': text
+	'Remove order line': command {
+		'Line': text -> .'Order lines'[]
+	} => update .'Order lines' = delete @ >'Line'
+}

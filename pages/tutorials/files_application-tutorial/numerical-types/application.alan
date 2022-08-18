@@ -1,0 +1,6 @@
+numerical-types
+	'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
