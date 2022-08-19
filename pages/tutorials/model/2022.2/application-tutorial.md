@@ -3,7 +3,7 @@ layout: page
 head: "Application Tutorial: a Restaurant app, Part I"
 title: "Application Tutorial:<br>a Restaurant app<br>Part I"
 category: docs
-version: 89
+version: 97
 ---
 
 1. TOC
