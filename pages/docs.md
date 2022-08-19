@@ -7,15 +7,15 @@ permalink: /docs/
 
 ### To get started with Alan:
 - [An introduction to Alan](/pages/tuts/introducing.html)
-- [**Tutorial A**: an IDE for Alan](/pages/tutorials/ide-tutorial.html)
-- [**Tutorial B**: a Restaurant app, Part I](/pages/tutorials/application-tutorial.html)
-- [**Tutorial C**: a Restaurant app, Part II](/pages/tutorials/application-tutorial2.html)
+- [**Tutorial A**: an IDE for Alan](/pages/tutorials/ide/ide-tutorial.html)
+- [**Tutorial B**: a Restaurant app, Part I](/pages/tutorials/model/application-tutorial.html)
+- [**Tutorial C**: a Restaurant app, Part II](/pages/tutorials/model/application-tutorial2.html)
 - [The Alan stack from the bottom up](/pages/tuts/bottom-up.html)
 
 ### Other useful resources:
-- [**Version control** & **offline editing**](/pages/tutorials/ide-version-control.html) for Alan IDE projects
-- [**Spreadsheet data import & export**](/pages/tutorials/data-import-export.html) in Alan apps
-- [**Users & Authentication**](/pages/tutorials/application-users.html) in Alan apps
+- [**Version control** & **offline editing**](/pages/tutorials/ide/ide-version-control.html) for Alan IDE projects
+- [**Spreadsheet data import & export**](/pages/tutorials/data-import-export/data-import-export.html) in Alan apps
+- [**Users & Authentication**](/pages/tutorials/model/application-users.html) in Alan apps
 - Background information on [the syntax](/pages/tuts/syntax.html)
 - An [older tutorial](/pages/tuts/getting-started.html) with useful information about migrations
 
