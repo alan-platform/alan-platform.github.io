@@ -16,7 +16,7 @@ Make sure that you have completed [the first part](/pages/tutorials/model/2021.1
 
 Let's recap: in the first part, we wrote a small data model for our restaurant.
 From that data model, we generated a web application for entering a menu, tables, and orders.
-In this second part you will learn about [derived values](#derived-values), [evaluation phases](#upstream-and-downstream), and [commands & actions](#commands-and-actions).
+In this second part you will learn about [derived values](#derived-values) and [commands & actions](#commands-and-actions).
 
 ## Take-away
 You decided that your restaurant will also provide a take-away service.
@@ -279,8 +279,11 @@ Furthermore, we can see the `Total order value` for the `Orders` placed at a spe
 Nice stats that may enable us to optimize the placement of our `Tables`.
 
 For expressing the reference set, we use a special keyword `downstream` followed by a navigation path.
-The keyword `downstream` indicates in which computation phase the reference set is available.
-You can read more about that in the [next section](#upstream-and-downstream).
+The keyword `downstream` indicates that the reference-set holds references to nodes that are later defined in your model.
+For normal references that use reference later defined attributes, it is required as well.
+In our experience, well designed application models rarely require the `downstream`, except for `reference-set` attributes.
+If the `downstream` keyword is required, you can often reorder properties in your model to prevent it.
+In other cases, we often find that a model contains a dependency that requires our attention/should be changed.
 
 The navigation path contains the keyword `*` instead of `[]` that we saw for unidirectional references.
 That is because multiple `Orders` can reference the same table; the `reference-set` for a specific table will hold *all* `Orders` that refer to that specific table.
@@ -289,50 +292,6 @@ Finally we say: take the `inverse` of the `Table` reference that you find under 
 For `Table`, we expressed that for the reference, its inverse (`-<` instead of `->`) should be stored in the reference set `Orders` of the `Tables` item.
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06a/`>
-
-
-## Upstream and downstream
-<sup style="color: red;">**IMPORTANT: Starting with platform version 2022.2, this was simplified significantly and this section is no longer relevant. Please consider upgrading.**</sup>
-
-Computations for Alan applications are divided over multiple different phases to guarantee that derivations can always be evaluated.
-Alan distinguishes between two different types of computations: constraints and derivations.
-
-The application language supports a single class of constraints: mandatory references.
-The runtime ensures that derivations can always be evaluated when constraints are checked.
-That means that every derivation will *always* produce a valid value as specified in your model (and never an undefined/null-value).
-
-The Alan runtime evaluates computations in several different phases.
-You can find a detailed explanation in the [documentation](/pages/docs/model/89/application/grammar.html#upstream-downstream-and-sibling-dependence).
-In short, it boils down to this:
-1. The runtime checks **upstream** constraints by traversing your model in a **top-to-bottom** order.
-2. The runtime checks **downstream** constraints by traversing your model in a **compiler-optimized** order.
-3. The runtime computes **upstream** derivations by traversing your model in a **top-to-bottom** order.
-4. The runtime computes **downstream** derivations by traversing your model in a **compiler-optimized** order.
-
-Upstream is the default phase for constraints and derivations; upstream computations do *not* require an annotation.
-You can think of the *compiler-optimized* order for *downstream* computations as the opposite of *upstream*: from **bottom-to-top**.
-This often applies, as expressions have that immediate implication.
-For example, take this `Table` reference:
-```js
-'Table': text -> ^ ^ ^ .'Management' .'Tables'[]
-```
-
-The `Management` group has been specified before `Table` in the model, as the code expresses an upstream reference.
-Because of that, the expression for the reference set `Orders` must be a downstream reference (opposite direction in the model).
-Therefore, the language requires the `downstream` annotation.
-
-Computations can depend on earlier computed values.
-Thus, values that are computed in an earlier phase, or values that are computed earlier according to the model-traversal order.
-For example, the `Table` reference is computed in phase 1.
-Therefore, references in a reference-set of `Orders` are available in phase 2.
-The `'Number of orders'` is an upstream derivation evaluated in phase 3: it can depend on the reference set.
-
-Finally, `'Total order value'` is a downstream derivation evaluated in phase 4.
-The derivation depends on the `Total` of the `Orders`, which we compute in phase 3.
-Notice that you cannot remove the keyword `downstream` there.
-If you do so, you move the computation to phase 3: the upstream derivations phase.
-But, for the `Orders`, the `Total` will not yet be computed, as upstream means traversal from top to bottom.
-
 
 ## Commands and actions
 When we build Alan applications, we often connect them to other systems that send information.

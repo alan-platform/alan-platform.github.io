@@ -377,7 +377,7 @@ By revisiting the Car example from the topic 'References', where we explained th
 	)
 }
 
-'Car': text -> .'Electric vehicles'[] // as $ (this is implicit)
+'Car': text -> .'Electric vehicles'[] as $
 	where 'fast' -> $ .'Is'?'Fast'
 
 'Top speed': number 'km/h' = .'Car'&'fast' .'Top speed'
@@ -613,7 +613,7 @@ To end this topic, we can add a stategroup `To be put on menu` in the collection
 
 In the collection `Menu` within group `Service` the key `Item name` now can refer to this collection `Products` and specifically to the state `Yes` of stategroup `To be put on menu`:
 ```js
-'Item name': text -> ^ ^ .'Kitchen' .'Products'[]
+'Item name': text -> ^ ^ .'Kitchen' .'Products'[] as $
 	where 'menu item' -> $ .'To be put on menu'?'Yes'
 ```
 <sup>(NOTE: `as $` is implicit, after the reference constraint in the first line)</sup>
