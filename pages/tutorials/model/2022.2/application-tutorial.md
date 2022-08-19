@@ -364,7 +364,7 @@ If you have any questions or comments about the tutorial or the platform, feel f
 
 In this tutorial, we've only touched the basics: you can now create your own data model and generate an app for it.
 But, there is still a lot to discover.
-In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2021.10/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
+In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2022.2/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
 
 
 

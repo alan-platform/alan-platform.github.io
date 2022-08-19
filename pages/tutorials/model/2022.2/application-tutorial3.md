@@ -12,7 +12,7 @@ version: 97
 
 ## Introduction
 <!-- This is the second part of the application language tutorial where we build a restaurant app.
-Make sure that you have completed [the first part](/pages/tutorials/model/2021.10/application-tutorial.html) before continuing.
+Make sure that you have completed [the first part](/pages/tutorials/model/2022.2/application-tutorial.html) before continuing.
 
 Let's recap: in the first part, we wrote a small data model for our restaurant.
 From that data model, we generated a web application for entering a menu, tables, and orders.
