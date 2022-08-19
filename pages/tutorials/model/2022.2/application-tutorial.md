@@ -11,7 +11,7 @@ version: 89
 
 ## Introduction
 This tutorial aims to give you a basis for modeling data with the `application` language: the main language for building Alan apps.
-Before you get started, make sure that you have completed the [IDE tutorial](/pages/tutorials/ide-tutorial.html).
+Before you get started, make sure that you have completed the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
 
 By means of a story we will take you along several topics and build up the model at the same time. At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
 
@@ -364,7 +364,7 @@ If you have any questions or comments about the tutorial or the platform, feel f
 
 In this tutorial, we've only touched the basics: you can now create your own data model and generate an app for it.
 But, there is still a lot to discover.
-In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
+In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2021.10/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
 
 
 

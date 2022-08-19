@@ -9,7 +9,7 @@ category: docs
 
 ## Introduction
 In this tutorial you'll get familiar with the environment for creating Alan applications.
-For *version control* and *local editing* of Alan projects, read [this guide](/pages/tutorials/ide-version-control.html).
+For *version control* and *local editing* of Alan projects, read [this guide](/pages/tutorials/ide/ide-version-control.html).
 
 ## Application for building applications
 For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognises the Alan code, and many other useful tools.
@@ -98,5 +98,5 @@ After deploying your work, you can find the latest published version of your app
 More information about Visual Studio Code can be found [here](https://code.visualstudio.com/).
 
 ## Next up
-Now you are all set to get started with the `application` language tutorial, which can be found [here](/pages/tutorials/application-tutorial.html). Good luck!
+Now you are all set to get started with the `application` language tutorial, which can be found [here](/pages/tutorials/model/2021.10/application-tutorial.html). Good luck!
 

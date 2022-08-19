@@ -1,0 +1,29 @@
+'Discount applicable': stategroup (
+	'Yes' {
+		'Discount period': text -> ^ ^ .'Management'.'Discount periods'[]
+		'Discount': number 'eurocent'
+			= switch ^ .'Subtotal' compare ( >'Discount period'.'Minimal spendings' ) (
+				| < => 0
+				| >= => product (
+					from 'percent' >'Discount period'.'Percentage' as 'fraction',
+					^ .'Subtotal'
+				)
+			)
+		'Total': number 'eurocent' = sum ( ^ .'Subtotal' , - .'Discount' )
+	}
+	'No' { }
+)
+...
+numerical-types
+	'eurocent'
+		= 'units' * 'eurocent'
+		= 'fraction' * 'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'
+	'percent'
+	'fraction'
+		= 'percent' / 1 * 10 ^ 2

@@ -1,0 +1,15 @@
+'Management': group {
+	'Discount periods': collection ['Period'] {
+		'Period': text
+		'Percentage' : number 'percent'
+		'Minimal spendings': number 'eurocent'
+	}
+	'VAT percentage': number 'percent'
+	'Beverages types': collection ['Beverage type'] {
+		'Beverage type': text
+	}
+	'Tables': collection ['Table number'] {
+		'Table number': text
+		'Seatings': number 'chairs'
+	}
+}
