@@ -3,6 +3,7 @@ layout: page
 title: FAQ
 category: main
 permalink: /faq/
+model_language_version: 97
 ---
 
 
@@ -11,24 +12,24 @@ Alan is *low* code, but not *no* code.
 
 Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but you don't have to express that in abstract algorithms.
 
-If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Alan will definitely not scare you. In fact, I bet you'll find it lot of fun.
+If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Alan will definitely not scare you. In fact, we bet you'll find it lots of fun.
 
-It has characteristics that make it really suited for something like a visual application builder, so who knows what the future brings here.
+It has characteristics that make it really suitable for something like a visual application builder, so who knows what the future brings here.
 
 ## Can I change how a property is visualized?
-The generated user interface reads the annotations in an `application.alan` file to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/97/application/grammar.html).
+The generated user interface reads the annotations (`@...`) in an `application.alan` file to decide how to render a property. The [docs](/pages/docs/model/{{ page.model_language_version }}/application/grammar.html) cover the possibilities in more detail.
 
 If you want more control over the user interface, e.g. to create one for a specific work flow, you may want to create a custom client. Documentation about this is being worked on.
 
 
-## Can I limit permissions on certain properties?
+## Can I set required permissions for certain properties?
 Permissions are set on nodes, i.e. groups, entries and states. You can set read and update permissions to limit access to specific users, or users with a specific role.
 
 
 ## Can I create 2-way many-to-many relations?
-If you want to simply get a list of everything that has a reference to a certain entry, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction.
+If you want to simply get a list of everything that has a reference to a certain object, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction.
 
-To make derivations and calculations based on this relation, you need to specify [bidirectional references](/pages/docs/model/97/application/grammar.html#bidirectional-references).
+For computations based on references in the opposite direction, you need to specify [bidirectional references](/pages/docs/model/{{ page.model_language_version }}/application/grammar.html#bidirectional-references).
 
 
 ## Can I write SQL queries?
@@ -52,16 +53,15 @@ Finally there is a "patch" level of versions (in semver-speak), for which we sim
 
 ## What is the roadmap for Alan?
 
-Alan is already used by [M-industries](https://www.m-industries.com) and [Kjerner](https://www.kjerner.com/) to build solutions for their customers. However, we're not done yet improving the platform and creating new and better features.
+Alan is actively being used by [Kjerner](https://www.kjerner.com/) and [Applicatiefabriek](https://www.applicatiefabriek.nl/) to build solutions for their customers. Using our experience developing these solutions, we are constantly extending and improving the Alan platform.
 
 Long term plans include:
 
-- Open up our online development and hosting solution for quick experiments and proof of concept by any developer
-- Extend the generated GUI so that there are even less reasons to go with a custom gui
+- Improve the generated GUI so that there are even less reasons to go with a custom gui
 - Make custom gui's (on the platform) easily extendible for third-party control & widget developers
 - Make todo's the primary driver for the interaction with an application.
 - Improved querying, reporting and data visualization features.
 - Improved support for creating "live dashboard" applications.
 - Making development more accessible to first-time application developers by providing a graphical modeler
 - Providing a marketplace for applications, external connectors and gui controls & widgets
-- Create more and more powerful legacy application logic imports
+

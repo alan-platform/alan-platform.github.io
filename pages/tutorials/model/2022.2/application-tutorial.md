@@ -100,7 +100,7 @@ This is the ***minimal model*** that is needed for every application that you bu
 
 The `users` section defines who can access your application and how.
 We use `anonymous` for now, which means that anyone can access your app and read and edit the app data.
-In the [application language documentation](/pages/docs/model/97/application/grammar.html) you can find more details about the `users` section.
+In the [application language documentation](/pages/docs/model/{{ page.version }}/application/grammar.html) you can find more details about the `users` section.
 
 The `interfaces` section defines what other apps and/or databases this app is connected with.
 For now we stay 'disconnected' from other apps and databases.
@@ -337,7 +337,7 @@ As we still want to be able to select a `Beverage type` when we compose our `Men
 Notice that we place `Beverage types` above the `Menu`.
 That is quite logical as `Beverage types` should be entered before creating a `Menu`, but the compiler requires it as well.
 By default, expressions in an `application` model point to earlier defined attributes.
-This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/97/application/grammar.html).
+This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/{{ page.version }}/application/grammar.html).
 
 Again, build and check your app, selecting `Beverages types` from the left menu bar:
 ![beverages types collection](./images_model/011.png)
