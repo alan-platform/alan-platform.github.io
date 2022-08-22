@@ -91,7 +91,7 @@ Let's add another useful line to the model:
 
 This line expresses that `Total` is the sum of the `Line total` from a set of `Order lines`.
 For that purpose, the expression starts with the keyword `sum`, followed by a path that produces a set of numbers to sum.
-The grammar calls this an [`object set path`](/pages/docs/model/89/application/grammar.html#grammar-rule--object-set-path).
+The grammar calls this an [`object set path`](/pages/docs/model/97/application/grammar.html#grammar-rule--object-set-path).
 The `object set path` starts with navigation steps that lead to a `collection`: `.'Order lines'`.
 Subsequently, the keyword `*` expresses expansion of the `collection` to a set of objects: `Order line` nodes.
 The expression concludes with a value path (`.'Line total'`) expressing which value from each `Order line` should be retrieved.
@@ -112,7 +112,7 @@ For summing a list of separate values, you use parentheses after the `sum` keywo
 sum ( .'value A', .'value B', .'value C', .'value D' )
 ```
 
-The supported operations for deriving number values can be found [here](/pages/docs/model/89/application/grammar.html#derived-numbers).
+The supported operations for deriving number values can be found [here](/pages/docs/model/97/application/grammar.html#derived-numbers).
 - `sum`: determines the sum of a *set or list* of values
 - `min`: determines the minimum of a *set or list* of values
 - `max`: determines the maximum of a *set or list* of values
@@ -223,7 +223,7 @@ Here's the result of our work:
 
 For each property type that the `application` language supports, the language also supports expressing for deriving such values.
 So, you can derive text values, file values, references, stategroup states, and even collections.
-You can find many examples in the `application` language [documentation](/pages/docs/model/89/application/grammar.html#derived-values).
+You can find many examples in the `application` language [documentation](/pages/docs/model/97/application/grammar.html#derived-values).
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06/`>
 
@@ -394,6 +394,6 @@ Note that we use the keyword `@` here multiple times to jump to the nearest para
 ## The End
 This concludes the tutorial into the `application` language, at least for now: there is more to follow soon.
 For a sneak preview, you can take a look at the additional tutorial folders we provided, and see if you can understand the models yourself.
-The [documentation](/pages/docs/model/89/application/grammar.html) can also help you a lot there, and don't forget about the [forum](https://forum.alan-platform.com/)!
+The [documentation](/pages/docs/model/97/application/grammar.html) can also help you a lot there, and don't forget about the [forum](https://forum.alan-platform.com/)!
 
 Have fun building your own applications!

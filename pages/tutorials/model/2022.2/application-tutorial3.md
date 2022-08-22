@@ -628,7 +628,7 @@ If you want to add an item to the menu, you can now select from a list:
 <!-- This concludes the tutorial into the `application` language.
 You can now start building your own application, if you haven't done so already.
 
-To learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/89/application/grammar.html).
+To learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/97/application/grammar.html).
 The documentation gives an overview of *all* features that the `application` language supports.
 It also provides many useful examples that you can use while building your own application.
 

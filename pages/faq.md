@@ -16,7 +16,7 @@ If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Ala
 It has characteristics that make it really suited for something like a visual application builder, so who knows what the future brings here.
 
 ## Can I change how a property is visualized?
-The generated user interface reads the annotations in an `application.alan` file to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/89/application/grammar.html).
+The generated user interface reads the annotations in an `application.alan` file to decide how to render a property. The Docs cover the possibilities in more detail, check the [model grammar](/pages/docs/model/97/application/grammar.html).
 
 If you want more control over the user interface, e.g. to create one for a specific work flow, you may want to create a custom client. Documentation about this is being worked on.
 
@@ -28,7 +28,7 @@ Permissions are set on nodes, i.e. groups, entries and states. You can set read 
 ## Can I create 2-way many-to-many relations?
 If you want to simply get a list of everything that has a reference to a certain entry, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction.
 
-To make derivations and calculations based on this relation, you need to specify [bidirectional references](/pages/docs/model/89/application/grammar.html#bidirectional-references).
+To make derivations and calculations based on this relation, you need to specify [bidirectional references](/pages/docs/model/97/application/grammar.html#bidirectional-references).
 
 
 ## Can I write SQL queries?
