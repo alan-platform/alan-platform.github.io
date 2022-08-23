@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: project-build-environment
-language: deployment
-version: 36
-type: grammar
+layout: "doc"
+origin: "project-build-environment"
+language: "deployment"
+version: "36"
+type: "grammar"
 ---
 
 1. TOC
