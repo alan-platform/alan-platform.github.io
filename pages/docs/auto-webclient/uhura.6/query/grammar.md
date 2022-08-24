@@ -10,7 +10,6 @@ type: "grammar"
 {:toc}
 
 
-{: #grammar-rule--query-type }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

@@ -10,7 +10,6 @@ type: "grammar"
 {:toc}
 
 
-{: #grammar-rule--binding-context }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -38,7 +37,6 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--widget }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -47,7 +45,6 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--optional-context-definition }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -56,7 +53,6 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--expression }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

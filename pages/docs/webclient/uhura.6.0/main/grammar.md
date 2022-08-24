@@ -10,7 +10,6 @@ type: "grammar"
 {:toc}
 
 
-{: #grammar-rule--initial-content }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -25,7 +24,6 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--root-window }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -34,7 +32,6 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--views }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -43,7 +40,6 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--root-view }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
