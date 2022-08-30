@@ -239,7 +239,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 ## Property mapping expressions
 ---
-### Texts, numbers, files, and references
+### Texts, numbers and files
 
 {: #grammar-rule--text-expression }
 <div class="language-js highlighter-rouge">
