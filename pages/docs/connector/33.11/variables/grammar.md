@@ -39,7 +39,6 @@ The variables.
 Each has a type of `integer` or `text`.
 The values of each variable is specified in the deployment, see Instance Data.
 
-{: #grammar-rule--variables }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

@@ -344,7 +344,6 @@ library
 #### The internal library.
 Allows defining reusable types.
 
-{: #grammar-rule--library }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -384,7 +383,6 @@ Allows defining reusable types.
 #### The default locale.
 Allows overwriting the builtin default locale.
 
-{: #grammar-rule--custom-locale }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -403,7 +401,6 @@ Allows overwriting the builtin default locale.
 #### The type of the connector.
 This is chosen externally, the archetype here must follow the external choice.
 
-{: #grammar-rule--archetype }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
