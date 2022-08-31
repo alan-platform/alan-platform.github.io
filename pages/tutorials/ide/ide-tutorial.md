@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Tutorial: an IDE for Alan"
+title: "Tutorial: developing software with Alan"
 category: docs
 ---
 
@@ -8,11 +8,21 @@ category: docs
 {:toc}
 
 ## Introduction
-In this tutorial you'll get familiar with the environment for creating Alan applications.
+Computer applications are tools designed for specific purposes, like tracking orders and supplies, or exchanging information among people. Every computer application revolves around gathering, manipulating, visualizing, and exchanging data. The Alan platform aims to enable development of guaranteed bug-free applications that are both flexible as well as easily maintainable: **built to last**.
+
+### Development process
+The Alan platform offers a comprehensive solution for developing data-intensive software applications. Because of its flexibility, it heavily promotes *agile* application development, where each iteration yields a working part of the application you want. Rather then writing large design documents and drawing diagrams that tell us how the application should work, with Alan you can **immediately start building** your app.
+
+For an Alan app, you first specify the core structure of the data that our application will process. You can immediately verify the validity of it by running our application. Users can enter actual data to verify that the structure matches the requirements for this first part. Once the data structure conforms to our requirements, you can incrementally implement usage scenarios and **let the stakeholders test them**. Alternatively, you can start working on data transformation, custom visualizations, user permissions, or data exchange with other applications.
+
+### Environment overview
+An Alan environment consists of a specific file and folder structure, and a set of languages (that have a common meta-language) and corresponding tools, including a compiler ('translator' and 'validator' of your code). Together, the different files describe a complete software system. Each file has a specific function in creating, updating or deploying your software. You enter your code in the designated files at *design time* to develop your system. To convert these files into a usable software system that runs on a server, all files and folders need to be checked for errors and translated into a format that different parts of the Alan platform understand. You can deploy the result to a server, after which the software is ready for use: *runtime*.
+
+In the remainder of this tutorial you'll get familiar with the environment for creating Alan applications.
 For *version control* and *local editing* of Alan projects, read [this guide](/pages/tutorials/ide/ide-version-control.html).
 
 ## Application for building applications
-For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognises the Alan code, and many other useful tools.
+For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognizes Alan code, and many other useful tools.
 In this tutorial we'll use Visual Studio Code (VS Code) in a Chromium based browser, like Google Chrome or Microsoft Edge:
 
 ![First window](./images_IDE/001.png)

@@ -7,7 +7,7 @@ permalink: /docs/
 
 ### To get started with Alan:
 - [An introduction to Alan](/pages/tuts/introducing.html)
-- [**Tutorial A**: an IDE for Alan](/pages/tutorials/ide/ide-tutorial.html)
+- [**Tutorial A**: developing software with Alan](/pages/tutorials/ide/ide-tutorial.html)
 - [**Tutorial B**: a Restaurant app, Part I](/pages/tutorials/model/2022.2/application-tutorial.html)
 - [**Tutorial C**: a Restaurant app, Part II](/pages/tutorials/model/2022.2/application-tutorial2.html)
 - [The Alan stack from the bottom up](/pages/tuts/bottom-up.html)
