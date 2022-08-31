@@ -13,7 +13,16 @@ version: 97
 This tutorial aims to give you a basis for modeling data with the `application` language: the main language for building Alan apps.
 Before you get started, make sure that you have completed the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
 
-By means of a story we will take you along several topics and build up the model at the same time. At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
+In the `application` language, you write `application` models.
+An `application` *model* (an `application.alan` file) expresses all core parts of your application.
+This includes -- but is not limited to -- the required data structure, computations, business processes, authentication and authorization.
+You start by specifying the most basic ingredient of a data-intensive application: *base data*.
+This is the primary data an application needs to work, like a menu which is essential for a meal ordering app.
+Note that this includes *all state* that is important to your application, like the status of an order or a payment.
+On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a *todo* item for a rejected payment.
+
+By means of a story we will take you along several topics and build up the model at the same time.
+At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
 
 Imagine you own a restaurant. Business is doing so well you start to feel you need to be more in control of what's going on, before chaos sets in.
 
