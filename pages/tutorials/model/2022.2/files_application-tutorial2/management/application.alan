@@ -5,7 +5,7 @@
 		'Minimal spendings': number 'eurocent'
 	}
 	'VAT percentage': number 'percent'
-	'Beverages types': collection ['Beverage type'] {
+	'Beverage types': collection ['Beverage type'] {
 		'Beverage type': text
 	}
 	'Tables': collection ['Table number'] {

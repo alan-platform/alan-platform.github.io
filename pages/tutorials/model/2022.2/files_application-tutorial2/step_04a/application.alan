@@ -4,7 +4,7 @@ users
 interfaces
 
 root {
-	'Beverages types': collection ['Beverage type'] {
+	'Beverage types': collection ['Beverage type'] {
 		'Beverage type': text
 	}
 
@@ -20,7 +20,7 @@ root {
 				)
 			}
 			'Beverage' {
-				'Beverage type': text -> ^ ^ .'Beverages types'[]
+				'Beverage type': text -> ^ ^ .'Beverage types'[]
 			}
 		)
 	}
