@@ -392,8 +392,8 @@ Note that we use the keyword `@` here multiple times to jump to the nearest para
 > <tutorial folder: `./_docs/tutorials/restaurant1/step_06b/`>
 
 ## The End
-This concludes the tutorial into the `application` language, at least for now: there is more to follow soon.
+This concludes the tutorial into the `application` language, at least for now: there is more to follow.
 For a sneak preview, you can take a look at the additional tutorial folders we provided, and see if you can understand the models yourself.
 The [documentation](/pages/docs/model/{{ page.version }}/application/grammar.html) can also help you a lot there, and don't forget about the [forum](https://forum.alan-platform.com/)!
 
-Have fun building your own applications!
+Have fun building your own applications, and don't forget: **begin with the end in mind** and **experiment**!

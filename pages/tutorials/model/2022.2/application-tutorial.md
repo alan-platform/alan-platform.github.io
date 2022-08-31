@@ -363,8 +363,9 @@ This concludes the introductory tutorial into the `application` language, and ho
 If you have any questions or comments about the tutorial or the platform, feel free to post on the [forum](https://forum.alan-platform.com/)!
 
 In this tutorial, we've only touched the basics: you can now create your own data model and generate an app for it.
+A few words of advice for when you feel ready to start building your own application:
+- ***Begin with the end in mind***. What is the purpose of your app and what data is required to support this purpose? How can you organize the data in collections?
+- ***Experiment***. Just try it! If something does not work exactly the way you want or expect, you can easily restructure and reuse parts of the model you have already created.
+
 But, there is still a lot to discover.
 In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2022.2/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
-
-
-
