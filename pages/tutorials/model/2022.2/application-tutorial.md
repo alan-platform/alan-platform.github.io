@@ -322,7 +322,7 @@ In a model you can just count opening curly braces (`{`) above an expression to 
 
 ---
 
-Entering an amount and clicking `Save` gives this result:
+Entering an amount, clicking `Save` and then `Close` gives this result:
 
 ![first order line](./images_model/010.png)
 
@@ -348,7 +348,7 @@ That is quite logical as `Beverage types` should be entered before creating a `M
 By default, expressions in an `application` model point to earlier defined attributes.
 This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/{{ page.version }}/application/grammar.html).
 
-Again, build and check your app, selecting `Beverages types` from the left menu bar:
+Again, build and check your app, selecting `Beverage types` from the left menu bar:
 ![beverages types collection](./images_model/011.png)
 
 Now you are free to add or adjust the `Beverage types` you have in your restaurant while also being able to use them in your menu setup:
