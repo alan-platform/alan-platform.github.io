@@ -333,7 +333,7 @@ Click it and fill in the fields, for example like this:
 
 ![form filled](./images_model/020.png)
 
-Now click `Place new order` below the form and then click `Close` (top right).
+Now click `Place new order` below the form and then click `Cancel` (to cancel next order entry).
 Then go to `Orders` and select your order:
 
 ![added order](./images_model/021.png)
