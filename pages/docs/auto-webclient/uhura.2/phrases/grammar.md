@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: auto-webclient
-language: phrases
-version: uhura.2
-type: grammar
+layout: "doc"
+origin: "auto-webclient"
+language: "phrases"
+version: "uhura.2"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--phrases }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

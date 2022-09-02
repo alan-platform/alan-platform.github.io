@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: webclient
-language: widget
-version: uhura.2.0
-type: grammar
+layout: "doc"
+origin: "webclient"
+language: "widget"
+version: "uhura.2.0"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--binding-context }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -38,7 +37,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--widget }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -47,7 +45,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--expression }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

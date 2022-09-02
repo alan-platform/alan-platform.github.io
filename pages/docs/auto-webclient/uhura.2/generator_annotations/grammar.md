@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: auto-webclient
-language: generator_annotations
-version: uhura.2
-type: grammar
+layout: "doc"
+origin: "auto-webclient"
+language: "generator_annotations"
+version: "uhura.2"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--has-global-dashboard }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -24,7 +23,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--annotations }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
