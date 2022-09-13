@@ -24,6 +24,11 @@ permalink: /docs/
 <a name="languages"></a>
 ### Language documentation ({{ site.data.versions.current }}):
 
+Below you can find a list of languages that are part of the Alan platform.
+The `application` language is for `application.alan` files.
+The `interface` language for `interface.alan` files.
+The `migration_mapping` language for `migration.alan` files, the `wiring` language for `wiring.alan` files, the `deployment` language for `deployment.alan` files, and so on. If you cannot find the language documentation for a file, please ask about it on the [forum](https://forum.alan-platform.com/). We plan to add a complete overview to this page in the near future.
+
 <a href="https://dist.alan-platform.com/share/versions/{{ site.data.versions.current }}/versions.json">versions.json</a>
 
 {% include doc-index.html %}
