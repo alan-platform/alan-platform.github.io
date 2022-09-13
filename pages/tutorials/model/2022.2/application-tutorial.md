@@ -19,7 +19,7 @@ This includes -- but is not limited to -- the required data structure, computati
 You start by specifying the most basic ingredient of a data-intensive application: *base data*.
 This is the primary data an application needs to work, like a menu which is essential for a meal ordering app.
 Note that this includes *all state* that is important to your application, like the status of an order or a payment.
-On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a *todo* item for a rejected payment.
+On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a [*todo* item](/pages/docs/model/{{ page.version }}/application/grammar.html#todo-items) for a rejected payment.
 
 By means of a story we will take you along several topics and build up the model at the same time.
 At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
