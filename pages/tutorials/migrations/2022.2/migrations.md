@@ -17,7 +17,7 @@ This guide explains how you construct an initial dataset or *migrate* an existin
 
 ## Initial dataset
 When clicking the button `Alan Deploy`, you get a list from which you can choose a deployment type.
-For your first deployment, you have choose the **empty** option from the list.
+For your first deployment, you have to choose the **empty** option from the list.
 This will initialize your application with an empty dataset.
 
 ![](images/deploy1.png)
