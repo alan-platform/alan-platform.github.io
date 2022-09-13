@@ -13,11 +13,12 @@ permalink: /docs/
 - [The Alan stack from the bottom up](/pages/tuts/bottom-up.html)
 
 ### Other useful resources:
-- [**Version control** & **offline editing**](/pages/tutorials/ide/ide-version-control.html) for Alan IDE projects
+- [**Migrating application data**](/pages/tutorials/migrations/2022.2/migrations.html) with the Alan IDE <sup style="color: #F0BF4C">***NEW***</sup>
+- [**Version control** & **offline editing**](/pages/tutorials/ide/ide-version-control.html) for the Alan IDE
 - [**Spreadsheet data import & export**](/pages/tutorials/data-import-export/data-import-export.html) in Alan apps
 - [**Users & Authentication**](/pages/tutorials/model/2022.2/application-users.html) in Alan apps
 - Background information on [the syntax](/pages/tuts/syntax.html)
-- An [older tutorial](/pages/tuts/getting-started.html) with useful information about migrations
+- An [older tutorial](/pages/tuts/getting-started.html): a quick starter
 
 
 <a name="languages"></a>

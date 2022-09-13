@@ -143,9 +143,12 @@ Note that if you build your application regularly, it is easier to troubleshoot 
 When you can successfully build your application, you can run `Alan Deploy` to transform your project into an app, ready for you to be used.
 When clicking `Alan Deploy`, you get a menu where you can choose a *'data source for this deployment'*.
 For your first deployment, select the **empty** option.
-For subsequent deployments you may use the **migrate** option to keep existing application data.
+Throughout this tutorial, we recommend that you keep using the **empty** option.
+For keeping application data from a running app, you can use the **migrate** option, as explained in the [migrations guide](/pages/tutorials/migrations/2022.2/migrations.html).
 
-When opening the app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there will be no data:
+---
+
+When opening your app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there will be no data:
 
 ![first app](./images_model/001.png)
 

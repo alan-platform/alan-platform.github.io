@@ -66,7 +66,8 @@ The `application.alan` file in folder `models/model` contains the model of your 
 The `migration.alan` file in folder `migration/from_release` (available after your first deployment) describes how your application data needs to be migrated from the current to a next version of your application.
 
 In order to keep focus on the application language, migration files are available for each topic of the tutorial.
-The location of the relevant files in the folders `_docs/tutorials` (available in your project) can be found at the end of each topic.
+The location of the relevant files in the folders `_docs/tutorials` (available in your project) can be found at the end of each topic. Detailed information about migrations can be found in the [migrations guide](/pages/tutorials/migrations/2022.2/migrations.html).
+
 By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
 To make sure you don't get stuck while working on the Application Language tutorial, the `_tutorials` folder contains a valid `application.alan` file for each topic as well.
 
