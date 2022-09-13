@@ -71,6 +71,7 @@ Between the `<! !>` you can provide an optional error message, which will be dis
 'Users': collection ['User'] non-empty { ...
 ```
 
-After a succesfull deployment, it is often useful to generate a migration based on the just deployed application model. This way, you do not have to manually specify that values should be kept for base data properties that you added in the last development iteration. For that, run the command `Alan: Generate Migration` from the [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) or use the `alan` script from the [Terminal](https://code.visualstudio.com/docs/terminal/basics).
+After a succesfull deployment, it is often useful to generate a migration based on the just deployed application model. This way, you do not have to manually specify that values should be kept for base data properties that you added in the last development iteration. For that, run the command `Alan: Generate Migration` from the [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette).
+ <!-- or use the `alan` script from the [Terminal](https://code.visualstudio.com/docs/terminal/basics) -->
 
 Type `from_release` as the migration name, choose `server/model.lib` as the target model and a `mapping from target conformant dataset` to generate the migration. Sometimes it is also useful to run the command after making changes to your `application` model. Doing so will add newly added base properties to the `migration.alan` file. You then only have to provide valid expressions for determining their initial values.
