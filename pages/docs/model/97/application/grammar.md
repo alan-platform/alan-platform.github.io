@@ -106,7 +106,6 @@ The initializers are for setting initial values for a user, password or identity
 For example, the `user-initializer` sets the `Type` of users that sign up to `Unknown`.
 Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#permissions-and-todos) are required to make a new user `Admin`.
 
-{: #grammar-rule--allow-anonymous-user }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -118,7 +117,6 @@ Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#permissions-and
 </div>
 </div>
 
-{: #grammar-rule--has-dynamic-users }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -188,7 +186,6 @@ root {
 ```
 
 
-{: #grammar-rule--imported-interfaces }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -210,7 +207,6 @@ curly braces, and their identification is a path which starts from the root type
 an instance of a type as a node. The rule for defining a type carries the same name: `node`; it should be read as the `node type` rule,
 as we define `node types` in a model (for legacy reasons it is called the `'node'` rule).
 
-{: #grammar-rule--root }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -247,7 +243,6 @@ Annotations like `@date` map numerical types to formats for easy modification in
 With `@factor` you can present 1000 milliseconds as 1 second to the application user.<br>
 If you do so, be sure to set `@label:` to `"sec"` as well!
 
-{: #grammar-rule--numerical-types }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -3252,7 +3247,7 @@ the keys are the same.
 	'Id': text /* -> some constraint or not */
 	'Category': text ~> ^ .'Imported Categories'[] = .'Id'
 }
-````
+```
 
 {: #grammar-rule--ui-collection-property }
 <div class="language-js highlighter-rouge">

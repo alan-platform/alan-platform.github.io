@@ -11,7 +11,6 @@ type: "grammar"
 
 ## Request types
 
-{: #grammar-rule--type }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
