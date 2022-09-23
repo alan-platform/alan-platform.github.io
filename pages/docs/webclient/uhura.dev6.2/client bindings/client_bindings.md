@@ -9,8 +9,58 @@ type: "client_bindings"
 1. TOC
 {:toc}
 
+## Client bindings
+---
+
+The *client bindings* provide bindings to the available features of the client
+engine.
+
+The `client engine` is what makes sure data is synchronized with the server,
+keeps track of what the user modifies about that state, and if that is still
+valid. This is called the `client state`.
+
+In a widget the client state is used to pass that state to the controls.
+
+### initial view binding
+
+The `initial view binding` indicates the binding that is used at the begining of
+a view in the views. When starting to write views, and the widget is bound to
+the model, know that the widget is intialized using this binding.  This is
+always the `node` binding. Node refers to the concept of a node in the
+application model. E.g. the root node, or the node of a collection.
+
 ```js
 initial view binding: 'node'
+```
+### Binding properties
+
+Each binding has a set of properties. All properties are read only. Interacting
+with the client engine can be done using `instructions`.
+
+Some familair properties like text, number and stategroup follow the same rules
+as the other Alan languages. There are some special properties that are specific
+to the client bindings.
+
+The `binding` property references another binding. E.g. The `node` binding has
+the `collection` property of the type `binding 'collection'`. In order to use a
+binding property it requires additional information about that binding. In the
+previous example, it is not know which collection from the model can be
+selected. This is usually configured in the widget. Some bindings don't need
+this extra information. Without any extra information from the model the widget
+can just select that binding and work within that context. These bindings are
+marked with the `switchable` keyword. For example:
+
+```
+'entry': binding 'entry' switchable
+```
+
+The `instruction` property is used to interact with the client engine. The
+latter provides function to update texts and numbers, change state etc.
+
+Some instructions take an argument like a file, text or view.
+
+### Bindings
+```js
 'collection' node collection {
 	'sort property': binding 'sort property'
 	'can download files': stategroup {
@@ -78,9 +128,9 @@ initial view binding: 'node'
 	'entity': binding 'entity' switchable
 }
 ```
-he joined entry is different in order to ensure the correct model
-ontext. Otherwise the entry binding could be used incorrectly resulting in
-ngine crashes
+The joined entry is different in order to ensure the correct model
+context. Otherwise the entry binding could be used incorrectly resulting in
+engine crashes
 ```js
 'joined entry' node joined entry {
 	'style': binding 'style' switchable
@@ -1226,16 +1276,58 @@ ngine crashes
 		}
 	}
 }
+```
+### Formatters and transformers
+
+Formatters and transformers can be applied when binding text or number to
+controls.
+
+A formatter takes a number or text and formats it as a text. Depending on the
+engine-language, the output might differ. E.g. when applying `duration in
+hours`, the output might be **12h**, but in dutch this would become: **12u**.
+```js
 formatters
+```
+#### Formatters
+##### Duration
+
+seconds: Formats a number as: <hours>h<minutes>m e.g. **12h30m12s**
+minutes: Formats a number as: <hours>h<minutes>m e.g. **12h30m**
+hours: Formats a number as: <hours>h e.g. **12.5h**
+```js
 	'duration in seconds': number
 	'duration in minutes': number
 	'duration in hours': number
+```
+##### Date
+Date formatters assume that the number is a Julian date or a Julian date time.
+
+- `date`: formats it canonically. E.g. **2022-02-22**
+- `date and time`: formats it canonically  E.g. **2022-02-22 13:34:56**
+
+The `html date and time` formatter, formats the input so that it is valid for
+the HTMLInput value property. If no valid date can be determined, return "out of
+range".
+
+```js
 	'date': number
 	'date and time': number
 	'HTML date and time': number
+```
+##### Miscellaneous
+
+- `to color` Calculates a valid RGB color in hex format. E.g. **#9de318**.
+- `url encode` makes the string save to use in URLs.
+```js
 	'to color': text
 	'url encode': text
 transformers
+```
+#### Transfomers
+
+Takes a number input and tries to transform it. When a transformation can not be
+applied, the number becomes invalid.
+```js
 	'julian date to JS date': number
 	'julian date time to JS date': number
 	'JS date to julian date': number
