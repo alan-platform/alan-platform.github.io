@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: relational-database-bridge
-language: database_transformation
-version: 106
-type: grammar
+layout: "doc"
+origin: "relational-database-bridge"
+language: "database_transformation"
+version: "106"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--root }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
