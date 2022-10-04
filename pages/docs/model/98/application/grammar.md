@@ -3276,7 +3276,7 @@ using the key property, or using a derived link that derives from the key. In
 the latter case, other collections can be used to initialize an entry as long as
 the keys are the same.
 
-```js`
+```js
 'Imported Categories': collection ['Id'] {
 	'Id': text
 }
@@ -3284,7 +3284,7 @@ the keys are the same.
 	'Id': text /* -> some constraint or not */
 	'Category': text ~> ^ .'Imported Categories'[] = .'Id'
 }
-````
+```
 
 {: #grammar-rule--ui-collection-property }
 <div class="language-js highlighter-rouge">
