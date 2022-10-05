@@ -16,7 +16,6 @@ Every provided interface implementation contains at least
 root = root /* context path goes here */ ( /* node type mapping */ )
 ```
 
-{: #grammar-rule--variable-assignment }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -25,7 +24,6 @@ root = root /* context path goes here */ ( /* node type mapping */ )
 </div>
 </div>
 
-{: #grammar-rule--application-root-node }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -34,7 +32,6 @@ root = root /* context path goes here */ ( /* node type mapping */ )
 </div>
 </div>
 
-{: #grammar-rule--root }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
