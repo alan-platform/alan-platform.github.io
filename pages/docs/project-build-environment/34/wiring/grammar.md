@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: project-build-environment
-language: wiring
-version: 34
-type: grammar
+layout: "doc"
+origin: "project-build-environment"
+language: "wiring"
+version: "34"
+type: "grammar"
 ---
 
 1. TOC
@@ -55,7 +55,6 @@ If your application consumes data from, or provide data to another application, 
 In the `interfaces` section of the wiring, you list the names of the `interface`s.
 For each item in the list, you need a file `interfaces/<name>/interface.alan` in your project, which specifies the interface.
 
-{: #grammar-rule--interfaces }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -67,7 +66,6 @@ For each item in the list, you need a file `interfaces/<name>/interface.alan` in
 An Alan project typically has one Alan `application` model, but projects can have multiple `application` models.
 For each item in the `models` section, you need a corresponding file `models/<name>/application.alan` in your project.
 
-{: #grammar-rule--models }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -82,7 +80,6 @@ The type of an external source must be one of:
 - `model` when the data conforms to an Alan `application` model, or
 - when a custom protocol is used: the name of the protocol.
 
-{: #grammar-rule--external-systems }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -130,7 +127,6 @@ The mapping of a system is divided into two mappings.
 Whether a mapping is required, depends on the System Type.
 The compiler can tell you which one(s) you need.
 
-{: #grammar-rule--systems }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -163,7 +159,6 @@ The compiler can tell you which one(s) you need.
 ### Provided Connections
 The `provided-connections` section describes which parts of your systems can be accessed from the outside world.
 
-{: #grammar-rule--provided-connections }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

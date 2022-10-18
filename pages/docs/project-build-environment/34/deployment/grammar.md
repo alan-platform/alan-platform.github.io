@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: project-build-environment
-language: deployment
-version: 34
-type: grammar
+layout: "doc"
+origin: "project-build-environment"
+language: "deployment"
+version: "34"
+type: "grammar"
 ---
 
 1. TOC
@@ -17,7 +17,6 @@ A `deployment.alan` file contains instructions for the deployment, such as the s
 The `application-servers` section lists all the Application Servers needed for the deployment.
 The Application Server performing the deployment can be referenced with the keyword `local`.
 
-{: #grammar-rule--application-servers }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -39,7 +38,6 @@ For specifying a source location, you can use
 - a TCP/IP address describing where the source excepts connections, or
 - a path on an Alan Application Server, consisting of an `application-servers` name, a *stack* name and a `provided-connections` name, taken from the `wiring.alan` of the other stack.
 
-{: #grammar-rule--external-systems }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -92,7 +90,6 @@ A transformation can be
 #### Schedule
 Some systems require a schedule to perform tasks at specific moments in time.
 
-{: #grammar-rule--systems }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
