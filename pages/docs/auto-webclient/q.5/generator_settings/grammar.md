@@ -12,7 +12,6 @@ type: "grammar"
 ### Settings
 Global settings for the user interface:
 
-{: #grammar-rule--application-creator }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -21,7 +20,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--application-name }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -30,7 +28,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--allow-anonymous-user }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -42,7 +39,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--enable-csv-actions }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -54,7 +50,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--report-limit }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -63,7 +58,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--announcement-title }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -72,7 +66,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--announcements }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -81,7 +74,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--custom-color-theme }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -108,7 +100,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--language }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -117,7 +108,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--engine-language }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -129,7 +119,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--generator }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -141,7 +130,6 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--has-landing-page }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
