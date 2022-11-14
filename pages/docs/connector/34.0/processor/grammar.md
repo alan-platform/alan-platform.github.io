@@ -247,6 +247,7 @@ These functions require UTF-8 encoded data.
 
 ```js
 define 'trim style' as @API choice ( 'leading' 'trailing' 'both' 'none' )
+define 'alignment' as @API choice ( 'left' 'right' )
 
 define 'message data' as @API {
 	'types': collection union (
@@ -312,6 +313,16 @@ library
 			$'style': 'trim style'
 		)
 		binds: "1d14dde12a0b2ad4de2d90aee5a8391e43ed3e88"
+
+	/* Adds whitespace to a text value.
+	 */
+	function 'pad'
+		< text , text >
+		(
+			$'align': 'alignment'
+			$'length': integer
+		)
+		binds: "1085bfb07ec00ef9b01984e3605f257d0dadbd1c"
 
 	/* Match a text with a Regular Expression.
 	 * The whole input must match the pattern.
