@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: auto-webclient
-language: translations
-version: q.6
-type: grammar
+layout: "doc"
+origin: "auto-webclient"
+language: "translations"
+version: "q.6"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--language }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -19,7 +18,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--engine-language }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -31,7 +29,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--translations }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

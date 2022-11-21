@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: webclient
-language: gui_model
-version: q.6.0
-type: grammar
+layout: "doc"
+origin: "webclient"
+language: "gui_model"
+version: "q.6.0"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--has-user-node }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -25,7 +24,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--root }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -34,7 +32,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--numerical-types }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">

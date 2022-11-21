@@ -1,9 +1,9 @@
 ---
-layout: doc
-origin: auto-webclient
-language: deployment
-version: q.6
-type: description
+layout: "doc"
+origin: "auto-webclient"
+language: "deployment"
+version: "q.6"
+type: "description"
 ---
 
 1. TOC

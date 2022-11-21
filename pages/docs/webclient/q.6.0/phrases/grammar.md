@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: webclient
-language: phrases
-version: q.6.0
-type: grammar
+layout: "doc"
+origin: "webclient"
+language: "phrases"
+version: "q.6.0"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--phrases }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
