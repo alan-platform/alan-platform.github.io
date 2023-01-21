@@ -41,9 +41,34 @@ define 'calendar' as @API {
 	'second': integer
 }
 
+define 'constructor' as @API {
+	'date': union (
+		'calendar' {
+			'year': integer
+			'month': integer @limit: { 1 , 12 }
+			'day': integer @limit: { 1 , 31 }
+		}
+		'week' {
+			'year': integer
+			'week': integer @limit: { 1 , 53 }
+			'day': 'weekday'
+		}
+		'ordinal' {
+			'year': integer
+			'day': integer @limit: { 1 , 366 }
+		}
+	)
+	'time': optional {
+		'hour': integer @limit: { 0 , 23 }
+		'minute': integer @limit: { 0 , 59 }
+		'second': integer @limit: { 0 , 59 }
+	}
+}
+
 library
 	/* Converts Alan Time to broken down time.
 	 * When information is not present in the source, it is set to zero.
+	 * When timezone is not set, it will be evaluated in Etc/UTC.
 	 */
 	function 'convert'
 		< integer , 'calendar' >
@@ -52,6 +77,17 @@ library
 			$'timezone': optional text
 		)
 		binds: "a0be018eab9c5cfd1074a547f80c1cec4f85c21f"
+
+	/* Construct Alan Time from broken down time.
+	 * The result is either a date-time or a date, depending on whether or not 'time' is set.
+	 * When timezone is not set, it will be evaluated in Etc/UTC.
+	 */
+	function 'construct'
+		< 'constructor', integer >
+		(
+			$'timezone': optional text
+		)
+		binds: "41f9e69859eefe632cc0a0777779d632eca606ff"
 ```
 
 #### Network
