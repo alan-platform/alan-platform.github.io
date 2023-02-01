@@ -9,11 +9,10 @@ type: "grammar"
 1. TOC
 {:toc}
 
-### The Standard Libraries
+## The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
-
-#### Calendar
+### Calendar
 The calendar library provides conversions between the connectors internal date time representation and broken down time.
 
 ```js
@@ -89,8 +88,60 @@ library
 		)
 		binds: "41f9e69859eefe632cc0a0777779d632eca606ff"
 ```
+#### Calendar Examples
 
-#### Network
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'source' as 'calendar'/'constructor' = (
+		'date' = create 'calendar' (
+			'year' = 2021
+			'month' = 2
+			'day' = 3
+		)
+		'time' = (
+			'hour' = 10
+			'minute' = 20
+			'second' = 30
+		)
+	)
+	let $'value' = $'source' => call 'calendar'::'construct' with ( $'timezone' = unset )
+
+	switch $'value' => is ( 212479064430 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'source' as 'calendar'/'constructor' = (
+		'date' = create 'calendar' (
+			'year' = 2021
+			'month' = 8
+			'day' = 4
+		)
+		'time' = (
+			'hour' = 10
+			'minute' = 20
+			'second' = 30
+		)
+	)
+	let $'value' = $'source' => call 'calendar'::'construct' with ( $'timezone' = unset )
+
+	switch $'value' => is ( 212494789230 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+### Network
 The network library provides functions to perform network request and the data structures to represent related objects.
 
 ```js
@@ -222,8 +273,302 @@ library
 		)
 		binds: "28d5a0a8bec41be6e4235c0b32ed0bafa13b7c34"
 ```
+#### Network Examples
 
-#### Plural
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`http` example
+ *  this performs a simple HTTPS GET request and validates the response status
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'response' = true => call 'network'::'http' with (
+		$'server' = "https://example.com"
+		$'path' = "/path/to/resource"
+		$'authentication' = unset
+		$'request' = new (
+			'method' = option 'get'
+			'parameters' = create ["parameter"] "value"
+		)
+	) || throw "http request failed"
+
+	switch $'response'.'status' => less-than ( 400 ) (
+		| true => no-op /* from here `$'response'.'content'` contains the resource data as `binary` */
+		| false => no-op /* from here `$'response'.'content'` contains the error response as `binary` */
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`http` example
+ *  this performs a simple HTTPS PUT request and validates the response status
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'response' = true => call 'network'::'http' with (
+		$'server' = "https://example.com"
+		$'path' = "/path/to/resource"
+		$'authentication' = unset
+		$'request' = new (
+			'method' = option 'put'
+			'headers' = create ["content-type"] "text/plain"
+			'content' = "hello world" => call 'unicode'::'as binary' with ( )
+		)
+	) || throw "http request failed"
+
+	switch $'response'.'status' => less-than ( 400 ) (
+		| true => no-op /* from here `$'response'.'content'` contains the resource data as `binary` */
+		| false => no-op /* from here `$'response'.'content'` contains the error response as `binary` */
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`http` example
+ *  this performs a simple HTTPS GET request with authentication and validates the response status
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'response' = true => call 'network'::'http' with (
+		$'server' = "https://example.com"
+		$'path' = "/path/to/resource"
+		$'authentication' = set new (
+			'username' = "username"
+			'password' = "password"
+		)
+		$'request' = new (
+			'method' = option 'get'
+		)
+	) || throw "http request failed"
+
+	switch $'response'.'status' => less-than ( 400 ) (
+		| true => no-op /* from here `$'response'.'content'` contains the resource data as `binary` */
+		| false => no-op /* from here `$'response'.'content'` contains the error response as `binary` */
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`ftp` example
+ *  this performs a simple FTPS GET request
+ *  note that different versions of security exists for ftp
+ *   > implicit security uses the `ftps://` protocol
+ *   > explicit security uses the `ftp://` protocol and `STARTTLS` command
+ *  by default we fail when the connection cannot be secured, see the example `stdlib.network.ftp.insecure` for an alternative
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'resource' = true => call 'network'::'ftp' with (
+		$'server' = "ftps://example.com"
+		$'path' = "/path/to/resource"
+		$'method' = option 'get'
+		$'authentication' = unset
+		$'security' = option 'strict'
+		$'content' = unset
+	) || throw "ftp request failed"
+
+	switch $'resource' get (
+		| value as $ => no-op /* from here `$` contains the resource data as `binary` */
+		| error => no-op
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`ftp` example
+ *  this performs a simple FTPS GET request on a directory and parses the result
+ *  note that different versions of security exists for ftp
+ *   > implicit security uses the `ftps://` protocol
+ *   > explicit security uses the `ftp://` protocol and `STARTTLS` command
+ *  by default we fail when the connection cannot be secured, see the example `stdlib.network.ftp.insecure` for an alternative
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'resource' = true => call 'network'::'ftp' with (
+		$'server' = "ftps://example.com"
+		$'path' = "/path/to/resource"
+		$'method' = option 'head'
+		$'authentication' = unset
+		$'security' = option 'strict'
+		$'content' = unset
+	) || throw "ftp request failed"
+	let $'file list' = $'resource' get => call 'unicode'::'import' with ( $'encoding' = "ASCII" ) => call 'unicode'::'split' with ( $'style' = option 'none' ) || throw "ftp response parse error"
+
+	walk $'file list' as $ => no-op /* from here `$` contains the file name relative to `$'path'` */
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`ftp` example
+ *  this performs a simple FTPS PUT request
+ *  note that different versions of security exists for ftp
+ *   > implicit security uses the `ftps://` protocol
+ *   > explicit security uses the `ftp://` protocol and `STARTTLS` command
+ *  by default we fail when the connection cannot be secured, see the example `stdlib.network.ftp.insecure` for an alternative
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'resource' = true => call 'network'::'ftp' with (
+		$'server' = "ftps://example.com"
+		$'path' = "/path/to/resource"
+		$'method' = option 'put'
+		$'authentication' = unset
+		$'security' = option 'strict'
+		$'content' = set "hello world" => call 'unicode'::'as binary' with ( )
+	) || throw "ftp request failed"
+
+	switch $'resource' get (
+		| value as $ => no-op /* from here `$` contains the resource data as `binary` */
+		| error => no-op
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`ftp` example
+ *  this performs a simple FTPS DELETE request
+ *  caveat:
+ *    unlike other FTPS request, this sends the path to the server as-is
+ *    as a result the behavior of this instruction can vary between servers
+ *  note that different versions of security exists for ftp
+ *   > implicit security uses the `ftps://` protocol
+ *   > explicit security uses the `ftp://` protocol and `STARTTLS` command
+ *  by default we fail when the connection cannot be secured, see the example `stdlib.network.ftp.insecure` for an alternative
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'resource' = true => call 'network'::'ftp' with (
+		$'server' = "ftps://example.com"
+		$'path' = "/path/to/resource"
+		$'method' = option 'delete'
+		$'authentication' = unset
+		$'security' = option 'strict'
+		$'content' = unset
+	) || throw "ftp request failed"
+
+	switch $'resource' get (
+		| value as $ => no-op /* from here `$` contains the resource data as `binary` */
+		| error => no-op
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`ftp` example
+ *  this performs a simple FTPS GET request
+ *  note that different versions of security exists for ftp
+ *   > implicit security uses the `ftps://` protocol
+ *   > explicit security uses the `ftp://` protocol and `STARTTLS` command
+ *  by default we fail when the connection cannot be secured, this example changes this behavior
+ *   > for implicit security this option has no effect
+ *   > for explicit security this option will suppress failures when we cannot secure the connection, it will NOT disable security when it is available
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'resource' = true => call 'network'::'ftp' with (
+		$'server' = "ftps://example.com"
+		$'path' = "/path/to/resource"
+		$'method' = option 'get'
+		$'authentication' = unset
+		$'security' = option 'preferred' /*or 'none' to completely disable security*/
+		$'content' = unset
+	) || throw "ftp request failed"
+
+	switch $'resource' get (
+		| value as $ => no-op /* from here `$` contains the resource data as `binary` */
+		| error => no-op
+	)
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`imap` example
+ *  this performs a simple IMAPS request to load all new messages
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	let $'messages' = true => call 'network'::'imap' with (
+		$'server' = "imaps://example.com"
+		$'path' = "/INBOX/"
+		$'criteria' = "NEW"
+		$'authentication' = unset
+		$'security' = option 'strict'
+		$'preferred mime subtype' = "html"
+	) || throw "imap request failed"
+
+	walk $'messages' as $ => no-op /* from here $ contains the message as `'network.lib'::'network message'` */
+}
+```
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`smtp` example
+ *  this performs a simple SMTPS request to send an email
+ *  note that different versions of security exists for smtp
+ *   > implicit security uses the `smtps://` protocol
+ *   > explicit security uses the `smtp://` protocol and `STARTTLS` command
+ *  by default we fail when the connection cannot be secured, see the example `stdlib.network.ftp.insecure` for an alternative
+ *  when the request fails, the `throw` contains additional information about the cause
+ */
+routine 'test' on
+do {
+	switch true => call 'network'::'smtp' with (
+			$'server' = "smtps://example.com"
+			$'authentication' = unset
+			$'security' = option 'strict'
+			$'message' = new (
+				'from' = create ["Me"] "me@example.com"
+				'recipients' = create ["You"] "you@example.com"
+				'subject' = "example message"
+				'attachments' = create (
+					'name' = "hello.txt"
+					'part' = (
+						'mime type' = "text"
+						'mime sub type' = "plain"
+						'content' = "hello world" => call 'unicode'::'as binary' with ( )
+					)
+				)
+				'body' = (
+					'mime type' = "text"
+					'mime sub type' = "plain"
+					'content' = "hello world" => call 'unicode'::'as binary' with ( )
+				)
+			)
+		)
+	(
+		| value as $ => /* from here `$` always contains true as `boolean` */ no-op
+		| error => throw "smtp request failed"
+	)
+}
+```
+### Plural
 The plural library provides algorithms operating on sets.
 
 ```js
@@ -276,8 +621,153 @@ library
 		)
 		binds: "a7a514616a2bacca7c5ff05c3103e322b211f8ae"
 ```
+#### Plural Examples
 
-#### Unicode
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list boolean = {
+		create true
+		create false
+		create true
+	}
+	let $'value' = $'data' => call 'plural'::'filter' with (
+		$'filter' = lambda => $'entry'
+	)
+
+	switch $'value'.size => is ( 2 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list integer = {
+		create 5
+		create 2
+		create 5
+	}
+	let $'magic' = 5
+	let $'value' = $'data' => call 'plural'::'filter' with (
+		$'filter' = lambda => $'entry' => is ( ^ $'magic' )
+	)
+
+	switch $'value'.size => is ( 2 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'object' = ^ $'Context'.'objects' => call 'plural'::'select' with (
+		$'compare' = lambda => $'A'.'value' => greater-than ( $'B'.'value' )
+	) || throw "no unique object to select"
+
+	switch $'object'.'key' => is ( "two" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'object' = ^ $'Context'.'objects' => call 'plural'::'select' with (
+		$'compare' = lambda => $'A'.'value' => greater-than ( $'B'.'value' )
+	) || throw "no unique object to select"
+
+	switch $'object'.'key' => is ( "two" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do try {
+	let $'object' = ^ $'Context'.'objects' => call 'plural'::'select' with (
+		$'compare' = lambda => $'A'.'has value'?'yes'.'value' => greater-than ( $'B'.'has value'?'yes'.'value' ) || throw "comparison data missing"
+	) || throw "no selection"
+
+	throw "object selected"
+}
+catch as $ => switch $ => is ( "comparison data missing" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list integer = {
+		create 16
+		create 42
+		create 39
+	}
+	let $'value' = $'data' => call 'plural'::'sort' with (
+		$'compare' = lambda => $'A' => less-than ( $'B' )
+	)
+
+	switch $'value' => join separator: ( "," ) ( => serialize as decimal ) => is ( "16,39,42" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list integer = {
+		create 16
+		create 42
+		create 39
+		create 17
+		create 43
+		create 38
+		create 18
+		create 44
+		create 37
+	}
+	let $'result' as list {
+		'bucket': list integer
+	} = walk $'data' => call 'plural'::'split' with ( $'bucket size' = 2 ) as $ => create (
+		'bucket' = walk $ as $ => create $
+	)
+
+	switch $'result' => serialize as JSON => is ( "[{\"bucket\":[16,42]},{\"bucket\":[39,17]},{\"bucket\":[43,38]},{\"bucket\":[18,44]},{\"bucket\":[37]}]" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+### Unicode
 The unicode library provides functions to manipulate text values.
 These functions require UTF-8 encoded data.
 
@@ -404,8 +894,237 @@ library
 		)
 		binds: "00e5893ff46bce3d3278091734b1ca786f41fe83"
 ```
-### Processor
-#### The internal library.
+#### Unicode Examples
+
+```js
+consumer ( )
+
+routine 'test' on
+do switch "ç" => is ( "ç" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do switch "Ç" => is case folding ( "ç" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	/* test vectors for format function */
+	let $'vectors' = list (
+		file ( token = "{nr,spellout}" extension = "vier­duizend­twee­honderd" ) ,
+		file ( token = "{nr,number,currency}" extension = "€ 4.200,00" ) ,
+		file ( token = "{nr,number}" extension = "4.200" ) ,
+		file ( token = "{nr}" extension = "4.200" ) ,
+		file ( token = "{tx}" extension = "hello" ) ,
+		file ( token = "{dt,date}" extension = "3 feb. 2021" )
+	)
+	let $'data' as 'unicode'/'message data' = (
+		'types' = {
+			create ["dt"] create 'calendar' 212479064430
+			create ["nr"] create 'number' 4200
+			create ["tx"] create 'text' "hello"
+		}
+	)
+
+	/* test each vector */
+	walk $'vectors' as $ => {
+		let $'pattern' = $
+		let $'message' = $'pattern'.token => call 'unicode'::'format' with (
+			$'data' = ^ $'data'
+			$'locale' = "nl_NL"
+		) || throw "error"
+
+		switch $'message' => is ( $'pattern'.extension ) (
+			| true => no-op // Vector tested successful
+			| false => throw "produced wrong value"
+		)
+	}
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	/* test vectors for trim function */
+	let $'vectors' as list {
+		'input': text
+		'result': text
+		'align': 'unicode'/'alignment'
+		'length': integer
+	} = {
+		create (
+			'input' = "hello"
+			'result' = "hello     "
+			'align' = option 'left'
+			'length' = 10
+		)
+		create (
+			'input' = "hello"
+			'result' = "     hello"
+			'align' = option 'right'
+			'length' = 10
+		)
+		create (
+			'input' = "hello"
+			'result' = "hello"
+			'align' = option 'left'
+			'length' = 2
+		)
+		create (
+			'input' = "à"
+			'result' = "à "
+			'align' = option 'left'
+			'length' = 2
+		)
+	}
+
+	/* test each vector */
+	walk $'vectors' as $ => {
+		let $'test' = $ .'input' => call 'unicode'::'pad' with (
+			$'align' = $ .'align'
+			$'length' = $ .'length'
+		)
+
+		switch $'test' => is ( $ .'result' ) (
+			| true => no-op // Vector tested successful
+			| false => throw "produced wrong value"
+		)
+	}
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'match' = "abcde" => call 'unicode'::'regex' with ( $'pattern' = "[a-z]+" ) || throw "invalid pattern"
+
+	switch $'match' (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'match' = "abCde" => call 'unicode'::'regex' with ( $'pattern' = "[a-z]+" ) || throw "invalid pattern"
+
+	switch $'match' (
+		| true => throw "produced wrong value"
+		| false => no-op // Test successful
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'match' = "abcde" => call 'unicode'::'regex' with ( $'pattern' = "[a-z+" ) || throw "invalid pattern"
+
+	throw "valid pattern"
+	/* suppress unused warnings */
+	switch $'match' (
+		| true => no-op
+		| false => no-op
+	)
+}
+catch as $ => switch $ => is ( "invalid pattern" ) (
+	| true => no-op // Vector tested successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider (
+	'lines' = {
+		let $'lines' = "line-0
+line-1
+
+line-2" => call 'unicode'::'split' with ( $'style' = option 'both' )
+
+		walk $'lines' as $ => create (
+			'line' = $
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	/* test vectors for trim function */
+	let $'vectors' = list (
+		"line",     // nothing to trim
+		"   line",  // leading spaces
+		"line   ",  // trailing spaces
+		" l i n e ",  // internal spaces
+		"　l　i　n　e　"  // no-ASCII space
+	)
+
+	/* test each vector */
+	walk $'vectors' as $ => {
+		let $'line' = $
+		let $'trim' = $'line' => call 'unicode'::'strip' with ( )
+
+		switch $'trim' => is ( "line" ) (
+			| true => no-op // Vector tested successful
+			| false => throw "produced wrong value"
+		)
+	}
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	/* test vectors for trim function */
+	let $'vectors' = list (
+		"line",     // nothing to trim
+		"   line",  // leading spaces
+		"line   ",  // trailing spaces
+		"	line",  // tabs
+		"　line"    // no-ASCII space
+	)
+
+	/* test each vector */
+	walk $'vectors' as $ => {
+		let $'line' = $
+		let $'trim' = $'line' => call 'unicode'::'trim' with ( $'style' = option 'both' )
+
+		switch $'trim' => is ( "line" ) (
+			| true => no-op // Vector tested successful
+			| false => throw "produced wrong value"
+		)
+	}
+}
+```
+## Processor
+### The internal library.
 Allows defining reusable types.
 
 <div class="language-js highlighter-rouge">
@@ -437,7 +1156,7 @@ Allows defining reusable types.
 </pre>
 </div>
 </div>
-#### The type of the connector.
+### The type of the connector.
 This is chosen externally, the archetype here must follow the external choice.
 
 <div class="language-js highlighter-rouge">
@@ -614,8 +1333,19 @@ This is chosen externally, the archetype here must follow the external choice.
 </pre>
 </div>
 </div>
-#### Internal error handler.
+### Internal error handler.
 Allows specifying an error handler routine.
+Example:
+
+```js
+consumer ( )
+
+/* error-handler example
+ *  this logs the error report
+ */
+on error do @log: $
+```
+
 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -652,7 +1382,7 @@ Allows specifying an error handler routine.
 </pre>
 </div>
 </div>
-#### Library Hook
+### Library Hook
 The standard library defines hooks.
 When or how these hooks are triggered is defined by the individual hooks.
 Providers and consumers can add lambdas to these hooks.
@@ -662,6 +1392,24 @@ Some hooks only trigger a subset of the added lambdas, based on the handler name
 Lambdas added to hooks can execute side-effects based on there context.
 Providers can execute events.
 Consumers can execute commands.
+
+Example:
+
+```js
+consumer ( )
+
+/* Standard Library `network.lib`::`webserver` example
+ *  this registers a webserver hook for the `/echo` path
+ *  the original request is returned as JSON
+ */
+add-hook 'network'::'webserver' "/echo"
+do (
+	'status' = 200
+	'headers' = create ["content-type"] "application/json"
+	'content' = $'request' => serialize as JSON => call 'unicode'::'as binary' with ( )
+)
+```
+
 
 {: #grammar-rule--library-hook }
 <div class="language-js highlighter-rouge">
@@ -726,7 +1474,7 @@ Consumers can execute commands.
 </pre>
 </div>
 </div>
-#### Interface Named Path
+### Interface Named Path
 As the connector does not allow stepping from a child node to the parent, the path is segmented.
 Each segment has a name and specifies a part of the path. This name is then assigned that node.
 This allows a routine to access its parents by explicitly naming them.
@@ -1918,7 +2666,7 @@ This allows a routine to access its parents by explicitly naming them.
 </pre>
 </div>
 </div>
-#### Promise
+### Promise
 A promise consists of a `head`, an instruction producing a value without any input, and a `chain`.
 The chain of a promise is a set of ordered instructions which each take the output of the previous instruction as their input.
 Each instruction in the chain, as well as the head, has a `promise guarantee`. When this guarantee is `yes`, the instruction will always succeed regardless of the input.
@@ -2113,7 +2861,7 @@ As a result it is always safe the chain multiple instructions with a guarantee o
 </pre>
 </div>
 </div>
-#### Value Promise
+### Value Promise
 This represents a top-level promise.
 A value promise indicates that a promise guarantee of no cannot be propagated from the wrapped promise.
 The wrapped promise must always have an alternative with a guarantee of yes, or throw.
@@ -2199,7 +2947,7 @@ The wrapped promise must always have an alternative with a guarantee of yes, or 
 </pre>
 </div>
 </div>
-#### Statement
+### Statement
 A statement is responsible for the control flow of the processor.
 Statements operate on a target, the target specifies the cardinality of the statement.
 A cardinality of singular means that the target can only hold a single value, as a result statements which can produce zero or multiple values are not allowed.
