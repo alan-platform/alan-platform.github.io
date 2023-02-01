@@ -9,6 +9,714 @@ type: "grammar"
 1. TOC
 {:toc}
 
+# Instance Data
+
+Every `connector` has a `variables.alan` file where a set of key value-type pairs is specified.
+The requires a `values.json` instance data file, this provides the value (of the correct type) for each of these keys.
+The `values.json` file is required and must also be provided when no keys are specified.
+During deployments the runtime validates the provided values and fails when either:
+
+* a value is missing
+* a value is of the wrong type
+* a superfluous value is present
+
+To help with ensuring a correct `values.json` file before deployments, the `values-helper` tool is provided.
+This can be run from any project with the follow command:
+
+```
+./.alan/dataenv/system-types/connector/scripts/generate_values.sh <Path-To-System> <Path-To-Deployment>
+
+Example: ./.alan/dataenv/system-types/connector/scripts/generate_values.sh systems/currency-importer ./deployment/demo
+```
+
+The tool is interactive and always prompts the user before deleting any data from an existing `values.json`.
+Once a new version of `values.json` has been written, which is guaranteed to be accepted by the server, the following message is printed:
+
+```
+Values successfully updated
+```
+
+
+
+# Runtime Dependencies
+
+The connector depends on a few libraries that must be installed on the system.
+These dependencies are only required by the system running the runtime of the connector, not system running only the devenv/opsenv of the connector.
+So systems without the dependencies can still run the instance data as described above.
+
+## Dependencies
+ * `libcurl` - This is used for all network requests. Required minimum version 7.31.
+ * `libjansson` - This is used to handle all JSON data. Required minimum version 2.3.
+ * `libxml2` - This is used to handle all XML data. Required minimum version 2.
+ * `libgmime` - This is used to generate and parse MIME data. Required minimum version 3.
+ * `libicu` - This is used for Unicode string handling. Required version 66.
+
+### libicu66 installation
+`libicu66` is installed with Ubuntu 20.04 but is not included with newer versions. You can still use the connector by downloading this specific version and placing it in your local library path:
+
+```
+mkdir libicu; cd libicu
+curl -LO http://security.ubuntu.com/ubuntu/pool/main/i/icu/libicu66_66.1-2ubuntu2.1_amd64.deb
+ar x libicu66_66.1-2ubuntu2.1_amd64.deb
+tar xJf data.tar.xz
+sudo mv -v usr/lib/x86_64-linux-gnu/libicu* /usr/local/lib/
+sudo chown -h root:root /usr/local/lib/libicu*
+sudo ldconfig
+```
+
+## Building
+To build the the connector source, the development files for the dependencies listed above need to be present.
+For more information see [COMPILE](./COMPILE.md).
+
+
+
+# Caveats
+
+The connector is missing proper implementations for some features it provides.
+
+## Provider
+ * Interface data produced by the connector is not associated with the context-keys.
+
+## Consumer
+ * The context-keys are produced at startup of the connector and never re-evaluated.
+ These context-keys are used for the subscription as well as all command invocations.
+
+## General
+ * Validation of constraints on interface-data is incomplete.
+ The connector does validate uniqueness constraints on interface collections as well as bounds checking on interface numbers.
+ These constraints are only validated when the data is produced by a processor (both in `provider` mode and `command`/`event` arguments), no validation is performed on received data.
+ Violations of these constraints cause an implicit `throw`, these can be caught with a `try ... catch ...`.
+ * All date and time manipulation function do not work correctly in Windows builds.
+ Explicit timezones are not implemented on Windows and always use the system timezone.
+
+
+
+# Changes
+
+## 35.0
+#### Changed locale handling
+Locales are always represented as a text, example `en_US`.
+
+#### Removed message parse
+The `parse` function is removed.
+The `parse as pattern` instruction is still available and has improved locale support for decimal parsing.
+
+#### Relaxed `let` type constraint
+The explicit type of a `let` (`let $'...' as <type> = ...`) is no longer constraint to just the node type.
+
+[example](./tests/decorate-1/processor.alan)
+
+[example](./tests/decorate-2/processor.alan)
+
+[example](./tests/decorate-3/processor.alan)
+
+#### Changed plural type
+Plural type are always indexed, allowing look ups in lists.
+The entity type is removed, instead the key can be obtained from the special value `key` in a `walk`.
+
+#### Relaxed `serialize as JSON` type constraint
+The JSON serializer accepts all types.
+
+[example](./tests/serializer-json-1/processor.alan)
+
+[example](./tests/serializer-json-2/processor.alan)
+
+[example](./tests/serializer-json-3/processor.alan)
+
+[example](./tests/serializer-json-4/processor.alan)
+
+[example](./tests/serializer-json-5/processor.alan)
+
+[example](./tests/serializer-json-6/processor.alan)
+
+#### Calendar constructor
+Added a constructor to the calendar library with support for timezones.
+
+[example](./tests/make-datetime-3/processor.alan)
+
+[example](./tests/make-datetime-4/processor.alan)
+
+#### Several small changes
+ * Allow all statements after entry/state creation.
+ * All conditional statements use the `switch` keyword.
+ * Reintroduced the `list` keyword for the list constructor.
+ * Added the `separator:` keyword to the `join` separator to clarify its usage.
+
+
+## 34.1
+#### CSV separator option
+Added an option to set a custom separator for the CSV parser.
+
+[example](./tests/parse-csv-table-4/processor.alan)
+
+
+## 34.0
+#### Removed deprecated functionality
+All functionality marked deprecated in version 33 is now removed.
+
+#### Execution safety
+Execution safety controls the available error handling features.
+This is to prevent routine aborting on uncaught errors where the runtine is not able to handle these errors.
+Currently only the context-key initializer of consumers and the new error handler use these restrictions.
+
+#### Error Handler
+The connector no longer consumes a message connection on which uncaught errors are reported.
+Instead the optional error handler runs for each error report.
+
+[example](./examples/error-handler/processor.alan)
+
+#### Text and binary types
+Text type is only for actual text only.
+For binary data, the binary type can be used.
+
+#### Collection binding
+Routines in a consumer can bind to a collection.
+When the routine is executed, the context (`$`) is set to all touched entries.
+
+[example](./tests/interface-collection/processor.alan)
+
+Routines can also bind to a collection entry deletion.
+When the routine is executed, the context (`$`) is set to key of the delete entry.
+
+[example](./tests/interface-collection-deletion/processor.alan)
+
+#### Text padding
+Added function to left/right pad a text with spaces.
+
+[example](./tests/unicode-pad/processor.alan)
+
+
+## 33.12
+#### Text encoding conversions
+Added support for text encoding conversions.
+
+[example](./examples/data.convert/processor.alan)
+
+
+## 33.11
+#### Plural split
+Added support to split a plural value into a set of plural values of a max length.
+
+[example](./tests/plural-split/processor.alan)
+
+#### Debug pause
+Added function to temporarily pause execution.
+
+#### Improved responsiveness
+The runtime now reacts to external events (primarily the shutdown signal) while the VM is active.
+The interface link sends outgoing messages while the VM is active.
+
+
+## 33.10
+#### Verbose
+Added curl verbose logging to runtime configuration options.
+Allowing changing this behavior without use of the debugger.
+
+
+## 33.9
+#### Runtime Configuration
+Added support to fetch values from the runtime configuration.
+
+[example](./tests/config-integer/processor.alan)
+
+[example](./tests/config-text/processor.alan)
+
+#### Unicode Message Format
+Added support for formatting template text.
+This deprecates the `format` instruction.
+
+[example](./tests/unicode-format/processor.alan)
+
+Added support for parsing template text.
+
+[example](./tests/unicode-parse/processor.alan)
+
+
+## 33.8
+#### CSV support
+Added support for CSV documents.
+A CSV document must be either a `list headless` or a `table`, the node must contain only `text` or `choice` properties.
+
+[example](./tests/parse-csv-table-1/processor.alan)
+
+[example](./tests/parse-csv-table-2/processor.alan)
+
+[example](./tests/parse-csv-table-3/processor.alan)
+
+#### schema scalar limits
+Added option to limit the minimum length of a text.
+Added option to limit the range of an integer.
+
+#### add pattern bounds
+Pattern matcher supports optional lower and upper bounds.
+
+[example](./tests/parse-pattern-bounds-1/processor.alan)
+
+#### regular expressions
+Added the `regex` function to the standard library `unicode`.
+
+[example](./tests/unicode-regex-1/processor.alan)
+
+#### SMTP address validation
+Added validation to address passed to SMTP calls.
+
+#### strip whitespace
+Added the `strip` function to the standard library `unicode`.
+
+
+## 33.7
+#### text length limit
+Added option to limit the length of a text.
+
+[example](./tests/text-limit/processor.alan)
+
+
+## 33.6
+#### guid format
+Added to different formats to the `guid` instruction.
+The new formats encode the 128 bits as an big-endian integer.
+ * `base16`
+ * `base64`
+
+
+## 33.5
+#### boolean negation
+Added support to toggle boolean values.
+
+[example](./tests/logic-negation/processor.alan)
+
+#### provider initialization
+Added an option to initialize a provider.
+Initialization can be done with a custom routine or an additional run of the main routine.
+
+[example](./examples/provider.init.custom/processor.alan)
+
+[example](./examples/provider.init.main/processor.alan)
+
+#### network message headers
+Added headers to network messages.
+
+#### network message recipients extension
+Added additional recipient fields to network messages.
+
+
+## 33.4
+Workaround for `plural entity T` types in type paths.
+
+
+## 33.3
+#### `command`/`event` path steps
+Target path steps and type path steps can step through interface commands and events.
+
+
+## 33.2
+#### `union` type
+`union` types work like the `any` type, but require that all possible types are listed at it definition.
+In addition, unlike the `any` type, `union` types are valid targets when creating data.
+
+[example](./tests/union-type-1/processor.alan)
+
+[example](./tests/union-type-1/processor.alan)
+
+#### Standard Library `plural`
+The `select` and `filter` reduce operations are now available as standard library.
+The `sort` operations is added to the `plural` standard library.
+These use lambdas as parameters.
+
+[select](./tests/plural-select/processor.alan)
+
+[select2](./tests/plural-select2/processor.alan)
+
+[filter](./tests/plural-filter/processor.alan)
+
+[filter2](./tests/plural-filter2/processor.alan)
+
+[filter](./tests/plural-sort/processor.alan)
+
+#### Standard Library `unicode`
+The line parser (`parse as lines`) is now available in the `unicode` standard library.
+The trim options are now available as separate operation in the `unicode` standard library.
+
+[example](./tests/unicode-split/processor.alan)
+
+[example](./tests/unicode-trim/processor.alan)
+
+#### List constructor
+The list constructor allows for the creation of dynamic lists (plural values) for a static list of promises.
+
+[example](./tests/concatenate-text/processor.alan)
+
+#### Data protection
+Properties in schema node types can be marked as `@protected`.
+The data of a protected property is always excluded from error reports.
+
+[example](./tests/trace-logging-protected/processor.alan)
+
+#### Small changes
+ * `any` type is now deprecated, use `union` types instead. It will be removed in the next version.
+ * list merge operations are now deprecated, use list constructor and reduce instead. These will be removed in the next version.
+ * `select` and `filter` reduce operations are now deprecated, use standard library instead. It will be removed in the next version.
+ * `parse as lines` is now deprecated, use standard library instead. It will be removed in the next version.
+ * Additional usage analysis added.
+
+
+## 33.1
+#### Extended Interface command handling
+A providing connector can provide command handlers for any command in the interface.
+The command routine can access all interface data through a `interface named path`, identical to consumer routines.
+
+[example](./tests/interface-command-2/processor.alan)
+
+#### Interface event generation
+A providing connector can now generate interface events.
+
+[example](./tests/interface-command-3/processor.alan)
+
+#### Standard Library hooks
+Standard libraries can define hooks.
+These hooks can be trigger VM runs from external events.
+
+##### Builtin WebServer
+The builtin webserver functionality is returned (WebHooks).
+In addition to the return of the previous functionality, which allowed consumers to respond to HTTP requests, providers can now also use this feature.
+Where consumers can generate commands from these hooks, providers can generate events.
+
+QUIRK: The new implementation can not access the functional error channel.
+When the hook execution is aborted by a `throw`, the error report is instead send as the body of HTTP response with a corresponding 500 error.
+To prevent this, hooks should always catch any and all `throws` and generate a proper error response on their own.
+
+CAVEAT: No design- or runtime-validation is performed on the hook handler names!
+Registering handlers with names not valid HTTP paths (without protocol and host), results in the handlers never trigger.
+Registering handlers with duplicates names, valid or not, causes one handler to overrule all others. Which handler 'wins' is undefined.
+
+#### Fixes
+ * The language properly constraints when command and event generation is allowed.
+ * Standard library symbol binding validates signature at load time, to prevent runtime crashes/failures when standard libraries signatures are changed.
+
+
+## 33
+#### Standard Libraries
+Introduced standard libraries.
+These allow the interface of part of the connector functionality to be provided in the connector language.
+
+Standard libraries introduced:
+ * All network instructions and types. See the `stdlib.network.*` [examples](./examples/).
+ * Calendar conversions and type. See [example](./tests/format-datetime/processor.alan).
+
+#### Webhooks removed
+Webhooks are now broken as a result of moving part of the connector functionality to standard libraries.
+The functionality is removed from this version, to be reintroduced in a later version.
+
+#### Explicit `unset` for `optional`
+Properties marked as `optional` can be left unset by omitting them from the target-node statement, [example](./tests/optionals-initializer/processor.alan).
+These properties can now also be explicitly left unset with the `unset` keyword, [example](./tests/optionals-initializer2/processor.alan).
+This allows conditionality before deciding whether or not an `optional` property should be assigned a value or not.
+
+#### Create data in lambda arguments
+When calling a lambda or function with a complex type as parameter, data can be created in the arguments with the `new` keyword.
+
+[Example](./tests/lambda-new-parameter-1/processor.alan)
+
+In addition, parameters can also define new types.
+
+[Example](./tests/lambda-new-parameter-2/processor.alan)
+
+#### `table` schema type
+The new `table` type is a special type equal to `list headless { ... }`, expect it expects the first record in the list to contain the property order of the `headless` nodes.
+This always the order of the `headless` node to be dynamic at runtime when parsing data.
+When serializing a header record is produced, but the connector retains its strict ordering of properties.
+
+Note: the current `list` and `headless` XML conventions do not function properly when combined, as a result the XML decorator is unable to handle the `table` type.
+
+[Example](./tests/parse-complex-table-1/processor.alan)
+
+[Example](./tests/parse-complex-table-2/processor.alan)
+
+#### Several small changes
+ * Lambda call stack was removed, lambdas can only call themselves with `self`, [example](./tests/lambda-recursive/processor.alan).
+ * The `count` instruction is replaced with the `.size` property on `plural` values, [example](./tests/reduce-filter/processor.alan).
+ * Reduce operations can no longer apply filters expect for the `filter` operation, which can only apply a single filter, [example](./tests/reduce-filter/processor.alan).
+ * Added documentation to the [processor grammar](./interface/configuration/language/types/processor/grammar.alan).
+
+
+## 32.5
+#### Added `select` to `reduce` instruction
+With `select` a single entry can be selected in a plural value.
+It selects entry `A` for which `compare(A, B) && !compare(B, A)` is true for all other entries in the plural value.
+
+[Example](./tests/reduce-select/processor.alan)
+
+
+## 32.4
+#### Added support for attribute initialization
+This allows initialization of attributes in a `let` expression.
+The constraint added in `32.3` is removed.
+
+[Example](./tests/schema-attributes/processor.alan)
+
+
+## 32.3
+#### Added constraint to `let` schema initializers
+In the following construction, `<type>` can no longer contain attributes.
+
+```
+	let $'data' as <type> = <schema-initializer>
+```
+
+#### Remove `<root>` element from XML serialization
+When serializing data to XML, the implementation no longer writes the `<root>` top level element.
+This mirrors the behavior of the XML decorator.
+
+
+## 32.2
+Platform compatibility release of version 31.4.
+
+
+## 32.1
+Platform compatibility release of version 31.3.
+
+
+## 32
+Platform compatibility release of version 31.
+
+
+## 31.4
+#### Enabled `optional` in `headless` nodes
+`optional` properties are allowed in `headless` nodes with some limitations.
+All properties, `optional` or not, must be present in the data, but `optional` properties are allowed to have no value.
+For JSON this catches `null` values.
+For XML this catches empty elements.
+
+
+## 31.3
+#### HTTPS response headers
+The headers on a network type are now always available.
+This allows inspecting headers from a `HTTPS` instruction.
+
+#### MIME support
+Extended the support for generating MIME messages.
+This removes some quirks, such as requiring angular brackets (`<...>`) around email addresses, to be resolved.
+The MIME type and sub-type of attachments must now be set.
+
+MIME message can now be parsed.
+The parser extracts the following information:
+ * the subject as `optional text`
+ * the from as `plural entity text`, the entity key is the display name and the value is the email address
+ * the recipients as `plural entity text`, the entity key is the display name and the value is the email address, this includes all recipients of the message, the type (TO/CC/BCC) is discarded
+ * the attachment as `plural entity text`, the entity key is the filename and the value is the decoded attachment content
+ * the headers as `plural entity text`, the entity key is the header name and the value is the header value
+ * the content as `text`
+
+When parsing a MIME message, the content is extracted from the tree.
+For this the parser requires a preferred MIME sub-type to be provided, the type must always be `text`. A value `*` is allowed and matches any sub-type.
+The parser supports the following MIME parts:
+ * attachments, these can be of any MIME type
+ * `multipart/mixed`, each sub-part is processed for attachments and the body, exactly one sub-part must be the body (or other `multipart` providing the body)
+ * `multipart/related`, these are processed as `multipart/mixed`, any sub-parts related to the body are discarded
+ * `multipart/alternative`, each sub-part is processed in order but only the last sub-part (the most representative) acceptable as body is used
+ * `text/<prefer>`, a part of MIME type `text` with a sub-type matching the preferred sub-type is accepted as body
+ * `text/plain`, these are always accepted as body, as fallback when no alternative `text/<prefer>` part is present
+
+While attachment of any MIME type are accepted, the decoded content of the attachment is always put in a `text` type.
+This will cause issue when the attachment is not text as binary data is currently not supported.
+
+
+## 31.2
+#### Integrated Webserver
+In `consumer` mode, the integrated webserver is enabled.
+To use the webserver, a `routine` can bind on `webhook`, using its name as the path.
+For this reason the name of the `routine` is required to be a valid path, no design time validation is performed.
+
+The behavior of webhooks is as follows:
+ * When the connector's interface connection is down, it always replies with a "503 Service Unavailable".
+ * When the `routine` fails, because of an uncaught `throw`, it replies with a "500 Internal Server Error".
+ * When the `routine` succeeds, it replies with the produced response.
+
+[Example](./tests/webhook-simple/processor.alan)
+
+[Example](./tests/webhook-echo/processor.alan)
+
+[Example](./tests/webhook-interface/processor.alan)
+
+#### Statements in singular cardinality
+It is now allowed to write a block with multiple statements in a context with a singular cardinality.
+When this is used, the last statement is the statement that binds to the target, while all preceding statements in the block bind to no target.
+
+[Example](./tests/singular-multi-statement/processor.alan)
+
+#### SMTP with attachments
+Attachments can added to SMTP messages.
+
+[Example](./examples/smtps-attachments/processor.alan)
+
+#### Changed internal handling of XML CDATA
+The handling of text/CDATA nodes in XML documents is changed.
+This causes multiple CDATA (and text) nodes to be considered as a single text node, allowing it to pass a `decorate` as `text` check and produce the correct value.
+
+[Example](./tests/parse-xml-cdata-mixed/processor.alan)
+
+
+## 31.1
+#### Reusable types
+Reusable types can now be defined at the top of a processor.
+
+Reusable types can be `schema complex types`:
+
+[Example](./tests/library-decorate-1/processor.alan)
+
+[Example](./tests/library-decorate-2/processor.alan)
+
+[Example](./tests/library-initializer-1/processor.alan)
+
+[Example](./tests/library-initializer-2/processor.alan)
+
+Reusable types can be `patterns`:
+
+[Example](./tests/library-pattern/processor.alan)
+
+Reusable types can be `locale`, replacing the previous locale implementation.
+
+[Example](./tests/parse-decimal-locale-1/processor.alan)
+
+[Example](./tests/parse-decimal-locale-2/processor.alan)
+
+[Example](./tests/serializer-decimal-locale-1/processor.alan)
+
+[Example](./tests/serializer-decimal-locale-2/processor.alan)
+
+#### Extended `lambda` parameter types
+`lambda` now supports all valid types expect `!'valid type'::'document'`.
+For schema types, only reusable types are supported.
+
+[Example](./tests/lambda-type-parameter/processor.alan)
+
+#### Changed result of the `PUT` method for `FTPS` instructions
+`PUT` now always result in the value `true`, like the `DELETE` method.
+
+#### Added examples
+All network oriented instructions, `HTTPS` and `FTPS`, are not tested by the test-set.
+This instructions require a server to function.
+For these instructions examples are provided instead of a test case.
+
+[Examples](./examples/)
+
+#### VM Memory Manager
+The VM implementation of the connector to use a refcounted memory manager instead of the stack based approach used in previous versions.
+This should case temporary values to cleaned up as soon as the are no longer needed, reducing peak memory usage.
+References can now also out live the scope that created them, preparing the implementation for lambda/functions with return values.
+
+#### SMTP(s) support
+Added the `SMTPS` instruction. It expects to operate on a text containing the email content.
+The headers and MIME part of the email are handled through additional fields and options.
+Supported options:
+
+ * `subject:` [required]: the subject of the email, as text
+ * `from:` [required]: the sender, as text; note: the email address must be wrapped in `<...>`
+ * `recipients:` [one required]: the recipient(s), either `TO:` or `CC:` followed by a text; note: the email address must be wrapped in `<...>`
+ * `authentication` [optional]: the username and password required to access the server
+ * `@mime-type:` [optional]: the MIME type of content as text; it is `text/plain` otherwise
+ * `@allow-insecure` [optional]: to allow insecure connections to the server
+
+#### IMAP(s) support
+Added the `IMAPS` instruction. It supports the `GET` and `SEARCH` methods.
+Both the `imap://` and the `imaps://` protocols are supported, with `imap://` it will require an upgrade to SSL/TLS unless the `@allow-insecure` option is provided.
+
+[Example](./examples/imaps-get/processor.alan)
+
+[Example](./examples/imaps-search/processor.alan)
+
+#### XML and CDATA
+The XML decorator now accepts CDATA nodes. CDATA is implicitly converted to text.
+
+[Example](./tests/parse-xml-cdata/processor.alan)
+
+#### `now` instruction
+The `now` instruction produces the current date and time as a calendar object.
+For the duration of a routine, the value produced by `now` does not change and corresponds to the time the routine was started.
+It accepts an optional timezone argument, otherwise the result is UTC.
+
+[Example](./examples/now/processor.alan)
+
+[Example](./examples/now-timezone/processor.alan)
+
+#### Changed behavior of `optional`
+Properties marked as `optional` are no longer handled as a catch all for decorate error in child types.
+For JSON `optional` only catches non-existing object keys and object keys with a value of `null`.
+For XML `optional` only catches non-existing elements and elements with no child nodes.
+
+In addition to the behavior changes of the implementation, the language no longer allows `optional` properties in `headless` nodes.
+
+
+## 31
+#### FTP(S) delete
+Unlike other `FTPS` instructions, `DELETE` send the path 'as is' to the server for interpretation while the other methods have their path interpreted by the ftp client.
+This might lead to different behavior on different servers.
+
+#### changed URI handling
+The URI for both HTTPS and FTPS instructions is changed, the server part (protocol, host and optionally port) in expected separately from the path:
+
+```
+  "/path/to/resource" => HTTPS ( "https://localhost:8080" ) GET ...
+  
+  "/path/to/resource" => FTPS ( "ftps://localhost:9090" ) GET ...
+```
+
+#### removed HTTP mock server from tester
+The HTTP mock server and related configuration files are removed from the tester.
+Removed usage of HTTP from all tests.
+
+#### debugger with tab-completion and hints
+The debugger has tab-completion at every level of instructions.
+When only one completion remains, it is shown as a hint.
+When the current context is invalid for the command, it is shown in a hint before running the command.
+Use `help` to display all available commands.
+
+#### FTP(S) support
+Added the `FTPS` instruction. It supports the `GET`, `HEAD`, `LIST` and `PUT` methods.
+The result is the file content as text.
+Both the `ftp://` and the `ftps://` protocols are supported, with `ftp://` it will require an upgrade to SSL/TLS unless the `@allow-insecure` option is provided.
+
+#### HTTPS/FTPS authentication
+Both `HTTPS` and `FTPS` instructions support the `authentication` option, allowing username password authentication.
+For `HTTPS` this enables the Basic, Digest and NTLM schemes.
+
+#### Bug Fixes
+ * Fixed several instances where nested promises with a `throw` instruction caused memory leaks.
+
+
+## 30
+#### `lambda` parameter can be another `lambda`
+[Example](./tests/lambda-parameter-1/processor.alan)
+
+#### `lambda` captures its context
+[Example](./tests/lambda-capture-1/processor.alan)
+
+#### Darwin and Windows ports.
+The tester is now available in the dataenv package on all platforms.
+A simple debugger is available in the tester allowing stepping through a `processor.alan` one statement at a time, with support to inspect the VM state.
+
+#### Added `format` instruction with different types of padding and alignment.
+[Example](./tests/format-decimal-1/processor.alan)
+
+[Example](./tests/format-decimal-2/processor.alan)
+
+[Example](./tests/format-decimal-3/processor.alan)
+
+#### XML support for `serialize as ...`.
+ * NOTE: XML has no native support for numbers, the serializer converts these values on the fly. It uses decimal point translation where available.
+ * CAVEAT: interface and schema types have no locale information, as a result the serializer cannot respect the locale when converting numbers.
+
+[Example](./tests/serializer-schema-xml/processor.alan)
+
+#### Added `unique` instruction to reduce.
+The `unique` instruction removes all duplicates from a plural value, creating a new plural value where all values are unique within the set.
+
+[Example](./tests/reduce-unique/processor.alan)
+
+#### Added `partition` instruction.
+The `partition` instruction divides a plural values into multiple buckets based on a shared value, creating a new plural value of entities with the entity value a plural value with all records which share the key.
+
+[Example](./tests/partition/processor.alan)
 ## The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
