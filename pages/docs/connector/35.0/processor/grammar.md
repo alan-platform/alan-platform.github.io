@@ -636,10 +636,10 @@ The `unique` instruction removes all duplicates from a plural value, creating a 
 The `partition` instruction divides a plural values into multiple buckets based on a shared value, creating a new plural value of entities with the entity value a plural value with all records which share the key.
 
 [Example](./tests/partition/processor.alan)
-## The Standard Libraries
+# The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
-### Calendar
+## Calendar
 The calendar library provides conversions between the connectors internal date time representation and broken down time.
 
 ```js
@@ -715,7 +715,7 @@ library
 		)
 		binds: "41f9e69859eefe632cc0a0777779d632eca606ff"
 ```
-#### Calendar Examples
+### Calendar Examples
 
 ```js
 consumer ( )
@@ -768,7 +768,7 @@ do {
 	)
 }
 ```
-### Network
+## Network
 The network library provides functions to perform network request and the data structures to represent related objects.
 
 ```js
@@ -900,7 +900,7 @@ library
 		)
 		binds: "28d5a0a8bec41be6e4235c0b32ed0bafa13b7c34"
 ```
-#### Network Examples
+### Network Examples
 
 ```js
 consumer ( )
@@ -1195,7 +1195,7 @@ do {
 	)
 }
 ```
-### Plural
+## Plural
 The plural library provides algorithms operating on sets.
 
 ```js
@@ -1248,7 +1248,7 @@ library
 		)
 		binds: "a7a514616a2bacca7c5ff05c3103e322b211f8ae"
 ```
-#### Plural Examples
+### Plural Examples
 
 ```js
 consumer ( )
@@ -1394,7 +1394,7 @@ do {
 	)
 }
 ```
-### Unicode
+## Unicode
 The unicode library provides functions to manipulate text values.
 These functions require UTF-8 encoded data.
 
@@ -1521,7 +1521,7 @@ library
 		)
 		binds: "00e5893ff46bce3d3278091734b1ca786f41fe83"
 ```
-#### Unicode Examples
+### Unicode Examples
 
 ```js
 consumer ( )
@@ -1750,8 +1750,8 @@ do {
 	}
 }
 ```
-## Processor
-### The internal library.
+# Processor
+## The internal library.
 Allows defining reusable types.
 
 <div class="language-js highlighter-rouge">
@@ -1783,7 +1783,7 @@ Allows defining reusable types.
 </pre>
 </div>
 </div>
-### The type of the connector.
+## The type of the connector.
 This is chosen externally, the archetype here must follow the external choice.
 
 <div class="language-js highlighter-rouge">
@@ -1960,7 +1960,7 @@ This is chosen externally, the archetype here must follow the external choice.
 </pre>
 </div>
 </div>
-### Internal error handler.
+## Internal error handler.
 Allows specifying an error handler routine.
 Example:
 
@@ -2009,7 +2009,7 @@ on error do @log: $
 </pre>
 </div>
 </div>
-### Library Hook
+## Library Hook
 The standard library defines hooks.
 When or how these hooks are triggered is defined by the individual hooks.
 Providers and consumers can add lambdas to these hooks.
@@ -2101,7 +2101,7 @@ do (
 </pre>
 </div>
 </div>
-### Interface Named Path
+## Interface Named Path
 As the connector does not allow stepping from a child node to the parent, the path is segmented.
 Each segment has a name and specifies a part of the path. This name is then assigned that node.
 This allows a routine to access its parents by explicitly naming them.
@@ -3293,7 +3293,7 @@ This allows a routine to access its parents by explicitly naming them.
 </pre>
 </div>
 </div>
-### Promise
+## Promise
 A promise consists of a `head`, an instruction producing a value without any input, and a `chain`.
 The chain of a promise is a set of ordered instructions which each take the output of the previous instruction as their input.
 Each instruction in the chain, as well as the head, has a `promise guarantee`. When this guarantee is `yes`, the instruction will always succeed regardless of the input.
@@ -3488,7 +3488,7 @@ As a result it is always safe the chain multiple instructions with a guarantee o
 </pre>
 </div>
 </div>
-### Value Promise
+## Value Promise
 This represents a top-level promise.
 A value promise indicates that a promise guarantee of no cannot be propagated from the wrapped promise.
 The wrapped promise must always have an alternative with a guarantee of yes, or throw.
@@ -3574,7 +3574,7 @@ The wrapped promise must always have an alternative with a guarantee of yes, or 
 </pre>
 </div>
 </div>
-### Statement
+## Statement
 A statement is responsible for the control flow of the processor.
 Statements operate on a target, the target specifies the cardinality of the statement.
 A cardinality of singular means that the target can only hold a single value, as a result statements which can produce zero or multiple values are not allowed.
