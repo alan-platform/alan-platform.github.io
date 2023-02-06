@@ -3732,3 +3732,2678 @@ When the execution context is restricted, operations that (could) generate error
 </pre>
 </div>
 </div>
+# Examples
+
+```js
+consumer ( )
+
+/* now example
+ *  this example demonstrates the usages of the now instruction
+ */
+routine 'test' on
+do {
+	let $'date-time' = now
+
+	no-op
+	/* suppress unused warnings */
+	@log: $'date-time' => serialize as ISODateTime
+}
+```
+
+```js
+provider ( )
+
+/* Provide on Command example
+ *  this simply forces an immediate execution of the `provider` when command `'force run'` is received
+ */
+routine 'force run' on command 'force run' schedule
+```
+
+```js
+/* Provider Initialization
+ *  this ensures that the connector always runs with a dataset
+ *  it uses a custom routine to generate the initial dataset
+ */
+provider ( )
+
+init ( )
+```
+
+```js
+/* Provider Initialization
+ *  this ensures that the connector always runs with a dataset
+ *  the dataset is provided by the main routine
+ */
+provider ( )
+
+init main
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as {
+		'value': optional text
+	} = ( )
+	let $'value' = $'data'.'value' get || ""
+
+	switch $'value' => is ( "" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = $ .'choice'?'a'.'value' || "fallback value"
+
+	switch $'value' => is ( "chosen value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = $ .'choice'?'a'.'value' || "fallback value"
+
+	switch $'value' => is ( "fallback value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'message' = list ( "hello", "world" ) => join separator: ( " " ) ( )
+
+	switch $'message' => is ( "hello world" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	switch conf "test" integer => is ( 42 ) || throw "no config value" (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	switch conf "test" text => is ( "hello" ) || throw "no config value" (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	throw "failure"
+}
+catch => switch $ .'value' => is ( "value 101" ) (
+	| true => no-op // Test successful
+	| false => throw "wrong context value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do switch $'Context'.'custom' (
+	|'yes' as $ => throw "switch wrong case"
+	|'no' => switch $ .'default' => is ( "The default value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do switch $'Context'.'custom' (
+	|'yes' as $ => switch $ .'value' => is ( "A custom value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+	|'no' => throw "switch wrong case"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list integer = {
+		create 42
+		create 24
+	}
+
+	switch $'data' => sum ( ) => is ( 66 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as integer = 42
+
+	switch $'data' => is ( 42 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as text = "hello world"
+
+	switch $'data' => is ( "hello world" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "hello,world" => parse as CSV || throw "invalid CSV"
+	let $'object' = $'document' => decorate as list headless {
+		'key': text
+	} || throw "partial initialization"
+
+	throw "full initialization"
+	/* suppress unused warnings */
+	walk $'object' as $ =>
+		@log: $ .'key'
+}
+catch as $ => switch $ => is ( "partial initialization" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "{}" => parse as JSON || throw "invalid JSON"
+	let $'object' = $'document' => decorate as {
+		'key': text
+	} || throw "partial initialization"
+
+	throw "full initialization"
+	/* suppress unused warnings */
+	@log: $'object'.'key'
+}
+catch as $ => switch $ => is ( "partial initialization" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "<root></root>" => parse as XML || throw "invalid XML"
+	let $'object' = $'document' => decorate as {
+		'root': {
+			'key': text
+		}
+	} || throw "partial initialization"
+
+	throw "full initialization"
+	/* suppress unused warnings */
+	@log: $'object'.'root'.'key'
+}
+catch as $ => switch $ => is ( "partial initialization" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "<root></root>" => parse as XML || throw "invalid XML"
+	let $'object' = $'document' => decorate as {
+		'root'<'key': text > : { }
+	} || throw "partial initialization"
+
+	throw "full initialization"
+	/* suppress unused warnings */
+	@log: $'object'.'root'<'key'>
+}
+catch as $ => switch $ => is ( "partial initialization" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider (
+	'objects' = try {
+		create (
+			'key' = "key"
+		)
+		create (
+			'key' = "key"
+		)
+	}
+	catch as $ => switch $ => is ( "collection uniqueness constraint violation" ) (
+		| true => no-op // Test successful
+		| false => throw "invalid error"
+	)
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do execute $ command 'command' with (
+	'message' = "Hello world!"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'calendar' = 212479064430 => call 'calendar'::'convert' with (
+		$'source type' = option 'date-time'
+		$'timezone' = unset
+	)
+	let $'value' = "{Year,number,::group-off integer-width/0000}-{Month,number,::integer-width/00}-{Day,number,::integer-width/00}T{Hour,number,::integer-width/00}:{Minute,number,::integer-width/00}:{Second,number,::integer-width/00}Z" => call 'unicode'::'format' with (
+		$'data' = new (
+			'types' = {
+				create ["Year"] create 'number' $'calendar'.'year'
+				create ["Month"] create 'number' $'calendar'.'month'
+				create ["Day"] create 'number' $'calendar'.'day of month'
+				create ["Hour"] create 'number' $'calendar'.'hour'
+				create ["Minute"] create 'number' $'calendar'.'minute'
+				create ["Second"] create 'number' $'calendar'.'second'
+			}
+		)
+		$'locale' = "C"
+	) || throw "format error"
+
+	switch $'value' => is ( "2021-02-03T10:20:30Z" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'object' as integer @limit: { , 4 } = 128
+
+	throw "length valid"
+	/* suppress unused warnings */
+	@log: $'object' => serialize as decimal
+}
+catch as $ => switch $ => is ( "integer value limit violation" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'object' as integer @limit: { 128 , } = 4
+
+	throw "length valid"
+	/* suppress unused warnings */
+	@log: $'object' => serialize as decimal
+}
+catch as $ => switch $ => is ( "integer value limit violation" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'document' = "{\"key\":3}" => parse as JSON || throw "invalid JSON"
+	let $'object' = $'document' => decorate as {
+		'key': integer @limit: { , 40 }
+	} || throw "value limit exceeded"
+
+	switch $'object'.'key' => is ( 3 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "{\"key\":40}" => parse as JSON || throw "invalid JSON"
+	let $'object' = $'document' => decorate as {
+		'key': text @limit: { , 4 }
+	} || throw "value limit exceeded"
+
+	throw "value valid"
+	/* suppress unused warnings */
+	@log: $'object'.'key'
+}
+catch as $ => switch $ => is ( "value limit exceeded" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on collection 'data'
+do switch $ => sum ( .'val' )  => is ( 20 ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on collection 'data' deletion
+do switch $ => is ( "delete" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider ( )
+
+routine 'test' on command 'command'
+do switch $ .'message' => is ( "Hello world!" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider (
+	'state' = create 'hello' ( )
+)
+
+routine 'test' on command 'command'
+	$'Hello' = .'state'?'hello'
+do switch $ .'message' => is ( "Hello world!" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider ( )
+
+routine 'test' on command 'command'
+	$'Context' =
+do execute $'Context' event 'event' with (
+	'message' = $ .'message'
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on event 'event'
+do switch $ .'message' => is ( "Hello world!" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider (
+	'value' = {
+		try 0
+		catch as $ => switch $ => is ( "interface number bounds violation" ) (
+			| true => 1 // Test successful
+			| false => throw "produced wrong value"
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	switch "\"hello world" => parse as CSV (
+		| value as $ => throw "parse of garbage resulted in valid CSV"
+		| error => throw "invalid CSV"
+	)
+}
+catch as $ => switch $ => is ( "invalid CSV" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	switch "hello,world
+tester" => parse as CSV (
+		| value as $ => throw "parse of garbage resulted in valid CSV"
+		| error => throw "invalid CSV"
+	)
+}
+catch as $ => switch $ => is ( "invalid CSV" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	switch "hello world" => parse as JSON (
+		| value as $ => throw "parse of garbage resulted in valid JSON"
+		| error => throw "invalid JSON"
+	)
+}
+catch as $ => switch $ => is ( "invalid JSON" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	switch "hello world" => parse as XML (
+		| value as $ => throw "parse of garbage resulted in valid XML"
+		| error => throw "invalid XML"
+	)
+}
+catch as $ => switch $ => is ( "invalid XML" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'key' = "A"
+
+		call lambda ( ) => create (
+			'key' = ^ $'key'
+		) with ( )
+	}
+)
+```
+
+```js
+provider (
+	'branches' = {
+		let $'create branch' = lambda ( $'create leafs': lambda on * .'leafs' ( ) ) => {
+			let $'key' = "A"
+
+			create (
+				'key' = $'key'
+				'leafs' = call ^ $'create leafs' with ( )
+			)
+		}
+		let $'key' = ".A"
+
+		call $'create branch' with (
+			$'create leafs' = lambda => create (
+				'key' = ^ $'key'
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'key' = "A"
+		let $'create' = lambda ( ) => create (
+			'key' = ^ $'key'
+		)
+
+		call $'create' with ( )
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'greet' = lambda on interface command 'command' ( ) => (
+		'message' = "Hello world!"
+	)
+
+	execute $ command 'command' with call $'greet' with ( )
+}
+```
+
+```js
+define 'type' as {
+	'items': list {
+		'value': text
+	}
+}
+
+provider (
+	'items' = {
+		let $'lambda' = lambda (
+			$'f': 'type'
+		) => walk $'f'.'items' as $ => create (
+			'key' = $ .'value'
+		)
+
+		call $'lambda' with (
+			$'f' = new (
+				'items' = {
+					create (
+						'value' = "a"
+					)
+					create (
+						'value' = "b"
+					)
+				}
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'lambda' = lambda (
+			$'f': {
+				'items': list {
+					'value': text
+				}
+			}
+		) => walk $'f'.'items' as $ => create (
+			'key' = $ .'value'
+		)
+
+		call $'lambda' with (
+			$'f' = new (
+				'items' = {
+					create (
+						'value' = "a"
+					)
+					create (
+						'value' = "b"
+					)
+				}
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'data' as list {
+			'value': optional text
+		} = {
+			create (
+				'value' = "a"
+			)
+			create ( )
+		}
+
+		walk $'data' as $ => call lambda ( $'f': optional text ) => switch $'f' get (
+			| value as $ => create (
+				'key' = $
+			)
+			| error => no-op
+		) with ( $'f' = $ .'value' )
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'create' = lambda ( $'f': optional text ) => switch $'f' get (
+			| value as $ => create (
+				'key' = $
+			)
+			| error => no-op
+		)
+
+		call $'create' with ( $'f' = set "a" )
+		call $'create' with ( $'f' = unset )
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'create' = lambda ( $'key': lambda on * .'key' ( ) ) => create (
+			'key' = call $'key' with ( )
+		)
+
+		call $'create' with ( $'key' = lambda => "A" )
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'create' = lambda (
+			$'key': lambda on * .'key' (
+				$'val': text
+			)
+		) => create (
+			'key' = call $'key' with ( $'val' = "A" )
+		)
+
+		call $'create' with ( $'key' = lambda => $'val' )
+	}
+)
+```
+
+```js
+provider (
+	'numbers' = {
+		let $'data' as {
+			'objects': collection {
+				'next': optional text
+				'value': integer
+			}
+			'first': text
+		} = (
+			'objects' = {
+				create ["one"] (
+					'next' = "two"
+					'value' = 1
+				)
+				create ["two"] (
+					'next' = "three"
+					'value' = 2
+				)
+				create ["three"] (
+					'value' = 3
+				)
+			}
+			'first' = "one"
+		)
+
+		call lambda ( $'key': text ) => {
+			let $'entry' = ^ ^ $'data'.'objects'[ ^ $'key'] || throw "invalid reference"
+
+			create (
+				'key' = ^ $'key'
+				'value' = $'entry'.'value'
+			)
+			switch $'entry'.'next' get (
+				| value as $ => call self with ( $'key' = $ )
+				| error => no-op // Test successful
+			)
+		} with ( $'key' = $'data'.'first' )
+	}
+)
+```
+
+```js
+provider (
+	'items' = {
+		let $'create' = lambda ( $'key': text ) => create (
+			'key' = $'key'
+		)
+
+		call $'create' with ( $'key' = "A" )
+	}
+)
+```
+
+```js
+define 'dataset' as list {
+	'key': text
+	'val': text
+}
+
+provider {
+	let $'data' as 'dataset' = {
+		create (
+			'key' = "A"
+			'val' = "hello"
+		)
+		create (
+			'key' = "B"
+			'val' = "bye"
+		)
+	}
+	let $'create' = lambda on .'items' ( $'line': 'dataset'* ) => create (
+		'key' = $'line'.'key'
+		'val' = $'line'.'val'
+	)
+
+	(
+		'items' = walk $'data' as $ => call $'create' with ( $'line' = $ )
+	)
+}
+```
+
+```js
+define 'option' as choice ( 'hello' 'bye' )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'option' = "bye" => decorate as 'option' || throw "option could not be decorated"
+
+	switch $'option' (
+		|'hello' => throw "produced wrong value"
+		|'bye' => no-op // Test successful
+	)
+}
+```
+
+```js
+define 'option' as choice ( 'hello' 'bye' )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'settings' = "{\"option\": \"bye\"}" => parse as JSON => decorate as {
+		'option': 'option'
+	} || throw "option could not be decorated"
+
+	switch $'settings'.'option' (
+		|'hello' => throw "produced wrong value"
+		|'bye' => no-op // Test successful
+	)
+}
+```
+
+```js
+define 'option' as choice ( 'hello' 'bye' )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'option' as 'option' = option 'bye'
+
+	switch $'option' (
+		|'hello' => throw "produced wrong value"
+		|'bye' => no-op // Test successful
+	)
+}
+```
+
+```js
+define 'text pattern' as pattern ( 'text': $ text )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "hello world" => parse as pattern 'text pattern' || throw "invalid format"
+
+	switch $'values'.'text' => is ( "hello world" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	switch not ( 42 => is ( 24 ) ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'object' as { } = throw "expected"
+
+	throw "unexpected"
+	/* suppress unused warnings */
+	@log: $'object' => serialize as JSON
+}
+catch as $ => switch $ => is ( "expected" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'dataset' = "{\"objects\":[{\"name\":\"tester\",\"age\":42},{\"name\":\"jester\"}]}" => parse as JSON => decorate as {
+			'objects': list {
+				'name': text
+				'age': optional integer
+			}
+		} || throw "dataset could not be decorated"
+
+		walk $'dataset'.'objects' as $ => create (
+			'key' = $ .'name'
+			'age' = switch $ .'age' get (
+				| value as $ => create 'known' (
+					'age' = $
+				)
+				| error => create 'unknown' ( )
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'data' as list {
+			'name': text
+			'age': optional integer
+		} = {
+			create (
+				'name' = "tester"
+				'age' = 42
+			)
+			create (
+				'name' = "jester"
+			)
+		}
+
+		walk $'data' as $ => create (
+			'key' = $ .'name'
+			'age' = switch $ .'age' get (
+				| value as $ => create 'known' (
+					'age' = $
+				)
+				| error => create 'unknown' ( )
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'data' as list {
+			'name': text
+			'age': optional integer
+		} = {
+			create (
+				'name' = "tester"
+				'age' = 42
+			)
+			create (
+				'name' = "jester"
+				'age' = unset
+			)
+		}
+
+		walk $'data' as $ => create (
+			'key' = $ .'name'
+			'age' = switch $ .'age' get (
+				| value as $ => create 'known' (
+					'age' = $
+				)
+				| error => create 'unknown' ( )
+			)
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'JSON' = "42" => parse as JSON => decorate as choice ( 'center': 16 'left': 42 'right': 24 ) || throw "invalid json"
+
+	switch $'JSON' (
+		|'center' => throw "invalid state `center` selected"
+		|'left' => no-op // Test successful
+		|'right' => throw "invalid state `right` selected"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'JSON' = "\"left\"" => parse as JSON => decorate as choice ( 'center' 'left' 'right' ) || throw "invalid json"
+
+	switch $'JSON' (
+		|'center' => throw "invalid state `center` selected"
+		|'left' => no-op // Test successful
+		|'right' => throw "invalid state `right` selected"
+	)
+}
+```
+
+```js
+provider (
+	'objects' = {
+		let $'JSON' = "{\"hello\":24,\"world\":42}" => parse as JSON => decorate as collection integer || throw "invalid json"
+
+		walk $'JSON' as $ => create (
+			'key' = key
+			'val' = $
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'JSON' = "42" => parse as JSON => decorate as integer || throw "invalid json"
+
+	switch $'JSON' => is ( 42 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+provider (
+	'objects' = {
+		let $'JSON' = "[\"hello\",\"world\"]" => parse as JSON => decorate as list text || throw "invalid json"
+
+		walk $'JSON' as $ => create (
+			'key' = $
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'JSON' = "[[\"key\",\"value\"],[\"hello\",12],[\"world\",42]]" => parse as JSON => decorate as table {
+			'key': text
+			'value': integer
+		} || throw "invalid json"
+
+		walk $'JSON' as $ => create (
+			'key' = $ .'key'
+			'value' = $ .'value'
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'JSON' = "[[\"value\",\"key\"],[12,\"hello\"],[42,\"world\"]]" => parse as JSON => decorate as table {
+			'key': text
+			'value': integer
+		} || throw "invalid json"
+
+		walk $'JSON' as $ => create (
+			'key' = $ .'key'
+			'value' = $ .'value'
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'JSON' = "\"hello world\"" => parse as JSON => decorate as text || throw "invalid json"
+
+	switch $'JSON' => is ( "hello world" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+provider (
+	'objects' = {
+		let $'CSV' = "key,val
+hello,tester
+world,jester" => parse as CSV => decorate as table {
+			'key': text
+			'val': text
+		} || throw "invalid csv"
+
+		walk $'CSV' as $ => create (
+			'key' = $ .'key'
+			'val' = $ .'val'
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'CSV' = "key,val
+hello,tester
+world,jester
+" => parse as CSV => decorate as table {
+			'key': text
+			'val': text
+		} || throw "invalid csv"
+
+		walk $'CSV' as $ => create (
+			'key' = $ .'key'
+			'val' = $ .'val'
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'CSV' = "hello,tester
+world,jester" => parse as CSV => decorate as list headless {
+			'key': text
+			'val': text
+		} || throw "invalid csv"
+
+		walk $'CSV' as $ => create (
+			'key' = $ .'key'
+			'val' = $ .'val'
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'CSV' = "key;val
+hello;tester,user
+world;jester" => parse as CSV separator: (";") => decorate as table {
+			'key': text
+			'val': text
+		} || throw "invalid csv"
+
+		walk $'CSV' as $ => create (
+			'key' = $ .'key'
+			'val' = $ .'val'
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "2021-02-03T10:20:30Z" => parse as ISODateTime || throw "invalid format"
+
+	switch $'value' => is ( 212479064430 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "2021-08-04T10:20:30Z" => parse as ISODateTime || throw "invalid format"
+
+	switch $'value' => is ( 212494789230 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "2021-02-03T10:20:30+04" => parse as ISODateTime || throw "invalid format"
+
+	switch $'value' => is ( 212479050030 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "2021-08-04T10:20:30+04" => parse as ISODateTime || throw "invalid format"
+
+	switch $'value' => is ( 212494774830 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "2021-02-03T10:20:30-04" => parse as ISODateTime || throw "invalid format"
+
+	switch $'value' => is ( 212479078830 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "2021-08-04T10:20:30-04" => parse as ISODateTime || throw "invalid format"
+
+	switch $'value' => is ( 212494803630 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "42" => parse as decimal || throw "invalid format"
+
+	switch $'value' => is ( 42 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "42" => parse as decimal << ( 2 ) || throw "invalid format"
+
+	switch $'value' => is ( 4200 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "42.42" => parse as decimal << ( 2 ) || throw "invalid format"
+
+	switch $'value' => is ( 4242 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = ".42" => parse as decimal << ( 2 ) || throw "invalid format"
+
+	switch $'value' => is ( 42 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "42,42" => parse as decimal locale: "nl_NL" << ( 2 ) || throw "invalid format"
+
+	switch $'value' => is ( 4242 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'JSON' = "[42,true]" => parse as JSON || throw "invalid JSON"
+	let $'test' = $'JSON' => decorate as headless {
+		'A': integer
+		'B': boolean
+	} || throw "invalid format"
+
+	switch $'test'.'B' (
+		| true => switch $'test'.'A' => is ( 42 ) (
+			| true => no-op // Test successful
+			| false => throw "incorrect value `A`"
+		)
+		| false => throw "incorrect value `B`"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'JSON' = "[true,false]" => parse as JSON || throw "invalid JSON"
+	let $'test' = $'JSON' => decorate as headless {
+		'value': boolean
+	} || throw "invalid format"
+
+	switch $'test'.'value' (
+		| true => throw "parse of invalid headless node succeeded"
+		| false => throw "incorrect value"
+	)
+}
+catch as $ => switch $ => is ( "invalid format" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'XML' = "<root><data>hello</data><data>world</data></root>" => parse as XML || throw "invalid XML"
+	let $'test' = $'XML' => decorate as {
+		'root': {
+			'data': headless {
+				'A': text
+				'B': text
+			}
+		}
+	} || throw "invalid format"
+
+	switch $'test'.'root'.'data'.'A' => is ( "hello" ) (
+		| true => switch $'test'.'root'.'data'.'B' => is ( "world" ) (
+			| true => no-op // Test successful
+			| false => throw "incorrect value `B`"
+		)
+		| false => throw "incorrect value `A`"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'json raw' = "{\"value\":null}"
+	let $'result' = $'json raw' => parse as JSON => decorate as {
+		'value': optional text
+	} || throw "could not parse JSON"
+
+	switch $'result'.'value' get (
+		| value as $ => throw "produced wrong value"
+		| error => no-op // Test successful
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "hello world" => parse as pattern ( 'text': $ text ) || throw "invalid format"
+
+	switch $'values'.'text' => is ( "hello world" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "[]" => parse as pattern ( 'text': "[" $ text "]" ) || throw "invalid format"
+
+	switch $'values'.'text' => is ( "" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+define 'test' as pattern ( 'full': $ text { 2 , 4 } )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'vectors' as list {
+		'value': text
+		'match': boolean
+	} = {
+		create (
+			'value' = "a"
+			'match' = false
+		)
+		create (
+			'value' = "ab"
+			'match' = true
+		)
+		create (
+			'value' = "abc"
+			'match' = true
+		)
+		create (
+			'value' = "abcd"
+			'match' = true
+		)
+		create (
+			'value' = "abcde"
+			'match' = false
+		)
+	}
+
+	walk $'vectors' as $ => {
+		let $'vector' = $
+
+		switch $'vector'.'value' => parse as pattern 'test' (
+			| value as $ => switch $'vector'.'match' (
+				| true => no-op // Test successful
+				| false => throw "incorrect parse result"
+			)
+			| error => switch $'vector'.'match' (
+				| true => throw "incorrect parse result"
+				| false => no-op // Test successful
+			)
+		)
+	}
+}
+```
+
+```js
+define 'test' as pattern ( 'full': $ text { , 4 } )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'vectors' as list {
+		'value': text
+		'match': boolean
+	} = {
+		create (
+			'value' = "a"
+			'match' = true
+		)
+		create (
+			'value' = "ab"
+			'match' = true
+		)
+		create (
+			'value' = "abc"
+			'match' = true
+		)
+		create (
+			'value' = "abcd"
+			'match' = true
+		)
+		create (
+			'value' = "abcde"
+			'match' = false
+		)
+	}
+
+	walk $'vectors' as $ => {
+		let $'vector' = $
+
+		switch $'vector'.'value' => parse as pattern 'test' (
+			| value as $ => switch $'vector'.'match' (
+				| true => no-op // Test successful
+				| false => throw "incorrect parse result"
+			)
+			| error => switch $'vector'.'match' (
+				| true => throw "incorrect parse result"
+				| false => no-op // Test successful
+			)
+		)
+	}
+}
+```
+
+```js
+define 'test' as pattern ( 'full': $ text { 2 , } )
+
+consumer ( )
+
+routine 'test' on
+do {
+	let $'vectors' as list {
+		'value': text
+		'match': boolean
+	} = {
+		create (
+			'value' = "a"
+			'match' = false
+		)
+		create (
+			'value' = "ab"
+			'match' = true
+		)
+		create (
+			'value' = "abc"
+			'match' = true
+		)
+		create (
+			'value' = "abcd"
+			'match' = true
+		)
+		create (
+			'value' = "abcde"
+			'match' = true
+		)
+	}
+
+	walk $'vectors' as $ => {
+		let $'vector' = $
+
+		switch $'vector'.'value' => parse as pattern 'test' (
+			| value as $ => switch $'vector'.'match' (
+				| true => no-op // Test successful
+				| false => throw "incorrect parse result"
+			)
+			| error => switch $'vector'.'match' (
+				| true => throw "incorrect parse result"
+				| false => no-op // Test successful
+			)
+		)
+	}
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "prefix/-1234567890/suffix" => parse as pattern ( 'id': "prefix/" $ decimal "/suffix" ) || throw "invalid format"
+
+	switch $'values'.'id' => is ( -1234567890 ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+provider {
+	let $'values' = "42::64" => parse as pattern ( 'a': $ decimal "::" 'b': $ decimal ) || throw "invalid format"
+
+	(
+		'a' = $'values'.'a'
+		'b' = $'values'.'b'
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "prefix/value/suffix" => parse as pattern ( 'value': text "/" $ text "/" text ) || throw "invalid format"
+
+	switch $'values'.'value' => is ( "value" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "prefix/value" => parse as pattern ( 'value': text "/" $ text ) || throw "invalid format"
+
+	switch $'values'.'value' => is ( "value" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "value/suffix" => parse as pattern ( 'value': $ text "/" text ) || throw "invalid format"
+
+	switch $'values'.'value' => is ( "value" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'values' = "prefix/part/suffix" => parse as pattern ( 'type': "prefix/" $ text "/suffix" ) || throw "invalid format"
+
+	switch $'values'.'type' => is ( "part" ) (
+		| true => no-op // Test successful
+		| false => throw "incorrect parse result"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'xml raw' = "
+<root>
+	<element><![CDATA[correct value]]></element>
+</root>
+"
+	let $'result' = $'xml raw' => parse as XML => decorate as {
+		'root': {
+			'element': text
+		}
+	} || throw "could not parse XML"
+
+	switch $'result'.'root'.'element' => is ( "correct value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'xml raw' = "
+<root>
+	<element><![CDATA[correct]]>_<![CDATA[value]]></element>
+</root>
+"
+	let $'result' = $'xml raw' => parse as XML => decorate as {
+		'root': {
+			'element': text
+		}
+	} || throw "could not parse XML"
+
+	switch $'result'.'root'.'element' => is ( "correct_value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+provider {
+	let $'xml raw' = "
+<data>
+	<one>first entry</one>
+	<two>second entry</two>
+</data>
+"
+	let $'result' = $'xml raw' => parse as XML => decorate as {
+		'data': collection text
+	} || throw "could not parse XML"
+
+	(
+		'data' = walk $'result'.'data' as $ => create (
+			'key' = key
+			'value' = $
+		)
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'xml raw' = "
+<root>
+	<element/>
+</root>
+"
+	let $'result' = $'xml raw' => parse as XML => decorate as {
+		'root': {
+			'element': optional text
+		}
+	} || throw "could not parse XML"
+
+	switch $'result'.'root'.'element' get (
+		| value as $ => throw "produced wrong value"
+		| error => no-op // Test successful
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'xml raw' = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">
+	<soap:Body>correct value</soap:Body>
+</soap:Envelope>
+"
+	let $'result' = $'xml raw' => parse as XML => decorate as {
+		'Envelope': {
+			'Body': text
+		}
+	} || throw "could not parse XML"
+
+	switch $'result'.'Envelope'.'Body' => is ( "correct value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'xml raw' = "
+<root>
+	<element>wrong value</element>
+	<element id=\"correct\">correct value</element>
+</root>
+"
+	let $'result' = $'xml raw' => parse as XML => decorate as {
+		'root': {
+			'element'< where 'id' is "correct"> : text
+		}
+	} || throw "could not parse XML"
+
+	switch $'result'.'root'.'element' => is ( "correct value" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+provider (
+	'keys' = {
+		let $'data' as list {
+			'key': text
+			'name': text
+		} = {
+			create (
+				'key' = "tester"
+				'name' = "one"
+			)
+			create (
+				'key' = "tester"
+				'name' = "two"
+			)
+			create (
+				'key' = "developer"
+				'name' = "three"
+			)
+		}
+		let $'buckets' = $'data' => partition on ( .'key' )
+
+		walk $'buckets' as $ => create (
+			'key' = key
+			'names' = walk $ as $ => create (
+				'name' = $ .'name'
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'keys' = {
+		let $'data' as list {
+			'key': integer
+			'name': text
+		} = {
+			create (
+				'key' = 1
+				'name' = "one"
+			)
+			create (
+				'key' = 2
+				'name' = "two"
+			)
+			create (
+				'key' = 2
+				'name' = "three"
+			)
+		}
+		let $'buckets' = $'data' => partition on ( .'key' )
+
+		walk $'buckets' as $ => create (
+			'key' = key => serialize as decimal
+			'value' = key
+			'names' = walk $ as $ => create (
+				'name' = $ .'name'
+			)
+		)
+	}
+)
+```
+
+```js
+provider (
+	'number' = var 'integer'
+	'text' = var 'text'
+	'file' = file (
+		token = var 'file-token'
+		extension = var 'file-exten'
+	)
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'name' = ^ $'Context'.'objects' => join ( .'key' )
+
+	switch $'name' => is ( "onetwo" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'name' = ^ $'Context'.'objects' => join separator: ( ", " ) ( .'key' )
+
+	switch $'name' => is ( "one, two" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'value' = ^ $'Context'.'objects' => product ( .'value' )
+
+	switch $'value' => is ( 12 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'name' = ^ $'Context'.'objects' => shared ( .'name' ) || throw "object name not shared"
+
+	switch $'name' => is ( "tester" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'value' = ^ $'Context'.'objects' => sum ( .'value' )
+
+	switch $'value' => is ( 1999 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do {
+	let $'names' = ^ $'Context'.'objects' => unique ( .'name' )
+
+	switch $'names' => join separator: ( "," ) ( ) => is ( "tester,developer" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+provider (
+	'objects' = {
+		create (
+			'key' = "static"
+		)
+		try {
+			create (
+				'key' = "dynamic"
+			)
+			/* this should undo all changes made in under the try, but no other changes */
+			throw "test collection restore"
+		}
+		catch => no-op
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'set' as list {
+			'key': optional text
+		} = {
+			create ( )
+			create (
+				'key' = "one"
+			)
+			create ( )
+			create (
+				'key' = "two"
+			)
+			create ( )
+		}
+
+		walk $'set' as $ => try create (
+			'key' = $ .'key' get || throw "no key"
+		)
+		catch => no-op
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'data' as collection { } = {
+			create ["static"] ( )
+			try {
+				create ["dynamic"] ( )
+				/* this should undo all changes made in under the try, but no other changes */
+				throw "test collection restore"
+			}
+			catch => no-op
+		}
+
+		walk $'data' as $ => create (
+			'key' = key
+		)
+	}
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'data' as list {
+			'key': text
+		} = {
+			create (
+				'key' = "static"
+			)
+			try {
+				create (
+					'key' = "dynamic"
+				)
+				/* this should undo all changes made in under the try, but no other changes */
+				throw "test list restore"
+			}
+			catch => no-op
+		}
+
+		walk $'data' as $ => create (
+			'key' = $ .'key'
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'schema' as {
+		'data' <'attribute': text > : text
+	} = (
+		'data' <
+			'attribute' = "hello"
+		> = "world"
+	)
+
+	switch $'schema'.'data'<'attribute'> => is ( "hello" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = 42 => serialize as decimal
+
+	switch $'value' => is ( "42" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = 4242 => serialize as decimal << ( 2 )
+
+	switch $'value' => is ( "42.42" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = 4242 => serialize as decimal locale: "nl_NL" << ( 2 )
+
+	switch $'value' => is ( "42,42" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = -4242 => serialize as decimal locale: "nl_NL" << ( 2 )
+
+	switch $'value' => is ( "-42,42" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list headless {
+		'a': optional text
+		'b': optional text
+	} = {
+		create (
+			'a' = "hello"
+		)
+		create (
+			'b' = "bye"
+		)
+	}
+
+	switch $'data' => serialize as JSON => is ( "[[\"hello\",null],[null,\"bye\"]]" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do switch $'Context' => serialize as JSON => is ( "{\"data\":[{\"key\":\"one\",\"choice\":[\"yes\",{}],\"group1\":{\"value\":42,\"description\":\"test entry one\"},\"group2\":{\"file\":[\"one\",\".txt\"]}},{\"key\":\"two\",\"choice\":[\"yes\",{}],\"group1\":{\"value\":-42,\"description\":\"test entry two\"},\"group2\":{\"file\":[\"two\",\".txt\"]}}]}" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+	$'Context' =
+do switch $'Context' => serialize as XML => is ( "<?xml version=\"1.0\"?>
+<root><group><data><key>one</key><choice state=\"yes\"/><value>42</value><description>test entry one</description><file><token>one</token><exten>.txt</exten></file></data><data><key>two</key><choice state=\"yes\"/><value>-42</value><description>test entry two</description><file><token>two</token><exten>.txt</exten></file></data></group></root>
+" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = true => serialize as JSON
+
+	switch $'value' => is ( "true" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = 42 => serialize as JSON
+
+	switch $'value' => is ( "42" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = "hello world" => serialize as JSON
+
+	switch $'value' => is ( "\"hello world\"" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = file ( token = "hello" extension = ".txt" ) => serialize as JSON
+
+	switch $'value' => is ( "[\"hello\",\".txt\"]" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'value' = list ( 42 , 12 , 24 ) => serialize as JSON
+
+	switch $'value' => is ( "[42,12,24]" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'source' as collection integer = {
+		create ["a"] 42
+		create ["b"] 12
+		create ["c"] 24
+	}
+	let $'value' = $'source' => serialize as JSON
+
+	switch $'value' => is ( "{\"a\":42,\"b\":12,\"c\":24}" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list choice ( 'one': 1 'two': 2 ) = {
+		create option 'one'
+		create option 'two'
+	}
+
+	switch $'data' => serialize as JSON => is ( "[1,2]" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as list choice ( 'one' 'two' ) = {
+		create option 'one'
+		create option 'two'
+	}
+
+	switch $'data' => serialize as JSON => is ( "[\"one\",\"two\"]" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'data' as collection {
+		'description': text
+		'value': integer
+	} = {
+		create ["one"] (
+			'description' = "test entry one"
+			'value' = 42
+		)
+		create ["two"] (
+			'description' = "test entry two"
+			'value' = -42
+		)
+	}
+
+	switch $'data' => serialize as JSON => is ( "{\"one\":{\"description\":\"test entry one\",\"value\":42},\"two\":{\"description\":\"test entry two\",\"value\":-42}}" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'schema' as {
+		'data': collection {
+			'description': text
+			'value': integer
+		}
+	} = (
+		'data' = {
+			create ["one"] (
+				'description' = "test entry one"
+				'value' = 42
+			)
+			create ["two"] (
+				'description' = "test entry two"
+				'value' = -42
+			)
+		}
+	)
+
+	switch $'schema' => serialize as XML => is ( "<?xml version=\"1.0\"?>
+<data><one><description>test entry one</description><value>42</value></one><two><description>test entry two</description><value>-42</value></two></data>
+" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'schema' as {
+		'description': text
+		'value': integer
+	} = (
+		'description' = "hello world"
+		'value' = 42
+	)
+
+	switch $'schema' => serialize as XML => is ( "<?xml version=\"1.0\"?>
+<description>hello world</description><value>42</value>
+" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+provider {
+	no-op
+	(
+		'message' = "hello world"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'object' as text @limit: { , 4 } = "hello world"
+
+	throw "length valid"
+	/* suppress unused warnings */
+	@log: $'object'
+}
+catch as $ => switch $ => is ( "text length limit violation" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'object' as text @limit: { 40 , } = "hello world"
+
+	throw "length valid"
+	/* suppress unused warnings */
+	@log: $'object'
+}
+catch as $ => switch $ => is ( "text length limit violation" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'document' = "{\"key\":\"hello world\"}" => parse as JSON || throw "invalid JSON"
+	let $'object' = $'document' => decorate as {
+		'key': text @limit: { , 40 }
+	} || throw "length limit exceeded"
+
+	switch $'object'.'key' => is ( "hello world" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "{\"key\":\"hello world\"}" => parse as JSON || throw "invalid JSON"
+	let $'object' = $'document' => decorate as {
+		'key': text @limit: { , 4 }
+	} || throw "length limit exceeded"
+
+	throw "length valid"
+	/* suppress unused warnings */
+	@log: $'object'.'key'
+}
+catch as $ => switch $ => is ( "length limit exceeded" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'document' = "<key>hello world</key>" => parse as XML || throw "invalid XML"
+	let $'object' = $'document' => decorate as {
+		'key': text @limit: { , 4 }
+	} || throw "length limit exceeded"
+
+	throw "length valid"
+	/* suppress unused warnings */
+	@log: $'object'.'key'
+}
+catch as $ => switch $ => is ( "length limit exceeded" ) (
+	| true => no-op // Test successful
+	| false => throw "produced wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try throw "produce trace-log"
+catch as $ => switch $ => is ( "produce trace-log" ) (
+	| true => switch error => is ( "VM-Errors:
+
+VM-Stack:
+  > guard::tail
+  > root::tail
+" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+	| false => throw "caught wrong value"
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do try {
+	let $'data' as {
+		'key': text
+		'value': @protected text
+	} = (
+		'key' = "one"
+		'value' = "super secret value"
+	)
+
+	throw "produce trace-log"
+	/* suppress unused warnings */
+	@log: $'data' => serialize as JSON
+}
+catch as $ => switch $ => is ( "produce trace-log" ) (
+	| true => switch error => is ( "VM-Errors:
+
+VM-Stack:
+  > block::+0
+     $data = <schema:node>
+          'key': text = \"one\"
+          'value': ...
+
+  > guard::tail
+  > root::tail
+" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+	| false => throw "caught wrong value"
+)
+```
+
+```js
+provider (
+	'objects' = {
+		let $'dataset' = "{\"objects\":{\"one\":{\"success\":true,\"data\":{\"name\":\"tester\",\"age\":42}},\"two\":{\"success\":false,\"data\":{\"language\":\"English\",\"message\":\"This object contains an error message.\"}}}}" => parse as JSON => decorate as {
+			'objects': collection {
+				'success': boolean
+				'data': union (
+					'object' {
+						'name': text
+						'age': integer
+					}
+					'error' {
+						'language': text
+						'message': text
+					}
+				)
+			}
+		} || throw "dataset could not be decorated"
+
+		walk $'dataset'.'objects' as $ => create (
+			'key' = key
+			'result' = switch $ .'success' (
+				| true => {
+					let $'data' = $ .'data' => decorate as union 'object' || throw "object data could not be decorated"
+
+					create 'success' (
+						'name' = $'data'.'name'
+						'age' = $'data'.'age'
+					)
+				}
+				| false => {
+					let $'error' = $ .'data' => decorate as union 'error' || throw "error could not be decorated"
+
+					create 'failure' (
+						'language' = $'error'.'language'
+						'message' = $'error'.'message'
+					)
+				}
+			)
+		)
+	}
+)
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'dataset' as collection {
+		'success': boolean
+		'data': union (
+			'object' {
+				'name': text
+				'age': integer
+			}
+			'error' {
+				'language': text
+				'message': text
+			}
+		)
+	} = {
+		create ["one"] (
+			'success' = true
+			'data' = create 'object' (
+				'name' = "tester"
+				'age' = 42
+			)
+		)
+		create ["two"] (
+			'success' = false
+			'data' = create 'error' (
+				'language' = "English"
+				'message' = "This object contains an error message."
+			)
+		)
+	}
+
+	switch $'dataset' => serialize as JSON => is ( "{\"one\":{\"success\":true,\"data\":{\"name\":\"tester\",\"age\":42}},\"two\":{\"success\":false,\"data\":{\"language\":\"English\",\"message\":\"This object contains an error message.\"}}}" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'inject' = "<element>Hello world!</element>"
+	let $'document' as {
+		'root': text
+	} = (
+		'root' = $'inject'
+	)
+	let $'text' = $'document' => serialize as XML
+
+	switch $'text' => is ( "<?xml version=\"1.0\"?>
+<root>&lt;element&gt;Hello world!&lt;/element&gt;</root>
+" ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
