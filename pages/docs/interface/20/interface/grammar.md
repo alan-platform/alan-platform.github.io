@@ -1,16 +1,15 @@
 ---
-layout: doc
-origin: interface
-language: interface
-version: 20
-type: grammar
+layout: "doc"
+origin: "interface"
+language: "interface"
+version: "20"
+type: "grammar"
 ---
 
 1. TOC
 {:toc}
 
 
-{: #grammar-rule--context-keys }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -19,7 +18,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--root }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -28,7 +26,6 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--numerical-types }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
