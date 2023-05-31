@@ -3041,6 +3041,26 @@ The keyword `show` presents the result of an operation after performing it.
 </pre>
 </div>
 </div>
+Create an entry in a collection with the `create` keyword.
+
+NB! Creating an entry within an update can yield different user interaction than
+creating an entry in the update. This is best explained using an example.
+
+The following example will show the entry that is bound to `$` and NOT the entry
+that is created in `collection`.
+
+```javascript
+... => update $ {
+	'collection' = create interactive ( ... )
+}
+```
+
+To show the created entry, use the following snippet:
+
+```javascript
+... => update $ 'collection' = create interactive ( ... )
+```
+
 
 {: #grammar-rule--ui-scalar-value-expression-list }
 <div class="language-js highlighter-rouge">
