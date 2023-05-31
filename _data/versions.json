@@ -2,6 +2,37 @@
 	"current": "2022.2",
 	"versions": [
 		{
+			"name": "2023.4",
+			"pages": [
+				"pages/docs/model/103/application/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/worf.4/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/worf.4/phrases/grammar.html",
+				"pages/docs/auto-webclient/worf.4/query/grammar.html",
+				"pages/docs/auto-webclient/worf.4/translations/grammar.html",
+				"pages/docs/auto-webclient/worf.4/parameters/grammar.html",
+				"pages/docs/connector/35.2/processor/grammar.html",
+				"pages/docs/connector/35.2/variables/grammar.html",
+				"pages/docs/datastore/103/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/103/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/103/migration_mapping/grammar.html",
+				"pages/docs/datastore/103/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/109/database/grammar.html",
+				"pages/docs/relational-database-bridge/109/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/109.1/sql_mapping/grammar.html",
+				"pages/docs/webclient/worf.4.0/views/grammar.html",
+				"pages/docs/webclient/worf.4.0/widget/grammar.html",
+				"pages/docs/webclient/worf.4.0/client bindings/client_bindings.html",
+				"pages/docs/webclient/worf.4.0/gui_model/grammar.html",
+				"pages/docs/webclient/worf.4.0/phrases/grammar.html",
+				"pages/docs/webclient/worf.4.0/translations/grammar.html",
+				"pages/docs/webclient/worf.4.0/settings/grammar.html",
+				"pages/docs/webclient/worf.4.0/parameters/grammar.html",
+				"pages/docs/project-build-environment/37/wiring/grammar.html",
+				"pages/docs/project-build-environment/37/deployment/grammar.html"
+			]
+		},
+		{
 			"name": "2022.8",
 			"pages": [
 				"pages/docs/model/99/application/grammar.html",
