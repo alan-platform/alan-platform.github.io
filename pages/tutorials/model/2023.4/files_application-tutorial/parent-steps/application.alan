@@ -1,0 +1,5 @@
+root {
+	'Tables': collection ['Table number'] {   // curly brace 2 (match second ^)
+		'Orders': collection ['Order line'] { // curly brace 1 (match first ^)
+			'Item': text -> ^ ^ .'Menu'[]
+...
