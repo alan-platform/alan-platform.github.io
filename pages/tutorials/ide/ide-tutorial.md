@@ -109,5 +109,5 @@ After deploying your work, you can find the latest published version of your app
 More information about Visual Studio Code can be found [here](https://code.visualstudio.com/).
 
 ## Next up
-Now you are all set to get started with the `application` language tutorial, which can be found [here](/pages/tutorials/model/2022.2/application-tutorial.html). Good luck!
+Now you are all set to get started with the `application` language tutorial, which can be found [here](/pages/tutorials/model/2023.4/application-tutorial.html). Good luck!
 

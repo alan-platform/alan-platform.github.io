@@ -380,4 +380,4 @@ A few words of advice for when you feel ready to start building your own applica
 - ***Experiment***. Just try it! If something does not work exactly the way you want or expect, you can easily restructure and reuse parts of the model you have already created.
 
 But, there is still a lot to discover.
-In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2022.2/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
+In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2023.4/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
