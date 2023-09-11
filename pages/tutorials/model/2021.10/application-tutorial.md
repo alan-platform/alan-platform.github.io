@@ -123,10 +123,10 @@ Otherwise, the compiler will start complaining.
 ## Deploying the app
 How to get this app up and running? The model needs to be processed to produce executable code for a server.
 This is done by a ***compiler*** that is part of the Alan platform tools.
-You can download the platform tools by clicking `Alan Fetch` in VS Code, or by running `./alan fetch` from the commandline.
+You can download the platform tools by clicking `Alan Fetch` in VS Code, or by running `./alan fetch` from the command line.
 `Alan Fetch` uses the `versions.json` file in your project root to determine which versions of the tools are needed.
 
-When `Alan Fetch` is done, you can ***build*** (compile) an application by clicking the button `Alan Build` or running `./alan build` from the commandline.
+When `Alan Fetch` is done, you can ***build*** (compile) an application by clicking the button `Alan Build` or running `./alan build` from the command line.
 If your model and other parts of your Alan project are valid, the compiler shows no errors.
 After editing your model, you need to run Alan build again to see if the model is still valid.
 Note that if you build your application regularly, it is easier to troubleshoot errors.
