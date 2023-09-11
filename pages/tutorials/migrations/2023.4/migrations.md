@@ -3,7 +3,7 @@ layout: page
 head: "Application data migration"
 title: "Migrating Alan application data"
 category: docs
-version: 97
+datastore_version: 111
 ---
 
 1. TOC
@@ -61,7 +61,7 @@ A valid migration is:
 ```js
 root = root as $ ( /* root of dataset specified by ./from/application.alan */
 	'App Name': text = $ .'Original App Name' /* property in ./from/application.alan' */
-	'App Description': text = "Example app for migrations."	
+	'App Description': text = "Example app for migrations."
 	'Users': collection = <!"Error while processing Users."!> none
 	'Year': number = 2042
 )
