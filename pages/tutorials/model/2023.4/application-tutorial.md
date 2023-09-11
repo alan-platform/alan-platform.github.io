@@ -145,7 +145,7 @@ When you can successfully build your application, you can run `Alan Deploy` to t
 When clicking `Alan Deploy`, you get a menu where you can choose a *'data source for this deployment'*.
 For your first deployment, select the **empty** option.
 Throughout this tutorial, we supply migrations that enable you to use the **migrate** option.
-This option also enables you to retain application data from a running app, as explained in the [migrations guide](/pages/tutorials/migrations/2022.2/migrations.html).
+This option also enables you to retain application data from a running app, as explained in the [migrations guide](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html).
 
 ---
 
