@@ -3,7 +3,8 @@ layout: page
 head: "Application Tutorial: a Restaurant app, Part I"
 title: "Application Tutorial:<br>a Restaurant app<br>Part I"
 category: docs
-version: 97
+model_version: 103
+platform_version: 2023.4
 ---
 
 1. TOC
@@ -19,7 +20,7 @@ This includes -- but is not limited to -- the required data structure, computati
 You start by specifying the most basic ingredient of a data-intensive application: *base data*.
 This is the primary data an application needs to work, like a menu which is essential for a meal ordering app.
 Note that this includes *all states* that are important to your application, like the status of an order or a payment.
-On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a [*todo* item](/pages/docs/model/{{ page.version }}/application/grammar.html#todo-items) for a rejected payment.
+On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a [*todo* item](/pages/docs/model/{{ page.model_version }}/application/grammar.html#todo-items) for a rejected payment.
 
 By means of a story we will take you along several topics and build up the model at the same time.
 At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
@@ -109,7 +110,7 @@ This is the ***minimal model*** that is needed for every application that you bu
 
 The `users` section defines who can access your application and how.
 We use `anonymous` for now, which means that anyone can access your app and read and edit the app data.
-In the [application language documentation](/pages/docs/model/{{ page.version }}/application/grammar.html) you can find more details about the `users` section.
+In the [application language documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) you can find more details about the `users` section.
 
 The `interfaces` section defines what other apps and/or databases this app is connected with.
 For now we stay 'disconnected' from other apps and databases.
@@ -170,13 +171,13 @@ This will bring you back to the `Menu` table, where you can add more items and m
 For this tutorial, we use test data from the `_docs` folder, such that you do not start with an empty app after updating your model.
 For that:
 - click `Alan Deploy` and choose the 'migrate' option to create the folder `migrations/from_release`,
-- open the `migration.alan` file for the relevant tutorial step in `_docs/tutorials/restaurant1/2023.4/`: `step_01/migration/migration.alan` for the current step,
+- open the `migration.alan` file for the relevant tutorial step in `_docs/tutorials/restaurant1/{{ page.platform_version }}/`: `step_01/migration/migration.alan` for the current step,
 - copy the contents of the `migration.alan` file to the clipboard,
 - paste the clipboard contents in `migrations/from-release/migration.alan`, overwriting the existing file contents.
 - click `Alan Deploy` and choose the 'migrate' option again.
 After succesful deployment, you can find the data in your app.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_01/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_01/`>
 
 ## Numerical-types
 Maybe you've noticed that when you enter a number with decimals, the price is rounded to a whole number:
@@ -222,7 +223,7 @@ Each `Menu` item (a node) has an `Item type` which can be `Dish` or `Beverage`.
 The value of `Dish type` can be `Appetizer`, `Main course`, `Dessert`.
 Similarly the `Beverage type` can be `Juice` or one of the other possible states that the model specifies.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_02/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_02/`>
 
 Build and deploy to find out what stategroups and numerical types do for your app. But, before you deploy, make sure to copy the `migration.alan` file from the tutorial folder to `migrations/from-release/migration.alan`, as explained before. Then choose the deployment option **migrate**, which will use the copied `migration.alan` file. Remember to repeat this process in subsequent steps of the tutorial.
 
@@ -264,7 +265,7 @@ An `Order line` describes an order for a specific `Item` with an ordered `Amount
 | 04 | Chocolate mousse | 1 |
 | 05 | Cappuccino | 1 |
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_03/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_03/`>
 
 ---
 
@@ -354,7 +355,7 @@ As we still want to be able to select a `Beverage type` when we compose our `Men
 Notice that we place `Beverage types` above the `Menu`.
 That is quite logical as `Beverage types` should be entered before creating a `Menu`, but the compiler requires it as well.
 By default, expressions in an `application` model point to earlier defined attributes.
-This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/{{ page.version }}/application/grammar.html).
+This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/{{ page.model_version }}/application/grammar.html).
 
 Again, build and check your app, selecting `Beverage types` from the left menu bar:
 ![beverages types collection](./images_model/011.png)
@@ -373,7 +374,7 @@ and finally hit the magnifying glass on the right side of `Beverage type`:
 
 Here, we can choose the `Beverage type` of 'Mojito'. The collection `Beverages types` is shown, just like the `Menu` items earlier in this tutorial.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_04/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_04/`>
 
 ## Next
 This concludes the introductory tutorial into the `application` language, and hopefully begins your journey in the world of Alan.
@@ -385,4 +386,4 @@ A few words of advice for when you feel ready to start building your own applica
 - ***Experiment***. Just try it! If something does not work exactly the way you want or expect, you can easily restructure and reuse parts of the model you have already created.
 
 But, there is still a lot to discover.
-In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/2023.4/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.
+In [Tutorial C: a Restaurant app, Part II](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial2.html) we discuss derived values, inverse references, commands, and more.

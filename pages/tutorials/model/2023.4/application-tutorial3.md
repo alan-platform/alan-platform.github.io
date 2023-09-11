@@ -3,7 +3,8 @@ layout: page
 head: "Application Tutorial: a Restaurant app, Part III"
 title: "Application Tutorial:<br>a Restaurant app<br>Part III"
 category: docs
-version: 97
+model_version: 103
+platform_version: 2023.4
 ---
 
 
@@ -12,7 +13,7 @@ version: 97
 
 ## Introduction
 <!-- This is the second part of the application language tutorial where we build a restaurant app.
-Make sure that you have completed [the first part](/pages/tutorials/model/2023.4/application-tutorial.html) before continuing.
+Make sure that you have completed [the first part](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) before continuing.
 
 Let's recap: in the first part, we wrote a small data model for our restaurant.
 From that data model, we generated a web application for entering a menu, tables, and orders.
@@ -137,7 +138,7 @@ Finally, let's create a group `Service` and add `Menu`, `Orders` and `Place new 
 
 As you might have noticed it is easy to make adjustments to your model: Moving a block of code, adding a derivation or property, changing the layout and applying a GUI annotation. Finetuning your model is quite easy without losing the integrity of your data.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_07/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_07/`>
 
 
 ## State machines
@@ -225,7 +226,7 @@ Check out the app:
 ![All served?](./images_model/028.png)
 ![All served!](./images_model/029.png)
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_08/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_08/`>
 
 ## Advanced references
 Before we get to the advanced part we add some more common lines to the model.
@@ -390,7 +391,7 @@ Here is the result of ouw efforts in the app:
 
 The example is a bit far fetched but it gives a preview into how intricate models can become.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_09/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_09/`>
 
 ## More advanced references
 We haven't even touched on the subject 'kitchen' yet. The kitchen is where ingredients are turned into dishes. Basic ingredients need to be in stock, prices of products need to be monitored, etc. Let's start easy and create a seperate group `Kitchen` (between `Management` and `Service`), a collection `Products` and a stategroup that show if a product is a basic ingredient or a composed product (for example a dish):
@@ -622,13 +623,13 @@ The definition of `Item name` is extended with a reference to the collection `Pr
 If you want to add an item to the menu, you can now select from a list:
 ![Menu items](./images_model/037.png)
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_10/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_10/`>
 
 ## The End
 <!-- This concludes the tutorial into the `application` language.
 You can now start building your own application, if you haven't done so already.
 
-To learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/{{ page.version }}/application/grammar.html).
+To learn more about the `application` language, we recommend you [read the docs](/pages/docs/model/{{ page.model_version }}/application/grammar.html).
 The documentation gives an overview of *all* features that the `application` language supports.
 It also provides many useful examples that you can use while building your own application.
 

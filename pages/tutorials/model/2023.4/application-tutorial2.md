@@ -3,7 +3,8 @@ layout: page
 head: "Application Tutorial: a Restaurant app, Part II"
 title: "Application Tutorial:<br>a Restaurant app<br>Part II"
 category: docs
-version: 97
+model_version: 103
+platform_version: 2023.4
 ---
 
 
@@ -12,7 +13,7 @@ version: 97
 
 ## Introduction
 This is the second part of the application language tutorial where we build a restaurant app.
-Make sure that you have completed [the first part](/pages/tutorials/model/2023.4/application-tutorial.html) before continuing.
+Make sure that you have completed [the first part](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) before continuing.
 
 Let's recap: in the first part, we wrote a small data model for our restaurant.
 From that data model, we generated a web application for entering a menu, tables, and orders.
@@ -91,7 +92,7 @@ Let's add another useful line to the model:
 
 This line expresses that `Total` is the sum of the `Line total` from a set of `Order lines`.
 For that purpose, the expression starts with the keyword `sum`, followed by a path that produces a set of numbers to sum.
-The grammar calls this an [`object set path`](/pages/docs/model/{{ page.version }}/application/grammar.html#grammar-rule--object-set-path).
+The grammar calls this an [`object set path`](/pages/docs/model/{{ page.model_version }}/application/grammar.html#grammar-rule--object-set-path).
 The `object set path` starts with navigation steps that lead to a `collection`: `.'Order lines'`.
 Subsequently, the keyword `*` expresses expansion of the `collection` to a set of objects: `Order line` nodes.
 The expression concludes with a value path (`.'Line total'`) expressing which value from each `Order line` should be retrieved.
@@ -112,7 +113,7 @@ For summing a list of separate values, you use parentheses after the `sum` keywo
 sum ( .'value A', .'value B', .'value C', .'value D' )
 ```
 
-The supported operations for deriving number values can be found [here](/pages/docs/model/{{ page.version }}/application/grammar.html#derived-numbers).
+The supported operations for deriving number values can be found [here](/pages/docs/model/{{ page.model_version }}/application/grammar.html#derived-numbers).
 - `sum`: determines the sum of a *set or list* of values
 - `min`: determines the minimum of a *set or list* of values
 - `max`: determines the maximum of a *set or list* of values
@@ -136,7 +137,7 @@ Examples of absolute and relative numbers:
 So far we've seen number derivations, but we can also derive other types of data.
 
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_04a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_04a/`>
 
 ## Growing our business
 Our restaurant business is growing.
@@ -166,7 +167,7 @@ Rename the attribute `Total` for `Orders` to `Subtotal`:
 ```
 The actual `Total` cost will depend on a discount when applicable.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_05/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_05/`>
 
 ## Conditional expressions
 Now, let's add a stategroup `Discount applicable` to `Orders`.
@@ -223,9 +224,9 @@ Here's the result of our work:
 
 For each property type that the `application` language supports, the language also supports expressing for deriving such values.
 So, you can derive text values, file values, references, stategroup states, and even collections.
-You can find many examples in the `application` language [documentation](/pages/docs/model/{{ page.version }}/application/grammar.html#derived-values).
+You can find many examples in the `application` language [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html#derived-values).
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_06/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_06/`>
 
 
 ## Usages and reference sets
@@ -285,7 +286,7 @@ The navigation path contains the keyword `*` instead of `[]` that we saw for uni
 That is because multiple `Orders` can reference the same table; the `reference-set` for a specific table will hold *all* `Orders` that refer to that specific table.
 Finally we say: take the `inverse` of the `Table` reference that you find under `In-house`.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_06a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_06a/`>
 
 ## Commands and actions
 When we build Alan applications, we often connect them to other systems that send information.
@@ -382,11 +383,11 @@ This part expresses how the new order is constructed from the command parameters
 For example, the attribute `Order` will hold whatever the external app provides for `Provide an order number`.
 Note that we use the named object `$'param'` here multiple times to reference the parameter node (the dataset that conforms to our mini model).
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_06b/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_06b/`>
 
 ## The End
 This concludes the tutorial into the `application` language, at least for now: there is more to follow.
 For a sneak preview, you can take a look at the additional tutorial folders we provided, and see if you can understand the models yourself.
-The [documentation](/pages/docs/model/{{ page.version }}/application/grammar.html) can also help you a lot there, and don't forget about the [forum](https://forum.alan-platform.com/)!
+The [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) can also help you a lot there, and don't forget about the [forum](https://forum.alan-platform.com/)!
 
 Have fun building your own applications, and don't forget: **begin with the end in mind** and **experiment**!

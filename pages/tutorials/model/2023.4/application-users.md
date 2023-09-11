@@ -3,7 +3,8 @@ layout: page
 head: "Application Guide: Users & Authentication"
 title: "Application Guide: <br>Users & Authentication"
 category: docs
-version: 97
+model_version: 103
+platform_version: 2023.4
 ---
 
 1. TOC
@@ -20,7 +21,7 @@ For enabling application users and authentication, the following steps are requi
 
 
 ## Updating your `application.alan`
-Read the section on **Application users** from the [application language docs](/pages/docs/model/{{ page.version }}/application/grammar.html#application-users).
+Read the section on **Application users** from the [application language docs](/pages/docs/model/{{ page.model_version }}/application/grammar.html#application-users).
 From the example model that you find there, copy the parts that you need for a `'Users'` and `'Passwords'` collection, and copy the contents of the `users` section.
 For basic password authentication, you can ignore the parts about *authorities*.
 
