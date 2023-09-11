@@ -70,7 +70,7 @@ This menu shows 5 kinds of data:
 1. The item that can be ordered (`Item name`)
 2. The price per item in Euro (`Selling price`)
 3. If it is a dish or a beverage (`Item type`)
-4. The type of dish or beverge (`Dish type` / `Beverage type`)
+4. The type of dish or beverage (`Dish type` / `Beverage type`)
 5. And of course, that this collectively is a menu (`Menu`)
 
 If we want to describe the data in this menu in an Alan application, we can start with an Alan model of a menu:
