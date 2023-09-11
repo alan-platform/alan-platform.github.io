@@ -23,11 +23,26 @@ For *version control* and *local editing* of Alan projects, read [this guide](/p
 
 ## Application for building applications
 For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognizes Alan code, and many other useful tools.
-In this tutorial we'll use Visual Studio Code (VS Code) in a Chromium based browser, like Google Chrome or Microsoft Edge:
+In this tutorial we'll use Visual Studio Code (VS Code) in a Chromium based browser, like Google Chrome or Microsoft Edge.
+Before continuing, open a separate tab and sign in to your existing [online IDE account](https://coder.alan-platform.com/) or
+
+<a class="button call-to-action" href="https://coder.alan-platform.com/signup/" target="_blank" rel="noopener noreferrer">
+    <svg fill="none" height="24" viewBox="0 0 24 24" width="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+        <polyline points="7.5 19.79 7.5 14.6 3 12"/>
+        <polyline points="21 12 16.5 14.6 16.5 19.79"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" x2="12" y1="22.08" y2="12"/>
+    </svg>
+    <span>Request Access</span>
+</a>
+
+After signing in, you should be presented with a welcome page:
 
 ![First window](./images_IDE/001.png)
 
-This screenshot shows the main areas in the layout:
+These are the main areas in the layout of the online IDE:
 
 ![Basic layout](./images_IDE/002.png)
 
