@@ -24,7 +24,7 @@ For *version control* and *local editing* of Alan projects, read [this guide](/p
 ## Application for building applications
 For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, a text editor that recognizes Alan code, and many other useful tools.
 In this tutorial we'll use Visual Studio Code (VS Code) in a Chromium based browser, like Google Chrome or Microsoft Edge.
-Before continuing, open a separate tab and sign in to your existing [online IDE account](https://coder.alan-platform.com/) or
+Before continuing, open a separate tab and sign in to your existing [online IDE account](https://coder.alan-platform.com/){:target="_blank"} or
 
 <p style="text-align:center;">
 <a class="button call-to-action" href="https://coder.alan-platform.com/signup/" target="_blank" rel="noopener noreferrer" style="display: inline-flex;align-items: center;">
@@ -50,7 +50,7 @@ These are the main areas in the layout of the online IDE:
 
 1. Explorer: overview of files and folders in your project
 2. Text editor: content of open file can be edited here (on startup you'll see the `README.md` file with additional info)
-3. Terminal/Output/Problems:
+3. Terminal/Output/Problems (initially hidden; shown when executing a task):
     - Tab 'Terminal' for executing instructions (you probably won't be needing this, but it is active by default)
     - Tab 'Output' for output from the compiler (when you want to inspect what happens when you build your project)
     - Tab 'Problems' for a nice list of issues from the compiler (this is important when errors occur)
