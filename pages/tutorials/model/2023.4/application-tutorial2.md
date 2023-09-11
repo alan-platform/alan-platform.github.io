@@ -136,7 +136,7 @@ Examples of absolute and relative numbers:
 So far we've seen number derivations, but we can also derive other types of data.
 
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_04a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_04a/`>
 
 ## Growing our business
 Our restaurant business is growing.
@@ -166,7 +166,7 @@ Rename the attribute `Total` for `Orders` to `Subtotal`:
 ```
 The actual `Total` cost will depend on a discount when applicable.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_05/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_05/`>
 
 ## Conditional expressions
 Now, let's add a stategroup `Discount applicable` to `Orders`.
@@ -225,7 +225,7 @@ For each property type that the `application` language supports, the language al
 So, you can derive text values, file values, references, stategroup states, and even collections.
 You can find many examples in the `application` language [documentation](/pages/docs/model/{{ page.version }}/application/grammar.html#derived-values).
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_06/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_06/`>
 
 
 ## Usages and reference sets
@@ -285,7 +285,7 @@ The navigation path contains the keyword `*` instead of `[]` that we saw for uni
 That is because multiple `Orders` can reference the same table; the `reference-set` for a specific table will hold *all* `Orders` that refer to that specific table.
 Finally we say: take the `inverse` of the `Table` reference that you find under `In-house`.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_06a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_06a/`>
 
 ## Commands and actions
 When we build Alan applications, we often connect them to other systems that send information.
@@ -382,7 +382,7 @@ This part expresses how the new order is constructed from the command parameters
 For example, the attribute `Order` will hold whatever the external app provides for `Provide an order number`.
 Note that we use the named object `$'param'` here multiple times to reference the parameter node (the dataset that conforms to our mini model).
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_06b/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_06b/`>
 
 ## The End
 This concludes the tutorial into the `application` language, at least for now: there is more to follow.

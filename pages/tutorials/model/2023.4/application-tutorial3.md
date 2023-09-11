@@ -137,7 +137,7 @@ Finally, let's create a group `Service` and add `Menu`, `Orders` and `Place new 
 
 As you might have noticed it is easy to make adjustments to your model: Moving a block of code, adding a derivation or property, changing the layout and applying a GUI annotation. Finetuning your model is quite easy without losing the integrity of your data.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_07/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_07/`>
 
 
 ## State machines
@@ -225,7 +225,7 @@ Check out the app:
 ![All served?](./images_model/028.png)
 ![All served!](./images_model/029.png)
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_08/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_08/`>
 
 ## Advanced references
 Before we get to the advanced part we add some more common lines to the model.
@@ -390,7 +390,7 @@ Here is the result of ouw efforts in the app:
 
 The example is a bit far fetched but it gives a preview into how intricate models can become.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_09/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_09/`>
 
 ## More advanced references
 We haven't even touched on the subject 'kitchen' yet. The kitchen is where ingredients are turned into dishes. Basic ingredients need to be in stock, prices of products need to be monitored, etc. Let's start easy and create a seperate group `Kitchen` (between `Management` and `Service`), a collection `Products` and a stategroup that show if a product is a basic ingredient or a composed product (for example a dish):
@@ -622,7 +622,7 @@ The definition of `Item name` is extended with a reference to the collection `Pr
 If you want to add an item to the menu, you can now select from a list:
 ![Menu items](./images_model/037.png)
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_10/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_10/`>
 
 ## The End
 <!-- This concludes the tutorial into the `application` language.

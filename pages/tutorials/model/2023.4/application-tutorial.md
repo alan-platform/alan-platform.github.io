@@ -143,8 +143,17 @@ Note that if you build your application regularly, it is easier to troubleshoot 
 When you can successfully build your application, you can run `Alan Deploy` to transform your project into an app, ready for you to be used.
 When clicking `Alan Deploy`, you get a menu where you can choose a *'data source for this deployment'*.
 For your first deployment, select the **empty** option.
-Throughout this tutorial, we recommend that you keep using the **empty** option.
-For keeping application data from a running app, you can use the **migrate** option, as explained in the [migrations guide](/pages/tutorials/migrations/2022.2/migrations.html).
+Throughout this tutorial, we supply migrations that enable you to use the **migrate** option.
+This option also enables you to retain application data from a running app, as explained in the [migrations guide](/pages/tutorials/migrations/2022.2/migrations.html).
+
+---
+
+If you ever get stuck with migrations or deployments:
+- remove your `./migrations` folder
+- click `Alan Deploy`, and choose the **empty** option
+- click `Alan Deploy` again, and now choose the **migrate** option
+
+That should provide you with a clean slate for continuing with the tutorial.
 
 ---
 
@@ -158,16 +167,16 @@ Then, fill in the required fields for the item.
 Click **Save** and **Close** (top right corner) when you're done.
 This will bring you back to the `Menu` table, where you can add more items and modify existing ones.
 
-For this tutorial, you can use test data from the `_docs` folder, such that you do not start with an empty app after updating your model.
+For this tutorial, we use test data from the `_docs` folder, such that you do not start with an empty app after updating your model.
 For that:
 - click `Alan Deploy` and choose the 'migrate' option to create the folder `migrations/from_release`,
-- open the `migration.alan` file for the relevant tutorial step in `_docs/tutorials/restaurant1/`: `step_01/migration/migration.alan` for the current step,
+- open the `migration.alan` file for the relevant tutorial step in `_docs/tutorials/restaurant1/2023.4/`: `step_01/migration/migration.alan` for the current step,
 - copy the contents of the `migration.alan` file to the clipboard,
 - paste the clipboard contents in `migrations/from-release/migration.alan`, overwriting the existing file contents.
 - click `Alan Deploy` and choose the 'migrate' option again.
 After succesful deployment, you can find the data in your app.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_01/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_01/`>
 
 ## Numerical-types
 Maybe you've noticed that when you enter a number with decimals, the price is rounded to a whole number:
@@ -185,7 +194,7 @@ Go back to your model, change `euro` at the `Selling price` to `eurocent`, and m
 The `@numerical-type:` part is a GUI annotation; an instruction for the graphical user interface of your app.
 We can specify the label that we want to see if we want it to be different from the label of the numerical-type (here `Euro` instead of `eurocent`).
 Furthermore, we can specify the number of decimals that the user can enter: 2 as the accuracy is `eurocent`.
-There's much more to numerical-types, but we'll leave it at this for now.
+There's much more to numerical types, but we'll leave it at this for now.
 
 <sup>For a better understanding of the syntax, read the [syntax guide](/pages/tuts/syntax.html).</sup>
 
@@ -213,8 +222,11 @@ Each `Menu` item (a node) has an `Item type` which can be `Dish` or `Beverage`.
 The value of `Dish type` can be `Appetizer`, `Main course`, `Dessert`.
 Similarly the `Beverage type` can be `Juice` or one of the other possible states that the model specifies.
 
-Build and deploy to find out what stategroups and numerical-types do for your app.
-Make sure you set the view to **Full**, so you can see all columns:
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_02/`>
+
+Build and deploy to find out what stategroups and numerical types do for your app. But, before you deploy, make sure to copy the `migration.alan` file from the tutorial folder to `migrations/from-release/migration.alan`, as explained before. Then choose the deployment option **migrate**, which will use the copied `migration.alan` file. Remember to repeat this process in subsequent steps of the tutorial.
+
+In your updated application, set the view to **Full** to see all columns:
 
 ![added states](./images_model/003.png)
 
@@ -222,13 +234,7 @@ The table now has a few more columns.
 If you add an item yourself you'll see radio buttons and a drop-down for choosing states for the added stategroup attributes:
 ![selection boxes](./images_model/004.png)
 
-> You may notice that data you entered yourself in a previous step is gone!
-In a real world situation you of course want to keep your data.
-For that, you have to migrate it from the running application version to the next.
 As discussed before, for this tutorial we provide migration files for each topic, that you can find in the `_docs/tutorials` folder.
-<!-- More information on migrations can be found in the tutorial *Migrations and deployments*. -->
-
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_02/`>
 
 ## Built-in attribute types
 Our restaurant is more than just a menu. We also have `Tables`; let's express that in our model:
@@ -259,7 +265,7 @@ An `Order line` describes an order for a specific `Item` with an ordered `Amount
 | 04 | Chocolate mousse | 1 |
 | 05 | Cappuccino | 1 |
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_03/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_03/`>
 
 ---
 
@@ -368,7 +374,7 @@ and finally hit the magnifying glass on the right side of `Beverage type`:
 
 Here, we can choose the `Beverage type` of 'Mojito'. The collection `Beverages types` is shown, just like the `Menu` items earlier in this tutorial.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/step_04/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/2023.4/step_04/`>
 
 ## Next
 This concludes the introductory tutorial into the `application` language, and hopefully begins your journey in the world of Alan.
