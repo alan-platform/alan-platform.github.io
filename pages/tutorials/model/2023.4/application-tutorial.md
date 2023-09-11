@@ -234,7 +234,6 @@ The table now has a few more columns.
 If you add an item yourself you'll see radio buttons and a drop-down for choosing states for the added stategroup attributes:
 ![selection boxes](./images_model/004.png)
 
-As discussed before, for this tutorial we provide migration files for each topic, that you can find in the `_docs/tutorials` folder.
 
 ## Built-in attribute types
 Our restaurant is more than just a menu. We also have `Tables`; let's express that in our model:
