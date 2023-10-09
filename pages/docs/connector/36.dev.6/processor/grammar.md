@@ -4242,6 +4242,58 @@ do {
 consumer ( )
 
 routine 'test' on
+do {
+	let $'source' as 'calendar'/'constructor' = (
+		'date' = create 'week' (
+			'year' = 2021
+			'week' = 5
+			'day' = option 'Wednesday'
+		)
+		'time' = (
+			'hour' = 10
+			'minute' = 20
+			'second' = 30
+		)
+	)
+	let $'value' = $'source' => call 'calendar'::'construct' with ( $'timezone' = unset )
+
+	switch $'value' => is ( 212479064430 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
+do {
+	let $'source' as 'calendar'/'constructor' = (
+		'date' = create 'week' (
+			'year' = 2021
+			'week' = 31
+			'day' = option 'Wednesday'
+		)
+		'time' = (
+			'hour' = 10
+			'minute' = 20
+			'second' = 30
+		)
+	)
+	let $'value' = $'source' => call 'calendar'::'construct' with ( $'timezone' = unset )
+
+	switch $'value' => is ( 212494789230 ) (
+		| true => no-op // Test successful
+		| false => throw "produced wrong value"
+	)
+}
+```
+
+```js
+consumer ( )
+
+routine 'test' on
 do try {
 	let $'object' as { } = throw "expected"
 
