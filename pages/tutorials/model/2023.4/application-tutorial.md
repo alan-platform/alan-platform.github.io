@@ -158,9 +158,9 @@ That should provide you with a clean slate for continuing with the tutorial.
 
 ---
 
-When opening your app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there will be no data:
+When opening your app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column:
 
-![first app](./images_model/001.png)
+![first app](./images_model/001a.png)
 
 Add some `Menu` items to familiarize yourself with the *Graphical User Interface* (GUI).
 Click **Add** to start adding a new item.
