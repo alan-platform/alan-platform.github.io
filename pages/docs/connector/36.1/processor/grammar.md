@@ -892,7 +892,6 @@ do {
 ```
 ## Unicode
 The unicode library provides functions to manipulate text values.
-These functions require UTF-8 encoded data.
 
 ```js
 define 'trim style' as @API choice ( 'leading' 'trailing' 'both' 'none' )
@@ -1245,6 +1244,30 @@ do {
 		)
 	}
 }
+```
+## Data
+The data library provides functions to manipulate binary values.
+
+```js
+library
+	/* Converts text from one encoding to another.
+	 * Available encodings depend on the hosting systems.
+	 */
+	function 'convert'
+		< binary , unsafe binary >
+		(
+			$'from': text
+			$'to': text
+		)
+		binds: "10fb20740f273873cd35121d33fd980e9c68f242"
+
+	/* Loads an archive from data.
+	 * Archive format and any compression/encoding are automatically detected.
+	 */
+	function 'load archive'
+		< binary , unsafe collection binary >
+		( )
+		binds: "b0dcc6d89228fd4a40e45d3b05c413eb88a0c56c"
 ```
 # Processor
 ## The internal library.
