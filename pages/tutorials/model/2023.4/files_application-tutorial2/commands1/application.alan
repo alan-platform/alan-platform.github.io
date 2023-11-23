@@ -19,7 +19,7 @@
 			'Table' = $ .'Where is the customer seated?'
 		)
 	)
-	'Order lines' = walk $'param'.'Order lines' as $ (
+	'Order lines' = walk $'param'.'Order lines'* as $ (
 		create (
 			'Order line' = $ .'Provide an order line number'
 			'Item' = $ .'Item to be consumed'
