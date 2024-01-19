@@ -15,6 +15,12 @@ type: "grammar"
 #### Added greedy pattern matching
 Added greedy pattern matching option to integer and decimal patterns.
 
+#### Base64 encoder
+Added a base64 encoder function to the `data` library.
+
+#### Network message serializer
+Added a function to serialize a `network message` to MIME text.
+
 
 ## 36.1
 #### Decimal format and locales
@@ -266,6 +272,15 @@ library
 		)
 		binds: "8668f36c12865350be8e3134c2e91af9288be118"
 
+	/* Serializes a 'network message' to text.
+	 */
+	function 'serialize network message'
+		<'network message', unsafe binary >
+		(
+			$'include hidden recipients': boolean
+		)
+		binds: "4f026447e0605610cce462fedb97c1c9772110e5"
+
 	/* Performs an HTTP(S) request.
 	 * Methods are mapped directly to their HTTP equivalent.
 	 * When provided, 'content' is send with the request.
@@ -335,6 +350,7 @@ library
 		binds: "ebd220d0402089fc63cc22a5d8c9649b888cd7ec"
 
 	/* Send a message with SMTP(S).
+	 * The message is serialized as if passed to `function 'serialize network message'`.
 	 * When the transfer fails, this function throws an error.
 	 */
 	function 'smtp'
@@ -1254,6 +1270,8 @@ do {
 The data library provides functions to manipulate binary values.
 
 ```js
+define 'base64 alphabet' as @API choice ( 'base64' 'base64url' )
+
 library
 	/* Converts text from one encoding to another.
 	 * Available encodings depend on the hosting systems.
@@ -1265,6 +1283,16 @@ library
 			$'to': text
 		)
 		binds: "10fb20740f273873cd35121d33fd980e9c68f242"
+
+	/* Convert binary data to base64 text.
+	 * Alphabet as defined by RFC-4648.
+	 */
+	function 'base64 encode'
+		< binary , text >
+		(
+			$'alphabet': 'base64 alphabet'
+		)
+		binds: "b9bfaa1b0da22d82ef967d8f4cc501d102367703"
 
 	/* Loads an archive from data.
 	 * Archive format and any compression/encoding are automatically detected.
