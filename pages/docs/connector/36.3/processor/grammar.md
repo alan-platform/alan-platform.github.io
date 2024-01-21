@@ -16,7 +16,14 @@ type: "grammar"
 Added greedy pattern matching option to integer and decimal patterns.
 
 #### Base64 encoder
-Added a base64 encoder function to the `data` library.
+Added a base64 encoder function to the `data` library
+
+[example](./tests/base64-encode/processor.alan).
+
+#### Base64 decode
+Added a base64 decode function to the `data` library.
+
+[example](./tests/base64-decode/processor.alan).
 
 #### Network message serializer
 Added a function to serialize a `network message` to MIME text.
@@ -1293,6 +1300,16 @@ library
 			$'alphabet': 'base64 alphabet'
 		)
 		binds: "b9bfaa1b0da22d82ef967d8f4cc501d102367703"
+
+	/* Convert base64 text to binary data.
+	 * Alphabet as defined by RFC-4648.
+	 */
+	function 'base64 decode'
+		< text , unsafe binary >
+		(
+			$'alphabet': 'base64 alphabet'
+		)
+		binds: "1a2fd70ec93a50c8cdb576ca0d3955e9967e90ae"
 
 	/* Loads an archive from data.
 	 * Archive format and any compression/encoding are automatically detected.
