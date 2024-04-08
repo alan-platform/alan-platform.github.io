@@ -2,6 +2,38 @@
 	"current": "2023.4",
 	"versions": [
 		{
+			"name": "2024.1",
+			"pages": [
+				"pages/docs/model/105/application/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/generator_annotations/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/phrases/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/query/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/translations/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/parameters/grammar.html",
+				"pages/docs/connector/36.5/processor/grammar.html",
+				"pages/docs/connector/36.5/variables/grammar.html",
+				"pages/docs/datastore/113/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/113/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/113/migration_mapping/grammar.html",
+				"pages/docs/datastore/113/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/109/database/grammar.html",
+				"pages/docs/relational-database-bridge/109/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/109.1/sql_mapping/grammar.html",
+				"pages/docs/webclient/xindi.1.1/views/grammar.html",
+				"pages/docs/webclient/xindi.1.1/widget/grammar.html",
+				"pages/docs/webclient/xindi.1.1/client bindings/client_bindings.html",
+				"pages/docs/webclient/xindi.1.1/gui_model/grammar.html",
+				"pages/docs/webclient/xindi.1.1/phrases/grammar.html",
+				"pages/docs/webclient/xindi.1.1/translations/grammar.html",
+				"pages/docs/webclient/xindi.1.1/settings/grammar.html",
+				"pages/docs/webclient/xindi.1.1/parameters/grammar.html",
+				"pages/docs/project-build-environment/41/wiring/grammar.html",
+				"pages/docs/project-build-environment/41/deployment/grammar.html"
+			]
+		},
+		{
 			"name": "2023.4",
 			"pages": [
 				"pages/docs/model/103/application/grammar.html",
