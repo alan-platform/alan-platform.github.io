@@ -1,0 +1,9 @@
+'Order lines': collection ['Order line'] {
+	'Order line': text
+	'Item': text -> ^ ^ .'Menu'[]
+	'Amount': number 'units'
+	'Line total': number 'eurocent' = product (
+		.'Amount' as 'units',
+		>'Item'.'Selling price'
+	)
+}
