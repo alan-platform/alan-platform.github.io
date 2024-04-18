@@ -2,6 +2,7 @@
 <html lang="en">
 	{% include head.html %}
 	<body class="page">
+		{% include tracker.html %}
 		{% include header.html %}
 
 		{% if page.hero %}
@@ -13,15 +14,15 @@
 			<nav>
 				<ul>
 					{% for anchor in page.anchors %}
-				    <li>
-				    	<a href="#{{ anchor.name }}">{{ anchor.label }}</a>
-				    </li>
-				    {% endfor %}
+					<li>
+						<a href="#{{ anchor.name }}">{{ anchor.label }}</a>
+					</li>
+					{% endfor %}
 				</ul>
 
 				{% for button in page.buttons %}
-		    	<a class="button" href="{{ button.link | relative_url }}">{{ button.label }}</a>
-			    {% endfor %}
+				<a class="button" href="{{ button.link | relative_url }}">{{ button.label }}</a>
+				{% endfor %}
 
 			</nav>
 			<section>
