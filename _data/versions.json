@@ -1,6 +1,38 @@
 {
-	"current": "2023.4",
+	"current": "2024.1",
 	"versions": [
+		{
+			"name": "2024.1",
+			"pages": [
+				"pages/docs/model/105/application/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/generator_annotations/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/phrases/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/query/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/translations/grammar.html",
+				"pages/docs/auto-webclient/xindi.1/parameters/grammar.html",
+				"pages/docs/connector/36.5/processor/grammar.html",
+				"pages/docs/connector/36.5/variables/grammar.html",
+				"pages/docs/datastore/113/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/113/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/113/migration_mapping/grammar.html",
+				"pages/docs/datastore/113/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/109/database/grammar.html",
+				"pages/docs/relational-database-bridge/109/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/109.1/sql_mapping/grammar.html",
+				"pages/docs/webclient/xindi.1.1/views/grammar.html",
+				"pages/docs/webclient/xindi.1.1/widget/grammar.html",
+				"pages/docs/webclient/xindi.1.1/client bindings/client_bindings.html",
+				"pages/docs/webclient/xindi.1.1/gui_model/grammar.html",
+				"pages/docs/webclient/xindi.1.1/phrases/grammar.html",
+				"pages/docs/webclient/xindi.1.1/translations/grammar.html",
+				"pages/docs/webclient/xindi.1.1/settings/grammar.html",
+				"pages/docs/webclient/xindi.1.1/parameters/grammar.html",
+				"pages/docs/project-build-environment/41/wiring/grammar.html",
+				"pages/docs/project-build-environment/41/deployment/grammar.html"
+			]
+		},
 		{
 			"name": "2023.4",
 			"pages": [
@@ -123,85 +155,6 @@
 				"pages/docs/webclient/seven.5.0/widget/grammar.html",
 				"pages/docs/project-build-environment/34/wiring/grammar.html",
 				"pages/docs/project-build-environment/34/deployment/grammar.html"
-			]
-		},
-		{
-			"name": "2020.3",
-			"pages": [
-				"pages/docs/interface/2.3/interface/grammar.html",
-				"pages/docs/model/51/application/grammar.html",
-				"pages/docs/model/51/client_request/grammar.html",
-				"pages/docs/model/51/collection_query_to_table/grammar.html",
-				"pages/docs/auto-webclient/neo.6/deployment/description.html",
-				"pages/docs/auto-webclient/neo.6/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/neo.6/phrases/grammar.html",
-				"pages/docs/auto-webclient/neo.6/translations/grammar.html",
-				"pages/docs/connector/2/pipeline/grammar.html",
-				"pages/docs/connector/2/processor/grammar.html",
-				"pages/docs/connector/2/variables/grammar.html",
-				"pages/docs/datastore/54/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/54/migration_mapping/grammar.html",
-				"pages/docs/datastore/54/provided_interface_implementation/grammar.html",
-				"pages/docs/relational-database-bridge/85/database/grammar.html",
-				"pages/docs/relational-database-bridge/85/database_transformation/grammar.html",
-				"pages/docs/reporter/47/expressions/grammar.html",
-				"pages/docs/reporter/47/parameters/grammar.html",
-				"pages/docs/reporter/47/query/grammar.html",
-				"pages/docs/sql-mirror/53/sql_mapping/grammar.html",
-				"pages/docs/webclient/neo.6/deployment/description.html",
-				"pages/docs/webclient/neo.6/gui_model/grammar.html",
-				"pages/docs/webclient/neo.6/phrases/grammar.html",
-				"pages/docs/webclient/neo.6/settings/grammar.html",
-				"pages/docs/webclient/neo.6/translations/grammar.html",
-				"pages/docs/webclient/neo.6/views/grammar.html",
-				"pages/docs/webclient/neo.6/widget/grammar.html"
-			]
-		},
-		{
-			"name": "2020.2",
-			"pages": [
-				"pages/docs/interface/2.3/interface/grammar.html",
-				"pages/docs/model/50/application/grammar.html",
-				"pages/docs/model/50/client_request/grammar.html",
-				"pages/docs/model/50/collection_query_to_table/grammar.html",
-				"pages/docs/auto-webclient/neo.3.1/deployment/description.html",
-				"pages/docs/auto-webclient/neo.3.1/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/neo.3.1/phrases/grammar.html",
-				"pages/docs/auto-webclient/neo.3.1/translations/grammar.html",
-				"pages/docs/connector/2/pipeline/grammar.html",
-				"pages/docs/connector/2/processor/grammar.html",
-				"pages/docs/connector/2/variables/grammar.html",
-				"pages/docs/datastore/52/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/52/migration_mapping/grammar.html",
-				"pages/docs/datastore/52/provided_interface_implementation/grammar.html",
-				"pages/docs/relational-database-bridge/85/database/grammar.html",
-				"pages/docs/relational-database-bridge/85/database_transformation/grammar.html",
-				"pages/docs/reporter/46/expressions/grammar.html",
-				"pages/docs/reporter/46/parameters/grammar.html",
-				"pages/docs/reporter/46/query/grammar.html",
-				"pages/docs/sql-mirror/52/sql_mapping/grammar.html",
-				"pages/docs/webclient/neo.3.1/deployment/description.html",
-				"pages/docs/webclient/neo.3.1/gui_model/grammar.html",
-				"pages/docs/webclient/neo.3.1/phrases/grammar.html",
-				"pages/docs/webclient/neo.3.1/settings/grammar.html",
-				"pages/docs/webclient/neo.3.1/translations/grammar.html",
-				"pages/docs/webclient/neo.3.1/views/grammar.html",
-				"pages/docs/webclient/neo.3.1/widget/grammar.html"
-			]
-		},
-		{
-			"name": "2019.7",
-			"pages": [
-				"pages/docs/interface/2.3/interface/grammar.html",
-				"pages/docs/model/45/application/grammar.html",
-				"pages/docs/model/45/client_request/grammar.html",
-				"pages/docs/model/45/collection_query_to_table/grammar.html",
-				"pages/docs/datastore/48/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/48/migration_mapping/grammar.html",
-				"pages/docs/datastore/48/provided_interface_implementation/grammar.html",
-				"pages/docs/relational-database-bridge/78/database/grammar.html",
-				"pages/docs/relational-database-bridge/78/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/48/sql_mapping/grammar.html"
 			]
 		}
 	]

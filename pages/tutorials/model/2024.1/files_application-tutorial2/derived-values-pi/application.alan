@@ -1,0 +1,8 @@
+root {
+	'Circle diameter': number 'diameter'
+	'Circle circumference': number 'circum' = from 'diameter' .'Circle diameter'
+}
+numerical-types
+	'diameter'
+	'circum'
+		= 'diameter' * 314159265 * 10 ^ -8	// = diameter * pi

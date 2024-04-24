@@ -90,7 +90,7 @@ A single `Menu` item consisting of an `Item name` and a `Selling price` is calle
 
 `Selling price` holds a value of type `number`. The meaning of the number is expressed as well: `euro`. A `Selling price` is a number representing a euro amount.
 
-`Menu`, `Item name`, and `Selling Price` are **attributes** of a node. The keywords *collection*, *text* and *number* in a model express the **types** of the attributes. An *attribute type* specifies what kind of data an attribute can hold.
+`Item name` and `Selling Price` are **attributes** of a node type. The keywords *text* and *number* in a model express the **types** of the attributes. An *attribute type* specifies the type of the values that an attribute can hold.
 
 <!-- >Curly braces ( ***{ ... }*** ) describe the start and end of a **node type** definition. A *node type* defines the types of data and its structure in a node. -->
 
@@ -158,9 +158,9 @@ That should provide you with a clean slate for continuing with the tutorial.
 
 ---
 
-When opening your app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column, except that there will be no data:
+When opening your app in a webbrowser (we assume you use a chromium-based browser) it should look like this when clicking `Menu` in the left column:
 
-![first app](./images_model/001.png)
+![first app](./images_model/001a.png)
 
 Add some `Menu` items to familiarize yourself with the *Graphical User Interface* (GUI).
 Click **Add** to start adding a new item.
