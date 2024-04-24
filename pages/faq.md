@@ -8,8 +8,6 @@ model_language_version: 97
 
 
 ## Do I need to learn programming for Alan?
-Alan is *low* code, but not *no* code.
-
 Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but you don't have to express that in abstract algorithms.
 
 If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Alan will definitely not scare you. In fact, we bet you'll find it lots of fun.
@@ -53,12 +51,12 @@ Finally there is a "patch" level of versions (in semver-speak), for which we sim
 
 ## What is the roadmap for Alan?
 
-Alan is actively being used by [Kjerner](https://www.kjerner.com/) and [Applicatiefabriek](https://www.applicatiefabriek.nl/) to build solutions for their customers. Using our experience developing these solutions, we are constantly extending and improving the Alan platform.
+Alan is actively being used by [Kjerner](https://www.kjerner.nl/) and [Applicatiefabriek](https://www.applicatiefabriek.nl/) to build solutions for their customers. Using our experience developing these solutions, we are constantly extending and improving the Alan platform.
 
 Long term plans include:
 
 - Improve the generated GUI so that there are even less reasons to go with a custom gui
-- Make custom gui's (on the platform) easily extendible for third-party control & widget developers
+- Make custom GUI's (on the platform) easily extendible for third-party control & widget developers
 - Make todo's the primary driver for the interaction with an application.
 - Improved querying, reporting and data visualization features.
 - Improved support for creating "live dashboard" applications.

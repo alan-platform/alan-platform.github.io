@@ -30,14 +30,13 @@ If your project requires something like this, get in touch and we'll help you ge
 - Backup routines.
 
 ## Kjerner
-Kjerner took over development of the Alan platform from M‑industries since the beginning of 2019. M‑industries built the Alan platform to help international businesses like Tata Steel and Hydro improve data quality and upgrade their legacy systems. Of course, Kjerner runs fully on Alan itself as well: for accounting, planning, etc.
+Kjerner took over development of Alan Platform from M‑industries since the beginning of 2019. M‑industries built Alan Platform to help international businesses like Tata Steel and Hydro improve data quality and upgrade their legacy systems. Of course, Kjerner runs fully on Alan itself as well: for accounting, planning, etc.
 
 We're based near the campus of Delft University of Technology and you can find us here:
 
-- [Kjerner.com](https://www.kjerner.com)
+- [Kjerner.nl](https://www.kjerner.nl)
 - [LinkedIn](https://www.linkedin.com/company/kjerner/)
 - [GitHub](https://github.com/alan-platform/)
 
-For demos and workshops:
-
-[info@kjerner.com](mailto:info@kjerner.com)
+## Free demo
+Discover all the advantages of Alan Platform in a free demo! Fill out this form on [kjerner.nl](https://www.kjerner.nl/site/demo-alan-platform) or send us an e-mail: [info@kjerner.com](mailto:info@kjerner.com).
