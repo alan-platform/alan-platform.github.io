@@ -17,6 +17,11 @@ Added user functions.
 
 [example](./tests/user-function/processor.alan)
 
+#### Unicode Escape
+Added an escape function with a custom dictionary.
+
+[example](./unicode-escape/processor.alan)
+
 
 ## 36.4
 #### Added related items to network messages
@@ -979,6 +984,15 @@ define 'as binary' as function
 	< text , binary >
 	( )
 	binds: "87c97c8e13179e8011a433263adba108b053ac5e"
+
+/* Replaces all occurrences of the key of the entries in the dictionary with their value.
+ */
+define 'escape' as function
+	< text , text >
+	(
+		$'dictionary': collection text
+	)
+	binds: "56446bd60eff700fd39b2e60d6622984d671a73a"
 
 /* Removes all whitespace from a text value.
  */
