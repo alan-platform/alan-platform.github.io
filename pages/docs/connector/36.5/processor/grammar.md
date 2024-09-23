@@ -20,7 +20,7 @@ Added user functions.
 #### Unicode Escape
 Added an escape function with a custom dictionary.
 
-[example](./unicode-escape/processor.alan)
+[example](./tests/unicode-escape/processor.alan)
 
 
 ## 36.4
