@@ -172,6 +172,8 @@ The `path` is for specifying on which nodes the `interface` conformant data will
 The nodes themselves may only be modified via the interface: their value source has to be `interface`.
 You express that at the `node type` with `can-update: interface '<imported interfaces id>'`.
 
+Multiple different external sources can provide data and commands specified by the same Alan `interface`.
+For example, multiple sources can provide a products `Catalogue` conforming to the equally named interface:
 ```js
 
 interfaces
@@ -217,6 +219,28 @@ root {
 }
 
 ```
+The key of an item in the `Catalogues` collection is a unique identifier for the external source.
+Connection details can be provided in your `deployment.alan` file and through the hosting application.
+
+###### Connection status
+The application engine exposes four different connection statuses for external sources.
+- `connected`: a connection with the external source has been established
+- `disconnected`: the connection with the external source is down
+- `connecting`: a handshake for connecting with the external source has been initiated
+- `unavailable`: no connection to the external source has ever been established (e.g. because connection info has not been provided)
+
+###### Dataset status
+When the `connection-status` is `connected`, the application engine exposes a `dataset-status`.
+The `dataset-status` is initially set to `unavailable`.
+
+When the external source sends an `interface notification` of type `create`,
+-- meaning that it sent a consumable dataset conforming to the specified Alan `interface`, --
+the `dataset-status` is updated to `available`.
+
+The `dataset-status` becomes `unavailable` again if and only if the external system sends an `interface notification` of type `remove`.
+An external source sends a `remove` notification when it is unable to provide a dataset conforming to the `interface`.
+In the Alan ecosystem, this happens if and only if the `application root node` path (see language `provided_interface_implementation`) does not produce a node.
+For example, when *context keys* are incorrect.
 
 
 <div class="language-js highlighter-rouge">
