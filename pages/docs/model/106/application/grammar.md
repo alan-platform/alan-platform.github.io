@@ -240,7 +240,7 @@ the `dataset-status` is updated to `available`.
 The `dataset-status` becomes `unavailable` again if and only if the external system sends an `interface notification` of type `remove`.
 An external source sends a `remove` notification when it is unable to provide a dataset conforming to the `interface`.
 In the Alan ecosystem, this happens if and only if the `application root node` path (see language `provided_interface_implementation`) does not produce a node.
-For example, when *context keys* are incorrect.
+For example, when `parameters` (`context keys` in the `interface` language) are incorrect.
 
 
 <div class="language-js highlighter-rouge">
