@@ -227,7 +227,7 @@ The application engine exposes four different connection statuses for external s
 - `connected`: a connection with the external source has been established
 - `disconnected`: the connection with the external source is down
 - `connecting`: a handshake for connecting with the external source has been initiated
-- `unavailable`: no connection to the external source has ever been established (e.g. because connection info has not been provided)
+- `unavailable`: no connection with the external source has ever been established (e.g. because connection info has not been provided)
 
 ###### Dataset status
 When the `connection-status` is `connected`, the application engine exposes a `dataset-status`.
