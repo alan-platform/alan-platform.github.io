@@ -497,28 +497,22 @@ values on the same x value.
 	'planning' component {
 		'rows': query binding {
 			'label': feature 'query label'
-			'has tooltip': stategroup @default: 'no' (
-				'yes' {
-					'label': feature 'query label'
-				}
-				'no' { }
-			)
 			'options': feature 'row options'
 			'items': query binding {
 				'label': feature 'query label'
 				'start': query number requires filter binding { }
 				'end': query number requires filter binding { }
-				'has tooltip': stategroup @default: 'no' (
-					'yes' {
-						'label': feature 'query label'
-					}
-					'no' { }
-				)
 				'options': feature 'item options'
 			}
 		}
 	}
 	'row options' component query {
+		'has tooltip': stategroup @default: 'no' (
+			'yes' {
+				'label': feature 'query label'
+			}
+			'no' { }
+		)
 		'has group': stategroup @default: 'no' (
 			'yes' {
 				'group': query text binding { }
@@ -545,7 +539,13 @@ values on the same x value.
 			'no' { }
 		)
 	}
-	'item options' component {
+	'item options' component query {
+		'has tooltip': stategroup @default: 'no' (
+			'yes' {
+				'label': feature 'query label'
+			}
+			'no' { }
+		)
 		'draggable': stategroup @default: 'no' (
 			'yes' {
 				'move': command binding {
@@ -642,7 +642,7 @@ values on the same x value.
 		)
 	}
 	'node' component {
-		'entries': list {
+		'entries': list non-empty {
 			'type': stategroup (
 				'number' {
 					'number': number binding { }
@@ -654,7 +654,12 @@ values on the same x value.
 					'stategroup': stategroup binding {
 						'states': list {
 							'state': state binding {
-								'node': feature 'node'
+								'has node': stategroup @default: 'no' (
+									'yes' {
+										'node': feature 'node'
+									}
+									'no' { }
+								)
 							}
 						}
 					}
