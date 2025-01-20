@@ -2,6 +2,38 @@
 	"current": "2024.1",
 	"versions": [
 		{
+			"name": "2024.2",
+			"pages": [
+				"pages/docs/model/106/application/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/yar.11/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/yar.11/generator_annotations/grammar.html",
+				"pages/docs/auto-webclient/yar.11/phrases/grammar.html",
+				"pages/docs/auto-webclient/yar.11/query/grammar.html",
+				"pages/docs/auto-webclient/yar.11/translations/grammar.html",
+				"pages/docs/auto-webclient/yar.11/parameters/grammar.html",
+				"pages/docs/connector/36.5/processor/grammar.html",
+				"pages/docs/connector/36.5/variables/grammar.html",
+				"pages/docs/datastore/116/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/116/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/116/migration_mapping/grammar.html",
+				"pages/docs/datastore/116/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/110/database/grammar.html",
+				"pages/docs/relational-database-bridge/110/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/116/sql_mapping/grammar.html",
+				"pages/docs/webclient/yar.11.0/views/grammar.html",
+				"pages/docs/webclient/yar.11.0/widget/grammar.html",
+				"pages/docs/webclient/yar.11.0/client bindings/client_bindings.html",
+				"pages/docs/webclient/yar.11.0/gui_model/grammar.html",
+				"pages/docs/webclient/yar.11.0/phrases/grammar.html",
+				"pages/docs/webclient/yar.11.0/translations/grammar.html",
+				"pages/docs/webclient/yar.11.0/settings/grammar.html",
+				"pages/docs/webclient/yar.11.0/parameters/grammar.html",
+				"pages/docs/project-build-environment/41/wiring/grammar.html",
+				"pages/docs/project-build-environment/41/deployment/grammar.html"
+			]
+		},
+		{
 			"name": "2024.1",
 			"pages": [
 				"pages/docs/model/105/application/grammar.html",
