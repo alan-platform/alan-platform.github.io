@@ -29,6 +29,9 @@
 				"pages/docs/webclient/yar.11.0/translations/grammar.html",
 				"pages/docs/webclient/yar.11.0/settings/grammar.html",
 				"pages/docs/webclient/yar.11.0/parameters/grammar.html",
+				"pages/docs/webclient/yar.11.0/default features/features.html",
+				"pages/docs/webclient/yar.11.0/main/grammar.html",
+				"pages/docs/webclient/yar.11.0/query/grammar.html",
 				"pages/docs/project-build-environment/41/wiring/grammar.html",
 				"pages/docs/project-build-environment/41/deployment/grammar.html"
 			]
