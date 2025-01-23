@@ -28,7 +28,7 @@ Choosing the **empty** option creates a folder `migrations/from_empty`:
 
 This folder describes the migration from an empty dataset conforming to the `application` model in the `from/` folder, to a dataset that conforms to the `application` model in the `to/` folder. Note that the `to/` folder does not contain your actual `application.alan` file, but an `application.alan.link` file with a path to your `models/model/application.alan` file.
 
-The `migration.alan` file specifies how data should be migrated **from** the source application (the empty `from` application) **to** the target application that you have built. The `migration.alan` file requires a listing of all base data properties from the target (`to/`) model, followed by an expression that determines their value. This expression can be as simple as a constant string value for a text property, as the above figure depicts. The [grammar of the migration language](/pages/docs/datastore/99/migration_mapping/grammar.html) describes all possible operations that are available.
+The `migration.alan` file specifies how data should be migrated **from** the source application (the empty `from` application) **to** the target application that you have built. The `migration.alan` file requires a listing of all base data properties from the target (`to/`) model, followed by an expression that determines their value. This expression can be as simple as a constant string value for a text property, as the above figure depicts. The [grammar of the migration language](/pages/docs/datastore/{{ page.datastore_version }}/migration_mapping/grammar.html) describes all possible operations that are available.
 
 ## Existing dataset migration
 

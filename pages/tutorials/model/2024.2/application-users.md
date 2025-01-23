@@ -3,8 +3,8 @@ layout: page
 head: "Application Guide: Users & Authentication"
 title: "Application Guide: <br>Users & Authentication"
 category: docs
-model_version: 105
-platform_version: 2024.1
+model_version: 106
+platform_version: 2024.2
 ---
 
 1. TOC
