@@ -1,0 +1,30 @@
+'Place new order': command {
+	'Provide an order number': text
+	'Where is the meal consumed?': stategroup (
+		'Outside of restaurant' { }
+		'At the restaurant' {
+			'Where is the customer seated?': text -> ^ ^ .'Management'.'Tables'[]
+		}
+	)
+	'Order lines': collection ['Provide an order line number'] {
+		'Provide an order line number': text
+		'Item to be consumed': text -> ^ ^ .'Menu'[]
+		'Amount of this item': number 'units'
+	}
+} as $'param' => update .'Orders' = create (
+	'Order' = $'param'.'Provide an order number'
+	'Order type' = switch $'param'.'Where is the meal consumed?' (
+		|'Outside of restaurant' => create 'Takeaway' ( )
+		|'At the restaurant' as $ => create 'In-house' (
+			'Table' = $ .'Where is the customer seated?'
+		)
+	)
+	'Order lines' = walk $'param'.'Order lines'* as $ (
+		create (
+			'Order line' = $ .'Provide an order line number'
+			'Item' = $ .'Item to be consumed'
+			'Amount' = $ .'Amount of this item'
+		)
+	)
+	'Discount applicable' = create 'No' ( )
+)

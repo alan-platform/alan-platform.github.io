@@ -1,0 +1,14 @@
+'Place new order': command {
+	'Provide an order number': text
+	'Where is the meal consumed?': stategroup (
+		'Outside of restaurant' { }
+		'At the restaurant' {
+			'Where is the customer seated?': text -> ^ ^ .'Tables'[]
+		}
+	)
+	'Order lines': collection ['Provide an order line number'] {
+		'Provide an order line number': text
+		'Item to be consumed': text -> ^ ^ .'Menu'[]
+		'Amount of this item': number 'units'
+	}
+} as $'param' ...

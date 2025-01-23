@@ -1,0 +1,7 @@
+'Tables': collection ['Table number'] {
+	'Table number': text
+	'Seatings': number 'chairs'
+	'Orders': reference-set -> downstream ^ ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
+	'Number of orders': number 'units' = count <'Orders'*
+	'Total order value': number 'eurocent' = sum <'Orders'* ^ .'Total'
+}
