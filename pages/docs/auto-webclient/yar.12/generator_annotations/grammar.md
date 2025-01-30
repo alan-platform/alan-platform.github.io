@@ -457,6 +457,12 @@ node-features
 									'chart': feature '2d chart query'
 								}
 								'reference filter' {
+									/// In order to use the reference filter, make sure the text property is a
+									/// reference. Also configure the filter on the query property correctly by
+									/// providing the filter `in selection` as follows:
+									/// ```
+									/// 'a reference' -> ^ : text 'entry' filter in selection
+									/// ```
 									'property': query text binding { }
 								}
 								'table' {
