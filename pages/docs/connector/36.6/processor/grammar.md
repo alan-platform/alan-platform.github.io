@@ -389,6 +389,25 @@ define 'imap list' as function
 	)
 	binds: "d9bbba030f267e927db8832ff3036cb2b7b7965b"
 
+/* Retrieves all messages after 'last uid' with IMAP(S).
+ * Performs an optional UIDVALIDITY check with 'uid validity' when set.
+ */
+define 'imap list uid' as function
+	< boolean , unsafe optional integer >
+	(
+		$'server': text
+		$'path': text
+		$'uid validity': optional integer
+		$'last uid': integer
+		$'authentication': optional 'network authentication'
+		$'security': 'network security'
+		$'callback': lambda on boolean (
+			$'uid': integer
+			$'blob': binary
+		)
+	)
+	binds: "32f44a28df3f6c0243c7d82a6290548a99256f18"
+
 /* Send a message with SMTP(S).
  * The message is serialized as if passed to `function 'serialize network message'`.
  * When the transfer fails, this function throws an error.
