@@ -2821,8 +2821,8 @@ and will therefore not be included in default values.
 For example, this initializes the `Description` with `Deliver  pieces`:
 
 ```js
-'Description': text @default: concat ( "Deliver ", to-text .'To deliver', " pieces." )
-'To deliver' : number 'pieces' = ^ >'Order'.'Amount'
+'To deliver' : number 'pieces' = >'Order'.'Amount'
+'Description': text @default: concat ( "Deliver ", to-text 'pieces' .'To deliver', " pieces." )
 ```
 #### Descriptions
 All attribute types support the `@description:` annotation.
