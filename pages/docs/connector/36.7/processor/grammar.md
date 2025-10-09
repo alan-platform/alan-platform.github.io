@@ -11,6 +11,15 @@ type: "grammar"
 
 # Release Notes
 
+## 36.7
+#### Unsafe user functions
+User functions can be marked as `unsafe`, allowing them to `throw` beyond the function scope.
+
+#### Integer digits in decimal serializer
+Decimal serializer optionally accepts the amount of integer digits to produce.
+This option is also added to the template language.
+
+
 ## 36.6
 #### Template Engine
 Added a template engine.
