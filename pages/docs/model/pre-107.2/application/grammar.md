@@ -1857,8 +1857,6 @@ This is useful when the user may not be allowed to choose the initial value.
 For example, when a new `Orders` entry must have an initial `Status` stategroup set to `New`.
 Or, when a `number` must hold the creation-time of the node, or information about the creator:
 ```js
-
-
 root {
 	'Orders': collection ['Order'] {
 		'Order': text
@@ -1891,7 +1889,6 @@ root {
 		)
 	}
 }
-
 ```
 
 Initializers can be specified only for base properties for which the value source is `external`.
@@ -3760,8 +3757,6 @@ it is also possible to initialize a collection with a static set of keys,
 or a single entry with a key from a text property value.
 
 ```js
-
-
 	'Labels': collection ['Name'] {
 		'Name': text
 		'Default': stategroup (
@@ -3793,7 +3788,6 @@ or a single entry with a key from a text property value.
 			'Name': text
 		}
 	}
-
 ```
 
 NOTE: collection defaults apply only to new nodes holding collections, such `Issues` nodes.
