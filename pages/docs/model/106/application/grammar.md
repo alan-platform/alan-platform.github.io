@@ -175,7 +175,6 @@ You express that at the `node type` with `can-update: interface '<imported inter
 Multiple different external sources can provide data and commands specified by the same Alan `interface`.
 For example, multiple sources can provide a products `Catalogue` conforming to the equally named interface:
 ```js
-
 interfaces
 	'Supplier' ( ) = .'Supplier Data' // one supplier
 		connection-status: .'Status' (
@@ -217,7 +216,6 @@ root {
 		)
 	}
 }
-
 ```
 The key of an item in the `Catalogues` collection is a unique identifier for the external source.
 Connection details can be provided in your `deployment.alan` file and through the hosting application.
