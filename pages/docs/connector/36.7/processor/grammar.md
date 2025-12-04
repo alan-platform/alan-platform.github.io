@@ -5110,6 +5110,14 @@ do {
 			'value' = "abcde"
 			'match' = false
 		)
+		create (
+			'value' = "狐"
+			'match' = false
+		)
+		create (
+			'value' = "女狐"
+			'match' = true
+		)
 	}
 
 	walk $'vectors' as $ => {
