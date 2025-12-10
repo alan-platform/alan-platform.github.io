@@ -20,6 +20,17 @@ type: "grammar"
 # Release Notes
 
 ## 38
+Upgrade instructions:
+
+Ensure the project is build and validated with version 36.7 of the connector.
+Do not run a language-server while upgrading, to prevent it from interfering with the upgrade process.
+
+The upgrade script requires a single argument, the path to the connector system to upgrade. Example:
+```
+.alan/devenv/system-types/connector/scripts/upgrade/upgrade.sh systems/connector
+```
+
+
 #### Syntax Update
 The syntax has been changed to better align with other alan languages.
 Use the upgrade script to automatically convert a processor from version 36.6.
@@ -2096,6 +2107,9 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 <pre class="highlight language-js code-custom">
 '<span class="token string">target expression</span>' {
 	'<span class="token string">type</span>': stategroup (
+		'<span class="token string">explicit set</span>' { [ <span class="token operator">set</span> ]
+			'<span class="token string">statement</span>': component <a href="#grammar-rule--statement">'statement'</a>
+		}
 		'<span class="token string">set</span>' {
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">node</span>' {
