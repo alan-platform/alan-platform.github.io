@@ -2,6 +2,41 @@
 	"current": "2024.2",
 	"versions": [
 		{
+			"name": "2026.1",
+			"pages": [
+				"pages/docs/model/107/application/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/zora.1/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/zora.1/generator_annotations/grammar.html",
+				"pages/docs/auto-webclient/zora.1/phrases/grammar.html",
+				"pages/docs/auto-webclient/zora.1/query/grammar.html",
+				"pages/docs/auto-webclient/zora.1/translations/grammar.html",
+				"pages/docs/auto-webclient/zora.1/parameters/grammar.html",
+				"pages/docs/connector/38/processor/grammar.html",
+				"pages/docs/connector/38/variables/grammar.html",
+				"pages/docs/datastore/117/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/117/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/117/migration_mapping/grammar.html",
+				"pages/docs/datastore/117/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/111/database/grammar.html",
+				"pages/docs/relational-database-bridge/111/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/117/sql_mapping/grammar.html",
+				"pages/docs/webclient/zora.1.0/views/grammar.html",
+				"pages/docs/webclient/zora.1.0/widget/grammar.html",
+				"pages/docs/webclient/zora.1.0/client bindings/client_bindings.html",
+				"pages/docs/webclient/zora.1.0/gui_model/grammar.html",
+				"pages/docs/webclient/zora.1.0/phrases/grammar.html",
+				"pages/docs/webclient/zora.1.0/translations/grammar.html",
+				"pages/docs/webclient/zora.1.0/settings/grammar.html",
+				"pages/docs/webclient/zora.1.0/parameters/grammar.html",
+				"pages/docs/webclient/zora.1.0/default features/features.html",
+				"pages/docs/webclient/zora.1.0/main/grammar.html",
+				"pages/docs/webclient/zora.1.0/query/grammar.html",
+				"pages/docs/project-build-environment/44/wiring/grammar.html",
+				"pages/docs/project-build-environment/44/deployment/grammar.html"
+			]
+		},
+		{
 			"name": "2024.2",
 			"pages": [
 				"pages/docs/model/106/application/grammar.html",
