@@ -2,6 +2,41 @@
 	"current": "2024.2",
 	"versions": [
 		{
+			"name": "2026.2",
+			"pages": [
+				"pages/docs/model/108/application/grammar.html",
+				"pages/docs/interface/20/interface/grammar.html",
+				"pages/docs/auto-webclient/zora.rc5/generator_settings/grammar.html",
+				"pages/docs/auto-webclient/zora.rc5/generator_annotations/grammar.html",
+				"pages/docs/auto-webclient/zora.rc5/phrases/grammar.html",
+				"pages/docs/auto-webclient/zora.rc5/query/grammar.html",
+				"pages/docs/auto-webclient/zora.rc5/translations/grammar.html",
+				"pages/docs/auto-webclient/zora.rc5/parameters/grammar.html",
+				"pages/docs/connector/39/processor/grammar.html",
+				"pages/docs/connector/39/variables/grammar.html",
+				"pages/docs/datastore/118/consumed_interfaces_mapping/grammar.html",
+				"pages/docs/datastore/118/provided_interface_implementation/grammar.html",
+				"pages/docs/datastore/118/migration_mapping/grammar.html",
+				"pages/docs/datastore/118/regular_expression_engine/grammar.html",
+				"pages/docs/relational-database-bridge/111/database/grammar.html",
+				"pages/docs/relational-database-bridge/111/database_transformation/grammar.html",
+				"pages/docs/sql-mirror/118/sql_mapping/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/views/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/widget/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/client bindings/client_bindings.html",
+				"pages/docs/webclient/zora.rc5.0/gui_model/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/phrases/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/translations/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/settings/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/parameters/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/default features/features.html",
+				"pages/docs/webclient/zora.rc5.0/main/grammar.html",
+				"pages/docs/webclient/zora.rc5.0/query/grammar.html",
+				"pages/docs/project-build-environment/44/wiring/grammar.html",
+				"pages/docs/project-build-environment/44/deployment/grammar.html"
+			]
+		},
+		{
 			"name": "2026.1",
 			"pages": [
 				"pages/docs/model/107/application/grammar.html",
