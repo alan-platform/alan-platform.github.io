@@ -30,10 +30,28 @@ The upgrade script requires a single argument, the path to the connector system 
 .alan/devenv/system-types/connector/scripts/upgrade/upgrade.sh systems/connector
 ```
 
+Caveats:
+Due to inversion of instructions in an expression, the new location of `throw` instructions cannot properly be determined.
+The upgrade process writes the `throw` everywhere it might be relevant, which can result in duplication. This duplication must be removed manually.
+
+Due to structural changes in the language, not every `processor.alan` can be automatically upgraded as-is.
+When an error is reported, part of the original is not converted and the output will be incomplete.
+Please change the original version to be inline with the new language structure and retry the upgrade, see Syntax Update for known issues.
 
 #### Syntax Update
 The syntax has been changed to better align with other alan languages.
 Use the upgrade script to automatically convert a processor from version 36.6.
+
+##### Merged `parse` and `decorate` instructions
+The `decorate` instruction is merged into the `parse` instruction.
+During upgrades, both instructions are converted to a `parse` instruction with a placeholder for the unknown value, this duplication must be removed manually.
+
+##### Functions without implicit arguments
+The `call` instruction previously required an implicit argument, this required has been removed. Some standard library functions that previously accepted and ignored their implicit argument, now require none.
+During upgrades, this change is not considered and the implicit argument is always converted and must be removed manually.
+
+##### Deprecated function `'unicode'::'format'` removed
+The function `format` from the standard library `unicode`, is removed.
 
 #### Configuration and variables merged
 The functionality of configuration and variables have been merged.
@@ -2152,13 +2170,13 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 						}
 						'<span class="token string">no</span>' { }
 					)
-					'<span class="token string">target</span>': component <a href="#grammar-rule--target-expression">'target expression'</a>
+					'<span class="token string">target</span>': component <a href="#grammar-rule--statement">'statement'</a>
 				}
 				'<span class="token string">state</span>' { [ <span class="token operator">create</span> ]
 					/* Set a choice to the specified option.
 					 */
 					'<span class="token string">state</span>': reference
-					'<span class="token string">target</span>': component <a href="#grammar-rule--target-expression">'target expression'</a>
+					'<span class="token string">target</span>': component <a href="#grammar-rule--statement">'statement'</a>
 				}
 			)
 		}
