@@ -1473,7 +1473,7 @@ add-hook 'network'::'webserver' "/echo" {
 	 */
 	'<span class="token string">with context</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">value</span>': component <a href="#grammar-rule--expression">'expression'</a>
+			'<span class="token string">value</span>': component <a href="#grammar-rule--statement">'statement'</a>
 		}
 		'<span class="token string">no</span>' { }
 	)
@@ -2183,7 +2183,7 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 		'<span class="token string">inferred</span>' {
 			/* Assign any value from an expression.
 			*/
-			'<span class="token string">value</span>': component <a href="#grammar-rule--safe-expression">'safe expression'</a>
+			'<span class="token string">value</span>': component <a href="#grammar-rule--expression">'expression'</a>
 		}
 	)
 }
