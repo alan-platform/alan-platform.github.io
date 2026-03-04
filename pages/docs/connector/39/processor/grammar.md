@@ -2264,7 +2264,16 @@ When the execution context is restricted, operations that (could) generate error
 					/* Execute a statement once for each entry in a set.
 					 * The entry for which the statement is executed, is available in `$`.
 					 */
-					'<span class="token string">value</span>': [, <span class="token operator">as</span> <span class="token operator">$</span> ] component <a href="#grammar-rule--safe-expression">'safe expression'</a>
+					'<span class="token string">value</span>': component <a href="#grammar-rule--safe-expression">'safe expression'</a>
+					'<span class="token string">assignment</span>': stategroup (
+						'<span class="token string">implicit</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ] }
+						'<span class="token string">explicit</span>' {
+							'<span class="token string">values</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> <span class="token operator">as</span> <span class="token operator">$</span> ] dictionary {
+								'<span class="token string">this</span>': component <a href="#grammar-rule--hook">'hook'</a>
+							}
+						}
+						'<span class="token string">none</span>' { }
+					)
 					'<span class="token string">statement</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
 				}
 				'<span class="token string">range</span>' {
