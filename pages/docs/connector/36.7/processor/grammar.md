@@ -4791,82 +4791,85 @@ consumer ( )
 
 routine 'test' on
 do {
-	let $'value' = "2021-02-03T10:20:30Z" => parse as ISODateTime || throw "invalid format"
+	let $'vector' as collection integer = {
+		create [ "2021-02-03T10:20:30Z" ] 212479064430
+		create [ "2021-02-03T10:20,5Z" ] 212479064430
+		create [ "2021-02-03T10:20.5Z" ] 212479064430
+		create [ "2021-02-03T102030Z" ] 212479064430
+		create [ "2021-02-03T1020,5Z" ] 212479064430
+		create [ "2021-02-03T1020.5Z" ] 212479064430
+		create [ "2021-02-03T10:20Z" ] 212479064400
+		create [ "2021-02-03T1020Z" ] 212479064400
+		create [ "2021-02-03T10,2Z" ] 212479063920
+		create [ "2021-02-03T10.2Z" ] 212479063920
+		create [ "2021-02-03T10Z" ] 212479063200
+		create [ "2021-08-04T10:20:30Z" ] 212494789230
+		create [ "2021-08-04T10:20,5Z" ] 212494789230
+		create [ "2021-08-04T10:20.5Z" ] 212494789230
+		create [ "2021-08-04T102030Z" ] 212494789230
+		create [ "2021-08-04T1020,5Z" ] 212494789230
+		create [ "2021-08-04T1020.5Z" ] 212494789230
+		create [ "2021-08-04T10:20Z" ] 212494789200
+		create [ "2021-08-04T1020Z" ] 212494789200
+		create [ "2021-08-04T10,2Z" ] 212494788720
+		create [ "2021-08-04T10.2Z" ] 212494788720
+		create [ "2021-08-04T10Z" ] 212494788000
+		create [ "2021-02-03T10:20:30+04" ] 212479050030
+		create [ "2021-02-03T10:20,5+04" ] 212479050030
+		create [ "2021-02-03T10:20.5+04" ] 212479050030
+		create [ "2021-02-03T102030+04" ] 212479050030
+		create [ "2021-02-03T1020,5+04" ] 212479050030
+		create [ "2021-02-03T1020.5+04" ] 212479050030
+		create [ "2021-02-03T10:20+04" ] 212479050000
+		create [ "2021-02-03T1020+04" ] 212479050000
+		create [ "2021-02-03T10,2+04" ] 212479049520
+		create [ "2021-02-03T10.2+04" ] 212479049520
+		create [ "2021-02-03T10+04" ] 212479048800
+		create [ "2021-08-04T10:20:30+04" ] 212494774830
+		create [ "2021-08-04T10:20,5+04" ] 212494774830
+		create [ "2021-08-04T10:20.5+04" ] 212494774830
+		create [ "2021-08-04T102030+04" ] 212494774830
+		create [ "2021-08-04T1020,5+04" ] 212494774830
+		create [ "2021-08-04T1020.5+04" ] 212494774830
+		create [ "2021-08-04T10:20+04" ] 212494774800
+		create [ "2021-08-04T1020+04" ] 212494774800
+		create [ "2021-08-04T10,2+04" ] 212494774320
+		create [ "2021-08-04T10.2+04" ] 212494774320
+		create [ "2021-08-04T10+04" ] 212494773600
+		create [ "2021-02-03T10:20:30-04" ] 212479078830
+		create [ "2021-02-03T10:20,5-04" ] 212479078830
+		create [ "2021-02-03T10:20.5-04" ] 212479078830
+		create [ "2021-02-03T102030-04" ] 212479078830
+		create [ "2021-02-03T1020,5-04" ] 212479078830
+		create [ "2021-02-03T1020.5-04" ] 212479078830
+		create [ "2021-02-03T10:20-04" ] 212479078800
+		create [ "2021-02-03T1020-04" ] 212479078800
+		create [ "2021-02-03T10,2-04" ] 212479078320
+		create [ "2021-02-03T10.2-04" ] 212479078320
+		create [ "2021-02-03T10-04" ] 212479077600
+		create [ "2021-08-04T10:20:30-04" ] 212494803630
+		create [ "2021-08-04T10:20,5-04" ] 212494803630
+		create [ "2021-08-04T10:20.5-04" ] 212494803630
+		create [ "2021-08-04T102030-04" ] 212494803630
+		create [ "2021-08-04T1020,5-04" ] 212494803630
+		create [ "2021-08-04T1020.5-04" ] 212494803630
+		create [ "2021-08-04T10:20-04" ] 212494803600
+		create [ "2021-08-04T1020-04" ] 212494803600
+		create [ "2021-08-04T10,2-04" ] 212494803120
+		create [ "2021-08-04T10.2-04" ] 212494803120
+		create [ "2021-08-04T10-04" ] 212494802400
+	}
 
-	switch $'value' => is ( 212479064430 ) (
-		| true => no-op // Test successful
-		| false => throw "produced wrong value"
-	)
-}
-```
+	walk $'vector' as $ => {
+		let $'key' = key
+		let $'val' = $
+		let $'res' = $'key' => parse as ISODateTime || throw "invalid format"
 
-```js
-consumer ( )
-
-routine 'test' on
-do {
-	let $'value' = "2021-08-04T10:20:30Z" => parse as ISODateTime || throw "invalid format"
-
-	switch $'value' => is ( 212494789230 ) (
-		| true => no-op // Test successful
-		| false => throw "produced wrong value"
-	)
-}
-```
-
-```js
-consumer ( )
-
-routine 'test' on
-do {
-	let $'value' = "2021-02-03T10:20:30+04" => parse as ISODateTime || throw "invalid format"
-
-	switch $'value' => is ( 212479050030 ) (
-		| true => no-op // Test successful
-		| false => throw "produced wrong value"
-	)
-}
-```
-
-```js
-consumer ( )
-
-routine 'test' on
-do {
-	let $'value' = "2021-08-04T10:20:30+04" => parse as ISODateTime || throw "invalid format"
-
-	switch $'value' => is ( 212494774830 ) (
-		| true => no-op // Test successful
-		| false => throw "produced wrong value"
-	)
-}
-```
-
-```js
-consumer ( )
-
-routine 'test' on
-do {
-	let $'value' = "2021-02-03T10:20:30-04" => parse as ISODateTime || throw "invalid format"
-
-	switch $'value' => is ( 212479078830 ) (
-		| true => no-op // Test successful
-		| false => throw "produced wrong value"
-	)
-}
-```
-
-```js
-consumer ( )
-
-routine 'test' on
-do {
-	let $'value' = "2021-08-04T10:20:30-04" => parse as ISODateTime || throw "invalid format"
-
-	switch $'value' => is ( 212494803630 ) (
-		| true => no-op // Test successful
-		| false => throw "produced wrong value"
-	)
+		switch $'res' => is ( $'val' ) (
+			| true => no-op // Test successful
+			| false => throw "produced wrong value"
+		)
+	}
 }
 ```
 
