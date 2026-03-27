@@ -32,7 +32,7 @@
 				"pages/docs/webclient/zora.0.0/default features/features.html",
 				"pages/docs/webclient/zora.0.0/main/grammar.html",
 				"pages/docs/webclient/zora.0.0/query/grammar.html",
-				"pages/docs/project-build-environment/44/wiring/grammar.html",
+				"pages/docs/project-build-environment/44/project_wiring/grammar.html",
 				"pages/docs/project-build-environment/44/deployment/grammar.html"
 			]
 		},
@@ -67,7 +67,7 @@
 				"pages/docs/webclient/zora.1.0/default features/features.html",
 				"pages/docs/webclient/zora.1.0/main/grammar.html",
 				"pages/docs/webclient/zora.1.0/query/grammar.html",
-				"pages/docs/project-build-environment/44/wiring/grammar.html",
+				"pages/docs/project-build-environment/44/project_wiring/grammar.html",
 				"pages/docs/project-build-environment/44/deployment/grammar.html"
 			]
 		},
