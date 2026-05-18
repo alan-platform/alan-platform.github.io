@@ -132,13 +132,17 @@ type: "grammar"
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object path step</span>' {
-	'<span class="token string">property</span>': reference
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">collection</span>' { [ <span class="token operator">*</span> ] }
 		'<span class="token string">state</span>' {
 			'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 		}
-		'<span class="token string">scalar</span>' { }
+		'<span class="token string">reference</span>' {
+			'<span class="token string">property</span>': [ <span class="token operator">></span> ] reference
+		}
+		'<span class="token string">property</span>' {
+			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
+		}
 	)
 }
 </pre>
@@ -152,7 +156,7 @@ type: "grammar"
 '<span class="token string">object path tail</span>' {
 	'<span class="token string">has step</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">step</span>': [ <span class="token operator">.</span> ] component <a href="#grammar-rule--object-path-step">'object path step'</a>
+			'<span class="token string">step</span>': component <a href="#grammar-rule--object-path-step">'object path step'</a>
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
 		}
 		'<span class="token string">no</span>' { }
@@ -186,7 +190,7 @@ type: "grammar"
 			)
 		}
 		'<span class="token string">implicit</span>' {
-			'<span class="token string">step</span>': component <a href="#grammar-rule--object-path-step">'object path step'</a>
+			'<span class="token string">property</span>': reference
 		}
 	)
 	'<span class="token string">steps</span>': component <a href="#grammar-rule--object-path-tail">'object path tail'</a>

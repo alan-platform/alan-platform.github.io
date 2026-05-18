@@ -1663,6 +1663,11 @@ add-hook 'network'::'webserver' "/echo" {
 				'<span class="token string">no</span>' { }
 			)
 		}
+		'<span class="token string">reference follow</span>' {
+			/* Retrieve the target of a reference of a node.
+			 */
+			'<span class="token string">property</span>': [ <span class="token operator">></span> ] reference
+		}
 		'<span class="token string">choice cast</span>' {
 			/* Retrieve the value of a specific state.
 			 * This fails when the choice is set to another state.
