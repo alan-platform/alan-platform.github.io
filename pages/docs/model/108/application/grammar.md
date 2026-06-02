@@ -2085,16 +2085,18 @@ That is, the application only verifies that the user is permitted to execute com
 </div>
 </div>
 ### Todo items
-Todo items are shown in a special section of your generated application.
-The lists of todo items is constructed from nodes that are marked as todos.
-You express that in your model with `has-todo:` followed by an expression that specifies to which users the todo item applies.
+Todo items are shown in a dedicated section of your generated application.
+The list of todo items is constructed from the nodes that you mark as todos.
+You mark a node as a todo in your model with `has-todo:`, followed by an expression
+that specifies the users and/or cases for which the todo item applies.
 
-The webclient has two tabs that show todo items when the user has the required permissions too see them.
-A tab holding todo items for the current user (which may be anonymous),
-and a tab holding all todo items for all users.
+The webclient has two tabs that show todo items to users who have the required permissions to see them:
+one tab holding the todo items for the current user (who may be anonymous),
+and one tab holding all todo items for all users.
 
-All subexpressions in a todo definition that depend on a `user`, evaluate to true when `user` is encountered.
-Because of that, when using `where` clauses, the order of subexpressions is important:
+For the tab holding all todo items for all users, every subexpression in a todo definition
+that depends on a `user` evaluates to true when a `user` is encountered.
+Because of this, the nesting order of subexpressions matters when you use `where` clauses:
 ```js
 'Status': stategroup (
 	'Hidden' { }
@@ -2103,17 +2105,17 @@ Because of that, when using `where` clauses, the order of subexpressions is impo
 'ProcessedA': stategroup (
 	'Yes' { }
 	'No' {
-		// The list of todo items for the current user shows the todo iff the `user` is an 'Admin'.
+		// The list of todo items for the current user shows the todo iff the `user` is an 'Admin' and the 'Status' is 'Visible'.
 		// The list of all todo items always shows the todo, because the expression depends on `user`, which evaluates to true.
-		has-todo: user .'Type'?'Admin' where ( ^ .'Status'?'Hidden' )
+		has-todo: user .'Type'?'Admin' where ( ^ .'Status'?'Visible' )
 	}
 )
 'ProcessedB': stategroup (
 	'Yes' { }
 	'No' {
-		// The list of todo items for the current user shows the todo iff the 'Status' is 'Hidden' and the `user` is an 'Admin'.
-		// The list of all todo items shows the todo iff the 'Status' is 'Hidden'.
-		has-todo: ^ .'Status'?'Hidden' where ( user .'Type'?'Admin' )
+		// The list of todo items for the current user shows the todo iff the 'Status' is 'Visible' and the `user` is an 'Admin'.
+		// The list of all todo items shows the todo iff the 'Status' is 'Visible'.
+		has-todo: ^ .'Status'?'Visible' where ( user .'Type'?'Admin' )
 	}
 )
 ```
