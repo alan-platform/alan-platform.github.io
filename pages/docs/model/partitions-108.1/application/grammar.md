@@ -1816,7 +1816,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 					'<span class="token string">no</span>' { }
 					'<span class="token string">yes</span>' {
 						'<span class="token string">interval path</span>': [ <span class="token operator">with</span> ] component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
-						/* Inclusive end with potential overshoot.
+						/* The end is inclusive.
 						** For example: `on 1 with 3 to 10` will produce 1,4,7,10 */
 						'<span class="token string">end path</span>': [ <span class="token operator">to</span> ] component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
 					}
