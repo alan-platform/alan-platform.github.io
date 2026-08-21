@@ -13,7 +13,7 @@ type: "features"
 global-features
 node-features
 	'text label' unbound text
-	'string' list non-empty stategroup @strategy (
+	'string' component list non-empty stategroup @strategy (
 		// 'icon' {
 		// 	'name': text
 		// }
