@@ -19,7 +19,7 @@ type: "grammar"
 </div>
 # Release Notes
 
-## 38
+## 39
 Upgrade instructions:
 
 Ensure the project is build and validated with version 36.7 of the connector.
@@ -47,7 +47,7 @@ The `decorate` instruction is merged into the `parse` instruction.
 During upgrades, both instructions are converted to a `parse` instruction with a placeholder for the unknown value, this duplication must be removed manually.
 
 ##### Functions without implicit arguments
-The `call` instruction previously required an implicit argument, this required has been removed. Some standard library functions that previously accepted and ignored their implicit argument, now require none.
+The `call` instruction previously required an implicit argument, this requirement has been removed. Some standard library functions that previously accepted and ignored their implicit argument, now require none.
 During upgrades, this change is not considered and the implicit argument is always converted and must be removed manually.
 
 ##### Deprecated function `'unicode'::'format'` removed
@@ -93,6 +93,38 @@ The runtime automatically resolves differences between minor versions, allowing 
 #### Debugger improvements
 The debugger's ability to step through a program is improved.
 It can now step into, over and out of statements.
+
+### 39.1
+This fixes issues and unintended limitations in the language.
+
+### 39.2
+This fixes issues and unintended limitations in the language.
+
+### 39.3
+This fixes issues and unintended limitations in the language.
+
+### 39.4
+
+#### Order walk
+Added an option to `walk` for assigning a node to the implicit context.
+This node can capture `'prev'`, `'current'` and `'next'`.
+
+### 39.5
+
+#### Reference step
+It is now possible to follow references in interface and application data with `>'reference'`.
+Note that due to implementation limitations, referential integrity can not be guaranteed and therefor reference steps can fail.
+This step is also supported in templates.
+
+### 39.6
+
+#### XML parser
+Custom XML mappings can be written in the connector.
+XML processing instructions are much stricter than the builtin parser, enforcing proper sequence order navigation and namespace handling.
+
+#### HTTP MIME POST
+The network library gained a new function to make HTTP MIME POST requests.
+This is a new symbol to retain the current HTTP function bindings as a non-breaking change.
 # The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
@@ -255,7 +287,7 @@ define 'serialize network message': function (
 
 /* Performs an HTTP(S) request.
  * Methods are mapped directly to their HTTP equivalent.
- * When provided, 'content' is send with the request.
+ * When provided, 'content' is sent with the request.
  */
 define 'http': function (
 	$'server': text
@@ -263,6 +295,24 @@ define 'http': function (
 	$'authentication': optional 'authentication'
 	$'request': 'request'
 ) : unsafe 'response' = "171a2a495168c8db61a75ea879759560a5a38db5"
+
+/* Performs an HTTP(S) form post request.
+ * When 'method' is omitted, the method is decided internally.
+ * When 'mime parts' is empty, the mime object is sent regardless.
+ */
+define 'http mime post': function (
+	$'server': text
+	$'path': text
+	$'authentication': optional 'authentication'
+	$'method': optional 'method'
+	$'parameters': optional 'key value list'
+	$'headers': optional 'key value list'
+	$'mime parts': list {
+		'name': text
+		'filename': optional text
+		'content': binary
+	}
+) : unsafe 'response' = "30ef37f129f6e0a74ff572cc01dd0509bae00e21"
 
 /* Performs an FTP(S) request.
  * Method mapping:
@@ -582,6 +632,15 @@ Allows defining reusable types.
 					'<span class="token string">binds</span>': [ <span class="token operator">=</span> ] text
 				}
 			)
+		}
+		'<span class="token string">mapping</span>' { [ <span class="token operator">mapping</span> ]
+			'<span class="token string">source</span>': stategroup (
+				'<span class="token string">XML</span>' { [ <span class="token operator">XML</span> ]
+					'<span class="token string">element name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
+				}
+			)
+			'<span class="token string">target</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+			'<span class="token string">instruct</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 		}
 	)
 }
@@ -1223,6 +1282,259 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
+{: #grammar-rule--instruct-create }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruct create</span>' {
+	'<span class="token string">implicit key</span>': stategroup (
+		'<span class="token string">yes</span>' {
+			'<span class="token string">source</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] stategroup (
+				'<span class="token string">cursor</span>' { }
+				'<span class="token string">static</span>' {
+					'<span class="token string">key</span>': text
+				}
+			)
+		}
+		'<span class="token string">no</span>' { }
+	)
+	'<span class="token string">instruct</span>': component <a href="#grammar-rule--instruct">'instruct'</a>
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--instruct-create-list }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruct create list</span>' {
+	'<span class="token string">create</span>': component <a href="#grammar-rule--instruct-create">'instruct create'</a>
+	'<span class="token string">has more</span>': stategroup (
+		'<span class="token string">yes</span>' { [ <span class="token operator">,</span> ]
+			'<span class="token string">tail</span>': component <a href="#grammar-rule--instruct-create-list">'instruct create list'</a>
+		}
+		'<span class="token string">no</span>' { [ <span class="token operator">}</span> ] }
+	)
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--instruct-XML-name }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruct XML name</span>' {
+	'<span class="token string">name</span>': text
+	'<span class="token string">in namespace</span>': stategroup (
+		'<span class="token string">yes</span>' { [ <span class="token operator">in</span> ]
+			'<span class="token string">namespace</span>': text
+		}
+		'<span class="token string">no</span>' { }
+	)
+}
+</pre>
+</div>
+</div>
+
+{: #grammar-rule--instruct }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">instruct</span>' {
+	'<span class="token string">type</span>': stategroup (
+		'<span class="token string">try</span>' { [ <span class="token operator">try</span> ]
+			/* run `instruct` and commit if it succeeds
+			 * when it fails, backtrack and try `on unmatched` instead
+			 */
+			'<span class="token string">instruct</span>': component <a href="#grammar-rule--instruct">'instruct'</a>
+			'<span class="token string">on unmatched</span>': [ <span class="token operator">|></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+		}
+		'<span class="token string">process xml</span>' {
+			'<span class="token string">operation</span>': stategroup (
+				'<span class="token string">advance element</span>' { [ <span class="token operator">advance-element</span> ]
+					/* advance the current sequence iterator to an element with the provided name
+					 * when no such element exists, this instruction fails
+					 */
+					'<span class="token string">parameters</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+						'<span class="token string">name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
+						'<span class="token string">search</span>': stategroup (
+							'<span class="token string">next element</span>' {
+								/* only consider the next node in the sequence */
+							}
+							'<span class="token string">all elements</span>' { [ <span class="token operator">,</span> <span class="token operator">all</span> ]
+								/* consider each of the remaining elements in the sequence in order */
+							}
+						)
+					}
+					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+				'<span class="token string">enumerate elements</span>' { [ <span class="token operator">enumerate-elements</span> ]
+					/* advance the current sequence iterator over each consecutive element matching the provided condition
+					 * this runs `on element` for each consumed element
+					 */
+					'<span class="token string">parameters</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+						'<span class="token string">condition</span>': stategroup (
+							'<span class="token string">all</span>' { [ <span class="token operator">all</span> ]
+								/* match all elements */
+							}
+							'<span class="token string">named</span>' {
+								/* match all elements with the given name */
+								'<span class="token string">name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
+							}
+							'<span class="token string">until</span>' { [ <span class="token operator">until</span> ]
+								/* match all elements up to the element with the given name
+								 * the named element is not consumed and must exist, otherwise this instruction fails
+								 */
+								'<span class="token string">name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
+							}
+						)
+					}
+					'<span class="token string">on element</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+				'<span class="token string">enter children</span>' { [ <span class="token operator">enter-children</span> ]
+					/* start a new sequence for the children of the current element
+					 * this runs `on matched` on the new sequence and does not effect the current sequence
+					 */
+					'<span class="token string">parameters</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+						'<span class="token string">mode</span>': stategroup (
+							'<span class="token string">strict</span>' { [ <span class="token operator">strict</span> ]
+								/* reject non-element nodes in the sequence, it will still filter blank nodes, comments and such
+								 * this only applies to the part of the sequence that is consumed
+								 */
+							}
+							'<span class="token string">filter</span>' { [ <span class="token operator">filter</span> ]
+								/* filter all non-element nodes from the sequence */
+							}
+						)
+						'<span class="token string">coverage</span>': stategroup (
+							'<span class="token string">exhaustive</span>' { [ <span class="token operator">,</span> <span class="token operator">exhaustive</span> ]
+								/* every element in the sequence must be consumed */
+							}
+							'<span class="token string">partial</span>' { [ <span class="token operator">,</span> <span class="token operator">partial</span> ]
+								/* elements left unconsumed at the end of the sequence are ignored
+								 * this will ignore any trailing nodes in the sequence, regardless of whether mode would have otherwise rejected them
+								 */
+							}
+						)
+					}
+					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+				'<span class="token string">get attribute</span>' { [ <span class="token operator">get-attribute</span> ]
+					/* get an attribute from the current element
+					 * optionally the attribute can be in a namespace
+					 * this runs `on matched` on the textual value of the attribute
+					 * when the current element has no such attribute, this instruction fails
+					 */
+					'<span class="token string">parameters</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
+						'<span class="token string">name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
+					}
+					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+				'<span class="token string">get content</span>' { [ <span class="token operator">get-content</span> ]
+					/* get the content of the current element
+					 * this runs `on matched` on the textual value of the content
+					 * when the current element has more than text content, this instruction fails
+					 */
+					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+			)
+		}
+		'<span class="token string">produce</span>' {
+			'<span class="token string">type</span>': stategroup (
+				'<span class="token string">set none</span>' { [ <span class="token operator">none</span> ]
+					/* either unsets an optional value, or does nothing for a list */
+				}
+				'<span class="token string">set boolean</span>' {
+					/* set a boolean */
+					'<span class="token string">value</span>': stategroup (
+						'<span class="token string">static</span>' {
+							/* to a static value */
+							'<span class="token string">boolean</span>': stategroup (
+								'<span class="token string">true</span>' { [ <span class="token operator">true</span> ] }
+								'<span class="token string">false</span>' { [ <span class="token operator">false</span> ] }
+							)
+						}
+					)
+				}
+				'<span class="token string">set integer</span>' {
+					/* set an integer */
+					'<span class="token string">value</span>': stategroup (
+						'<span class="token string">static</span>' {
+							/* to a static value */
+							'<span class="token string">number</span>': integer
+						}
+					)
+				}
+				'<span class="token string">set text</span>' {
+					/* set a text */
+					'<span class="token string">value</span>': stategroup (
+						'<span class="token string">dynamic</span>' { [ <span class="token operator">text</span> ]
+							/* to the current textual value */
+						}
+						'<span class="token string">static</span>' {
+							/* to a static value */
+							'<span class="token string">text</span>': text
+						}
+					)
+				}
+				'<span class="token string">set option</span>' { [ <span class="token operator">option</span> ]
+					/* set a choice to an option */
+					'<span class="token string">option</span>': reference
+				}
+				'<span class="token string">set union</span>' { [ <span class="token operator">create</span> ]
+					/* set a union to a type */
+					'<span class="token string">type</span>': reference
+					'<span class="token string">instruct</span>': component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+				'<span class="token string">set optional</span>' { [ <span class="token operator">set</span> ]
+					/* set an optional value */
+					'<span class="token string">value</span>': component <a href="#grammar-rule--instruct">'instruct'</a>
+				}
+				'<span class="token string">set node</span>' { [ <span class="token operator">node</span> ]
+					/* set a node, each property is evaluated in the exact order specified here
+					 * each property commits the resulting sequence iterator for the next property
+					 */
+					'<span class="token string">order</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
+						'<span class="token string">has next</span>': stategroup = node-switch successor (
+							| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
+							| none = '<span class="token string">no</span>'
+						)
+						'<span class="token string">has attributes</span>': stategroup (
+							'<span class="token string">no</span>' { }
+						)
+						'<span class="token string">instruct</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+					}
+					'<span class="token string">has order</span>': stategroup = node-switch .'<span class="token string">order</span>' (
+						| nodes = '<span class="token string">yes</span>' { '<span class="token string">first</span>' = first }
+						| none  = '<span class="token string">no</span>'
+					)
+				}
+				'<span class="token string">set plural</span>' {
+					/* set a plural value */
+					'<span class="token string">operation</span>': stategroup (
+						'<span class="token string">create</span>' { [ <span class="token operator">create</span> ]
+							/* create a single entry */
+							'<span class="token string">entry</span>': component <a href="#grammar-rule--instruct-create">'instruct create'</a>
+						}
+						'<span class="token string">list</span>' {
+							/* create a list of entries */
+							'<span class="token string">entries</span>': [ <span class="token operator">{</span> ] component <a href="#grammar-rule--instruct-create-list">'instruct create list'</a>
+						}
+					)
+				}
+			)
+		}
+		'<span class="token string">apply</span>' {
+			'<span class="token string">mapping</span>': [ <span class="token operator">apply</span> ] reference
+		}
+	)
+}
+</pre>
+</div>
+</div>
+
 {: #grammar-rule--stack-block }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -1827,7 +2139,14 @@ For operations that can fail, either an alternative can be provided or the failu
 					/* Parses a XML document.
 					 * On success it results in a document and must first be passed to a decorator before it is usable.
 					 */
-					'<span class="token string">schema</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">mapping</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] stategroup (
+						'<span class="token string">builtin</span>' {
+							'<span class="token string">schema</span>': component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+						}
+						'<span class="token string">explicit</span>' {
+							'<span class="token string">mapping</span>': [ <span class="token operator">apply</span> ] reference
+						}
+					)
 				}
 				'<span class="token string">CSV</span>' { [ <span class="token operator">CSV</span> ]
 					/* Parses a CSV document.
@@ -2286,8 +2605,35 @@ When the execution context is restricted, operations that (could) generate error
 					 */
 					'<span class="token string">range</span>': group { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
 						'<span class="token string">begin</span>': [ <span class="token operator">from</span> ] component <a href="#grammar-rule--safe-expression">'safe expression'</a>
-						'<span class="token string">end</span>': [ <span class="token operator">until</span> ] component <a href="#grammar-rule--safe-expression">'safe expression'</a>
-						'<span class="token string">step</span>': [ <span class="token operator">with</span> ] component <a href="#grammar-rule--safe-expression">'safe expression'</a>
+						'<span class="token string">range</span>': stategroup (
+							'<span class="token string">end included</span>' {
+								'<span class="token string">keyword</span>': stategroup (
+									'<span class="token string">legacy</span>' { [ <span class="token operator">until</span> ] }
+									'<span class="token string">current</span>' { [ <span class="token operator">through</span> ] }
+								)
+							}
+							'<span class="token string">end excluded</span>' { [ <span class="token operator">to</span> ] }
+						)
+						'<span class="token string">end</span>': component <a href="#grammar-rule--safe-expression">'safe expression'</a>
+						'<span class="token string">behavior</span>': stategroup (
+							'<span class="token string">legacy</span>' { [ <span class="token operator">with</span> ]
+								/* The legacy behavior is for backwards compatibility and is deprecated.
+								 * Legacy requires the use of `from <begin> until <end> with <step>` syntax.
+								 * It runs from <begin> in increments of <step> and includes the value <end>.
+								 * The sign of <step> has significant meaning.
+								 *  positive) it runs while the value remains below <end>, if <end> is lower than <begin>, it never runs
+								 *  negative) it runs while the value remains above <end>, if <end> is greater than <begin>, it never runs
+								 *  zero) it runs once for <begin>, and if <end> differs, it runs once for <end>
+								 */
+							}
+							'<span class="token string">current</span>' { [ <span class="token operator">by</span> ]
+								/* The range runs from from <begin> in increments of <step> and stops at <end>.
+								 * Whether <end> is inclusive or exclusive is controlled with the <range> option.
+								 * When <step> is zero, an error is logged at runtime and no iterations are performed regardless of the other values.
+								 */
+							}
+						)
+						'<span class="token string">step</span>': component <a href="#grammar-rule--safe-expression">'safe expression'</a>
 					}
 					'<span class="token string">statement</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
 				}
