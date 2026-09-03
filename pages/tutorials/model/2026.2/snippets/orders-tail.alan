@@ -1,0 +1,18 @@
+'Orders': collection ['Order'] {
+	...
+	'Discount applicable': stategroup (
+		'Yes' {
+			'Discount period': text -> ^ ^ .'Management'.'Discount periods'[]
+			'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period'.'Minimal spendings' ) (
+				| <  => 0
+				| >= => product ( from 'percent' ( >'Discount period'.'Percentage' ) as 'fraction', ^ .'Subtotal' )
+			)
+		}
+		'No' { }
+	)
+	'Total': number 'eurocent' = switch .'Discount applicable' (
+		|'Yes' as $'discount' => sum ( $'discount' ^ .'Subtotal', - $'discount'.'Discount' )
+		|'No'  => .'Subtotal'
+	)
+	'VAT': number 'eurocent' = product ( from 'percent' ( ^ .'Management'.'VAT percentage' ) as 'fraction', .'Total' )
+}

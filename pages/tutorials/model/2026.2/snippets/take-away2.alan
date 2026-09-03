@@ -1,0 +1,19 @@
+'Tables': collection ['Table number'] {
+	'Table number': text
+	'Seatings': number 'chairs'
+}
+
+'Orders': collection ['Order'] {
+	'Order': text
+	'Order type': stategroup (
+		'Takeaway' { }
+		'In-house' {
+			'Table': text -> ^ ^ .'Tables'[]
+		}
+	)
+	'Order lines': collection ['Order line'] {
+		'Order line': text
+		'Item': text -> ^ ^ .'Menu'[]
+		'Amount': number 'units'
+	}
+}

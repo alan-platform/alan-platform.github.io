@@ -1,0 +1,203 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Management': group {
+		'Discount periods': collection ['Period'] {
+			'Period': text
+			'Percentage': number 'percent'
+			'Minimal spendings': number 'eurocent'
+		}
+		'VAT percentage': number 'percent'
+		'Beverage types': collection ['Beverage type'] {
+			'Beverage type': text
+		}
+		'Tables': collection ['Table number'] {
+			'Table number': text
+			'Seatings': number 'chairs'
+			'Orders': reference-set -> downstream ^ ^ .'Service'.'Orders'* .'Order type'?'In-house' = inverse >'Table'
+			'Number of orders': number 'units' = count <'Orders'*
+			'Total order value': number 'eurocent' = sum <'Orders'* ^ .'Total'
+		}
+	}
+	'Service': group {
+		'Menu': collection ['Item name'] {
+			'Item name': text
+			'Selling price': number 'eurocent'
+			'Item type': stategroup (
+				'Dish' {
+					'Dish type': stategroup (
+						'Appetizer' { }
+						'Main course' { }
+						'Dessert' { }
+					)
+				}
+				'Beverage' {
+					'Beverage type': text -> ^ ^ ^ .'Management'.'Beverage types'[]
+				}
+			)
+		}
+		'Orders': collection ['Order'] {
+			'Order': text @default: auto-increment
+			'Order type': stategroup (
+				'Takeaway' { }
+				'In-house' {
+					'Table': text -> ^ ^ ^ .'Management'.'Tables'[]
+				}
+			)
+			'Order lines': collection ['Order line'] {
+				'Order line': text @default: auto-increment
+				'Item': text -> ^ ^ .'Menu'[]
+				'Amount': number 'units'
+				'Line total': number 'eurocent' = product ( .'Amount' as 'units', >'Item'.'Selling price' )
+				'Line status': stategroup (
+					'On hold' {
+						'Place order line': command { } => update ^ .'Line status' = create 'Placed' ( )
+					}
+					'Placed' {
+						'Ready for service': command { } => update ^ .'Line status' = create 'Service' ( )
+					}
+					'Service' {
+						'Priority': stategroup = switch ^ >'Item'.'Item type' (
+							|'Beverage' => 'Low' ( )
+							|'Dish'     as $'dish' => switch $'dish'.'Dish type' (
+								|'Appetizer'   => 'Medium' ( )
+								|'Main course' => 'High' ( )
+								|'Dessert'     => 'Low' ( )
+							)
+						) (
+							'Low' { }
+							'Medium' { }
+							'High' { }
+						)
+						'Served': command { } => update ^ .'Line status' = create 'Served' ( )
+					}
+					'Served' { }
+				)
+				//@ begin to-serve-unused
+				'To serve': stategroup = switch ^ .'Order type' (
+					|'Takeaway' => 'No' ( )
+					|'In-house' as $'in-house' => switch .'Line status' (
+						|'On hold' => 'No' ( )
+						|'Placed'  => 'No' ( )
+						|'Service' as $'service' => 'Yes' ( 'Table' = $^ $'in-house'>'Table' ) // <--- !! $^
+						|'Served'  => 'No' ( )
+					)
+				) (
+					//@ hide to-serve-unused
+					'No' { }
+					'Yes' {
+						'Table': text -> ^ ^ ^ ^ .'Management'.'Tables'[] = parameter
+					}
+					//@ show to-serve-unused
+				)
+				//@ end to-serve-unused
+			}
+			'Place order lines': command { } => walk .'Order lines'* as $'line' (
+				switch $'line'.'Line status' (
+					|'On hold' => update $'line' (
+						'Line status' = create 'Placed' ( )
+					)
+					|'Placed'  => ignore
+					|'Service' => ignore
+					|'Served'  => ignore
+				)
+			)
+			'Order status': stategroup (
+				'Open' {
+					'All served': stategroup = switch ^ .'Order lines'* .'Line status'?'On hold' (
+						| none  => switch ^ .'Order lines'* .'Line status'?'Placed' (
+							| none  => switch ^ .'Order lines'* .'Line status'?'Service' (
+								| none  => 'Yes' ( )
+								| nodes => 'No' ( )
+							)
+							| nodes => 'No' ( )
+						)
+						| nodes => 'No' ( )
+					) (
+						'No' { }
+						'Yes' {
+							'Paid': command { } => update ^ ^ .'Order status' = create 'Closed' ( )
+						}
+					)
+				}
+				'Closed' { }
+			)
+			'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
+			'Discount applicable': stategroup (
+				'Yes' {
+					'Discount period': text -> ^ ^ ^ .'Management'.'Discount periods'[]
+					'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period'.'Minimal spendings' ) (
+						| <  => 0
+						| >= => product ( from 'percent' ( >'Discount period'.'Percentage' ) as 'fraction', ^ .'Subtotal' )
+					)
+				}
+				'No' { }
+			)
+			'Total': number 'eurocent' = switch .'Discount applicable' (
+				|'Yes' as $'discount' => sum ( $'discount' ^ .'Subtotal', - $'discount'.'Discount' )
+				|'No'  => .'Subtotal'
+			)
+			'VAT': number 'eurocent' = product ( from 'percent' ( ^ ^ .'Management'.'VAT percentage' ) as 'fraction', .'Total' )
+		}
+		'Place new order': command {
+			'Provide an order number': text
+			'Where is the meal consumed?': stategroup (
+				'Outside of restaurant' { }
+				'At the restaurant' {
+					'Where is the customer seated?': text -> ^ ^ ^ .'Management'.'Tables'[]
+				}
+			)
+			'Order lines': collection ['Provide an order line number'] {
+				'Provide an order line number': text
+				'Item to be consumed': text -> ^ ^ .'Menu'[]
+				'Amount of this item': number 'units'
+			}
+			'Apply discount?': stategroup (
+				'Yes' {
+					'Discount period': text -> ^ ^ ^ .'Management'.'Discount periods'[]
+				}
+				'No' { }
+			)
+		} as $'param' => update .'Orders' = create (
+			'Order' = $'param'.'Provide an order number'
+			'Order type' = switch $'param'.'Where is the meal consumed?' (
+				|'Outside of restaurant' => create 'Takeaway' ( )
+				|'At the restaurant'     as $ => create 'In-house' (
+					'Table' = $ .'Where is the customer seated?'
+				)
+			)
+			'Order lines' = walk $'param'.'Order lines'* as $ (
+				create (
+					'Order line' = $ .'Provide an order line number'
+					'Item' = $ .'Item to be consumed'
+					'Amount' = $ .'Amount of this item'
+					'Line status' = create 'Placed' ( )
+				)
+			)
+			'Order status' = create 'Open' ( )
+			'Discount applicable' = switch $'param'.'Apply discount?' (
+				|'Yes' as $ => create 'Yes' (
+					'Discount period' = $ .'Discount period'
+				)
+				|'No'  => create 'No' ( )
+			)
+		)
+	}
+}
+
+numerical-types
+	'eurocent'
+		= 'units' * 'eurocent'
+		= 'fraction' * 'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'
+	'percent'
+	'fraction'
+		= 'percent' / 1 * 10 ^ 2

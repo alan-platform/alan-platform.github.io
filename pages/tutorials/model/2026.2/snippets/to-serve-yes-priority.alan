@@ -1,0 +1,12 @@
+'Yes' where 'Service' -> .'Line status'?'Service' {
+	'Table': text -> ^ ^ ^ ^ .'Management'.'Tables'[] = parameter
+	'Priority': stategroup = switch .&'Service'.'Priority' (
+		|'Low'    => 'Low' ( )
+		|'Medium' => 'Medium' ( )
+		|'High'   => 'High' ( )
+	) (
+		'Low' { }
+		'Medium' { }
+		'High' { }
+	)
+}

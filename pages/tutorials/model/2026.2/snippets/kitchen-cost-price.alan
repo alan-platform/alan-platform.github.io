@@ -1,0 +1,23 @@
+'Kitchen': group {
+	'Products': collection ['Product'] {
+		'Product': text
+		'Product type': stategroup (
+			'Basic ingredient' {
+				'Amount': number positive 'units'
+				'Purchase price': number 'thousandth eurocent'
+			}
+			'Composed product' {
+				'Composed amount': number positive 'units'
+				'Ingredients': collection ['Product'] {
+					'Product': text -> ^ ^ sibling
+					'Amount': number 'units'
+					'Price': number 'thousandth eurocent' = >'Product'.'Cost price'
+				}
+			}
+		)
+		'Cost price': number 'thousandth eurocent' = switch .'Product type' (
+			|'Basic ingredient' as $'basic' => $'basic'.'Purchase price'
+			|'Composed product' as $'composed' => sum $'composed'.'Ingredients'* .'Price'
+		)
+	}
+}

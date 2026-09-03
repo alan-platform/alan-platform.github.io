@@ -1,0 +1,69 @@
+//@ all step_04a
+users
+	anonymous
+
+interfaces
+
+root {
+	'Beverage types': collection ['Beverage type'] {
+		'Beverage type': text
+	}
+
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': text -> ^ ^ .'Beverage types'[]
+			}
+		)
+	}
+
+	'Tables': collection ['Table number'] {
+		'Table number': text
+		'Seatings': number 'chairs'
+	}
+
+	'Orders': collection ['Order'] {
+		'Order': text
+		'Order type': stategroup (
+			'Takeaway' { }
+			'In-house' {
+				'Table': text -> ^ ^ .'Tables'[]
+			}
+		)
+		//@ begin derived-values
+		'Order lines': collection ['Order line'] {
+			'Order line': text
+			'Item': text -> ^ ^ .'Menu'[]
+			'Amount': number 'units'
+			'Line total': number 'eurocent' = product (
+				.'Amount' as 'units',
+				>'Item'.'Selling price'
+			)
+		}
+		//@ end derived-values
+		//@ begin total strip-comments
+		'Total': number 'eurocent' = sum .'Order lines'* .'Line total' // <-- ;-)
+		//@ end total
+	}
+}
+
+//@ begin derived-values-numtypes
+numerical-types
+	'eurocent'
+		= 'units' * 'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'
+//@ end derived-values-numtypes

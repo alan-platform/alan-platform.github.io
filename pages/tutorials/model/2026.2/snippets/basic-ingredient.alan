@@ -1,0 +1,4 @@
+'Basic ingredient' {
+	'Amount': number positive 'units'
+	'Purchase price': number 'thousandth eurocent'
+}

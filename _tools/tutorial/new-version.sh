@@ -2,9 +2,13 @@
 set -euo pipefail
 if [ "$#" -lt 1 ] || [ "$#" -gt 3 ]; then echo "usage: $0 <new> [<prev>] [--force]" >&2; exit 2; fi
 NEW=$1; FORCE=false; PREV=
+[[ "$NEW" =~ ^[0-9]{4}\.[0-9]+$ ]] || { echo "error: <new> must look like 2026.2, got '$NEW'" >&2; exit 2; }
 for x in "${@:2}"; do if [ "$x" = --force ]; then FORCE=true; elif [ -z "$PREV" ]; then PREV=$x; else echo "usage: $0 <new> [<prev>] [--force]" >&2; exit 2; fi; done
 ROOT=$(cd "$(dirname "$0")/../.." && pwd); IDE="${ONLINE_IDE:-$ROOT/../online-ide}"; T="$IDE/docs/tutorials/restaurant1"
-PREV=${PREV:-$(jq -r .current "$ROOT/_data/versions.json")}; WEB="$ROOT/pages/tutorials/model"; FAIL=(); CENSUS=ok; MIGRATION=ok; VERIFY=0
+PREV=${PREV:-$(jq -r .current "$ROOT/_data/versions.json")}
+[[ "$PREV" =~ ^[0-9]{4}\.[0-9]+$ ]] || { echo "error: <prev> must look like 2024.2, got '$PREV'" >&2; exit 2; }
+[ "$PREV" != "$NEW" ] || { echo "error: <new> and <prev> are the same version" >&2; exit 2; }
+WEB="$ROOT/pages/tutorials/model"; FAIL=(); CENSUS=ok; MIGRATION=ok; VERIFY=0
 say() { echo "== step $1: $2" >&2; }
 say A "prepare toolchain"
 if [ -e "$WEB/$NEW" ] || [ -e "$T/$NEW" ]; then $FORCE || { echo "error: version exists" >&2; exit 1; }; rm -rf "$WEB/$NEW" "$T/$NEW"; fi
@@ -18,7 +22,10 @@ say D "upgrade models"; "$ROOT/_tools/tutorial/snippets.py" census "$NEW" > "$TM
 for d in "$WEB/$NEW"/models/*; do "$ROOT/_tools/tutorial/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" || FAIL+=("website model: $d"); done
 for d in "$T/$NEW"/step_*/to_model; do "$ROOT/_tools/tutorial/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" --pp || FAIL+=("online-ide model: $d"); done
 "$ROOT/_tools/tutorial/snippets.py" census "$NEW" > "$TMP/census-after.json" || FAIL+=("census after transform")
-if ! diff -u "$TMP/census-before.json" "$TMP/census-after.json" > "$TMP/census.diff"; then echo "error: marker census changed by transform:" >&2; cat "$TMP/census.diff" >&2; CENSUS=diff; FAIL+=("marker census"); fi
+# compare marker sequences, not line numbers: the transform may re-flow lines
+jq 'map_values(.markers |= map(.[0:2]))' "$TMP/census-before.json" > "$TMP/census-before.seq.json"
+jq 'map_values(.markers |= map(.[0:2]))' "$TMP/census-after.json" > "$TMP/census-after.seq.json"
+if ! diff -u "$TMP/census-before.seq.json" "$TMP/census-after.seq.json" > "$TMP/census.diff"; then echo "error: marker census changed by transform:" >&2; cat "$TMP/census.diff" >&2; CENSUS=diff; FAIL+=("marker census"); fi
 say E "upgrade migrations"; prev_step=
 for step in "$T/$NEW"/step_*/; do [ -n "$prev_step" ] || prev_step=$step; "$ROOT/_tools/tutorial/upgrade-migration.sh" "$DEVENV" "$prev_step" "$step" || { FAIL+=("migration: $step"); MIGRATION=fail; }; prev_step=$step; done
 say F "extract and verify"; "$ROOT/_tools/tutorial/snippets.py" extract "$NEW" --write || FAIL+=("extract"); "$ROOT/_tools/tutorial/snippets.py" verify "$NEW" --platform "$DEVENV" --reference "$IDE" || { VERIFY=1; FAIL+=("verify"); }
@@ -50,8 +57,9 @@ for tag, i1, i2, j1, j2 in sm.get_opcodes():
 PY
   done | sort -u | while IFS= read -r needle; do grep -nF -- "$needle" "$WEB/$NEW"/*.md || true; done
   # 2. inline fence lines that no model contains, new since the previous version
-  { "$ROOT/_tools/tutorial/snippets.py" extract "$NEW" --check-inline 2>/dev/null || true; } | sed "s#^$WEB/$NEW/##" | sort -u > "$TMP/inline-new.txt"
-  { "$ROOT/_tools/tutorial/snippets.py" extract "$PREV" --check-inline 2>/dev/null || true; } | sed "s#^$WEB/$PREV/##" | sort -u > "$TMP/inline-prev.txt"
+  # compare without page line numbers, which shift between versions
+  { "$ROOT/_tools/tutorial/snippets.py" extract "$NEW" --check-inline 2>/dev/null || true; } | sed -E "s#^$WEB/$NEW/##; s/^([^:]*):[0-9]+:/\\1:/" | sort -u > "$TMP/inline-new.txt"
+  { "$ROOT/_tools/tutorial/snippets.py" extract "$PREV" --check-inline 2>/dev/null || true; } | sed -E "s#^$WEB/$PREV/##; s/^([^:]*):[0-9]+:/\\1:/" | sort -u > "$TMP/inline-prev.txt"
   comm -23 "$TMP/inline-new.txt" "$TMP/inline-prev.txt"
   # 3. grammar tokens removed between the two model language versions
   OLD_G=$(git -C "$ROOT" show "HEAD:pages/docs/model/$FROM_MODEL/application/grammar.md" 2>/dev/null || true)

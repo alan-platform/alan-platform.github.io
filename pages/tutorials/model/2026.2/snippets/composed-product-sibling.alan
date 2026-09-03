@@ -1,0 +1,7 @@
+'Composed product' {
+	'Composed amount': number positive 'units'
+	'Ingredients': collection ['Product'] {
+		'Product': text -> ^ ^ sibling
+		'Amount': number 'units'
+	}
+}

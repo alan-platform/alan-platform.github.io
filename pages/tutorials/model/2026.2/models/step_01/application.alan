@@ -1,0 +1,17 @@
+//@ all step_01
+users
+	anonymous
+
+interfaces
+
+root {
+	//@ begin menu
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'euro'
+	}
+	//@ end menu
+}
+
+numerical-types
+	'euro'

@@ -170,7 +170,7 @@ For that:
 - click `Alan Deploy` and choose the 'migrate' option to create the folder `migrations/from_release`,
 - open the `migration.alan` file for the relevant tutorial step in `_docs/tutorials/restaurant1/{{ page.platform_version }}/`: `step_01/migration/migration.alan` for the current step,
 - copy the contents of the `migration.alan` file to the clipboard,
-- paste the clipboard contents in `migrations/from-release/migration.alan`, overwriting the existing file contents.
+- paste the clipboard contents in `migrations/from_release/migration.alan`, overwriting the existing file contents.
 - click `Alan Deploy` and choose the 'migrate' option again.
 After succesful deployment, you can find the data in your app.
 
@@ -222,7 +222,7 @@ Similarly the `Beverage type` can be `Juice` or one of the other possible states
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_02/`>
 
-Build and deploy to find out what stategroups and numerical types do for your app. But, before you deploy, make sure to copy the `migration.alan` file from the tutorial folder to `migrations/from-release/migration.alan`, as explained before. Then choose the deployment option **migrate**, which will use the copied `migration.alan` file. Remember to repeat this process in subsequent steps of the tutorial.
+Build and deploy to find out what stategroups and numerical types do for your app. But, before you deploy, make sure to copy the `migration.alan` file from the tutorial folder to `migrations/from_release/migration.alan`, as explained before. Then choose the deployment option **migrate**, which will use the copied `migration.alan` file. Remember to repeat this process in subsequent steps of the tutorial.
 
 In your updated application, set the view to **Full** to see all columns:
 

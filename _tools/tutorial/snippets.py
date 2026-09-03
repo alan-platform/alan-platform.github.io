@@ -203,31 +203,37 @@ def audit_docs(vdir, generated):
 
 
 def compiler_check(path, platform, expect, regions):
+    """Compile one model dir. Returns (diagnostics, toolchain_notices)."""
     cmd = [str(Path(platform)/"platform/project-compiler/tools/compiler-project"), str(Path(platform)/"platform/if-types/model/language"), "--format", "vscode", "-C", str(path.parent), "/dev/null"]
     try: r = subprocess.run(cmd, text=True, capture_output=True, timeout=120)
-    except subprocess.TimeoutExpired: return [diag(path, 1, "compiler timeout")], 0
+    except subprocess.TimeoutExpired: return [diag(path, 1, "compiler timeout")], []
     out = (r.stdout + r.stderr).strip("\n"); lines = out.splitlines() if out else []
-    haswarn = "warning:" in out
+    located = [x for x in lines if DIAG_LINE.match(x)]
+    # warnings without a source location come from the toolchain itself (e.g. an annotation package that
+    # could not be loaded); they are reported once per run by the caller, not attributed to the model
+    notices = [x.strip() for x in lines if "warning:" in x and not DIAG_LINE.match(x)]
+    located_warnings = [x for x in located if " warning: " in x]
     if expect is None:
-        if r.returncode == 0 and not haswarn: return [], 0
-        result = lines + ([diag(path, 1, "model compiles with warnings; add '//@ expect warning <text>' or fix")] if r.returncode == 0 and haswarn else [])
+        if r.returncode == 0 and not located_warnings: return [], notices
+        result = list(located) + ([diag(path, 1, "model compiles with warnings; add '//@ expect warning <text>' or fix")] if r.returncode == 0 else [])
         if r.returncode != 0 and not any(": error:" in x for x in result):
             result.append(diag(path, 1, f"compiler failed (exit {r.returncode})"))
-        return result, 0
+        return result, notices
     kind, text, eline = expect
-    ok = (r.returncode != 0 and text in out) if kind == "error" else (r.returncode == 0 and haswarn and text in out)
+    if kind == "error": ok = r.returncode != 0 and text in out
+    else: ok = r.returncode == 0 and any(text in x for x in located_warnings)
     if not ok:
         msg = f"expected compile {kind} containing '{text}'" + (f" (compiler exit {r.returncode})" if kind == "error" else "")
-        return lines + [diag(path, eline, msg)], 0
+        return list(located) + [diag(path, eline, msg)], notices
     if kind == "error":
-        for line in lines:
+        for line in located:
             m = DIAG_LINE.match(line)
             if m:
                 at = int(m.group(1))
                 if not any(a <= at <= b for ranges in regions.values() for a,b in ranges):
-                    return [diag(path, at, "expected error is not shown by any snippet", level="warning")], 0
+                    return [diag(path, at, "expected error is not shown by any snippet", level="warning")], notices
                 break
-    return [], 0
+    return [], notices
 
 
 def compare_reference(path, platform, reference, version):
@@ -246,8 +252,13 @@ def compare_reference(path, platform, reference, version):
     pp = Path(platform)/"platform/project-compiler/tools/pretty-printer"; lang = Path(platform)/"platform/if-types/model/language"
     with tempfile.TemporaryDirectory() as a, tempfile.TemporaryDirectory() as b:
         (Path(a)/"application.alan").write_text(cleaned); (Path(b)/"application.alan").write_text(cleaned_ref)
-        def run(d): return subprocess.run([str(pp), str(lang), "-C", d, "--file", "/dev/stdout", "--", "application.alan"], text=True, capture_output=True).stdout.splitlines()
-        left, right = run(a), run(b)
+        def run(d, label):
+            r = subprocess.run([str(pp), str(lang), "-C", d, "--file", "/dev/stdout", "--", "application.alan"], text=True, capture_output=True)
+            if r.returncode != 0 or not r.stdout.strip():
+                raise RuntimeError(f"pretty-printer failed on {label} (exit {r.returncode}): {(r.stderr or r.stdout).strip()[:300]}")
+            return r.stdout.splitlines()
+        try: left, right = run(a, str(path)), run(b, str(ref))
+        except RuntimeError as e: return [diag(path, 1, str(e))]
     if left == right: return []
     first = next((i+1 for i,(x,y) in enumerate(zip(left,right)) if x != y), min(len(left),len(right))+1)
     diff = list(difflib.unified_diff(left, right, fromfile=str(path), tofile=str(ref), n=1))[:6]
@@ -263,9 +274,14 @@ def verify(version, platform=None, jobs=None, reference=None, no_compile=False):
     if platform and not no_compile:
         with concurrent.futures.ThreadPoolExecutor(max_workers=jobs or os.cpu_count() or 1) as ex:
             futures = [ex.submit(compiler_check, p, platform, e, r) for p,e,r in info]
+            seen_notices = set()
             for fut in futures:
-                msgs, warn = fut.result(); print("\n".join(msgs)) if msgs else None
-                errors += sum(": error:" in x for x in msgs); warnings += warn + sum(": warning:" in x for x in msgs)
+                msgs, notices = fut.result(); print("\n".join(msgs)) if msgs else None
+                errors += sum(": error:" in x for x in msgs); warnings += sum(": warning:" in x for x in msgs)
+                for note in notices:
+                    if note not in seen_notices:
+                        seen_notices.add(note); warnings += 1
+                        print(diag(Path(platform)/"platform/if-types/model/language", 1, f"toolchain: {note}", level="warning"))
     try: generated = extract_all(vdir/"models")
     except ExtractError as e: print("\n".join(e.diagnostics)); generated = {}; errors += len(e.diagnostics)
     snips = vdir/"snippets"
@@ -317,8 +333,8 @@ def main():
             if not q.exists() or q.read_text().replace("\r\n","\n") != t: q.write_text(t,encoding="utf-8")
         for q in snips.glob("*.alan"):
             if q.stem not in generated: q.unlink()
-        print(f"wrote {len(generated)} snippets ({changed} changed, {stale} stale)")
-    else: print(f"would write {len(generated)} snippets ({changed} changed, {stale} stale)")
+        print(f"wrote {len(generated)} snippets ({changed} changed, {stale} stale)", file=sys.stderr)
+    else: print(f"would write {len(generated)} snippets ({changed} changed, {stale} stale)", file=sys.stderr)
     if a.check_inline: inline_check(vd)
     return 0
 if __name__ == "__main__": sys.exit(main())

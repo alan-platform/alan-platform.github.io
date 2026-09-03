@@ -1,0 +1,12 @@
+'Ingredients': collection ['Product'] {
+	'Product': text -> ^ ^ sibling in ( 'Assembly' )
+	'Amount': number 'units'
+	'Price per unit': number 'thousandth eurocent' = ( recurse ^ ^ 'Assembly' ) division (
+		>'Product'.'Cost price' as 'thousandth eurocent',
+		>'Product'.'Amount'
+	)
+	'Price': number 'thousandth eurocent' = ( recurse ^ ^ 'Assembly' ) product (
+		.'Price per unit' as 'thousandth eurocent',
+		.'Amount'
+	)
+}

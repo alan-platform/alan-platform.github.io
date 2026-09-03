@@ -21,3 +21,12 @@ runs full version-copy workflow.
 
 Never pretty-print `pages/tutorials/model/*/models/` in place: marker positions and
 tutorial prose depend on source layout.
+
+## Upgrading to a new platform version
+
+`new-version.sh NEW PREV` copies both tutorial trees, runs the platform's model transform and migration
+upgrade, regenerates snippets, verifies, runs online-ide `test.sh`, and prints a report. Models that carry
+`//@ expect error` cannot be transformed (the transform needs a model that compiles under the old language):
+apply the syntax change to them by hand and rerun `snippets.py verify NEW --platform DEVENV`. The transform
+re-emits the models it touches in canonical formatting, so hand-wrapped lines in those models are lost.
+Promoting `_data/versions.json` `current` is a separate, manual commit.

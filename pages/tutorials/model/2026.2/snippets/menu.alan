@@ -1,0 +1,4 @@
+'Menu': collection ['Item name'] {
+	'Item name': text
+	'Selling price': number 'euro'
+}

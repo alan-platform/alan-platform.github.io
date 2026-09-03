@@ -1,0 +1,27 @@
+'Orders': collection ['Order'] {
+	'Order': text
+	'Order type': stategroup (
+		'Takeaway' { }
+		'In-house' {
+			'Table': text -> ^ ^ .'Management'.'Tables'[]
+		}
+	)
+	'Order lines': collection ['Order line'] {
+		'Order line': text
+		'Item': text -> ^ ^ .'Menu'[]
+		'Amount': number 'units'
+		'Line total': number 'eurocent' = product ( .'Amount' as 'units', >'Item'.'Selling price' )
+		'Line status': stategroup (
+			'On hold' { }
+			'Placed' { }
+			'Service' { }
+			'Served' { }
+		)
+	}
+	'Order status': stategroup (
+		'Open' { }
+		'Closed' { }
+	)
+	'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
+	...
+}
