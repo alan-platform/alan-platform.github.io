@@ -1,0 +1,123 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Management': group {
+		'Discount periods': collection ['Period'] {
+			'Period': text
+			'Percentage': number 'percent'
+			'Minimal spendings': number 'eurocent'
+		}
+		'VAT percentage': number 'percent'
+		'Beverage types': collection ['Beverage type'] {
+			'Beverage type': text
+		}
+		'Tables': collection ['Table number'] {
+			'Table number': text
+			'Seatings': number 'chairs'
+			'Orders': reference-set -> downstream ^ ^ .'Orders'* .'Order type'?'In-house' = inverse >'Table'
+			'Number of orders': number 'units' = count <'Orders'*
+			'Total order value': number 'eurocent' = sum <'Orders'* ^ .'Total'
+		}
+	}
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': text -> ^ ^ .'Management'.'Beverage types'[]
+			}
+		)
+	}
+	'Orders': collection ['Order'] {
+		'Order': text
+		'Order type': stategroup (
+			'Takeaway' { }
+			'In-house' {
+				'Table': text -> ^ ^ .'Management'.'Tables'[]
+			}
+		)
+		'Order lines': collection ['Order line'] {
+			'Order line': text
+			'Item': text -> ^ ^ .'Menu'[]
+			'Amount': number 'units'
+			'Line total': number 'eurocent' = product ( .'Amount' as 'units', >'Item'.'Selling price' )
+		}
+		'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
+		'Discount applicable': stategroup (
+			'Yes' {
+				'Discount period': text -> ^ ^ .'Management'.'Discount periods'[]
+				'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period'.'Minimal spendings' ) (
+					| <  => 0
+					| >= => product ( from 'percent'>'Discount period'.'Percentage' as 'fraction', ^ .'Subtotal' )
+				)
+				'Total': number 'eurocent' = sum ( ^ .'Subtotal', - .'Discount' )
+			}
+			'No' { }
+		)
+		'Total': number 'eurocent' = switch .'Discount applicable' (
+			|'Yes' as $'discount' => $'discount'.'Total'
+			|'No'  => .'Subtotal'
+		)
+		'VAT': number 'eurocent' = product ( from 'percent' ^ .'Management'.'VAT percentage' as 'fraction', .'Total' )
+	}
+	//@ begin commands1
+	//@ begin commands2
+	'Place new order': command {
+		'Provide an order number': text
+		'Where is the meal consumed?': stategroup (
+			'Outside of restaurant' { }
+			'At the restaurant' {
+				'Where is the customer seated?': text -> ^ ^ .'Management'.'Tables'[]
+			}
+		)
+		'Order lines': collection ['Provide an order line number'] {
+			'Provide an order line number': text
+			'Item to be consumed': text -> ^ ^ .'Menu'[]
+			'Amount of this item': number 'units'
+		}
+	} as $'param' => update .'Orders' = create (
+	//@ end commands2 cut="=>"
+	//@ begin commands4
+		'Order' = $'param'.'Provide an order number'
+		'Order type' = switch $'param'.'Where is the meal consumed?' (
+			|'Outside of restaurant' => create 'Takeaway' ( )
+			|'At the restaurant' as $ => create 'In-house' (
+				'Table' = $ .'Where is the customer seated?'
+			)
+		)
+		'Order lines' = walk $'param'.'Order lines'* as $ (
+			create (
+				'Order line' = $ .'Provide an order line number'
+				'Item' = $ .'Item to be consumed'
+				'Amount' = $ .'Amount of this item'
+			)
+		)
+		//@ end commands4
+		'Discount applicable' = create 'No' ( )
+	)
+	//@ end commands1
+}
+
+numerical-types
+	'eurocent'
+		= 'units' * 'eurocent'
+		= 'fraction' * 'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'
+	'percent'
+	'fraction'
+		= 'percent' / 1 * 10 ^ 2

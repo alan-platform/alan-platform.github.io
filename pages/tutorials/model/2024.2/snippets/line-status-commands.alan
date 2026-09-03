@@ -1,0 +1,12 @@
+'Line status': stategroup (
+	'On hold' {
+		'Place order line': command { } => update ^ .'Line status' = create 'Placed' ( )
+	}
+	'Placed' {
+		'Ready for service': command { } => update ^ .'Line status' = create 'Service' ( )
+	}
+	'Service' {
+		'Served': command { } => update ^ .'Line status' = create 'Served' ( )
+	}
+	'Served' { }
+)

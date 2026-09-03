@@ -22,68 +22,13 @@ In this second part you will learn about [derived values](#derived-values), more
 ## Extensions and GUI annotations
 In the topic 'Derivations: conditional expressions' we've calculated the number `Total` as part of the stategroup `Discount applicable`. In our app it is therefore shown inside a box along `Discount period` and `Discount`. Both visually and model-wise it's more appropriate to show and calculate `Total` outside of `Discount applicable`. Let's adjust the model accordingly. The last part for the `Orders` collection should look like this:
 ```js
-'Orders': collection ['Order'] {
-	...
-
-	'Discount applicable': stategroup (
-		'Yes' {
-			'Discount period': text -> ^ ^ .'Management' .'Discount periods'[]
-			'Discount': number 'eurocent' = switch ^ .'Subtotal' compare ( >'Discount period' .'Minimal spendings' ) (
-				| < => 0
-				| >= => product (
-					from 'percent' >'Discount period' .'Percentage' as 'fraction',
-					^ .'Subtotal'
-				)
-			)
-		}
-		'No' { }
-	)
-
-	'Total': number 'eurocent' = switch .'Discount applicable' (
-		|'Yes' as $'discount' => sum ( $'discount' ^ .'Subtotal' , - $'discount' .'Discount' )
-		|'No' => .'Subtotal'
-	)
-
-	'VAT': number 'eurocent' = product (
-		from 'percent' ^ .'Management' .'VAT percentage' as 'fraction' ,
-		.'Total'
-	)
-}
+{% include_relative snippets/orders-tail.alan %}
 ```
 Instead of `VAT` using a state switch now `Total` switches on the state of `Discount applicable`.
 
 Working towards the processes of order preparation and service let's take this opportunity to also add the stategroups `Line status` and `Order status` within the collections `Order lines` and `Orders` respectively. The top part of collection `Orders` now is this:
 ```js
-'Orders': collection ['Order'] {
-	'Order': text
-	'Order type': stategroup (
-		'Takeaway' { }
-		'In-house' {
-			'Table': text -> ^ ^ .'Tables'[] -< 'Orders'
-		}
-	)
-	'Order lines': collection ['Order line'] {
-		'Order line': text
-		'Item': text -> ^ ^ .'Menu'[]
-		'Amount': number 'units'
-		'Line total': number 'eurocent' = product (
-			.'Amount' as 'units',
-			>'Item'.'Selling price'
-		)
-		'Line status': stategroup (
-			'On hold' { }
-			'Placed' { }
-			'Service' { }
-			'Served' { }
-		)
-	}
-	'Order status': stategroup (
-		'Open' { }
-		'Closed' { }
-	)
-	'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
-	...
-}
+{% include_relative snippets/orders-head.alan %}
 ```
 
 Customers sometimes change their mind while ordering, so we don't want to place evey order line immediately, but place all lines once everybody is happy. To support this process we've added `Line status`. It has these states:
@@ -94,43 +39,16 @@ Customers sometimes change their mind while ordering, so we don't want to place 
 
 `Order status` has states `Open` after placing the first order, and `Closed` after payment of the bill. This brings us to the next adjustment: the command `Place new order`. We need to add the states corresponding to these stategroups when placing an new order:
 ```js
-'Place new order': command {
-	...
-} => update .'Orders' = create (
-	'Order' = @ .'Provide an order number'
-	'Order type' = switch @ .'Where is the meal consumed?' (
-		|'Outside of restaurant' => create 'Takeaway' ( )
-		|'At the restaurant' as $ => create 'In-house' (
-			'Table' = $ .'Where is the customer seated?'
-		)
-	)
-	'Order lines' = walk @ .'Order lines' as $ (
-		create (
-			'Order line' = $ .'Provide an order line number'
-			'Item' = $ .'Item to be consumed'
-			'Amount' = $ .'Amount of this item'
-			'Line status' = create 'Placed' ( )
-		)
-	)
-	'Order status' = create 'Open' ( )
-	'Discount applicable' = switch @ .'Apply discount?' (
-		|'Yes' as $ => create 'Yes' (
-			'Discount period' = $ .'Discount period'
-		)
-		|'No' => create 'No' ( )
-	)
-)
+{% include_relative snippets/place-new-order-statuses.alan %}
 ```
 
-No new parameters need to be added to the command, but we have to create the states `Placed` and `Open` when executing this command. Both are not determined by input from the user (therefore not depending on a parameter), as the purpose of the command implies these states and can be statically determined.
+Apart from the parameter `Apply discount?`, no new parameters need to be added to the command, but we have to create the states `Placed` and `Open` when executing this command. Both are not determined by input from the user (therefore not depending on a parameter), as the purpose of the command implies these states and can be statically determined.
 Let's take a look at our app:
 ![Order and line status](./images_model/025.png)
 
 Also add `@default: auto-increment` this to the existing lines within collection `Orders` and `Order lines` repectively:
 ```js
-'Order': text @default: auto-increment
-
-'Order line': text @default: auto-increment
+{% include_relative snippets/auto-increment.alan %}
 ```
 This is called a ***GUI annotation*** and makes sure that when you add an order or order line it automatically creates a followup number for those keys. GUI annotations always have the symbol ***@*** as prefix. GUI annotations need a seperate topic to be described in full, so we won't elaborate on this right now. This just makes it easier to add orders and order lines for now.
 
@@ -145,18 +63,7 @@ As you might have noticed it is easy to make adjustments to your model: Moving a
 In the previous topic we've added `Line status` but the different states do not have any effect yet. The order line status needs to change according to the process in our restaurant. In short the process looks like this: Service goes to a table, customers order their drinks and/or dishes and might change their minds, orders are placed to be prepared and finally, the orders are delivered to the table.
 So, we want to change the state without accidentilly skip a state. Let's implement this:
 ```js
-'Line status': stategroup (
-	'On hold' {
-		'Ready for preparation': command { } => update ^ .'Line status' = create 'Placed' ( )
-	}
-	'Placed' {
-		'Ready for service': command { } => update ^ .'Line status' = create 'Service' ( )
-	}
-	'Service' {
-		'Served': command { } => update ^ .'Line status' = create 'Served' ( )
-	}
-	'Served' { }
-)
+{% include_relative snippets/line-status-commands.alan %}
 ```
 Each state got a command that can change the current state to the next one. Notice that these commands do not have a command definition, only a command implementation, because all we need here is a button.
 Build the model and view it in your browser by going to 'Orders' and selecting order 001 (or input an order first):
@@ -166,16 +73,7 @@ Click the button of an order line to place it and refresh the table `Order lines
 If you can imagine that different people with different roles within the restaurant have access to specific parts of the model, you could organise who gets to push which button. This is possible by implementing `users` and their access rights, which will be discussed in another topic.
 Now clicking each line individually can become a hassle, so let's create a command that can set all lines with state `On hold` within one order to `Placed`:
 ```js
-'Place order lines': command { } => walk .'Order lines' as $'line' (
-	switch $'line' .'Line status' (
-		|'On hold' => update $'line' (
-			'Line status' = create 'Placed' ( )
-		)
-		|'Placed' => ignore
-		|'Service' => ignore
-		|'Served' => ignore
-	)
-)
+{% include_relative snippets/place-order-lines.alan %}
 ```
 
 This command (again only a command implementation) is placed below `Order lines` within `Orders`. We see familiar and new words.
@@ -188,36 +86,11 @@ Click the button and refresh `Order lines`. This command only affects lines with
 Then there is another process we want to support: When the customer leaves we want to make sure all order lines are served and the bill is paid, so we can close the order.
 Add these new lines in the state `Open` of stategroup `Order status` and take a look at it:
 ```js
-'Order status': stategroup (
-	'Open' {
-		'All served': stategroup = switch ^ .'Order lines'* .'Line status'?'On hold' (
-			| nodes => 'No' ( )
-			| none => switch ^ .'Order lines'* .'Line status'?'Placed' (
-				| nodes => 'No' ( )
-				| none => switch ^ .'Order lines'* .'Line status'?'Service' (
-					| nodes => 'No' ( )
-					| none => 'Yes' ( )
-				)
-			)
-		) (
-			'No' { }
-			'Yes' {
-				'Paid': command { } => update ^ ^ .'Order status' = create 'Closed' ( )
-			}
-		)
-	}
-	'Closed' { }
-)
+{% include_relative snippets/order-status-all-served.alan %}
 ```
 When the `Order status` is `Open` we want to check if all order lines are `Served` but we don't know how many order lines an order contains. By checking if any nodes within `Line status` exist with the states `On hold`, `Placed` or `Service` we can either confirm or deny that all order lines are served.
-Important to notice that this line would switch on the state of `Line status`:
-```js
-switch .'Line status' ( ... )
-```
-While this line switches on whether nodes with status `On hold` exist or not:
-```js
-switch .'Order lines'* .'Line status'?'On hold' ( ... )
-```
+Important to notice that this line would switch on the state of `Line status`: `switch .'Line status' ( ... )`.
+While this line switches on whether nodes with status `On hold` exist or not: `switch .'Order lines'* .'Line status'?'On hold' ( ... )`.
 <sup>(For the purpose of comparison `^` is left out in this line)</sup>
 
 This line says: Check all nodes (`*`) of `Order lines` for the state `On hold` of stategroup `Line status`. The result is either there are nodes with this state (`nodes`) or there are no nodes with this state (`none`). If the result is `none` we still want to check for the other states in the same way. Only if there are no nodes with the last state we can be sure all nodes are `Served`, because order lines can only have and must have at least one of these four states.
@@ -234,21 +107,7 @@ When food and drinks are prepared and ready for service, we would like to provid
 ![Overview order lines!](./images_model/030.png)
 Add `Priority` to the state `Service` of stategroup `Line status`:
 ```js
-'Service' {
-	'Priority': stategroup = switch ^ >'Item' .'Item type' (
-		|'Beverage' => 'Low' ( )
-		|'Dish' as $'dish' => switch $'dish' .'Dish type' (
-			|'Appetizer' => 'Medium' ( )
-			|'Main course' => 'High' ( )
-			|'Dessert' => 'Low' ( )
-		)
-	) (
-		'Low' { }
-		'Medium' { }
-		'High' { }
-	)
-	'Served': command { } => update ^ .'Line status' = create 'Served' ( )
-}
+{% include_relative snippets/service-priority.alan %}
 ```
 This looks similar to the previously defined state derivation of stategroup `All served` (within state `Open` of stategroup `Order status`), exept here we switch on the state of the stategroup, not whether a collection has nodes or not.
 To not make the model too complicated at this point we simply say that desserts have a low priority (mainly cold food), appetizers a medium priority (could be warm food) and main courses a high priority (mainly warm food). Check out the extra column:
@@ -256,20 +115,7 @@ To not make the model too complicated at this point we simply say that desserts 
 
 Only if an order is of order type `In-house` we would like to show the table to serve to when it's ready to be served. To achieve this we have to look at the states of both stategroups `Order type` and `Line status`:
 ```js
-'To serve': stategroup = switch ^ . 'Order type' (
-	| 'Takeaway' => 'No' ( )
-	| 'In-house' as $'in-house' => switch . 'Line status' (
-		|'On hold' => 'No' ( )
-		|'Placed' => 'No' ( )
-		|'Service' => 'Yes' ( 'Table' = $'in-house' >'Table' )
-		|'Served' => 'No' ( )
-	)
-) (
-		'No' { }
-		'Yes' {
-			'Table': text -> ^ ^ ^ ^ .'Management' .'Tables'[] = parameter
-		}
-	)
+{% include_relative snippets/to-serve-v1.alan %}
 ```
 This shows the table if `To serve` is `Yes`:
 ![To serve table](./images_model/032.png)
@@ -281,65 +127,23 @@ By providing this reference, as part of the definition of `Table`, we 'close the
 Let's say we would also like to show the priority when stategroup `To serve` has state `Yes`. We do this for explanatory purposes, because the model it creates is not clean and it will show the priority in the table twice, but the structure it will show is interesting and important.
 To achieve this it is required to have access to the node of state `Service` of stategroup `Line status`. Therfore add `$'service'` to the state `Service` in the state switch of stategroup `To serve`:
 ```js
-'To serve': stategroup = switch ^ . 'Order type' (
-	| 'Takeaway' => 'No' ( )
-	| 'In-house' as $'in-house' => switch . 'Line status' (
-		|'On hold' => 'No' ( )
-		|'Placed' => 'No' ( )
-		|'Service' as $'service' => 'Yes' ( 'Table' = $'in-house' >'Table' )
-		|'Served' => 'No' ( )
-	)
-) ( ... )
+{% include_relative snippets/to-serve-scope-error.alan %}
 ```
 If we build the model like this the compiler will throw an error saying it can't find the named object `in-house`. We created another 'sticky note' `$'service'` on a lower level than the previous 'sticky note' `$'in-house'`. On this lower level the only reachable 'sticky note' is `$'service'`. It's like the 'sticky notes' are stacked and only the last one is visible. To get to a 'sticky note' defined on higher levels we need to jump up thos levels, but not like using the regular `^`, but by using `$^`. The temporarily stored nodes create a hierachy in itself.
 Another thing to notice is that the names we gave to these temporarily stored nodes are only for human readability and have no meaning to the compiler. We could just as easily have used only `$`.
 Applying this new knowledge creates this:
 ```js
-'To serve': stategroup = switch ^ . 'Order type' (
-	| 'Takeaway' => 'No' ( )
-	| 'In-house' as $'in-house' => switch . 'Line status' (
-		|'On hold' => 'No' ( )
-		|'Placed' => 'No' ( )
-		|'Service' as $'service' => 'Yes' ( 'Table' = $^ $'in-house' >'Table' ) // <--- !! $^
-		|'Served' => 'No' ( )
-	)
-) ( ... )
+{% include_relative snippets/to-serve-unused.alan %}
 ```
-Building the model now will show a problem, but it's only a warning, saying we didn't use `service`, so let's use it:
+Building the model now succeeds, but `$'service'` is not used for anything, so let's put it to use:
 ```js
-'To serve': stategroup = switch ^ . 'Order type' (
-	| 'Takeaway' => 'No' ( )
-	| 'In-house' as $'in-house' => switch . 'Line status' (
-		|'On hold' => 'No' ( )
-		|'Placed' => 'No' ( )
-		|'Service' as $'service' => 'Yes' where 'Service' = $'service' ( 'Table' = $^ $'in-house' >'Table' ) // <--- !! where ...
-		|'Served' => 'No' ( )
-	)
-) (
-		'No' { }
-		'Yes' where 'Service' -> .'Line status'?'Service' {						// <--- !! where ...
-			'Table': text -> ^ ^ ^ ^ .'Management' .'Tables'[] = parameter
-		}
-)
+{% include_relative snippets/to-serve-where.alan %}
 ```
 We've seen `where` being used before, but then applied to a text property and now applied to a state. It serves as a *reference rule* here as well and further defines the state `Yes` by adding the reference to a node of state `Service`.
 
 If we 'zoom out' and look at the structure:
 ```js
-'To serve': stategroup = switch ... (
-	| ...
-	| ... => switch ... (
-		| ...
-		| ...
-		|'Service' as $'service' => 'Yes' where 'Service' = $'service' ( ... )
-		...
-	)
-) (
-		...
-		'Yes' where 'Service' -> .'Line status'?'Service' {
-			...
-		}
-)
+{% include_relative snippets/to-serve-structure.alan %}
 ```
 We see:
 - a state derivation within a state derivation (two times `switch`)
@@ -348,40 +152,14 @@ We see:
 
 Now the node of state `Service` of stategroup `Line status` is available from within the state `Yes` of stategroup `To serve`. With a state switch we can determine the property `Priority` by deriving it from `Priority` within the node of this state `Service`:
 ```js
-'Yes' where 'Service' -> .'Line status'?'Service'
-{
-	'Table': text -> ^ ^ ^ ^ .'Management' .'Tables'[] = parameter
-	'Priority': stategroup = switch .&'Service' .'Priority' (
-		|'Low' => 'Low' ( )
-		|'Medium' => 'Medium' ( )
-		|'High' => 'High' ( )
-	) (
-		'Low' { }
-		'Medium' { }
-		'High' { }
-	)
-}
+{% include_relative snippets/to-serve-yes-priority.alan %}
 ```
 For referencing the reference rule (`where`) the ***&-symbol*** is used.
 In our model we access the stategroup `Priority` of node `Service` by writing `.&'Service' .'Priority'`. The rest is a common state derivation.
 
 By revisiting the Car example from the topic 'References', where we explained the where rule applied to a text property, we can show you why the notation `.&'where'` is used:
 ```js
-'Electric vehicles': collection ['Vehicle'] {
-	'Vehicle': text
-	'Color': text
-	'Is': stategroup (
-		'Fast' {
-			'Top speed': number 'km/h'
-		}
-		'Slow' { }
-	)
-}
-
-'Car': text -> .'Electric vehicles'[] as $
-	where 'fast' -> $ .'Is'?'Fast'
-
-'Top speed': number 'km/h' = .'Car'&'fast' .'Top speed'
+{% include_relative snippets/where-car.alan %}
 ```
 Here we used property `Car` with reference rule `fast` (this means `Car` can only have values of `Electric vehicles` that also have state `Fast`) to derive `Top speed` by using the notation `.'property'&'where'`.
 Back to our model, as a state is not a property there is no property to refer to and therefore the notation becomes `.&'where'`.
@@ -396,30 +174,15 @@ The example is a bit far fetched but it gives a preview into how intricate model
 ## More advanced references
 We haven't even touched on the subject 'kitchen' yet. The kitchen is where ingredients are turned into dishes. Basic ingredients need to be in stock, prices of products need to be monitored, etc. Let's start easy and create a seperate group `Kitchen` (between `Management` and `Service`), a collection `Products` and a stategroup that show if a product is a basic ingredient or a composed product (for example a dish):
 ```js
-'Kitchen': group {
-	'Products': collection ['Product'] {
-		'Product': text
-		'Product type': stategroup (
-			'Basic ingredient' { }
-			'Composed product' { }
-		)
-	}
-}
+{% include_relative snippets/kitchen-v1.alan %}
 ```
 If it's a basic ingredient (state `Basic ingredient`) we would like to register the purchase price and the amount this price refers to, for example 1000 grams of potato's cost 5 euro:
 ```js
-'Basic ingredient' {
-	'Amount': number positive 'units'
-	'Purchase price': number 'thousandth eurocent'
-}
+{% include_relative snippets/basic-ingredient.alan %}
 ```
 Also add the new numerical-type `thousandth eurocent`:
 ```js
-'thousandth eurocent'
-	@numerical-type: (
-		label: "Euro"
-		decimals: 5
-	)
+{% include_relative snippets/thousandth-eurocent.alan %}
 ```
 This means a number like 500.000 will be represented as "Euro 5,00000". If later on the purchase cost of for example potato per unit is calculated, by dividing 500.000 by 1.000, the result ("Euro 0,00500") is accurate enough for further calculations.
 A composed product consists of other composed products and/or basic ingredients, for example mashed potato with suaerkraut consists of a composed product potato mash and a basic ingredient sauerkraut. Potato mash consists of the basic ingredients potato, milk and butter in certain quantities. These products all exist as nodes on the same level within our collection `Products`:
@@ -432,13 +195,7 @@ A composed product consists of other composed products and/or basic ingredients,
 
 If a products has state `Composed product` we want to know a cost price by adding the prices of the ingredients proportionally to the required amount. Let's first describe that composed products consist of products from the same collection:
 ```js
-'Composed product' {
-	'Composed amount': number positive 'units'
-	'Ingredients': collection ['Product'] {
-		'Product': text -> ^ ^ ^ .'Products'[]
-		'Amount': number 'units'
-	}
-}
+{% include_relative snippets/composed-product-selfref.alan %}
 ```
 Build your model and an error occurs:
 >'property' `Products` is a self-reference, but a reference to a sibling is required.
@@ -446,60 +203,17 @@ Build your model and an error occurs:
 What this means is exactly what we try to accomplish ( a self-reference), but the compiler doesn't comply and needs 'a reference to a sibling'. To understand this you first need to know that all nodes in the same collection are siblings: They all 'live' on the same level.
 To refer to a node from within another node in the same collection we need to apply the word `sibling`:
 ```js
-'Composed product' {
-	'Composed amount': number positive 'units'
-	'Ingredients': collection ['Product'] {
-		'Product': text -> ^ ^ sibling
-		'Amount': number 'units'
-	}
-}
+{% include_relative snippets/composed-product-sibling.alan %}
 ```
 Be aware that we jump up two levels instead of the three (in the previous reference)! If we want to refer to a sibling a reference is needed to the level of the key of a collection, not to the level of the collection itself.
 Next up is the calculation of a price, without taking into account the amount for now, to create the model step by step. Shown below is the group `Kitchen` we build sofar, including the cost price calculations:
 ```js
-'Kitchen': group {
-	'Products': collection ['Product'] {
-		'Product': text
-		'Product type': stategroup (
-			'Basic ingredient' {
-				'Amount': number positive 'units'
-				'Purchase price': number 'thousandth eurocent'
-			}
-			'Composed product' {
-				'Composed amount': number positive 'units'
-				'Ingredients': collection ['Product'] {
-					'Product': text -> ^ ^ sibling
-					'Amount': number 'units'
-					'Price': number 'thousandth eurocent' = ( sibling ) >'Product' .'Cost price'
-				}
-			}
-		)
-		'Cost price': number 'thousandth eurocent' = ( sibling ) switch .'Product type' (
-			|'Basic ingredient' as $'basic' => $'basic' .'Purchase price'
-			|'Composed product' as $'composed' => sum $'composed' .'Ingredients'* .'Price'
-		)
-	}
-}
+{% include_relative snippets/kitchen-cost-price.alan %}
 ```
 
 The price of an ingredient of a composed product is determined by the price that is listed under that product's cost price. So: `'Price' ... = ... >'Product' .'Cost price'` points here:
 ```js
-'Products': collection ['Product'] {
-	'Product': text
-	'Product type': stategroup (
-		'Basic ingredient' { ... }
-		'Composed product' {
-			...
-			'Ingredients': collection ['Product'] {
-				...
-				'Price': number 'thousandth eurocent' = ( sibling ) >'Product' .'Cost price'	// ----> !!
-			}
-		}
-	)
-	'Cost price': number 'thousandth eurocent' = ( sibling ) switch .'Product type' (			// <---- !!
-		...
-	)
-}
+{% include_relative snippets/kitchen-cost-price-pointers.alan %}
 ```
 
 And the cost price per product is derived from whether it's a `Basic ingredient` or a `Composed product`. Either we can simply use the `Purchase price` or we need to sum the prices of all the ingredients that make up the composed product: `sum $'composed' .'Ingredients'* .'Price'`.
@@ -515,15 +229,13 @@ So, in the example of mashed potato with sauerkraut (composed product) the cost 
 And is detemined like this:
 €<sub>mashed potato with sauerkraut</sub> = €<sub>sauerkraut</sub> + €<sub>potato mash</sub> = €<sub>sauerkraut</sub> + ( €<sub>potato</sub> + €<sub>milk</sub> + €<sub>butter</sub> )
 
-Every time a derivation uses information from a sibling we need to tell the compiler it should look for a sibling by adding `( sibling )` (make sure you add the space before and after the word `sibling`!).
+Reading a value from a sibling in a derivation, however, is not something the compiler accepts just like that.
 Let's build the model and find out another error occurs:
->no valid 'dependency location' found for 'property'. Unexpected 'relative object location':
-	- expected:  'non sibling entity'
-	- but found: 'sibling entity'
+>cyclic dependency detected for inference 'dependencies'
 
 And the error points to `Cost price` in this line:
 ```js
-'Price': number 'thousandth eurocent' = ( sibling ) >'Product' .'Cost price'
+{% include_relative snippets/price-sibling-error.alan %}
 ```
 
 Keyword `sibling` in this line `'Product': text -> ^ ^ sibling` solves the problem of not being able to point at a node within the same collection (a user can now say potato mash consists of potato, milk and butter), but also creates a new problem: A user could potentially say that potato mash consists of potato which consists of potato mash, or even worse, that potato mash consists of potato mash itself! Without getting philosophical about whether this is correct or not on an existential level, if a computer would try to calculate the price of potato mash it would end up in an eternal calculation.
@@ -543,26 +255,20 @@ It's the relations between the nodes in a collection that is constrained, not th
 
 Continuing with our model, we need to add an acyclic-graph constraint. This is achieved like this:
 ```js
-'Kitchen': group {
-	'Products': collection ['Product']
-		'Assembly': acyclic-graph
-	{ ... }
+{% include_relative snippets/products-acyclic.alan %}
 ```
 And the reference to a sibling needs to be added to this graph `Assembly`:
 ```js
-'Product': text -> ^ ^ sibling in ('Assembly')
+{% include_relative snippets/product-in-assembly.alan %}
 ```
 The graph `Assembly` stores the relations (edges) between all the nodes and makes sure these remain acyclic. In the app either a user can't select the product that would create a cyclic graph or the app throws an error telling the user it can't save the selected settings.
-Finally the derivations need to be aware of this acyclic-graph constraint and know which graph to consult when performing calculations (so it won't end up in a never ending loop):
+Finally the derivations need to be aware of this acyclic-graph constraint and know which graph to consult when performing calculations (so it won't end up in a never ending loop). The keyword `recurse` does exactly that:
 ```js
-'Price': number 'thousandth eurocent' = ( sibling in ^ ^ 'Assembly' ) >'Product' .'Cost price'
+{% include_relative snippets/price-in-assembly.alan %}
 ```
 And:
 ```js
-'Cost price': number 'thousandth eurocent' = ( sibling in 'Assembly' ) switch .'Product type' (
-	|'Basic ingredient' as $'basic' => $'basic' .'Purchase price'
-	|'Composed product' as $'composed' => sum $'composed' .'Ingredients'* .'Price'
-)
+{% include_relative snippets/cost-price-in-assembly.alan %}
 ```
 
 The app now looks like this:
@@ -573,32 +279,18 @@ Let's take a look at `Potato mash`:
 It consists of butter, milk and potato, each products that can also be found in the same collection `Products`. As expected there's something off with the price: It does not yet take into account the amounts.
 For each ingredient we would like to calculate the price for the amount that is used in the composed product. So we change the calculation of `Price` and add a calculation for `Price per unit` in collection `Ingredients`:
 ```js
-'Ingredients': collection ['Product'] {
-	'Product': text -> ^ ^ sibling in ('Assembly')
-	'Amount': number 'units'
-	'Price per unit': number 'thousandth eurocent' = ( sibling in ^ ^ 'Assembly' ) division ( >'Product'.'Cost price' as 'thousandth eurocent' , >'Product'.'Amount' )
-	'Price': number 'thousandth eurocent' = ( sibling in ^ ^ 'Assembly' ) product ( .'Price per unit' as 'thousandth eurocent' , .'Amount' )
-}
+{% include_relative snippets/ingredients-price-per-unit.alan %}
 ```
 The calculation `Price per unit` refers to `Amount` in the node type of the collection `Products`. This needs to be added and has a similar structure as the derivation of `Cost price`:
 ```js
-'Amount': number positive 'units' = ( sibling in 'Assembly' ) switch .'Product type' (
-	|'Basic ingredient' as $'basic' => $'basic' .'Amount'
-	|'Composed product' as $'composed' => $'composed' .'Composed amount'
-)
+{% include_relative snippets/products-amount.alan %}
 ```
 `Price per unit` is determined by dividing the cost price of the ingredient by the (purchased) amount. `Price` is then the product of this `Price per unit` and the amount required in the composed product. The `Cost price` remains the same: `Purchased price` for basic ingredients and `Price` for composed products.
 Amounts all have `units` for unit. This can be kilogram, gram, liter, pieces, etc. Deriving the amount of a composed product from its ingredients (similar to the derivation of the price) would require us to know specific volumes or masses of all the ingredients. Then we would be able to calculate how they add up to the weight or volume of the composed product. We won't get into this part in this tutorial. The units of a composed product need to be added by the user.
 
 Be aware to also add to numerical-type `thousandth eurocent` the product and division conversion rules (in that order):
 ```js
-'thousandth eurocent'
-	= 'thousandth eurocent' * 'units'
-	= 'thousandth eurocent' / 'units'
-	@numerical-type: (
-		label: "Euro"
-		decimals: 5
-	)
+{% include_relative snippets/thousandth-eurocent-conversions.alan %}
 ```
 
 Our potato mash now costs less, because the ingredients cost less:
@@ -606,16 +298,12 @@ Our potato mash now costs less, because the ingredients cost less:
 
 To end this topic, we can add a stategroup `To be put on menu` in the collection `Products`, to specify for each product if it can be ordered by a customer:
 ```js
-'To be put on menu': stategroup (
-	'Yes' { }
-	'No' { }
-)
+{% include_relative snippets/to-be-put-on-menu.alan %}
 ```
 
 In the collection `Menu` within group `Service` the key `Item name` now can refer to this collection `Products` and specifically to the state `Yes` of stategroup `To be put on menu`:
 ```js
-'Item name': text -> ^ ^ .'Kitchen' .'Products'[] as $
-	where 'menu item' -> $ .'To be put on menu'?'Yes'
+{% include_relative snippets/menu-item-name-where.alan %}
 ```
 <sup>(NOTE: `as $` is implicit, after the reference constraint in the first line)</sup>
 

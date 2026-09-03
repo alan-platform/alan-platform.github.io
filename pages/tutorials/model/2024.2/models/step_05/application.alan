@@ -1,0 +1,71 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	//@ begin management
+	'Management': group {
+		'Discount periods': collection ['Period'] {
+			'Period': text
+			'Percentage': number 'percent'
+			'Minimal spendings': number 'eurocent'
+		}
+		'VAT percentage': number 'percent'
+		'Beverage types': collection ['Beverage type'] {
+			'Beverage type': text
+		}
+		'Tables': collection ['Table number'] {
+			'Table number': text
+			'Seatings': number 'chairs'
+		}
+	}
+	//@ end management
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': text -> ^ ^ .'Management'.'Beverage types'[]
+			}
+		)
+	}
+	'Orders': collection ['Order'] {
+		'Order': text
+		'Order type': stategroup (
+			'Takeaway' { }
+			'In-house' {
+				'Table': text -> ^ ^ .'Management'.'Tables'[]
+			}
+		)
+		'Order lines': collection ['Order line'] {
+			'Order line': text
+			'Item': text -> ^ ^ .'Menu'[]
+			'Amount': number 'units'
+			'Line total': number 'eurocent' = product ( .'Amount' as 'units', >'Item'.'Selling price' )
+		}
+		//@ begin subtotal
+		'Subtotal': number 'eurocent' = sum .'Order lines'* .'Line total'
+		//@ end subtotal
+	}
+}
+
+numerical-types
+	'eurocent'
+		= 'units' * 'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'
+	//@ begin percent
+	'percent'
+	//@ end percent

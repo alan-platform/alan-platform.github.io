@@ -1,0 +1,7 @@
+'thousandth eurocent'
+	= 'thousandth eurocent' * 'units'
+	= 'thousandth eurocent' / 'units'
+	@numerical-type: (
+		label: "Euro"
+		decimals: 5
+	)

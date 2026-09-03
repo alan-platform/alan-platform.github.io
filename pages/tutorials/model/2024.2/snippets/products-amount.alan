@@ -1,0 +1,4 @@
+'Amount': number positive 'units' = ( recurse 'Assembly' ) switch .'Product type' (
+	|'Basic ingredient' as $'basic' => $'basic'.'Amount'
+	|'Composed product' as $'composed' => $'composed'.'Composed amount'
+)

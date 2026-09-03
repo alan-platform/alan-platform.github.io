@@ -1,9 +1,0 @@
-numerical-types
-	'eurocent'
-		=  'units' * 'eurocent'
-		@numerical-type: (
-			label: "Euro"
-			decimals: 2
-		)
-	'chairs'
-	'units'

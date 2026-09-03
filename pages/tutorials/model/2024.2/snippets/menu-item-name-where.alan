@@ -1,0 +1,2 @@
+'Item name': text -> ^ ^ .'Kitchen'.'Products'[] as $
+	where 'menu item' -> $ .'To be put on menu'?'Yes'

@@ -1,0 +1,24 @@
+users
+	anonymous
+
+interfaces
+
+//@ begin stategroups1
+root {
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' { }
+			'Beverage' { }
+		)
+	}
+}
+//@ end stategroups1
+
+numerical-types
+	'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)

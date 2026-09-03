@@ -1,0 +1,4 @@
+'Cost price': number 'thousandth eurocent' = ( recurse 'Assembly' ) switch .'Product type' (
+	|'Basic ingredient' as $'basic' => $'basic'.'Purchase price'
+	|'Composed product' as $'composed' => sum $'composed'.'Ingredients'* .'Price'
+)
