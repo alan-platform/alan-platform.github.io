@@ -1,0 +1,5 @@
+# Development build: skips every language documentation tree except `model`.
+# Rendering all generated documentation takes minutes; with this override a build takes seconds.
+# Usage: bundle exec jekyll serve --config _config.yml,_config.dev.yml
+exclude:
+  - pages/docs/[!m]*
