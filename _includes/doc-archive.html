@@ -1,47 +1,11 @@
-<table>
-	{% assign prev = site %}
-	{% for version in site.data.versions.versions %}
-		{% if version.alan %}
-			<tr>
-				<th>
-					<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">{{ version.name }}</a>
-				</th>
-				{% assign header = version.name %}
-				<td colspan="2">
-					<a href="{{ version.alan }}"><code>alan</code> script</a>
-				</td>
-			</tr>
-		{% endif %}
-		{% for url in version.pages %}
-			<tr>
-				<th>
-				{% if header != version.name %}
-					<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">{{ version.name }}</a>
-				{% endif %}
-				{% assign header = version.name %}
-				</th>
-
-				{% assign item_url = url | remove_first: "pages/docs/" %}
-				{% assign item_url_parts = item_url | split: "/" %}
-				{% assign name = item_url_parts | first %}
-				{% assign num = item_url_parts | slice: 1, 1 %}
-				<td>
-					{% if prev != name %}
-						{{ name }}
-						{{ num }}
-					{% endif %}
-				</td>
-				<td>
-					<a href="{{url | relative_url }}">
-						{% for part in item_url_parts offset:2 %}
-							{% unless part contains '.html' %}
-								{{ part }}
-							{% endunless %}
-						{% endfor %}
-					</a>
-				</td>
-			</tr>
-			{% assign prev = name %}
-		{% endfor %}
-	{% endfor %}
-</table>
+{% comment %} Top-level tags start at column 0: this include is rendered inside markdown, where indented lines become code. {% endcomment %}
+{% for version in site.data.versions.versions %}
+<details class="archive"{% if version.name == site.data.versions.current %} open{% endif %}>
+<summary>
+	{{ version.name }}
+	<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">versions.json</a>
+	{% if version.alan %}<a href="{{ version.alan }}">alan script</a>{% endif %}
+</summary>
+{% include doc-table.html version=version %}
+</details>
+{% endfor %}

@@ -1,0 +1,17 @@
+{% comment %}
+	Table of the language documentation pages of one platform version: include.version is an entry of _data/versions.json.
+	Page paths are pages/docs/<system type>/<version>/<language>/<file>.html.
+{% endcomment %}
+{% assign page_key = page.path | replace: '.md', '.html' %}
+{% assign prev = '' %}
+<table>
+	{% for url in include.version.pages %}
+		{% assign parts = url | remove_first: 'pages/docs/' | split: '/' %}
+		<tr{% if url == page_key %} class="current"{% endif %}>
+			<th>{% if parts[0] != prev %}{{ parts[0] }}{% endif %}</th>
+			<td>{% if parts[0] != prev %}{{ parts[1] }}{% endif %}</td>
+			<td><a href="{{ url | relative_url }}">{{ parts[2] }}</a></td>
+		</tr>
+		{% assign prev = parts[0] %}
+	{% endfor %}
+</table>

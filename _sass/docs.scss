@@ -60,6 +60,22 @@ table {
     }
 }
 
+details.archive {
+    summary {
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        a {
+            margin-left: 1em;
+            font-size: 1rem;
+            font-weight: normal;
+        }
+    }
+    table {
+        margin-top: 0;
+    }
+}
+
 [aria-controls='doc-list'] {
     -webkit-appearance: none;
     margin: 0 0 0 1rem;
