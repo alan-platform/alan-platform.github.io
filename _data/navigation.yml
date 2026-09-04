@@ -1,0 +1,7 @@
+# Main navigation, in order.
+- title: About
+  url: /about/
+- title: Docs
+  url: /docs/
+- title: FAQ
+  url: /faq/
