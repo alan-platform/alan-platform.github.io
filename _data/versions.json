@@ -3,6 +3,7 @@
 	"versions": [
 		{
 			"name": "2026.2",
+			"alan": "https://dist.alan-platform.com/share/versions/2026.2/alan",
 			"pages": [
 				"pages/docs/model/108/application/grammar.html",
 				"pages/docs/interface/20/interface/grammar.html",

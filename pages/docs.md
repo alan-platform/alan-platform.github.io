@@ -21,6 +21,33 @@ permalink: /docs/
 - An [older tutorial](/pages/tuts/getting-started.html): a quick starter
 
 
+{% comment %}
+	The alan script is offered per platform version in _data/versions.json ("alan" field).
+	Show the quickstart for the newest version that has one.
+{% endcomment %}
+{% assign alan_version = nil %}
+{% for v in site.data.versions.versions %}
+	{% if alan_version == nil and v.alan %}
+		{% assign alan_version = v %}
+	{% endif %}
+{% endfor %}
+{% if alan_version %}
+<a name="alan"></a>
+### The `alan` script ({{ alan_version.name }}):
+
+The [`alan`]({{ alan_version.alan }}) script is the command-line entry point to the platform.
+It downloads the toolchain for its platform version, sets up an empty project from a template, builds the project, and packages it for deployment.
+
+```sh
+curl -O {{ alan_version.alan }}
+chmod +x alan
+./alan init     # empty project from the default template, fetches the {{ alan_version.name }} toolchain
+./alan build
+```
+
+Run `./alan --help` for all subcommands.
+{% endif %}
+
 <a name="languages"></a>
 ### Language documentation ({{ site.data.versions.current }}):
 

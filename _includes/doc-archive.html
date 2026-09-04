@@ -1,6 +1,17 @@
 <table>
 	{% assign prev = site %}
 	{% for version in site.data.versions.versions %}
+		{% if version.alan %}
+			<tr>
+				<th>
+					<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">{{ version.name }}</a>
+				</th>
+				{% assign header = version.name %}
+				<td colspan="2">
+					<a href="{{ version.alan }}"><code>alan</code> script</a>
+				</td>
+			</tr>
+		{% endif %}
 		{% for url in version.pages %}
 			<tr>
 				<th>
