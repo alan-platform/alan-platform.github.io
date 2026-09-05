@@ -1,0 +1,32 @@
+{
+	"platform version": "2023.4",
+	"system types": {
+		"auto-webclient": {
+			"version": "worf.13"
+		},
+		"connector": {
+			"version": "35.2"
+		},
+		"datastore": {
+			"version": "111"
+		},
+		"emailnotifier": {
+			"version": "24"
+		},
+		"relational-database-bridge": {
+			"version": "109"
+		},
+		"image-http": {
+			"version": "15"
+		},
+		"session-manager": {
+			"version": "26"
+		},
+		"sql-mirror": {
+			"version": "109.1"
+		},
+		"webclient": {
+			"version": "worf.13.1"
+		}
+	}
+}

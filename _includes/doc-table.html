@@ -1,17 +1,18 @@
 {% comment %}
-	Table of the language documentation pages of one platform version: include.version is an entry of _data/versions.json.
-	Page paths are pages/docs/<system type>/<version>/<language>/<file>.html.
+	Language documentation table of one platform version; include.version is an entry of _data/versions.json.
+	Platform component versions come from that entry, system type versions from _data/dist/<platform version>/versions.json
+	(Jekyll drops the dot from that directory name). The rows come from the documentation pages themselves, see doc-rows.html.
+	Liquid assigns to the outermost scope, so the variable names must not collide with loop variables of including templates.
 {% endcomment %}
-{% assign page_key = page.path | replace: '.md', '.html' %}
-{% assign prev = '' %}
+{% assign dist_key = include.version.name | remove: '.' %}
+{% assign dist = site.data.dist[dist_key].versions %}
 <table>
-	{% for url in include.version.pages %}
-		{% assign parts = url | remove_first: 'pages/docs/' | split: '/' %}
-		<tr{% if url == page_key %} class="current"{% endif %}>
-			<th>{% if parts[0] != prev %}{{ parts[0] }}{% endif %}</th>
-			<td>{% if parts[0] != prev %}{{ parts[1] }}{% endif %}</td>
-			<td><a href="{{ url | relative_url }}">{{ parts[2] }}</a></td>
-		</tr>
-		{% assign prev = parts[0] %}
+	{% for component in include.version.platform %}
+		{% assign doc_type = component[0] %}{% assign doc_version = component[1] %}
+		{% include_cached doc-rows.html type=doc_type version=doc_version %}
+	{% endfor %}
+	{% for entry in dist["system types"] %}
+		{% assign doc_type = entry[0] %}{% assign doc_version = entry[1].version %}
+		{% include_cached doc-rows.html type=doc_type version=doc_version %}
 	{% endfor %}
 </table>

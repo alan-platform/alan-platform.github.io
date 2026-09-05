@@ -1,0 +1,32 @@
+{
+	"platform version": "2024.1",
+	"system types": {
+		"auto-webclient": {
+			"version": "xindi.1"
+		},
+		"connector": {
+			"version": "36.5"
+		},
+		"datastore": {
+			"version": "113"
+		},
+		"emailnotifier": {
+			"version": "24"
+		},
+		"relational-database-bridge": {
+			"version": "110"
+		},
+		"image-http": {
+			"version": "15"
+		},
+		"session-manager": {
+			"version": "30"
+		},
+		"sql-mirror": {
+			"version": "113"
+		},
+		"webclient": {
+			"version": "xindi.1.1"
+		}
+	}
+}

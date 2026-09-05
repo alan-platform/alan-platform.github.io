@@ -1,0 +1,26 @@
+{
+	"platform version": "2026.2",
+	"system types": {
+		"auto-webclient": {
+			"version": "zora.1"
+		},
+		"connector": {
+			"version": "39"
+		},
+		"datastore": {
+			"version": "119.2"
+		},
+		"relational-database-bridge": {
+			"version": "111"
+		},
+		"session-manager": {
+			"version": "33"
+		},
+		"sql-mirror": {
+			"version": "119.2"
+		},
+		"webclient": {
+			"version": "zora.1.0"
+		}
+	}
+}

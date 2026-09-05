@@ -4,260 +4,67 @@
 		{
 			"name": "2026.2",
 			"alan": "https://dist.alan-platform.com/share/versions/2026.2/alan",
-			"pages": [
-				"pages/docs/model/108/application/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/zora.1/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/zora.1/generator_annotations/grammar.html",
-				"pages/docs/auto-webclient/zora.1/phrases/grammar.html",
-				"pages/docs/auto-webclient/zora.1/query/grammar.html",
-				"pages/docs/auto-webclient/zora.1/translations/grammar.html",
-				"pages/docs/auto-webclient/zora.1/parameters/grammar.html",
-				"pages/docs/connector/39/processor/grammar.html",
-				"pages/docs/connector/39/variables/grammar.html",
-				"pages/docs/datastore/119.1/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/119.1/provided_interface_implementation/grammar.html",
-				"pages/docs/relational-database-bridge/111/database/grammar.html",
-				"pages/docs/relational-database-bridge/111/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/119.1/sql_mapping/grammar.html",
-				"pages/docs/webclient/zora.1.0/views/grammar.html",
-				"pages/docs/webclient/zora.1.0/widget/grammar.html",
-				"pages/docs/webclient/zora.1.0/client bindings/client_bindings.html",
-				"pages/docs/webclient/zora.1.0/gui_model/grammar.html",
-				"pages/docs/webclient/zora.1.0/phrases/grammar.html",
-				"pages/docs/webclient/zora.1.0/translations/grammar.html",
-				"pages/docs/webclient/zora.1.0/settings/grammar.html",
-				"pages/docs/webclient/zora.1.0/parameters/grammar.html",
-				"pages/docs/webclient/zora.1.0/default features/features.html",
-				"pages/docs/webclient/zora.1.0/main/grammar.html",
-				"pages/docs/webclient/zora.1.0/query/grammar.html",
-				"pages/docs/project-build-environment/44/project_wiring/grammar.html",
-				"pages/docs/project-build-environment/44/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "108",
+				"interface": "20",
+				"project-build-environment": "44"
+			}
 		},
 		{
 			"name": "2026.1",
-			"pages": [
-				"pages/docs/model/107/application/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/zora.0/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/zora.0/generator_annotations/grammar.html",
-				"pages/docs/auto-webclient/zora.0/phrases/grammar.html",
-				"pages/docs/auto-webclient/zora.0/query/grammar.html",
-				"pages/docs/auto-webclient/zora.0/translations/grammar.html",
-				"pages/docs/auto-webclient/zora.0/parameters/grammar.html",
-				"pages/docs/connector/38/processor/grammar.html",
-				"pages/docs/connector/38/variables/grammar.html",
-				"pages/docs/datastore/117/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/117/provided_interface_implementation/grammar.html",
-				"pages/docs/relational-database-bridge/110/database/grammar.html",
-				"pages/docs/relational-database-bridge/110/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/117/sql_mapping/grammar.html",
-				"pages/docs/webclient/zora.0.0/views/grammar.html",
-				"pages/docs/webclient/zora.0.0/widget/grammar.html",
-				"pages/docs/webclient/zora.0.0/client bindings/client_bindings.html",
-				"pages/docs/webclient/zora.0.0/gui_model/grammar.html",
-				"pages/docs/webclient/zora.0.0/phrases/grammar.html",
-				"pages/docs/webclient/zora.0.0/translations/grammar.html",
-				"pages/docs/webclient/zora.0.0/settings/grammar.html",
-				"pages/docs/webclient/zora.0.0/parameters/grammar.html",
-				"pages/docs/webclient/zora.0.0/default features/features.html",
-				"pages/docs/webclient/zora.0.0/main/grammar.html",
-				"pages/docs/webclient/zora.0.0/query/grammar.html",
-				"pages/docs/project-build-environment/44/project_wiring/grammar.html",
-				"pages/docs/project-build-environment/44/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "107",
+				"interface": "20",
+				"project-build-environment": "44"
+			}
 		},
 		{
 			"name": "2024.2",
-			"pages": [
-				"pages/docs/model/106/application/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/yar.11/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/yar.11/generator_annotations/grammar.html",
-				"pages/docs/auto-webclient/yar.11/phrases/grammar.html",
-				"pages/docs/auto-webclient/yar.11/query/grammar.html",
-				"pages/docs/auto-webclient/yar.11/translations/grammar.html",
-				"pages/docs/auto-webclient/yar.11/parameters/grammar.html",
-				"pages/docs/connector/36.5/processor/grammar.html",
-				"pages/docs/connector/36.5/variables/grammar.html",
-				"pages/docs/datastore/116/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/116/provided_interface_implementation/grammar.html",
-				"pages/docs/datastore/116/migration_mapping/grammar.html",
-				"pages/docs/datastore/116/regular_expression_engine/grammar.html",
-				"pages/docs/relational-database-bridge/110/database/grammar.html",
-				"pages/docs/relational-database-bridge/110/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/116/sql_mapping/grammar.html",
-				"pages/docs/webclient/yar.11.0/views/grammar.html",
-				"pages/docs/webclient/yar.11.0/widget/grammar.html",
-				"pages/docs/webclient/yar.11.0/client bindings/client_bindings.html",
-				"pages/docs/webclient/yar.11.0/gui_model/grammar.html",
-				"pages/docs/webclient/yar.11.0/phrases/grammar.html",
-				"pages/docs/webclient/yar.11.0/translations/grammar.html",
-				"pages/docs/webclient/yar.11.0/settings/grammar.html",
-				"pages/docs/webclient/yar.11.0/parameters/grammar.html",
-				"pages/docs/webclient/yar.11.0/default features/features.html",
-				"pages/docs/webclient/yar.11.0/main/grammar.html",
-				"pages/docs/webclient/yar.11.0/query/grammar.html",
-				"pages/docs/project-build-environment/41/wiring/grammar.html",
-				"pages/docs/project-build-environment/41/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "106",
+				"interface": "20",
+				"project-build-environment": "41"
+			}
 		},
 		{
 			"name": "2024.1",
-			"pages": [
-				"pages/docs/model/105/application/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/xindi.1/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/xindi.1/generator_annotations/grammar.html",
-				"pages/docs/auto-webclient/xindi.1/phrases/grammar.html",
-				"pages/docs/auto-webclient/xindi.1/query/grammar.html",
-				"pages/docs/auto-webclient/xindi.1/translations/grammar.html",
-				"pages/docs/auto-webclient/xindi.1/parameters/grammar.html",
-				"pages/docs/connector/36.5/processor/grammar.html",
-				"pages/docs/connector/36.5/variables/grammar.html",
-				"pages/docs/datastore/113/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/113/provided_interface_implementation/grammar.html",
-				"pages/docs/datastore/113/migration_mapping/grammar.html",
-				"pages/docs/datastore/113/regular_expression_engine/grammar.html",
-				"pages/docs/relational-database-bridge/109/database/grammar.html",
-				"pages/docs/relational-database-bridge/109/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/109.1/sql_mapping/grammar.html",
-				"pages/docs/webclient/xindi.1.1/views/grammar.html",
-				"pages/docs/webclient/xindi.1.1/widget/grammar.html",
-				"pages/docs/webclient/xindi.1.1/client bindings/client_bindings.html",
-				"pages/docs/webclient/xindi.1.1/gui_model/grammar.html",
-				"pages/docs/webclient/xindi.1.1/phrases/grammar.html",
-				"pages/docs/webclient/xindi.1.1/translations/grammar.html",
-				"pages/docs/webclient/xindi.1.1/settings/grammar.html",
-				"pages/docs/webclient/xindi.1.1/parameters/grammar.html",
-				"pages/docs/project-build-environment/41/wiring/grammar.html",
-				"pages/docs/project-build-environment/41/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "105",
+				"interface": "20",
+				"project-build-environment": "41"
+			}
 		},
 		{
 			"name": "2023.4",
-			"pages": [
-				"pages/docs/model/103/application/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/worf.13/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/worf.13/generator_annotations/grammar.html",
-				"pages/docs/auto-webclient/worf.13/phrases/grammar.html",
-				"pages/docs/auto-webclient/worf.13/query/grammar.html",
-				"pages/docs/auto-webclient/worf.13/translations/grammar.html",
-				"pages/docs/auto-webclient/worf.13/parameters/grammar.html",
-				"pages/docs/connector/35.2/processor/grammar.html",
-				"pages/docs/connector/35.2/variables/grammar.html",
-				"pages/docs/datastore/111/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/111/provided_interface_implementation/grammar.html",
-				"pages/docs/datastore/111/migration_mapping/grammar.html",
-				"pages/docs/datastore/111/regular_expression_engine/grammar.html",
-				"pages/docs/relational-database-bridge/109/database/grammar.html",
-				"pages/docs/relational-database-bridge/109/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/109.1/sql_mapping/grammar.html",
-				"pages/docs/webclient/worf.13.1/views/grammar.html",
-				"pages/docs/webclient/worf.13.1/widget/grammar.html",
-				"pages/docs/webclient/worf.13.1/client bindings/client_bindings.html",
-				"pages/docs/webclient/worf.13.1/gui_model/grammar.html",
-				"pages/docs/webclient/worf.13.1/phrases/grammar.html",
-				"pages/docs/webclient/worf.13.1/translations/grammar.html",
-				"pages/docs/webclient/worf.13.1/settings/grammar.html",
-				"pages/docs/webclient/worf.13.1/parameters/grammar.html",
-				"pages/docs/project-build-environment/37/wiring/grammar.html",
-				"pages/docs/project-build-environment/37/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "103",
+				"interface": "20",
+				"project-build-environment": "37"
+			}
 		},
 		{
 			"name": "2022.8",
-			"pages": [
-				"pages/docs/model/99/application/grammar.html",
-				"pages/docs/model/99/client_request/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/voyager.2/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/voyager.2/phrases/grammar.html",
-				"pages/docs/auto-webclient/voyager.2/query/grammar.html",
-				"pages/docs/auto-webclient/voyager.2/translations/grammar.html",
-				"pages/docs/auto-webclient/voyager.2/parameters/grammar.html",
-				"pages/docs/connector/34.0/processor/grammar.html",
-				"pages/docs/connector/34.0/variables/grammar.html",
-				"pages/docs/datastore/103/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/103/provided_interface_implementation/grammar.html",
-				"pages/docs/datastore/103/migration_mapping/grammar.html",
-				"pages/docs/datastore/103/regular_expression_engine/grammar.html",
-				"pages/docs/relational-database-bridge/108/database/grammar.html",
-				"pages/docs/relational-database-bridge/108/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/101/sql_mapping/grammar.html",
-				"pages/docs/webclient/voyager.2.0/views/grammar.html",
-				"pages/docs/webclient/voyager.2.0/widget/grammar.html",
-				"pages/docs/webclient/voyager.2.0/client bindings/client_bindings.html",
-				"pages/docs/webclient/voyager.2.0/gui_model/grammar.html",
-				"pages/docs/webclient/voyager.2.0/phrases/grammar.html",
-				"pages/docs/webclient/voyager.2.0/translations/grammar.html",
-				"pages/docs/webclient/voyager.2.0/settings/grammar.html",
-				"pages/docs/webclient/voyager.2.0/parameters/grammar.html",
-				"pages/docs/project-build-environment/37/wiring/grammar.html",
-				"pages/docs/project-build-environment/37/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "99",
+				"interface": "20",
+				"project-build-environment": "37"
+			}
 		},
 		{
 			"name": "2022.2",
-			"pages": [
-				"pages/docs/model/97/application/grammar.html",
-				"pages/docs/model/97/client_request/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/uhura.6/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/uhura.6/phrases/grammar.html",
-				"pages/docs/auto-webclient/uhura.6/query/grammar.html",
-				"pages/docs/auto-webclient/uhura.6/translations/grammar.html",
-				"pages/docs/auto-webclient/uhura.6/parameters/grammar.html",
-				"pages/docs/connector/33.11/processor/grammar.html",
-				"pages/docs/connector/33.11/variables/grammar.html",
-				"pages/docs/datastore/99.1/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/99.1/provided_interface_implementation/grammar.html",
-				"pages/docs/datastore/99.1/migration_mapping/grammar.html",
-				"pages/docs/datastore/99.1/regular_expression_engine/grammar.html",
-				"pages/docs/relational-database-bridge/105/database/grammar.html",
-				"pages/docs/relational-database-bridge/105/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/96/sql_mapping/grammar.html",
-				"pages/docs/webclient/uhura.6.2/views/grammar.html",
-				"pages/docs/webclient/uhura.6.2/widget/grammar.html",
-				"pages/docs/webclient/uhura.6.2/client bindings/client_bindings.html",
-				"pages/docs/webclient/uhura.6.2/gui_model/grammar.html",
-				"pages/docs/webclient/uhura.6.2/phrases/grammar.html",
-				"pages/docs/webclient/uhura.6.2/translations/grammar.html",
-				"pages/docs/webclient/uhura.6.2/settings/grammar.html",
-				"pages/docs/webclient/uhura.6.2/parameters/grammar.html",
-				"pages/docs/project-build-environment/34/wiring/grammar.html",
-				"pages/docs/project-build-environment/34/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "97",
+				"interface": "20",
+				"project-build-environment": "34"
+			}
 		},
 		{
 			"name": "2021.10",
-			"pages": [
-				"pages/docs/model/89/application/grammar.html",
-				"pages/docs/model/89/client_request/grammar.html",
-				"pages/docs/interface/20/interface/grammar.html",
-				"pages/docs/auto-webclient/seven.5/generator_settings/grammar.html",
-				"pages/docs/auto-webclient/seven.5/phrases/grammar.html",
-				"pages/docs/auto-webclient/seven.5/translations/grammar.html",
-				"pages/docs/connector/27/processor/grammar.html",
-				"pages/docs/connector/27/variables/grammar.html",
-				"pages/docs/datastore/85/consumed_interfaces_mapping/grammar.html",
-				"pages/docs/datastore/85/provided_interface_implementation/grammar.html",
-				"pages/docs/datastore/85/migration_mapping/grammar.html",
-				"pages/docs/datastore/85/regular_expression_engine/grammar.html",
-				"pages/docs/relational-database-bridge/101/database/grammar.html",
-				"pages/docs/relational-database-bridge/101/database_transformation/grammar.html",
-				"pages/docs/sql-mirror/85/sql_mapping/grammar.html",
-				"pages/docs/webclient/seven.5.0/gui_model/grammar.html",
-				"pages/docs/webclient/seven.5.0/phrases/grammar.html",
-				"pages/docs/webclient/seven.5.0/settings/grammar.html",
-				"pages/docs/webclient/seven.5.0/translations/grammar.html",
-				"pages/docs/webclient/seven.5.0/views/grammar.html",
-				"pages/docs/webclient/seven.5.0/widget/grammar.html",
-				"pages/docs/project-build-environment/34/wiring/grammar.html",
-				"pages/docs/project-build-environment/34/deployment/grammar.html"
-			]
+			"platform": {
+				"model": "89",
+				"interface": "20",
+				"project-build-environment": "34"
+			}
 		}
 	]
 }

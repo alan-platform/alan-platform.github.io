@@ -1,0 +1,32 @@
+{
+	"platform version": "2024.2",
+	"system types": {
+		"auto-webclient": {
+			"version": "yar.11"
+		},
+		"connector": {
+			"version": "36.5"
+		},
+		"datastore": {
+			"version": "116"
+		},
+		"emailnotifier": {
+			"version": "24"
+		},
+		"relational-database-bridge": {
+			"version": "110"
+		},
+		"image-http": {
+			"version": "15"
+		},
+		"session-manager": {
+			"version": "31"
+		},
+		"sql-mirror": {
+			"version": "116"
+		},
+		"webclient": {
+			"version": "yar.11.0"
+		}
+	}
+}

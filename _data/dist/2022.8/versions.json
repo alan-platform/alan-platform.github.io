@@ -1,0 +1,32 @@
+{
+	"platform version": "2022.8",
+	"system types": {
+		"auto-webclient": {
+			"version": "voyager.2"
+		},
+		"connector": {
+			"version": "34.dev.2"
+		},
+		"datastore": {
+			"version": "102"
+		},
+		"emailnotifier": {
+			"version": "24"
+		},
+		"relational-database-bridge": {
+			"version": "107"
+		},
+		"image-http": {
+			"version": "15"
+		},
+		"session-manager": {
+			"version": "22"
+		},
+		"sql-mirror": {
+			"version": "101"
+		},
+		"webclient": {
+			"version": "voyager.2.0"
+		}
+	}
+}

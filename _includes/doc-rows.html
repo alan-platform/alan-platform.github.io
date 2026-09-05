@@ -1,0 +1,13 @@
+{% comment %}
+	Rows for one system type or platform component (include.type, include.version), selected by the front matter of the
+	documentation pages. Rendered through include_cached: once per type and version for the whole build, so nothing in
+	here may depend on the current page. The current page's row is highlighted by main.js.
+{% endcomment %}
+{% assign docs = site.pages | where: 'origin', include.type | where: 'version', include.version | sort: 'language' %}
+{% for doc in docs %}
+	<tr>
+		<th>{% if forloop.first %}{{ include.type }}{% endif %}</th>
+		<td>{% if forloop.first %}{{ include.version }}{% endif %}</td>
+		<td><a href="{{ doc.url | relative_url }}">{{ doc.language }}</a></td>
+	</tr>
+{% endfor %}

@@ -1,0 +1,35 @@
+{
+	"platform version": "2021.10",
+	"system types": {
+		"auto-webclient": {
+			"version": "seven.5"
+		},
+		"connector": {
+			"version": "27"
+		},
+		"datastore": {
+			"version": "85"
+		},
+		"emailnotifier": {
+			"version": "21"
+		},
+		"relational-database-bridge": {
+			"version": "101"
+		},
+		"image-http": {
+			"version": "11"
+		},
+		"session-manager": {
+			"version": "15"
+		},
+		"sql-mirror": {
+			"version": "85"
+		},
+		"webclient": {
+			"version": "seven.5.0"
+		},
+		"hosting-server": {
+			"version": "alpha.12"
+		}
+	}
+}

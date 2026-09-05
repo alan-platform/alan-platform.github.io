@@ -49,6 +49,13 @@ window.onload = function() {
         });
     }
 
+    // the documentation tables are rendered once per version (include_cached), so mark the current page here
+    document.querySelectorAll('table td > a').forEach(function(link) {
+        if (link.pathname === location.pathname) {
+            link.closest('tr').classList.add('current');
+        }
+    });
+
     document.querySelectorAll('pre.code-custom').forEach(function(block) {
         var button = document.createElement('a');
         button.href = "/pages/tuts/syntax.html"

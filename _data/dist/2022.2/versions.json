@@ -1,0 +1,35 @@
+{
+	"platform version": "2022.2",
+	"system types": {
+		"auto-webclient": {
+			"version": "uhura.6"
+		},
+		"connector": {
+			"version": "33.11"
+		},
+		"datastore": {
+			"version": "99.1"
+		},
+		"emailnotifier": {
+			"version": "22"
+		},
+		"relational-database-bridge": {
+			"version": "105"
+		},
+		"image-http": {
+			"version": "13"
+		},
+		"session-manager": {
+			"version": "20"
+		},
+		"sql-mirror": {
+			"version": "96"
+		},
+		"webclient": {
+			"version": "uhura.6.2"
+		},
+		"hosting-server": {
+			"version": "alpha.18"
+		}
+	}
+}
