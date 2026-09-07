@@ -11,48 +11,46 @@ platform_version: 2026.2
 {:toc}
 
 ## Introduction
-This guide explains how to **add users** and basic password **authentication** to your Alan application.
-The guide assumes familiarity with the Alan project structure from the online Alan IDE.
+Every app in the tutorials so far used `anonymous` users: anyone who opens the app can read and change everything.
+This guide replaces that with real users and password **authentication**, which is the basis for permissions — deciding who may see and change which part of the data.
 
-For enabling application users and authentication, the following steps are required:
-- updating your `application.alan` file
-- updating the `session-manager` (`systems/sessions`) configuration
-- deploying your app with an initial username and password for bootstrapping authentication
+It assumes the project structure of the online Alan IDE, as described in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html), and a model you can build, such as the one from the [application tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html).
 
+Three things need to change:
+- the `application.alan` model, which gains a users administration,
+- the `session-manager` configuration in `systems/sessions`, which handles logging in,
+- the deployment, which needs an initial username and password to bootstrap authentication.
 
 ## Updating your `application.alan`
-Read the section on **Application users** from the [application language docs](/pages/docs/model/{{ page.model_version }}/application/grammar.html#application-users).
-From the example model that you find there, copy the parts that you need for a `'Users'` and `'Passwords'` collection, and copy the contents of the `users` section.
-For basic password authentication, you can ignore the parts about *authorities*.
+Read the section on **Application users** in the [application language documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html#application-users).
+From the example model there, copy the parts you need for a `'Users'` and a `'Passwords'` collection, and the contents of the `users` section.
+The parts about *authorities* can be ignored for basic password authentication.
 
-Build your app, and fix any errors that you get.
-Note that if you removed `anonymous` from the `users` section, the compiler will complain about your client settings (`systems/client/settings.alan`).
-Fix the error by setting `anonymous login:` to `disabled`, as your app no longer supports `anonymous` users.
-
+Build the app and fix the errors that appear.
+Removing `anonymous` from the `users` section makes the compiler complain about the client settings in `systems/client/settings.alan`: set `anonymous login:` to `disabled` there, because the app no longer has anonymous users.
 
 ## Updating your *session-manager*
-An Alan *session-manager* is responsible for showing the login page, handling authentication, and storing and revoking user sessions.
-Open the file `systems/sessions/config.alan` and set `password-authentication:` to `enabled`.
+An Alan *session-manager* shows the login page, checks credentials, and stores and revokes user sessions.
+Open `systems/sessions/config.alan` and set `password-authentication:` to `enabled`.
 
-In the `config.alan` file, you can also enable user creation for supporting user sign-up via the login page.
-For user sign-up, make sure that you have the required `user-initializer:` section in your `application` model.
+The same file can enable user creation, which lets people sign up from the login page.
+Sign-up requires a `user-initializer:` section in the `application` model, which the documentation section above describes.
 
 ## Deploying your changes
-You can now run **Alan: Deploy** with the **'empty'** option. \*
+Run `Alan Deploy` and choose the **empty** option. \*
 
-After a succesfull deployment, open your app and sign in with these credentials:
+Open the app after the deployment succeeds and sign in with:
 
 > | **username:** | `root` |
 > | **password:** | `welcome` |
 
-When asked, choose your own password for the `root` user.
-You have now succesfully bootstrapped authentication.
-You can add `Users` in your app, and send them urls for signing in.
+Choose your own password for the `root` user when the app asks for it.
+Authentication is now bootstrapped: you can add `Users` in the app and send them the URL to sign in.
 
 <br>
-\* If you wish to use your own `migration.alan` file, follow these steps:
-- Run the [command](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) `Alan: Generate Migration` from VS Code, hit Enter twice, and select *'initialization from empty dataset'* as the *'migration type'*.
-- The generated file `migrations/from_empty/migration.alan` will provide you with initial username/password data for bootstrapping authentication. Copy the parts for the `Users` and `Passwords` collection to your own `migration.alan` file.
-***Do not change the username (or password hash) in your migration file!***
+\* The **empty** option deletes the data of the running app, which is what the first deployment with authentication needs.
+To keep your data, use your own `migration.alan` file instead:
+- Run the command `Alan: Generate Migration` from the [command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) in VS Code. It asks for the migration directory and the model to migrate to — accept the defaults with Enter — and then for the *'migration type'*: choose *'initialization from empty dataset'*.
+- The generated file `migrations/from_empty/migration.alan` contains initial username and password data. Copy the parts for the `Users` and `Passwords` collections into your own `migration.alan` file.
 
-
+***Do not change the username or the password hash in your migration file***: the hash is what makes `welcome` work as the initial password, and a changed hash locks you out of your own app.
