@@ -6,6 +6,7 @@ permalink: /docs/
 ---
 
 ### To get started with Alan:
+- [**Quick start**](/pages/tuts/getting-started.html): from a blank model to a small application with users
 - [An introduction to Alan](/pages/tuts/introducing.html)
 - [**Tutorial A**: developing software with Alan](/pages/tutorials/ide/ide-tutorial.html)
 - [**Tutorial B**: a Restaurant app, Part I](/pages/tutorials/model/{{ site.data.versions.current }}/application-tutorial.html)
@@ -18,7 +19,6 @@ permalink: /docs/
 - [**Spreadsheet data import & export**](/pages/tutorials/data-import-export/data-import-export.html) in Alan apps
 - [**Users & Authentication**](/pages/tutorials/model/{{ site.data.versions.current }}/application-users.html) in Alan apps
 - Background information on [the syntax](/pages/tuts/syntax.html)
-- An [older tutorial](/pages/tuts/getting-started.html): a quick starter
 
 
 {% comment %}
