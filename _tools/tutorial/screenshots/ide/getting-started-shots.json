@@ -1,0 +1,103 @@
+{
+  "output": "pages/tuts",
+  "viewport": {
+    "width": 1400,
+    "height": 900,
+    "deviceScaleFactor": 2
+  },
+  "workspace": "workspace-gs/project",
+  "theme": "Default Dark Modern",
+  "env": {
+    "ALAN_CONTAINER_NAME": "getting-started",
+    "ALAN_APP_URL": "https://app.alan-platform.com/tutorial/client/"
+  },
+  "shots": [
+    {
+      "id": "layout",
+      "file": "helloworld1.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "command": "View: Close All Editors"
+        },
+        {
+          "wait": 600
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "file": "helloworld2.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "wait": 900
+        }
+      ]
+    },
+    {
+      "id": "deploy",
+      "file": "deploy1.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "command": "Alan: Deploy"
+        },
+        {
+          "waitFor": "quickpick=data source for this deployment"
+        },
+        {
+          "wait": 900
+        }
+      ],
+      "after": [
+        "Escape"
+      ]
+    },
+    {
+      "id": "migration",
+      "file": "deploy2.png",
+      "steps": [
+        {
+          "command": "Terminal: Kill All Terminals"
+        },
+        {
+          "command": "View: Close Panel"
+        },
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "open": "migrations/from_release/migration.alan"
+        },
+        {
+          "wait": 900
+        },
+        {
+          "click": "explorer=migrations"
+        },
+        {
+          "wait": 700
+        }
+      ]
+    }
+  ]
+}

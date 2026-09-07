@@ -68,4 +68,4 @@ Note that properties with an `=`-sign like `stategroup = ` do not require your i
 
 - Keywords should be separated by whitespace, so `()` doesn't work but `( )` does.
 - Quotes are recognized as something special, so you *can* write `'type':` and `?'state group'|'state'`.
-- Only *tabs* are accepted for indentation.
+- Indentation is free: spaces and tabs are both accepted, and the Alan formatter normalizes indentation to tabs.

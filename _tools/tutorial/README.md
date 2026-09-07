@@ -100,6 +100,11 @@ config or a shot overrides `margin`, `radius`, `border`, `shadow`, and `"frame":
 The models in `pages/tutorials/model/VERSION/models/` that exist only for a screenshot (`step_09-priority`) carry no
 snippet markers; they are still compiled by `snippets.py verify`.
 
+`pages/tuts/getting-started.md` has its own four images in `ide/getting-started-shots.json`, taken from a workspace
+built by hand: copy `templates/default/project`, put the model of that page in `models/model/application.alan`, set
+`anonymous login: disabled`, `./alan build`, and generate a `migrations/from_release` (as `prepare-workspace.sh
+--from-release` does) into `.toolchains/vscode/workspace-gs/project`.
+
 The IDE tutorial (`pages/tutorials/ide/`) is not versioned; its six images come from `ide/tutorial-shots.json`:
 `ide/prepare-workspace.sh VERSION step_01 --from-release --dir workspace-ide` (a workspace with a `from_release`
 migration, as after a first deployment) and `node ide/ide-shoot.mjs VERSION --list ide/tutorial-shots.json`. Shot

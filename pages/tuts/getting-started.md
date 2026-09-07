@@ -4,15 +4,23 @@ title: "Getting Started with the online IDE"
 category: docs
 ---
 
+{% assign version = site.data.versions.current %}
+{% assign release = site.data.versions.versions | where: "name", version | first %}
+{% assign model_version = release.platform.model %}
+{% assign dist_key = version | remove: '.' %}
+{% assign connector_version = site.data.dist[dist_key].versions["system types"].connector.version %}
 
-In this tutorial we'll take you through the steps of going from a blank model to a small application.
+This tutorial takes you from a blank model to a small application with users, authorization, and data of your own.
+It uses the project template that the online Alan IDE sets up for you, and the buttons of the Alan extension for VS Code.
+For a guided tour of the IDE itself, read the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html) first.
 
-- [Project Layout](#project-layout)
-- [Application Model](#application-model)
-- [Build It & Run It](#build-it--run-it)
-- [Upgrade with a migration](#upgrade-with-a-migration)
+- [Project layout](#project-layout)
+- [Application model](#application-model)
+- [Build it and run it](#build-it-and-run-it)
+- [Deploy and migrate](#deploy-and-migrate)
 - [Your own application model](#your-own-application-model)
   - [Add users](#add-users)
+  - [Add permissions](#add-permissions)
   - [Add some collections](#add-some-collections)
   - [Numbers](#numbers)
   - [References](#references)
@@ -21,296 +29,358 @@ In this tutorial we'll take you through the steps of going from a blank model to
 
 <hr>
 
-## Project Layout
+## Project layout
 
-To get you up and running we've set up a project template in your online ide. The build system we're going to use expects a layout with files and folders in a particular structure, and this template sets you right on track for anything but the most complicated things you can build with Alan (like connecting to external databases).
+The template in your online IDE gives you a project with the structure that the build system expects.
+It covers everything except the most involved setups, such as connections to external databases.
 
-You'll notice some top level directories here.
+![Project layout in the online IDE](helloworld1.png)
 
-![](helloworld1.png)
-
-- **.alan**
-  Contains downloaded alan executables
-- **.vscode**
-  Contains project specific vscode settings
-- **deployments**
-	Contains environment specific configuration like IP addresses, in addition to stuff that will be different from one deployment to another like your datasets.
-- **interfaces**
-	Systems talk to each other over interfaces. For instance, the client talks to the server over an interface defined by the application model.
-- **migrations**
-	Data needs to match the application model specification. Migrations help you move your data from one version of that specification to another.
+- **models**
+	Your application models. `models/model/application.alan` is the model of your app, and the file you will spend most of your time in.
 - **systems**
-	Contains the configuration of each system that will be running for your project. Most projects have a server, a client and a reporter.
-- **wiring**
-	Defines how the systems and interfaces are wired together. For most projects the default here already defines everything you need, but if you want to add custom clients or external databases this is where you describe how they're connected.
+	The configuration of each system that runs for your project: a server, a client, and a session manager for logging in.
+- **deployments**
+	Configuration per deployment: where the app runs, and which data it starts from.
+- **migrations**
+	Data has to match the model. A migration moves the data of a running app to a new version of the model. This folder appears after your first deployment.
+- **_docs**
+	The tutorials and their example models, so that they are available inside your project.
+- **wiring.alan**
+	How the systems and interfaces are connected. The default covers most projects; custom clients or external databases are described here.
+- **versions.json**
+	The platform version and the system type versions your project uses.
+- **alan**
+	The script that fetches the tools, builds and deploys, and that the buttons in VS Code call.
 
-For now, you can ignore .alan, .vscode, deployments, migrations, systems and wiring. We'll touch on some of those later, but we've got defaults set up there that will work for most basic projects.
+Two more folders are hidden by the project settings: **.alan**, which holds the downloaded platform tools, and **.vscode**, which holds project-specific editor settings.
 
-First, lets take a look at the application model, as for most projects you'll spend most time editing this file.
+Start with the application model, since that is where an Alan project begins.
 
+## Application model
 
-## Application Model
+Open **models/model/application.alan**.
+The template model is nearly empty: four sections and nothing in them.
 
-Open the **interfaces/model-hours/application.alan** file in an editor. We'll be using Visual Studio Code in the screenshots, but [you can use whatever you like](https://github.com/alan-platform?utf8=✓&q=AlanFor).
+The model is a nested structure, not unlike [JSON](https://json.org).
+At the outermost level are the sections:
 
-![](helloworld2.png)
+- **users** configures who can use the application. `anonymous` means no sign-in at all; a `dynamic` collection of users means people sign in, as later in this tutorial.
+- **interfaces** declares the interfaces the application consumes, so that another application can read or update specific data through them.
+- **root** is where the data model starts: the structure of the application data, its constraints, computations, authorization, and validation.
+- **numerical-types** declares the numerical types that numbers in the application have, such as `date` or `kg`, and the conversions between them — from `kilogrammes` to `grammes`, or from `meters` and `seconds` to `meters per second`.
 
-The template already has an example model set up that covers some basics. Let's walk through it:
+![The application model open in the editor](helloworld2.png)
 
-The model is a nested structure not unlike [JSON](https://json.org). At the first level you'll see some keywords starting different sections of your model:
-- **users** configures authentication for your application. If you specify `anonymous` in this section, you can use the application without signing in.
-- **interfaces** declares the interfaces that your application consumes. You can define interface permissions in your data model, such that another application can update specific pieces of data via an interface (instead of an application user).
-- **root** is where your data model really starts. Here you define the structure of your application data, constraints, computations, authorization, validation, and so on.
-- **numerical-types** defines the different numerical types that numbers in your application can have, such as `date` or a unit type `kg`. For computations with numbers, the section also defines conversions between numerical types.
-	For example, from `kilogrammes` to `grammes` or from `meters` and `seconds` to `meters per second`.
+Inside **root**, the data model is composed of properties of the six built-in types:
 
-So, starting at the **root**, you describe the data model of your application. You compose a data model from properties of the 6 built-in data types that Alan defines:
-- **number** (integer or natural)
-	Numbers are things you can count, or do math with. Dates and date-time values are numbers as well. Numbers are usually an integer, or a [natural](https://en.wikipedia.org/wiki/Natural_number) when they can't be zero or negative. Alan doesn't have floats; Alan requires explicit numerical type annotations to ensure a *predefined* accuracy for numbers.
+- **number**
+	Something you can count or compute with. Dates and date-times are numbers too. Alan has no floats: every number property has a numerical type that fixes its accuracy.
 - **text**
-	Text properties hold plain, unbounded textual values like a name, a phone number, a license plate number, or remarks.
-	You can define [validation rules](/pages/docs/model/{{ page.model_language_version }}/application/grammar.html#user-interface-annotations) on text values for the user interface, e.g. minimum length or a specific pattern.
-	Also, a text value can reference an entry in another collection (like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key)).
+	A plain, unbounded text value: a name, a phone number, a licence plate, a remark.
+	Text values can carry [validation rules](/pages/docs/model/{{ model_version }}/application/grammar.html#user-interface-annotations) for the user interface, such as a minimum length or a pattern, and a text value can reference an entry of a collection, like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key).
 - **file**
-	When you connect file storage to your server (documentation about this will follow), you can store files as well. Files can be viewed directly in the client or downloaded to your local machine.
+	With file storage connected to your server, a property can hold a file, which the client shows or downloads.
 - **collection**
-	You could (but [shouldn't](https://en.wikipedia.org/wiki/Graph_database) 😉) think of these as your tables. If you want to describe a bunch of 'things' that are mostly the same like `Users`, that's a collection.
-	Collection entries are key-value pairs, where the key has to be unique for each different entry in the collection.
-	At a `collection` property, you define which text property holds the key of each entry in the collection, like the property `Name` for a collection of `Users`.
-- **stategroup** Stategroups represent a choice. With state groups things in one state have different properties from things in another state.
-	For example, road bikes and fixies are both bikes, but one has gears and shifters, whereas the other doesn't. Or finished processes have and end time, unfinished processes don't.
-- **group** Groups are for grouping properties that you think belong together: groups don't actually hold any data by themselves.
+	A set of things that are mostly alike, such as `Users`. Each entry is identified by a key that is unique within the collection, and the model states which text property holds that key.
+- **stategroup**
+	A choice between states, where each state can hold its own properties. A road bike and a fixie are both bikes, but only one of them has gears; a finished process has an end time, an unfinished one does not.
+- **group**
+	A way to group properties that belong together, or that share permissions. A group holds no data of its own.
 
+## Build it and run it
 
-## Build It & Run It
+Three buttons at the bottom left of the IDE do the work:
 
-While getting an application for free is nice, it's even nicer to build your own. Open the **interfaces/model/application.alan** file in your editor. You will notice that it is almost completely empty.
-Let's quickly try to actually boot up this example project, before we proceed to make our own application.
+- **Alan Fetch** downloads the platform tools listed in `versions.json`. You need this once, and again after changing that file.
+- **Alan Build** compiles the whole project. It should finish without errors for the template model.
+- **Alan Deploy** publishes the project as a running app.
 
-This should be fairly easy:
-- Use the button 'Alan Fetch' at the bottom left to download the latest version of the Alan developer tools. You will need to do this once.
-- Use the button 'Alan Build' at the bottom left to run a build. It should complete without any errors.
-- If it builds, you should be able to deploy it, by using the 'Alan Deploy' button at the bottom.
+While you edit, the Alan language server checks every `.alan` file in the project and reports problems in the **Problems** panel, so most mistakes surface before you press a button at all.
 
-## Upgrade with a migration
-When clicking the button 'Alan Deploy', you get a list from which you can choose a deployment type.
-For your first deployment, choose the **empty** option from the list.
-This will initialize your application with an empty dataset.
+## Deploy and migrate
 
-![](deploy1.png)
+`Alan Deploy` asks which data the deployment should start from:
 
-After you have completed at least one successful deployment, you can make changes to your application model and you can choose for a deployment of the **migrate** type which enables you to migrate your existing application data to your new application version:
+![Choosing the data source for a deployment](deploy1.png)
 
-![](deploy2.png)
+Choose **empty** for the first deployment: the app starts with an empty dataset.
 
-This will generate a default migration 'from_release' which should be updated until you have specified a data source for every property in your model:
+Once an app is running, its data has to survive the next version of your model, and that is what a **migrate** deployment does.
+Choosing **migrate** generates `migrations/from_release`, which describes where every piece of data in the new model comes from:
 
-![](deploy3.png)
+![The generated migration](deploy2.png)
 
-Complete [documentation of the migration language](/pages/docs/datastore/85/migration_mapping/grammar.html) is available online. This is an example where a static value is provided for a text property:
+A generated migration covers everything that the platform can map by itself: properties that kept their name and type are copied across.
+The parts it cannot decide are left for you — a property that is new in your model has no data to come from, so you say what it should hold.
+
+Migrations are written in the connector processor language, which is [documented here](/pages/docs/connector/{{ connector_version }}/processor/grammar.html); the [migrations tutorial](/pages/tutorials/migrations/{{ version }}/migrations.html) walks through writing one.
+This is the shape of a migration that walks a collection and creates its entries in the new dataset:
 
 ```js
-root = root as $ (
-	'Name' : text = "John Doe"
-)
+root = root as $ {
+	(
+		'Users' = walk $ .'Users' as $ => {
+			create (
+				'Username' = $ .'Username'
+			)
+		}
+	)
+}
 ```
 
-After this, 'migrate' deployments can be repeated iteratively. After every successful deployment, you will need to update your migration to match your latest application model version.
+After that, deployments of type **migrate** can be repeated as often as you like: change the model, update the migration to match, deploy.
 
-At some point, it might be useful to have newly generated migration based on your latest application model. You can do this by opening the file `migration.alan` in the directory `migrations/from_release` and executing the 'Generate migration' command from your editor. Choose `from_release` as migration name, `server/model.lib.link` as target model and "mapping from target conformant dataset" to generate a migration that expects the source and target models to be the same while preserving your application data.
+To start from a freshly generated migration for your current model, delete `migrations/from_release` and run `Alan Deploy` with the **migrate** option again, or run the command `Alan: Generate Migration` from the command palette.
 
 ## Your own application model
 
-Let's start over with this in your **application.alan** file:
+Time to replace the example with an application of your own: a small multi-user todo app.
+It needs people who sign in, so it starts with users.
+
+### Add users
+
+An application with sign-in has a collection of users and a collection of passwords, and the `users` section ties the two together.
+Replace the contents of `models/model/application.alan` with:
 
 ```js
 users
-	dynamic : .'Users'
-		password : +'User Data'.'Password'
-		password-status : ?'Login Status'
-			active : 'Active' ( )
-			reset  : 'Password Reset' ( )
+	dynamic: .'Users'
+		passwords: .'Passwords'
+			password-value: .'Data'.'Password'
+			password-status: .'Data'.'Active' (
+				| active => 'Yes' ( )
+				| reset => 'No' ( )
+			)
+			password-initializer: (
+				'Data' = ( )
+			)
 
 interfaces
 
 root {
-
+	'Users': collection ['Username'] {
+		'Username': text
+		'Type': stategroup (
+			'Admin' { }
+			'Reader' { }
+		)
+	}
+	'Passwords': collection ['User'] {
+		'User': text -> ^ .'Users'[]
+		'Data': group {
+			'Password': text
+			'Active': stategroup (
+				'No' { }
+				'Yes' { }
+			)
+		}
+	}
 }
 
 numerical-types
 ```
 
-This is a clean slate for an application that has `users` and requires authentication.
+`dynamic: .'Users'` says that an authenticated user is an entry of the `Users` collection.
+`passwords: .'Passwords'` points at the collection that stores password data: `password-value` is where the password hash lives, `password-status` says which state means the password is usable and which means it has to be reset, and `password-initializer` states what to create alongside a new password.
+The `Type` of a user is not needed for signing in; it is there for the permissions in the next step.
 
-### Add users
-Now let's add those users to the data model:
+Press `Alan Build`. It reports exactly one error, in the client settings:
 
-```js
-root {
-	'Users': collection ['Username'] {
-		'Username': text
-	}
-}
+```
+systems/client/settings.alan: state constraint violation for 'yes'.
+Unexpected state for 'allow anonymous user'
 ```
 
-But we're not there yet. In the `users` section, we specified that we store user passwords in the `'Password'` property and the login status in a `'Login Status'` stategroup.
-Let's also add `Type` to the `Users`, such that we can configure some basic authorization rules.
+The template app allowed anonymous visitors, and this model no longer does.
+Press `F8` to jump to the error, or open `systems/client/settings.alan`, and change `anonymous login: enabled` to `anonymous login: disabled`.
+The project now builds.
+
+### Add permissions
+
+Everybody who signs in may read the data, only administrators may change it, and a password is nobody's business but its owner's.
+Three lines express that:
+
 ```js
 root {
+	can-read: user
+	can-update: user .'Type'?'Admin'
+
 	'Users': collection ['Username'] {
 		'Username': text
-		'User Data': group {
-			'Login Status': stategroup @default: 'Suspended' (
-				'Active'-> { }
-				'Password Reset'-> { }
-				'Suspended'-> { }
-			)
-			'Password': text
-		}
 		'Type': stategroup (
-			'Admin'-> { }
-			'Reader'-> { }
+			'Admin' { }
+			'Reader' { }
 		)
 	}
-}
-```
+	'Passwords': collection ['User'] {
+		'User': text -> ^ .'Users'[]
+		'Data': group {
+			can-update: user is ( ^ >'User' )
 
-Now, let's press 'Alan Build' to see if everything is ok.
-There should be exactly one error: something is wrong in our client settings.
-Press `F8` to quickly go to the error, or navigate to `./systems/client/settings.alan` in the explorer.
-In `settings.alan` it says: `anonymous login: enabled`.
-But wait... we removed `anonymous` from `users` section in our application model, so that is no longer ok.
-To fix it, simply change `enabled` to `disabled`, and you should now be able to build the project successfully.
-
-
-#### Add permissions
-We only want `Admin` users to create and delete `Users`.
-Also, the password (hash) and login status are personal data that should not be updated by other users.
-To achieve that, we need to configure some permissions:
-
-```js
-root {
-	can-read: any user
-	can-update: any user ?'Type'|'Admin'
-
-	'Users': collection ['Username'] {
-		'Username': text
-		'User Data': group { can-update: user == ^
-			'Login Status': stategroup @default: 'Suspended' (
-				'Active'-> { }
-				'Password Reset'-> { }
-				'Suspended'-> { }
-			)
 			'Password': text
+			'Active': stategroup (
+				'No' { }
+				'Yes' { }
+			)
 		}
-		'Type': stategroup (
-			'Admin'-> { }
-			'Reader'-> { }
-		)
 	}
 }
 ```
 
-So, now we've defined a `'Users'` collection, where each key in the collection will serve as the 'username' and there is a password they'll need to provide to log in.
-Below we will give you some specifics about how this works, but first: let's take a look at what we have built.
+The keyword `user` refers to the authenticated user — an entry of `Users`, because of the `users` section.
 
-Click 'Alan Deploy', and select the **empty** deployment type from this list.
-This will inject a default username and password for first time use.
-When it's done deploying, open your application and sign in with these credentials:
-- username: **root**
-- password: **welcome**
+`can-read: user` at the root grants read access to everyone who is signed in, for all data below the root.
+`can-update: user .'Type'?'Admin'` restricts updates to users whose `Type` is `Admin`, again for everything below the root — until a node type states something else.
 
-Set your password, attempt a password reset, and add an account for a family member if you like.
+`Data` does state something else: `can-update: user is ( ^ >'User' )` allows an update only when the authenticated user *is* the user this password belongs to.
+Read the expression from the inside out: `^` is the password entry, `>'User'` follows its reference to the `Users` collection, and `user is ( ... )` compares that with whoever is signed in.
 
-So, what just happened... how does this work?
-First, some context.
-The `user` keyword is special: it refers to an authenticated user.
-An authenticated user is an entry from the collection of `Users` because we specified `dynamic : .'Users'` in the `users` section.
+Build, then click `Alan Deploy` and choose **empty**.
+That deployment injects an initial account, so open the app and sign in with:
 
-With `can-read: any user` at the root type, we have specified that any authenticated `user` can read data downwards from the root node.
-Similarly, `can-update: any user ?'Type'|'Admin'` specifies that only admins can update data downwards from the `root`.
-That is, until overridden by a redefinition of `can-read` or `can-update`.
+> | **username:** | `root` |
+> | **password:** | `welcome` |
 
-For the `User Data`, that is exactly what we want to do: the `User Data` should only be updated when the signed in `user` equals the to-be-updated user.
-The expression `user == ^` takes care of that: the runtime takes the authenticated user node and ensures that it equals the parent (`^`) node of the to-be-updated `User Data` node.
-
+The app asks for a new password on first sign-in.
+Add an account for someone else, make it a `Reader`, and see what that account may and may not do.
 
 ### Add some collections
-We have authentication and authorization, but our app lacks purpose right now.
-Why not build a little multi-user todo app (when not sure what to do, make a todo app right?).
-So, let's say our users are involved in projects and each project has stuff that needs to be done.
+
+Authentication and authorization are in place, but the app has nothing to do yet.
+A todo app, then: users work on projects, and a project has things that need doing.
 
 ```js
-root {
-	can-read: any user
-	can-update: any user
-
-	'Users': collection ['Username'] {...}
-	'Projects': collection ['Project Name'] {
-		'Project Name': text
+	'Projects': collection ['Project name'] {
+		'Project name': text
 		'Todos': collection ['Todo'] {
 			'Todo': text
 		}
 	}
-}
 ```
 
-We should probably have a little more information for each todo, like when it was created, or to which user it was assigned.
-It probably doesn't hurt to be able to write down some details about the todo either.
+A todo deserves more than a name — when it was created, what it involves, and who is going to do it:
 
 ```js
-'Todos': collection ['Todo'] {
-	'Todo': text
-	'Created': natural 'date and time'
-	'Description': text
-	'Assignee': text -> ^ ^ .'Users'
-}
+		'Todos': collection ['Todo'] {
+			'Todo': text
+			'Created': number 'date and time'
+			'Description': text
+			'Assignee': text -> ^ ^ .'Users'[]
+		}
 ```
 
-Now we have written several things that need some explaining. Let's take them one by one.
-
+Two of those lines need explaining.
 
 ### Numbers
-```js
-'Created': natural 'date and time'
-```
-
-The property `Created` is a `natural` number property, which holds a value greater than zero. We also specified a numerical type: `date and time`. Properties that are the same kind of number (a 'date', 'kilograms', or 'minutes') all have the same numerical type. This ensures that when you're defining computations, you will end up with the correct numerical type for the resulting value. More on that later, right now you need to register that numerical type:
 
 ```js
-numerical-types
-	'date and time'
+'Created': number 'date and time'
 ```
 
-To help the user interface interpret this and serve up a nice date-time picker, we need to annotate this.
+`Created` is a number, and `'date and time'` is its numerical type.
+Properties that hold the same kind of number — a date, kilograms, minutes — share a numerical type, which is how the compiler can check that a computation over them produces a sensible result.
+Every numerical type used in the model has to be declared:
 
 ```js
 numerical-types
-	'date and time' @date-time
+	'seconds'
+	'date and time' in 'seconds'
 ```
+
+`in 'seconds'` states the unit the value counts: a date-time is a number of seconds.
+The user interface shows it as a plain number until you annotate it:
+
+```js
+numerical-types
+	'seconds'
+	'date and time' in 'seconds' @date-time
+```
+
+`@date-time` gives the property a date and time picker in the app.
 
 ### References
-The other thing that's special here is the 'Assignee'.
 
 ```js
-'Assignee': text -> ^ ^ .'Users'
+'Assignee': text -> ^ ^ .'Users'[]
 ```
 
-An `Assignee` property holds a text value, but we want to ensure that it refers to an entry from the `Users` collection. Let's break down the syntax here:
+`Assignee` holds a text value, and that value has to be the key of an entry in `Users`.
+Piece by piece:
 
-- `->`: says "hey, this should refer to something"
-- `^`: this is the first step in what we call the **path** to the thing we want to refer to. It tells the program to step "up" (`^`) out of the current collection.
-- `^`: the first step took us from 'Todos' to 'Project', so we take another step up.
-- `.'Users'`: now that we've arrived at the root of the model, we can simply point to the 'Users' collection.
+- `->` says: this value refers to something.
+- `^` steps up out of the `Todos` collection, to the project the todo belongs to.
+- `^` steps up once more, from the project to the root.
+- `.'Users'[]` looks the value up in the `Users` collection at the root.
 
-To check your new additions, build the project again. If all is well, just deploy it to see how it works in practice.
+The app turns that into a picker: an `Assignee` can only be an existing user, and the reference can be followed from the todo to that user.
+
+Together with the users and permissions from before, the model now reads:
+
+```js
+users
+	dynamic: .'Users'
+		passwords: .'Passwords'
+			password-value: .'Data'.'Password'
+			password-status: .'Data'.'Active' (
+				| active => 'Yes' ( )
+				| reset => 'No' ( )
+			)
+			password-initializer: (
+				'Data' = ( )
+			)
+
+interfaces
+
+root {
+	can-read: user
+	can-update: user .'Type'?'Admin'
+
+	'Users': collection ['Username'] {
+		'Username': text
+		'Type': stategroup (
+			'Admin' { }
+			'Reader' { }
+		)
+	}
+	'Passwords': collection ['User'] {
+		'User': text -> ^ .'Users'[]
+		'Data': group {
+			can-update: user is ( ^ >'User' )
+
+			'Password': text
+			'Active': stategroup (
+				'No' { }
+				'Yes' { }
+			)
+		}
+	}
+	'Projects': collection ['Project name'] {
+		'Project name': text
+		'Todos': collection ['Todo'] {
+			'Todo': text
+			'Created': number 'date and time'
+			'Description': text
+			'Assignee': text -> ^ ^ .'Users'[]
+		}
+	}
+}
+
+numerical-types
+	'seconds'
+	'date and time' in 'seconds' @date-time
+```
+
+Build the project, deploy it with the **migrate** option, and the accounts you created survive into the version with projects and todos.
 
 ## Next steps
 
-The project template has a model filled with examples that cover what we call **derivations**: ways to do math with numbers or derive state groups from other data.
+The `_docs` folder of your project holds the models of the [application tutorial](/pages/tutorials/model/{{ version }}/application-tutorial.html), which builds a restaurant app in three parts and covers computations, processes, and references in depth.
 
-You can [annotate your model](/pages/docs/model/{{ page.model_language_version }}/application/grammar.html#user-interface-annotations) to set default values and [number formats](/pages/docs/model/{{ page.model_language_version }}/application/grammar.html#numerical-types). Check the [model language docs](/pages/docs/model/{{ page.model_language_version }}/application/grammar.html) for more details.
+From here:
 
-Migrations can be edited by hand, for instance to bootstrap your application with more data than is automatically generated. Learn more about it in the [migrations tutorial](migration.html).
+- [Users & Authentication](/pages/tutorials/model/{{ version }}/application-users.html) explains user sign-up and the session manager settings behind the sign-in page.
+- The [model language documentation](/pages/docs/model/{{ model_version }}/application/grammar.html) describes every feature of the language, including [user interface annotations](/pages/docs/model/{{ model_version }}/application/grammar.html#user-interface-annotations) for default values and number formats.
+- The [migrations tutorial](/pages/tutorials/migrations/{{ version }}/migrations.html) covers writing migrations by hand, for instance to bootstrap an app with data of your own.
 
-If you want to learn more, check our [documentation](/docs) or ask us directly!
+Questions are welcome on the [forum](https://forum.alan-platform.com/).
