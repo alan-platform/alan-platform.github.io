@@ -8,23 +8,33 @@ category: docs
 {:toc}
 
 ## Introduction
-Computer applications are tools designed for specific purposes, like tracking orders and supplies, or exchanging information among people. Every computer application revolves around gathering, manipulating, visualizing, and exchanging data. The Alan platform aims to enable development of guaranteed bug-free applications that are both flexible as well as easily maintainable: **built to last**.
+A computer application is a tool for a purpose: tracking orders and supplies, planning maintenance, exchanging information between people.
+Whatever the purpose, the application gathers, manipulates, visualizes and exchanges data.
+The Alan platform is built around that observation: describe the data and the rules that govern it, and the platform generates the application.
+The aim is software that is correct by construction, flexible, and maintainable: **built to last**.
 
 ### Development process
-The Alan platform offers a comprehensive solution for developing data-intensive software applications. Because of its flexibility, it heavily promotes *agile* application development, where each iteration yields a working part of the application you want. Rather then writing large design documents and drawing diagrams that tell us how the application should work, with Alan you can **immediately start building** your app.
+Alan supports *agile* development, where each iteration produces a working part of the application.
+Instead of writing a large design document first and discovering during implementation that it does not hold up, you **start building immediately** and refine as you learn.
 
-For an Alan app, you first specify the core structure of the data that our application will process. You can immediately verify the validity of it by running our application. Users can enter actual data to verify that the structure matches the requirements for this first part. Once the data structure conforms to our requirements, you can incrementally implement usage scenarios and **let the stakeholders test them**. Alternatively, you can start working on data transformation, custom visualizations, user permissions, or data exchange with other applications.
+You begin with the core structure of the data your application processes.
+Deploying that first version already gives you a running app, so you and your stakeholders can enter real data and check that the structure matches what the organization actually does.
+Once the structure holds, you add computations, custom screens, permissions, or exchange with other systems — in whichever order the project needs, and each time with something that runs at the end of it.
 
 ### Environment overview
-An Alan environment consists of a specific file and folder structure, and a set of languages (that have a common meta-language) and corresponding tools, including a compiler ('translator' and 'validator' of your code). Together, the different files describe a complete software system. Each file has a specific function in creating, updating or deploying your software. You enter your code in the designated files at *design time* to develop your system. To convert these files into a usable software system that runs on a server, all files and folders need to be checked for errors and translated into a format that different parts of the Alan platform understand. You can deploy the result to a server, after which the software is ready for use: *runtime*.
+An Alan environment is a fixed structure of files and folders, a set of languages that share one meta-language, and the tools that go with them — most importantly a compiler, which translates and validates your code.
+Together the files describe a complete software system, and each file has its own role in building, updating or deploying it.
+You write code in those files at *design time*.
+To turn them into a system that runs on a server, all files are checked for errors and translated into a format the platform can execute.
+Deploying the result puts the software in use: *runtime*.
 
-In the remainder of this tutorial you'll get familiar with the environment for creating Alan applications.
+This tutorial introduces the environment in which you create Alan applications.
 For *version control* and *local editing* of Alan projects, read [this guide](/pages/tutorials/ide/ide-version-control.html).
 
-## Application for building applications
-For developing Alan applications we typically use an Integrated Development Environment (IDE): an application that provides the developer with a file and folder overview, an editor that recognizes Alan code, and many other useful tools.
-In this tutorial we'll use Visual Studio Code (VS Code) in a Chromium based browser, like Google Chrome or Microsoft Edge.
-Before continuing, open a separate tab and sign in to your existing [online IDE account](https://coder.alan-platform.com/){:target="_blank"} or
+## An application for building applications
+Alan development happens in an Integrated Development Environment (IDE): an application that gives you an overview of files and folders, an editor that understands Alan code, and tools such as the compiler at your fingertips.
+This tutorial uses Visual Studio Code (VS Code) in a Chromium-based browser, such as Google Chrome or Microsoft Edge.
+Open a separate tab and sign in to your [online IDE account](https://coder.alan-platform.com/){:target="_blank"}, or create one:
 
 <p style="text-align:center;">
 <a class="button call-to-action" href="https://coder.alan-platform.com/signup/" target="_blank" rel="noopener noreferrer" style="display: inline-flex;align-items: center;">
@@ -44,82 +54,84 @@ After signing in, the IDE opens your project and shows its `README.md` as a welc
 
 ![First window](./images_IDE/001.png)
 
-These are the main areas in the layout of the online IDE:
+The layout has three main areas:
 
 ![Basic layout](./images_IDE/002.png)
 
-1. **Explorer**: overview of files and folders in your project
-2. **Editor**: content of open file can be edited here (on startup you'll see the `README.md` file with additional info)
-3. **Problems/Output/Terminal** panel (initially hidden; shown when executing a task):
-    - **Problems** shows a nice list of issues from the compiler (important when errors occur)
-    - **Output** shows the output of tasks that you execute
-    - **Terminal** is for executing command line instructions
+1. **Explorer**: the files and folders of your project
+2. **Editor**: the contents of the open file, which you edit here
+3. **Problems/Output/Terminal** panel:
+    - **Problems** lists what the Alan language server finds while you type, and the errors of a build
+    - **Output** shows what a running task prints
+    - **Terminal** is for command line instructions
 
-In the top left corner you'll find these buttons:
+The icons in the top left corner determine what area 1 shows:
 
 ![Icons](./images_IDE/003.png)
 
-They determine what you see in area 1. The first icon is for the Explorer and the only one you'll need to get started.
-The ≡ icon above them opens the menu with `File`, `Edit`, `View` and other entries.
+The first icon is the Explorer, and the only one you need to get started.
+The ≡ icon above them opens the menu with `File`, `Edit`, `View` and the other entries.
 
-At the bottom left side you'll see these texts:
+At the bottom left are four buttons:
 
 ![Texts](./images_IDE/004.png)
 
-These are four buttons that execute important tasks:
 1. `Alan Fetch` downloads and updates the Alan platform tools
-2. `Alan Build` builds your project
+2. `Alan Build` compiles your project
 3. `Alan Deploy` deploys your project
-4. `Alan Show` opens an new browser tab with your application
+4. `Alan Show` opens your application in a new browser tab
+
+Each of them is also available from the [command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette), as `Alan: Fetch`, `Alan: Build`, `Alan: Deploy` and `Alan: Show App`.
 
 ## Files and folders
-You develop an Alan application by defining application models, defining interfaces, creating migrations, configuring settings, etc.
-These activities make use of specific files within specific folders.
-This structure of files and folders is required in order to compile an application.
-The following files and folders are important while working on the `application` language tutorial:
+Building an Alan application means writing application models, interfaces, migrations and settings.
+Each of those lives in a specific file, in a specific folder; the compiler relies on that structure.
+These are the files and folders that matter while you work through the `application` language tutorial:
 
 ![Files](./images_IDE/005.png)
 
-The `application.alan` file in folder `models/model` contains the model of your application.
-The `migration.alan` file in folder `migrations/from_release` (available after your first deployment) describes how your application data needs to be migrated from the current to a next version of your application.
+`models/model/application.alan` holds the model of your application: the file you spend most of your time in.
 
-In order to keep focus on the application language, migration files are available for each topic of the tutorial.
-The location of the relevant files in the folder `_docs/tutorials/restaurant1/{{ site.data.versions.current }}` (available in your project) can be found at the end of each topic. Detailed information about migrations can be found in the [migrations guide](/pages/tutorials/migrations/{{ site.data.versions.current }}/migrations.html).
+`migrations/from_release/migration.alan`, which appears after your first deployment, describes how the data of the running app is carried over to the next version of your model.
+Migrations are a subject of their own; the [migrations guide](/pages/tutorials/migrations/{{ site.data.versions.current }}/migrations.html) covers them.
 
-By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
-To make sure you don't get stuck while working on the Application Language tutorial, the `to_model` folder of each step in `_docs/tutorials` contains a valid `application.alan` file as well.
+So that the tutorial can stay on the `application` language, a ready-made migration is provided for each of its steps, in `_docs/tutorials/restaurant1/{{ site.data.versions.current }}`.
+Each topic of the tutorial ends with the folder to use.
+Copying that migration file into your project gives your app example data to work with.
+The `to_model` folder of each step also contains a complete, valid `application.alan`, to compare with when your own model does not build.
 
-If, at some point, you seem to miss files or folders in the explorer (area 1) that are referred to in the tutorial, click the refresh button.
-This button appears in the header of area 1 when you move your cursor into it:
+When files or folders that the tutorial mentions do not appear in the Explorer, click the refresh button.
+It appears in the header of area 1 when you move the cursor into it:
 
 ![Refresh](./images_IDE/006.png)
 
-Save your files before you build: a file with unsaved changes shows a dot instead of the close cross on its tab in area 2.
-Saving works with `Ctrl+S` (`Cmd+S` on a Mac); `Auto Save` can be switched on in the `File` menu behind the ≡ icon.
+Save before you build: a tab with unsaved changes shows a dot instead of the close cross.
+`Ctrl+S` (`Cmd+S` on a Mac) saves the open file, and `Auto Save` in the `File` menu — behind the ≡ icon in the top left corner — saves them for you.
 
 ## Compile and deploy
-Once you've written or updated a model and want to see the result, you need to do two things:
-1. Click on the button `Alan Build`.
-This will build your model and check for any inconsistencies.
-Errors occur if your model is not correct.
-Solve any problems, until you can succesfully build your project.
-2. Click on the button `Alan Deploy`.
-This will send your project to the server which will publish (deploy) your application.
+The *Alan language server* starts with your project and checks every `.alan` file in it — models, migrations, and the rest — while you edit.
+Mistakes are underlined in the editor and listed in the **Problems** panel as you make them, so you rarely have to hunt for them afterwards.
 
-> NOTE: we recommend that you also run `Alan Fetch` from time to time (e.g. weekly).
-This ensures that you have the latest builds of the platform tools at the version specified in your `versions.json` file.
-Newer builds should never include breaking changes that break your project build.
+Two steps turn a model into a running app.
 
-Sometimes, you may want to upgrade to a new platform version or system type version.
-For that, you need to modify the `versions.json` file.
-For the latest official platform and system type versions, you can find a `versions.json` file on the [docs page](/pages/docs.html).
-Make sure to run `Alan Fetch` to get the right tools after updating your `versions.json` file.
+1. Click `Alan Build`.
+This compiles the whole project and reports every error it finds in the **Problems** panel.
+Fix them until the build succeeds — a build that reports nothing is a project the platform can run.
+2. Click `Alan Deploy`.
+This sends the project to the server, which publishes your application.
 
-## Your published Application
-After deploying your work, click `Alan Show` to open the latest published version of your application in a new browser tab.
+> NOTE: run `Alan Fetch` from time to time, for example weekly.
+It gives you the latest build of the platform tools for the version in your `versions.json` file.
+A newer build of the same version never breaks a project that builds today.
 
-More information about Visual Studio Code can be found [here](https://code.visualstudio.com/).
+To move to a new platform version or system type version, edit `versions.json`.
+The [docs page](/docs/) lists the current official versions.
+Run `Alan Fetch` afterwards, so that the tools match the versions you asked for.
+
+## Your published application
+After a deployment, click `Alan Show` to open the published version of your application in a new browser tab.
+
+More information about Visual Studio Code is available in [its documentation](https://code.visualstudio.com/).
 
 ## Next up
-Now you are all set to get started with the `application` language tutorial, which can be found [here](/pages/tutorials/model/{{ site.data.versions.current }}/application-tutorial.html). Good luck!
-
+You are set up to start with the `application` language tutorial, which builds a restaurant app step by step: [Part I](/pages/tutorials/model/{{ site.data.versions.current }}/application-tutorial.html).
