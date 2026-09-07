@@ -1,0 +1,51 @@
+root = root as $ {
+	(
+		'Menu' = walk $ .'Menu' as $ => {
+			create (
+				'Item name' = $ .'Item name'
+				'Selling price' = $ .'Selling price'
+				'Item type' = switch $ .'Item type' (
+					|'Dish' as $ => {
+						create 'Dish' (
+							'Dish type' = switch $ .'Dish type' (
+								|'Appetizer' as $ => {
+									create 'Appetizer' ( )
+								}
+								|'Main course' as $ => {
+									create 'Main course' ( )
+								}
+								|'Dessert' as $ => {
+									create 'Dessert' ( )
+								}
+							)
+						)
+					}
+					|'Beverage' as $ => {
+						create 'Beverage' (
+							'Beverage type' = switch $ .'Beverage type' (
+								|'Juice' as $ => {
+									create 'Juice' ( )
+								}
+								|'Soft drink' as $ => {
+									create 'Soft drink' ( )
+								}
+								|'Cocktail' as $ => {
+									create 'Cocktail' ( )
+								}
+								|'Beer' as $ => {
+									create 'Beer' ( )
+								}
+								|'Wine' as $ => {
+									create 'Wine' ( )
+								}
+								|'Coffee & tea' as $ => {
+									create 'Coffee & tea' ( )
+								}
+							)
+						)
+					}
+				)
+			)
+		}
+	)
+}

@@ -40,7 +40,7 @@ Before continuing, open a separate tab and sign in to your existing [online IDE 
 </a>
 </p>
 
-After signing in, you should be presented with a welcome page:
+After signing in, the IDE opens your project and shows its `README.md` as a welcome page:
 
 ![First window](./images_IDE/001.png)
 
@@ -50,7 +50,7 @@ These are the main areas in the layout of the online IDE:
 
 1. **Explorer**: overview of files and folders in your project
 2. **Editor**: content of open file can be edited here (on startup you'll see the `README.md` file with additional info)
-3. **Problems/Output/Terminal** (initially hidden; shown when executing a task):
+3. **Problems/Output/Terminal** panel (initially hidden; shown when executing a task):
     - **Problems** shows a nice list of issues from the compiler (important when errors occur)
     - **Output** shows the output of tasks that you execute
     - **Terminal** is for executing command line instructions
@@ -59,7 +59,8 @@ In the top left corner you'll find these buttons:
 
 ![Icons](./images_IDE/003.png)
 
-They determine what you see in area 1. The top icon is for the Explorer and the only one you'll need to get started.
+They determine what you see in area 1. The first icon is for the Explorer and the only one you'll need to get started.
+The ≡ icon above them opens the menu with `File`, `Edit`, `View` and other entries.
 
 At the bottom left side you'll see these texts:
 
@@ -80,27 +81,21 @@ The following files and folders are important while working on the `application`
 ![Files](./images_IDE/005.png)
 
 The `application.alan` file in folder `models/model` contains the model of your application.
-The `migration.alan` file in folder `migration/from_release` (available after your first deployment) describes how your application data needs to be migrated from the current to a next version of your application.
+The `migration.alan` file in folder `migrations/from_release` (available after your first deployment) describes how your application data needs to be migrated from the current to a next version of your application.
 
 In order to keep focus on the application language, migration files are available for each topic of the tutorial.
-The location of the relevant files in the folders `_docs/tutorials` (available in your project) can be found at the end of each topic. Detailed information about migrations can be found in the [migrations guide](/pages/tutorials/migrations/2022.2/migrations.html).
+The location of the relevant files in the folder `_docs/tutorials/restaurant1/{{ site.data.versions.current }}` (available in your project) can be found at the end of each topic. Detailed information about migrations can be found in the [migrations guide](/pages/tutorials/migrations/{{ site.data.versions.current }}/migrations.html).
 
 By copying and pasting the migration file, your application gets some nice example data for you to experiment with.
-To make sure you don't get stuck while working on the Application Language tutorial, the `_tutorials` folder contains a valid `application.alan` file for each topic as well.
+To make sure you don't get stuck while working on the Application Language tutorial, the `to_model` folder of each step in `_docs/tutorials` contains a valid `application.alan` file as well.
 
 If, at some point, you seem to miss files or folders in the explorer (area 1) that are referred to in the tutorial, click the refresh button.
-This button appears when you move your cursor into area 1 (while the online IDE is active):
+This button appears in the header of area 1 when you move your cursor into it:
 
 ![Refresh](./images_IDE/006.png)
 
-Files are automatically saved when you:
-- switch between files in area 2
-- switch between areas
-- click one of the `Alan`-buttons
-
-`Save` and other options are also available here:
-
-![Menu](./images_IDE/007.png)
+Save your files before you build: a file with unsaved changes shows a dot instead of the close cross on its tab in area 2.
+Saving works with `Ctrl+S` (`Cmd+S` on a Mac); `Auto Save` can be switched on in the `File` menu behind the ≡ icon.
 
 ## Compile and deploy
 Once you've written or updated a model and want to see the result, you need to do two things:
@@ -121,7 +116,7 @@ For the latest official platform and system type versions, you can find a `versi
 Make sure to run `Alan Fetch` to get the right tools after updating your `versions.json` file.
 
 ## Your published Application
-After deploying your work, you can find the latest published version of your application at the URL provided in the `README.md` file of your project.
+After deploying your work, click `Alan Show` to open the latest published version of your application in a new browser tab.
 
 More information about Visual Studio Code can be found [here](https://code.visualstudio.com/).
 

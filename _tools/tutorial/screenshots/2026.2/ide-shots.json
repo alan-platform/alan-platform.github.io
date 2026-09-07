@@ -1,0 +1,18 @@
+{ "output": "pages/tutorials/migrations/2026.2/images",
+  "viewport": { "width": 1600, "height": 900, "deviceScaleFactor": 2 },
+  "workspaceStep": "step_01",
+  "theme": "Default Dark Modern",
+  "env": { "ALAN_CONTAINER_NAME": "ide-tutorial", "ALAN_APP_URL": "https://app.alan-platform.com/tutorial/client/" },
+  "shots": [
+    { "id": "empty", "file": "empty.png",
+      "open": "migrations/from_empty/migration.alan",
+      "commands": ["File: Collapse Folders in Explorer", "File: Reveal Active File in Explorer View"],
+      "clip": { "x": 0, "y": 0, "width": 1000, "height": 480 },
+      "annotate": [ { "box": { "union": ["explorer=from_empty", "explorer=variables.json"] }, "pad": 4 } ] },
+    { "id": "deploy2", "file": "deploy2.png", "open": "models/model/application.alan",
+      "commands": ["Alan: Deploy"], "waitFor": "quickpick=data source for this deployment",
+      "clip": { "x": 0, "y": 0, "width": 1600, "height": 420 }, "after": ["Escape"] },
+    { "id": "deploy1", "file": "deploy1.png", "open": "models/model/application.alan",
+      "commands": ["Alan: Deploy"], "waitFor": "quickpick=data source for this deployment", "keys": ["ArrowDown"],
+      "clip": { "x": 0, "y": 0, "width": 1600, "height": 420 }, "after": ["Escape"] }
+  ] }

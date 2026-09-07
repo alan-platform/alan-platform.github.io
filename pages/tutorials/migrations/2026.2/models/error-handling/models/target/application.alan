@@ -1,0 +1,17 @@
+users
+	anonymous
+
+interfaces
+
+//@ begin error-handling-model
+root {
+	'Users': collection ['User'] {
+		'User': text
+		'Full name': text
+	}
+	'Administrator': text -> .'Users'[]
+	'Administrator name': text
+}
+//@ end error-handling-model
+
+numerical-types

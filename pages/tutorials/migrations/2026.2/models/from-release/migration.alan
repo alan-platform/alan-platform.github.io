@@ -1,0 +1,20 @@
+//@ all from-release
+root = root as $ {
+	(
+		//@ begin walk-create
+		'Menu' = walk $ .'Menu' as $ => {
+			create (
+				'Item name' = $ .'Item name'
+				//@ begin number-conversion
+				'Selling price' = product ( $ .'Selling price' , 100 )
+				//@ end number-conversion
+				//@ begin new-stategroup
+				'Item type' = create 'Dish' (
+					'Dish type' = create 'Main course' ( )
+				)
+				//@ end new-stategroup
+			)
+		}
+		//@ end walk-create
+	)
+}

@@ -203,7 +203,7 @@ Cases may not overlap, so you cannot match against `<` as well as `<=`.
 
 Let's take a look at the app and enter an order:
 ![discount](./images_model/023.png)
-An order with a subtotal of €40,20 receives a discount of 3% when spending €35 or more during the summer holiday.
+An order with a subtotal of €40.20 receives a discount of 3% when spending €35 or more during the summer holiday.
 
 Now, let's compute the tax (`VAT`).
 To do this we need to know the `Total` cost and take a percentage of it.
@@ -230,50 +230,45 @@ You can find many examples in the `application` language [documentation](/pages/
 
 
 ## Usages and reference sets
-References are by default unidirectional.
-However, it is often useful to 'invert' those references: for `Tables` we may want to know which `Orders` have been placed for it.
+References can be followed in both directions, but the app only shows one direction by default: an `In-house` order shows its `Table` reference.
+The inverse direction tells us which `Orders` refer to a particular table. These inverse references are called *usages*.
 
-You may have noticed the `Usages` button in your app, when viewing a `Tables` item.
-Clicking on `Usages`, gives you a screen with exactly that information: which `Orders` were placed for the `Tables` item.
-
-Let's try that with a new order.
-Select `Orders` **in the left column** and click **'Add'** (note that you can currently not **'Add'** items from the Usages screen directly):
+Let's first place a new order.
+Select `Orders` **in the left column** and click the **+** button above the table:
 
 ![order](./images_model/015.png)
 
-Insert '001' as the order number, choose `In-house` and select a table.
+Insert an order number, choose `In-house` and select a table.
 Just for fun, add some order lines as well:
 
 ![order lines](./images_model/016.png)
 
 Now, hit `Save`!
-Go to `Tables`, pick the table you selected when placing the order and click `Usages`:
+When you open the table that you selected (under `Management`, `Tables`), its properties only show `Table number` and `Seatings` at this stage.
+The app already knows which orders refer to the table; these usages are hidden by default.
 
-![usages](./images_model/017.png)
+To view them, click **Account**, open **UI Settings**, and enable **Advanced features**.
+This makes the **Usages** tab available for all references, without adding reference sets to the model.
+Return to the selected table and open **Usages** to see which `Orders` refer to it.
 
-We can see that in our version `Order` '001' is using table 'T03':
-
-![table used](./images_model/018.png)
-
-If we click the order, we jump to the order with its order lines.
-
----
-In the web app, we have this nice 'Usages' screen.
-The web app computes these screens for us.
-However, we cannot use these 'Usages' in computations.
-For that, we need bidirectional references.
-
-You can turn unidirectional references into bidirectional references with a **reference set**.
-A *reference set* holds inverse references, which are identical to the usages that we just saw.
+To show these usages directly among the table's properties and use them in computations, add a **reference set** to `Tables`.
+A *reference set* exposes inverse references as a named attribute: in this case, all `Orders` whose `Table` reference points to the current table.
 Let's add that reference set, and some derivations that use it:
 ```js
 {% include_relative snippets/refsets1.alan %}
 ```
 
 Now, build it and take a look at the app.
-For each `Tables` node we can now see how many `Orders` have been placed at that table.
-Furthermore, we can see the `Total order value` for the `Orders` placed at a specific table.
+Open the table you selected earlier ('T03' in our example):
+
+![Table properties with the Orders reference set and derived totals](./images_model/017.png)
+
+The `Orders` reference set shows that `Order` '001' is using table 'T03'.
+Below it, we can see how many `Orders` have been placed at that table and the `Total order value` for those `Orders`.
 Nice stats that may enable us to optimize the placement of our `Tables`.
+If we click the order, we jump to the order with its order lines:
+
+![table used](./images_model/018.png)
 
 For expressing the reference set, we use a special keyword `downstream` followed by a navigation path.
 The keyword `downstream` indicates that the reference-set holds references to nodes that are later defined in your model.
@@ -282,7 +277,7 @@ In our experience, well designed application models rarely require the `downstre
 If the `downstream` keyword is required, you can often reorder properties in your model to prevent it.
 In other cases, we often find that a model contains a dependency that requires our attention/should be changed.
 
-The navigation path contains the keyword `*` instead of `[]` that we saw for unidirectional references.
+The navigation path contains the keyword `*` instead of `[]` that we saw for reference attributes.
 That is because multiple `Orders` can reference the same table; the `reference-set` for a specific table will hold *all* `Orders` that refer to that specific table.
 Finally we say: take the `inverse` of the `Table` reference that you find under `In-house`.
 

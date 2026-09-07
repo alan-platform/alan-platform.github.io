@@ -1,0 +1,238 @@
+{
+  "output": "pages/tutorials/ide/images_IDE",
+  "viewport": {
+    "width": 1600,
+    "height": 900,
+    "deviceScaleFactor": 2
+  },
+  "workspace": "workspace-ide/project",
+  "theme": "Default Dark Modern",
+  "env": {
+    "ALAN_CONTAINER_NAME": "ide-tutorial",
+    "ALAN_APP_URL": "https://app.alan-platform.com/tutorial/client/"
+  },
+  "shots": [
+    {
+      "id": "001",
+      "file": "001.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "click": "explorer=README.md"
+        },
+        {
+          "wait": 800
+        },
+        {
+          "command": "Markdown: Open Preview"
+        },
+        {
+          "wait": 1500
+        },
+        {
+          "command": "View: Close Other Editors in Group"
+        },
+        {
+          "wait": 800
+        }
+      ]
+    },
+    {
+      "id": "002",
+      "file": "002.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "command": "Alan: Build"
+        },
+        {
+          "wait": 8000
+        }
+      ],
+      "annotate": [
+        {
+          "box": ".part.sidebar",
+          "pad": 2
+        },
+        {
+          "label": "1",
+          "size": 44,
+          "at": {
+            "selector": ".part.sidebar",
+            "anchor": "bottom-right",
+            "dx": -36,
+            "dy": -30
+          }
+        },
+        {
+          "box": ".part.editor",
+          "pad": 2
+        },
+        {
+          "label": "2",
+          "size": 44,
+          "at": {
+            "selector": ".part.editor",
+            "anchor": "bottom-right",
+            "dx": -36,
+            "dy": -30
+          }
+        },
+        {
+          "box": ".part.panel",
+          "pad": 2
+        },
+        {
+          "label": "3",
+          "size": 44,
+          "at": {
+            "selector": ".part.panel",
+            "anchor": "bottom-right",
+            "dx": -36,
+            "dy": -30
+          }
+        }
+      ]
+    },
+    {
+      "id": "003",
+      "file": "003.png",
+      "steps": [
+        {
+          "open": "models/model/application.alan"
+        }
+      ],
+      "clipTo": {
+        "selector": {
+          "union": [
+            ".part.activitybar .menubar",
+            ".part.activitybar .composite-bar"
+          ]
+        },
+        "pad": 4
+      }
+    },
+    {
+      "id": "004",
+      "file": "004.png",
+      "steps": [
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "wait": 1500
+        }
+      ],
+      "clipTo": {
+        "selector": {
+          "union": [
+            "statusbar=Alan Fetch",
+            "statusbar=Alan Show"
+          ]
+        },
+        "pad": 6
+      }
+    },
+    {
+      "id": "005",
+      "file": "005.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "open": "migrations/from_release/migration.alan"
+        },
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "click": "explorer=_docs"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "explorer=tutorials"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "explorer=restaurant1"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "explorer=2026.2"
+        },
+        {
+          "wait": 800
+        },
+        {
+          "click": "explorer=application.alan"
+        },
+        {
+          "wait": 400
+        }
+      ],
+      "viewport": {
+        "height": 1100
+      },
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "explorer=_docs",
+              "explorer=step_10"
+            ]
+          },
+          "pad": 2
+        },
+        {
+          "box": "explorer=migration.alan",
+          "pad": 2
+        },
+        {
+          "box": "explorer=application.alan",
+          "pad": 2
+        }
+      ]
+    },
+    {
+      "id": "006",
+      "file": "006.png",
+      "steps": [
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "command": "Explorer: Focus on Folders View"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "hover": ".explorer-viewlet .pane-header .action-label[aria-label='Refresh Explorer']"
+        },
+        {
+          "wait": 1500
+        }
+      ],
+      "clip": {
+        "x": 0,
+        "y": 40,
+        "width": 460,
+        "height": 150
+      }
+    }
+  ]
+}

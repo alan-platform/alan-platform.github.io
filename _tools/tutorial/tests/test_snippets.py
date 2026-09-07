@@ -60,6 +60,17 @@ class ExtractTests(unittest.TestCase):
             self.assertEqual((errors, warnings), (0, 0))
         finally: snippets.ROOT = old
 
+    def test_migration_project(self):
+        root = Path(tempfile.mkdtemp()); m = root / "models" / "mig"; (m / "models" / "source").mkdir(parents=True)
+        (m / "migration.alan").write_text("//@ all whole\nroot = root as $ {\n\t(\n\t\t//@ begin part\n\t\t'A' = 1\n\t\t//@ end part\n\t)\n}\n")
+        (m / "models" / "source" / "application.alan").write_text("root {\n\t//@ begin src\n\t'A': number 'x'\n\t//@ end src\n}\n")
+        self.assertEqual([(d.name, k) for d, k in snippets.project_dirs(root / "models")], [("mig", "migration")])
+        self.assertEqual(len(snippets.marker_files(m, "migration")), 2)
+        got = snippets.extract_all(root / "models")
+        self.assertEqual(got["part"], "'A' = 1")
+        self.assertEqual(got["src"], "'A': number 'x'")
+        self.assertTrue(got["whole"].startswith("root = root as $ {"))
+
     @unittest.skipUnless(os.environ.get("ALAN_DEVENV"), "needs Alan devenv")
     def test_compiler_optional(self):
         self.assertTrue(Path(os.environ["ALAN_DEVENV"]).exists())

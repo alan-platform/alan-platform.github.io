@@ -1,0 +1,9 @@
+//@ all maintenance-migration
+root = root as $ {
+	(
+		'App Name' = $ .'Original App Name'
+		'App Description' = "Example app for migrations."
+		'Users' = none
+		'Year' = 2042
+	)
+}

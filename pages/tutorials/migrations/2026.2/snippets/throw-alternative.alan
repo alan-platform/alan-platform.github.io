@@ -1,0 +1,1 @@
+'Administrator' = $ .'Users'[ $ .'Administrator' ] .'User' || throw "The administrator is not a known user."

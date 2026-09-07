@@ -60,16 +60,18 @@ As you might have noticed it is easy to make adjustments to your model: Moving a
 
 
 ## State machines
-In the previous topic we've added `Line status` but the different states do not have any effect yet. The order line status needs to change according to the process in our restaurant. In short the process looks like this: Service goes to a table, customers order their drinks and/or dishes and might change their minds, orders are placed to be prepared and finally, the orders are delivered to the table.
+In Part II of this tutorial, we have added `Line status` but the different states do not have any effect yet.
+The order line status needs to change according to the process in our restaurant.
+In short, the process goes like this: Service goes to a table, customers order their drinks and/or dishes and may change their minds, orders are placed to be prepared and finally, the orders are delivered to the table.
 So, we want to change the state without accidentilly skip a state. Let's implement this:
 ```js
 {% include_relative snippets/line-status-commands.alan %}
 ```
-Each state got a command that can change the current state to the next one. Notice that these commands do not have a command definition, only a command implementation, because all we need here is a button.
-Build the model and view it in your browser by going to 'Orders' and selecting order 001 (or input an order first):
+Each state got a command that can change the current state to the next one. Notice that these commands do not have parameters, because no input is needed.
+Build the model and view it in your browser by going to `Orders`, selecting order 001 (or input an order first) and opening its first order line:
 ![Place order line commands](./images_model/026.png)
-Set the view to `Full`. This will reveil some extra columns with in the first column a button `Place order line` (if you inserted an order yourself you must have selected `On hold` as line state).
-Click the button of an order line to place it and refresh the table `Order lines`. As you can see the button disappears from the column `Place order line` and a new one appears in the column `Ready for service`. Repeat for this button and see what happens.
+Below `Line status`, a button `Place order line` appears (if you inserted an order yourself you must have selected `On hold` as line state).
+Click the button to place the line. As you can see the button disappears and a new one, `Ready for service`, appears in its place. Repeat for this button and see what happens.
 If you can imagine that different people with different roles within the restaurant have access to specific parts of the model, you could organise who gets to push which button. This is possible by implementing `users` and their access rights, which will be discussed in another topic.
 Now clicking each line individually can become a hassle, so let's create a command that can set all lines with state `On hold` within one order to `Placed`:
 ```js
@@ -164,7 +166,7 @@ By revisiting the Car example from the topic 'References', where we explained th
 Here we used property `Car` with reference rule `fast` (this means `Car` can only have values of `Electric vehicles` that also have state `Fast`) to derive `Top speed` by using the notation `.'property'&'where'`.
 Back to our model, as a state is not a property there is no property to refer to and therefore the notation becomes `.&'where'`.
 
-Here is the result of ouw efforts in the app:
+Here is the result of our efforts in the app:
 ![Table and priority](./images_model/033.png)
 
 The example is a bit far fetched but it gives a preview into how intricate models can become.

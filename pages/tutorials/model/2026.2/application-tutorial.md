@@ -160,7 +160,7 @@ When opening your app in a webbrowser (we assume you use a chromium-based browse
 ![first app](./images_model/001a.png)
 
 Add some `Menu` items to familiarize yourself with the *Graphical User Interface* (GUI).
-Click **Add** to start adding a new item.
+Click the **+** button above the table to start adding a new item.
 Then, fill in the required fields for the item.
 Click **Save** and **Close** (top right corner) when you're done.
 This will bring you back to the `Menu` table, where you can add more items and modify existing ones.
@@ -229,7 +229,7 @@ In your updated application, set the view to **Full** to see all columns:
 ![added states](./images_model/003.png)
 
 The table now has a few more columns.
-If you add an item yourself you'll see radio buttons and a drop-down for choosing states for the added stategroup attributes:
+If you add an item yourself you'll see radio buttons for choosing states for the added stategroup attributes:
 ![selection boxes](./images_model/004.png)
 
 
@@ -285,7 +285,7 @@ This line says that an `Item` on an order from a table refers to a `Menu` item.
 First, let's see what this means for our application.
 
 Click on `Tables` on the left hand side.
-Click table "T01" from the list (shown in the previous image) and then click the **Add** button next to `Orders`:
+Click table "T01" from the list (shown in the previous image) and then click the **+** button next to `Orders`:
 
 ![table number](./images_model/006.png)
 
@@ -298,7 +298,7 @@ Now, click the magnifying glass next to the field for `Item` and you'll see this
 ![menu items](./images_model/008.png)
 
 Here we see the items from the `Menu` and we can choose an item from the table.
-Or, if we start typing in the box `Item name`, the table will be filtered.
+Or, if we start typing in the search box, the table will be filtered.
 We can only choose an item that is in the table.
 When we click an item, the `Item name` from the item we clicked will be placed in the text field.
 

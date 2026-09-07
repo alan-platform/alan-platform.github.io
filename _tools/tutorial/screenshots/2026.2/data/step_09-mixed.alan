@@ -1,0 +1,250 @@
+root = root as $ {
+	let $'$' = $
+
+	(
+		'Management' = {
+			(
+				'Discount periods' = {
+					create (
+						'Period' = "Summer holiday"
+						'Percentage' = 3
+						'Minimal spendings' = 3500
+					)
+					create (
+						'Period' = "Christmas holiday"
+						'Percentage' = 5
+						'Minimal spendings' = 5000
+					)
+				}
+				'VAT percentage' = 21
+				'Beverage types' = {
+					create (
+						'Beverage type' = "Juice"
+					)
+					create (
+						'Beverage type' = "Soft drink"
+					)
+					create (
+						'Beverage type' = "Cocktail"
+					)
+					create (
+						'Beverage type' = "Beer"
+					)
+					create (
+						'Beverage type' = "Wine"
+					)
+					create (
+						'Beverage type' = "Coffee & tea"
+					)
+				}
+				'Tables' = {
+					create (
+						'Table number' = "T01"
+						'Seatings' = 4
+					)
+					create (
+						'Table number' = "T02"
+						'Seatings' = 4
+					)
+					create (
+						'Table number' = "T03"
+						'Seatings' = 2
+					)
+					create (
+						'Table number' = "T04"
+						'Seatings' = 8
+					)
+					create (
+						'Table number' = "T05"
+						'Seatings' = 6
+					)
+				}
+			)
+		}
+		'Service' = {
+			(
+				'Menu' = {
+					create (
+						'Item name' = "Shrimp salad"
+						'Selling price' = 350
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Appetizer' ( )
+						)
+					)
+					create (
+						'Item name' = "Tomato soup"
+						'Selling price' = 450
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Appetizer' ( )
+						)
+					)
+					create (
+						'Item name' = "Ciabatta with tapenade"
+						'Selling price' = 250
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Appetizer' ( )
+						)
+					)
+					create (
+						'Item name' = "Beef stew"
+						'Selling price' = 1800
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Main course' ( )
+						)
+					)
+					create (
+						'Item name' = "Grilled salmon"
+						'Selling price' = 1650
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Main course' ( )
+						)
+					)
+					create (
+						'Item name' = "Mashed potato with sauerkraut"
+						'Selling price' = 1400
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Main course' ( )
+						)
+					)
+					create (
+						'Item name' = "Chocolate mousse"
+						'Selling price' = 450
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Dessert' ( )
+						)
+					)
+					create (
+						'Item name' = "Vanilla ice cream"
+						'Selling price' = 350
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Dessert' ( )
+						)
+					)
+					create (
+						'Item name' = "Cherry pie"
+						'Selling price' = 400
+						'Item type' = create 'Dish' (
+							'Dish type' = create 'Dessert' ( )
+						)
+					)
+					create (
+						'Item name' = "Orange juice"
+						'Selling price' = 450
+						'Item type' = create 'Beverage' (
+							'Beverage type' = "Juice"
+						)
+					)
+					create (
+						'Item name' = "Spa rood"
+						'Selling price' = 300
+						'Item type' = create 'Beverage' (
+							'Beverage type' = "Soft drink"
+						)
+					)
+					create (
+						'Item name' = "Heineken pilsner"
+						'Selling price' = 320
+						'Item type' = create 'Beverage' (
+							'Beverage type' = "Beer"
+						)
+					)
+					create (
+						'Item name' = "Mojito"
+						'Selling price' = 630
+						'Item type' = create 'Beverage' (
+							'Beverage type' = "Cocktail"
+						)
+					)
+					create (
+						'Item name' = "Cappuccino"
+						'Selling price' = 320
+						'Item type' = create 'Beverage' (
+							'Beverage type' = "Coffee & tea"
+						)
+					)
+					create (
+						'Item name' = "Ginger tea"
+						'Selling price' = 280
+						'Item type' = create 'Beverage' (
+							'Beverage type' = "Coffee & tea"
+						)
+					)
+				}
+				'Orders' = {
+					create (
+						'Order' = "001"
+						'Order type' = create 'In-house' (
+							'Table' = "T03"
+						)
+						'Order lines' = {
+							create (
+								'Order line' = "01"
+								'Item' = "Ciabatta with tapenade"
+								'Amount' = 1
+								'Line status' = create 'Served' ( )
+							)
+							create (
+								'Order line' = "02"
+								'Item' = "Shrimp salad"
+								'Amount' = 1
+								'Line status' = create 'Service' ( )
+							)
+							create (
+								'Order line' = "03"
+								'Item' = "Heineken pilsner"
+								'Amount' = 1
+								'Line status' = create 'Service' ( )
+							)
+							create (
+								'Order line' = "04"
+								'Item' = "Spa rood"
+								'Amount' = 1
+								'Line status' = create 'Placed' ( )
+							)
+							create (
+								'Order line' = "05"
+								'Item' = "Mashed potato with sauerkraut"
+								'Amount' = 2
+								'Line status' = create 'On hold' ( )
+							)
+						}
+						'Order status' = create 'Open' ( )
+						'Discount applicable' = create 'Yes' (
+							'Discount period' = "Summer holiday"
+						)
+					)
+					create (
+						'Order' = "002"
+						'Order type' = create 'In-house' (
+							'Table' = "T01"
+						)
+						'Order lines' = {
+							create (
+								'Order line' = "01"
+								'Item' = "Orange juice"
+								'Amount' = 1
+								'Line status' = create 'On hold' ( )
+							)
+							create (
+								'Order line' = "02"
+								'Item' = "Ginger tea"
+								'Amount' = 1
+								'Line status' = create 'On hold' ( )
+							)
+							create (
+								'Order line' = "03"
+								'Item' = "Tomato soup"
+								'Amount' = 2
+								'Line status' = create 'On hold' ( )
+							)
+						}
+						'Order status' = create 'Open' ( )
+						'Discount applicable' = create 'Yes' (
+							'Discount period' = "Summer holiday"
+						)
+					)
+				}
+			)
+		}
+	)
+}

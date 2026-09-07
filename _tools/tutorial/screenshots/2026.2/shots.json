@@ -1,0 +1,1248 @@
+{
+  "output": "pages/tutorials/model/2026.2/images_model",
+  "viewport": {
+    "width": 1336,
+    "height": 987,
+    "deviceScaleFactor": 2
+  },
+  "appName": "Sandbox",
+  "settleMs": 300,
+  "datasets": {
+    "step_01-empty": {
+      "model": "step_01",
+      "migration": "data/step_01-empty.alan"
+    },
+    "step_01": {
+      "model": "step_01",
+      "migration": "online-ide:step_01"
+    },
+    "step_02": {
+      "model": "step_02",
+      "migration": "online-ide:step_02"
+    },
+    "step_03": {
+      "model": "step_03",
+      "migration": "online-ide:step_03"
+    },
+    "step_04": {
+      "model": "step_04",
+      "migration": "online-ide:step_04"
+    },
+    "step_04a": {
+      "model": "step_04a",
+      "migration": "online-ide:step_04a"
+    },
+    "step_06": {
+      "model": "step_06",
+      "migration": "online-ide:step_06"
+    },
+    "step_06b": {
+      "model": "step_06b",
+      "migration": "online-ide:step_06b"
+    },
+    "step_08": {
+      "model": "step_08",
+      "migration": "online-ide:step_08"
+    },
+    "step_09": {
+      "model": "step_09",
+      "migration": "data/step_09-mixed.alan"
+    },
+    "step_10": {
+      "model": "step_10",
+      "migration": "online-ide:step_10"
+    },
+    "step_07-statuses": {
+      "model": "step_07-statuses",
+      "migration": "data/step_07-statuses.alan"
+    },
+    "step_09-to-serve-v1": {
+      "model": "step_09-to-serve-v1",
+      "migration": "data/step_09-mixed.alan"
+    },
+    "step_10-kitchen-acyclic": {
+      "model": "step_10-kitchen-acyclic",
+      "migration": "data/step_10-kitchen-acyclic.alan"
+    },
+    "step_06a": {
+      "model": "step_06a",
+      "migration": "online-ide:step_06a"
+    },
+    "step_09-priority": {
+      "model": "step_09-priority",
+      "migration": "data/step_09-mixed.alan"
+    },
+    "step_08-served": {
+      "model": "step_08",
+      "migration": "data/step_08-served.alan"
+    },
+    "step_05": {
+      "model": "step_05",
+      "migration": "online-ide:step_05"
+    }
+  },
+  "shots": [
+    {
+      "id": "000A",
+      "file": "000A.png",
+      "dataset": "step_01",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "waitFor": "row=Chocolate mousse"
+        }
+      ],
+      "clipTo": {
+        "selector": "row=Chocolate mousse",
+        "pad": 6,
+        "extendRight": 230
+      },
+      "annotate": [
+        {
+          "box": "row=Chocolate mousse",
+          "pad": 2
+        },
+        {
+          "arrow": {
+            "from": {
+              "selector": "row=Chocolate mousse",
+              "anchor": "right",
+              "dx": 150
+            },
+            "to": {
+              "selector": "row=Chocolate mousse",
+              "anchor": "right",
+              "dx": 10
+            }
+          }
+        },
+        {
+          "label": "node",
+          "at": {
+            "selector": "row=Chocolate mousse",
+            "anchor": "right",
+            "dx": 160
+          }
+        }
+      ]
+    },
+    {
+      "id": "000B",
+      "file": "000B.png",
+      "dataset": "step_01",
+      "actions": [],
+      "code": "'Menu': collection ['Item name'] {\n\t'Item name': text\n\t'Selling price': number 'euro'\n}",
+      "clipTo": {
+        "selector": "pre.code",
+        "pad": 16,
+        "extendRight": 300
+      },
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "[data-line=\"2\"]",
+              "[data-line=\"3\"]"
+            ]
+          },
+          "pad": 6
+        },
+        {
+          "arrow": {
+            "from": {
+              "selector": "[data-line=\"3\"]",
+              "anchor": "right",
+              "dx": 150,
+              "dy": -12
+            },
+            "to": {
+              "selector": "[data-line=\"3\"]",
+              "anchor": "right",
+              "dx": 14,
+              "dy": -12
+            }
+          }
+        },
+        {
+          "label": "node type",
+          "at": {
+            "selector": "[data-line=\"3\"]",
+            "anchor": "right",
+            "dx": 160,
+            "dy": -12
+          }
+        }
+      ]
+    },
+    {
+      "id": "001a",
+      "file": "001a.png",
+      "dataset": "step_01-empty",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "waitFor": "exact=Item name"
+        }
+      ]
+    },
+    {
+      "id": "002",
+      "file": "002.png",
+      "dataset": "step_01",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "type": {
+            "selector": "field=Item name",
+            "text": "Fish and chips"
+          }
+        },
+        {
+          "type": {
+            "selector": "field=Selling price",
+            "text": "4.50"
+          }
+        },
+        {
+          "clickAt": [
+            900,
+            600
+          ]
+        },
+        {
+          "wait": 500
+        }
+      ],
+      "annotate": [
+        {
+          "arrow": {
+            "from": {
+              "selector": "field=Selling price",
+              "anchor": "bottom",
+              "dx": 140,
+              "dy": 90
+            },
+            "to": {
+              "selector": "field=Selling price",
+              "anchor": "bottom",
+              "dx": 20,
+              "dy": 8
+            }
+          }
+        },
+        {
+          "label": "4.50 became 5 after leaving the field",
+          "at": {
+            "selector": "field=Selling price",
+            "anchor": "bottom",
+            "dx": 150,
+            "dy": 92
+          }
+        }
+      ]
+    },
+    {
+      "id": "003",
+      "file": "003.png",
+      "dataset": "step_02",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "view": "Full"
+        },
+        {
+          "wait": 500
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=Full",
+          "pad": 4
+        }
+      ]
+    },
+    {
+      "id": "004",
+      "file": "004.png",
+      "dataset": "step_02",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "click": "exact=Dish"
+        },
+        {
+          "wait": 500
+        }
+      ]
+    },
+    {
+      "id": "005",
+      "file": "005.png",
+      "dataset": "step_03",
+      "actions": [
+        {
+          "click": "button=Tables"
+        },
+        {
+          "click": "exact=chevron_right"
+        },
+        {
+          "wait": 400
+        }
+      ]
+    },
+    {
+      "id": "006",
+      "file": "006.png",
+      "dataset": "step_03",
+      "actions": [
+        {
+          "click": "button=Tables"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 400
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=add",
+          "pad": 4
+        }
+      ]
+    },
+    {
+      "id": "007",
+      "file": "007.png",
+      "dataset": "step_03",
+      "actions": [
+        {
+          "click": "button=Tables"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "type": {
+            "selector": "field=Order line",
+            "text": "01"
+          }
+        }
+      ]
+    },
+    {
+      "id": "008",
+      "file": "008.png",
+      "dataset": "step_03",
+      "actions": [
+        {
+          "click": "button=Tables"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "type": {
+            "selector": "field=Order line",
+            "text": "01"
+          }
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "waitFor": "row=Beef stew"
+        },
+        {
+          "wait": 400
+        }
+      ]
+    },
+    {
+      "id": "009",
+      "file": "009.png",
+      "dataset": "step_03",
+      "actions": [
+        {
+          "click": "button=Tables"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "type": {
+            "selector": "field=Order line",
+            "text": "01"
+          }
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "waitFor": "row=Beef stew"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "row=Beef stew"
+        },
+        {
+          "wait": 500
+        }
+      ]
+    },
+    {
+      "id": "010",
+      "file": "010.png",
+      "dataset": "step_03",
+      "actions": [
+        {
+          "click": "button=Tables"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "type": {
+            "selector": "field=Order line",
+            "text": "01"
+          }
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "waitFor": "row=Beef stew"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "row=Beef stew"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "type": {
+            "selector": "field=Amount",
+            "text": "2"
+          }
+        },
+        {
+          "click": "button=Save"
+        },
+        {
+          "wait": 800
+        },
+        {
+          "click": "button=Close"
+        },
+        {
+          "wait": 800
+        }
+      ]
+    },
+    {
+      "id": "011",
+      "file": "011.png",
+      "dataset": "step_04",
+      "actions": [
+        {
+          "click": "button=Beverage types"
+        },
+        {
+          "wait": 400
+        }
+      ]
+    },
+    {
+      "id": "012",
+      "file": "012.png",
+      "dataset": "step_04",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "wait": 400
+        }
+      ]
+    },
+    {
+      "id": "013",
+      "file": "013.png",
+      "dataset": "step_04",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "click": "row=Mojito"
+        },
+        {
+          "click": "button=Edit"
+        },
+        {
+          "wait": 600
+        }
+      ]
+    },
+    {
+      "id": "014",
+      "file": "014.png",
+      "dataset": "step_04",
+      "actions": [
+        {
+          "click": "button=Menu"
+        },
+        {
+          "click": "row=Mojito"
+        },
+        {
+          "click": "button=Edit"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "wait": 900
+        }
+      ]
+    },
+    {
+      "id": "022",
+      "file": "022.png",
+      "dataset": "step_04a",
+      "actions": [
+        {
+          "click": "button=Orders"
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": "prop=Total",
+          "pad": 6
+        },
+        {
+          "box": "exact=Line total",
+          "pad": 8
+        }
+      ]
+    },
+    {
+      "id": "023",
+      "file": "023.png",
+      "dataset": "step_06",
+      "actions": [
+        {
+          "click": "button=Orders"
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1336,
+        "height": 745
+      },
+      "annotate": [
+        {
+          "box": "prop=Discount",
+          "pad": 6
+        }
+      ]
+    },
+    {
+      "id": "024",
+      "file": "024.png",
+      "dataset": "step_06",
+      "actions": [
+        {
+          "click": "button=Orders"
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ]
+    },
+    {
+      "id": "015",
+      "file": "015.png",
+      "dataset": "step_06",
+      "actions": [
+        {
+          "click": "button=Orders"
+        },
+        {
+          "wait": 400
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=add",
+          "pad": 4
+        }
+      ]
+    },
+    {
+      "id": "016",
+      "file": "016.png",
+      "dataset": "step_06",
+      "actions": [
+        {
+          "click": "button=Orders"
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "type": {
+            "selector": "field=Order",
+            "text": "002"
+          }
+        },
+        {
+          "click": "exact=In-house"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "waitFor": "row=T03"
+        },
+        {
+          "click": "row=T03"
+        },
+        {
+          "wait": 500
+        }
+      ]
+    },
+    {
+      "id": "017",
+      "file": "017.png",
+      "dataset": "step_06a",
+      "actions": [
+        {
+          "click": "button=Management"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "row=T03"
+        },
+        {
+          "wait": 700
+        }
+      ],
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "prop=Number of orders",
+              "prop=Total order value"
+            ]
+          },
+          "pad": 6
+        }
+      ]
+    },
+    {
+      "id": "018",
+      "file": "018.png",
+      "dataset": "step_06a",
+      "actions": [
+        {
+          "click": "button=Management"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "row=T03"
+        },
+        {
+          "wait": 700
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 700
+        }
+      ],
+      "annotate": [
+        {
+          "box": ".common-control-breadcrumbs",
+          "pad": 8
+        }
+      ]
+    },
+    {
+      "id": "019",
+      "file": "019.png",
+      "dataset": "step_06b",
+      "actions": [
+        {
+          "wait": 300
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=Place new order",
+          "pad": 4
+        }
+      ],
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 420,
+        "height": 440
+      }
+    },
+    {
+      "id": "020",
+      "file": "020.png",
+      "dataset": "step_06b",
+      "actions": [
+        {
+          "click": "button=Place new order"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "type": {
+            "selector": "field=Provide an order number",
+            "text": "002"
+          }
+        },
+        {
+          "click": "exact=At the restaurant"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "waitFor": "row=T01"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 500
+        }
+      ]
+    },
+    {
+      "id": "021",
+      "file": "021.png",
+      "dataset": "step_06b",
+      "actions": [
+        {
+          "click": "button=Place new order"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "type": {
+            "selector": "field=Provide an order number",
+            "text": "002"
+          }
+        },
+        {
+          "click": "exact=At the restaurant"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "waitFor": "row=T01"
+        },
+        {
+          "click": "row=T01"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "button=Place new order[0]"
+        },
+        {
+          "wait": 900
+        },
+        {
+          "click": "button=Cancel"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "button=Orders"
+        },
+        {
+          "click": "row=002"
+        },
+        {
+          "wait": 700
+        }
+      ]
+    },
+    {
+      "id": "025",
+      "file": "025.png",
+      "dataset": "step_07-statuses",
+      "actions": [
+        {
+          "click": "button=Orders"
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": "prop=Order status",
+          "pad": 6
+        },
+        {
+          "box": "exact=Line status",
+          "pad": 8
+        }
+      ]
+    },
+    {
+      "id": "026",
+      "file": "026.png",
+      "dataset": "step_08",
+      "actions": [
+        {
+          "click": "button=Service"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=01"
+        },
+        {
+          "wait": 700
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=Place order line",
+          "pad": 4
+        }
+      ]
+    },
+    {
+      "id": "027",
+      "file": "027.png",
+      "dataset": "step_08",
+      "actions": [
+        {
+          "click": "button=Service"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=Place order lines",
+          "pad": 4
+        }
+      ]
+    },
+    {
+      "id": "028",
+      "file": "028.png",
+      "dataset": "step_08",
+      "actions": [
+        {
+          "click": "button=Service"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "prop=Order status",
+              "prop=All served"
+            ]
+          },
+          "pad": 6
+        }
+      ]
+    },
+    {
+      "id": "029",
+      "file": "029.png",
+      "dataset": "step_08-served",
+      "actions": [
+        {
+          "click": "button=Service"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "row=001"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "prop=Order status",
+              "prop=All served",
+              "button=Paid"
+            ]
+          },
+          "pad": 6
+        }
+      ]
+    },
+    {
+      "id": "030",
+      "file": "030.png",
+      "dataset": "step_08",
+      "actions": [
+        {
+          "click": "chevron=Service"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "chevron=Orders"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=Order lines"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "view": "Full"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": "button=Order lines",
+          "pad": 4
+        }
+      ]
+    },
+    {
+      "id": "031",
+      "file": "031.png",
+      "dataset": "step_09-priority",
+      "actions": [
+        {
+          "click": "chevron=Service"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "chevron=Orders"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=Order lines"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "view": "Full"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": "exact=Priority",
+          "pad": 8
+        }
+      ]
+    },
+    {
+      "id": "032",
+      "file": "032.png",
+      "dataset": "step_09-to-serve-v1",
+      "actions": [
+        {
+          "click": "chevron=Service"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "chevron=Orders"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=Order lines"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "view": "Full"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "exact=To serve",
+              "exact=Table"
+            ]
+          },
+          "pad": 8
+        }
+      ]
+    },
+    {
+      "id": "033",
+      "file": "033.png",
+      "dataset": "step_09",
+      "actions": [
+        {
+          "click": "chevron=Service"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "chevron=Orders"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=Order lines"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "view": "Full"
+        },
+        {
+          "wait": 600
+        }
+      ],
+      "annotate": [
+        {
+          "box": {
+            "union": [
+              "exact=To serve",
+              "exact=Table"
+            ]
+          },
+          "pad": 8
+        }
+      ]
+    },
+    {
+      "id": "034",
+      "file": "034.png",
+      "dataset": "step_10-kitchen-acyclic",
+      "actions": [
+        {
+          "click": "button=Kitchen"
+        },
+        {
+          "wait": 600
+        }
+      ]
+    },
+    {
+      "id": "035",
+      "file": "035.png",
+      "dataset": "step_10-kitchen-acyclic",
+      "actions": [
+        {
+          "click": "button=Kitchen"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=Potato mash"
+        },
+        {
+          "wait": 700
+        }
+      ]
+    },
+    {
+      "id": "036",
+      "file": "036.png",
+      "dataset": "step_10",
+      "actions": [
+        {
+          "click": "button=Kitchen"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=Potato mash"
+        },
+        {
+          "wait": 700
+        }
+      ],
+      "annotate": [
+        {
+          "box": "prop=Cost price",
+          "pad": 6
+        }
+      ]
+    },
+    {
+      "id": "037",
+      "file": "037.png",
+      "dataset": "step_10",
+      "actions": [
+        {
+          "click": "button=Service"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "button=add"
+        },
+        {
+          "wait": 500
+        },
+        {
+          "click": "exact=search"
+        },
+        {
+          "wait": 900
+        }
+      ]
+    }
+  ],
+  "dataDir": "assets"
+}

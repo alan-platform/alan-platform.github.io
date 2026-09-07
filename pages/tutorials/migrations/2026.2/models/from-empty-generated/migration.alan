@@ -1,0 +1,6 @@
+//@ all from-empty-generated
+root = root as $ {
+	(
+		'Menu' = none
+	)
+}

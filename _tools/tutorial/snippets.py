@@ -16,6 +16,9 @@ NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 INCLUDE = re.compile(r"^\{% include_relative snippets/([A-Za-z0-9][A-Za-z0-9_-]*)\.alan %\}$")
 FOLDER = re.compile(r"<tutorial folder: .*?/(step_[0-9]+[a-z]?)/>")
 DIAG_LINE = re.compile(r"^.+:(\d+):(\d+)(?: to \d+:\d+)?: (?:error|warning):")
+DIAG_LOC = re.compile(r"^(.+?):(\d+):(\d+)(?: to \d+:\d+)?: (?:error|warning):")
+MIGRATION_LANG = "system-types/datastore/migration/language"
+MODEL_LANG = "platform/if-types/model/language"
 
 
 class ExtractError(Exception):
@@ -148,24 +151,49 @@ def extract_file(path):
 
 def extract_all(models_dir):
     output, owners, diagnostics = {}, {}, []
-    for path in sorted(Path(models_dir).glob("*/application.alan")):
-        try: chunks, _, _ = extract_file(path)
-        except ExtractError as e: diagnostics.extend(e.diagnostics); continue
-        for name, pieces in chunks.items():
-            if name in owners:
-                diagnostics += [diag(path, 1, f"snippet '{name}' also produced by {owners[name]}"), diag(owners[name], 1, f"snippet '{name}' also produced by {path}")]
-            else:
-                owners[name] = path; output[name] = "\n...\n".join("\n".join(x) for x in pieces)
+    for d, kind in project_dirs(models_dir):
+        for path in marker_files(d, kind):
+            try: chunks, _, _ = extract_file(path)
+            except ExtractError as e: diagnostics.extend(e.diagnostics); continue
+            for name, pieces in chunks.items():
+                if name in owners:
+                    diagnostics += [diag(path, 1, f"snippet '{name}' also produced by {owners[name]}"), diag(owners[name], 1, f"snippet '{name}' also produced by {path}")]
+                else:
+                    owners[name] = path; output[name] = "\n...\n".join("\n".join(x) for x in pieces)
     if diagnostics: raise ExtractError(diagnostics)
     return output
 
 
-def version_dir(version): return ROOT / "pages/tutorials/model" / version
+def version_dir(version, tutorial="model"): return ROOT / "pages/tutorials" / tutorial / version
+
+
+def project_dirs(models_dir):
+    """Every models/<dir> is either a model project (application.alan) or a migration project (migration.alan)."""
+    out = []
+    for d in sorted(p for p in Path(models_dir).glob("*") if p.is_dir()):
+        if (d / "migration.alan").exists(): out.append((d, "migration"))
+        elif (d / "application.alan").exists(): out.append((d, "model"))
+    return out
+
+
+def marker_files(d, kind):
+    """Files of a project that may carry //@ markers."""
+    if kind == "model": return [d / "application.alan"]
+    files = [d / "migration.alan"]
+    for sub in ("source", "target"):
+        f = d / "models" / sub / "application.alan"
+        if f.exists(): files.append(f)
+    return files
+
+
+def language_for(platform, kind): return Path(platform) / (MODEL_LANG if kind == "model" else MIGRATION_LANG)
+
 
 def inline_check(vdir):
     models = []
-    for p in (vdir / "models").glob("*/application.alan"):
-        models.append(re.sub(r"\s+", " ", p.read_text(encoding="utf-8").replace("\r\n", "\n")).strip())
+    for d, kind in project_dirs(vdir / "models"):
+        for p in marker_files(d, kind):
+            models.append(re.sub(r"\s+", " ", p.read_text(encoding="utf-8").replace("\r\n", "\n")).strip())
     for md in sorted(vdir.glob("*.md")):
         lines = md.read_text(encoding="utf-8").splitlines(); i = 0
         while i < len(lines):
@@ -202,11 +230,12 @@ def audit_docs(vdir, generated):
     return errors, warnings
 
 
-def compiler_check(path, platform, expect, regions):
-    """Compile one model dir. Returns (diagnostics, toolchain_notices)."""
-    cmd = [str(Path(platform)/"platform/project-compiler/tools/compiler-project"), str(Path(platform)/"platform/if-types/model/language"), "--format", "vscode", "-C", str(path.parent), "/dev/null"]
+def compiler_check(d, kind, platform, expect, regions_by_file):
+    """Compile one project dir (model or migration). Returns (diagnostics, toolchain_notices)."""
+    main_file = d / ("application.alan" if kind == "model" else "migration.alan")
+    cmd = [str(Path(platform)/"platform/project-compiler/tools/compiler-project"), str(language_for(platform, kind)), "--format", "vscode", "-C", str(d), "/dev/null"]
     try: r = subprocess.run(cmd, text=True, capture_output=True, timeout=120)
-    except subprocess.TimeoutExpired: return [diag(path, 1, "compiler timeout")], []
+    except subprocess.TimeoutExpired: return [diag(main_file, 1, "compiler timeout")], []
     out = (r.stdout + r.stderr).strip("\n"); lines = out.splitlines() if out else []
     located = [x for x in lines if DIAG_LINE.match(x)]
     # warnings without a source location come from the toolchain itself (e.g. an annotation package that
@@ -215,23 +244,24 @@ def compiler_check(path, platform, expect, regions):
     located_warnings = [x for x in located if " warning: " in x]
     if expect is None:
         if r.returncode == 0 and not located_warnings: return [], notices
-        result = list(located) + ([diag(path, 1, "model compiles with warnings; add '//@ expect warning <text>' or fix")] if r.returncode == 0 else [])
+        result = list(located) + ([diag(main_file, 1, "model compiles with warnings; add '//@ expect warning <text>' or fix")] if r.returncode == 0 else [])
         if r.returncode != 0 and not any(": error:" in x for x in result):
-            result.append(diag(path, 1, f"compiler failed (exit {r.returncode})"))
+            result.append(diag(main_file, 1, f"compiler failed (exit {r.returncode})"))
         return result, notices
-    kind, text, eline = expect
-    if kind == "error": ok = r.returncode != 0 and text in out
+    kind_, text, eline, efile = expect
+    if kind_ == "error": ok = r.returncode != 0 and text in out
     else: ok = r.returncode == 0 and any(text in x for x in located_warnings)
     if not ok:
-        msg = f"expected compile {kind} containing '{text}'" + (f" (compiler exit {r.returncode})" if kind == "error" else "")
-        return list(located) + [diag(path, eline, msg)], notices
-    if kind == "error":
+        msg = f"expected compile {kind_} containing '{text}'" + (f" (compiler exit {r.returncode})" if kind_ == "error" else "")
+        return list(located) + [diag(efile, eline, msg)], notices
+    if kind_ == "error":
         for line in located:
-            m = DIAG_LINE.match(line)
+            m = DIAG_LOC.match(line)
             if m:
-                at = int(m.group(1))
-                if not any(a <= at <= b for ranges in regions.values() for a,b in ranges):
-                    return [diag(path, at, "expected error is not shown by any snippet", level="warning")], notices
+                at = int(m.group(2)); where = Path(m.group(1)).resolve()
+                ranges = [rng for f, rs in regions_by_file.items() if Path(f).resolve() == where for rng in rs.values()]
+                if ranges and not any(a <= at <= b for rs in ranges for a, b in rs):
+                    return [diag(where, at, "expected error is not shown by any snippet", level="warning")], notices
                 break
     return [], notices
 
@@ -265,15 +295,20 @@ def compare_reference(path, platform, reference, version):
     return [diag(path, first, f"differs from online-ide {ref.resolve()}")] + ["  " + x for x in diff]
 
 
-def verify(version, platform=None, jobs=None, reference=None, no_compile=False):
-    vdir = version_dir(version); errors = warnings = 0
-    model_paths = sorted((vdir/"models").glob("*/application.alan")); info = []
-    for path in model_paths:
-        try: chunks, expected, regions = extract_file(path); info.append((path, expected, regions))
-        except ExtractError as e: print("\n".join(e.diagnostics)); errors += len(e.diagnostics)
+def verify(version, platform=None, jobs=None, reference=None, no_compile=False, tutorial="model"):
+    vdir = version_dir(version, tutorial); errors = warnings = 0
+    info = []
+    for d, kind in project_dirs(vdir / "models"):
+        expect = None; regions_by_file = {}
+        for path in marker_files(d, kind):
+            try:
+                chunks, expected, regions = extract_file(path); regions_by_file[path] = regions
+                if expected and expect is None: expect = (*expected, path)
+            except ExtractError as e: print("\n".join(e.diagnostics)); errors += len(e.diagnostics)
+        info.append((d, kind, expect, regions_by_file))
     if platform and not no_compile:
         with concurrent.futures.ThreadPoolExecutor(max_workers=jobs or os.cpu_count() or 1) as ex:
-            futures = [ex.submit(compiler_check, p, platform, e, r) for p,e,r in info]
+            futures = [ex.submit(compiler_check, d, k, platform, e, r) for d, k, e, r in info]
             seen_notices = set()
             for fut in futures:
                 msgs, notices = fut.result(); print("\n".join(msgs)) if msgs else None
@@ -281,7 +316,7 @@ def verify(version, platform=None, jobs=None, reference=None, no_compile=False):
                 for note in notices:
                     if note not in seen_notices:
                         seen_notices.add(note); warnings += 1
-                        print(diag(Path(platform)/"platform/if-types/model/language", 1, f"toolchain: {note}", level="warning"))
+                        print(diag(Path(platform)/MODEL_LANG, 1, f"toolchain: {note}", level="warning"))
     try: generated = extract_all(vdir/"models")
     except ExtractError as e: print("\n".join(e.diagnostics)); generated = {}; errors += len(e.diagnostics)
     snips = vdir/"snippets"
@@ -292,25 +327,26 @@ def verify(version, platform=None, jobs=None, reference=None, no_compile=False):
         if target.stem not in generated: print(diag(target, 1, "stale generated snippet; run extract --write")); errors += 1
     e,w = audit_docs(vdir, generated); errors += e; warnings += w
     if platform and reference:
-        for path,_,_ in info:
-            if re.match(r"^step_[0-9]+[a-z]?$", path.parent.name):
-                msgs = compare_reference(path, platform, reference, version); print("\n".join(msgs)) if msgs else None; errors += len([x for x in msgs if ": error:" in x])
+        for d, kind, _, _ in info:
+            if kind == "model" and re.match(r"^step_[0-9]+[a-z]?$", d.name):
+                msgs = compare_reference(d/"application.alan", platform, reference, version); print("\n".join(msgs)) if msgs else None; errors += len([x for x in msgs if ": error:" in x])
     print(f"verify: {errors} error(s), {warnings} warning(s)", file=sys.stderr)
     return errors, warnings
 
 
-def census(version):
-    result = {}; diagnostics = []
-    for path in sorted((version_dir(version)/"models").glob("*/application.alan")):
-        markers = []; lines = path.read_text(encoding="utf-8").replace("\r\n", "\n").splitlines()
-        try: extract_file(path)
-        except ExtractError as e: diagnostics += e.diagnostics
-        for n,line in enumerate(lines,1):
-            parts,col = marker_parts(line)
-            if parts:
-                name = parts[1] if parts[0] in ("begin", "end", "all") and len(parts) > 1 else None
-                markers.append([parts[0], name, n])
-        result[str(path.relative_to(version_dir(version)))] = {"markers": markers, "marker_count": len(markers), "comment_count": sum("//" in x and marker_parts(x)[0] is None for x in lines)}
+def census(version, tutorial="model"):
+    result = {}; diagnostics = []; vdir = version_dir(version, tutorial)
+    for d, kind in project_dirs(vdir/"models"):
+        for path in marker_files(d, kind):
+            markers = []; lines = path.read_text(encoding="utf-8").replace("\r\n", "\n").splitlines()
+            try: extract_file(path)
+            except ExtractError as e: diagnostics += e.diagnostics
+            for n,line in enumerate(lines,1):
+                parts,col = marker_parts(line)
+                if parts:
+                    name = parts[1] if parts[0] in ("begin", "end", "all") and len(parts) > 1 else None
+                    markers.append([parts[0], name, n])
+            result[str(path.relative_to(vdir))] = {"markers": markers, "marker_count": len(markers), "comment_count": sum("//" in x and marker_parts(x)[0] is None for x in lines)}
     if diagnostics: print("\n".join(diagnostics), file=sys.stderr); return 1
     print(json.dumps(result, indent=2, sort_keys=True)); return 0
 
@@ -319,10 +355,12 @@ def main():
     p = argparse.ArgumentParser(); sub = p.add_subparsers(dest="command", required=True)
     x=sub.add_parser("extract"); x.add_argument("version"); x.add_argument("--write",action="store_true"); x.add_argument("--check-inline",action="store_true")
     v=sub.add_parser("verify"); v.add_argument("version"); v.add_argument("--platform",required=True); v.add_argument("--jobs",type=int); v.add_argument("--reference"); v.add_argument("--no-compile",action="store_true")
-    c=sub.add_parser("census"); c.add_argument("version"); a=p.parse_args()
-    if a.command == "census": return census(a.version)
-    if a.command == "verify": return 1 if verify(a.version,a.platform,a.jobs,a.reference,a.no_compile)[0] else 0
-    vd=version_dir(a.version)
+    c=sub.add_parser("census"); c.add_argument("version")
+    for sp in (x, v, c): sp.add_argument("--tutorial", default="model", help="tutorial dir under pages/tutorials (default: model)")
+    a=p.parse_args()
+    if a.command == "census": return census(a.version, a.tutorial)
+    if a.command == "verify": return 1 if verify(a.version,a.platform,a.jobs,a.reference,a.no_compile,a.tutorial)[0] else 0
+    vd=version_dir(a.version, a.tutorial)
     try: generated=extract_all(vd/"models")
     except ExtractError as e: print("\n".join(e.diagnostics)); return 1
     snips=vd/"snippets"; changed=sum(not (snips/f"{n}.alan").exists() or (snips/f"{n}.alan").read_text().replace("\r\n","\n") != t for n,t in generated.items()); stale=sum(1 for q in snips.glob("*.alan") if q.stem not in generated) if snips.exists() else 0
@@ -337,4 +375,6 @@ def main():
     else: print(f"would write {len(generated)} snippets ({changed} changed, {stale} stale)", file=sys.stderr)
     if a.check_inline: inline_check(vd)
     return 0
+
+
 if __name__ == "__main__": sys.exit(main())

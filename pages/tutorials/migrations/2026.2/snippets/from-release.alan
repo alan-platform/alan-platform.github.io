@@ -1,0 +1,13 @@
+root = root as $ {
+	(
+		'Menu' = walk $ .'Menu' as $ => {
+			create (
+				'Item name' = $ .'Item name'
+				'Selling price' = product ( $ .'Selling price' , 100 )
+				'Item type' = create 'Dish' (
+					'Dish type' = create 'Main course' ( )
+				)
+			)
+		}
+	)
+}

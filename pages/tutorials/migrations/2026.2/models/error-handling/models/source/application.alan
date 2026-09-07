@@ -1,0 +1,14 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Users': collection ['User'] {
+		'User': text
+		'Full name': text
+	}
+	'Administrator': text
+}
+
+numerical-types
