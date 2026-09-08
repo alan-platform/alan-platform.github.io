@@ -104,6 +104,32 @@ img {
     height: auto;
 }
 
+:focus-visible { // keyboard users need to see where they are
+    outline: 3px solid $orange;
+    outline-offset: 2px;
+}
+
+.skip-link { // the first thing a keyboard reaches, out of the way until it is focused
+    display: block;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    overflow: hidden;
+    padding: 0;
+
+    &:focus {
+        width: auto;
+        height: auto;
+        overflow: visible;
+        padding: 1rem 1rem*$ratio;
+        background: #FFF;
+        color: $grey1;
+    }
+}
+
 a,
 a:link,
 a:visited,

@@ -18,7 +18,7 @@ $index-breakpoint: $base-width + $index-offset + 2rem; // column + rail + gap + 
         font-size: .75em;
         letter-spacing: .08em;
         text-transform: uppercase;
-        color: $grey4;
+        color: $grey3;
     }
     nav > ol { // kramdown emits the table of contents as an ordered list
         list-style: none;
@@ -46,7 +46,7 @@ $index-breakpoint: $base-width + $index-offset + 2rem; // column + rail + gap + 
         font-size: .875em;
         line-height: 1.35;
         text-decoration: none;
-        color: $grey4;
+        color: $grey3; // grey4 on white is 3.4:1, below the 4.5:1 that small text needs
     }
     nav > ol > li > a { // top-level sections carry a little more weight than their subsections
         color: $grey2;

@@ -1,8 +1,11 @@
 // good old obtrusive JavaScript
 // eslint-disable-next-line no-unused-vars
-function menuOpen() {
+function menuOpen(button) {
     var el = document.querySelector('header');
-    el.classList.toggle('open');
+    var open = el.classList.toggle('open');
+    if (button) {
+        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
 }
 
 // Moves the table of contents that kramdown emits into the rail beside the content, and marks the

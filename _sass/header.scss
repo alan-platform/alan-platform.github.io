@@ -123,10 +123,15 @@ header {
         }
     }
 
-    .nav-toggle {
+    .nav-toggle { // a button, styled the way the link it replaced was
         @include breathe(color);
 
         display: none;
+        padding-right: 0;
+        padding-left: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
         padding-top: 1rem*$ratio*$ratio;
         padding-bottom: 1rem*$ratio*$ratio;
         color: $grey1;
