@@ -10,7 +10,7 @@ root {
 		'Engines': collection ['Engine'] {
 			'Engine': text
 			'Thrust': number 'newton'
-			'Burn time': number 'second'
+			'Burn time': number 'seconds'
 			'Impulse': number 'newton second' = product ( .'Thrust' as 'newton', .'Burn time' )
 		}
 		//@ begin units-clash
@@ -21,9 +21,11 @@ root {
 	}
 }
 
+//@ begin units-clash
 numerical-types
 	'newton'
-	'second'
+	'seconds'
 	'pound-force second'
 	'newton second'
-		= 'newton' * 'second'
+		= 'newton' * 'seconds'
+//@ end units-clash

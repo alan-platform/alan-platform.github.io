@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
 INCLUDE = re.compile(r"^\{% include_relative snippets/([A-Za-z0-9][A-Za-z0-9_-]*)\.alan %\}$")
-FOLDER = re.compile(r"<tutorial folder: .*?/(step_[0-9]+[a-z]?)/>")
+FOLDER = re.compile(r"<tutorial folder: .*?/((?:step|act)_[0-9]+[a-z]?)/>")
 DIAG_LINE = re.compile(r"^.+:(\d+):(\d+)(?: to \d+:\d+)?: (?:error|warning):")
 DIAG_LOC = re.compile(r"^(.+?):(\d+):(\d+)(?: to \d+:\d+)?: (?:error|warning):")
 MIGRATION_LANG = "system-types/datastore/migration/language"

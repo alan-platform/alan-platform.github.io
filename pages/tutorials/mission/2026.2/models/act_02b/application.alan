@@ -12,7 +12,7 @@ root {
 		'Engines': collection ['Engine'] {
 			'Engine': text
 			'Thrust': number 'newton'
-			'Burn time': number 'second'
+			'Burn time': number 'seconds'
 			'Impulse': number 'newton second' = product ( .'Thrust' as 'newton', .'Burn time' )
 		}
 		'Booster impulse': number 'pound-force second'
@@ -26,10 +26,10 @@ root {
 numerical-types
 	'kg'
 	'newton'
-	'second'
+	'seconds'
 	'pound-force second'
 	//@ begin pound-force-conversion
 	'newton second'
-		= 'newton' * 'second'
+		= 'newton' * 'seconds'
 		= 'pound-force second' * 4448222 * 10 ^ -6
 	//@ end pound-force-conversion

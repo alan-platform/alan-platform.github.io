@@ -26,18 +26,40 @@ Somewhere in the middle of this tutorial you will write the mistake that cost NA
 This tutorial assumes you can build and deploy a project, as in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
 It does not assume you have done the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html); that one goes slower and explains more.
 
-Each act adds a piece to one model, in `models/model/application.alan`.
-The first block below is a complete model; the later ones are the lines that act adds, and `...` inside a block stands for lines that are already there and do not change.
-The finished model — every line of it — is at [the end of the page](#the-whole-thing).
+### How to work through this page
+{:.no_toc}
 
-`Alan Deploy` asks for a data source every time: **empty** starts the app with no data, **migrate** carries the data of the running app over to your new model.
-Use **empty** while experimenting; Act 7 is about **migrate**.
-If a deployment ever gets stuck, delete the `migrations` folder, deploy once with **empty**, and carry on.
-That is all you need here. Migrations have a [tutorial of their own](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html) for when you want the whole story.
+Seven acts grow one model, the file `models/model/application.alan`.
+The first code block is a complete model; every later block is what that act adds, where `...` stands for lines that stay as they are.
+The finished model is at [the end of the page](#the-whole-thing).
 
-Each act points at a folder in your own project, under `_docs/tutorials/mission-control/{{ page.platform_version }}/` — Act 2 at two, one for each half.
-It holds `to_model/application.alan` — the model as it should be at that point, to compare against — and `migration/migration.alan`, which fills the app with the freighters, engines and payloads used in the screenshots.
-To use that data: deploy once with **migrate** so that `migrations/from_release` exists, copy the act's `migration.alan` over `migrations/from_release/migration.alan`, and deploy with **migrate** again.
+Each act has a matching folder in your own project, under `_docs/tutorials/mission-control/{{ page.platform_version }}/`, named after the act:
+
+| Act | Folder |
+| :- | :- |
+| Act 1 | `act_01` |
+| Act 2 | `act_02a` halfway, `act_02b` at the end |
+| Act 3 | `act_03` |
+| Act 4 | `act_04` |
+| Act 5 | `act_05` |
+| Act 6 | `act_06` |
+| Act 7 | `act_07` |
+
+Each folder holds two files.
+`to_model/application.alan` is the model as it should look at that point, to compare with your own.
+`migration/migration.alan` is the example data behind the screenshots: the two freighters, their engines, the payloads.
+
+To put that data in your app, at any act:
+
+1. deploy with **migrate** once, which creates `migrations/from_release`;
+2. copy the act's `migration/migration.alan` over `migrations/from_release/migration.alan`;
+3. deploy with **migrate** again.
+
+Do this from Act 1 onward if you want your app to show what the screenshots show — the data comes from these files, not from the **empty** option.
+Choose **empty** instead when you would rather type a vehicle or two yourself; it starts the app with no data at all.
+If a deployment gets stuck, delete the `migrations` folder, deploy once with **empty**, and carry on.
+
+Migrations have a [tutorial of their own](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html); here they are only a way to load the example data, until Act 7 changes the model with data already in the app.
 
 ## Act 1 — Five minutes
 
@@ -45,7 +67,7 @@ A vehicle has a dry mass and a propellant load, and it weighs the two together.
 That last part is not something a user types; it follows from the other two.
 
 ```js
-{% include_relative snippets/step_01.alan %}
+{% include_relative snippets/act_01.alan %}
 ```
 
 Four sections make a model: `users` (who may use the app — `anonymous` means no sign-in, which Act 6 replaces), `interfaces` (the other systems this application exchanges data with — empty here, and empty is fine), `root` (the data itself), and `numerical-types` (what the numbers mean).
@@ -59,7 +81,7 @@ Everything visible there — the navigation, the list, the detail form, the add 
 
 > **What you did not write:** a table definition, an ORM class, an API endpoint, a form, a validation rule, a recomputation hook.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_01/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_01/`>
 
 ## Act 2 — Numbers that know what they are
 
@@ -79,18 +101,29 @@ The numerical types carry the physics:
 Without that rule the model does not compile — Alan will not multiply two quantities unless you have said what the result is.
 
 Build and deploy here, and each engine carries its own impulse with the vehicle's total underneath the list.
-This half of the act has a folder of its own, with three engines to look at:
+This is the halfway folder of this act, `act_02a`, with three engines in it:
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_02/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_02a/`>
+
+One thing on that screen reads wrong: a burn time shows as **380 second**.
+The word after a number is the name of its numerical type, so the fix is a better name — and not a search-and-replace.
+Put the cursor on `'second'`, press **F2**, type `seconds`, and press Enter.
+The language server renames the type and every use of it, the burn time and the product rule included, and leaves `'newton second'` alone: that is a different name, not a use of this one.
+The blocks from here on use `'seconds'`.
 
 ### The bug that lost an orbiter
 {:.no_toc}
 
-Now the strap-on booster arrives from a supplier who reports its impulse in **pound-force seconds**, and someone adds it to the total:
+Now the strap-on booster arrives from a supplier who reports its impulse in **pound-force seconds**, and someone adds it to the total.
+
+This is a wrong turn on purpose. Type it if you want to watch it fail — the next block puts it right — or read on.
+In the vehicle, the `Total impulse` line from a moment ago becomes two lines, and the supplier's unit has to be declared like any other:
 
 ```js
 {% include_relative snippets/units-clash.alan %}
 ```
+
+`Engine impulse` is the total of the engines, as before under a new name; `Total impulse` adds the booster to it.
 
 You do not get an app with a slightly wrong number.
 You get this, while you type:
@@ -131,7 +164,7 @@ That factor is not folklore — one pound-force is 4.448222 newtons by definitio
 
 > **What you did not write:** unit tests for unit handling. The unit *is* the type. A mismatch is not a bug you hunt, it is a program that does not exist.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_03/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_02b/`>
 
 ## Act 3 — A manifest that keeps itself
 
@@ -171,7 +204,7 @@ Change one payload's mass and every value that depends on it — on this screen 
 
 > **What you did not write:** a foreign key constraint, a join, an aggregate query, a cache, an invalidation strategy, and the bug where the total is right on one screen and wrong on another.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_04/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_03/`>
 
 ## Act 4 — Operations, not buttons
 
@@ -196,7 +229,7 @@ An operator cannot launch an overloaded freighter by double-clicking fast, by ca
 
 > **What you did not write:** the check in the click handler, the same check again in the API, the race between them, and the incident report explaining which one was missing.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_05/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_04/`>
 
 ## Act 5 — Assemblies that cannot loop
 
@@ -226,7 +259,7 @@ Try to make a part contain itself and the app refuses the reference — the grap
 
 > **What you did not write:** a recursion-depth guard, a cycle detector, a nightly job to recompute totals, and the incident where two parts pointed at each other and a request hung.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_06/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_05/`>
 
 ## Act 6 — Who may push the button
 
@@ -297,7 +330,7 @@ There is no second place to keep in sync.
 
 An auth middleware, a permission table, role checks spread through controllers and templates, the endpoint somebody forgot to protect: none of it exists here, because the rule has only one place to live.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_07/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_06/`>
 
 ## Act 7 — Change the mission in flight
 
@@ -320,7 +353,7 @@ The [migrations tutorial](/pages/tutorials/migrations/{{ page.platform_version }
 
 No `ALTER TABLE` script, no backfill query, no rollback plan — and no deployment where one of the three was wrong.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_08/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_07/`>
 
 ## The whole thing
 

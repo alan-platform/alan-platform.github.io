@@ -10,44 +10,44 @@
   "settleMs": 300,
   "dataDir": "assets",
   "datasets": {
-    "step_01": {
-      "model": "step_01",
-      "migration": "online-ide:step_01"
+    "act_01": {
+      "model": "act_01",
+      "migration": "online-ide:act_01"
     },
-    "step_02": {
-      "model": "step_02",
-      "migration": "online-ide:step_02"
+    "act_02a": {
+      "model": "act_02a",
+      "migration": "online-ide:act_02a"
     },
-    "step_03": {
-      "model": "step_03",
-      "migration": "online-ide:step_03"
+    "act_02b": {
+      "model": "act_02b",
+      "migration": "online-ide:act_02b"
     },
-    "step_04": {
-      "model": "step_04",
-      "migration": "online-ide:step_04"
+    "act_03": {
+      "model": "act_03",
+      "migration": "online-ide:act_03"
     },
-    "step_05": {
-      "model": "step_05",
-      "migration": "online-ide:step_05"
+    "act_04": {
+      "model": "act_04",
+      "migration": "online-ide:act_04"
     },
-    "step_06": {
-      "model": "step_06",
-      "migration": "online-ide:step_06"
+    "act_05": {
+      "model": "act_05",
+      "migration": "online-ide:act_05"
     },
-    "step_07": {
-      "model": "step_07",
-      "migration": "online-ide:step_07"
+    "act_06": {
+      "model": "act_06",
+      "migration": "online-ide:act_06"
     },
-    "step_08": {
-      "model": "step_08",
-      "migration": "online-ide:step_08"
+    "act_07": {
+      "model": "act_07",
+      "migration": "online-ide:act_07"
     }
   },
   "shots": [
     {
       "id": "first-app",
       "file": "01-first-app.png",
-      "dataset": "step_01",
+      "dataset": "act_01",
       "actions": [
         {
           "click": "button=Vehicles"
@@ -66,7 +66,7 @@
     {
       "id": "impulse",
       "file": "03-impulse.png",
-      "dataset": "step_04",
+      "dataset": "act_03",
       "actions": [
         {
           "click": "button=Vehicles"
@@ -85,7 +85,7 @@
     {
       "id": "manifest",
       "file": "04-manifest.png",
-      "dataset": "step_04",
+      "dataset": "act_03",
       "actions": [
         {
           "click": "button=Vehicles"
@@ -104,7 +104,7 @@
     {
       "id": "launch",
       "file": "05-launch.png",
-      "dataset": "step_05",
+      "dataset": "act_04",
       "actions": [
         {
           "click": "button=Vehicles"
@@ -126,7 +126,7 @@
     {
       "id": "assembly",
       "file": "06-assembly.png",
-      "dataset": "step_06",
+      "dataset": "act_05",
       "actions": [
         {
           "click": "chevron=Vehicles"

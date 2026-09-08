@@ -1,3 +1,10 @@
 'Booster impulse': number 'pound-force second'
 'Engine impulse': number 'newton second' = sum .'Engines'* .'Impulse'
 'Total impulse': number 'newton second' = sum ( .'Engine impulse', .'Booster impulse' )
+...
+numerical-types
+	'newton'
+	'seconds'
+	'pound-force second'
+	'newton second'
+		= 'newton' * 'seconds'

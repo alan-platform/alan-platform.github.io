@@ -1,3 +1,4 @@
+//@ all mission-control
 users
 	dynamic: .'Crew'
 		passwords: .'Passwords'
@@ -39,7 +40,9 @@ root {
 		can-update: user .'Role'?'Flight director'
 
 		'Vehicle': text
+		//@ begin landing-site
 		'Landing site': text
+		//@ end landing-site
 		'Dry mass': number 'kg'
 		'Propellant': number 'kg'
 		'Wet mass': number 'kg' = sum ( .'Dry mass', .'Propellant' )

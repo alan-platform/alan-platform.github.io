@@ -12,12 +12,13 @@ root {
 		'Engines': collection ['Engine'] {
 			'Engine': text
 			'Thrust': number 'newton'
-			'Burn time': number 'second'
+			'Burn time': number 'seconds'
 			'Impulse': number 'newton second' = product ( .'Thrust' as 'newton', .'Burn time' )
 		}
 		'Booster impulse': number 'pound-force second'
 		'Engine impulse': number 'newton second' = sum .'Engines'* .'Impulse'
 		'Total impulse': number 'newton second' = sum ( .'Engine impulse', from 'pound-force second' ( .'Booster impulse' ) )
+		//@ begin manifest
 		'Lift capacity': number 'kg'
 		'Manifest': reference-set -> downstream ^ .'Payloads'* = inverse >'Vehicle'
 		'Cargo mass': number 'kg' = sum <'Manifest'* .'Mass'
@@ -29,32 +30,9 @@ root {
 			'Within limits' { }
 			'Overloaded' { }
 		)
-		//@ begin status
-		'Status': stategroup (
-			'In assembly' {
-				'Roll out to the pad': command { } => update ^ .'Status' = create 'On the pad' ( )
-			}
-			'On the pad' {
-				'Readiness': stategroup = switch ^ .'Load' (
-					|'Overloaded' => 'Hold' ( )
-					|'Within limits' => switch ^ .'Propellant' compare ( 0 ) (
-						| <= => 'Hold' ( )
-						| >  => 'Go' ( )
-					)
-				) (
-					'Go' {
-						'Launch': command { } => update ^ ^ .'Status' = create 'In flight' ( )
-					}
-					'Hold' { }
-				)
-			}
-			'In flight' {
-				'Touchdown': command { } => update ^ .'Status' = create 'Landed' ( )
-			}
-			'Landed' { }
-		)
-		//@ end status
+		//@ end manifest
 	}
+	//@ begin payloads
 	'Payloads': collection ['Payload'] {
 		'Payload': text
 		'Mass': number 'kg'
@@ -64,13 +42,14 @@ root {
 			'Standard' { }
 		)
 	}
+	//@ end payloads
 }
 
 numerical-types
 	'kg'
 	'newton'
-	'second'
+	'seconds'
 	'pound-force second'
 	'newton second'
-		= 'newton' * 'second'
+		= 'newton' * 'seconds'
 		= 'pound-force second' * 4448222 * 10 ^ -6

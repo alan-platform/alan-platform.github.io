@@ -1,10 +1,51 @@
+//@ begin crew-users
 users
-	anonymous
+	dynamic: .'Crew'
+		passwords: .'Passwords'
+			password-value: .'Data'.'Password'
+			password-status: .'Data'.'Active' (
+				| active => 'Yes' ( )
+				| reset => 'No' ( )
+			)
+			password-initializer: (
+				'Data' = ( )
+			)
+//@ end crew-users
 
 interfaces
 
 root {
+	//@ begin permissions
+	can-read: user
+	//@ end permissions
+
+	//@ begin crew
+	'Crew': collection ['Call sign'] {
+		'Call sign': text
+		'Role': stategroup (
+			'Flight director' { }
+			'Loadmaster' { }
+			'Observer' { }
+		)
+	}
+	'Passwords': collection ['Member'] {
+		'Member': text -> ^ .'Crew'[]
+		'Data': group {
+			can-update: user is ( ^ >'Member' )
+
+			'Password': text
+			'Active': stategroup (
+				'No' { }
+				'Yes' { }
+			)
+		}
+	}
+	//@ end crew
 	'Vehicles': collection ['Vehicle'] {
+		//@ begin permissions
+		can-update: user .'Role'?'Flight director'
+		//@ end permissions
+
 		'Vehicle': text
 		'Dry mass': number 'kg'
 		'Propellant': number 'kg'
@@ -12,7 +53,7 @@ root {
 		'Engines': collection ['Engine'] {
 			'Engine': text
 			'Thrust': number 'newton'
-			'Burn time': number 'second'
+			'Burn time': number 'seconds'
 			'Impulse': number 'newton second' = product ( .'Thrust' as 'newton', .'Burn time' )
 		}
 		'Booster impulse': number 'pound-force second'
@@ -29,7 +70,6 @@ root {
 			'Within limits' { }
 			'Overloaded' { }
 		)
-		//@ begin parts
 		'Parts': collection ['Part']
 			'Assembly': acyclic-graph
 		{
@@ -50,7 +90,6 @@ root {
 				|'Built from' as $'assembly' => sum $'assembly'.'Subparts'* .'Subpart mass'
 			)
 		}
-		//@ end parts
 		'Status': stategroup (
 			'In assembly' {
 				'Roll out to the pad': command { } => update ^ .'Status' = create 'On the pad' ( )
@@ -76,6 +115,10 @@ root {
 		)
 	}
 	'Payloads': collection ['Payload'] {
+		//@ begin permissions
+		can-update: user .'Role'?'Loadmaster'
+		//@ end permissions
+
 		'Payload': text
 		'Mass': number 'kg'
 		'Vehicle': text -> ^ .'Vehicles'[]
@@ -89,8 +132,8 @@ root {
 numerical-types
 	'kg'
 	'newton'
-	'second'
+	'seconds'
 	'pound-force second'
 	'newton second'
-		= 'newton' * 'second'
+		= 'newton' * 'seconds'
 		= 'pound-force second' * 4448222 * 10 ^ -6

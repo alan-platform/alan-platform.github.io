@@ -105,8 +105,9 @@ The Mission Control tutorial (`pages/tutorials/mission/VERSION/`) is a second tu
 application screenshots (`shoot.mjs VERSION --list ...`; the list's `tutorial` field makes `build-step.sh` read models
 from `pages/tutorials/mission` and its `docs` field points `online-ide:<step>` migrations at the tutorial's own
 online-ide directory; `TUTORIAL=<name>` and `DOCS=<name>` do the same on the command line), and `ide/mission-shots.json`
-for the language-server screenshot, taken from a workspace whose model is `step_02-units` with the markers stripped.
-`step_02-units` carries `//@ expect error`: it is meant not to compile, and the reference check skips it.
+for the language-server screenshot, taken from a workspace whose model is `act_02-units` with the markers stripped.
+Its models are named after the acts of the tutorial (`act_01`, `act_02a`, `act_02b`, `act_03` …), matching the folders
+in online-ide. `act_02-units` carries `//@ expect error`: it is meant not to compile, and the reference check skips it.
 
 Its step models and example data live in online-ide `docs/tutorials/mission-control/VERSION/step_NN/{to_model,migration}`,
 exactly as `restaurant1` holds them for the model tutorial: `./test.sh mission-control/VERSION` in online-ide compiles
