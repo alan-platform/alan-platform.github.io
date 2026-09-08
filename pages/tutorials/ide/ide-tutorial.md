@@ -108,14 +108,14 @@ It appears in the header of area 1 when you move the cursor into it:
 Save before you build: a tab with unsaved changes shows a dot instead of the close cross.
 `Ctrl+S` (`Cmd+S` on a Mac) saves the open file, and `Auto Save` in the `File` menu — behind the ≡ icon in the top left corner — saves them for you.
 
-## Compile and deploy
+## Build and deploy
 The *Alan language server* starts with your project and checks every `.alan` file in it — models, migrations, and the rest — while you edit.
 Mistakes are underlined in the editor and listed in the **Problems** panel as you make them, so you rarely have to hunt for them afterwards.
 
 Two steps turn a model into a running app.
 
 1. Click `Alan Build`.
-This compiles the whole project and reports every error it finds in the **Problems** panel.
+This builds (compiles) the whole project and reports every error it finds in the **Problems** panel.
 Fix them until the build succeeds — a build that reports nothing is a project the platform can run.
 2. Click `Alan Deploy`.
 This sends the project to the server, which publishes your application.
