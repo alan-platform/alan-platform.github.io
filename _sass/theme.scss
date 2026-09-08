@@ -101,7 +101,10 @@ ul {
 
 img {
     max-width: 100%;
-    height: auto;
+}
+
+main section img { // content images keep their proportions when the column is narrower than they are;
+    height: auto; // logos in the header and footer are sized by their height attribute, so leave those alone
 }
 
 :focus-visible { // keyboard users need to see where they are
