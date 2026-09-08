@@ -6,6 +6,7 @@ import { spawn } from "node:child_process";
 import puppeteer from "puppeteer";
 import { drawOverlay } from "./lib/overlay.mjs";
 import { framePng } from "./lib/frame.mjs";
+import { resizePng } from "./lib/resize.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "../../..");
@@ -289,6 +290,7 @@ for (const [dataset, datasetShots] of groups) {
         await page.screenshot({ path: destination, ...(clip ? { clip } : {}) });
         await page.evaluate(() => document.getElementById("shot-annotations")?.remove());
         if (shot.frame !== false && config.frame !== false) await framePng(browser, destination, { ...(config.frame ?? {}), ...(shot.frame ?? {}) });
+      await resizePng(browser, destination, config.maxWidth ?? 1600); // the site shows these in a column of about 800 CSS pixels
         const size = await pngSize(destination); summary.push({ ...shot, ...size });
         await page.close();
       } catch (error) { failed = true; process.stderr.write(`${shot.id}: ${error.stack ?? error}\n`); }

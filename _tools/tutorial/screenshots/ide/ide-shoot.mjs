@@ -9,6 +9,7 @@ import { spawn } from "node:child_process";
 import puppeteer from "puppeteer";
 import { drawOverlay } from "../lib/overlay.mjs";
 import { framePng } from "../lib/frame.mjs";
+import { resizePng } from "../lib/resize.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const screenshots = path.dirname(here);
@@ -278,6 +279,7 @@ try {
       if (process.env.SHOT_DEBUG) await dump(process.env.SHOT_DEBUG);
       await page.evaluate(() => document.getElementById("shot-annotations")?.remove());
       if (shot.frame !== false && config.frame !== false) await framePng(browser, destination, { ...(config.frame ?? {}), ...(shot.frame ?? {}) });
+      await resizePng(browser, destination, config.maxWidth ?? 1600); // the site shows these in a column of about 800 CSS pixels
       summary.push({ id: shot.id, file: shot.file, size: await pngSize(destination) });
       for (const key of shot.after ?? []) await page.keyboard.press(key);
       if (shot.viewport) await page.setViewport(config.viewport);

@@ -93,7 +93,11 @@ copy of the template project's own icon and the screenshots carry the logo of a 
 cp <online-ide>/templates/default/project/deployments/default/systems/client/instance/favicon.ico assets/favicon.ico
 ```
 
-No conversion: browsers decode an image from its content, not from its name or content type. Every capture is framed
+No conversion: browsers decode an image from its content, not from its name or content type.
+
+Captures are downscaled to `maxWidth` (1600 by default, `lib/resize.mjs`) after framing: the site shows them in a
+column of about 800 CSS pixels, so anything wider is bytes nobody sees. `resize-images.mjs <width> <file>...` applies
+the same step to images that are already committed. Every capture is framed
 afterwards (`lib/frame.mjs`: rounded corners, thin border, drop shadow on a transparent margin); `frame` on the
 config or a shot overrides `margin`, `radius`, `border`, `shadow`, and `"frame": false` disables it.
 
