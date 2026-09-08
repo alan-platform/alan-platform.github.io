@@ -1,0 +1,41 @@
+root = root as $ {
+	//@ begin named-node
+	let $'source' = $
+
+	(
+	//@ end named-node
+		//@ begin group-block
+		'Fleet' = {
+			(
+				'Name' = $ .'Fleet name'
+				'Default rate' = $ .'Default rate'
+			)
+		}
+		//@ end group-block
+		'Vessels' = walk $ .'Vessels' as $ => {
+			create (
+				'Vessel' = $ .'Vessel'
+				//@ begin switch-stategroup
+				'Cargo' = switch $ .'Cargo' (
+					|'Container' as $ => {
+						create 'Container' (
+							'Slots' = $ .'Slots'
+						)
+					}
+					|'Bulk' => {
+						create 'Bulk' ( )
+					}
+				)
+				//@ end switch-stategroup
+				'Charters' = walk $ .'Charters' as $ => {
+					create (
+						'Charter' = $ .'Charter'
+						//@ begin named-node
+						'Rate' = $'source' .'Default rate'
+						//@ end named-node
+					)
+				}
+			)
+		}
+	)
+}

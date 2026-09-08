@@ -18,165 +18,192 @@ platform_version: 2026.2
 
 ## Introduction
 
-For deploying an Alan application with a `datastore` (`systems/server` in the Alan IDE), you either need to provide an initial dataset or *migrate* an existing dataset from a(n) (older) running Alan application.
-That dataset needs to conform to the data structure that your `application` model (`application.alan` file) specifies.
-This guide explains how you construct an initial dataset or *migrate* an existing dataset with the online Alan IDE.
+The data of an Alan application always matches its model.
+That is what makes the app dependable — and it is also what makes a model change interesting: as soon as `application.alan` changes, the data of the running app no longer matches it.
 
-Since platform version 2026.1, a migration is written in the processor language of the Alan `connector`.
-If you have written migrations for an older platform version, note that the language changed completely: there are no typed declarations and no `map` anymore, and error annotations between `<!` and `!>` no longer exist.
-The [migration language](#the-migration-language) section below covers everything you need for a typical application.
+A **migration** bridges that gap.
+It is a file that says, for every piece of data the new model expects, where that value comes from: copied from the running app, converted, or created new.
+The compiler checks it against both models, so a deployment either carries the data over completely or does not happen at all.
 
-## Initial dataset
-When clicking the button `Alan Deploy`, you get a list from which you can choose a data source for the deployment.
-For your first deployment, you have to choose the **empty** option from the list.
-This will initialize your application with an empty dataset.
+Every deployment therefore starts from a dataset, and there are two ways to get one:
 
-![](images/deploy1.png)
+- **empty** — start with no data at all, or with data written by hand. This is what a first deployment uses.
+- **migrate** — take the data of the running app into the new version of the model.
 
-Choosing the **empty** option creates a folder `migrations/from_empty`:
+This guide covers both, and the language migrations are written in.
+It assumes the project layout of the online Alan IDE, as described in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
 
-![](images/empty.png)
+<sup>
+Returning after a while? Since platform version 2026.1 a migration is written in the processor language of the Alan `connector`. The language changed completely: no typed declarations, no `map`, and no error annotations between `<!` and `!>`.
+</sup>
 
-This folder is a complete migration project:
+## Starting with an empty dataset
 
-- `migration.alan` specifies how data should be migrated **from** the source application **to** the target application that you have built.
-- `models/source/application.alan` is the model of the source dataset. For `from_empty` it is an empty model (`root { }`).
-- `models/target/application.alan.link` points to your own `models/model/application.alan` file, the target model.
-- `configuration.json`, `variables.json` and `interface.alan` are fixed configuration files; you never have to edit them.
-- `data/` is an empty folder for auxiliary data files.
+`Alan Deploy` asks which data source the deployment should use.
+A first deployment has nothing to migrate from, so pick **empty**:
 
-For an empty dataset, the generated `migration.alan` sets every collection of your model to `none`, the empty set:
+![Choosing a data source for the deployment](images/deploy1.png)
+
+That deployment creates the folder `migrations/from_empty`:
+
+![The generated from_empty migration](images/empty.png)
+
+The folder is a complete migration project:
+
+- `migration.alan` says where the data of the new dataset comes from. This is the file you read and edit.
+- `models/source/application.alan` is the model of the source dataset — for `from_empty` an empty model (`root { }`).
+- `models/target/application.alan.link` points at your own `models/model/application.alan`.
+- `configuration.json`, `variables.json` and `interface.alan` are fixed; you never edit them.
+- `data/` is for auxiliary data files, and starts out empty.
+
+Since there is no source data, the generated `migration.alan` sets every collection to `none`, the empty collection:
 ```js
 {% include_relative snippets/from-empty-generated.alan %}
 ```
 
-If you want your application to start with some data instead, replace the `none` expressions with `create` entries.
-For example, this migration initializes the `Menu` collection of the first step of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) with three items:
+To start the app with data instead, replace those `none` expressions with `create` entries.
+This migration gives the `Menu` of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) three items:
 ```js
 {% include_relative snippets/from-empty.alan %}
 ```
 
-Be aware that `migrations/from_empty` is generated again every time you deploy with the **empty** option, so keep a copy of a `migration.alan` that you edited by hand.
-The restaurant tutorial does exactly that: every step comes with a ready-made `migration.alan` in the `_docs` folder that you copy into your project.
+**One thing to watch:** `migrations/from_empty` is regenerated on every deployment with the **empty** option, so anything you write there is overwritten.
+Keep hand-written initial data somewhere else and copy it in when you need it — which is exactly what the restaurant tutorial does with the `migration.alan` files in its `_docs` folder.
 
-## Existing dataset migration
+## Carrying data over
 
-After completing at least one successful deployment, you can make changes to your application model and choose to **migrate** from the current (running version) of your application, which enables you to keep application data that application users added:
+Once an app is running, a deployment can take its data along.
+Change the model, build, and choose **migrate**:
 
-![](images/deploy2.png)
+![Migrating from the running version](images/deploy2.png)
 
-The first time you choose this option, the IDE generates a migration in the `migrations/from_release` folder.
-Unlike `from_empty`, this folder is generated only once: the `migration.alan` file in it is yours to maintain, and it is kept between deployments.
+The first time, this creates `migrations/from_release`.
+Unlike `from_empty`, that folder is generated only once: its `migration.alan` is yours to maintain and survives every following deployment.
 
-The `models/source/application.alan` file in this folder is the deployed version of your `application.alan` file.
-It is updated automatically at every deployment with the **migrate** option. When using the online Alan IDE: do not modify `models/source/application.alan` manually for this migration!*
-
-<sup>
-*Sometimes it is useful to specify derived properties in the source model for use in your `migration.alan`. In that case, you can copy the `migrations/from_release` folder to a folder with a different name and modify the copied source model.
-</sup>
+`models/source/application.alan` in that folder is the model of the *deployed* app, and the IDE refreshes it at every **migrate** deployment.
+Do not edit it — it describes what the running app holds, which is not yours to decide.
+(If you do need a source model of your own, for instance to read a derived value that the deployed model computes, copy the whole `from_release` folder under a different name and edit the copy.)
 
 ## The migration language
 
-A `migration.alan` file describes, for every base data property of the target model, where its value comes from.
-The file is written in the processor language of the Alan `connector`; the [grammar of the processor language](/pages/docs/connector/{{ connector_version }}/processor/grammar.html) describes all operations that are available.
-This section shows the operations that you need for migrating a typical application.
+A `migration.alan` file gives an expression for every base data property of the target model.
+Derived values are not migrated: the app recomputes those from the data itself.
 
-As an example, we migrate from the model of the first step of the restaurant tutorial, where `Menu` items have a `Selling price` in whole euros, to the model of the second step, where the price is in eurocents and every item has an `Item type` stategroup.
-The complete migration looks like this:
+The language is the processor language of the Alan `connector`; its [grammar](/pages/docs/connector/{{ connector_version }}/processor/grammar.html) lists every operation.
+The rest of this section is what a typical application needs.
+
+The example below migrates the first step of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) — a `Menu` whose `Selling price` is in whole euros — to the second step, where the price is in eurocents and every item has an `Item type`:
 ```js
 {% include_relative snippets/from-release.alan %}
 ```
 
-**Root and nodes.** A migration always starts with `root = root as $ {`. The `$` is the *source* dataset: the data of the running application, conforming to `models/source/application.alan`.
-Between parentheses you list the properties of a node of the *target* model, each followed by `=` and an expression that determines its value.
-Derived values are not migrated; only base data properties are listed.
+**The shape of a migration.** It starts with `root = root as $ {`.
+The `$` is the *source*: the data of the running app, conforming to `models/source/application.alan`.
+Braces `{ ... }` hold a block, and the parentheses `( ... )` inside a block hold the properties of one node of the *target* model, each with an expression for its value.
 
-**Copying values.** The expression `$ .'Item name'` reads the property `Item name` of the current source node. Text and number values can be copied this way when their type did not change.
-References are migrated as the text of the key that they refer to, so `'Item' = $ .'Item'` also works for a reference.
+**Copying values.** `$ .'Item name'` reads a property of the current source node.
+Text and number values can be copied like that whenever their type did not change, and a reference is migrated as the text of the key it points at, so `'Item' = $ .'Item'` works for a reference too.
 
-**Collections.** A collection is migrated by walking over the source collection and creating one target entry for each source entry:
+**Collections.** Walk the source collection and create one target entry per source entry:
 ```js
 {% include_relative snippets/walk-create.alan %}
 ```
-Inside the `walk`, the `$` is rebound to the current source entry, so `$ .'Item name'` now refers to a property of that entry.
-To initialize a collection without a source, use a block with one `create` per entry, as in the `from_empty` example above, or `none` for an empty collection.
+Inside the `walk`, `$` is the current source entry, so `$ .'Item name'` now reads from that entry.
+A collection without a source is written as a block of `create` entries, as in the `from_empty` example above, or as `none` when it should start empty.
 
-**Stategroups.** A stategroup is migrated with a `switch` on the source stategroup, creating the corresponding target state in each case: `switch $ .'Item type' ( |'Dish' as $ => { create 'Dish' ( ... ) } |'Beverage' as $ => { create 'Beverage' ( ... ) } )`.
-When the stategroup is new in the target model, there is nothing to switch on, and you create a fixed state:
+**Stategroups.** Switch on the source stategroup and create the matching target state in every case:
+```js
+{% include_relative snippets/switch-stategroup.alan %}
+```
+Each case binds `$` to the state's node with `as $`, which is how `'Slots'` above reads a property that only exists in that state.
+A stategroup that is *new* in the target model has nothing to switch on, so create a fixed state:
 ```js
 {% include_relative snippets/new-stategroup.alan %}
 ```
-Between the parentheses of `create 'Dish' ( ... )` you list the properties of the state, again with an expression for each.
 
-**Groups.** A group in the target model is written as a block with a node in it: `'Management' = { ( ... ) }`, where the parentheses hold the properties of the group.
+**Groups.** A group is a node, so it is a block with parentheses in it:
+```js
+{% include_relative snippets/group-block.alan %}
+```
 
-**Numbers.** Numbers are migrated as integers in the unit of the *target* numerical type. When a numerical type changes, convert the value with `product ( ... )` or `division ( ... )`; the migration language has no `*` or `/` operators. From euros to eurocents:
+**Numbers.** A number is migrated as an integer in the unit of the *target* numerical type.
+When that unit changes, convert the value with `product` or `division` — the language has no `*` and `/` operators.
+From euros to eurocents:
 ```js
 {% include_relative snippets/number-conversion.alan %}
 ```
 
-**Literals.** A text is written between double quotes (`"Example"`), a number as a plain integer (`2042`), and `none` is the empty collection.
+**Literals.** Text goes between double quotes (`"Example"`), a number is a plain integer (`2042`), and `none` is the empty collection.
 
-**Navigating back.** Inside nested `walk` and `switch` statements the `$` only refers to the innermost source node. To reach data higher up, store a node under a name with `let $'root' = $` at the beginning of a block and refer to it as `$'root'`; from a deeper block, prefix the name with one `^` for every block in between, for example `^ $'root'`.
+**Reaching data further up.** Inside a `walk` or a `switch`, `$` is the innermost source node, so properties higher up in the source are out of reach.
+Give a node a name with `let`, and use that name wherever you need it, however deep:
+```js
+{% include_relative snippets/named-node.alan %}
+```
+Here every charter takes the fleet-wide `Default rate` from the root of the source, while `$` inside the walk still refers to the charter being migrated.
 
-## Migration maintenance
-The `from_release/migration.alan` file is a migration that you have to keep up-to-date such that it describes a source for every base data property that your `application.alan` file specifies.
-When you change your model and deploy with the **migrate** option, the migration is compiled against the new target model and the deployment fails until every new or changed property has a valid expression.
+## Keeping a migration up to date
 
-The migration that the IDE generates (see [Generating a migration](#generating-a-migration) below) is a starting point, not a finished migration: it assumes that the source model has the same structure as the target model, and copies every property.
-For the model change of the example above, the generated migration looks like this:
+`from_release/migration.alan` has to describe a source for every base data property in your model.
+Change the model and deploy with **migrate**, and the migration is compiled against the new target model: the deployment fails until every new or changed property has a valid expression.
+That failure is the feature — it is the platform refusing to put data into an app that does not fit it.
+
+A generated migration (see [Generating a migration](#generating-a-migration)) is a starting point, not a finished one: it assumes the source model has the same structure as the target and copies everything.
+For the model change of the previous section, the generator produces:
 ```js
 {% include_relative snippets/from-release-generated.alan %}
 ```
-Compiling it fails, because the source model has no `Item type` yet:
+Compiling that fails, because the source model has no `Item type` yet:
 
 >'property' `Item type` was not found in 'attributes'. Existing 'attributes': `Item name`, `Selling price`
 
-The `switch` on `$ .'Item type'` has to be replaced by a `create` of a fixed state, and the `Selling price` needs its conversion to eurocents, as shown in the complete migration in the previous section.
+Two edits fix it, both shown in the complete migration above: the `switch` on `$ .'Item type'` becomes a `create` of a fixed state, and `Selling price` gets its conversion to eurocents.
 
-As another example, if you have an `application.alan` file with
+A second example. For an `application.alan` with
 ```js
 {% include_relative snippets/maintenance-model.alan %}
 ```
-
-a valid migration from a model that only had an `Original App Name` property is:
+a valid migration from a model that only had an `Original App Name` is:
 ```js
 {% include_relative snippets/maintenance-migration.alan %}
 ```
+Note what each line does: `App Name` is renamed, `App Description` is a value chosen here and now, `Users` starts empty, and `Year` gets a literal.
+New data has to come from somewhere, and a migration is where you decide from where.
 
-**Missing source data.** Some expressions can fail: looking up an entry in a collection with `[ ... ]` fails when the key does not exist, and following a reference can fail as well.
-Suppose the target model turns the `Administrator` text of a model into a reference to the `Users` collection, and adds the name of the administrator as a property:
+**When source data can be missing.** Some expressions can fail: a lookup in a collection with `[ ... ]` fails when the key is not there, and following a reference can fail for the same reason.
+Suppose the target model turns an `Administrator` text into a reference to `Users`, and adds the administrator's name:
 ```js
 {% include_relative snippets/error-handling-model.alan %}
 ```
-You can abort the migration with a message when the lookup fails, using `|| throw`:
+Either stop the migration with a message of your own:
 ```js
 {% include_relative snippets/throw-alternative.alan %}
 ```
-The message is displayed in the `Output` window when the migration fails while deploying your app.
-Alternatively, you can handle both outcomes of a failing expression with a `switch` that distinguishes `value` from `none`:
+which appears in the `Output` window when the deployment fails, or handle both outcomes with a `switch` that distinguishes `value` from `none`:
 ```js
 {% include_relative snippets/switch-value-none.alan %}
 ```
+The second form is the one to reach for when missing data is normal rather than exceptional.
 
 ## Generating a migration
-After a successful deployment, it is often useful to generate a migration based on the just deployed application model. This way, you do not have to manually specify that values should be kept for base data properties that you added in the last development iteration.
-For that, run the command `Alan: Generate Migration` from the [Command Palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette).
 
-The command asks for:
+The IDE can write the mechanical part of a migration for you: run `Alan: Generate Migration` from the [command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette).
 
-- a *migration name*, which becomes the folder name under `migrations/`;
-- the *migration target model*, which is your `models/model` (this question is skipped when your project has a single model);
-- the *migration type*: `mapping from target conformant dataset` generates a migration that copies every property from a source with the same structure, and `initialization from empty dataset` generates a migration that sets every collection to `none`.
+It asks for three things:
 
-Generate a migration under a new name, or move the existing folder away first, to avoid overwriting a `migration.alan` that you edited by hand.
-Sometimes it is also useful to run the command after making changes to your `application` model. Doing so gives you the mapping for newly added base properties, which you then copy into your `from_release/migration.alan`. You only have to provide valid expressions for determining their initial values.
+- a **migration name**, which becomes the folder name under `migrations/`;
+- the **migration target model**, which is your `models/model` (skipped when the project has one model);
+- the **migration type**: *mapping from target conformant dataset* copies every property from a source with the same structure, and *initialization from empty dataset* sets every collection to `none`.
 
-The same generator is available from the [Terminal](https://code.visualstudio.com/docs/terminal/basics):
+Generate under a new name, or move the existing folder aside first, so that a `migration.alan` you edited by hand is not overwritten.
+
+Running it again after a model change is a useful habit: it gives you the expressions for the properties you just added, which you copy into `from_release/migration.alan` and then adjust — usually only to say where their initial values come from.
+
+The same generator is available from the [terminal](https://code.visualstudio.com/docs/terminal/basics):
 
 ```
 .alan/devenv/system-types/datastore/scripts/generate_migration.sh migrations/from_release models/model
 .alan/devenv/system-types/datastore/scripts/generate_migration.sh migrations/from_empty models/model --strategy bootstrap
 ```
 
-To check your migrations manually without deploying, run `./alan build -C migrations` from the Terminal; it compiles every migration project in the `migrations` folder.
+To check your migrations without deploying, run `./alan build -C migrations` from the terminal; it compiles every migration project in the `migrations` folder.

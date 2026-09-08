@@ -1,0 +1,28 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Fleet': group {
+		'Name': text
+		'Default rate': number 'eurocent'
+	}
+	'Vessels': collection ['Vessel'] {
+		'Vessel': text
+		'Cargo': stategroup (
+			'Container' {
+				'Slots': number 'units'
+			}
+			'Bulk' { }
+		)
+		'Charters': collection ['Charter'] {
+			'Charter': text
+			'Rate': number 'eurocent'
+		}
+	}
+}
+
+numerical-types
+	'eurocent'
+	'units'

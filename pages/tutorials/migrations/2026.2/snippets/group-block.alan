@@ -1,0 +1,6 @@
+'Fleet' = {
+	(
+		'Name' = $ .'Fleet name'
+		'Default rate' = $ .'Default rate'
+	)
+}
