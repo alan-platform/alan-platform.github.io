@@ -1,2 +1,3 @@
-<script src="//cdnjs.cloudflare.com/ajax/libs/prism/1.8.3/prism.min.js"></script>
+{% comment %}Prism 1.8.3, served from the site: highlighting should not depend on a third party being reachable.{% endcomment %}
+<script src="{{ 'src/prism.min.js' | relative_url }}"></script>
 <script src="{{ 'src/main.js' | relative_url }}?{{ site.time | date: "%s"}}" type="text/javascript"></script>
