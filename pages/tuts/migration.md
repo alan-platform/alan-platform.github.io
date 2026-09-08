@@ -5,6 +5,9 @@ category: docs
 ---
 
 
+> This page describes the migration layout of an older platform version.
+> For the current one, read the [migrations tutorial](/pages/tutorials/migrations/{{ site.data.versions.current }}/migrations.html).
+
 Migrations make sure you can upgrade your data every time you improve your application.
 
 
