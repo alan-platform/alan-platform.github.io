@@ -33,6 +33,7 @@ The finished model — every line of it — is at [the end of the page](#the-who
 `Alan Deploy` asks for a data source every time: **empty** starts the app with no data, **migrate** carries the data of the running app over to your new model.
 Use **empty** while experimenting; Act 7 is about **migrate**.
 If a deployment ever gets stuck, delete the `migrations` folder, deploy once with **empty**, and carry on.
+That is all you need here. Migrations have a [tutorial of their own](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html) for when you want the whole story.
 
 Each act points at a folder in your own project, under `_docs/tutorials/mission-control/{{ page.platform_version }}/` — Act 2 at two, one for each half.
 It holds `to_model/application.alan` — the model as it should be at that point, to compare against — and `migration/migration.alan`, which fills the app with the freighters, engines and payloads used in the screenshots.
