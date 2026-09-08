@@ -101,7 +101,7 @@ On 23 September 1999 the Mars Climate Orbiter reached Mars after a nine-month cr
 NASA's investigation board named a single root cause: a ground software file reported thruster impulse in pound-force seconds, where the trajectory software required newton seconds.
 
 The error was not invisible, either. Navigators saw their solutions disagree through the spring and summer of that year; the board's report records that those discrepancies "were not resolved".
-A $327 million mission ended on a unit that lived in a document instead of in a type.
+A $125 million spacecraft ended on a unit that lived in a document instead of in a type.
 
 The block above is the same mistake: one number, in the wrong unit, crossing a boundary.
 The difference is where the boundary sits — here it is inside a model, in front of a compiler that reads it.
