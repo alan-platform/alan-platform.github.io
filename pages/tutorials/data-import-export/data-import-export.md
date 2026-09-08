@@ -10,17 +10,17 @@ category: docs
 
 ## Introduction
 
-For each `collection`, Alan apps show buttons for downloading the data in Excel or CSV format.
-In addition, collections have a drop zone for CSV files, for uploading data in CSV format.
+Every `collection` in an Alan app can be downloaded as an Excel or CSV file, and can take data back in from a CSV file.
+Both live in the menu behind the ≡ icon in the header of the collection: **Download** for Excel and CSV, **Import CSV** for the other direction.
 
-![Excel download, CSV download, and CSV upload](./files_data-import-export/csv3.png)
+![The collection menu, with Download and Import CSV](./files_data-import-export/csv-menu.png)
 
 ## Excel download
-The Excel download button gives you a `.xslx` file containing all data from the collection items, in the way that you see it in the app.
-The `*.xslx` file includes derived data.
+**Download → Excel** gives you an `.xlsx` file with the data of the collection as the app shows it, derived values included.
+The download applies the filter that is active in the app, so searching first exports a subset.
 
 ## CSV download/export
-The CSV download button gives you a file containing the base data (no derived data) from the collection.
+**Download → CSV** gives you a file with the base data of the collection — the data a user enters, without derived values, since those are computed from the model and cannot be imported.
 
 For example, for the application from the figure, a CSV download gives you a file with these contents:
 ```
@@ -31,8 +31,8 @@ Tire,update,A car part.,Simple,update,25
 ```
 
 ## CSV upload/import
-To import data in CSV format, you can drop a CSV file at the drop zone.
-The CSV file contents should adhere to a specific format.
+**Import CSV** asks for a file and loads it into the collection.
+The contents have to follow a specific format.
 The CSV file that you can [download](#csv-downloadexport), specifies this format.
 Specifically, it shows you for which columns you need to provide values.
 If you upload a CSV file that contains errors, you will get an error report explaining what should be fixed.
