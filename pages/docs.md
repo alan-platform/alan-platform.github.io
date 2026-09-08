@@ -18,7 +18,8 @@ You do not need a programming background to start — see the [FAQ](/faq/) — a
 [**Developing software with Alan**](/pages/tutorials/ide/ide-tutorial.html) sets you up with the online IDE: the project layout, the editor, and the build and deploy buttons that every tutorial after this one uses.
 
 Everything below assumes you have that project open.
-To work on your own machine instead, use the [`alan` script](#alan) further down this page.
+To work on your own machine instead, use the [`alan` script](#alan) further down this page — but note that **deploying** a project still goes through the online IDE, so you need an account there either way.
+The [version control guide](/pages/tutorials/ide/ide-version-control.html) explains how to keep a project in Git and edit it locally while deploying from the IDE.
 
 ### Step 2 — Learn the language
 
@@ -88,6 +89,7 @@ Two habits carry you a long way: **build often**, so that a single change is all
 
 The [`alan`]({{ alan_version.alan }}) script is the command-line entry point to the platform.
 It downloads the toolchain for its platform version, sets up an empty project from a template, builds the project, and packages it for deployment.
+Deploying that package is a step the online IDE does for you; local deployment is not part of the script.
 
 ```sh
 curl -O {{ alan_version.alan }}
