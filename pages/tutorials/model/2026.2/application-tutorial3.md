@@ -5,6 +5,8 @@ title: "Application Tutorial:<br>a Restaurant app<br>Part III"
 category: docs
 model_version: 108
 platform_version: 2026.2
+description: >-
+  Part III of the application language tutorial: state machines, advanced references, and products assembled from other products.
 ---
 
 

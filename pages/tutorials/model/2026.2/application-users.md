@@ -5,6 +5,8 @@ title: "Application Guide: <br>Users & Authentication"
 category: docs
 model_version: 108
 platform_version: 2026.2
+description: >-
+  Add users, passwords and authentication to an Alan application: the model, the session manager, and the first sign-in.
 ---
 
 1. TOC

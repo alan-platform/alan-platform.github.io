@@ -3,6 +3,8 @@ layout: page
 title: Docs
 category: main
 permalink: /docs/
+description: >-
+  Start here: set up the online IDE, learn the application language with the Mission Control or restaurant tutorial, and keep your data with migrations.
 ---
 
 1. TOC

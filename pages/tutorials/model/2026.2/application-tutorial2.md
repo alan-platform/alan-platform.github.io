@@ -5,6 +5,8 @@ title: "Application Tutorial:<br>a Restaurant app<br>Part II"
 category: docs
 model_version: 108
 platform_version: 2026.2
+description: >-
+  Part II of the application language tutorial: derived values, conditional expressions, reference sets, commands and actions.
 ---
 
 

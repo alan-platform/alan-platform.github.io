@@ -2,6 +2,8 @@
 layout: page
 title: "Getting Started with the online IDE"
 category: docs
+description: >-
+  From an empty project to a small Alan application with users, passwords and permissions, in one page.
 ---
 
 {% assign version = site.data.versions.current %}

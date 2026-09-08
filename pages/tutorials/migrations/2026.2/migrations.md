@@ -4,6 +4,8 @@ head: "Application data migration"
 title: "Migrating Alan application data"
 category: docs
 platform_version: 2026.2
+description: >-
+  How an Alan deployment carries existing data into a new version of your model, and how to write a migration when the platform cannot work it out by itself.
 ---
 {% comment %}
 	The migration language is the connector's processor language. Its version for this platform version

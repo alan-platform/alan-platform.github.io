@@ -2,6 +2,8 @@
 layout: page
 title: "Alan Grammars"
 category: docs
+description: >-
+  How to read the grammars in the Alan language documentation, and the quirks of the compiler worth knowing.
 ---
 
 ## How to read grammars

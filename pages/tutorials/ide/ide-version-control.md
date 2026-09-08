@@ -3,6 +3,8 @@ layout: page
 head: "Alan IDE: version control & offline editing"
 title: "Alan IDE:<br>version control<br> & offline editing"
 category: docs
+description: >-
+  Put an Alan project in Git, collaborate with others, and edit it on your own machine while deploying from the online IDE.
 ---
 
 1. TOC

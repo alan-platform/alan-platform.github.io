@@ -5,6 +5,8 @@ title: "Mission Control:<br>an afternoon of software<br>that cannot go wrong"
 category: docs
 model_version: 108
 platform_version: 2026.2
+description: >-
+  Build the ground software for a lunar cargo flight in one afternoon, and watch the compiler refuse the mistake that cost NASA the Mars Climate Orbiter.
 ---
 
 1. TOC

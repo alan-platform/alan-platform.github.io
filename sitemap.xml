@@ -1,0 +1,17 @@
+---
+layout: null
+sitemap: false
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- assign pages = site.pages | where_exp: "page", "page.sitemap != false" -%}
+{%- for page in pages -%}
+{%- if page.url contains '.html' or page.url contains '/' -%}
+{%- unless page.url contains '.xml' or page.url contains '.txt' or page.url contains '.css' or page.url contains '.js' or page.url contains '404' -%}
+	<url>
+		<loc>{{ page.url | absolute_url | xml_escape }}</loc>
+	</url>
+{%- endunless -%}
+{%- endif -%}
+{%- endfor %}
+</urlset>

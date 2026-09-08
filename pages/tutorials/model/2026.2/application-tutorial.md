@@ -5,6 +5,8 @@ title: "Application Tutorial:<br>a Restaurant app<br>Part I"
 category: docs
 model_version: 108
 platform_version: 2026.2
+description: >-
+  Part I of the application language tutorial: collections, nodes, keys, states and references, building a restaurant app from an empty model.
 ---
 
 1. TOC

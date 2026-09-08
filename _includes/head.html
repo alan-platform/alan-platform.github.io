@@ -14,6 +14,38 @@
 		{% endif %}
 	{% endif %}
 
+	{% comment %}
+		A description and a preview for search results and for links shared in chat: pages can set
+		"description" in their front matter, otherwise the opening of the page is used.
+	{% endcomment %}
+	{% if page.description %}
+		{% assign page_description = page.description %}
+	{% elsif page.language %}
+		{% assign page_description = 'Documentation of the ' | append: page.language | append: ' ' | append: page.type | append: ' for the Alan platform, ' | append: page.origin | append: ' version ' | append: page.version | append: '.' %}
+	{% else %}
+		{% assign page_description = site.description %}
+	{% endif %}
+	{% if page.url == "/" %}
+		{% assign page_title = site.title %}
+	{% elsif page.head %}
+		{% assign page_title = page.head %}
+	{% elsif page.title %}
+		{% assign page_title = page.title | replace: '<br>', ' ' | strip_html %}
+	{% else %}
+		{% assign page_title = page.origin | append: '/' | append: page.language | append: ' ' | append: page.type %}
+	{% endif %}
+
+	<meta name="description" content="{{ page_description | strip_newlines | escape }}">
+	<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+	<meta property="og:type" content="{% if page.url == '/' %}website{% else %}article{% endif %}">
+	<meta property="og:site_name" content="Alan Platform">
+	<meta property="og:title" content="{{ page_title | escape }}">
+	<meta property="og:description" content="{{ page_description | strip_newlines | escape }}">
+	<meta property="og:url" content="{{ page.url | absolute_url }}">
+	<meta property="og:image" content="{{ '/assets/logo/square-color.png' | absolute_url }}">
+	<meta name="twitter:card" content="summary">
+
 	<link rel="icon" href="{{ 'favicon.ico' | relative_url }}">
 
 	<link rel="stylesheet" href="{{ 'src/normalize.css' | relative_url }}?{{ site.time | date: "%s"}}">

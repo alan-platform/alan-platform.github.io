@@ -2,6 +2,8 @@
 layout: page
 title: "Alan Bottom Up"
 category: docs
+description: >-
+  What actually runs on a server after an Alan deployment: the systems, the runtimes and how they fit together.
 ---
 
 In this article we'll take a look at how everything in Alan connects, from the bottom up.

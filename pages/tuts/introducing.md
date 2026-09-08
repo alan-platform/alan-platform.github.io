@@ -2,6 +2,8 @@
 layout: page
 title: "Introducing Alan"
 category: docs
+description: >-
+  What the Alan platform is, why it exists, and how a model replaces the code of a data-intensive application.
 ---
 
 

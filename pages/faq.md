@@ -3,6 +3,8 @@ layout: page
 title: FAQ
 category: main
 permalink: /faq/
+description: >-
+  Answers to the questions people ask before their first Alan application: programming background, permissions, SQL, connecting other systems, versions.
 ---
 
 {% assign release = site.data.versions.versions | where: "name", site.data.versions.current | first %}
