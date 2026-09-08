@@ -5,6 +5,83 @@ function menuOpen() {
     el.classList.toggle('open');
 }
 
+// Moves the table of contents that kramdown emits into the rail beside the content, and marks the
+// section in view. Pages without a table of contents keep an empty, hidden rail.
+function pageIndex() {
+    var list = document.getElementById('markdown-toc');
+    var rail = document.querySelector('.page-index nav');
+    if (!list || !rail) {
+        return;
+    }
+
+    rail.appendChild(list);
+    rail.parentNode.removeAttribute('hidden');
+    document.querySelector('main').classList.add('has-page-index');
+
+
+    // follow exactly the entries the index shows: heading levels differ per page, and the generated
+    // grammars skip levels (an h2 section with h5 subsections), so a fixed list of tags misses sections
+    var links = {};
+    var headings = [];
+    rail.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        if (link.offsetParent === null) { // a level the stylesheet hides
+            return;
+        }
+        var heading = document.getElementById(decodeURIComponent(link.getAttribute('href').substring(1)));
+        if (heading) {
+            links[heading.id] = link;
+            headings.push(heading);
+        }
+    });
+    if (headings.length === 0) {
+        return;
+    }
+
+    var current = null;
+    function mark(heading) {
+        if (current === heading) {
+            return;
+        }
+        if (current) {
+            links[current.id].removeAttribute('aria-current');
+        }
+        current = heading;
+        var link = links[current.id];
+        link.setAttribute('aria-current', 'location');
+
+        // a long index scrolls on its own; keep the marked entry in view without moving the page
+        var offset = link.offsetTop - rail.offsetTop;
+        if (offset < rail.parentNode.scrollTop || offset > rail.parentNode.scrollTop + rail.parentNode.clientHeight - link.offsetHeight) {
+            rail.parentNode.scrollTop = offset - rail.parentNode.clientHeight / 2;
+        }
+    }
+
+    // the reader is in the section of the last heading that passed under the fixed header
+    function follow() {
+        var heading = headings[0];
+        for (var i = 0; i < headings.length; i++) {
+            if (headings[i].getBoundingClientRect().top > 96) {
+                break;
+            }
+            heading = headings[i];
+        }
+        mark(heading);
+    }
+
+    var scheduled = false;
+    window.addEventListener('scroll', function() {
+        if (scheduled) {
+            return;
+        }
+        scheduled = true;
+        window.requestAnimationFrame(function() {
+            scheduled = false;
+            follow();
+        });
+    });
+    follow();
+}
+
 window.addEventListener('scroll', function() {
     if (window.scrollY > 0) {
         document.querySelector('header').classList.add('scrolled');
@@ -18,6 +95,8 @@ window.onload = function() {
     deeplinks.forEach(function(i) {
         i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + '</a>';
     });
+
+    pageIndex();
 
     document.querySelectorAll('pre code').forEach(function(element) {
         element.onclick = function() {

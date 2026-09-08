@@ -1,0 +1,9 @@
+{% comment %}
+	The index of the current page. Kramdown puts a <ol id="markdown-toc"> in the content of every page with a
+	"1. TOC / {:toc}" marker; src/main.js moves that list in here and marks the section in view. Without
+	JavaScript the list stays where kramdown put it and this element remains hidden.
+{% endcomment %}
+<aside class="page-index" hidden>
+	<p class="page-index-label" id="page-index-label">On this page</p>
+	<nav aria-labelledby="page-index-label"></nav>
+</aside>

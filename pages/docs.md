@@ -5,6 +5,9 @@ category: main
 permalink: /docs/
 ---
 
+1. TOC
+{:toc}
+
 On the Alan platform you do not write an application; you write a **model** of one.
 A model states what the data is, how values are computed from it, which processes the data goes through, and who may see and change what.
 From that model the platform generates the database, the server, the web application, the login page, the authorization checks, and the migrations that carry your data into the next version of the model.

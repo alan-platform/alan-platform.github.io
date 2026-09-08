@@ -1,0 +1,105 @@
+// The page index: the kramdown table of contents, moved into a rail beside the content by src/main.js.
+// Narrow screens keep it in the flow of the page, which is where the list sits without JavaScript.
+
+$index-width: 14rem;
+$index-gap: 2rem;
+$index-offset: $index-width + $index-gap;
+$index-breakpoint: $base-width + $index-offset + 2rem; // column + rail + gap + air
+
+.page-index {
+    #markdown-toc { // the inline styling from docs.scss does not apply once the list is in the rail
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+    .page-index-label {
+        margin: 0 0 .5em .75em;
+        font-weight: bold;
+        font-size: .75em;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+        color: $grey4;
+    }
+    nav > ol { // kramdown emits the table of contents as an ordered list
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    ol ol {
+        list-style: none;
+        margin: 0;
+        padding-left: .75rem;
+    }
+    ol ol ol { // grammar pages go down to h5; two levels are enough to navigate by
+        display: none;
+    }
+    li {
+        margin: 0;
+    }
+    a,
+    a:link,
+    a:visited {
+        @include breatheFast(color);
+        display: block;
+        padding: .2em .5em .2em .75em;
+        border-left: 3px solid transparent;
+        font-size: .875em;
+        line-height: 1.35;
+        text-decoration: none;
+        color: $grey4;
+    }
+    nav > ol > li > a { // top-level sections carry a little more weight than their subsections
+        color: $grey2;
+    }
+    a:hover,
+    a:active {
+        border-left-color: $grey5;
+        color: $grey1;
+    }
+    a[aria-current] {
+        border-left-color: $orange;
+        font-weight: bold;
+        color: $grey1;
+    }
+}
+
+@media (max-width: $index-breakpoint) { // in the flow, above the content, as kramdown emits it
+    .page-index {
+        max-height: 40vh;
+        overflow-y: auto;
+        margin-bottom: 1rem*$ratio;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid $grey6;
+    }
+}
+
+@media (min-width: $index-breakpoint + 1) {
+    main.has-page-index { // room for the rail, with the text column its usual width
+        max-width: $base-width + 4 + $index-offset;
+        padding-left: $index-offset;
+    }
+    .page-index { // floated out of the text column, and sticky within the page body
+        width: $index-width;
+        max-height: calc(100vh - 11rem);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        position: sticky;
+        float: left;
+        top: 8rem;
+        margin-top: 1rem*$ratio;
+        margin-right: 0;
+        margin-left: -$index-offset;
+        scrollbar-width: thin;
+    }
+}
+
+h2[id],
+h3[id] { // room for the fixed header when jumping from the index
+    scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
