@@ -34,7 +34,7 @@ The finished model — every line of it — is at [the end of the page](#the-who
 Use **empty** while experimenting; Act 7 is about **migrate**.
 If a deployment ever gets stuck, delete the `migrations` folder, deploy once with **empty**, and carry on.
 
-Each act ends with a folder in your own project, under `_docs/tutorials/mission-control/{{ page.platform_version }}/`.
+Each act points at a folder in your own project, under `_docs/tutorials/mission-control/{{ page.platform_version }}/` — Act 2 at two, one for each half.
 It holds `to_model/application.alan` — the model as it should be at that point, to compare against — and `migration/migration.alan`, which fills the app with the freighters, engines and payloads used in the screenshots.
 To use that data: deploy once with **migrate** so that `migrations/from_release` exists, copy the act's `migration.alan` over `migrations/from_release/migration.alan`, and deploy with **migrate** again.
 
@@ -76,6 +76,11 @@ The numerical types carry the physics:
 
 `= 'newton' * 'second'` is a ***product conversion rule***: it states that multiplying newtons by seconds yields newton seconds.
 Without that rule the model does not compile — Alan will not multiply two quantities unless you have said what the result is.
+
+Build and deploy here, and each engine carries its own impulse with the vehicle's total underneath the list.
+This half of the act has a folder of its own, with three engines to look at:
+
+> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/step_02/`>
 
 ### The bug that lost an orbiter
 {:.no_toc}
@@ -239,6 +244,37 @@ Users first: an application with sign-in has a collection of people and a collec
 ```js
 {% include_relative snippets/crew.alan %}
 ```
+
+The model no longer has `anonymous` in its `users` section, and one file outside the model has to agree with that: open `systems/client/settings.alan` and change
+
+```
+anonymous login: enabled
+```
+
+to
+
+```
+anonymous login: disabled
+```
+
+Skip it and the build stops with the client settings, not the model:
+
+```
+systems/client/settings.alan: state constraint violation for 'yes'.
+Unexpected state for 'allow anonymous user'
+```
+
+which is the compiler pointing out that a client configured for visitors cannot serve an application that has none.
+
+One more file, and this one the compiler will *not* remind you about: the session manager decides how people sign in, and it starts out with passwords switched off.
+Open `systems/sessions/config.alan` and set
+
+```
+password-authentication: enabled
+```
+
+Leave it `disabled` and everything still builds and deploys — you simply end up at a login page that has no way to accept your password.
+(The same file can enable `user-creation` for sign-up from the login page; the [Users & Authentication guide](/pages/tutorials/model/{{ page.platform_version }}/application-users.html) covers that.)
 
 Then three lines of authorization:
 
