@@ -27,7 +27,7 @@
 
 			{% include page-index.html %}
 			<section>
-				{{ content }}
+				{{ content | replace: '<img src=', '<img loading="lazy" decoding="async" src=' }}
 			</section>
 		</main>
 
