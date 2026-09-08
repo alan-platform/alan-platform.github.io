@@ -1,0 +1,20 @@
+'Parts': collection ['Part']
+	'Assembly': acyclic-graph
+{
+	'Part': text
+	'Part type': stategroup (
+		'Component' {
+			'Component mass': number 'kg'
+		}
+		'Built from' {
+			'Subparts': collection ['Subpart'] {
+				'Subpart': text -> ^ ^ sibling in ( 'Assembly' )
+				'Subpart mass': number 'kg' = ( recurse ^ ^ 'Assembly' ) >'Subpart'.'Mass'
+			}
+		}
+	)
+	'Mass': number 'kg' = ( recurse 'Assembly' ) switch .'Part type' (
+		|'Component' as $'component' => $'component'.'Component mass'
+		|'Built from' as $'assembly' => sum $'assembly'.'Subparts'* .'Subpart mass'
+	)
+}

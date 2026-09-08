@@ -266,8 +266,12 @@ def compiler_check(d, kind, platform, expect, regions_by_file):
     return [], notices
 
 
-def compare_reference(path, platform, reference, version):
-    ref = Path(reference)/"docs/tutorials/restaurant1"/version/path.parent.name/"to_model/application.alan"
+# the online-ide docs directory that holds the step models of a tutorial, per website tutorial name
+REFERENCE_DOCS = {"model": "restaurant1", "mission": "mission-control"}
+
+
+def compare_reference(path, platform, reference, version, tutorial="model"):
+    ref = Path(reference)/"docs/tutorials"/REFERENCE_DOCS[tutorial]/version/path.parent.name/"to_model/application.alan"
     if not ref.exists(): return [diag(path, 1, f"missing online-ide reference {ref.resolve()}")]
     def without_comments(text):
         # markers and every // comment are stripped on BOTH sides; the pretty-printer keeps comments otherwise
@@ -326,10 +330,11 @@ def verify(version, platform=None, jobs=None, reference=None, no_compile=False, 
     for target in snips.glob("*.alan") if snips.exists() else []:
         if target.stem not in generated: print(diag(target, 1, "stale generated snippet; run extract --write")); errors += 1
     e,w = audit_docs(vdir, generated); errors += e; warnings += w
-    if platform and reference:
-        for d, kind, _, _ in info:
-            if kind == "model" and re.match(r"^step_[0-9]+[a-z]?$", d.name):
-                msgs = compare_reference(d/"application.alan", platform, reference, version); print("\n".join(msgs)) if msgs else None; errors += len([x for x in msgs if ": error:" in x])
+    if platform and reference and tutorial in REFERENCE_DOCS:
+        for d, kind, expect, _ in info:
+            # a model that is meant not to compile has no online-ide counterpart: it is never a tutorial step
+            if kind == "model" and re.match(r"^step_[0-9]+[a-z]?$", d.name) and not expect:
+                msgs = compare_reference(d/"application.alan", platform, reference, version, tutorial); print("\n".join(msgs)) if msgs else None; errors += len([x for x in msgs if ": error:" in x])
     print(f"verify: {errors} error(s), {warnings} warning(s)", file=sys.stderr)
     return errors, warnings
 

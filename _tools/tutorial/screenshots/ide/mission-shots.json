@@ -1,0 +1,39 @@
+{
+  "output": "pages/tutorials/mission/2026.2/images",
+  "viewport": {
+    "width": 1400,
+    "height": 900,
+    "deviceScaleFactor": 2
+  },
+  "workspace": "workspace-mission/project",
+  "theme": "Default Dark Modern",
+  "env": {
+    "ALAN_CONTAINER_NAME": "mission-control"
+  },
+  "shots": [
+    {
+      "id": "unit-error",
+      "file": "02-unit-error.png",
+      "steps": [
+        {
+          "command": "File: Collapse Folders in Explorer"
+        },
+        {
+          "open": "models/model/application.alan"
+        },
+        {
+          "wait": 2500
+        },
+        {
+          "command": "View: Focus Problems"
+        },
+        {
+          "wait": 2000
+        },
+        {
+          "dump": ".markers-panel .monaco-list-row"
+        }
+      ]
+    }
+  ]
+}

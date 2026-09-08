@@ -1,0 +1,49 @@
+{
+  "output": "pages/tutorials/data-import-export/files_data-import-export",
+  "tutorial": "mission",
+  "viewport": {
+    "width": 1336,
+    "height": 760,
+    "deviceScaleFactor": 2
+  },
+  "appName": "Mission Control",
+  "settleMs": 300,
+  "dataDir": "assets",
+  "datasets": {
+    "step_04": {
+      "model": "step_04",
+      "migration": "online-ide:step_04"
+    }
+  },
+  "shots": [
+    {
+      "id": "menu",
+      "file": "csv-menu.png",
+      "dataset": "step_04",
+      "actions": [
+        {
+          "click": "button=Payloads"
+        },
+        {
+          "wait": 800
+        },
+        {
+          "click": "exact=menu"
+        },
+        {
+          "wait": 700
+        },
+        {
+          "mouse": [
+            300,
+            650
+          ]
+        },
+        {
+          "wait": 900
+        }
+      ]
+    }
+  ],
+  "docs": "mission-control"
+}

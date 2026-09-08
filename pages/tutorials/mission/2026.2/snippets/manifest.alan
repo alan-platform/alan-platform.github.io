@@ -1,0 +1,11 @@
+'Lift capacity': number 'kg'
+'Manifest': reference-set -> downstream ^ .'Payloads'* = inverse >'Vehicle'
+'Cargo mass': number 'kg' = sum <'Manifest'* .'Mass'
+'Margin': number 'kg' = sum ( .'Lift capacity', - .'Cargo mass' )
+'Load': stategroup = switch .'Cargo mass' compare ( .'Lift capacity' ) (
+	| <= => 'Within limits' ( )
+	| >  => 'Overloaded' ( )
+) (
+	'Within limits' { }
+	'Overloaded' { }
+)

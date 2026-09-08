@@ -3,24 +3,28 @@ set -euo pipefail
 
 if [ "$#" -lt 2 ] || [ "$#" -gt 3 ] || { [ "$#" -eq 3 ] && [ "$3" != "--force" ]; }; then
   echo "usage: $0 <version> <dataset> [--force]" >&2
+  echo "  TUTORIAL=<name> selects the tutorial under pages/tutorials (default: model)" >&2
+  echo "  DOCS=<name>     selects the online-ide docs/tutorials dir for online-ide:<step> migrations (default: restaurant1)" >&2
   exit 2
 fi
 
 VERSION=$1
 DATASET=$2
 FORCE=${3:-}
+TUTORIAL=${TUTORIAL:-model}
+DOCS=${DOCS:-restaurant1}   # the tutorial directory under online-ide docs/tutorials that "online-ide:<step>" refers to
 ROOT=$(cd "$(dirname "$0")/../../.." && pwd)
 SCREENSHOTS="$ROOT/_tools/tutorial/screenshots"
 WEBCLIENT=${WEBCLIENT:-"$ROOT/../webclient"}
 ONLINE_IDE=${ONLINE_IDE:-"$ROOT/../online-ide"}
-SHOTS="$SCREENSHOTS/$VERSION/shots.json"
+if [ "$TUTORIAL" = "model" ]; then SHOTS="$SCREENSHOTS/$VERSION/shots.json"; else SHOTS="$SCREENSHOTS/$VERSION/shots-$TUTORIAL.json"; fi
 
 [ -f "$SHOTS" ] || { echo "error: shot list missing: $SHOTS" >&2; exit 1; }
 MODEL=$(jq -er --arg dataset "$DATASET" '.datasets[$dataset].model' "$SHOTS") || { echo "error: unknown dataset: $DATASET" >&2; exit 1; }
 MIGRATION=$(jq -er --arg dataset "$DATASET" '.datasets[$dataset].migration' "$SHOTS") || { echo "error: dataset has no migration: $DATASET" >&2; exit 1; }
-MODEL_FILE="$ROOT/pages/tutorials/model/$VERSION/models/$MODEL/application.alan"
+MODEL_FILE="$ROOT/pages/tutorials/$TUTORIAL/$VERSION/models/$MODEL/application.alan"
 if [[ "$MIGRATION" == online-ide:* ]]; then
-  DATA_FILE="$ONLINE_IDE/docs/tutorials/restaurant1/$VERSION/${MIGRATION#online-ide:}/migration/migration.alan"
+  DATA_FILE="$ONLINE_IDE/docs/tutorials/$DOCS/$VERSION/${MIGRATION#online-ide:}/migration/migration.alan"
 else
   DATA_FILE="$SCREENSHOTS/$VERSION/$MIGRATION"
 fi
@@ -47,7 +51,7 @@ for FILE in \
   [ -e "$FILE" ] || { echo "error: required path missing: $FILE" >&2; exit 1; }
 done
 
-OUT="$ROOT/.toolchains/screenshots/$VERSION/$DATASET"
+if [ "$TUTORIAL" = "model" ]; then OUT="$ROOT/.toolchains/screenshots/$VERSION/$DATASET"; else OUT="$ROOT/.toolchains/screenshots/$VERSION/$TUTORIAL-$DATASET"; fi
 if [ "$FORCE" != "--force" ] && [ -f "$OUT/build/test.pkg" ] && [ "$OUT/build/test.pkg" -nt "$MODEL_FILE" ] && [ "$OUT/build/test.pkg" -nt "$DATA_FILE" ]; then
   echo "reusing build: $OUT" >&2
   printf '%s\n' "$OUT"
@@ -59,6 +63,8 @@ mkdir -p "$OUT/model" "$OUT/auto-client/contracts/default" "$OUT/migration/model
 cp "$MODEL_FILE" "$OUT/model/application.alan"
 ln -s ../build/model "$OUT/auto-client/model.link"
 cp "$ONLINE_IDE/templates/default/project/systems/client/settings.alan" "$OUT/auto-client/settings.alan"
+# a model whose users section drops "anonymous" needs a client that does not offer anonymous login
+grep -qE '^[[:space:]]*anonymous[[:space:]]*$' "$MODEL_FILE" || sed -i 's/^anonymous login: enabled$/anonymous login: disabled/' "$OUT/auto-client/settings.alan"
 printf '( )\n' > "$OUT/auto-client/annotations.alan"
 : > "$OUT/auto-client/phrases.alan"
 ln -s "$W/build/src/auto-webclient/src/generator-contracts/default/contract.lib" "$OUT/auto-client/contracts/default/contract.lib.link"

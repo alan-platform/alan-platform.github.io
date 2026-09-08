@@ -9,20 +9,21 @@ import { framePng } from "./lib/frame.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "../../..");
-const usage = "usage: shoot.mjs <version> [--only id,id] [--headful] [--keep] [--force-build]";
+const usage = "usage: shoot.mjs <version> [--list <shots.json>] [--only id,id] [--headful] [--keep] [--force-build]";
 const args = process.argv.slice(2);
 if (!args.length) throw new Error(usage);
 const version = args.shift();
-let only, headful = false, keep = false, forceBuild = false;
+let only, headful = false, keep = false, forceBuild = false, listFile;
 while (args.length) {
   const arg = args.shift();
   if (arg === "--only") only = new Set((args.shift() ?? "").split(",").filter(Boolean));
+  else if (arg === "--list") listFile = path.resolve(args.shift() ?? "");
   else if (arg === "--headful") headful = true;
   else if (arg === "--keep") keep = true;
   else if (arg === "--force-build") forceBuild = true;
   else throw new Error(usage);
 }
-const config = JSON.parse(await fs.readFile(path.join(here, version, "shots.json"), "utf8"));
+const config = JSON.parse(await fs.readFile(listFile ?? path.join(here, version, "shots.json"), "utf8"));
 const shots = config.shots.filter(shot => !only || only.has(shot.id));
 if (!shots.length) throw new Error("error: no shots selected");
 const output = path.join(root, config.output);
@@ -238,7 +239,7 @@ for (const [dataset, datasetShots] of groups) {
   let buildDir;
   try {
     const result = await new Promise((resolve, reject) => {
-      const child = spawn(path.join(here, "build-step.sh"), [version, dataset, ...(forceBuild ? ["--force"] : [])], { stdio: ["ignore", "pipe", "pipe"] });
+      const child = spawn(path.join(here, "build-step.sh"), [version, dataset, ...(forceBuild ? ["--force"] : [])], { stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, ...(config.tutorial ? { TUTORIAL: config.tutorial } : {}), ...(config.docs ? { DOCS: config.docs } : {}) } });
       let stdout = ""; child.stdout.on("data", data => stdout += data); child.stderr.on("data", data => process.stderr.write(data));
       child.on("exit", code => code === 0 ? resolve(stdout.trim().split(/\r?\n/).at(-1)) : reject(new Error(`build failed for ${dataset} (status ${code})`)));
     });

@@ -1,0 +1,35 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'Vehicles': collection ['Vehicle'] {
+		'Vehicle': text
+		'Dry mass': number 'kg'
+		'Propellant': number 'kg'
+		'Wet mass': number 'kg' = sum ( .'Dry mass', .'Propellant' )
+		'Engines': collection ['Engine'] {
+			'Engine': text
+			'Thrust': number 'newton'
+			'Burn time': number 'second'
+			'Impulse': number 'newton second' = product ( .'Thrust' as 'newton', .'Burn time' )
+		}
+		'Booster impulse': number 'pound-force second'
+		'Engine impulse': number 'newton second' = sum .'Engines'* .'Impulse'
+		//@ begin impulse-converted
+		'Total impulse': number 'newton second' = sum ( .'Engine impulse', from 'pound-force second' ( .'Booster impulse' ) )
+		//@ end impulse-converted
+	}
+}
+
+numerical-types
+	'kg'
+	'newton'
+	'second'
+	'pound-force second'
+	//@ begin pound-force-conversion
+	'newton second'
+		= 'newton' * 'second'
+		= 'pound-force second' * 4448222 * 10 ^ -6
+	//@ end pound-force-conversion

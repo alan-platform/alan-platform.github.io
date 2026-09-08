@@ -1,0 +1,3 @@
+'newton second'
+	= 'newton' * 'second'
+	= 'pound-force second' * 4448222 * 10 ^ -6

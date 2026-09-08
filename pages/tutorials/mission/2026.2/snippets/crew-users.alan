@@ -1,0 +1,11 @@
+users
+	dynamic: .'Crew'
+		passwords: .'Passwords'
+			password-value: .'Data'.'Password'
+			password-status: .'Data'.'Active' (
+				| active => 'Yes' ( )
+				| reset => 'No' ( )
+			)
+			password-initializer: (
+				'Data' = ( )
+			)

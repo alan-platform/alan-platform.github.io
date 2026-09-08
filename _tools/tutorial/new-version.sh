@@ -2,18 +2,19 @@
 # Produce a new platform version of the tutorials in this repo and in online-ide:
 #   pages/tutorials/model/<new>       copied from <prev>, models upgraded with the platform's model transform
 #   pages/tutorials/migrations/<new>  copied from <prev>, migration projects upgraded (models + migration language)
-#   online-ide docs/tutorials/restaurant1/<new>   step models transformed, step migrations converted
+#   pages/tutorials/mission/<new>     copied from <prev>, models upgraded with the model transform
+#   online-ide docs/tutorials/{restaurant1,mission-control}/<new>   step models transformed, step migrations converted
 # then snippets are regenerated, everything is verified, and a report lists what still needs a human.
 set -euo pipefail
 if [ "$#" -lt 1 ] || [ "$#" -gt 3 ]; then echo "usage: $0 <new> [<prev>] [--force]" >&2; exit 2; fi
 NEW=$1; FORCE=false; PREV=
 [[ "$NEW" =~ ^[0-9]{4}\.[0-9]+$ ]] || { echo "error: <new> must look like 2026.2, got '$NEW'" >&2; exit 2; }
 for x in "${@:2}"; do if [ "$x" = --force ]; then FORCE=true; elif [ -z "$PREV" ]; then PREV=$x; else echo "usage: $0 <new> [<prev>] [--force]" >&2; exit 2; fi; done
-ROOT=$(cd "$(dirname "$0")/../.." && pwd); TOOLS="$ROOT/_tools/tutorial"; IDE="${ONLINE_IDE:-$ROOT/../online-ide}"; T="$IDE/docs/tutorials/restaurant1"
+ROOT=$(cd "$(dirname "$0")/../.." && pwd); TOOLS="$ROOT/_tools/tutorial"; IDE="${ONLINE_IDE:-$ROOT/../online-ide}"; T="$IDE/docs/tutorials/restaurant1"; TM="$IDE/docs/tutorials/mission-control"
 PREV=${PREV:-$(jq -r .current "$ROOT/_data/versions.json")}
 [[ "$PREV" =~ ^[0-9]{4}\.[0-9]+$ ]] || { echo "error: <prev> must look like 2024.2, got '$PREV'" >&2; exit 2; }
 [ "$PREV" != "$NEW" ] || { echo "error: <new> and <prev> are the same version" >&2; exit 2; }
-WEB="$ROOT/pages/tutorials/model"; MIG="$ROOT/pages/tutorials/migrations"; FAIL=(); CENSUS=ok; MIGRATION=ok; VERIFY=0
+WEB="$ROOT/pages/tutorials/model"; MIG="$ROOT/pages/tutorials/migrations"; MSN="$ROOT/pages/tutorials/mission"; FAIL=(); CENSUS=ok; MIGRATION=ok; VERIFY=0
 say() { echo "== step $1: $2" >&2; }
 dist_field() { # <version> <jq path> : read from _data/dist/<version>/versions.json, else from the fetched toolchain, else empty
   local v=$1 q=$2 f
@@ -24,7 +25,7 @@ dist_field() { # <version> <jq path> : read from _data/dist/<version>/versions.j
 }
 
 say A "prepare toolchain"
-for d in "$WEB/$NEW" "$MIG/$NEW" "$T/$NEW"; do
+for d in "$WEB/$NEW" "$MIG/$NEW" "$MSN/$NEW" "$T/$NEW" "$TM/$NEW"; do
   if [ -e "$d" ]; then $FORCE || { echo "error: $d exists (use --force to replace)" >&2; exit 1; }; rm -rf "$d"; fi
 done
 DEVENV=$("$TOOLS/fetch-toolchain.sh" "$NEW"); NEW_MODEL=$(jq -r .model "$DEVENV/platform/platform.json")
@@ -42,21 +43,29 @@ if [ -d "$MIG/$PREV" ]; then
 else
   echo "warning: no migrations tutorial for $PREV; nothing copied" >&2
 fi
+HAVE_MSN=false
+if [ -d "$MSN/$PREV" ]; then
+  cp -r "$MSN/$PREV" "$MSN/$NEW"; sed -i -E "s/^model_version: .*/model_version: $NEW_MODEL/; s/^platform_version: .*/platform_version: $NEW/" "$MSN/$NEW"/*.md
+  if [ -d "$MSN/$NEW/models" ]; then HAVE_MSN=true; fi
+fi
 SHOTS="$TOOLS/screenshots"; HAVE_SHOTS=false
 if [ -d "$SHOTS/$PREV" ]; then
   # shot lists reference the tutorial version only in their output paths; datasets name model dirs and steps
   cp -r "$SHOTS/$PREV" "$SHOTS/$NEW"; sed -i "s#pages/tutorials/\([a-z]*\)/$PREV/#pages/tutorials/\1/$NEW/#g" "$SHOTS/$NEW"/*.json; HAVE_SHOTS=true
 fi
 
-say C "copy online-ide tutorial"
-rsync -a --exclude .alan --exclude CLAUDE.md --exclude AGENTS.md "$T/$PREV/" "$T/$NEW/"
-if [ -f "$ROOT/.toolchains/$NEW/versions.json" ]; then cp "$ROOT/.toolchains/$NEW/versions.json" "$T/$NEW/.alanversions"
-elif [ -f "$DEVENV/../.versions-fetched.json" ]; then jq --arg v "$NEW" '{"platform version": $v, "system types": {datastore: ."system types".datastore}}' "$DEVENV/../.versions-fetched.json" > "$T/$NEW/.alanversions"
-else curl -sSf "https://dist.alan-platform.com/share/versions/$NEW/versions.json" | jq '{"platform version": ."platform version", "system types": {datastore: ."system types".datastore}}' > "$T/$NEW/.alanversions"; fi
-sed -i "s/^VERSION=.*/VERSION=\"$NEW\"/" "$T/$NEW/.alanscript"
+say C "copy online-ide tutorials"
+IDE_DIRS=("$T"); if $HAVE_MSN && [ -d "$TM/$PREV" ]; then IDE_DIRS+=("$TM"); fi
+for base in "${IDE_DIRS[@]}"; do
+  rsync -a --exclude .alan --exclude CLAUDE.md --exclude AGENTS.md "$base/$PREV/" "$base/$NEW/"
+  if [ -f "$ROOT/.toolchains/$NEW/versions.json" ]; then cp "$ROOT/.toolchains/$NEW/versions.json" "$base/$NEW/.alanversions"
+  elif [ -f "$DEVENV/../.versions-fetched.json" ]; then jq --arg v "$NEW" '{"platform version": $v, "system types": {datastore: ."system types".datastore}}' "$DEVENV/../.versions-fetched.json" > "$base/$NEW/.alanversions"
+  else curl -sSf "https://dist.alan-platform.com/share/versions/$NEW/versions.json" | jq '{"platform version": ."platform version", "system types": {datastore: ."system types".datastore}}' > "$base/$NEW/.alanversions"; fi
+  sed -i "s/^VERSION=.*/VERSION=\"$NEW\"/" "$base/$NEW/.alanscript"
+done
 
 TMP=$(mktemp -d); trap 'rm -rf "$TMP"' EXIT
-census() { { "$TOOLS/snippets.py" census "$NEW"; $HAVE_MIG && "$TOOLS/snippets.py" census "$NEW" --tutorial migrations; } | jq -s 'add | map_values(.markers |= map(.[0:2]))'; }
+census() { { "$TOOLS/snippets.py" census "$NEW"; $HAVE_MIG && "$TOOLS/snippets.py" census "$NEW" --tutorial migrations; $HAVE_MSN && "$TOOLS/snippets.py" census "$NEW" --tutorial mission; } | jq -s 'add | map_values(.markers |= map(.[0:2]))'; }
 
 say D "upgrade models"
 census > "$TMP/census-before.json"
@@ -67,13 +76,19 @@ if $HAVE_MIG; then
     elif [ -f "$d/application.alan" ]; then "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" || FAIL+=("website model: $d"); fi
   done
 fi
-for d in "$T/$NEW"/step_*/to_model; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" --pp || FAIL+=("online-ide model: $d"); done
+if $HAVE_MSN; then for d in "$MSN/$NEW"/models/*/; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" || FAIL+=("website mission model: $d"); done; fi
+for base in "${IDE_DIRS[@]}"; do
+  for d in "$base/$NEW"/step_*/to_model; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" --pp || FAIL+=("online-ide model: $d"); done
+done
 census > "$TMP/census-after.json" || FAIL+=("census after transform")
 # marker sequences must survive the transforms (line numbers may shift, they are not compared)
 if ! diff -u "$TMP/census-before.json" "$TMP/census-after.json" > "$TMP/census.diff"; then echo "error: marker census changed by transform:" >&2; cat "$TMP/census.diff" >&2; CENSUS=diff; FAIL+=("marker census"); fi
 
-say E "upgrade online-ide step migrations"; prev_step=
-for step in "$T/$NEW"/step_*/; do [ -n "$prev_step" ] || prev_step=$step; "$TOOLS/upgrade-migration.sh" "$DEVENV" "$prev_step" "$step" || { FAIL+=("migration: $step"); MIGRATION=fail; }; prev_step=$step; done
+say E "upgrade online-ide step migrations"
+for base in "${IDE_DIRS[@]}"; do
+  prev_step=
+  for step in "$base/$NEW"/step_*/; do [ -n "$prev_step" ] || prev_step=$step; "$TOOLS/upgrade-migration.sh" "$DEVENV" "$prev_step" "$step" || { FAIL+=("migration: $step"); MIGRATION=fail; }; prev_step=$step; done
+done
 
 say F "extract and verify"
 "$TOOLS/snippets.py" extract "$NEW" --write || FAIL+=("extract model")
@@ -82,7 +97,12 @@ if $HAVE_MIG; then
   "$TOOLS/snippets.py" extract "$NEW" --tutorial migrations --write || FAIL+=("extract migrations")
   "$TOOLS/snippets.py" verify "$NEW" --tutorial migrations --platform "$DEVENV" || { VERIFY=1; FAIL+=("verify migrations"); }
 fi
-say F2 "online-ide test.sh (models and migrations for restaurant1/$NEW)"; (cd "$IDE" && ./test.sh "restaurant1/$NEW") || FAIL+=("online-ide test.sh restaurant1/$NEW")
+if $HAVE_MSN; then
+  "$TOOLS/snippets.py" extract "$NEW" --tutorial mission --write || FAIL+=("extract mission")
+  "$TOOLS/snippets.py" verify "$NEW" --tutorial mission --platform "$DEVENV" --reference "$IDE" || { VERIFY=1; FAIL+=("verify mission"); }
+fi
+say F2 "online-ide test.sh (models and migrations)"
+for base in "${IDE_DIRS[@]}"; do name=$(basename "$base"); (cd "$IDE" && ./test.sh "$name/$NEW") || FAIL+=("online-ide test.sh $name/$NEW"); done
 
 say G "prose review"
 PAGES=("$WEB/$NEW"/*.md); $HAVE_MIG && PAGES+=("$MIG/$NEW"/*.md)
@@ -151,5 +171,5 @@ if $HAVE_SHOTS; then
 else
   echo "screenshots: no shot list for $PREV; the images of $NEW are still copies of $PREV"
 fi
-echo "commit with explicit paths (pages/tutorials/model/$NEW, pages/tutorials/migrations/$NEW, _tools/tutorial/screenshots/$NEW, and in online-ide docs/tutorials/restaurant1/$NEW)"
+echo "commit with explicit paths (pages/tutorials/{model,migrations,mission}/$NEW, _tools/tutorial/screenshots/$NEW, and in online-ide docs/tutorials/{restaurant1,mission-control}/$NEW)"
 [ "${#FAIL[@]}" -eq 0 ]

@@ -1,0 +1,9 @@
+'Payloads': collection ['Payload'] {
+	'Payload': text
+	'Mass': number 'kg'
+	'Vehicle': text -> ^ .'Vehicles'[]
+	'Priority': stategroup (
+		'Critical' { }
+		'Standard' { }
+	)
+}

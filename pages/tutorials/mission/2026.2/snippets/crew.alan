@@ -1,0 +1,20 @@
+'Crew': collection ['Call sign'] {
+	'Call sign': text
+	'Role': stategroup (
+		'Flight director' { }
+		'Loadmaster' { }
+		'Observer' { }
+	)
+}
+'Passwords': collection ['Member'] {
+	'Member': text -> ^ .'Crew'[]
+	'Data': group {
+		can-update: user is ( ^ >'Member' )
+
+		'Password': text
+		'Active': stategroup (
+			'No' { }
+			'Yes' { }
+		)
+	}
+}

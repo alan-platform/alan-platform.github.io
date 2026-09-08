@@ -1,0 +1,17 @@
+//@ all step_01
+users
+	anonymous
+
+interfaces
+
+root {
+	'Vehicles': collection ['Vehicle'] {
+		'Vehicle': text
+		'Dry mass': number 'kg'
+		'Propellant': number 'kg'
+		'Wet mass': number 'kg' = sum ( .'Dry mass', .'Propellant' )
+	}
+}
+
+numerical-types
+	'kg'

@@ -100,6 +100,21 @@ config or a shot overrides `margin`, `radius`, `border`, `shadow`, and `"frame":
 The models in `pages/tutorials/model/VERSION/models/` that exist only for a screenshot (`step_09-priority`) carry no
 snippet markers; they are still compiled by `snippets.py verify`.
 
+The Mission Control tutorial (`pages/tutorials/mission/VERSION/`) is a second tutorial in the same infrastructure:
+`snippets.py <cmd> VERSION --tutorial mission` for its models and snippets, `2026.2/shots-mission.json` for its
+application screenshots (`shoot.mjs VERSION --list ...`; the list's `tutorial` field makes `build-step.sh` read models
+from `pages/tutorials/mission` and its `docs` field points `online-ide:<step>` migrations at the tutorial's own
+online-ide directory; `TUTORIAL=<name>` and `DOCS=<name>` do the same on the command line), and `ide/mission-shots.json`
+for the language-server screenshot, taken from a workspace whose model is `step_02-units` with the markers stripped.
+`step_02-units` carries `//@ expect error`: it is meant not to compile, and the reference check skips it.
+
+Its step models and example data live in online-ide `docs/tutorials/mission-control/VERSION/step_NN/{to_model,migration}`,
+exactly as `restaurant1` holds them for the model tutorial: `./test.sh mission-control/VERSION` in online-ide compiles
+every step model and every step migration against the previous step, `snippets.py verify VERSION --tutorial mission
+--reference <online-ide>` checks that the website models and those step models are the same model (`REFERENCE_DOCS` in
+`snippets.py` maps a tutorial to its online-ide directory), the screenshot datasets read their data from those step
+migrations, and the tutorial page points readers at the folders for the data of each act.
+
 `pages/tuts/getting-started.md` has its own four images in `ide/getting-started-shots.json`, taken from a workspace
 built by hand: copy `templates/default/project`, put the model of that page in `models/model/application.alan`, set
 `anonymous login: disabled`, `./alan build`, and generate a `migrations/from_release` (as `prepare-workspace.sh
