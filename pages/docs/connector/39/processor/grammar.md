@@ -712,7 +712,6 @@ This is chosen externally, the archetype here must follow the external choice.
 					/* Schedule a run of the main routine immediately after the command.
 					 * The main routine is run, and consumers are updated, regardless of the external schedule.
 					 * This run of the main routine is in addition to runs caused by the external schedule.
-					 * This fully ignores the binding path of the routine and even triggers properly when there is no dataset yet.
 					 */
 				}
 			)
