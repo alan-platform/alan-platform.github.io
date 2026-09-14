@@ -51,14 +51,17 @@ Each folder holds two files.
 `to_model/application.alan` is the model as it should look at that point, to compare with your own.
 `migration/migration.alan` is the example data behind the screenshots: the two freighters, their engines, the payloads.
 
-To put that data in your app, at any act:
+The **first** deployment of a project is always **empty**: there is nothing to migrate from yet, and **migrate** stops with `unable to determine last deployed version`.
+After that, to put an act's data in your app:
 
-1. deploy with **migrate** once, which creates `migrations/from_release`;
+1. deploy with **migrate**, which creates the folder `migrations/from_release`;
 2. copy the act's `migration/migration.alan` over `migrations/from_release/migration.alan`;
 3. deploy with **migrate** again.
 
-Do this from Act 1 onward if you want your app to show what the screenshots show — the data comes from these files, not from the **empty** option.
-Choose **empty** instead when you would rather type a vehicle or two yourself; it starts the app with no data at all.
+Do this from Act 1 onward if you want your app to show what the screenshots show — the data comes from these files, not from the **empty** option, which starts the app with no data of its own.
+
+`migrations/from_release/migration.alan` is the file to edit: it survives every deployment.
+A deployment with **empty** regenerates `migrations/from_empty` from scratch each time, so anything written there is thrown away without a warning.
 If a deployment gets stuck, delete the `migrations` folder, deploy once with **empty**, and carry on.
 
 Migrations have a [tutorial of their own](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html); here they are only a way to load the example data, until Act 7 changes the model with data already in the app.
@@ -281,19 +284,12 @@ Users first: an application with sign-in has a collection of people and a collec
 {% include_relative snippets/crew.alan %}
 ```
 
-The model no longer has `anonymous` in its `users` section, and one file outside the model has to agree with that: open `systems/client/settings.alan` and change
+> **Two files outside the model have to change with it.** Sign-in is not the model's business alone: the client decides whether visitors are allowed, and the session manager decides how people log in.
+>
+> - `systems/client/settings.alan`: `anonymous login: enabled` becomes `anonymous login: disabled`
+> - `systems/sessions/config.alan`: `password-authentication: disabled` becomes `password-authentication: enabled`
 
-```
-anonymous login: enabled
-```
-
-to
-
-```
-anonymous login: disabled
-```
-
-Skip it and the build stops with the client settings, not the model:
+The first one the compiler asks for. Skip it and the build stops at the client settings, not at the model:
 
 ```
 systems/client/settings.alan: state constraint violation for 'yes'.
@@ -302,14 +298,7 @@ Unexpected state for 'allow anonymous user'
 
 which is the compiler pointing out that a client configured for visitors cannot serve an application that has none.
 
-One more file, and this one the compiler will *not* remind you about: the session manager decides how people sign in, and it starts out with passwords switched off.
-Open `systems/sessions/config.alan` and set
-
-```
-password-authentication: enabled
-```
-
-Leave it `disabled` and everything still builds and deploys — you simply end up at a login page that has no way to accept your password.
+The second one nothing asks for. With `password-authentication` left `disabled`, the project builds, deploys, and serves a login page that has no way to accept a password — no error anywhere to say why.
 (The same file can enable `user-creation` for sign-up from the login page; the [Users & Authentication guide](/pages/tutorials/model/{{ page.platform_version }}/application-users.html) covers that.)
 
 Then three lines of authorization:
@@ -322,8 +311,15 @@ Then three lines of authorization:
 `can-update: user .'Role'?'Flight director'` on the vehicles, `...?'Loadmaster'` on the payloads — and the `Data` group of a password can only be updated by the person it belongs to (`user is ( ^ >'Member' )`).
 
 Deploy with the **empty** option.
-That deployment seeds one account so that you can get in at all: username `root`, password `welcome`, which the app makes you change on first sign-in.
-Give it the flight director role, add a second crew member as loadmaster, and sign in as that one: the payload screens work, the vehicles are read-only, and the launch button is not there.
+That deployment seeds one account so that you can get in at all: username `root`, password `welcome`.
+The seeded password is stored as a hash — the `00$53cf…` value in the act's migration file is `welcome`, not an empty placeholder to fill in.
+
+The account is seeded with `'Active' = create 'No' ( )`, which the `password-status` line of the model maps to `reset`: the app should ask for a new password at the first sign-in.
+Seed `'Active' = create 'Yes' ( )` instead for an account that signs straight in with `welcome`, which is the quicker route if the reset page gives you trouble.
+
+> **Login page, but no way in?** Check `password-authentication` in `systems/sessions/config.alan` first: `disabled` is what a template starts with, and nothing in the build output points at it. Putting `anonymous` back in the model is not the fix — that removes the login page altogether.
+
+Give the account the flight director role, add a second crew member as loadmaster, and sign in as that one: the payload screens work, the vehicles are read-only, and the launch button is not there.
 
 (The screenshots on this page come from a sandbox without sign-in, so this is an act you watch in your own app.)
 
@@ -343,6 +339,9 @@ The freighters have a destination now, so the model needs a landing site — whi
 ```
 
 Deploy with the **migrate** option instead of **empty**.
+That option needs an app that is already running: it migrates *from* the version deployed last, so a project that has never been deployed stops with `unable to determine last deployed version`.
+Deploy once with **empty** first if you skipped ahead to this act — the folder `act_07` holds a migration that builds the whole dataset from scratch, `Landing site` included, so it works either way.
+
 The platform generates `migrations/from_release/migration.alan`: a mapping from the running dataset to the new one, in which everything that can be carried across already is.
 What it cannot know is where `Landing site` comes from, so it asks you — in code, in a file the compiler checks against both models:
 
@@ -364,6 +363,8 @@ This is the application, complete — users, authorization, physics, a manifest 
 ```js
 {% include_relative snippets/mission-control.alan %}
 ```
+
+Two settings outside the model go with it, both from Act 6: `anonymous login: disabled` in `systems/client/settings.alan`, and `password-authentication: enabled` in `systems/sessions/config.alan`. Without the second one the app deploys and shows a login page that cannot accept a password.
 
 A hundred and twenty lines. From them the platform generates the database, the server, the web client with its lists, forms and search, the login page, the authorization checks, the incremental recomputation of every derived value, and the migration machinery that carries your data to the next version.
 
