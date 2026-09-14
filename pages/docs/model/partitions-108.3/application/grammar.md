@@ -351,6 +351,13 @@ Annotations like `@date` map numerical types to formats for easy modification in
 With `@factor` you can present 1000 milliseconds as 1 second to the application user.<br>
 If you do so, be sure to set `@label:` to `"sec"` as well!
 
+A numerical type declared with `in` is a *scale*: a position counted from a fixed origin, rather than an amount of something.
+Dates are the scales the platform itself works with, and both of them count from the Julian epoch.
+A `'date'` counts whole days from it and a `'date and time'` counts whole seconds, so 1970-01-01 is day 2440587, or second 210866716800.
+A date multiplied by 86400 is therefore the date-time of midnight UTC on that day.
+The server clock behind `initializer: now`, `@default: now` and `timer` runs on this scale, in UTC.
+Note that Alan days change at midnight: a Julian Day Number taken from an outside tool changes at noon, and is one higher.
+
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
