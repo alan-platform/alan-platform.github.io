@@ -1711,29 +1711,6 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </div>
 </div>
 
-{: #grammar-rule--collection-entries-step }
-<div class="language-js highlighter-rouge">
-<div class="highlight">
-<pre class="highlight language-js code-custom">
-'<span class="token string">collection entries step</span>' {
-	'<span class="token string">subset</span>': stategroup (
-		'<span class="token string">no</span>' { [ <span class="token operator">*</span> ] }
-		'<span class="token string">yes</span>' {
-			'<span class="token string">lookup type</span>': stategroup (
-				'<span class="token string">key reference</span>' {
-					'<span class="token string">key node path</span>': [ <span class="token operator">>[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--variablized-object-path">'variablized object path'</a>
-				}
-				'<span class="token string">reference set subset</span>' { [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
-					'<span class="token string">path</span>': component <a href="#grammar-rule--plural-object-path">'plural object path'</a>
-				}
-			)
-		}
-	)
-}
-</pre>
-</div>
-</div>
-
 {: #grammar-rule--branch-condition }
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -2931,6 +2908,41 @@ $              // select nearest $ object
 				}
 			)
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--object-path-tail">'object path tail'</a>
+		}
+	)
+}
+</pre>
+</div>
+</div>
+##### Key reference lookup steps
+A key reference step uses a path between `>[` and `]` to look up a single entry in a collection whose key is a reference.
+It selects the collection entry whose key reference matches the node produced by the path between the brackets.
+
+##### Reference set subset steps
+A reference set subset step uses a path between `[` and `]` to select nodes from the members of a reference set.
+For each reference set member, the head of the subset path (the part before its first collection iteration) is matched against that member.
+When the head matches, the step yields the member's node of the type described by the complete subset path.
+The step yields a *set*: each such node is yielded exactly once, even when several members select the same node.
+For example, if three matching members share the same parent node, and the subset path ends at that parent level, the result holds that parent node once.
+To count the members themselves, extend the subset path down to the level of the members.
+
+
+{: #grammar-rule--collection-entries-step }
+<div class="language-js highlighter-rouge">
+<div class="highlight">
+<pre class="highlight language-js code-custom">
+'<span class="token string">collection entries step</span>' {
+	'<span class="token string">subset</span>': stategroup (
+		'<span class="token string">no</span>' { [ <span class="token operator">*</span> ] }
+		'<span class="token string">yes</span>' {
+			'<span class="token string">lookup type</span>': stategroup (
+				'<span class="token string">key reference</span>' {
+					'<span class="token string">key node path</span>': [ <span class="token operator">>[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--variablized-object-path">'variablized object path'</a>
+				}
+				'<span class="token string">reference set subset</span>' { [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
+					'<span class="token string">path</span>': component <a href="#grammar-rule--plural-object-path">'plural object path'</a>
+				}
+			)
 		}
 	)
 }
