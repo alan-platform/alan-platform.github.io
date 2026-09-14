@@ -9,6 +9,12 @@
     }
 }
 
+main section > table { // cells do not wrap, so a wide table scrolls instead of pushing the page sideways
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+}
+
 table {
     margin: 1em 0 1em*$ratio 0;
     tr {
