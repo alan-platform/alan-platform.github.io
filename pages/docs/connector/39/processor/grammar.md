@@ -125,6 +125,15 @@ XML processing instructions are much stricter than the builtin parser, enforcing
 #### HTTP MIME POST
 The network library gained a new function to make HTTP MIME POST requests.
 This is a new symbol to retain the current HTTP function bindings as a non-breaking change.
+
+#### Base16 encoding
+In addition to Base64, the stdlib `data` now includes functions to encode and decode Base16 data.
+
+#### Crypto module
+A new stdlib `crypto` has been added.
+This exposes functions to compute and verify both HMAC and signatures.
+Verify functions perform their comparisons in constant time, to prevent information leaks.
+Various algorithms are supported for both constructs, specified with a parameter at each call site.
 # The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
@@ -562,6 +571,12 @@ define 'convert': function (
 	$'to': text
 ) : unsafe binary = "e84c70582091283e8ef035eb15edd57b5e1bfa93"
 
+/* Convert binary data to base16 text. */
+define 'base16 encode': function ( binary ) : text = "1dd378a97600fa2f6a49a2eba569f0debe1faa45"
+
+/* Convert base16 text to binary data. */
+define 'base16 decode': function ( text ) : unsafe binary = "6fd0bb8577fdfcffa217e8f416051bbb93b0f1bb"
+
 /* Convert binary data to base64 text.
  * Alphabet as defined by RFC-4648.
  */
@@ -582,6 +597,55 @@ define 'base64 decode': function (
  * Archive format and any compression/encoding are automatically detected.
  */
 define 'load archive': function ( binary ) : unsafe collection binary = "fba823216f0f6dc6bbb644fc0c2c0b21ae69f8c1"
+
+library
+```
+## Crypto
+The crypto library provides functions to compute and verify cryptography constructs.
+
+```js
+/* Available HMAC algorithms. */
+define 'hmac': choice ( 'sha256' 'sha384' 'sha512' )
+
+/* Computes the HMAC of a message with the given key.
+ */
+define 'hmac compute': function (
+	$'algorithm': 'hmac'
+	$'key': binary
+	$'message': binary
+) : unsafe binary = "9a83fe5017ed4962ace75fde076eec9f991e0cd5"
+
+/* Verifies the HMAC of a message with the given key.
+ * The comparison is performed in constant time.
+ */
+define 'hmac verify': function (
+	$'algorithm': 'hmac'
+	$'key': binary
+	$'message': binary
+	$'mac': binary
+) : unsafe boolean = "bb52c80b236006547054301c938dbc88809c070a"
+
+/* Available signature algorithms, using JOSE identifiers (RFC 7518). */
+define 'sign': choice ( 'rs256' 'rs384' 'rs512' 'ps256' 'ps384' 'ps512' 'es256' 'es384' 'es512' )
+
+/* Signs a message with the given private key.
+ * The whole message is passed, not a digest of it; it is hashed internally with the hash the algorithm names.
+ * The key is taken in either PEM or DER form and the encoding is detected.
+ */
+define 'sign compute': function (
+	$'algorithm': 'sign'
+	$'key': binary
+	$'message': binary
+) : unsafe binary = "e661a6e6806099e53f3692cf47ba4062421eb520"
+
+/* Verifies the signature of a message with the given public key.
+ */
+define 'sign verify': function (
+	$'algorithm': 'sign'
+	$'key': binary
+	$'message': binary
+	$'signature': binary
+) : unsafe boolean = "49abad455378f8d765c2b1dbe4a8c2e61390b67c"
 
 library
 ```
