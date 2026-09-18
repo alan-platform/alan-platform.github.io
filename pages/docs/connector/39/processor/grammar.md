@@ -560,7 +560,19 @@ library
 The data library provides functions to manipulate binary values.
 
 ```js
-define 'base64 alphabet': choice ( 'base64' 'base64url' )
+/* Line wrapping settings.
+ * The output is broken into lines, joined by 'separator' and followed by 'terminator'.
+ * 'line length' is the maximum amount of characters on a single line, the separator not included.
+ * As a line can only be broken between whole encoded groups, the length is rounded down to a
+ * multiple of the group size of the encoding at hand (4 characters for base64, 2 for base16),
+ * and a line always holds at least one such group.
+ * Empty input produces no lines at all, and therefore no terminator either.
+ */
+define 'line wrapping': {
+	'line length': integer where range ( 1 , )
+	'separator': text
+	'terminator': text
+}
 
 /* Converts text from one encoding to another.
  * Available encodings depend on the hosting systems.
@@ -574,8 +586,20 @@ define 'convert': function (
 /* Convert binary data to base16 text. */
 define 'base16 encode': function ( binary ) : text = "1dd378a97600fa2f6a49a2eba569f0debe1faa45"
 
+/* Convert binary data to base16 text.
+ * Accepts optional line wrapping, see 'line wrapping'.
+ */
+define 'base16 encode2': function (
+	binary
+	$'case': choice ( 'upper' 'lower' )
+	$'wrapping': optional 'line wrapping'
+) : text = "ee206ae5a3e51ebd3aa07b062b055cb8697a8f56"
+
 /* Convert base16 text to binary data. */
 define 'base16 decode': function ( text ) : unsafe binary = "6fd0bb8577fdfcffa217e8f416051bbb93b0f1bb"
+
+/* Available base64 alphabets. */
+define 'base64 alphabet': choice ( 'base64' 'base64url' )
 
 /* Convert binary data to base64 text.
  * Alphabet as defined by RFC-4648.
@@ -584,6 +608,18 @@ define 'base64 encode': function (
 	binary
 	$'alphabet': 'base64 alphabet'
 ) : text = "a28d688c547335308cefd17e61fd26e0bda09610"
+
+/* Convert binary data to base64 text.
+ * Alphabet as defined by RFC-4648.
+ * Accepts a flag indicating whether the output is to be padded or not.
+ * Accepts optional line wrapping, see 'line wrapping'.
+ */
+define 'base64 encode2': function (
+	binary
+	$'alphabet': 'base64 alphabet'
+	$'padding': boolean
+	$'wrapping': optional 'line wrapping'
+) : text = "a836bceb33de98ec3d797f7c16419b305f1312bc"
 
 /* Convert base64 text to binary data.
  * Alphabet as defined by RFC-4648.
