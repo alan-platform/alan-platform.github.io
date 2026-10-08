@@ -48,12 +48,14 @@ For the second column, the `item_operation`, you can choose from:
 - `update` to update an existing item
 - `remove` to remove an existing item
 
-For the stategroup `Type` of the `Products`, you see a column `Type_operation?`.
-Two different operations are supported for **stategroups**:
-- `update` to update the existing state
-- `set` to change from the existing state to a new state
+For the stategroup `Type` of the `Products`, you see a column `Type?` and a column `Type_operation?`.
+For **stategroups**, the state column decides:
+- a state name selects that state, so changing `Simple` into `Assembled` changes the state
+- an empty field leaves the state as it is
 
-For new `Products` (when the `item_operation` is `add`), you need a blank field.
+The `Type_operation?` column is accepted, but the import does not use it; keep the value from the download.
+
+For new `Products` (when the `item_operation` is `add`), leave `Type_operation?` blank.
 
 The notation for **number** values is identical to the input format that the app expects. For example, if you can enter a price with two decimal places in your app then you should provide numbers with (at most) two decimal places in your CSV.
 That is, unless numbers use a *dynamic* number of decimals in your app. In that case, you should provide number values without decimals.
@@ -69,7 +71,7 @@ Car,remove,,,,
 	```
 - update the `Type` of the 'Steering wheel' from `Simple` to `Assembled`:
 	```
-Steering wheel,update,A steering wheel for a car.,Assembled,set,
+Steering wheel,update,A steering wheel for a car.,Assembled,update,
 	```
 - update the `Selling price` of a `Tire`
 	```
