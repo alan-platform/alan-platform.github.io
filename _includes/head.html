@@ -10,7 +10,7 @@
 		{% elsif page.title %}
 			<title>{{ page.title }} - {{ site.title }}</title>
 		{% else %}
-			<title>{{ page.origin }}/{{ page.language}} {{ page.type}} - {{ site.title }}</title>
+			<title>{{ page.origin }}/{{ page.language}}{% if page.type != page.language %} {{ page.type}}{% endif %} - {{ site.title }}</title>
 		{% endif %}
 	{% endif %}
 
@@ -18,10 +18,13 @@
 		A description and a preview for search results and for links shared in chat: pages can set
 		"description" in their front matter, otherwise the opening of the page is used.
 	{% endcomment %}
+	{% comment %} the kind of a documentation page, left out where it repeats the language ("release notes") {% endcomment %}
+	{% assign head_doc_kind = '' %}
+	{% if page.type and page.type != page.language %}{% assign head_doc_kind = ' ' | append: page.type %}{% endif %}
 	{% if page.description %}
 		{% assign page_description = page.description %}
 	{% elsif page.language %}
-		{% assign page_description = 'Documentation of the ' | append: page.language | append: ' ' | append: page.type | append: ' for the Alan platform, ' | append: page.origin | append: ' version ' | append: page.version | append: '.' %}
+		{% assign page_description = 'Documentation of the ' | append: page.language | append: head_doc_kind | append: ' for the Alan platform, ' | append: page.origin | append: ' version ' | append: page.version | append: '.' %}
 	{% else %}
 		{% assign page_description = site.description %}
 	{% endif %}
@@ -32,7 +35,7 @@
 	{% elsif page.title %}
 		{% assign page_title = page.title | replace: '<br>', ' ' | strip_html %}
 	{% else %}
-		{% assign page_title = page.origin | append: '/' | append: page.language | append: ' ' | append: page.type %}
+		{% assign page_title = page.origin | append: '/' | append: page.language | append: head_doc_kind %}
 	{% endif %}
 
 	<meta name="description" content="{{ page_description | strip_newlines | escape }}">

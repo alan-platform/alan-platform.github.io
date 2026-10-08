@@ -10,7 +10,7 @@
 
 			<p>
 				<strong>{{ page.origin }}</strong>
-				{{ page.type }} version
+				{% if page.type != page.language %}{{ page.type }} {% endif %}version
 				<em>{{ page.version }}</em>
 				<button aria-expanded="false" aria-controls="doc-list">
 					Switch document
