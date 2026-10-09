@@ -67,6 +67,7 @@ Read it before your application holds data you would mind losing.
 - [**Users & Authentication**](/pages/tutorials/model/{{ site.data.versions.current }}/application-users.html) — replace anonymous access with real accounts, passwords and sign-up: the basis for permissions.
 - [**Spreadsheet data import & export**](/pages/tutorials/data-import-export/data-import-export.html) — every collection exports to Excel and CSV, and takes CSV back in.
 - [**Version control & offline editing**](/pages/tutorials/ide/ide-version-control.html) — put your project in Git, work with others, edit locally.
+- [**Upgrading a project**](/pages/tuts/upgrading.html) — move a project to a newer platform version, with an AI coding agent or by hand.
 - The [forum](https://forum.alan-platform.com/) is the place to ask when a model does not behave as you expect. Bring the model.
 
 Two habits carry you a long way: **build often**, so that a single change is all you have to inspect when something breaks, and **read the error** — the compiler reports where the problem is, what it expected there, and what it found instead.
@@ -104,6 +105,7 @@ chmod +x alan
 ```
 
 Run `./alan --help` for all subcommands.
+To move a project to a newer platform version, see [Upgrading a project](/pages/tuts/upgrading.html).
 {% endif %}
 
 <a name="languages"></a>
