@@ -8,9 +8,18 @@ with the system-type versions of 2026.2 and an `alan` script that carries the up
 
 Run `./alan upgrade platform partitions-108.5` from the project root. `./alan upgrade` first fetches
 the latest builds of the current versions, its own script included, then checks that the project
-builds, writes `versions.json`, fetches the bundles, runs the transformations the new bundles ship
-for the old versions (interface, model, system types, in that order), formats every directory of a
-changed component with the pretty printer, then builds, compiles the migrations and packages every
-deployment. A stopped upgrade continues with `./alan upgrade`, and `./alan upgrade --abort` ends
-it; `./alan upgrade --help` lists both. Its report lists every changed component with the path of
-its RELEASE.md, and what is left by hand.
+builds and every deployment packages, writes `versions.json`, fetches the bundles, runs the
+transformations the new bundles ship for the old versions (interface, model, system types, in that
+order), formats every directory of a changed component with the pretty printer, then builds,
+compiles the migrations and packages every deployment. When one of these fails, the upgrade stops
+and names the command that failed; every deployment can be checked on its own with `./alan package
+dist/project.pkg deployments/<name>`. A stopped upgrade continues with `./alan upgrade`, and
+`./alan upgrade --abort` ends it; `./alan upgrade --help` lists both. Its report lists every changed component with the path of its RELEASE.md, and
+what is left by hand.
+
+Deployments: a system deployed from a configuration template must now set every option of a plural
+type with a static keyset in `deployment.alan`, as a custom system already had to; for such a system
+these options used to be optional. For a connector system with `configuration: 'default'` these are
+`'texts'` and `'integers'`, with a value for each of their keys. `./alan upgrade` does not fill them
+in: choose each value (`instance/values.json` is not read). `./alan package` names every option that
+is missing.
