@@ -1,6 +1,6 @@
 # Release Notes
 
-## partitions-108.5 (after before-partitions.1)
+## partitions-108.5
 
 Test release of the partitions platform. It upgrades from before-partitions.1, a test platform
 with the system-type versions of 2026.2 and an `alan` script that carries the upgrade command;
