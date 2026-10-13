@@ -2,8 +2,7 @@
 
 ## 2026.3
 
-The partitions platform, with model 109. It upgrades from 2026.2.up and from before-partitions.1, a
-test platform with the system-type versions of 2026.2. A 2026.2 project requires 2026.2.up first:
+Platform 2026.3 brings model 109, with partitions. A 2026.2 project requires 2026.2.up first:
 2026.2.up is 2026.2 with the `alan` script that carries the upgrade command. Set `"platform version"`
 to `"2026.2.up"` in `versions.json` and run `./alan fetch`; when it asks to run the command again,
 run it again.
