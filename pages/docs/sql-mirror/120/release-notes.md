@@ -24,7 +24,7 @@ data-types
 	date-time: "DATETIME" [ 180256492800 , 464269017599 ]
 ```
 
-  **Upgrading a mapping from 119.1 or 119.2.** `./alan upgrade` runs the transformation for every sql-mirror system; by hand, from the project root:
+  **Upgrading a mapping from 119.1, 119.2 or partitions-108.1.2.** `./alan upgrade` runs the transformation for every sql-mirror system; by hand, from the project root, with the old version:
 
   ```
   .alan/devenv/system-types/sql-mirror/upgrade/upgrade.sh 119.2 systems/<sys>
