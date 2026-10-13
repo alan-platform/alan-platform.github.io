@@ -81,15 +81,11 @@ Two habits carry you a long way: **build often**, so that a single change is all
 
 {% comment %}
 	The alan script is offered per platform version in _data/versions.json ("alan" field).
-	Show the quickstart for the newest version that has one.
+	Show the quickstart for the current version, the one the tutorials are written for; a newer version can be listed
+	(with its script) on the versions page before the tutorials move to it.
 {% endcomment %}
-{% assign alan_version = nil %}
-{% for v in site.data.versions.versions %}
-	{% if alan_version == nil and v.alan %}
-		{% assign alan_version = v %}
-	{% endif %}
-{% endfor %}
-{% if alan_version %}
+{% assign alan_version = site.data.versions.versions | where: 'name', site.data.versions.current | first %}
+{% if alan_version.alan %}
 <a name="alan"></a>
 ## The `alan` script ({{ alan_version.name }})
 

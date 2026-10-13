@@ -2,6 +2,15 @@
 	"current": "2026.2",
 	"versions": [
 		{
+			"name": "2026.3",
+			"alan": "https://dist.alan-platform.com/share/versions/2026.3/alan",
+			"platform": {
+				"model": "109",
+				"interface": "20",
+				"project-build-environment": "45"
+			}
+		},
+		{
 			"name": "2026.2",
 			"alan": "https://dist.alan-platform.com/share/versions/2026.2/alan",
 			"platform": {
