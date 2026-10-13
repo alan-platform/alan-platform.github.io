@@ -10,7 +10,11 @@
 		{% elsif page.title %}
 			<title>{{ page.title }} - {{ site.title }}</title>
 		{% else %}
-			<title>{{ page.origin }}/{{ page.language}}{% if page.type != page.language %} {{ page.type}}{% endif %} - {{ site.title }}</title>
+			{% if page.type == 'release notes' %}
+				<title>{% if page.origin == 'platform' %}Alan{% else %}{{ page.origin }}{% endif %} {{ page.version }} release notes - {{ site.title }}</title>
+			{% else %}
+				<title>{{ page.origin }}/{{ page.language}}{% if page.type != page.language %} {{ page.type}}{% endif %} - {{ site.title }}</title>
+			{% endif %}
 		{% endif %}
 	{% endif %}
 
@@ -23,6 +27,12 @@
 	{% if page.type and page.type != page.language %}{% assign head_doc_kind = ' ' | append: page.type %}{% endif %}
 	{% if page.description %}
 		{% assign page_description = page.description %}
+	{% elsif page.type == 'release notes' %}
+		{% if page.origin == 'platform' %}
+			{% assign page_description = 'What changed in Alan ' | append: page.version | append: ', and what an upgrade to it asks of a project.' %}
+		{% else %}
+			{% assign page_description = 'What changed in ' | append: page.origin | append: ' ' | append: page.version | append: ' of the Alan platform, and what an upgrade to it asks of a project.' %}
+		{% endif %}
 	{% elsif page.language %}
 		{% assign page_description = 'Documentation of the ' | append: page.language | append: head_doc_kind | append: ' for the Alan platform, ' | append: page.origin | append: ' version ' | append: page.version | append: '.' %}
 	{% else %}
@@ -34,6 +44,9 @@
 		{% assign page_title = page.head %}
 	{% elsif page.title %}
 		{% assign page_title = page.title | replace: '<br>', ' ' | strip_html %}
+	{% elsif page.type == 'release notes' %}
+		{% if page.origin == 'platform' %}{% assign page_title = 'Alan' %}{% else %}{% assign page_title = page.origin %}{% endif %}
+		{% assign page_title = page_title | append: ' ' | append: page.version | append: ' release notes' %}
 	{% else %}
 		{% assign page_title = page.origin | append: '/' | append: page.language | append: head_doc_kind %}
 	{% endif %}
