@@ -8,6 +8,7 @@ type: "release notes"
 ## SQL-mirror 120
 
 - sql-mirror mapping language: the `integer`, `decimal`, `date` and `date-time` data type mappings carry a mandatory value range, in raw datastore number values (julian days for `date`, julian seconds for `date-time`, the unscaled integer for `integer` and `decimal`). A value outside its range is written to the mirror as the range maximum, in both directions, and the mirror reports one line per clamped value on the consultant channel (the os-link error channel in engine mode, stderr in map mode) instead of letting the database refuse the statement. Every mapping file has to be regenerated; generated mappings pick the dialect defaults up automatically.
+
 ```
 // old
 data-types

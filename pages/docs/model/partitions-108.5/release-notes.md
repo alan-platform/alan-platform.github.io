@@ -12,6 +12,7 @@ type: "release notes"
 #### `application` language
 
 - Support for partitions on numbers with a derived graph for the order of entries:
+
 ```js
 'Orders': collection ['Order'] {
 	'Order': text
@@ -36,6 +37,7 @@ type: "release notes"
 ```
 
 - Support for derived graphs:
+
 ```js
 'Tasks': collection ['Task']
 	'Dependencies': acyclic-graph
@@ -68,6 +70,7 @@ type: "release notes"
 ```
 
 - Readd support for unions that depend on a branch `reference-set` without collection steps:
+
 ```js
 'Work Centers': collection ['Center'] {
 	'Center': text
@@ -98,6 +101,7 @@ type: "release notes"
 ```
 
 - Containment switch for collections with key references:
+
 ```js
 'Favorite Product Ordered': stategroup = switch .'Ordered Products'>[ >'Favorite Product' ] (
 	| node => 'Yes' ( )
@@ -106,12 +110,14 @@ type: "release notes"
 ```
 
 - Containment `where` rules use `>[` and `]` around the key node path, in line with key reference lookup steps in navigation expressions. Previously the path was written between `[` and `]`:
+
 ```js
 'Product': text -> ^ .'Products'[] as $
 	where 'Ordered' -> ^ .'Ordered Products'>[ $ ]
 ```
 
 - Aggregates take a parenthesized expression list, and `std` joins `min`, `max`, `sum` and `count`:
+
 ```js
 // old
 'Parts Cost': number 'euro' = sum .'Parts'* .'Part Price'
@@ -123,6 +129,7 @@ type: "release notes"
 ```
 
 - Sibling access is a navigation step `siblings`, so it can be taken within a path. An entry reference to a sibling ends in `[]`:
+
 ```js
 // old
 'Previous Year': text -> ^ sibling in ( 'Ordered Years' )
@@ -135,6 +142,7 @@ type: "release notes"
 ```
 
 - One `switch` for node paths and sets. `| none`, `| node` and `| nodes` are each optional, and the set that `| nodes as $` binds can be iterated:
+
 ```js
 'Open Orders': stategroup = switch .'Orders'* .'Status'?'Open' (
 	| nodes as $ => 'Several' ( '# Orders' = count ( $ * ) )
@@ -144,12 +152,14 @@ type: "release notes"
 ```
 
 - Plural paths chain collection steps and reference set subsets, and reference set signatures are plural paths as well, so a signature may take a key reference lookup:
+
 ```js
 '# Deliveries': number 'items' = count ( .'Orders'* .'Lines'* >'Product'.'Deliveries'* )
 'Lines': reference-set -> downstream ^ ^ .'Orders'>[ ^ ] .'Lines'* = inverse >'Order'
 ```
 
 - Reference set subsets take a complete plural path between `[` and `]`, with the `*` inside it. Only the head of that path may filter; the tail restates the levels of the reference set signature, including the state filters it declares:
+
 ```js
 '# Members': number 'items' = count ( >'Region' <'Customers'[ >'Country' .'Cities'* .'Customers'* ] )
 '# In Graph': number 'items' = count ( <'Slots'[ siblings in 'Slot Order' * ] )
@@ -162,6 +172,7 @@ only where the signature has the same location. Below a level that the path pins
 may be left out. A subset step produces every node once, also when several members of the set lead to it.
 
 - The cardinality of a reference set subset is computed per level: pinning the parent level of a set that inverts a key reference yields at most one node, so a `switch` without `| nodes` is accepted:
+
 ```js
 'Line found': stategroup = switch <'Lines'[ ^ >'Order'.'Lines'* ] ( // 'Line' is the key of 'Lines'
 	| node => 'Yes' ( )
@@ -170,6 +181,7 @@ may be left out. A subset step produces every node once, also when several membe
 ```
 
 - Union branches are plural paths. A branch merges its results one-to-one, or groups them with `as $ on`:
+
 ```js
 'Debtors': collection ['Debtor'] = union (
 	'' = .'Orders'* as $ on $ >'Debtor' // group: one entry per debtor
@@ -181,6 +193,7 @@ may be left out. A subset step produces every node once, also when several membe
 ```
 
 - A containment `where` rule whose lookup value is unique per entry re-roots the scope of the steps after it, like a key reference step does, so a branch path may continue over it:
+
 ```js
 'Orders': collection ['Order'] {
 	'Order': text -> ^ .'Order Numbers'[] as $
@@ -193,6 +206,7 @@ may be left out. A subset step produces every node once, also when several membe
 The lookup value decides, not whether the property holding the rule is the key of its collection. A lookup on a value that repeats, or into a collection that lives inside the entry itself, does not re-root the scope.
 
 - State filters are part of the dependency chain of a path and are checked (see `design/ADR-003`). A reference that demands a state now forces every path that feeds it to take the same filter:
+
 ```js
 'Key B': text -> ^ >'Ref A' .'Status'?'Open' ^ .'B'[] = key
 
@@ -202,6 +216,7 @@ The lookup value decides, not whether the property holding the rule is the key o
 The reverse is allowed: a value path may filter where the reference does not.
 
 - A `where` rule may supply the state filter that a reference target or a union key demands, and a `flatten` branch pops the filter together with the collection step it leaves:
+
 ```js
 'Ref': text -> siblings [] as $
 	where 'in S' -> $ .'Status'?'Open'
@@ -213,6 +228,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 ```
 
 - A derived graph takes its order from one graph that is predefined at or above the collection deriving it, the edge reference of a graph must be base data, and a node that a `partition` constructs takes no further constructor input:
+
 ```js
 'Steps': collection ['Step']
 	'Order': acyclic-graph = 'Deps' // ERROR when 'Deps' is defined on a nested collection
@@ -228,6 +244,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 ```
 
 - `source-of` and `sink-of` take the first or last entry of one whole collection, so the path handed to them may not filter or iterate:
+
 ```js
 'First Activity': text -> downstream ^ .'Activities'[] = sink-of ^ .'Activities'* in 'Order' // accepted
 
@@ -241,6 +258,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 - The cyclic dependency error at a derivation names the value the compiler resolves: `cyclic dependency detected for 'type'?>'value use of recursion'` replaces `cyclic dependency detected for 'type'?>'value computation phase'`. The meaning is unchanged: the derivation depends on itself without a recursion annotation.
 
 - A todo item takes a `@style:`, like a state or a property does. The webclient lists todo items in a section of their own, away from the node that carries them, so the style expression starts at the **root** of the dataset and not at that node:
+
 ```js
 'Mode': stategroup (
 	'Normal' { }
@@ -278,6 +296,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 ```
 
 - A todo item takes a `@label:`, the text that names it in the list of todo items. Its expression starts at the **root** of the dataset, for the same reason the `@style:` expression does. The three annotations of a todo item may be written in any order:
+
 ```js
 'Company': text
 'Orders': collection ['Number'] {
@@ -305,6 +324,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 ```
 
 - A todo item is declared on a **state**, written after the state name and before the state's node body. No other kind of node carries one: to keep a todo that sat on a root, group or collection node, give that node a stategroup and declare the todo on the state that asks for the action. A derived collection takes a derived stategroup for this, because a derived entry holds no base data. The requirement expression still starts at the node of the state, so `^` counts from there as it did before:
+
 ```js
 'Problemen': collection ['Probleem'] {
 	'Probleem': text
@@ -326,6 +346,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 }
 ```
 A `has-todo:` inside a node body no longer parses. The upgrade transformations carry a todo that already sat on a state to its new place. A todo on a root, group or collection node moves to the one state of a new derived stategroup `'Todo item'`, the node's last property, hidden from the views; its requirement gets a leading `^` on every path that started at the node, because it now starts at the state's node:
+
 ```js
 'Problemen': collection ['Probleem'] {
 	'Probleem': text
