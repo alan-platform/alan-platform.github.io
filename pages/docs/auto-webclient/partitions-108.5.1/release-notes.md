@@ -5,7 +5,7 @@ language: "release notes"
 version: "partitions-108.5.1"
 type: "release notes"
 ---
-## partitions-108.5.1 (after zora.3)
+## partitions-108.5.1
 
 Changes:
 - Support model language 109 (partitions)
@@ -45,4 +45,62 @@ New in a query:
 
 - The project needs model language 109; see the model release notes.
 - webclient: rewrite the query headers in `views.alan` as shown above; no transformation ships.
-- auto-webclient: `annotations.alan` and `settings.alan` keep their syntax.
+- auto-webclient: `./alan upgrade` converts `annotations.alan` and `settings.alan` from zora.1, zora.2,
+  zora.3 and partitions-108.1a. From zora.2 and zora.3 the syntax is unchanged. partitions-108.1a has the
+  syntax of zora.1 and gets the same conversion. From zora.1 an entry of the `filters` and
+  `properties` features starts with its property binding, which holds the `'label'` and the `'show'`,
+  and a number criteria takes its value directly:
+
+```
+// zora.1
+(
+	'label' = "Number"
+	'property' = .'number' (
+		'filter' = 'yes' (
+			'operator' = 'greater' ( )
+			'criteria' = 'static' (
+				'value' = 0
+			)
+		)
+	)
+	'show' = 'no' ( )
+)
+
+// now
+.'number' (
+	'label' = "Number"
+	'filter' = 'yes' (
+		'operator' = 'greater' ( )
+		'criteria' = 'static' 0
+	)
+	'show' = 'no' ( )
+)
+```
+
+  The transformation recognises an entry by its shape. Fix by hand what the build reports after it:
+  - `'filter' = 'no' ( )` in `properties` becomes `'filter' =` (no filter), or `'filter' = 'none'` on a
+    stategroup property.
+  - A chart line with only a `'name'`, a `'y'` and at most one stategroup has the shape of an entry and
+    is converted too (its name becomes `'label'`, its stategroup `'show'`); write it back as it was.
+  - `'criteria' = 'now' 0` may be written as `'criteria' = 'now' ( )`.
+  - From partitions-108.1a: the handheld `'string'` is no longer a node annotation (it had no effect
+    there); remove it.
+
+  Check by hand, as the build does not report it. When auto-webclient was zora.1 or partitions-108.1a
+  before the upgrade (the conversion of `filters` and `properties` ran):
+  - Every converted `filters` and `properties` entry against the file before the upgrade: its label,
+    property path, show, filter and criteria values are under the right keys, nothing is added and
+    nothing is missing.
+  - Every converted node outside `filters` and `properties`: a node of another feature with the shape
+    of an entry is converted too, and the build reports it only where that feature has no `'label'` or
+    `'show'`.
+  - Comments of a converted entry: a comment on its own line directly before its `'label'`,
+    `'property'` or `'show'`, or before the `'value'` or `'offset'` of a number criteria, moves to the
+    end of the converted entry, for example between its closing `)` and the `,`; other comments can
+    move too, for example a comment before the entry to after it. Put them back where a reader expects
+    them, next to the commented-out code they describe.
+  - From zora.1: a text filter in `filters` without a `'filter'` was `'simple'` and is `auto` now,
+    which filters a text with a reference by containment; write `'filter' = 'simple' ( )` to keep the
+    old behaviour.
+
+  From zora.1, a numerical type conversion evaluated by the client rounds to nearest since zora.2.
