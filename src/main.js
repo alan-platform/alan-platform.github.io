@@ -146,4 +146,40 @@ window.onload = function() {
         button.title = "Go to grammar guide"
         block.appendChild(button);
     });
+
+    // a code block marked {: .copy} in the markdown gets a button that copies its text
+    document.querySelectorAll('.copy div.highlight').forEach(function(block) {
+        var code = block.querySelector('code');
+        var button = document.createElement('button');
+        button.type = 'button';
+        button.classList.add('copy-button');
+        button.innerText = 'Copy';
+        button.title = 'Copy to the clipboard';
+        function copied() {
+            button.innerText = 'Copied';
+            setTimeout(function() {
+                button.innerText = 'Copy';
+            }, 1500);
+        }
+        // without the clipboard API (not a secure context) or when it refuses, copy the selection
+        function copySelection() {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(code);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            if (document.execCommand('copy')) {
+                copied();
+            }
+            selection.removeAllRanges();
+        }
+        button.onclick = function() {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(code.innerText.replace(/\n$/, '')).then(copied, copySelection);
+            } else {
+                copySelection();
+            }
+        };
+        block.appendChild(button);
+    });
 };

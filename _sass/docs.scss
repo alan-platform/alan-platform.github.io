@@ -180,8 +180,36 @@ pre.highlight {
     overflow: auto;
 }
 
+// a block to copy holds prose such as a prompt: wrap it, and keep room for the copy button
+.copy pre.highlight {
+    padding-right: 4.5rem;
+
+    code {
+        white-space: pre-wrap;
+    }
+}
+
 div.highlight {
     position: relative;
+
+    .copy-button {
+        -webkit-appearance: none;
+        position: absolute;
+        top: .5rem/$ratio;
+        right: .5rem/$ratio;
+        padding: .5ex 1ex;
+        border: 1px solid $grey5;
+        border-radius: 3px;
+        background: #FFF;
+        color: $grey2;
+        cursor: pointer;
+        font: bold 11px Arial;
+
+        &:hover,
+        &:active {
+            background: $grey6;
+        }
+    }
 
     .grammar-button {
         -webkit-appearance: none;
