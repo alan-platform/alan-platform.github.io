@@ -1,0 +1,26 @@
+{
+	"platform version": "2026.3",
+	"system types": {
+		"auto-webclient": {
+			"version": "athena.1"
+		},
+		"connector": {
+			"version": "40"
+		},
+		"datastore": {
+			"version": "120"
+		},
+		"relational-database-bridge": {
+			"version": "112"
+		},
+		"session-manager": {
+			"version": "34"
+		},
+		"sql-mirror": {
+			"version": "120"
+		},
+		"webclient": {
+			"version": "athena.1.0"
+		}
+	}
+}
