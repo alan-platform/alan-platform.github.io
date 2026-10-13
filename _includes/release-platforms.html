@@ -1,19 +1,22 @@
 {% comment %}
-	For the release notes of a component version (include.origin, include.version): links to the release notes of the
-	platform versions that ship it. Platform components come from _data/versions.json, system types from
+	For the release notes of a component version (include.origin, include.version): the platform version that introduced
+	it, linking that platform's release notes when it has them. Several platform versions can ship one component
+	version; the one that introduced it is the oldest of them, provided the platform version before it shipped a
+	different version. When the oldest platform version listed already ships it, that is unknown, and nothing is shown.
+	Platform components come from _data/versions.json (newest first), system types from
 	_data/dist/<platform version>/versions.json. Liquid assigns to the outermost scope, hence the rp_ prefix.
 {% endcomment %}
-{% assign rp_links = '' %}
+{% assign rp_intro = nil %}
+{% assign rp_known = false %}
 {% for rp_version in site.data.versions.versions %}
 	{% assign rp_key = rp_version.name | remove: '.' %}
 	{% assign rp_shipped = rp_version.platform[include.origin] | default: site.data.dist[rp_key].versions["system types"][include.origin].version %}
 	{% if rp_shipped == include.version %}
-		{% assign rp_notes = site.pages | where: 'origin', 'platform' | where: 'version', rp_version.name | where: 'type', 'release notes' | first %}
-		{% if rp_notes %}
-			{% capture rp_link %}<a href="{{ rp_notes.url | relative_url }}">Alan {{ rp_version.name }}</a>{% endcapture %}
-			{% if rp_links != '' %}{% assign rp_links = rp_links | append: ', ' %}{% endif %}
-			{% assign rp_links = rp_links | append: rp_link %}
-		{% endif %}
+		{% assign rp_intro = rp_version %}
+		{% if forloop.last %}{% assign rp_known = false %}{% else %}{% assign rp_known = true %}{% endif %}
 	{% endif %}
 {% endfor %}
-{% if rp_links != '' %}<span class="doc-notes-link">in {{ rp_links }}</span>{% endif %}
+{% if rp_intro and rp_known %}
+	{% assign rp_notes = site.pages | where: 'origin', 'platform' | where: 'version', rp_intro.name | where: 'type', 'release notes' | first %}
+	<span class="doc-notes-link">new in {% if rp_notes %}<a href="{{ rp_notes.url | relative_url }}">Alan {{ rp_intro.name }}</a>{% else %}Alan {{ rp_intro.name }}{% endif %}</span>
+{% endif %}
