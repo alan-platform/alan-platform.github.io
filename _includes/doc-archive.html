@@ -1,10 +1,13 @@
 {% comment %} Top-level tags start at column 0: this include is rendered inside markdown, where indented lines become code. {% endcomment %}
+{% comment %} The release notes of a platform version are the documentation page that the versions publish writes. {% endcomment %}
 {% for version in site.data.versions.versions %}
+{% assign archive_notes = site.pages | where: 'origin', 'platform' | where: 'version', version.name | first %}
 <details class="archive"{% if version.name == site.data.versions.current %} open{% endif %}>
 <summary>
 	{{ version.name }}
 	<a href="https://dist.alan-platform.com/share/versions/{{ version.name }}/versions.json">versions.json</a>
 	{% if version.alan %}<a href="{{ version.alan }}">alan script</a>{% endif %}
+	{% if archive_notes %}<a href="{{ archive_notes.url | relative_url }}">release notes</a>{% endif %}
 </summary>
 {% include doc-table.html version=version %}
 </details>
