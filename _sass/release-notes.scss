@@ -21,6 +21,13 @@
     }
 }
 
+// the version number in a documentation table, linking the release notes of that version
+td > a.doc-table-notes {
+    display: inline;
+    width: auto;
+    padding: 0;
+}
+
 .release-notes section table { // a table in the notes, or the component table of a platform release: read as text
     border-spacing: 0;
     th,
