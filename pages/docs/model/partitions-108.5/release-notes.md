@@ -325,4 +325,15 @@ The reverse is allowed: a value path may filter where the reference does not.
 	)
 }
 ```
-A `has-todo:` inside a node body no longer parses. The upgrade transformations carry a todo that already sat on a state to its new place; a todo on any other node has no target to move to and is dropped, so remodel those before upgrading.
+A `has-todo:` inside a node body no longer parses. The upgrade transformations carry a todo that already sat on a state to its new place. A todo on a root, group or collection node moves to the one state of a new derived stategroup `'Todo item'`, the node's last property, hidden from the views; its requirement gets a leading `^` on every path that started at the node, because it now starts at the state's node:
+```js
+'Problemen': collection ['Probleem'] {
+	'Probleem': text
+	'Todo item': stategroup = 'Yes' ( ) @hidden (
+		'Yes'
+			has-todo: user where ( ^ .'Status'?'Open' ) @description: "Probleem: los dit op in de betreffende module."
+		{ }
+	)
+}
+```
+Replace it with a stategroup of your own when the todo should end, as in the example above. A todo on the parameters of a command or action has no derived stategroup to carry it and is dropped. A node that already has a property `'Todo item'` cannot take the new one: rename that property before you upgrade.

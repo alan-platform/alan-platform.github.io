@@ -1,0 +1,26 @@
+{
+	"platform version": "partitions-108.5",
+	"system types": {
+		"auto-webclient": {
+			"version": "partitions-108.5.1"
+		},
+		"connector": {
+			"version": "partitions-108.5"
+		},
+		"datastore": {
+			"version": "partitions-108.5"
+		},
+		"relational-database-bridge": {
+			"version": "112"
+		},
+		"session-manager": {
+			"version": "partitions-108.5"
+		},
+		"sql-mirror": {
+			"version": "partitions-108.5"
+		},
+		"webclient": {
+			"version": "partitions-108.5.1.0"
+		}
+	}
+}
