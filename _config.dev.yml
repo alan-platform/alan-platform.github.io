@@ -1,5 +1,102 @@
-# Development build: skips every language documentation tree except `model`.
-# Rendering all generated documentation takes minutes; with this override a build takes seconds.
+# Development build: only the documentation of platform versions 2026.2 and 2026.3.
+# Rendering all generated documentation takes minutes; with this override a build takes far less.
 # Usage: bundle exec jekyll serve --config _config.yml,_config.dev.yml
+#
+# Kept: the platform components of 2026.2 and 2026.3 in _data/versions.json, the system types in
+# _data/dist/2026.2/versions.json and _data/dist/2026.3/versions.json, and the platform release notes.
+# Jekyll's exclude cannot say "all but", so every other version directory is excluded by the shortest prefix
+# that no kept version of its type starts with. Where a kept version starts with the whole name (119, 119.2),
+# that directory's contents are excluded instead. A version published later is built until it gets a line here.
+#
+# This list replaces the one in _config.yml rather than adding to it, so that one comes first.
 exclude:
-  - pages/docs/[!m]*
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - .toolchains/
+  - .claude/
+  - _tools/
+  - pages/docs/auto-webclient/p*
+  - pages/docs/auto-webclient/s*
+  - pages/docs/auto-webclient/u*
+  - pages/docs/auto-webclient/v*
+  - pages/docs/auto-webclient/w*
+  - pages/docs/auto-webclient/x*
+  - pages/docs/auto-webclient/y*
+  - pages/docs/auto-webclient/zora.0*
+  - pages/docs/auto-webclient/zora.1r*
+  - pages/docs/auto-webclient/zora.2*
+  - pages/docs/auto-webclient/zora.3*
+  - pages/docs/auto-webclient/zora.f*
+  - pages/docs/auto-webclient/zora.r*
+  - pages/docs/connector/2*
+  - pages/docs/connector/33*
+  - pages/docs/connector/34*
+  - pages/docs/connector/35*
+  - pages/docs/connector/36*
+  - pages/docs/connector/38*
+  - pages/docs/connector/p*
+  - pages/docs/datastore/10*
+  - pages/docs/datastore/111*
+  - pages/docs/datastore/113*
+  - pages/docs/datastore/114*
+  - pages/docs/datastore/115*
+  - pages/docs/datastore/116*
+  - pages/docs/datastore/117*
+  - pages/docs/datastore/118*
+  - pages/docs/datastore/119.1*
+  - pages/docs/datastore/119/*
+  - pages/docs/datastore/8*
+  - pages/docs/datastore/9*
+  - pages/docs/datastore/m*
+  - pages/docs/datastore/n*
+  - pages/docs/datastore/p*
+  - pages/docs/model/103*
+  - pages/docs/model/105*
+  - pages/docs/model/106*
+  - pages/docs/model/107*
+  - pages/docs/model/8*
+  - pages/docs/model/9*
+  - pages/docs/model/p*
+  - pages/docs/project-build-environment/3*
+  - pages/docs/project-build-environment/41*
+  - pages/docs/project-build-environment/42*
+  - pages/docs/project-build-environment/43*
+  - pages/docs/relational-database-bridge/10*
+  - pages/docs/relational-database-bridge/110*
+  - pages/docs/session-manager/p*
+  - pages/docs/solver
+  - pages/docs/sql-mirror/10*
+  - pages/docs/sql-mirror/113*
+  - pages/docs/sql-mirror/114*
+  - pages/docs/sql-mirror/115*
+  - pages/docs/sql-mirror/116*
+  - pages/docs/sql-mirror/117*
+  - pages/docs/sql-mirror/118*
+  - pages/docs/sql-mirror/119.1*
+  - pages/docs/sql-mirror/119/*
+  - pages/docs/sql-mirror/8*
+  - pages/docs/sql-mirror/9*
+  - pages/docs/sql-mirror/m*
+  - pages/docs/sql-mirror/n*
+  - pages/docs/sql-mirror/p*
+  - pages/docs/webclient/p*
+  - pages/docs/webclient/s*
+  - pages/docs/webclient/u*
+  - pages/docs/webclient/v*
+  - pages/docs/webclient/w*
+  - pages/docs/webclient/x*
+  - pages/docs/webclient/y*
+  - pages/docs/webclient/zora.0*
+  - pages/docs/webclient/zora.1.1*
+  - pages/docs/webclient/zora.1.2*
+  - pages/docs/webclient/zora.1.3*
+  - pages/docs/webclient/zora.1r*
+  - pages/docs/webclient/zora.2*
+  - pages/docs/webclient/zora.3*
+  - pages/docs/webclient/zora.f*
+  - pages/docs/webclient/zora.r*
