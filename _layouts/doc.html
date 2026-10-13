@@ -29,6 +29,7 @@
 			{% include page-index.html %}
 			<section>
 				{{ content | replace: '<img src=', '<img loading="lazy" decoding="async" src=' }}
+				{% if page.type == 'release notes' and page.origin == 'platform' %}{% include release-components.html version=page.version %}{% endif %}
 			</section>
 		</main>
 

@@ -1,0 +1,42 @@
+{% comment %}
+	The components of a platform version (include.version) beside their versions in the platform version before it, for
+	the release notes of that platform version. Each component version that has release notes links to them.
+	Platform components come from _data/versions.json, system types from _data/dist/<platform version>/versions.json
+	(Jekyll drops the dot from that directory name). Liquid assigns to the outermost scope, hence the rc_ prefix.
+{% endcomment %}
+{% assign rc_this = nil %}
+{% assign rc_prev = nil %}
+{% for rc_version in site.data.versions.versions %}
+	{% if rc_this and rc_prev == nil %}{% assign rc_prev = rc_version %}{% endif %}
+	{% if rc_version.name == include.version %}{% assign rc_this = rc_version %}{% endif %}
+{% endfor %}
+{% if rc_this %}
+{% assign rc_key = rc_this.name | remove: '.' %}
+{% assign rc_dist = site.data.dist[rc_key].versions %}
+{% if rc_prev %}{% assign rc_key = rc_prev.name | remove: '.' %}{% assign rc_prev_dist = site.data.dist[rc_key].versions %}{% endif %}
+<h2 id="components">Component versions</h2>
+<p>
+	The version of every component in {{ rc_this.name }}{% if rc_prev %}, beside its version in {{ rc_prev.name }}{% endif %}.
+	A version that changed links to its own release notes.
+</p>
+<table class="release-components">
+	<thead>
+		<tr>
+			<th scope="col">Component</th>
+			{% if rc_prev %}<th scope="col">{{ rc_prev.name }}</th>{% endif %}
+			<th scope="col">{{ rc_this.name }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% comment %} include parameters take plain variables only, so every value is assigned first {% endcomment %}
+		{% for rc_entry in rc_this.platform %}
+			{% assign rc_name = rc_entry[0] %}{% assign rc_new = rc_entry[1] %}{% assign rc_old = rc_prev.platform[rc_name] %}
+			{% include release-component-row.html name=rc_name new=rc_new old=rc_old compare=rc_prev %}
+		{% endfor %}
+		{% for rc_entry in rc_dist["system types"] %}
+			{% assign rc_name = rc_entry[0] %}{% assign rc_new = rc_entry[1].version %}{% assign rc_old = rc_prev_dist["system types"][rc_name].version %}
+			{% include release-component-row.html name=rc_name new=rc_new old=rc_old compare=rc_prev %}
+		{% endfor %}
+	</tbody>
+</table>
+{% endif %}

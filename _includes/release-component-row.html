@@ -1,0 +1,14 @@
+{% comment %}
+	One row of release-components.html: a component (include.name), its version in the previous platform version
+	(include.old, empty when it is new), and its version in this one (include.new). A version that changed links to its
+	release notes; the notes of an unchanged version describe an earlier platform version.
+	include.compare is the previous platform version, if there is one.
+{% endcomment %}
+{% assign rcr_notes = site.pages | where: 'origin', include.name | where: 'version', include.new | where: 'type', 'release notes' | first %}
+{% assign rcr_changed = true %}
+{% if include.compare and include.old == include.new %}{% assign rcr_changed = false %}{% endif %}
+<tr{% unless rcr_changed %} class="unchanged"{% endunless %}>
+	<th scope="row">{{ include.name }}</th>
+	{% if include.compare %}<td>{% if include.old %}{{ include.old }}{% else %}<em>new</em>{% endif %}</td>{% endif %}
+	<td>{% if rcr_changed and rcr_notes %}<a href="{{ rcr_notes.url | relative_url }}" title="Release notes of {{ include.name }} {{ include.new }}">{{ include.new }}</a>{% elsif rcr_changed %}<strong>{{ include.new }}</strong>{% else %}{{ include.new }}{% endif %}</td>
+</tr>

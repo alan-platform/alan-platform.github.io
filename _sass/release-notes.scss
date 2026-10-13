@@ -42,3 +42,18 @@
         }
     }
 }
+
+.release-components {
+    td > a { // a version that changed, linking its release notes
+        display: inline;
+        width: auto;
+        padding: 0;
+        font-weight: bold;
+    }
+    .unchanged {
+        color: $grey4;
+        th {
+            font-weight: normal;
+        }
+    }
+}
