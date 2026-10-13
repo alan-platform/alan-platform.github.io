@@ -115,6 +115,10 @@ The `wiring` language connects the systems of a project in `wiring.alan`, the `d
 If you cannot find the documentation for a file you are looking at, ask on the [forum](https://forum.alan-platform.com/).
 
 See [versions.json](https://dist.alan-platform.com/share/versions/{{ site.data.versions.current }}/versions.json) for the system type versions that belong with this platform version; your own project pins its versions in its `versions.json`.
+{% assign current_notes = site.pages | where: 'origin', 'platform' | where: 'version', site.data.versions.current | where: 'type', 'release notes' | first %}
+{% if current_notes %}
+What changed in {{ site.data.versions.current }}, and what an upgrade asks of your project, is in the [release notes]({{ current_notes.url | relative_url }}); in the table below, a version number links the notes of that component version.
+{% endif %}
 
 {% include doc-index.html %}
 
