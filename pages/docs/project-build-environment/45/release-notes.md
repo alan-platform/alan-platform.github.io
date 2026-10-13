@@ -13,4 +13,19 @@ type: "release notes"
 - Platforms: darwin-arm64 replaces darwin-x64; the linux-aarch64 build is no longer published.
 - The package ships an agent guide (AGENTS.md).
 
-Upgrade: a deployment whose template-based system leaves out such an option no longer builds; add the option to `deployment.alan`.
+Upgrade: a system deployed from a template requires every configuration option of a plural type with a static
+keyset, such as the `'integers'` and `'texts'` options of a connector system. `./alan upgrade` does not add them;
+packaging the deployment reports each missing one, for example ``missing entry `integers` in 'options'``. Add each
+option to `deployment.alan`: `( )` when its keyset in `wiring.alan` is empty, otherwise an entry for every key, with
+the value that system needs:
+
+```
+'pdf-generator'
+	configuration: 'default'
+		'slow speed' = 30
+		'slow time'  = 60
+		'integers'   = ( )
+		'texts'      = (
+			'pdf_generator_url' = "http://127.0.0.1:5044/v1/generate"
+		)
+```
