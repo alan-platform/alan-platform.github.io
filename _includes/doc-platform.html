@@ -1,0 +1,22 @@
+{% comment %}
+	Assigns doc_platform: the entry of _data/versions.json whose documentation table the "Switch document" menu of a
+	documentation page shows. For a platform page that is its own version. For a component version it is the current
+	platform version when that ships it, otherwise the newest platform version that does (the list is newest first),
+	otherwise the current one. Platform components come from _data/versions.json, system types from
+	_data/dist/<platform version>/versions.json. Liquid assigns to the outermost scope, hence the dp_ prefix.
+{% endcomment %}
+{% assign doc_platform = nil %}
+{% for dp_version in site.data.versions.versions %}
+	{% if page.origin == 'platform' %}
+		{% if dp_version.name == page.version %}{% assign doc_platform = dp_version %}{% endif %}
+	{% else %}
+		{% assign dp_key = dp_version.name | remove: '.' %}
+		{% assign dp_shipped = dp_version.platform[page.origin] | default: site.data.dist[dp_key].versions["system types"][page.origin].version %}
+		{% if dp_shipped == page.version %}
+			{% if doc_platform == nil or dp_version.name == site.data.versions.current %}{% assign doc_platform = dp_version %}{% endif %}
+		{% endif %}
+	{% endif %}
+{% endfor %}
+{% if doc_platform == nil %}
+	{% assign doc_platform = site.data.versions.versions | where: 'name', site.data.versions.current | first %}
+{% endif %}
