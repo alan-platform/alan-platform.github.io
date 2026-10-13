@@ -1,0 +1,19 @@
+{% comment %}
+	For the release notes of a component version (include.origin, include.version): links to the release notes of the
+	platform versions that ship it. Platform components come from _data/versions.json, system types from
+	_data/dist/<platform version>/versions.json. Liquid assigns to the outermost scope, hence the rp_ prefix.
+{% endcomment %}
+{% assign rp_links = '' %}
+{% for rp_version in site.data.versions.versions %}
+	{% assign rp_key = rp_version.name | remove: '.' %}
+	{% assign rp_shipped = rp_version.platform[include.origin] | default: site.data.dist[rp_key].versions["system types"][include.origin].version %}
+	{% if rp_shipped == include.version %}
+		{% assign rp_notes = site.pages | where: 'origin', 'platform' | where: 'version', rp_version.name | where: 'type', 'release notes' | first %}
+		{% if rp_notes %}
+			{% capture rp_link %}<a href="{{ rp_notes.url | relative_url }}">Alan {{ rp_version.name }}</a>{% endcapture %}
+			{% if rp_links != '' %}{% assign rp_links = rp_links | append: ', ' %}{% endif %}
+			{% assign rp_links = rp_links | append: rp_link %}
+		{% endif %}
+	{% endif %}
+{% endfor %}
+{% if rp_links != '' %}<span class="doc-notes-link">in {{ rp_links }}</span>{% endif %}
