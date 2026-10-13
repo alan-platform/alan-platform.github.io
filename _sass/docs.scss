@@ -82,6 +82,11 @@ details.archive {
     }
 }
 
+// beside the version in the header of a documentation page, like "Switch document"
+.doc-notes-link {
+    margin-left: 1rem;
+}
+
 [aria-controls='doc-list'] {
     -webkit-appearance: none;
     margin: 0 0 0 1rem;

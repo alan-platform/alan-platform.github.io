@@ -1,0 +1,6 @@
+{% comment %}
+	A link to the release notes of a component version (include.origin, include.version), for the header of its other
+	documentation pages; nothing when that version has none. Rendered through include_cached: once per component version.
+{% endcomment %}
+{% assign notes_page = site.pages | where: 'origin', include.origin | where: 'version', include.version | where: 'type', 'release notes' | first %}
+{% if notes_page %}<a class="doc-notes-link" href="{{ notes_page.url | relative_url }}">release notes</a>{% endif %}
