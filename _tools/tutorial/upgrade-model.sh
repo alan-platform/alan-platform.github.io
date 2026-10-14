@@ -13,12 +13,17 @@ if [ -n "$EXPECT" ]; then
   exit 1
 fi
 if ! "$COMP" "$MODEL_LANG" -C "$DIR" /dev/null >/dev/null 2>&1; then
-  CFG="$DEVENV/platform/if-types/model/scripts/transform/configs/$FROM/package"
-  if [ ! -e "$CFG" ]; then
-    AVAIL=$(ls "$DEVENV/platform/if-types/model/scripts/transform/configs" 2>/dev/null | tr '\n' ' ')
-    echo "$APP:1:1: error: no transform config $FROM; available: $AVAIL" >&2; exit 2
+  # since 2026.3 a bundle ships upgrade/<old version>/package, run with upgrade/template-engine (as ./alan upgrade
+  # does); before that the model shipped scripts/transform/configs/<old version>, run with scripts/transform/transform.sh
+  BUNDLE="$DEVENV/platform/if-types/model"
+  if [ -e "$BUNDLE/upgrade/$FROM/package" ] && [ -x "$BUNDLE/upgrade/template-engine" ]; then
+    "$BUNDLE/upgrade/template-engine" "$BUNDLE/upgrade/$FROM/package" "$DIR" "$DIR" -- || { echo "$APP:1:1: error: TRANSFORM-FAILED (input does not parse under model $FROM?)" >&2; exit 1; }
+  elif [ -e "$BUNDLE/scripts/transform/configs/$FROM/package" ]; then
+    "$BUNDLE/scripts/transform/transform.sh" "$FROM" "$DIR" || { echo "$APP:1:1: error: TRANSFORM-FAILED (input does not parse under model $FROM?)" >&2; exit 1; }
+  else
+    AVAIL=$(ls "$BUNDLE/upgrade" "$BUNDLE/scripts/transform/configs" 2>/dev/null | grep -v -e '^$' -e ':$' -e template-engine | tr '\n' ' ')
+    echo "$APP:1:1: error: no transform from model $FROM; available: $AVAIL" >&2; exit 2
   fi
-  "$DEVENV/platform/if-types/model/scripts/transform/transform.sh" "$FROM" "$DIR" || { echo "$APP:1:1: error: TRANSFORM-FAILED (input does not parse under model $FROM?)" >&2; exit 1; }
 fi
 [ "${4:-}" != --pp ] || "$PP" "$MODEL_LANG" -C "$DIR"
 OUT=$("$COMP" "$MODEL_LANG" --format vscode -C "$DIR" /dev/null 2>&1); CODE=$?

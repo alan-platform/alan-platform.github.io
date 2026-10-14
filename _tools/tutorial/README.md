@@ -38,6 +38,16 @@ upgrade, regenerates snippets, verifies, runs online-ide `test.sh`, and prints a
 `//@ expect error` cannot be transformed (the transform needs a model that compiles under the old language):
 apply the syntax change to them by hand and rerun `snippets.py verify NEW --platform DEVENV`. The transform
 re-emits the models it touches in canonical formatting, so hand-wrapped lines in those models are lost.
+
+Since 2026.3 a bundle ships its transformation as `upgrade/<old version>/package`, run with `upgrade/template-engine`
+(the way `./alan upgrade` runs it); `upgrade-model.sh` uses that, and falls back to the older
+`scripts/transform/configs/<old version>`. The 108 to 109 transformation re-emits the whole model: it joins wrapped
+lines, drops blank lines, and moves a trailing comment, snippet markers included, behind the parenthesis it adds.
+`rewrites/<from>-<to>.py` makes the same syntax changes in place, line by line, and `new-version.sh` runs it on every
+model before the transformation, which then only sees what the rewrite left. `rewrites/108-109.py` puts the set of a
+`sum` or `count` in parentheses and turns `sibling` into `siblings []`; its output is token for token what the
+platform's transformation produces for the tutorial models. Write a rewrite only when the platform's transformation
+breaks the layout the tutorials depend on.
 Promoting `_data/versions.json` `current` is a separate, manual commit. A version entry there may carry an `alan`
 field with the URL of that platform version's `alan` script (`https://dist.alan-platform.com/share/versions/VERSION/alan`);
 `pages/docs.md` shows a quickstart for the newest version that has one, and `_includes/doc-archive.html` links it per version.

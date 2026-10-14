@@ -25,7 +25,7 @@ dist_field() { # <version> <jq path> : read from _data/dist/<version>/versions.j
 }
 
 say A "prepare toolchain"
-for d in "$WEB/$NEW" "$MIG/$NEW" "$MSN/$NEW" "$T/$NEW" "$TM/$NEW"; do
+for d in "$WEB/$NEW" "$MIG/$NEW" "$MSN/$NEW" "$T/$NEW" "$TM/$NEW" "$TOOLS/screenshots/$NEW"; do
   if [ -e "$d" ]; then $FORCE || { echo "error: $d exists (use --force to replace)" >&2; exit 1; }; rm -rf "$d"; fi
 done
 DEVENV=$("$TOOLS/fetch-toolchain.sh" "$NEW"); NEW_MODEL=$(jq -r .model "$DEVENV/platform/platform.json")
@@ -69,6 +69,14 @@ census() { { "$TOOLS/snippets.py" census "$NEW"; $HAVE_MIG && "$TOOLS/snippets.p
 
 say D "upgrade models"
 census > "$TMP/census-before.json"
+# a platform transformation that re-emits whole models loses the layout and moves the snippet markers; a rewrite in
+# rewrites/<from>-<to>.py makes the same syntax changes in place, and the transformation then only sees what is left
+REWRITE="$TOOLS/rewrites/$FROM_MODEL-$NEW_MODEL.py"
+if [ -f "$REWRITE" ]; then
+  REWRITE_DIRS=("$WEB/$NEW/models"); $HAVE_MIG && REWRITE_DIRS+=("$MIG/$NEW/models"); $HAVE_MSN && REWRITE_DIRS+=("$MSN/$NEW/models")
+  for base in "${IDE_DIRS[@]}"; do REWRITE_DIRS+=("$base/$NEW"); done
+  find "${REWRITE_DIRS[@]}" -name application.alan -print0 | xargs -0 -r python3 "$REWRITE" || FAIL+=("rewrite $FROM_MODEL-$NEW_MODEL")
+fi
 for d in "$WEB/$NEW"/models/*/; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" || FAIL+=("website model: $d"); done
 if $HAVE_MIG; then
   for d in "$MIG/$NEW"/models/*/; do
@@ -78,7 +86,7 @@ if $HAVE_MIG; then
 fi
 if $HAVE_MSN; then for d in "$MSN/$NEW"/models/*/; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" || FAIL+=("website mission model: $d"); done; fi
 for base in "${IDE_DIRS[@]}"; do
-  for d in "$base/$NEW"/step_*/to_model; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" --pp || FAIL+=("online-ide model: $d"); done
+  for d in "$base/$NEW"/*/to_model; do "$TOOLS/upgrade-model.sh" "$DEVENV" "$FROM_MODEL" "$d" --pp || FAIL+=("online-ide model: $d"); done
 done
 census > "$TMP/census-after.json" || FAIL+=("census after transform")
 # marker sequences must survive the transforms (line numbers may shift, they are not compared)
@@ -87,7 +95,7 @@ if ! diff -u "$TMP/census-before.json" "$TMP/census-after.json" > "$TMP/census.d
 say E "upgrade online-ide step migrations"
 for base in "${IDE_DIRS[@]}"; do
   prev_step=
-  for step in "$base/$NEW"/step_*/; do [ -n "$prev_step" ] || prev_step=$step; "$TOOLS/upgrade-migration.sh" "$DEVENV" "$prev_step" "$step" || { FAIL+=("migration: $step"); MIGRATION=fail; }; prev_step=$step; done
+  for step in "$base/$NEW"/*/; do [ -d "$step/to_model" ] || continue; [ -n "$prev_step" ] || prev_step=$step; "$TOOLS/upgrade-migration.sh" "$DEVENV" "$prev_step" "$step" || { FAIL+=("migration: $step"); MIGRATION=fail; }; prev_step=$step; done
 done
 
 say F "extract and verify"
