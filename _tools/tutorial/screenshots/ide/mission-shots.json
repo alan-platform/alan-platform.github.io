@@ -1,5 +1,5 @@
 {
-  "output": "pages/tutorials/mission/2026.2/images",
+  "output": "pages/tutorials/mission/{version}/images",
   "viewport": {
     "width": 1400,
     "height": 900,

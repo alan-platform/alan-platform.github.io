@@ -62,10 +62,17 @@ PNGs straight into `pages/tutorials/...`. Scratch output goes to `.toolchains/sc
 
 Prerequisites, one-off per machine:
 
-- A webclient checkout (`WEBCLIENT`, default `../webclient`) with a build that matches its sources:
+- A webclient checkout (`WEBCLIENT`, default `../webclient`) at the webclient version of the platform version, with
+  the test engine's `--serve` mode, and a build that matches its sources:
   `make generator generators src/webclient/dist/client build/javascript/test-server/index.js` in that checkout.
-  The client test engine's `--serve` mode from `src/test-server` serves a step locally; `serve-app.sh` is the only
-  place that knows this and is the seam to replace when the dev-server gets a local datastore flag.
+  The serve mode lives on a branch per webclient version: `feature/test-server-serve-zora.1` (2026.2) and
+  `feature/test-server-serve-athena.1` (2026.3, where the client sends everything but subscriptions over HTTP
+  `/instruct/*`, so `--now` answers `/instruct/server-time`). A worktree of such a branch works; when its untracked
+  build products are copied from another checkout, remove `build/generator/<platform>/CMakeCache.txt` and
+  `CMakeFiles` first, or CMake refuses the new location. `build-step.sh` finds the compiler and the migration engine
+  in both webclient layouts (athena moved them to `internals/alan-tools` and to the devenv).
+  `serve-app.sh` is the only place that knows about the serve mode, and is the seam to replace when the dev-server
+  gets a local datastore flag.
 - `npm install` in `_tools/tutorial/screenshots` (puppeteer, pinned to the version the webclient uses so the cached Chrome is reused).
 - The client's font family, "Source Sans Pro", installed for the user (`~/.local/share/fonts`), otherwise Chrome falls back to DejaVu.
 - For the IDE shots: the standalone VS Code CLI in `.toolchains/vscode/cli/code` (`https://update.code.visualstudio.com/latest/cli-alpine-x64/stable`),

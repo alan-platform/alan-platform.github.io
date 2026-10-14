@@ -30,7 +30,8 @@ while (args.length) {
 const config = JSON.parse(await fs.readFile(listFile ?? path.join(screenshots, version, "ide-shots.json"), "utf8"));
 const shots = config.shots.filter(shot => !only || only.has(shot.id));
 if (!shots.length) throw new Error("error: no shots selected");
-const output = path.join(root, config.output);
+// an unversioned shot list writes into the tutorial of the version it runs for: "{version}" in its output path
+const output = path.join(root, config.output.replaceAll("{version}", version));
 const vscodeRoot = path.join(root, ".toolchains/vscode");
 const workspace = path.join(vscodeRoot, config.workspace ?? "workspace/project");
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));

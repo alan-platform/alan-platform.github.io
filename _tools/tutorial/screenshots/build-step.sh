@@ -33,9 +33,12 @@ for FILE in "$MODEL_FILE" "$DATA_FILE"; do
 done
 
 W=$WEBCLIENT
-CP="$W/dependencies/dev/internals/alan/tools/compiler-project"
+first() { for f in "$@"; do [ -x "$f" ] && { printf '%s\n' "$f"; return; }; done; printf '%s\n' "$1"; } # the first that exists
+# webclient athena moved the compiler to internals/alan-tools and the migration engine to the devenv
+CP=$(first "$W/dependencies/dev/internals/alan-tools/tools/compiler-project" "$W/dependencies/dev/internals/alan/tools/compiler-project")
+VM=$(first "$W/dependencies/dev/devenv/system-types/datastore/tools/vm-tool" "$W/dependencies/dev/runenv/system-types/datastore/tools/vm-tool")
 G="$W/build/generator/linux-x64/implementation"
-for TOOL in "$CP" "$G/annotator" "$G/engine" "$W/dependencies/dev/runenv/system-types/datastore/tools/vm-tool"; do
+for TOOL in "$CP" "$G/annotator" "$G/engine" "$VM"; do
   [ -x "$TOOL" ] || { echo "error: required tool missing: $TOOL" >&2; exit 1; }
 done
 for FILE in \
@@ -96,7 +99,7 @@ run_generator() {
   "$G/annotator" build/client.pkg build/annotated.pkg > /dev/null
   run_generator
   "$CP" "$W/dependencies/dev/devenv/system-types/datastore/migration/language" --log error -C migration build/migration.pkg
-  echo '{}' | "$W/dependencies/dev/runenv/system-types/datastore/tools/vm-tool" "$W/src/tests/migration_configuration.json" build/migration.pkg > build/instance.json
+  echo '{}' | "$VM" "$W/src/tests/migration_configuration.json" build/migration.pkg > build/instance.json
   "$CP" "$W/build/src/webclient/interface/test/language" --log warning --symbols -C . build/test.pkg
 )
 printf '%s\n' "$OUT"
