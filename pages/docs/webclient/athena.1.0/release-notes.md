@@ -44,12 +44,56 @@ New in a query:
 ### Upgrade
 
 - The project needs model language 109; see the model release notes.
-- webclient: no transformation ships; the build reports every site.
-  - The query headers in `views/*.alan` change as shown above: `from root path P` becomes
-    `binds: path: root P`, and `from path P` becomes `binds: path: P`.
+- webclient: no transformation ships; fix what the build reports, topmost error first.
+  - A node query in `views/*.alan` requires `binds:` before its binding context and `path:` before its query
+    path; a query of candidates drops `from` and takes neither. The build reports an old header with
+    ``unexpected keyword `from` while making a decision for stategroup 'context' of .'views'.'queries'``:
+
+    | old | new |
+    |---|---|
+    | `from path P` | `binds: path: P` |
+    | `from C path P` | `binds: C path: P` |
+    | `from root path P` | `binds: path: root P` |
+    | `from candidates of C reference: 'R'` | `candidates of C reference: 'R'` |
+
+    A binding context `C` that starts with `@root` starts with `root`. A query filter compares with the binding
+    context through `= query context` instead of `= view context`: that is the context the query binds on, which
+    is the view's context only when the binding context is empty (`binds: path: P`, `binds: path: root P`).
+    Check each such filter in any other query, a query of candidates included: it now compares with another
+    node, or the build rejects it. A query that a widget binds requires the context of that binding: an old root
+    query could be bound in any context, `binds: path: root P` only on the view's own node; a root query that a
+    widget binds in a nested context binds on that context, `binds: C path: root P`.
+  - A `query` binding in a widget expression names its query without `candidates`. The build reports the old
+    form with
+    ``unexpected keyword `candidates` while making a decision for stategroup 'type' of !'widget expression tail'.'type'?'binding'``:
+
+```
+// old
+'options candidates' = :: query candidates 'choose shift' (
+
+// new
+'options candidates' = :: query 'choose shift' (
+```
+
+  - Reading the `'todo'` stategroup of the client bindings requires a `'state'` binding: it moved from the
+    `'node'` binding to the `'state'` binding. The build reports a read on the node with
+    ``'state group' `todo` was not found in 'properties'``:
+
+```
+// old, inside a state binding
+switch ^ $ [ /'node'.'todo'?'yes'.'active'?'yes'] (
+
+// new
+switch ^ $ [ .'todo'?'yes'.'active'?'yes'] (
+```
+
+  - From zora.1, zora.2 and partitions-108.1.0 (zora.3 has these already): the entries of a `'query collection'` binding are
+    under its `'is set'?'yes'` state, and the `'collection'` cell of a query entry reaches its collection
+    through its `'result'` binding, a `'query collection'`.
   - `'open view'`, `'open entry'`, `'open entity'` and `'open reference'` require a second argument,
     the key of the property to focus: `( view , text )`. An empty text focuses nothing, which is the
-    old behaviour, so add `, text ""` to every call. The build reports a call without it with
+    old behaviour, so add `, text ""` to every call that passes only the view (from zora.1, zora.2 and
+    partitions-108.1.0; zora.3 calls pass both). The build reports a call without it with
     `state constraint violation for 'no next argument'`:
 
 ```
@@ -57,7 +101,7 @@ New in a query:
 |'no' as $ => ^ $ >>'open view' ( view $ .'collection view to open' )
 
 // new
-|'no' as $ => ^ $ >>'open view' ( view $ .'collection view to open' , text "" )
+|'no' as $ => ^ $ >>'open view' ( view $ .'collection view to open', text "" )
 ```
 
 - auto-webclient: `./alan upgrade` converts `annotations.alan` and `settings.alan` from zora.1, zora.2,
