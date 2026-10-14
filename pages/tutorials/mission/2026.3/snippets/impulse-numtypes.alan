@@ -1,0 +1,6 @@
+numerical-types
+	'kg'
+	'newton'
+	'second'
+	'newton second'
+		= 'newton' * 'second'

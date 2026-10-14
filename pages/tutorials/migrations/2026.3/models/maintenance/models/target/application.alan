@@ -1,0 +1,18 @@
+users
+	anonymous
+
+interfaces
+
+//@ begin maintenance-model
+root {
+	'App Name': text
+	'App Description': text
+	'Users': collection ['User'] {
+		'User': text
+	}
+	'Year': number 'year'
+}
+//@ end maintenance-model
+
+numerical-types
+	'year'

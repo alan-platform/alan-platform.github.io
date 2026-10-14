@@ -1,0 +1,9 @@
+//@ all minimal-model
+users
+	anonymous
+
+interfaces
+
+root { }
+
+numerical-types

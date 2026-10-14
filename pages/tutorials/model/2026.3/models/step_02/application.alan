@@ -1,0 +1,41 @@
+users
+	anonymous
+
+interfaces
+
+//@ begin stategroups2
+root {
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': stategroup (
+					'Juice' { }
+					'Soft drink' { }
+					'Cocktail' { }
+					'Beer' { }
+					'Wine' { }
+					'Coffee & tea' { }
+				)
+			}
+		)
+	}
+}
+//@ end stategroups2
+
+//@ begin numerical-types
+numerical-types
+	'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+//@ end numerical-types

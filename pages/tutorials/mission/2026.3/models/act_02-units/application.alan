@@ -1,0 +1,31 @@
+//@ expect error equality constraint violation
+users
+	anonymous
+
+interfaces
+
+root {
+	'Vehicles': collection ['Vehicle'] {
+		'Vehicle': text
+		'Engines': collection ['Engine'] {
+			'Engine': text
+			'Thrust': number 'newton'
+			'Burn time': number 'seconds'
+			'Impulse': number 'newton second' = product ( .'Thrust' as 'newton', .'Burn time' )
+		}
+		//@ begin units-clash
+		'Booster impulse': number 'pound-force second'
+		'Engine impulse': number 'newton second' = sum ( .'Engines'* .'Impulse' )
+		'Total impulse': number 'newton second' = sum ( .'Engine impulse', .'Booster impulse' )
+		//@ end units-clash
+	}
+}
+
+//@ begin units-clash
+numerical-types
+	'newton'
+	'seconds'
+	'pound-force second'
+	'newton second'
+		= 'newton' * 'seconds'
+//@ end units-clash

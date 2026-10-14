@@ -1,0 +1,5 @@
+'thousandth eurocent'
+	@numerical-type: (
+		label: "Euro"
+		decimals: 5
+	)

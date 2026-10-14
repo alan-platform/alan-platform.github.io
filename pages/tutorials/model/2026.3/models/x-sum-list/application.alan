@@ -1,0 +1,17 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	'value A': number 'units'
+	'value B': number 'units'
+	'value C': number 'units'
+	'value D': number 'units'
+	//@ begin sum-list
+	'Sum': number 'units' = sum ( .'value A', .'value B', .'value C', .'value D' )
+	//@ end sum-list
+}
+
+numerical-types
+	'units'

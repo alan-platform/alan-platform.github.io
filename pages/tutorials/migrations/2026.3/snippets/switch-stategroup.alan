@@ -1,0 +1,10 @@
+'Cargo' = switch $ .'Cargo' (
+	|'Container' as $ => {
+		create 'Container' (
+			'Slots' = $ .'Slots'
+		)
+	}
+	|'Bulk' => {
+		create 'Bulk' ( )
+	}
+)

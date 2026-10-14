@@ -1,0 +1,9 @@
+'Kitchen': group {
+	'Products': collection ['Product'] {
+		'Product': text
+		'Product type': stategroup (
+			'Basic ingredient' { }
+			'Composed product' { }
+		)
+	}
+}

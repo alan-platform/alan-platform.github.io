@@ -1,0 +1,10 @@
+'Place order lines': command { } => walk .'Order lines'* as $'line' (
+	switch $'line'.'Line status' (
+		|'On hold' => update $'line' (
+			'Line status' = create 'Placed' ( )
+		)
+		|'Placed'  => ignore
+		|'Service' => ignore
+		|'Served'  => ignore
+	)
+)

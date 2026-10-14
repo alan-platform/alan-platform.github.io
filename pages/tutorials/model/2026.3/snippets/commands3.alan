@@ -1,0 +1,12 @@
+'Orders': collection ['Order'] {
+	'Order': text
+	'Order lines': collection ['Order line'] {
+		'Order line': text
+		'Item': text -> ^ ^ .'Menu'[]
+		'Amount': number 'units'
+		'Line total': number 'eurocent' = product ( .'Amount' as 'units', >'Item'.'Selling price' )
+	}
+	'Remove order line': command {
+		'Line': text -> ^ .'Order lines'[]
+	} as $'param' => update .'Order lines' = delete $'param'>'Line'
+}

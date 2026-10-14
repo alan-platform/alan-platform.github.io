@@ -1,0 +1,10 @@
+root {
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' { }
+			'Beverage' { }
+		)
+	}
+}

@@ -1,0 +1,153 @@
+{
+  "output": "pages/tutorials/mission/2026.3/images",
+  "tutorial": "mission",
+  "viewport": {
+    "width": 1336,
+    "height": 987,
+    "deviceScaleFactor": 2
+  },
+  "appName": "Mission Control",
+  "settleMs": 300,
+  "dataDir": "assets",
+  "datasets": {
+    "act_01": {
+      "model": "act_01",
+      "migration": "online-ide:act_01"
+    },
+    "act_02a": {
+      "model": "act_02a",
+      "migration": "online-ide:act_02a"
+    },
+    "act_02b": {
+      "model": "act_02b",
+      "migration": "online-ide:act_02b"
+    },
+    "act_03": {
+      "model": "act_03",
+      "migration": "online-ide:act_03"
+    },
+    "act_04": {
+      "model": "act_04",
+      "migration": "online-ide:act_04"
+    },
+    "act_05": {
+      "model": "act_05",
+      "migration": "online-ide:act_05"
+    },
+    "act_06": {
+      "model": "act_06",
+      "migration": "online-ide:act_06"
+    },
+    "act_07": {
+      "model": "act_07",
+      "migration": "online-ide:act_07"
+    }
+  },
+  "shots": [
+    {
+      "id": "first-app",
+      "file": "01-first-app.png",
+      "dataset": "act_01",
+      "actions": [
+        {
+          "click": "button=Vehicles"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=LC-1 Artemis Freighter"
+        },
+        {
+          "wait": 800
+        }
+      ]
+    },
+    {
+      "id": "impulse",
+      "file": "03-impulse.png",
+      "dataset": "act_03",
+      "actions": [
+        {
+          "click": "button=Vehicles"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=LC-1 Artemis Freighter"
+        },
+        {
+          "wait": 900
+        }
+      ]
+    },
+    {
+      "id": "manifest",
+      "file": "04-manifest.png",
+      "dataset": "act_03",
+      "actions": [
+        {
+          "click": "button=Vehicles"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=LC-2 Selene Hauler"
+        },
+        {
+          "wait": 900
+        }
+      ]
+    },
+    {
+      "id": "launch",
+      "file": "05-launch.png",
+      "dataset": "act_04",
+      "actions": [
+        {
+          "click": "button=Vehicles"
+        },
+        {
+          "wait": 600
+        },
+        {
+          "click": "row=LC-1 Artemis Freighter"
+        },
+        {
+          "wait": 900
+        }
+      ],
+      "viewport": {
+        "height": 1320
+      }
+    },
+    {
+      "id": "assembly",
+      "file": "06-assembly.png",
+      "dataset": "act_05",
+      "actions": [
+        {
+          "click": "chevron=Vehicles"
+        },
+        {
+          "wait": 400
+        },
+        {
+          "click": "button=Parts"
+        },
+        {
+          "wait": 900
+        },
+        {
+          "view": "Full"
+        },
+        {
+          "wait": 700
+        }
+      ]
+    }
+  ],
+  "docs": "mission-control"
+}

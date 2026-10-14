@@ -1,0 +1,3 @@
+'Item type' = create 'Dish' (
+	'Dish type' = create 'Main course' ( )
+)

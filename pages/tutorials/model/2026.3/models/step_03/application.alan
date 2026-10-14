@@ -1,0 +1,64 @@
+users
+	anonymous
+
+interfaces
+
+//@ begin builtins1 strip-comments
+//@ begin parent-steps
+root {
+	//@ skip parent-steps
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': stategroup (
+					'Juice' { }
+					'Soft drink' { }
+					'Cocktail' { }
+					'Beer' { }
+					'Wine' { }
+					'Coffee & tea' { }
+				)
+			}
+		)
+	}
+
+	//@ show parent-steps
+	'Tables': collection ['Table number'] {   // curly brace 2 (match second ^)
+		//@ skip parent-steps
+		'Table number': text
+		'Seatings': number 'chairs'
+		//@ show parent-steps
+		'Orders': collection ['Order line'] { // curly brace 1 (match first ^)
+			//@ skip parent-steps
+			'Order line': text
+			//@ show parent-steps
+			//@ begin reference-item
+			'Item': text -> ^ ^ .'Menu'[]
+			//@ end reference-item
+			//@ hide parent-steps
+			'Amount': number 'units'
+		}
+	}
+}
+//@ end builtins1
+//@ end parent-steps
+
+//@ begin builtins2
+numerical-types
+	'eurocent'
+		@numerical-type: (
+			label: "Euro"
+			decimals: 2
+		)
+	'chairs'
+	'units'
+//@ end builtins2

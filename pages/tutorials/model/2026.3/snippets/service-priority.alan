@@ -1,0 +1,15 @@
+'Service' {
+	'Priority': stategroup = switch ^ >'Item'.'Item type' (
+		|'Beverage' => 'Low' ( )
+		|'Dish'     as $'dish' => switch $'dish'.'Dish type' (
+			|'Appetizer'   => 'Medium' ( )
+			|'Main course' => 'High' ( )
+			|'Dessert'     => 'Low' ( )
+		)
+	) (
+		'Low' { }
+		'Medium' { }
+		'High' { }
+	)
+	'Served': command { } => update ^ .'Line status' = create 'Served' ( )
+}

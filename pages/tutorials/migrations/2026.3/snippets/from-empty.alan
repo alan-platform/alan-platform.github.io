@@ -1,0 +1,18 @@
+root = root as $ {
+	(
+		'Menu' = {
+			create (
+				'Item name' = "Shrimp salad"
+				'Selling price' = 4
+			)
+			create (
+				'Item name' = "Tomato soup"
+				'Selling price' = 5
+			)
+			create (
+				'Item name' = "Orange juice"
+				'Selling price' = 5
+			)
+		}
+	)
+}

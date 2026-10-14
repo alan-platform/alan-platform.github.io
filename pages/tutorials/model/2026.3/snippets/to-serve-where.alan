@@ -1,0 +1,14 @@
+'To serve': stategroup = switch ^ .'Order type' (
+	|'Takeaway' => 'No' ( )
+	|'In-house' as $'in-house' => switch .'Line status' (
+		|'On hold' => 'No' ( )
+		|'Placed'  => 'No' ( )
+		|'Service' as $'service' => 'Yes' where 'Service' = $'service' ( 'Table' = $^ $'in-house'>'Table' ) // <--- !! where ...
+		|'Served'  => 'No' ( )
+	)
+) (
+	'No' { }
+	'Yes' where 'Service' -> .'Line status'?'Service' { // <--- !! where ...
+		'Table': text -> ^ ^ ^ ^ .'Management'.'Tables'[] = parameter
+	}
+)

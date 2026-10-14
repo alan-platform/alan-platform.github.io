@@ -1,0 +1,19 @@
+root = root as $ {
+	(
+		'Users' = walk $ .'Users' as $ => {
+			create (
+				'User' = $ .'User'
+				'Full name' = $ .'Full name'
+			)
+		}
+		//@ begin throw-alternative
+		'Administrator' = $ .'Users'[ $ .'Administrator' ] .'User' || throw "The administrator is not a known user."
+		//@ end throw-alternative
+		//@ begin switch-value-none
+		'Administrator name' = switch $ .'Users'[ $ .'Administrator' ] (
+			| value as $ => $ .'Full name'
+			| none => "unknown"
+		)
+		//@ end switch-value-none
+	)
+}

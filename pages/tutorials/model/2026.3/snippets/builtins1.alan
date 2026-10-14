@@ -1,0 +1,35 @@
+root {
+	'Menu': collection ['Item name'] {
+		'Item name': text
+		'Selling price': number 'eurocent'
+		'Item type': stategroup (
+			'Dish' {
+				'Dish type': stategroup (
+					'Appetizer' { }
+					'Main course' { }
+					'Dessert' { }
+				)
+			}
+			'Beverage' {
+				'Beverage type': stategroup (
+					'Juice' { }
+					'Soft drink' { }
+					'Cocktail' { }
+					'Beer' { }
+					'Wine' { }
+					'Coffee & tea' { }
+				)
+			}
+		)
+	}
+
+	'Tables': collection ['Table number'] {
+		'Table number': text
+		'Seatings': number 'chairs'
+		'Orders': collection ['Order line'] {
+			'Order line': text
+			'Item': text -> ^ ^ .'Menu'[]
+			'Amount': number 'units'
+		}
+	}
+}

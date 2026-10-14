@@ -1,0 +1,4 @@
+'Administrator name' = switch $ .'Users'[ $ .'Administrator' ] (
+	| value as $ => $ .'Full name'
+	| none => "unknown"
+)

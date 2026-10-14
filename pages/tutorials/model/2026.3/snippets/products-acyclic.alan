@@ -1,0 +1,7 @@
+'Kitchen': group {
+	'Products': collection ['Product']
+		'Assembly': acyclic-graph
+	{
+		...
+	}
+}

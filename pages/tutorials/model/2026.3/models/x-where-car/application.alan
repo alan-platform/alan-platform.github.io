@@ -1,0 +1,27 @@
+users
+	anonymous
+
+interfaces
+
+root {
+	//@ begin where-car
+	'Electric vehicles': collection ['Vehicle'] {
+		'Vehicle': text
+		'Color': text
+		'Is': stategroup (
+			'Fast' {
+				'Top speed': number 'km/h'
+			}
+			'Slow' { }
+		)
+	}
+
+	'Car': text -> .'Electric vehicles'[] as $
+		where 'fast' -> $ .'Is'?'Fast'
+
+	'Top speed': number 'km/h' = .'Car'&'fast' .'Top speed'
+	//@ end where-car
+}
+
+numerical-types
+	'km/h'

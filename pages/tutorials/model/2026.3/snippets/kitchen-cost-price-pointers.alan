@@ -1,0 +1,18 @@
+'Products': collection ['Product'] {
+	'Product': text
+	'Product type': stategroup (
+		'Basic ingredient' {
+			...
+		}
+		'Composed product' {
+			...
+			'Ingredients': collection ['Product'] {
+				...
+				'Price': number 'thousandth eurocent' = >'Product'.'Cost price'	// ----> !!
+			}
+		}
+	)
+	'Cost price': number 'thousandth eurocent' = switch .'Product type' (	// <---- !!
+		...
+	)
+}

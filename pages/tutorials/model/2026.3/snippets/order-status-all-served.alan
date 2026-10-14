@@ -1,0 +1,20 @@
+'Order status': stategroup (
+	'Open' {
+		'All served': stategroup = switch ^ .'Order lines'* .'Line status'?'On hold' (
+			| none  => switch ^ .'Order lines'* .'Line status'?'Placed' (
+				| none  => switch ^ .'Order lines'* .'Line status'?'Service' (
+					| none  => 'Yes' ( )
+					| nodes => 'No' ( )
+				)
+				| nodes => 'No' ( )
+			)
+			| nodes => 'No' ( )
+		) (
+			'No' { }
+			'Yes' {
+				'Paid': command { } => update ^ ^ .'Order status' = create 'Closed' ( )
+			}
+		)
+	}
+	'Closed' { }
+)

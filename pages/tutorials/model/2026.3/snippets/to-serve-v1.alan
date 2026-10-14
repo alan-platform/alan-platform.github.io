@@ -1,0 +1,14 @@
+'To serve': stategroup = switch ^ .'Order type' (
+	|'Takeaway' => 'No' ( )
+	|'In-house' as $'in-house' => switch .'Line status' (
+		|'On hold' => 'No' ( )
+		|'Placed'  => 'No' ( )
+		|'Service' => 'Yes' ( 'Table' = $'in-house'>'Table' )
+		|'Served'  => 'No' ( )
+	)
+) (
+	'No' { }
+	'Yes' {
+		'Table': text -> ^ ^ ^ ^ .'Management'.'Tables'[] = parameter
+	}
+)

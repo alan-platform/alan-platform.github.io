@@ -1,0 +1,8 @@
+root {
+	'Users': collection ['User'] {
+		'User': text
+		'Full name': text
+	}
+	'Administrator': text -> .'Users'[]
+	'Administrator name': text
+}
