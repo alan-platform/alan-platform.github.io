@@ -8,19 +8,13 @@ function menuOpen(button) {
     }
 }
 
-// Moves the table of contents that kramdown emits into the rail beside the content, and marks the
-// section in view. Pages without a table of contents keep an empty, hidden rail.
+// Marks the section in view in the rail beside the content. The layout builds the rail from the table of
+// contents that kramdown emits, so nothing here changes the layout of the page.
 function pageIndex() {
-    var list = document.getElementById('markdown-toc');
     var rail = document.querySelector('.page-index nav');
-    if (!list || !rail) {
+    if (!rail || !rail.querySelector('#markdown-toc')) {
         return;
     }
-
-    rail.appendChild(list);
-    rail.parentNode.removeAttribute('hidden');
-    document.querySelector('main').classList.add('has-page-index');
-
 
     // follow exactly the entries the index shows: heading levels differ per page, and the generated
     // grammars skip levels (an h2 section with h5 subsections), so a fixed list of tags misses sections
@@ -85,6 +79,13 @@ function pageIndex() {
     follow();
 }
 
+// as soon as the document is parsed: waiting for the images would leave the rail unmarked for a while
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', pageIndex);
+} else {
+    pageIndex();
+}
+
 window.addEventListener('scroll', function() {
     if (window.scrollY > 0) {
         document.querySelector('header').classList.add('scrolled');
@@ -113,7 +114,6 @@ window.onload = function() {
         i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + '</a>';
     });
 
-    pageIndex();
 
     document.querySelectorAll('pre code').forEach(function(element) {
         element.onclick = function() {

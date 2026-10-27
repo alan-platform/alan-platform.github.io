@@ -1,0 +1,19 @@
+{% comment %}
+	Splits the table of contents that kramdown writes for a "1. TOC / {:toc}" marker off the content of a page, so
+	that the layout builds it into the rail beside the text. Moving it there from a script, after the page had loaded,
+	shifted the title and the text sideways. kramdown writes the list as <ol id="markdown-toc">; its closing tag is the
+	only one at the start of a line, those of the nested lists are indented.
+	Assigns page_index (the list, or empty) and page_body (the content without the list).
+{% endcomment %}
+{% assign page_index = '' %}
+{% assign page_body = include.content %}
+{% assign pi_open = '<ol id="markdown-toc">' %}
+{% if include.content contains pi_open %}
+	{% capture pi_close %}
+</ol>{% endcapture %}
+	{% assign pi_before = include.content | split: pi_open | first %}
+	{% assign pi_rest = include.content | remove_first: pi_before | remove_first: pi_open %}
+	{% assign pi_list = pi_rest | split: pi_close | first %}
+	{% assign page_index = pi_open | append: pi_list | append: pi_close %}
+	{% assign page_body = pi_rest | remove_first: pi_list | remove_first: pi_close | prepend: pi_before %}
+{% endif %}

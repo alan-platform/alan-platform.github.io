@@ -5,7 +5,9 @@
 		{% include tracker.html %}
 		{% include header.html %}
 
-		<main id="content"{% if page.type == 'release notes' %} class="release-notes"{% endif %}>
+		{% include split-index.html content=content %}
+		{% capture main_class %}{% if page.type == 'release notes' %}release-notes{% endif %}{% if page_index != '' %} has-page-index{% endif %}{% endcapture %}
+		<main id="content"{% assign main_class = main_class | strip %}{% if main_class != '' %} class="{{ main_class }}"{% endif %}>
 			<h1>{% if page.type == 'release notes' %}Release notes{% else %}{{ page.language }}{% endif %}</h1>
 
 			<p>
@@ -27,9 +29,9 @@
 			</div>
 
 
-			{% include page-index.html %}
+			{% include page-index.html list=page_index %}
 			<section>
-				{{ content | replace: '<img src=', '<img loading="lazy" decoding="async" src=' }}
+				{{ page_body | replace: '<img src=', '<img loading="lazy" decoding="async" src=' }}
 				{% if page.type == 'release notes' and page.origin == 'platform' %}{% include release-components.html version=page.version %}{% endif %}
 			</section>
 		</main>

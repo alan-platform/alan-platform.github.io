@@ -1,5 +1,5 @@
-// The page index: the kramdown table of contents, moved into a rail beside the content by src/main.js.
-// Narrow screens keep it in the flow of the page, which is where the list sits without JavaScript.
+// The page index: the kramdown table of contents, which the layout builds into a rail beside the content
+// (split-index.html). Narrow screens show it in the flow of the page, above the content.
 
 $index-width: 14rem;
 $index-gap: 2rem;
