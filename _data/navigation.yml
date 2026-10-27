@@ -1,6 +1,8 @@
 # Main navigation, in order.
 - title: About
   url: /about/
+- title: Learn
+  url: /learn/
 - title: Docs
   url: /docs/
 - title: FAQ
