@@ -39,15 +39,5 @@ On Windows, run `./alan` in Git Bash.
 
 ## From 2026.2
 
-A 2026.2 project first moves to 2026.2.up, which is 2026.2 with the upgrade command:
-
-1. In `versions.json`, set `"platform version"` to `"2026.2.up"`.
-2. Run `./alan fetch`; when it asks to run the command again, run it again.
-
-Then upgrade as above. The prompt for an agent does both:
-
-```
-Set "platform version" in versions.json to "2026.2.up" and run ./alan f; when it asks to run the command again, run it again.
-Then upgrade this project to platform 2026.3.
-```
-{: .copy}
+A 2026.2 project gets the upgrade command with `./alan fetch`: the first step of the prompt above, or run it by hand.
+Then upgrade as above; nothing else changes.
