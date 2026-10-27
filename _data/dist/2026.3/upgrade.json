@@ -1,5 +1,6 @@
 {
 	"upgrades from": [
+		"2026.2",
 		"2026.2.up",
 		"before-partitions.1"
 	]

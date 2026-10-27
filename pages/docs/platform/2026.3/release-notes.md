@@ -7,10 +7,8 @@ type: "release notes"
 ---
 ## 2026.3
 
-Platform 2026.3 brings model 109, with partitions. A 2026.2 project requires 2026.2.up first:
-2026.2.up is 2026.2 with the `alan` script that carries the upgrade command. Set `"platform version"`
-to `"2026.2.up"` in `versions.json` and run `./alan fetch`; when it asks to run the command again,
-run it again.
+Platform 2026.3 brings model 109, with partitions. A 2026.2 project first runs `./alan fetch`, which
+brings the 2026.2 `alan` script that carries the upgrade command.
 
 Run `./alan upgrade platform 2026.3` from the project root. `./alan upgrade` first fetches
 the latest builds of the current versions, its own script included, then checks that the project
