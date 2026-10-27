@@ -2,7 +2,7 @@
 layout: page
 head: "Application Tutorial: a Restaurant app, Part II"
 title: "Application Tutorial:<br>a Restaurant app<br>Part II"
-category: docs
+category: learn
 model_version: 108
 platform_version: 2026.2
 description: >-

@@ -2,7 +2,7 @@
 layout: page
 head: "Mission Control: an afternoon of software that cannot go wrong"
 title: "Mission Control:<br>an afternoon of software<br>that cannot go wrong"
-category: docs
+category: learn
 model_version: 109
 platform_version: 2026.3
 description: >-

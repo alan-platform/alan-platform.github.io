@@ -2,7 +2,7 @@
 layout: page
 head: "Application Guide: Users & Authentication"
 title: "Application Guide: <br>Users & Authentication"
-category: docs
+category: learn
 model_version: 106
 platform_version: 2024.2
 ---

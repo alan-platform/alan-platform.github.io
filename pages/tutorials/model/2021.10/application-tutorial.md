@@ -2,7 +2,7 @@
 layout: page
 head: "Application Tutorial: a Restaurant app, Part I"
 title: "Application Tutorial:<br>a Restaurant app<br>Part I"
-category: docs
+category: learn
 version: 89
 ---
 

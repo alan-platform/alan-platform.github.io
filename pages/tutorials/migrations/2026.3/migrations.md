@@ -2,7 +2,7 @@
 layout: page
 head: "Application data migration"
 title: "Migrating Alan application data"
-category: docs
+category: learn
 platform_version: 2026.3
 description: >-
   How an Alan deployment carries existing data into a new version of your model, and how to write a migration when the platform cannot work it out by itself.

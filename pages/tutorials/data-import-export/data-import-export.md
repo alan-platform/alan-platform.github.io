@@ -2,7 +2,7 @@
 layout: page
 head: "Spreadsheet data import & export"
 title: "Spreadsheet data<br>import & export"
-category: docs
+category: learn
 description: >-
   Download any collection of an Alan app as Excel or CSV, and import CSV back into it, including the format the import expects.
 ---

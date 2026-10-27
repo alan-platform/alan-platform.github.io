@@ -2,7 +2,7 @@
 layout: page
 head: "Application data migration"
 title: "Migrating Alan application data"
-category: docs
+category: learn
 datastore_version: 99.1
 ---
 

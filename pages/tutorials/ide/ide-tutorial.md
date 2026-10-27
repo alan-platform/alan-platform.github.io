@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Tutorial: developing software with Alan"
-category: docs
+category: learn
 description: >-
   Get an Alan project running in the online IDE: the layout of a project, the editor, and the build and deploy buttons you use in every tutorial.
 ---

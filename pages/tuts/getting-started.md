@@ -1,7 +1,7 @@
 ---
 layout: page
 title: "Getting Started with the online IDE"
-category: docs
+category: learn
 description: >-
   From an empty project to a small Alan application with users, passwords and permissions, in one page.
 ---
