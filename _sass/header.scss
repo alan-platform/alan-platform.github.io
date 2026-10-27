@@ -8,10 +8,6 @@ header {
     transform: translateZ(0);
     transition: background-color .2s ease-in-out;
 
-    @media (min-width: $breakpoint + 1) {
-        background: transparent url('../assets/overlay-white-anti-90-wide.svg') no-repeat right -142px top;
-    }
-
     .inner {
         display: flex;
         justify-content: space-between;
@@ -192,6 +188,27 @@ header {
 }
 
 
+// The grey panel behind the links: a skewed box on the first link after the documentation button, from the right
+// edge of that button to beyond the right edge of the viewport. The button is a box skewed the same way, so the panel
+// joins it along the whole slant (the boxes overlap by a pixel, so no seam shows), and the panel grows with the links,
+// so a link more or less in the navigation does not push one onto the slant.
+header ul .doc-button + li {
+    @media (min-width: $breakpoint + 1) {
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -100vw;
+            bottom: 0;
+            left: calc(#{-1em*$ratio*$ratio} - 1px); // the margin between the links, and the overlap
+            z-index: -1;
+            background: rgba(247, 247, 247, .9);
+            transform: skewX(-27.6deg);
+        }
+    }
+}
+
 header ul .login-button {
     a {
         position: relative;
@@ -226,9 +243,22 @@ header ul .login-button {
 }
 
 header .doc-button {
-    padding: 0 1rem*$ratio*$ratio 0 1rem*$ratio*$ratio*$ratio*$ratio;
-    background: transparent url('../assets/overlay-orange.svg') repeat-x center right / 100%;
+    position: relative;
+    padding: 0 0 0 1rem*$ratio*$ratio;
     opacity: .9;
+
+    // the yellow box, skewed like the login button and the grey panel of the links
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        background: $yellow;
+        transform: skewX(-27.6deg);
+    }
 
     @media (max-width: $breakpoint) {
         display: none;
