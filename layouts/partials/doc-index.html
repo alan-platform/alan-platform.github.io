@@ -1,4 +1,4 @@
 {{- /* The language documentation table of the current platform version, for the documentation page. */ -}}
 {{- $versions := hugo.Data.versions -}}
 {{- $current := index (where $versions.versions "name" $versions.current) 0 -}}
-{{- partialCached "doc-table.html" (dict "version" $current "platform_row" false) $current.name false -}}
+{{- partialCached "doc-table.html" (dict "version" $current "caption" false) $current.name false -}}

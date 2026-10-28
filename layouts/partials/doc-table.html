@@ -1,23 +1,54 @@
 {{- /*
-	Language documentation table of one platform version, (dict "version" V "platform_row" B), where V is an entry
-	of _data/versions.json. Platform component versions come from that entry, system type versions from
-	_data/dist/<platform version>/versions.json, both in the order of their file. The rows come from the
-	documentation pages themselves, see doc-rows.html. Nothing in here depends on the current page: callers can
-	use partialCached keyed on the version name and platform_row.
+	Language documentation table of one platform version, (dict "version" V "caption" B), where V is an entry of
+	_data/versions.json. One row per component: the platform components in one group, the system types in another,
+	each group left out when none of its components has a row. Platform component versions come from that entry,
+	system type versions from _data/dist/<platform version>/versions.json, both in the order of their file. The rows
+	come from the documentation pages themselves, see doc-rows.html. With caption, the table names its platform
+	version first, linking its release notes when it has them. Nothing in here depends on the current page: callers
+	can use partialCached keyed on the version name and caption.
 */ -}}
 {{- $version := .version -}}
 {{- $systemTypes := partial "system-types.html" $version.name -}}
-<table>
-	{{- /* the "Switch document" menu names its platform version first, linking its release notes when it has them */}}
-	{{- if .platform_row }}
-	{{- partialCached "doc-rows.html" (dict "type" "platform" "version" $version.name) "platform" $version.name }}
-	{{- end }}
-	{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform") }}
+{{- $platformRows := "" -}}
+{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform") }}
 	{{- $componentVersion := index $version.platform $component }}
-	{{- partialCached "doc-rows.html" (dict "type" $component "version" $componentVersion) $component $componentVersion }}
-	{{- end }}
-	{{- range $systemType := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types") }}
+	{{- $platformRows = print $platformRows (partialCached "doc-rows.html" (dict "type" $component "version" $componentVersion) $component $componentVersion) }}
+{{- end }}
+{{- $systemTypeRows := "" -}}
+{{- range $systemType := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types") }}
 	{{- $typeVersion := (index $systemTypes $systemType).version }}
-	{{- partialCached "doc-rows.html" (dict "type" $systemType "version" $typeVersion) $systemType $typeVersion }}
+	{{- $systemTypeRows = print $systemTypeRows (partialCached "doc-rows.html" (dict "type" $systemType "version" $typeVersion) $systemType $typeVersion) }}
+{{- end }}
+<table class="doc-table">
+	{{- if .caption }}
+	<caption>
+		Platform version {{ $version.name }}
+		{{- with partial "notes-page.html" (dict "origin" "platform" "version" $version.name) }}
+		<a href="{{ .RelPermalink }}">release notes</a>
+		{{- end }}
+	</caption>
+	{{- end }}
+	<thead>
+		<tr>
+			<th scope="col">Component</th>
+			<th scope="col">Version</th>
+			<th scope="col">Languages</th>
+		</tr>
+	</thead>
+	{{- with trim $platformRows " \t\n" }}
+	<tbody>
+		<tr class="doc-table-group">
+			<th colspan="3" scope="rowgroup">Platform components</th>
+		</tr>
+		{{ . | safeHTML }}
+	</tbody>
+	{{- end }}
+	{{- with trim $systemTypeRows " \t\n" }}
+	<tbody>
+		<tr class="doc-table-group">
+			<th colspan="3" scope="rowgroup">System types</th>
+		</tr>
+		{{ . | safeHTML }}
+	</tbody>
 	{{- end }}
 </table>

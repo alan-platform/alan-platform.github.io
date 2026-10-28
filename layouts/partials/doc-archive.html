@@ -16,6 +16,6 @@
 	{{ with .alan }}<a href="{{ . }}">alan script</a>{{ end }}
 	{{ with $notes }}<a href="{{ .RelPermalink }}">release notes</a>{{ end }}
 </summary>
-{{ partialCached "doc-table.html" (dict "version" . "platform_row" false) .name false }}
+{{ partialCached "doc-table.html" (dict "version" . "caption" false) .name false }}
 </details>
 {{- end }}

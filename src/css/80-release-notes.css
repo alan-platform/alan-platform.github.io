@@ -32,13 +32,6 @@
   overflow-wrap: anywhere;
 }
 
-/* the version number in a documentation table, linking the release notes of that version */
-td > a.doc-table-notes {
-  display: inline;
-  width: auto;
-  padding: 0;
-}
-
 /* a table in the notes, or the component table of a platform release: read as text */
 .release-notes section table {
   border-spacing: 0;

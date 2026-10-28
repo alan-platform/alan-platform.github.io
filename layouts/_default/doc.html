@@ -39,7 +39,7 @@
 
 			<div id="doc-list" aria-expanded="false">
 				{{- $docPlatform := partialCached "doc-platform.html" . (printf "%#v" $origin) (printf "%#v" $version) }}
-				{{ partialCached "doc-table.html" (dict "version" $docPlatform "platform_row" true) $docPlatform.name true }}
+				{{ partialCached "doc-table.html" (dict "version" $docPlatform "caption" true) $docPlatform.name true }}
 			</div>
 
 			{{ $pageIndex }}

@@ -211,10 +211,14 @@ window.onload = function() {
         });
     }
 
-    // the documentation tables are rendered once per version (include_cached), so mark the current page here
-    document.querySelectorAll('table td > a').forEach(function(link) {
+    // the documentation tables are rendered once per version (partialCached), so mark the current page here
+    document.querySelectorAll('.doc-table a').forEach(function(link) {
         if (link.pathname === location.pathname) {
-            link.closest('tr').classList.add('current');
+            link.setAttribute('aria-current', 'page');
+            var row = link.closest('tbody tr');
+            if (row) {
+                row.classList.add('current');
+            }
         }
     });
 
