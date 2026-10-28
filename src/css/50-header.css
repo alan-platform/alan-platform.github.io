@@ -32,8 +32,9 @@ header ul {
 }
 
 /*
- * Narrow and wide screens split at 50rem: the narrow rules use max-width: 50rem and the wide ones min-width: 50.01rem,
- * everywhere in this file, so every width gets exactly one of the two sets and no width gets both.
+ * Narrow and wide screens split at 50rem: the narrow rules use max-width: 50rem and the wide ones its exact
+ * complement, not all and (max-width: 50rem), so every width, fractional ones included, matches one of them and
+ * none matches both.
  */
 @media (max-width: 50rem) {
   header ul {
@@ -87,7 +88,7 @@ header li + li {
   margin-left: 1.999396em;
 }
 
-@media (min-width: 50.01rem) {
+@media not all and (max-width: 50rem) {
   header li {
     display: inline-block;
   }
@@ -233,7 +234,7 @@ header.scrolled {
  * joins it along the whole slant (the boxes overlap by a pixel, so no seam shows), and the panel grows with the links,
  * so a link more or less in the navigation does not push one onto the slant.
  */
-@media (min-width: 50.01rem) {
+@media not all and (max-width: 50rem) {
   header ul .doc-button + li {
     position: relative;
   }
