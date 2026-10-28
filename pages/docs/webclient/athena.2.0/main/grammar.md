@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -106,21 +105,21 @@ toc: true
 		'<span class="token string">reference step</span>' {
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">reference</span>' {
-					'<span class="token string">reference</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">reference</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 				'<span class="token string">property rule</span>' {
 					'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-					'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 				}
 				'<span class="token string">context rule</span>' {
-					'<span class="token string">rule</span>': [ <span class="token operator">.&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">.&amp;</span> ] reference
 				}
 			)
 			'<span class="token string">expression</span>': component <a href="#grammar-rule--view-expression">'view expression'</a>
 		}
 		'<span class="token string">collection lookup</span>' {
 			'<span class="token string">collection</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">references users</span>': [ <span class="token operator">[</span> <span class="token operator">user</span> <span class="token operator">></span> ] component <a href="#grammar-rule--node-equality">'node equality'</a>
+			'<span class="token string">references users</span>': [ <span class="token operator">[</span> <span class="token operator">user</span> <span class="token operator">&gt;</span> ] component <a href="#grammar-rule--node-equality">'node equality'</a>
 			'<span class="token string">expression</span>': [ <span class="token operator">]</span> ] component <a href="#grammar-rule--view-expression">'view expression'</a>
 		}
 		'<span class="token string">branches</span>' {
@@ -143,3 +142,4 @@ toc: true
 </pre>
 </div>
 </div>
+

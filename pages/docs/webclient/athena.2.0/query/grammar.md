@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -92,7 +91,7 @@ toc: true
 		'<span class="token string">context selection</span>': [ <span class="token operator">on</span> ] component <a href="#grammar-rule--id-path">'id path'</a>
 		'<span class="token string">entry points</span>': group {
 			'<span class="token string">collection selection</span>': [ <span class="token operator">from</span> ] component <a href="#grammar-rule--collection-selector">'collection selector'</a>
-			'<span class="token string">attribute</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">attribute</span>': [ <span class="token operator">&gt;</span> ] reference
 			'<span class="token string">graph</span>': [ <span class="token operator">flatten</span> ] reference
 		}
 		'<span class="token string">query</span>': group {
@@ -166,15 +165,15 @@ toc: true
 		'<span class="token string">yes</span>' {
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">parent</span>' { [ <span class="token operator">^</span> ] }
-				'<span class="token string">state rule</span>' { [ <span class="token operator">.&</span> ]
+				'<span class="token string">state rule</span>' { [ <span class="token operator">.&amp;</span> ]
 					'<span class="token string">rule</span>': reference
 				}
 				'<span class="token string">reference rule</span>' {
 					'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-					'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 				}
 				'<span class="token string">reference</span>' {
-					'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 				'<span class="token string">group</span>' {
 					'<span class="token string">group</span>': [ <span class="token operator">+</span> ] reference
@@ -273,7 +272,7 @@ toc: true
 '<span class="token string">number value</span>' {
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">dynamic</span>' {
-			'<span class="token string">parameter</span>': [ <span class="token operator">&</span> ] reference
+			'<span class="token string">parameter</span>': [ <span class="token operator">&amp;</span> ] reference
 		}
 		'<span class="token string">static</span>' {
 			'<span class="token string">value</span>': integer
@@ -326,7 +325,7 @@ toc: true
 '<span class="token string">text value</span>' {
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">dynamic</span>' {
-			'<span class="token string">parameter</span>': [ <span class="token operator">&</span> ] reference
+			'<span class="token string">parameter</span>': [ <span class="token operator">&amp;</span> ] reference
 		}
 		'<span class="token string">static</span>' {
 			'<span class="token string">value</span>': text
@@ -397,7 +396,7 @@ toc: true
 	'<span class="token string">operator</span>': stategroup (
 		'<span class="token string">range</span>' {
 			'<span class="token string">greater than</span>': stategroup (
-				'<span class="token string">yes</span>' { [ <span class="token operator">></span> ]
+				'<span class="token string">yes</span>' { [ <span class="token operator">&gt;</span> ]
 					'<span class="token string">criterium</span>': component <a href="#grammar-rule--number-value">'number value'</a>
 				}
 				'<span class="token string">no</span>' { }
@@ -437,3 +436,4 @@ toc: true
 </pre>
 </div>
 </div>
+

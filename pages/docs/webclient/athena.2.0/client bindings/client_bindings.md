@@ -8,7 +8,6 @@ url: "/pages/docs/webclient/athena.2.0/client bindings/client_bindings.html"
 toc: true
 ---
 
-
 ## Client bindings
 ---
 

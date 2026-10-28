@@ -8,7 +8,6 @@ url: "/pages/docs/auto-webclient/athena.2/generator_settings/grammar.html"
 toc: true
 ---
 
-
 ### Settings
 Global settings for the user interface:
 
@@ -153,21 +152,21 @@ Global settings for the user interface:
 		'<span class="token string">state switch</span>' { [ <span class="token operator">switch</span> ]
 			'<span class="token string">stategroup</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
-				'<span class="token string">path</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
+				'<span class="token string">path</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--ancestor-node-path">'ancestor node path'</a>
 				'<span class="token string">tail</span>': component <a href="#grammar-rule--landing-page-selector">'landing page selector'</a>
 			}
 		}
 		'<span class="token string">reference step</span>' {
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">reference</span>' {
-					'<span class="token string">reference</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">reference</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 				'<span class="token string">property rule</span>' {
 					'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-					'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 				}
 				'<span class="token string">context rule</span>' {
-					'<span class="token string">rule</span>': [ <span class="token operator">.&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">.&amp;</span> ] reference
 				}
 			)
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--landing-page-selector">'landing page selector'</a>
@@ -200,3 +199,4 @@ Global settings for the user interface:
 </pre>
 </div>
 </div>
+
