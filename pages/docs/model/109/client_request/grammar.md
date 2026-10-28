@@ -8,7 +8,6 @@ url: "/pages/docs/model/109/client_request/grammar.html"
 toc: true
 ---
 
-
 ## Request types
 
 <div class="language-js highlighter-rouge">
@@ -277,7 +276,7 @@ Resets a user's password.
 	'<span class="token string">operator</span>': stategroup (
 		'<span class="token string">range</span>' {
 			'<span class="token string">greater than</span>': stategroup (
-				'<span class="token string">yes</span>' { [ <span class="token operator">></span> ]
+				'<span class="token string">yes</span>' { [ <span class="token operator">&gt;</span> ]
 					'<span class="token string">criterium</span>': integer
 				}
 				'<span class="token string">no</span>' { }
@@ -405,7 +404,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 					'<span class="token string">source</span>': [ <span class="token operator">candidates</span> ] stategroup (
 						'<span class="token string">key reference</span>' { }
 						'<span class="token string">where rule</span>' {
-							'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+							'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 						}
 					)
 					'<span class="token string">rules</span>': dictionary { [ <span class="token operator">where</span> ] }
@@ -430,7 +429,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 '<span class="token string">entry point path</span>' {
 	'<span class="token string">has steps</span>': stategroup (
 		'<span class="token string">no</span>' {
-			'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 		}
 		'<span class="token string">yes</span>' {
 			'<span class="token string">head</span>': component <a href="#grammar-rule--conditional-child-path">'conditional child path'</a>
@@ -452,15 +451,15 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 		'<span class="token string">yes</span>' {
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">parent</span>' { [ <span class="token operator">^</span> ] }
-				'<span class="token string">state rule</span>' { [ <span class="token operator">.&</span> ]
+				'<span class="token string">state rule</span>' { [ <span class="token operator">.&amp;</span> ]
 					'<span class="token string">rule</span>': reference
 				}
 				'<span class="token string">reference rule</span>' {
 					'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-					'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 				}
 				'<span class="token string">reference</span>' {
-					'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 				'<span class="token string">group</span>' {
 					'<span class="token string">group</span>': [ <span class="token operator">+</span> ] reference
@@ -823,3 +822,4 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </pre>
 </div>
 </div>
+

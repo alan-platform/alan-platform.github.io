@@ -8,7 +8,6 @@ url: "/pages/docs/model/109/application/grammar.html"
 toc: true
 ---
 
-
 ## The *minimal model*
 ---
 Every valid Alan model instantiates the [`root` rule](#the-root-rule).
@@ -141,7 +140,7 @@ Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#permissions-and
 						static '<span class="token string">active</span>' [ <span class="token operator">active</span> ]
 						static '<span class="token string">reset</span>' [ <span class="token operator">reset</span> ]
 					) { [ <span class="token operator">|</span> ]
-						'<span class="token string">state</span>': [ <span class="token operator">=></span> ] reference
+						'<span class="token string">state</span>': [ <span class="token operator">=&gt;</span> ] reference
 						'<span class="token string">initializer</span>': component <a href="#grammar-rule--command-object-expression">'command object expression'</a>
 					}
 				}
@@ -153,7 +152,7 @@ Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#permissions-and
 			'<span class="token string">yes</span>' {
 				'<span class="token string">authorities path</span>': [ <span class="token operator">authorities:</span> ] component <a href="#grammar-rule--descendant-base-property-path">'descendant base property path'</a>
 				'<span class="token string">identities path</span>': [ <span class="token operator">identities:</span> ] component <a href="#grammar-rule--descendant-base-property-path">'descendant base property path'</a>
-				'<span class="token string">user reference</span>': [ <span class="token operator">></span> ] reference
+				'<span class="token string">user reference</span>': [ <span class="token operator">&gt;</span> ] reference
 				'<span class="token string">identity initializer</span>': [ <span class="token operator">identity-initializer:</span> ] component <a href="#grammar-rule--identity-initializer">'identity initializer'</a>
 			}
 			'<span class="token string">no</span>' { }
@@ -270,7 +269,6 @@ The `dataset-status` becomes `unavailable` again if and only if the external sys
 An external source sends a `remove` notification when it is unable to provide a dataset conforming to the `interface`.
 In the Alan ecosystem, this happens if and only if the `application root node` path (see language `provided_interface_implementation`) does not produce a node.
 For example, when `parameters` (`context keys` in the `interface` language) are incorrect.
-
 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -516,7 +514,6 @@ Actions provide users with wizards to guide them through their processes.
 For an `action`, you can specify parameters that users have to provide before starting the execution of the action.
 After the parameters, you have specify which operations should be performed.
 
-
 <div id="grammar-rule--node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -539,7 +536,7 @@ After the parameters, you have specify which operations should be performed.
 			| none = '<span class="token string">no</span>'
 		)
 		'<span class="token string">type</span>': stategroup (
-			'<span class="token string">reference set</span>' { [ <span class="token operator">:</span> <span class="token operator">reference-set</span> <span class="token operator">-></span> ]
+			'<span class="token string">reference set</span>' { [ <span class="token operator">:</span> <span class="token operator">reference-set</span> <span class="token operator">-&gt;</span> ]
 				'<span class="token string">direction</span>': component <a href="#grammar-rule--direction-annotation">'direction annotation'</a>
 				'<span class="token string">recursion</span>': component <a href="#grammar-rule--recursion-annotation">'recursion annotation'</a>
 				'<span class="token string">referenced type path</span>': component <a href="#grammar-rule--plural-object-path">'plural object path'</a>
@@ -741,7 +738,7 @@ After the parameters, you have specify which operations should be performed.
 													static '<span class="token string">connecting</span>' [ <span class="token operator">connecting</span> ]
 													static '<span class="token string">disconnected</span>' [ <span class="token operator">disconnected</span> ]
 												) { [ <span class="token operator">|</span> ]
-													'<span class="token string">state</span>': [ <span class="token operator">=></span> ] reference
+													'<span class="token string">state</span>': [ <span class="token operator">=&gt;</span> ] reference
 													'<span class="token string">initializer</span>': component <a href="#grammar-rule--internal-initializer">'internal initializer'</a>
 												}
 											}
@@ -750,7 +747,7 @@ After the parameters, you have specify which operations should be performed.
 													static '<span class="token string">available</span>' [ <span class="token operator">available</span> ]
 													static '<span class="token string">unavailable</span>' [ <span class="token operator">unavailable</span> ]
 												) { [ <span class="token operator">|</span> ]
-													'<span class="token string">state</span>': [ <span class="token operator">=></span> ] reference
+													'<span class="token string">state</span>': [ <span class="token operator">=&gt;</span> ] reference
 													'<span class="token string">initializer</span>': component <a href="#grammar-rule--internal-initializer">'internal initializer'</a>
 												}
 											}
@@ -758,11 +755,11 @@ After the parameters, you have specify which operations should be performed.
 												'<span class="token string">interface</span>': reference
 												'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
 													'<span class="token string">enabled state</span>': [ <span class="token operator">|</span> <span class="token operator">enabled</span> ] group {
-														'<span class="token string">state</span>': [ <span class="token operator">=></span> ] reference
+														'<span class="token string">state</span>': [ <span class="token operator">=&gt;</span> ] reference
 														'<span class="token string">initializer</span>': component <a href="#grammar-rule--internal-initializer">'internal initializer'</a>
 													}
 													'<span class="token string">disabled state</span>': [ <span class="token operator">|</span> <span class="token operator">disabled</span> ] group {
-														'<span class="token string">state</span>': [ <span class="token operator">=></span> ] reference
+														'<span class="token string">state</span>': [ <span class="token operator">=&gt;</span> ] reference
 														'<span class="token string">initializer</span>': component <a href="#grammar-rule--internal-initializer">'internal initializer'</a>
 													}
 												}
@@ -821,7 +818,6 @@ Collections support a lower bound cardinality constraint, ensuring that a `colle
 This is useful for ensuring that you can always derive a reference to the source/sink of an ordered graph.
 It also ensures that `min`, `max`, and similar computations on sets of number values do not require a fallback value.
 
-
 <div id="grammar-rule--lower-bound-cardinality-constraint" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -878,14 +874,13 @@ The *reference behaviour* that you specify, determines how the runtime treats a 
 Mandatory references (specified with keyword `->`) are constraints that are enforced by the runtime: they have to resolve to a node.
 Optional references (specified with keyword `~>`) do not have to resolve to a node.
 
-
 <div id="grammar-rule--reference-behaviour" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference behaviour</span>' {
 	'<span class="token string">type</span>': stategroup (
-		'<span class="token string">mandatory</span>' { [ <span class="token operator">-></span> ] }
-		'<span class="token string">optional</span>' { [ <span class="token operator">~></span> ] }
+		'<span class="token string">mandatory</span>' { [ <span class="token operator">-&gt;</span> ] }
+		'<span class="token string">optional</span>' { [ <span class="token operator">~&gt;</span> ] }
 	)
 }
 </pre>
@@ -903,7 +898,6 @@ Reference constraint expressions exist in two different flavours:
 (1) `upstream` reference expressions that use earlier defined attributes and (2)
 `downstream` reference expressions that use later defined attributes.
 Downstream references require an explicit annotation: `downstream` after the arrow (`->`/`~>`) specifying the reference behaviour.
-
 
 <div id="grammar-rule--direction-annotation" class="language-js highlighter-rouge">
 <div class="highlight">
@@ -997,7 +991,6 @@ If you want references from `Products` to other `Products`, you will find that t
 ```
 The compiler requires that you reference an earlier defined property, and not the `Products` property that defines the expression.
 For references from `Products` to other other `Products`, you need a special `siblings` navigation step.
-
 
 <div id="grammar-rule--entry-reference-definition" class="language-js highlighter-rouge">
 <div class="highlight">
@@ -1108,7 +1101,6 @@ Graph constraints ensure that a set of references (edges) together form a graph 
 For example, an `acyclic-graph` constraint ensures that references that partake in the graph, form a [directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
 For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
 
-
 <div id="grammar-rule--graph-constraints-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -1122,7 +1114,7 @@ For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eed
 					'<span class="token string">ordering states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
 						'<span class="token string">sink state</span>': [ <span class="token operator">?</span> ] reference
 						'<span class="token string">edge state</span>': [ <span class="token operator">||</span> <span class="token operator">?</span> ] reference
-						'<span class="token string">edge reference</span>': [ <span class="token operator">></span> ] reference
+						'<span class="token string">edge reference</span>': [ <span class="token operator">&gt;</span> ] reference
 					}
 				}
 			}
@@ -1143,6 +1135,7 @@ For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eed
 </pre>
 </div>
 </div>
+
 
 The example model expresses that `Products` form an acyclic `assembly` graph via their `Parts`:
 `Product` references of `Parts` partake in the acyclic `assembly` graph on `Products`.
@@ -1233,7 +1226,6 @@ The following code sample exemplifies the use of the different types of `switch`
 )
 ```
 
-
 <div id="grammar-rule--derivation-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -1246,7 +1238,7 @@ The following code sample exemplifies the use of the different types of `switch`
 			'<span class="token string">state group path</span>': component <a href="#grammar-rule--singular-variablized-object-path">'singular variablized object path'</a>
 			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
-				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
+				'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 			}
 		}
 		'<span class="token string">node switch</span>' { [ <span class="token operator">switch</span> ]
@@ -1260,7 +1252,7 @@ The following code sample exemplifies the use of the different types of `switch`
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group { dynamic-order
 				'<span class="token string">match none</span>': stategroup (
 					'<span class="token string">no</span>' { }
-					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=></span> ]
+					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=&gt;</span> ]
 						'<span class="token string">expression</span>': component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
 				)
@@ -1268,14 +1260,14 @@ The following code sample exemplifies the use of the different types of `switch`
 					'<span class="token string">no</span>' { }
 					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">node</span> ]
 						'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
-						'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
+						'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
 				)
 				'<span class="token string">match nodes</span>': stategroup (
 					'<span class="token string">no</span>' { }
 					'<span class="token string">yes</span>' { [ <span class="token operator">|</span> <span class="token operator">nodes</span> ]
 						'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
-						'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
+						'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 					}
 				)
 			}
@@ -1293,9 +1285,9 @@ The following code sample exemplifies the use of the different types of `switch`
 			'<span class="token string">last case</span>': reference = last
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary (
 				static '<span class="token string">equals</span>' [ <span class="token operator">==</span> ]
-				static '<span class="token string">less than or greater than</span>' [ <span class="token operator">&lt;></span> ]
-				static '<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
-				static '<span class="token string">greater than or equals</span>' [ <span class="token operator">>=</span> ]
+				static '<span class="token string">less than or greater than</span>' [ <span class="token operator">&lt;&gt;</span> ]
+				static '<span class="token string">greater than</span>' [ <span class="token operator">&gt;</span> ]
+				static '<span class="token string">greater than or equals</span>' [ <span class="token operator">&gt;=</span> ]
 				static '<span class="token string">less than</span>' [ <span class="token operator">&lt;</span> ]
 				static '<span class="token string">less than or equals</span>' [ <span class="token operator">&lt;=</span> ]
 			) { [ <span class="token operator">|</span> ]
@@ -1304,7 +1296,7 @@ The following code sample exemplifies the use of the different types of `switch`
 					| none = '<span class="token string">no</span>'
 				)
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-named-object-assignment">'optional named object assignment'</a>
-				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
+				'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 			}
 		}
 		'<span class="token string">recurse</span>' {
@@ -1313,7 +1305,7 @@ The following code sample exemplifies the use of the different types of `switch`
 					'<span class="token string">binding node path</span>': [ <span class="token operator">on</span> ] component <a href="#grammar-rule--singular-variablized-object-path">'singular variablized object path'</a>
 					'<span class="token string">recursion start assignment</span>': component <a href="#grammar-rule--named-object-assignment">'named object assignment'</a>
 					'<span class="token string">graph traversal</span>': [ <span class="token operator">in</span> ] component <a href="#grammar-rule--graph-traversal-definition">'graph traversal definition'</a>
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--derivation-expression">'derivation expression'</a>
 				}
 				'<span class="token string">repeat</span>' { [ <span class="token operator">recurse</span> ]
 					'<span class="token string">recursion start</span>': [ <span class="token operator">on</span> ] component <a href="#grammar-rule--named-object-step">'named object step'</a>
@@ -1465,7 +1457,6 @@ numerical-types
 	'date and time' in 'seconds'
 	'seconds'
 ```
-
 
 <div id="grammar-rule--number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
@@ -1620,7 +1611,6 @@ To make this work, you have to specify `= parameter` for properties that you wan
 This language construct is especially useful when a reference to a node like `'Found Product'` is not available.
 Furthermore, it useful for special operations such as `source-of` and `sink-of`, which we discuss below.
 
-
 <div id="grammar-rule--state-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -1769,7 +1759,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 				'<span class="token string">dot</span>' { [ <span class="token operator">.</span> ] }
 				'<span class="token string">dash</span>' { [ <span class="token operator">-</span> ] }
 				'<span class="token string">colon</span>' { [ <span class="token operator">:</span> ] }
-				'<span class="token string">greater than</span>' { [ <span class="token operator">></span> ] }
+				'<span class="token string">greater than</span>' { [ <span class="token operator">&gt;</span> ] }
 				'<span class="token string">space</span>' { [ <span class="token operator">space</span> ] }
 			)
 		}
@@ -1791,7 +1781,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 				** - merges the '<span class="token string">path</span>' results into the union (entries correspond to the path results), or
 				** - groups the '<span class="token string">path</span>' results (as branch reference-set members) on the node
 				**   that the '<span class="token string">grouping path</span>' selects (entries correspond to distinct grouping nodes):
-				** '<span class="token string">products from my orders</span>' = .'<span class="token string">My Orders</span>'* as $ on $ >'<span class="token string">Order</span>'>'<span class="token string">Product</span>' */
+				** '<span class="token string">products from my orders</span>' = .'<span class="token string">My Orders</span>'* as $ on $ &gt;'<span class="token string">Order</span>'&gt;'<span class="token string">Product</span>' */
 				'<span class="token string">path</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--plural-object-path">'plural object path'</a>
 				'<span class="token string">type</span>': stategroup (
 					'<span class="token string">merge</span>' { }
@@ -1910,7 +1900,6 @@ At the `node type` and property level you can specify permissions for nodes and 
 In addition, you can express that a state creates a todo-item in a [todo-list](#todo-items) of your application.
 At collection properties and states, you can specify item permissions: create and delete permissions for collection entries and states.
 At command attributes you can express permission requirements for executing a command.
-
 
 
 <div id="grammar-rule--permissions-definition" class="language-js highlighter-rouge">
@@ -2059,7 +2048,6 @@ If a command A calls another command B, then required permissions for B are not 
 That is, the application only verifies that the user is permitted to execute command A.
 > NOTE: for executing a command, the command has to be reachable, meaning that users need read access for the node on which they want to execute the command!
 
-
 <div id="grammar-rule--command-permission-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -2135,7 +2123,6 @@ Because of this, the nesting order of subexpressions matters when you use `where
 For user requirements you can depend on your application data via complex expressions that traverse your model.
 With the `||` keyword, you specify alternatives.
 With a `where` clause, you specify requirements on top of requirements (‘and’).
-
 
 <div id="grammar-rule--user-requirement" class="language-js highlighter-rouge">
 <div class="highlight">
@@ -2239,7 +2226,7 @@ Also, the `external` command needs to be consumed by the application model, like
 			}
 			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
-				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
+				'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 			}
 		}
 		'<span class="token string">node switch</span>' { [ <span class="token operator">switch</span> ]
@@ -2247,10 +2234,10 @@ Also, the `external` command needs to be consumed by the application model, like
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group { dynamic-order
 				'<span class="token string">node case</span>': [ <span class="token operator">|</span> <span class="token operator">node</span> ] group {
 					'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 				}
 				'<span class="token string">none case</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 				}
 			}
 		}
@@ -2326,7 +2313,7 @@ Also, the `external` command needs to be consumed by the application model, like
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command</span>' {
-	'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
+	'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--command-expression">'command expression'</a>
 	'<span class="token string">has next command</span>': stategroup (
 		'<span class="token string">yes</span>' {
 			'<span class="token string">command</span>': component <a href="#grammar-rule--command">'command'</a>
@@ -2527,19 +2514,19 @@ $              // select nearest $ object
 		'<span class="token string">parent</span>' { [ <span class="token operator">^</span> ] }
 		'<span class="token string">property rule</span>' {
 			'<span class="token string">text</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+			'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 		}
 		'<span class="token string">group</span>' { [ <span class="token operator">.</span> ]
 			'<span class="token string">group</span>': reference
 		}
 		'<span class="token string">state context rule</span>' {
-			'<span class="token string">rule</span>': [ <span class="token operator">.&</span> ] reference
+			'<span class="token string">rule</span>': [ <span class="token operator">.&amp;</span> ] reference
 		}
 		'<span class="token string">state</span>' {
 			'<span class="token string">state group</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 		}
-		'<span class="token string">reference</span>' { [ <span class="token operator">></span> ]
+		'<span class="token string">reference</span>' { [ <span class="token operator">&gt;</span> ]
 			'<span class="token string">text</span>': reference
 		}
 	)
@@ -2818,14 +2805,14 @@ $              // select nearest $ object
 '<span class="token string">dependency step</span>' {
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">reference</span>' {
-			'<span class="token string">property</span>': [ <span class="token operator">></span> ] component <a href="#grammar-rule--property-step">'property step'</a>
+			'<span class="token string">property</span>': [ <span class="token operator">&gt;</span> ] component <a href="#grammar-rule--property-step">'property step'</a>
 		}
 		'<span class="token string">reference rule</span>' {
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] component <a href="#grammar-rule--property-step">'property step'</a>
-			'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] component <a href="#grammar-rule--where-rule-step">'where rule step'</a>
+			'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] component <a href="#grammar-rule--where-rule-step">'where rule step'</a>
 		}
 		'<span class="token string">state context rule</span>' {
-			'<span class="token string">rule</span>': [ <span class="token operator">.&</span> ] component <a href="#grammar-rule--where-rule-step">'where rule step'</a>
+			'<span class="token string">rule</span>': [ <span class="token operator">.&amp;</span> ] component <a href="#grammar-rule--where-rule-step">'where rule step'</a>
 		}
 	)
 }
@@ -2888,7 +2875,6 @@ The step yields a *set*: each such node is yielded exactly once, even when sever
 For example, if three matching members share the same parent node, and the subset path ends at that parent level, the result holds that parent node once.
 To count the members themselves, extend the subset path down to the level of the members.
 
-
 <div id="grammar-rule--collection-entries-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -2898,7 +2884,7 @@ To count the members themselves, extend the subset path down to the level of the
 		'<span class="token string">yes</span>' {
 			'<span class="token string">lookup type</span>': stategroup (
 				'<span class="token string">key reference</span>' {
-					'<span class="token string">key node path</span>': [ <span class="token operator">>[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--variablized-object-path">'variablized object path'</a>
+					'<span class="token string">key node path</span>': [ <span class="token operator">&gt;[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--variablized-object-path">'variablized object path'</a>
 				}
 				'<span class="token string">reference set subset</span>' { [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
 					'<span class="token string">path</span>': component <a href="#grammar-rule--plural-object-path">'plural object path'</a>
@@ -2998,7 +2984,7 @@ To count the members themselves, extend the subset path down to the level of the
 		'<span class="token string">equality</span>' { [ <span class="token operator">is</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
 			'<span class="token string">node path</span>': component <a href="#grammar-rule--where-rule-object-path">'where rule object path'</a>
 		}
-		'<span class="token string">containment</span>' { [ <span class="token operator">>[</span>, <span class="token operator">]</span> ]
+		'<span class="token string">containment</span>' { [ <span class="token operator">&gt;[</span>, <span class="token operator">]</span> ]
 			'<span class="token string">key node path</span>': component <a href="#grammar-rule--where-rule-object-path">'where rule object path'</a>
 		}
 	)
@@ -3058,7 +3044,6 @@ For example, when an employee has a uniquely identifying personnel number
 in a collection of employees, a reference to employee will show the name of the employee
 when the ‘name’ property is marked as identifying.
 
-
 <div id="grammar-rule--ui-identifying-property-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -3088,7 +3073,7 @@ when the ‘name’ property is marked as identifying.
 						| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 						| none = '<span class="token string">no</span>'
 					)
-					'<span class="token string">selection</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-identifying-property-selection">'ui identifying property selection'</a>
+					'<span class="token string">selection</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--ui-identifying-property-selection">'ui identifying property selection'</a>
 				}
 			}
 		)
@@ -3102,7 +3087,6 @@ when the ‘name’ property is marked as identifying.
 For better visual identification, attributes support the `@icon:` annotation
 attribute. As an argument it takes an icon name. A complete list of the
 supported icons can be found at: [fonts.google.com/icons](https://fonts.google.com/icons).
-
 
 <div id="grammar-rule--ui-icon" class="language-js highlighter-rouge">
 <div class="highlight">
@@ -3166,7 +3150,6 @@ supported icons can be found at: [fonts.google.com/icons](https://fonts.google.c
 
 ### Actions
 
-
 <div id="grammar-rule--ui-action-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -3180,12 +3163,11 @@ supported icons can be found at: [fonts.google.com/icons](https://fonts.google.c
 
 An action attribute describes a sequence of actions (operations), as explained in the section on [action attributes](#action-attributes).
 
-
 <div id="grammar-rule--ui-action" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui action</span>' {
-	'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
+	'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 	'<span class="token string">has next action</span>': stategroup (
 		'<span class="token string">yes</span>' {
 			'<span class="token string">action</span>': component <a href="#grammar-rule--ui-action">'ui action'</a>
@@ -3273,7 +3255,6 @@ To show only the created entry, you can use this:
 ... => update $ .'collection' = create interactive ( ... )
 ```
 
-
 <div id="grammar-rule--ui-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -3286,7 +3267,7 @@ To show only the created entry, you can use this:
 			}
 			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
-				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
+				'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 			}
 		}
 		'<span class="token string">node switch</span>' { [ <span class="token operator">switch</span> ]
@@ -3294,10 +3275,10 @@ To show only the created entry, you can use this:
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group { dynamic-order
 				'<span class="token string">node case</span>': [ <span class="token operator">|</span> <span class="token operator">node</span> ] group {
 					'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 				}
 				'<span class="token string">none case</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 				}
 			}
 		}
@@ -3474,7 +3455,7 @@ To show only the created entry, you can use this:
 					'<span class="token string">source</span>': stategroup (
 						'<span class="token string">key reference</span>' { }
 						'<span class="token string">where rule</span>' {
-							'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+							'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 						}
 					)
 					'<span class="token string">rules</span>': dictionary { [ <span class="token operator">where</span> ] }
@@ -3937,8 +3918,8 @@ at the bottom of the table for to the parent collection.
 		'<span class="token string">yes</span>' { [ <span class="token operator">@validate:</span> ]
 			// @validate: ^ ^ .'<span class="token string">Email regex</span>' ( ^ ^ .'<span class="token string">Email regex description</span>' )
 			// @validate: switch .'<span class="token string">A</span>' (
-			// 	|'<span class="token string">x</span>' => ""
-			// 	|'<span class="token string">y</span>' => ""
+			// 	|'<span class="token string">x</span>' =&gt; ""
+			// 	|'<span class="token string">y</span>' =&gt; ""
 			// ) ( "In geval van x dan y. Anders bla." )
 			'<span class="token string">regular expression</span>': component <a href="#grammar-rule--ui-expression">'ui expression'</a>
 			'<span class="token string">has description</span>': stategroup (
@@ -4010,7 +3991,7 @@ at the bottom of the table for to the parent collection.
 		'<span class="token string">yes</span>' { [ <span class="token operator">@verified</span> ] }
 	)
 	'<span class="token string">transitions</span>': dictionary { [ <span class="token operator">@transition:</span> ]
-		'<span class="token string">action</span>': [ <span class="token operator">=></span> <span class="token operator">execute</span> ] reference
+		'<span class="token string">action</span>': [ <span class="token operator">=&gt;</span> <span class="token operator">execute</span> ] reference
 	}
 }
 </pre>
@@ -4088,3 +4069,4 @@ The custom numerical type can be displayed in four different styles:
 </pre>
 </div>
 </div>
+
