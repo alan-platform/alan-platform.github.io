@@ -2,7 +2,8 @@
 	The components of a platform version (the context: its name) beside their versions in the platform version
 	before it, for the release notes of that platform version. Each component version that has release notes links
 	to them. Platform components come from _data/versions.json, system types from
-	_data/dist/<platform version>/versions.json, both in the order of their file.
+	_data/dist/<platform version>/versions.json, both in the order of their file, each under a group row as in the
+	language table (doc-table.html), whose look the table shares.
 */ -}}
 {{- $name := . -}}
 {{- $this := false -}}
@@ -36,15 +37,27 @@
 			<th scope="col">{{ $this.name }}</th>
 		</tr>
 	</thead>
+	{{- with partial "ordered-keys.html" (dict "map" $this.platform "kind" "platform") }}
 	<tbody>
-		{{- range $component := partial "ordered-keys.html" (dict "map" $this.platform "kind" "platform") }}
+		<tr class="doc-table-group">
+			<th colspan="{{ if $prev }}3{{ else }}2{{ end }}" scope="rowgroup">Platform components</th>
+		</tr>
+		{{- range $component := . }}
 		{{- partial "release-component-row.html" (dict "name" $component "new" (index $this.platform $component) "old" (index $prevPlatform $component) "compare" $prev) }}
 		{{- end }}
-		{{- range $component := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types") }}
+	</tbody>
+	{{- end }}
+	{{- with partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types") }}
+	<tbody>
+		<tr class="doc-table-group">
+			<th colspan="{{ if $prev }}3{{ else }}2{{ end }}" scope="rowgroup">System types</th>
+		</tr>
+		{{- range $component := . }}
 		{{- $old := false }}
 		{{- with index $prevSystemTypes $component }}{{ $old = .version }}{{ end }}
 		{{- partial "release-component-row.html" (dict "name" $component "new" (index $systemTypes $component).version "old" $old "compare" $prev) }}
 		{{- end }}
 	</tbody>
+	{{- end }}
 </table>
 {{- end -}}

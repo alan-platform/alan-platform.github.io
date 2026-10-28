@@ -32,21 +32,24 @@
   overflow-wrap: anywhere;
 }
 
-/* a table in the notes, or the component table of a platform release: read as text */
-.release-notes section table {
+/*
+ * a table in the notes: read as text. The component table of a platform release has the look of the language
+ * table instead (70-docs.css), and its own rules below.
+ */
+.release-notes section table:not(.release-components) {
   border-spacing: 0;
 }
 
 /* aligned with the text above, the columns kept apart by the space on their right */
-.release-notes section table th,
-.release-notes section table td {
+.release-notes section table:not(.release-components) th,
+.release-notes section table:not(.release-components) td {
   padding: .35em 1.5rem .35em 0;
   border-right: none;
   border-bottom: 1px solid #eeeff0;
   text-align: left;
 }
 
-.release-notes section table thead th {
+.release-notes section table:not(.release-components) thead th {
   border-bottom-color: #c3c5ca;
   font-size: .875em;
   color: #484a50;
@@ -54,22 +57,42 @@
 
 /* narrow screens (the site-wide 50rem breakpoint): less space between the columns */
 @media (max-width: 50rem) {
-  .release-notes section table th,
-  .release-notes section table td {
+  .release-notes section table:not(.release-components) th,
+  .release-notes section table:not(.release-components) td {
     padding-right: 1rem;
   }
 }
 
-/* a version that changed, linking its release notes */
-.release-components td > a {
+/*
+ * The component column takes the width that the two versions leave, and a long name wraps at its hyphens rather
+ * than push the table wider than a phone. The versions keep their figures aligned.
+ */
+.release-components tbody th {
+  width: 100%;
+  white-space: normal;
+}
+
+.release-components td {
+  font-variant-numeric: tabular-nums;
+}
+
+/* a version that changed, linking its release notes, in the blue darkened by 8% (4.9:1 on white) */
+.release-components td > a,
+.release-components td > a:link,
+.release-components td > a:visited {
   display: inline;
   width: auto;
   padding: 0;
   font-weight: bold;
+  color: #2163ff;
 }
 
-.release-components .unchanged {
-  color: #838590;
+/*
+ * A component that did not change recedes: its name is not bold and its row is in the third grey, 8.9:1 on white,
+ * where the lighter grey #838590 that it had was 3.7:1.
+ */
+.release-components .unchanged > * {
+  color: #484a50;
 }
 
 .release-components .unchanged th {
