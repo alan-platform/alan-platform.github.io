@@ -15,30 +15,92 @@
   font-size: 1em;
 }
 
+/*
+ * At rest a card is a white block with a grey border. It carries two background layers that show nothing at rest
+ * and make the hover effect below: the accent bar, 0 wide, and the wash, positioned so that only its white half is
+ * in view. Backgrounds need no positioning, stacking or overflow on the card, and the position, the stacking context
+ * and the clipping those would add change how the text and the rounded corners of a card at rest are rendered. The
+ * theme underlines a link on hover; a card is a block, not a run of text, so it is never underlined.
+ */
 a.card,
 a.card:link,
 a.card:visited {
-  transition: border-color var(--transition-fast) ease-in-out;
+  transition: border-color var(--transition-fast) ease-in-out, box-shadow var(--transition-fast) ease-in-out, transform var(--transition-fast) ease-in-out, background-position var(--transition-fast) ease-in-out, background-size var(--transition-fast) ease-in-out;
   display: flex;
   flex-direction: column;
   gap: .35em;
   padding: 1rem 1.25rem;
   border: 1px solid #c3c5ca;
   border-radius: 6px;
-  background: #fff;
+  background-color: #fff;
+  background-image: linear-gradient(#ff641a, #ff641a), linear-gradient(135deg, #ffeee6, #fff 37.5%);
+  background-repeat: no-repeat;
+  background-position: left top, right bottom;
+  background-size: 0 3px, 200% 200%;
   color: #393b40;
+  text-decoration: none;
 }
 
+/*
+ * Hover and keyboard focus look the same, so a keyboard user gets the whole effect; focus keeps the theme's orange
+ * outline around it. The card comes forward as one block: it lifts by 2px onto a soft shadow of the darkest grey
+ * #2b2c30 at low opacity, and its border takes the accent.
+ *
+ * The accent bar, 3px of the orange along the top edge under the border, grows from the left to the full width. It
+ * marks the card as the one about to be chosen, the way a selected tab is marked, without adding a colour.
+ *
+ * The wash is a soft orange tint, strongest in the top left corner where the bar starts and the title sits, and
+ * gone three quarters of the way across. #ffeee6 is the orange lightened 40%. The gradient is twice the size of the
+ * card and white from 37.5% of its length on, so its bottom right half, in view at rest, is all white, and its top
+ * left half, which slides in on hover, turns white three quarters of the way across. A gradient itself cannot be
+ * transitioned; its position can.
+ */
 a.card:hover,
+a.card:focus-visible,
 a.card:active {
-  transition: border-color var(--transition-fastest) ease-in-out;
+  transition: border-color var(--transition-fastest) ease-in-out, box-shadow var(--transition-fastest) ease-in-out, transform var(--transition-fastest) ease-in-out, background-position var(--transition-fastest) ease-in-out, background-size var(--transition-fastest) ease-in-out;
   border-color: #ff641a;
+  background-position: left top, left top;
+  background-size: 100% 3px, 200% 200%;
+  box-shadow: 0 6px 16px -6px rgba(43, 44, 48, 0.25), 0 2px 4px rgba(43, 44, 48, 0.06);
   color: #393b40;
+  text-decoration: none;
+  transform: translateY(-2px);
 }
 
+/* Pressing puts the card back down: no lift, and a shadow that hugs it. */
+a.card:active {
+  box-shadow: 0 1px 2px rgba(43, 44, 48, 0.12);
+  transform: none;
+}
+
+/*
+ * The title takes the accent. The orange itself is 3.0:1 on white, too light for text of this size, so the title
+ * takes the orange darkened 18%, #bd3d00: 5.5:1 on white and 4.9:1 on #ffeee6, the strongest point of the wash.
+ */
 a.card:hover .card-title,
+a.card:focus-visible .card-title,
 a.card:active .card-title {
-  color: #ff641a;
+  color: #bd3d00;
+}
+
+/*
+ * Without motion the card does not lift, and the bar and the wash are there at once instead of growing and sliding
+ * in. The border, the shadow and the title still change as they do with motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  a.card,
+  a.card:link,
+  a.card:visited {
+    transition: border-color var(--transition-fast) ease-in-out, box-shadow var(--transition-fast) ease-in-out;
+  }
+
+  a.card:hover,
+  a.card:focus-visible,
+  a.card:active {
+    transition: border-color var(--transition-fastest) ease-in-out, box-shadow var(--transition-fastest) ease-in-out;
+    transform: none;
+  }
 }
 
 /* What kind of destination it is, above the title. */
