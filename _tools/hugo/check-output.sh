@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Checks that the build in public/ is complete: _tools/hugo/check-output.sh [HUGO_LOG]
 #
-# Hugo exits 0 and writes a smaller site when a mount source is missing (no .build/content, so the
+# Hugo exits 0 and writes a smaller site when a mount source is missing (no pages/docs, so the
 # generated pages are absent), when a data glob matches nothing, and when a layout is missing (a
 # warning, and the page is not written). Deploying that would publish an incomplete site, so
 # build.sh runs this after Hugo, and the workflow with it before it uploads the artifact.
 #
-# HUGO_LOG is the output of the Hugo run (build.sh writes .build/hugo.log). Without it the check
-# of the warnings is skipped.
+# HUGO_LOG is the output of the Hugo run (build.sh keeps it in a temporary file). Without it the
+# check of the warnings is skipped.
 #
 # The page count comes from the source. The only number kept here is the floor of the sitemap.
 set -uo pipefail
@@ -42,7 +42,7 @@ for file in \
   fi
 done
 
-# 3. a rule block of a generated page carries its id (prepare.py moved it into the div)
+# 3. a rule block of a generated page carries its id (the generator writes it on the div)
 grammar=public/pages/docs/model/109/application/grammar.html
 if ! grep -q 'id="grammar-rule--node"' "$grammar" 2>/dev/null; then
   fail "$grammar lacks id=\"grammar-rule--node\""
@@ -71,13 +71,14 @@ else
   echo "check-output: no Hugo log given, the warnings are not checked" >&2
 fi
 
-# 6. no attribute syntax of the generator is left in the text of a page. prepare.py stops on a line of
-# that kind it knows nothing about, but only in the source it reads; this is the cheap second look at
-# what Hugo wrote: {: anywhere, and a line that starts with {. or {# outside <pre>, where Goldmark
-# would have taken it for a block attribute or shown it.
+# 6. no attribute syntax is left in the text of a page: {: anywhere, and a line that starts with {. or {#
+# outside <pre>, where Goldmark would have taken it for a block attribute or shown it. The generated
+# pages in the old form carry such lines (the old generator's, in kramdown syntax), so this fails a
+# build of pages that the one-time conversion (_tools/hugo/prepare.py --in-place) has not run on, and
+# a generator that writes a form Hugo does not read.
 literal=$(grep -rlF --include='*.html' '{:' public/pages/docs 2>/dev/null | head -5)
 if [ -n "$literal" ]; then
-  fail "the text {: is left in built pages, the generator may write a form that prepare.py does not know:"
+  fail "the text {: is left in built pages; the pages are in the old form (prepare.py --in-place converts them) or the generator writes a form Hugo does not read:"
   while IFS= read -r page; do
     echo "  $page" >&2
   done <<< "$literal"

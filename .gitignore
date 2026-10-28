@@ -4,5 +4,4 @@ __pycache__/
 /public/
 /resources/
 .hugo_build.lock
-/.build/
 /.claude/

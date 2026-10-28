@@ -9,27 +9,28 @@ Needs Hugo 0.167.0 extended (the extended edition carries the Sass compiler; `hu
 stop with a message) and Python 3 (standard library only).
 
 ```
-_tools/hugo/build.sh           # rewrite the generated pages, build into public/
-_tools/hugo/build.sh serve     # the same, then hugo server with live reload
+_tools/hugo/build.sh           # build into public/, then check the output
+_tools/hugo/build.sh serve     # hugo server with live reload
 ```
 
-The script changes to the repository root from its own location, so it works from any directory (`hugo.toml`, its
-mount sources and the output of `prepare.py` are relative to the root). `HUGO=/path/to/hugo` names the binary when it
-is not on the `PATH`; flags after `serve` go to `hugo server`. The whole build takes seconds.
+Nothing adapts the pages before Hugo reads them: the build is Hugo, and the check of its output.
 
-`serve` renders in memory, so `public/` keeps the last build. It runs `prepare.py` once, when it starts: restart it
-after `pages/docs` or `_data` changed, or the rewritten documentation pages in `.build/content` and the key order of
-the data files in `.build/data/key_order.json` are stale. An edit of a hand-written page, a file beside it (a snippet
-of the `file` shortcode, an image), a template, `src/` or `_sass/` shows without a restart.
+The script changes to the repository root from its own location, so it works from any directory (`hugo.toml` and its
+mount sources are relative to the root). `HUGO=/path/to/hugo` names the binary when it is not on the `PATH`; flags
+after `serve` go to `hugo server`. The whole build takes seconds.
 
-After Hugo, the build runs `_tools/hugo/check-output.sh` on `public/`, with the output of Hugo in `.build/hugo.log`.
+`serve` renders in memory, so `public/` keeps the last build. An edit of a page, a file beside it (a snippet of the
+`file` shortcode, an image), a data file, a template, `src/` or `_sass/` shows without a restart.
+
+After Hugo, the build runs `_tools/hugo/check-output.sh` on `public/`, with the output of Hugo in a temporary file.
 Hugo exits 0 and writes a smaller site when a mount source is missing, a data glob matches nothing or a layout is
 missing, so the check fails the build when: `public/pages/docs` has another number of `.html` files than `pages/docs`
 has `.md` files; one of the pages and files that every deployment needs is missing (the home page, 404, the docs, learn,
 about, faq and deps pages, `sitemap.xml`, `robots.txt`, `CNAME`, the stylesheet and scripts, a font); a rule block of the
 model 109 grammar has lost its id; the sitemap has fewer than 3000 entries; or Hugo logged a warning or an error other
 than the deprecation of LibSass; or the text `{:`, or a line that starts with `{.` or `{#` outside `<pre>`, is left in
-a generated page (a sign that the generator started a form that `prepare.py` does not know).
+a generated page. That last check fails the build of pages in the old form (see "The one-time conversion"), and of a
+generator that writes a form that Hugo does not read.
 
 The tools have tests: `python3 -m unittest discover -s _tools/hugo/tests` (the workflow runs them before the build).
 
@@ -48,8 +49,8 @@ it in the browser. Page logic is in shortcodes: `{{< file >}}` includes a file r
 
 - Hand-written pages: `index.md`, `404.md`, `pages/*.md`, `pages/tutorials/**`, `pages/tuts/**`. The files in
   `pages/tutorials/**` that are not Markdown (models, images, data) are copied as they are.
-- Generated documentation: `pages/docs/**` is written by the GitLab CI job "Update the docs", in kramdown syntax, and
-  committed. Never edit it here. `_tools/hugo/prepare.py` rewrites it at build time, see below.
+- Generated documentation: `pages/docs/**` is written by the docs generator of alan-tools and committed. Never edit it
+  here. The generator writes the form that Hugo reads, and the build adapts nothing; its contract is below.
 - `_data/dist/<platform version>/versions.json` are copies of the published `versions.json` files; the versions repo
   writes them on release (`publish.sh`), do not edit them by hand. `_data/versions.json` is hand-managed: the platform
   version, its `alan` script, and the versions of the platform components (model, interface, project-build-environment).
@@ -59,44 +60,66 @@ it in the browser. Page logic is in shortcodes: `{{< file >}}` includes a file r
   `sitemap.xml`), `_sass/` with `src/main.scss`, `src/`, `assets/`. The documentation tables select their pages by
   front matter (`origin`, `version`) and are rendered once per type and version (`partialCached`). `src/main.css` is
   compiled from `src/main.scss` by `layouts/partials/stylesheet.html`, through Hugo's LibSass.
-- `hugo.toml` mounts these directories where Hugo wants them: the Markdown under `pages/` as content, except
-  `pages/docs/`, which comes from `.build/content/pages/docs`; `index.md` as the home page placeholder and `404.md` as
-  the text of the 404 page; `assets/`, `deps/`, `CNAME` and `favicon.ico` as static files; `_data/` and `.build/data`
-  as data. Everything else under `pages/` (under `payload/`) and `src/` are assets, which
+- `hugo.toml` mounts these directories where Hugo wants them: the Markdown under `pages/`, `pages/docs/` included, as
+  content; `index.md` as the home page placeholder and `404.md` as the text of the 404 page; `assets/`, `deps/`,
+  `CNAME` and `favicon.ico` as static files; `_data/` as data. Everything else under `pages/` (under `payload/`) and `src/` are assets, which
   `layouts/partials/static-payload.html` publishes at their paths in the repository: a static mount of `pages/` would
   make `hugo server` miss every edit of a page (see `hugo.toml`). `_sass/` is mounted beside `src/main.scss`.
   `robots.txt` and `sitemap.xml` are not static files but templates, and `src/main.css` is compiled, so none of the
   three is in the repository as a file. The directories are laid out as the tools that write into them expect (CI writes
   `pages/docs` and `deps/`, the versions repo writes `_data/dist/`), which is why `hugo.toml` mounts them.
+- The order of the components in the version tables is configuration, not data: Hugo hands the data files over as maps
+  and a range over a map goes in sorted key order, so `[params.order]` in `hugo.toml` lists the platform components and
+  the system types in the order that the data files use, and `layouts/partials/ordered-keys.html` follows it. A key that
+  a list does not name follows in sorted order.
 
-## prepare.py
+### The contract of the generator
 
-`_tools/hugo/prepare.py` reads `pages/docs/**` and writes a rewritten copy to `.build/content/pages/docs`, which
-`hugo.toml` mounts over the content. The source stays untouched because CI rewrites it on every documentation update.
-The generator writes kramdown syntax, and kramdown and Goldmark read some of it differently. The script:
+A page under `pages/docs` is written in the form Hugo reads. What the build relies on:
 
-- removes the `1. TOC` and `{:toc}` lines and puts `toc: true` in the front matter; the layout builds the index of the
-  page (the rail) from the headings of pages that have it;
+- The front matter carries `url: "/pages/docs/<path without .md>.html"` (the path keeps the spaces of directory names
+  such as `client bindings`) and, when the page has an index, `toc: true`. The layouts and the toolchains' deep links
+  rest on both.
+- No kramdown attribute lines (`{: ... }`) and no `1. TOC` / `{:toc}` marker. The id of a grammar rule is an `id` on the
+  `<div class="language-js highlighter-rouge">` of its block; the id of an example is `{#id}` on the line after the
+  paragraph that introduces it.
+- Inside a rule block, a `<` that starts no tag the generator writes there (`span`, `a`, `div`, `pre`, `code`) is
+  written `&lt;`, so that grammar text such as `<begin>` shows as text. A blank line follows a block when text follows
+  it, because Goldmark ends an HTML block at a blank line.
+- Prose is written for CommonMark: a fence that opens in a blockquote is prefixed with `>` on every line, a link
+  destination with a space is wrapped in `<...>`, the quotes of a quoted word are written as `‘` and `’`.
+
+`check-output.sh` fails a build whose pages still contain `{:` or a line that starts with `{.` or `{#` outside `<pre>`.
+
+## The one-time conversion
+
+The documentation pages that were committed before the generator of alan-tools wrote the Hugo form are in the old
+form, kramdown syntax. `_tools/hugo/prepare.py` converts them, once: run `python3 _tools/hugo/prepare.py --in-place`
+right before the first deploy, look at the diff, commit the converted pages, and delete the script and its tests
+afterwards. Nothing at build time depends on it.
+
+The script rewrites the pages under `pages/docs` of the repository and nothing else. A page that has a `url` in its front
+matter is in the Hugo form already and passes through unchanged, so a second run, and the pages that the new generator
+writes, change nothing. It:
+
+- removes the `1. TOC` and `{:toc}` lines and puts `toc: true` in the front matter;
 - turns the `{: #grammar-rule--X }` line before a rule block into an `id` on its `<div>` (27921 times), and the
   `{: #example--X }` line after a paragraph into `{#example--X}`;
 - adds `url: "/pages/docs/<path>.html"` to the front matter, the address the toolchains deep-link to;
-- repairs what Goldmark would render differently: a blank line after a rule block that text follows directly (a heading
-  there would be swallowed by the HTML block), a `>` prefix on a fence that opens in a blockquote, a stray backtick
-  after a fence language, `<!`, `<!--` and `</` that a browser would read as markup in rule blocks (written `&lt;`), and
-  link destinations with a space (wrapped in `<...>`);
+- repairs what Goldmark would render differently from kramdown: a blank line after a rule block that text follows
+  directly (a heading there would be swallowed by the HTML block), a `>` prefix on a fence that opens in a blockquote, a
+  stray backtick after a fence language, every `<` of a rule block that starts none of its tags (written `&lt;`: the
+  operators `<!` and `</`, and names such as `<begin>` and `<end>` in the connector grammars, which a browser reads as
+  elements and loses the words of), and link destinations with a space (wrapped in `<...>`);
 - writes the quotes of a quoted word in prose as `‘` and `’`: Goldmark's typographer renders `'empty'` with two right
   quotes, where kramdown's smart quotes open and close it. Apostrophes inside words, code and raw HTML are left alone;
-- stops with the file and line when it meets a `{:` line of a kind it does not know, or a line outside fences and raw
-  HTML that starts with `{.` or `{#` (Goldmark would take it for a block attribute and not show it), so a new form of
-  the generator is noticed and not published as text.
+- stops with the file and line, and writes nothing, when it meets a `{:` line of a kind it does not know, or a line
+  outside fences and raw HTML that starts with `{.` or `{#` (Goldmark would take it for a block attribute and not show
+  it).
 
-Beside the pages it writes `.build/data/key_order.json`: the order of the keys of the `platform` object of each version
-in `_data/versions.json` and of the `system types` object of each `_data/dist/<version>/versions.json`. Hugo loads a JSON
-object as a map and templates range over a map in sorted order, while the tables list components in file order; the
-layout reads the order from this file. The data mount of `hugo.toml` takes `.build/data` as well.
-
-It prints a counter for each rewrite. `python3 _tools/hugo/prepare.py --check` runs the rewrite in memory and prints
-the counters only. The output depends only on the input, so running it twice gives the same tree.
+It prints a counter for each rewrite. `--check` runs the rewrite in memory and prints the counters only; `--output DIR`
+writes the converted pages to an empty directory, to look at them. Pages in the old form that are not converted fail the
+build: `check-output.sh` finds the `{:` lines.
 
 ## URL contract
 
@@ -117,8 +140,8 @@ hand-written pages whose address differs from their file name set `url:` (`/docs
   Run workflow, on any branch).
 - `deploy` publishes the artifact with GitHub Pages and runs only for a push to `master`. The push of the
   documentation CI job publishes too. A pull request or a manual run stops after the build, with the artifact
-  `github-pages` (a tar of `public/`) attached to the run: download it from the run page to inspect it. A deployment that failed after a push is redeployed by re-running
-  that run; a manual run does not deploy.
+  `github-pages` (a tar of `public/`) attached to the run: download it from the run page to inspect it. A deployment
+  that failed after a push is redeployed by re-running that run; a manual run does not deploy.
 - `notify` runs when a push failed, in `build` or in `deploy`. GitHub emails only the person whose action started a
   failed run, and the documentation pushes come from the GitLab CI user, so the job opens an issue titled
   "Site build failed: <job> / <step>" with the commit, its author and the run, assigned to `gjkunst` and labelled
@@ -130,7 +153,8 @@ https://github.com/alan-platform/alan-platform.github.io/settings/pages). Hugo i
 checked against a SHA-256 pinned in the workflow; to update Hugo, change `HUGO_VERSION` and `HUGO_SHA256` together (the
 checksum is in the `checksums.txt` of the release).
 
-Cutover order: set the Pages source to "GitHub Actions" first, while `master` still holds the previous tree, and push
-the Hugo tree to `master` afterwards. With the source on a branch, GitHub builds the pushed tree with its own builder,
-which cannot build it, and the workflow cannot deploy. A pull request from the branch that holds the Hugo tree to
-`master` builds and checks it on a runner before that, without deploying. The cutover runbook has the steps.
+Cutover order: set the Pages source to "GitHub Actions" first, while `master` still holds the previous tree; convert the
+documentation pages once (`python3 _tools/hugo/prepare.py --in-place`) and commit them; push the Hugo tree to `master`
+last. With the source on a branch, GitHub builds the pushed tree with its own builder, which cannot build it, and the
+workflow cannot deploy. A pull request from the branch that holds the Hugo tree and the converted pages to `master`
+builds and checks it on a runner before that, without deploying. The cutover runbook has the steps.
