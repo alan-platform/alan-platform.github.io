@@ -1,11 +1,12 @@
-"""Tests of prepare.py on small synthetic pages: every rewrite, and every form it refuses.
+"""Tests of prepare.py, the one-time converter, on small synthetic pages: every rewrite, every form it
+refuses, and the pages that are already in the Hugo form.
 
 Run from the repository root: python3 -m unittest discover -s _tools/hugo/tests
 """
 
 import hashlib
-import json
 import os
+import stat
 import subprocess
 import sys
 import tempfile
@@ -86,10 +87,31 @@ class Rewrites(unittest.TestCase):
         output, _, _ = rewrite("Text.\n", relative="webclient/zora.1rc8.0/client bindings/client_bindings.md")
         self.assertIn('url: "/pages/docs/webclient/zora.1rc8.0/client bindings/client_bindings.html"', output)
 
-    def test_front_matter_with_a_url_key_is_an_error(self):
-        output, _, errors = rewrite("Text.\n", front='---\nurl: "/x"\n---\n')
-        self.assertIsNone(output)
-        self.assertIn("already has a url key", errors[0])
+    def test_a_page_in_the_hugo_form_passes_unchanged(self):
+        # url and toc in the front matter, attribute lines of the Hugo form, quotes, a rule block with names in it:
+        # nothing of it is touched, and nothing is an error
+        front = '---\nlayout: "doc"\nurl: "/pages/docs/a/1/b/grammar.html"\ntoc: true\n---\n'
+        body = (
+            "The 'empty' text and don't. See [a](b c).\n{#example--y}\n```js\nx\n```\n\n"
+            "{.class}\n\n" + block("a <begin> <!-- c -->") + "## Heading\n"
+        )
+        output, counters, errors = rewrite(body, front=front)
+        self.assertEqual(errors, [])
+        self.assertEqual(output, front + body)
+        self.assertEqual(counters["hugo_form"], 1)
+        self.assertEqual(sum(counters[key] for key in counters if key not in ("hugo_form", "files")), 0)
+
+    def test_a_page_with_a_url_key_and_no_toc_key_passes_unchanged_too(self):
+        front = '---\nlayout: "doc"\nurl: "/pages/docs/a/1/b/grammar.html"\n---\n'
+        output, _, errors = rewrite("Text.\n", front=front)
+        self.assertEqual((errors, output), ([], front + "Text.\n"))
+
+    def test_a_kramdown_line_in_a_page_that_has_a_url_key_is_an_error(self):
+        front = '---\nurl: "/x"\n---\n'
+        _, _, errors = rewrite("Text.\n\n1. TOC\n{:toc}\n\n```js\n{: #in-a-fence }\n```\n", front=front)
+        self.assertEqual(len(errors), 1)
+        self.assertIn("{:toc}", errors[0])
+        self.assertIn("pages/docs/a/1/b/grammar.md:7:", errors[0])
 
     def test_blockquote_fence_is_completed(self):
         output, counters, _ = rewrite("Text\n> ```js\ncode\n```\n\nAfter.\n")
@@ -126,18 +148,22 @@ class Rewrites(unittest.TestCase):
         self.assertEqual(body_of(output), text)
         self.assertEqual(counters["block_breaks"], 0)
 
-    def test_markup_text_in_a_rule_block_is_escaped(self):
+    def test_everything_but_the_tags_of_the_generator_is_escaped_in_a_rule_block(self):
         inner = (
-            "a <span>b</span> <a href=\"#x\">c</a> <begin> "
-            "<!</span> <?x </</span> <!-- c --> </foo> </code>"
+            "a <span class=\"x\">b</span> <a href=\"#x\">c</a> <pre> </pre> <div> </div> <code>d</code> "
+            "<begin> <end>. <step> <!</span> <?x </</span> <!-- c --> </foo> <= << <-"
         )
         output, counters, _ = rewrite(block(inner))
         self.assertIn(
-            "a <span>b</span> <a href=\"#x\">c</a> <begin> "
-            "&lt;!</span> &lt;?x &lt;/</span> &lt;!-- c --> &lt;/foo> </code>",
+            "a <span class=\"x\">b</span> <a href=\"#x\">c</a> <pre> </pre> <div> </div> <code>d</code> "
+            "&lt;begin> &lt;end>. &lt;step> &lt;!</span> &lt;?x &lt;/</span> &lt;!-- c --> &lt;/foo> &lt;= &lt;&lt; &lt;-",
             output,
         )
-        self.assertEqual(counters["escaped_lt"], 5)
+        self.assertEqual(counters["escaped_lt"], 12)
+
+    def test_a_tag_name_that_only_starts_like_a_tag_of_the_generator_is_escaped(self):
+        output, _, _ = rewrite(block("<spanx> <abbr> <divider> <preview> <codex>"))
+        self.assertIn("&lt;spanx> &lt;abbr> &lt;divider> &lt;preview> &lt;codex>", output)
 
     def test_markup_text_outside_a_rule_block_is_not_escaped(self):
         output, counters, _ = rewrite("`<!` and <!-- a comment --> and </foo>\n")
@@ -237,19 +263,12 @@ class Whole(unittest.TestCase):
     def setUp(self):
         self.root = tempfile.mkdtemp()
         self.addCleanup(lambda: __import__("shutil").rmtree(self.root, ignore_errors=True))
-        self.write("pages/docs/a/1/b/grammar.md", FRONT + "1. TOC\n{:toc}\n\n## H 'x'\n")
+        self.old = FRONT + "1. TOC\n{:toc}\n\n## H 'x'\n"
+        self.write("pages/docs/a/1/b/grammar.md", self.old)
         self.write("pages/docs/webclient/v/client bindings/c.md", FRONT + "Text.\n")
-        self.write(
-            "_data/versions.json",
-            '{"current": "2026.3", "versions": [\n'
-            ' {"name": "2026.3", "platform": {"zeta": "1", "alpha": "2", "model": "3"}},\n'
-            ' {"name": "2026.2", "platform": {"model": "4", "interface": "5"}},\n'
-            ' {"name": "2026.1"}]}',
-        )
-        self.write(
-            "_data/dist/2026.3/versions.json",
-            '{"platform version": "2026.3", "system types": {"webclient": {}, "connector": {}, "auto-webclient": {}}}',
-        )
+        self.write("pages/docs/notes.txt", "not a page\n")
+        self.write("pages/other.md", "'untouched' page outside pages/docs\n")
+        self.write("_data/versions.json", "{}")
 
     def write(self, relative, text):
         path = os.path.join(self.root, relative)
@@ -257,12 +276,16 @@ class Whole(unittest.TestCase):
         with open(path, "w", encoding="utf-8") as handle:
             handle.write(text)
 
+    def read(self, relative):
+        with open(os.path.join(self.root, relative), encoding="utf-8") as handle:
+            return handle.read()
+
     def run_prepare(self, *args):
         return subprocess.run([sys.executable, PREPARE, "--root", self.root, *args], capture_output=True, text=True)
 
     def tree_hash(self):
         digest = hashlib.sha1()
-        for dirpath, dirnames, filenames in sorted(os.walk(os.path.join(self.root, ".build"))):
+        for dirpath, dirnames, filenames in sorted(os.walk(self.root)):
             dirnames.sort()
             for name in sorted(filenames):
                 path = os.path.join(dirpath, name)
@@ -271,57 +294,72 @@ class Whole(unittest.TestCase):
                     digest.update(handle.read())
         return digest.hexdigest()
 
-    def test_writes_pages_and_key_order(self):
+    def test_a_mode_is_required(self):
         result = self.run_prepare()
+        self.assertEqual(result.returncode, 2)
+        self.assertEqual(self.read("pages/docs/a/1/b/grammar.md"), self.old)
+
+    def test_in_place_rewrites_the_pages_and_nothing_else(self):
+        os.chmod(os.path.join(self.root, "pages/docs/a/1/b/grammar.md"), 0o644)
+        before = self.tree_hash()
+        result = self.run_prepare("--in-place")
         self.assertEqual(result.returncode, 0, result.stderr)
-        out = os.path.join(self.root, ".build/content/pages/docs")
-        self.assertTrue(os.path.isfile(os.path.join(out, "webclient/v/client bindings/c.md")))
-        with open(os.path.join(out, "a/1/b/grammar.md"), encoding="utf-8") as handle:
-            self.assertIn("## H ‘x’\n", handle.read())
-        with open(os.path.join(self.root, ".build/data/key_order.json"), encoding="utf-8") as handle:
-            order = json.load(handle)
+        self.assertIn("rewrote 2 pages", result.stdout)
+        self.assertIn('url: "/pages/docs/a/1/b/grammar.html"\ntoc: true\n', self.read("pages/docs/a/1/b/grammar.md"))
+        self.assertIn("## H \u2018x\u2019\n", self.read("pages/docs/a/1/b/grammar.md"))
+        self.assertIn('url: "/pages/docs/webclient/v/client bindings/c.html"', self.read("pages/docs/webclient/v/client bindings/c.md"))
+        self.assertEqual(self.read("pages/docs/notes.txt"), "not a page\n")
+        self.assertEqual(self.read("pages/other.md"), "'untouched' page outside pages/docs\n")
+        self.assertNotEqual(self.tree_hash(), before)
         self.assertEqual(
-            order,
-            {
-                "platform": {"2026.3": ["zeta", "alpha", "model"], "2026.2": ["model", "interface"]},
-                "system types": {"2026.3": ["webclient", "connector", "auto-webclient"]},
-            },
+            sorted(os.listdir(self.root)), ["_data", "pages"], "nothing but the pages is written: no .build, no data"
         )
-        self.assertEqual(list(order["platform"]["2026.3"]), ["zeta", "alpha", "model"])
+        self.assertEqual(sorted(os.listdir(os.path.join(self.root, "pages/docs"))), ["a", "notes.txt", "webclient"])
+        mode = stat.S_IMODE(os.stat(os.path.join(self.root, "pages/docs/a/1/b/grammar.md")).st_mode)
+        self.assertEqual(mode, 0o644)
 
-    def test_check_writes_nothing_and_prints_the_counters(self):
-        result = self.run_prepare("--check")
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("key_order.json: platform versions", result.stdout)
-        self.assertFalse(os.path.exists(os.path.join(self.root, ".build")))
-
-    def test_two_runs_give_the_same_tree(self):
-        self.run_prepare()
+    def test_a_second_run_changes_nothing(self):
+        self.run_prepare("--in-place")
         first = self.tree_hash()
-        self.run_prepare()
+        result = self.run_prepare("--in-place")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("rewrote 0 pages", result.stdout)
         self.assertEqual(self.tree_hash(), first)
 
-    def test_an_unknown_form_stops_the_run_and_leaves_no_output(self):
-        self.run_prepare()
-        self.write("pages/docs/a/1/b/grammar.md", FRONT + "Text\n{: .more }\n")
-        result = self.run_prepare()
-        self.assertEqual(result.returncode, 1)
-        self.assertIn("grammar.md:6:", result.stderr)
-        self.assertIn("nothing written", result.stderr)
-        self.assertFalse(os.path.exists(os.path.join(self.root, ".build/content/pages/docs")))
-        self.assertFalse(os.path.exists(os.path.join(self.root, ".build/data")))
+    def test_converted_and_newer_pages_are_counted_as_the_hugo_form(self):
+        self.write("pages/docs/new/1/x/grammar.md", '---\nurl: "/pages/docs/new/1/x/grammar.html"\ntoc: true\n---\n\nText.\n')
+        result = self.run_prepare("--check")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertRegex(result.stdout, r"already in the Hugo form, left as they are\s+1\n")
 
-    def test_an_invalid_version_file_is_an_error_that_names_it(self):
-        self.write("_data/versions.json", '{"versions": [')
-        result = self.run_prepare()
-        self.assertEqual(result.returncode, 1)
-        self.assertIn("_data/versions.json", result.stderr)
+    def test_check_writes_nothing(self):
+        before = self.tree_hash()
+        result = self.run_prepare("--check")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("check only", result.stdout)
+        self.assertEqual(self.tree_hash(), before)
 
-    def test_a_version_without_a_dist_file_is_absent_from_the_second_map(self):
-        self.run_prepare()
-        with open(os.path.join(self.root, ".build/data/key_order.json"), encoding="utf-8") as handle:
-            order = json.load(handle)
-        self.assertNotIn("2026.2", order["system types"])
+    def test_output_writes_a_copy_and_leaves_the_pages(self):
+        before = self.tree_hash()
+        out = os.path.join(self.root, "..", "prepare-out-%d" % os.getpid())
+        self.addCleanup(lambda: __import__("shutil").rmtree(out, ignore_errors=True))
+        result = self.run_prepare("--output", out)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.tree_hash(), before)
+        with open(os.path.join(out, "a/1/b/grammar.md"), encoding="utf-8") as handle:
+            self.assertIn("toc: true", handle.read())
+        self.assertFalse(os.path.exists(os.path.join(out, "notes.txt")))
+        self.assertEqual(self.run_prepare("--output", out).returncode, 2, "a directory that is not empty is refused")
+
+    def test_an_unknown_form_stops_the_run_and_writes_nothing(self):
+        self.write("pages/docs/z/1/y/grammar.md", FRONT + "Text\n{: .more }\n")
+        before = self.tree_hash()
+        for mode in ("--in-place", "--check"):
+            result = self.run_prepare(mode)
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("z/1/y/grammar.md:6:", result.stderr)
+            self.assertIn("nothing written", result.stderr)
+            self.assertEqual(self.tree_hash(), before)
 
 
 if __name__ == "__main__":

@@ -1,13 +1,25 @@
 #!/usr/bin/env python3
-"""Rewrite the CI-generated documentation pages for Hugo.
+"""One-time converter of the generated documentation pages that predate the generator that writes Hugo.
 
-The GitLab CI job "Update the docs" commits the language documentation to
+The GitLab CI job "Update the docs" committed the language documentation to
 pages/docs/** in kramdown syntax (3300+ grammar, features and client-binding
-pages) and a second script commits pages/docs/platform/<version>/release-notes.md
-with the same front matter. Those files are written by a machine and are never
-edited in this repository, so Hugo cannot be satisfied by changing them. This
-script reads them and writes a rewritten mirror to .build/content/pages/docs,
-which hugo.toml mounts over the content directory.
+pages), and a second script committed pages/docs/platform/<version>/release-notes.md
+with the same front matter. The generator that replaces them (alan-tools) writes
+the form Hugo reads as it is: `url` and `toc` in the front matter, no kramdown
+attribute lines, nothing to adapt. The pages that are in the repository before it
+runs are in the old form. This script converts them, once:
+
+    python3 _tools/hugo/prepare.py --in-place
+
+Run it once, right before the first deploy, commit the result, and delete this
+script and its tests afterwards. Nothing at build time depends on it: the build
+reads pages/docs as they are, and check-output.sh fails on a built page that still
+carries kramdown syntax, which is the signal that the conversion has not run.
+
+A page that is already in the Hugo form, one that has a `url` key in its front
+matter, passes through unchanged and is counted as such: the newer pages of the new
+generator, and the pages this script converted before, so a second run changes
+nothing. A `{:` line in such a page is an error, because it is the old form.
 
 What changes, and why:
 
@@ -53,16 +65,16 @@ What changes, and why:
      (3482 times in 620 pages) would be swallowed as raw HTML. A block followed
      by a blank line or by another tag is left alone.
 
-  7. In a generated rule block, a `<` that a browser would read as markup but
-     that is text is written as `&lt;`: `<!` (including `<!--`: a comment would
-     hide the rest of the block), `<?`, and `</` that is not followed by one of
-     the tag names the generator writes in a block (span, a, div, pre, code).
-     The grammar operators `<!` and `</` of the datastore migration and
-     relational database grammars are written that way. kramdown escaped them
-     while it copied the block; Goldmark copies the block verbatim, and a
-     browser reads `<!</span>` as a comment that swallows the closing tag, so
-     the operator would disappear. Other `<` stay as they are: kramdown copied
-     tags such as `<begin>` verbatim as well.
+  7. In a generated rule block, every `<` that does not start one of the tags
+     the generator writes there (span, a, div, pre and code, opening or
+     closing) is written as `&lt;`. The block is grammar text in HTML, and the
+     rest of it is text: the operators `<!`, `<?` and `</` of the datastore
+     migration and relational database grammars, which a browser would read
+     as a comment or an end tag that swallows the closing `</span>` (`<!--`
+     would hide the rest of the block), and the names `<begin>`, `<end>`,
+     `<step>` and `<range>` in the comments of the connector grammars, which a
+     browser reads as elements and shows as nothing, so that the words are
+     lost. kramdown escaped the operators and copied the names verbatim.
 
   8. An inline link destination that contains a space is wrapped in angle
      brackets: `[client bindings](../client bindings/client_bindings.html)`.
@@ -103,17 +115,6 @@ What changes, and why:
      page is written to that path (it keeps the spaces of directory names such
      as "client bindings"), the address the toolchains deep-link to.
 
- 13. Not a page: .build/data/key_order.json records the order of the keys that
-     the version files list. Hugo's data loader gives a JSON object as a map,
-     which Go templates range over in sorted key order, but the tables list
-     components in the order of the file. The file has the shape
-       {"platform": {"<platform version>": [keys of its "platform" object]},
-        "system types": {"<dist directory>": [keys of "system types"]}}
-     The first map comes from _data/versions.json, the second from every
-     _data/dist/<version>/versions.json; a version without a dist file is not in
-     the second map. The keys are in the order of the file (json keeps it). The
-     data mount of hugo.toml takes .build/data.
-
 Everything else is copied byte for byte. The content of fenced code blocks is
 never touched (rules 4 and 5 only repair fence lines). The result depends only
 on the input files: running the script twice gives the same tree.
@@ -126,27 +127,26 @@ a guess.
 
 Rules 4 to 9 exist because kramdown and Goldmark read the same generated text
 differently. A new kind of difference is not found here: check-output.sh catches
-leftover syntax in a built page, and the output of the generator must be checked
-when it changes.
+leftover syntax in a built page.
 
 Usage:
-    python3 _tools/hugo/prepare.py [--check] [--root REPOSITORY_ROOT]
+    python3 _tools/hugo/prepare.py --in-place | --check | --output DIR [--root REPOSITORY_ROOT]
 
-With --check the rewrite runs in memory and only the counters are printed, so
-CI logs show what the generator emitted without writing anything.
+--in-place rewrites the pages under pages/docs of the repository and writes
+nothing else. --check runs the rewrite in memory and prints the counters.
+--output writes the rewritten pages to a directory that does not exist yet or is
+empty, to look at them. The counters are the same in all three, and nothing is
+written when a page is refused.
 """
 
 import argparse
-import json
 import os
 import re
-import shutil
 import sys
+import tempfile
 import time
 
 SOURCE = "pages/docs"
-DEST = ".build/content/pages/docs"
-DATA_DEST = ".build/data"
 URL_PREFIX = "/pages/docs/"
 
 # The two lines kramdown turns into a table of contents. The blank lines between
@@ -174,9 +174,9 @@ BLOCK_END_BEFORE_TEXT = re.compile(rb"^</pre>\n</div>\n</div>\n(?=[^\n<])", re.M
 # A whole generated rule block, from its first line to the last of the three closing lines.
 RULE_BLOCK = re.compile(rb'^<div class="language-js highlighter-rouge">\n.*?^</pre>\n</div>\n</div>$', re.M | re.S)
 
-# A `<` that is text in a rule block but that a browser reads as markup: a declaration, comment or
-# processing instruction opener, or an end tag that is not one the generator writes.
-BLOCK_MARKUP_TEXT = re.compile(rb"<(?=!|\?|/(?!(?:span|a|div|pre|code)\s*>))")
+# A `<` of a rule block that starts no tag of the ones the generator writes there: text that a
+# browser would read as markup (a comment, an end tag, an element of its own).
+BLOCK_MARKUP_TEXT = re.compile(rb"<(?!/?(?:span|a|div|pre|code)[\s>])")
 
 # An inline link destination with a space and no title: `](a b/c.html)`.
 LINK_WITH_SPACE = re.compile(rb"\]\(([^()<>\"'\s][^()<>\"'\n]* [^()<>\"'\n]*)\)")
@@ -222,11 +222,11 @@ NOT_PARAGRAPH = re.compile(
 
 COUNTER_LABELS = [
     ("files", "markdown files read"),
-    ("written", "markdown files written"),
+    ("written", "markdown files rewritten"),
     ("skipped", "non-markdown files skipped"),
     ("quote_open", "single quotes written as U+2018 (opening, in prose)"),
     ("quote_close", "single quotes written as U+2019 (closing, in prose)"),
-    ("escaped_lt", "< escaped in rule blocks (<!, <?, </ that closes no tag of the block)"),
+    ("escaped_lt", "< written &lt; in rule blocks (starting no tag of the block)"),
     ("link_spaces", "link destinations with a space wrapped in <>"),
     ("stray_backtick", "fence openers cleaned of a stray backtick after the info string"),
     ("blockquote_fences", "blockquote fences completed with the > prefix"),
@@ -237,8 +237,7 @@ COUNTER_LABELS = [
     ("fenced_ial", "attribute lines inside fences left as they are"),
     ("urls", "url added to front matter"),
     ("toc_pages", "toc: true added to front matter (pages that had the marker)"),
-    ("key_order_platform", "key_order.json: platform versions"),
-    ("key_order_types", "key_order.json: system type lists"),
+    ("hugo_form", "pages already in the Hugo form, left as they are"),
 ]
 
 
@@ -438,10 +437,7 @@ def split_front_matter(data, name):
     m = FRONT_MATTER_END.search(data, 3)
     if not m:
         raise Failure("%s: front matter is not closed" % name)
-    front = data[: m.start() + 1]
-    if re.search(rb"^url:", front, re.M):
-        raise Failure("%s: front matter already has a url key" % name)
-    return front, data[m.start() + 1 : m.end()], data[m.end() :]
+    return data[: m.start() + 1], data[m.start() + 1 : m.end()], data[m.end() :]
 
 
 def rewrite_body(body, name, line_base, counters, errors):
@@ -454,7 +450,7 @@ def rewrite_body(body, name, line_base, counters, errors):
         counters["escaped_lt"] += count
         return block
 
-    if b"<!" in body or b"<?" in body or b"</" in body:
+    if b"highlighter-rouge" in body:
         body = RULE_BLOCK.sub(escape_block, body)
     blocks = [(m.start(), m.end()) for m in RULE_BLOCK.finditer(body)]
 
@@ -567,6 +563,18 @@ def rewrite_page(data, relative, counters, errors):
     except Failure as failure:
         errors.append(str(failure))
         return None
+    if re.search(rb"^url:", front, re.M):
+        # already in the Hugo form: nothing to change, and nothing of the old form left
+        line_base = front.count(b"\n") + closing.count(b"\n")
+        fences, _ = fenced_ranges(body)
+        for m in re.finditer(rb"^[ \t]*\{:[^\n]*$", body, re.M):
+            if not in_ranges(fences, m.start()):
+                errors.append(
+                    "%s:%d: kramdown attribute line in a page that has a url key: %s"
+                    % (name, line_base + body.count(b"\n", 0, m.start()) + 1, m.group(0).decode("utf-8", "replace"))
+                )
+        counters["hugo_form"] += 1
+        return data
     url = URL_PREFIX + relative[: -len(".md")] + ".html"
     if not re.fullmatch(r"[A-Za-z0-9_./ -]+", url):
         errors.append("%s: path has characters that need quoting in a front matter string" % name)
@@ -594,52 +602,29 @@ def source_files(source_root):
             yield os.path.relpath(absolute, source_root).replace(os.sep, "/"), absolute
 
 
-def key_order(root, errors):
-    """Return the key_order.json structure, or None when a version file is unusable."""
-    def read(path):
-        with open(path, "rb") as handle:
-            # a JSON object is read as a dict, which keeps the order of the file
-            return json.loads(handle.read().decode("utf-8"), object_pairs_hook=lambda pairs: dict(pairs))
-
-    result = {"platform": {}, "system types": {}}
-    versions_path = os.path.join(root, "_data", "versions.json")
-    try:
-        versions = read(versions_path)
-        for entry in versions["versions"]:
-            keys = entry.get("platform")
-            if not isinstance(keys, dict):
-                continue
-            name = entry["name"]
-            if name in result["platform"]:
-                raise ValueError("version %s is listed twice" % name)
-            result["platform"][name] = list(keys)
-    except (OSError, ValueError, KeyError, TypeError, AttributeError) as error:
-        errors.append("_data/versions.json: %s" % error)
-        return None
-    dist = os.path.join(root, "_data", "dist")
-    for name in sorted(os.listdir(dist)) if os.path.isdir(dist) else []:
-        path = os.path.join(dist, name, "versions.json")
-        if not os.path.isfile(path):
-            continue
-        try:
-            types = read(path).get("system types")
-        except (OSError, ValueError, AttributeError) as error:
-            errors.append("_data/dist/%s/versions.json: %s" % (name, error))
-            return None
-        if isinstance(types, dict):
-            result["system types"][name] = list(types)
-    return result
-
-
 def write_file(target, data):
-    os.makedirs(os.path.dirname(target), exist_ok=True)
-    with open(target, "wb") as handle:
-        handle.write(data)
+    """Write a file whole or not at all: to a temporary file beside it, then over it."""
+    directory = os.path.dirname(target)
+    os.makedirs(directory, exist_ok=True)
+    handle, temporary = tempfile.mkstemp(dir=directory, prefix=".prepare-")
+    try:
+        with os.fdopen(handle, "wb") as out:
+            out.write(data)
+        # mkstemp makes the file private; the file it replaces keeps its mode
+        os.chmod(temporary, os.stat(target).st_mode & 0o777 if os.path.exists(target) else 0o644)
+        os.replace(temporary, target)
+    except BaseException:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+        raise
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Rewrite the CI-generated pages/docs for Hugo.")
-    parser.add_argument("--check", action="store_true", help="rewrite in memory, print the counters, write nothing")
+    parser = argparse.ArgumentParser(description="Convert the generated pages under pages/docs to the Hugo form, once.")
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--in-place", action="store_true", help="rewrite the pages under pages/docs of the repository")
+    mode.add_argument("--check", action="store_true", help="rewrite in memory, print the counters, write nothing")
+    mode.add_argument("--output", metavar="DIR", help="write the rewritten pages to DIR (new or empty)")
     parser.add_argument(
         "--root",
         default=os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))),
@@ -648,17 +633,17 @@ def main():
     args = parser.parse_args()
 
     source_root = os.path.join(args.root, SOURCE)
-    dest_root = os.path.join(args.root, DEST)
     if not os.path.isdir(source_root):
         print("prepare: %s does not exist" % source_root, file=sys.stderr)
+        return 2
+    if args.output and os.path.isdir(args.output) and os.listdir(args.output):
+        print("prepare: %s is not empty" % args.output, file=sys.stderr)
         return 2
 
     started = time.monotonic()
     counters = {key: 0 for key, _ in COUNTER_LABELS}
     errors = []
-    if not args.check:
-        shutil.rmtree(dest_root, ignore_errors=True)
-        shutil.rmtree(os.path.join(args.root, DATA_DEST), ignore_errors=True)
+    results = []  # (relative path, absolute path, source, rewritten)
 
     for relative, absolute in source_files(source_root):
         if not relative.endswith(".md"):
@@ -668,25 +653,10 @@ def main():
         with open(absolute, "rb") as handle:
             data = handle.read()
         result = rewrite_page(data, relative, counters, errors)
-        if result is None or args.check or errors:
-            continue
-        write_file(os.path.join(dest_root, relative), result)
-        counters["written"] += 1
-
-    order = key_order(args.root, errors)
-    if order is not None:
-        counters["key_order_platform"] = len(order["platform"])
-        counters["key_order_types"] = len(order["system types"])
-        if not args.check and not errors:
-            write_file(
-                os.path.join(args.root, DATA_DEST, "key_order.json"),
-                (json.dumps(order, indent=1, ensure_ascii=False) + "\n").encode("utf-8"),
-            )
+        if result is not None:
+            results.append((relative, absolute, data, result))
 
     if errors:
-        if not args.check:
-            shutil.rmtree(dest_root, ignore_errors=True)
-            shutil.rmtree(os.path.join(args.root, DATA_DEST), ignore_errors=True)
         for error in errors[:50]:
             print("prepare: " + error, file=sys.stderr)
         if len(errors) > 50:
@@ -694,14 +664,24 @@ def main():
         print("prepare: %d errors, nothing written" % len(errors), file=sys.stderr)
         return 1
 
+    for relative, absolute, data, result in results:
+        if args.in_place and result != data:
+            write_file(absolute, result)
+            counters["written"] += 1
+        elif args.output:
+            write_file(os.path.join(args.output, relative), result)
+            counters["written"] += 1
+
     width = max(len(label) for _, label in COUNTER_LABELS)
     for key, label in COUNTER_LABELS:
         print("%s  %7d" % (label.ljust(width), counters[key]))
     elapsed = time.monotonic() - started
     if args.check:
         print("check only, nothing written (%.1f s)" % elapsed)
+    elif args.in_place:
+        print("rewrote %d pages of %s in place (%.1f s)" % (counters["written"], SOURCE, elapsed))
     else:
-        print("wrote %s (%.1f s)" % (os.path.relpath(dest_root, args.root), elapsed))
+        print("wrote %d pages to %s (%.1f s)" % (counters["written"], args.output, elapsed))
     return 0
 
 
