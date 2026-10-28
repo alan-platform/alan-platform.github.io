@@ -63,25 +63,15 @@ footer .inner {
   }
 }
 
-/* Links fade slowly to their new colour and react fast on hover and active.
-   The same transition pair is used in the theme, docs and header files. */
 footer a,
 footer a:link,
 footer a:visited {
   color: inherit;
-  transition: color 0.5s ease-in-out;
-}
-
-footer a:hover,
-footer a:active,
-footer a:link:hover,
-footer a:link:active,
-footer a:visited:hover,
-footer a:visited:active {
-  transition: color 0.1s ease-in-out;
+  transition: color var(--transition-slow) ease-in-out;
 }
 
 footer a:hover,
 footer a:active {
+  transition: color var(--transition-quick) ease-in-out;
   color: #fff;
 }

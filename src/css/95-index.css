@@ -48,8 +48,7 @@
 .page-index a,
 .page-index a:link,
 .page-index a:visited {
-  /* The quick transition shared with the cards and card titles (hub) and the heading anchors (main). */
-  transition: color 0.25s ease-in-out;
+  transition: color var(--transition-fast) ease-in-out;
   display: block;
   padding: .2em .5em .2em .75em;
   border-left: 3px solid transparent;
@@ -60,15 +59,6 @@
   color: #484a50;
 }
 
-/* The transition is faster on hover and active. */
-.page-index a:hover, .page-index a:active,
-.page-index a:link:hover,
-.page-index a:link:active,
-.page-index a:visited:hover,
-.page-index a:visited:active {
-  transition: color 0.05s ease-in-out;
-}
-
 /* Top-level sections carry a little more weight than their subsections. */
 .page-index nav > ol > li > a {
   color: #393b40;
@@ -76,6 +66,7 @@
 
 .page-index a:hover,
 .page-index a:active {
+  transition: color var(--transition-fastest) ease-in-out;
   border-left-color: #c3c5ca;
   color: #2b2c30;
 }

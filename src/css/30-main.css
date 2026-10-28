@@ -10,10 +10,9 @@ h3[id] {
   position: relative;
 }
 
-/* The anchor arrow fades in with the same fast transition as in the hub and index styles. */
 h2[id] a::after,
 h3[id] a::after {
-  transition: opacity 0.25s ease-in-out;
+  transition: opacity var(--transition-fast) ease-in-out;
   content: "";
   width: 16px;
   height: 1.414em;
@@ -29,7 +28,7 @@ h2[id] a::after:hover,
 h2[id] a::after:active,
 h3[id] a::after:hover,
 h3[id] a::after:active {
-  transition: opacity 0.05s ease-in-out;
+  transition: opacity var(--transition-fastest) ease-in-out;
 }
 
 h2[id]:target a::after,

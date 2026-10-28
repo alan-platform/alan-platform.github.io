@@ -12,12 +12,10 @@
   font-size: 1em;
 }
 
-/* The fast border-color transition: .25s at rest, .05s on hover and active,
-   the same timing as the page index links and the heading anchor arrows. */
 a.card,
 a.card:link,
 a.card:visited {
-  transition: border-color 0.25s ease-in-out;
+  transition: border-color var(--transition-fast) ease-in-out;
   display: flex;
   flex-direction: column;
   gap: .35em;
@@ -29,16 +27,8 @@ a.card:visited {
 }
 
 a.card:hover,
-a.card:active,
-a.card:link:hover,
-a.card:link:active,
-a.card:visited:hover,
-a.card:visited:active {
-  transition: border-color 0.05s ease-in-out;
-}
-
-a.card:hover,
 a.card:active {
+  transition: border-color var(--transition-fastest) ease-in-out;
   border-color: #ff641a;
   color: #393b40;
 }
@@ -57,10 +47,8 @@ a.card:active .card-title {
   color: #484a50;
 }
 
-/* The fast color transition: .25s at rest, .05s on hover and active,
-   the same timing as the page index links and the heading anchor arrows. */
 .card-title {
-  transition: color 0.25s ease-in-out;
+  transition: color var(--transition-fast) ease-in-out;
   font-size: 1.15em;
   font-weight: bold;
   color: #4a80ff;
@@ -68,7 +56,7 @@ a.card:active .card-title {
 
 .card-title:hover,
 .card-title:active {
-  transition: color 0.05s ease-in-out;
+  transition: color var(--transition-fastest) ease-in-out;
 }
 
 .card-text {

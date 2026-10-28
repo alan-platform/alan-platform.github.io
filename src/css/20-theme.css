@@ -15,6 +15,18 @@
  * 30% opacity.
  */
 
+/*
+ * Transition durations, used in pairs: the first of a pair at rest, the second on hover and active. Slow and quick
+ * are on the buttons, the header links, the menu toggle, the table rows and links and the footer links; fast and
+ * fastest are on the heading anchor arrows, the cards, the card titles and the page index links.
+ */
+:root {
+  --transition-slow: 0.5s;
+  --transition-quick: 0.1s;
+  --transition-fast: 0.25s;
+  --transition-fastest: 0.05s;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -150,10 +162,6 @@ a:active {
   text-decoration: underline;
 }
 
-/*
- * The transition below and its faster variant on hover and active are the slow hover transition (0.5s out,
- * 0.1s in) that the docs, header and footer parts of src/css/ use as well.
- */
 a.button {
   display: inline-block;
   position: relative;
@@ -165,16 +173,12 @@ a.button {
   color: #FFF;
   text-shadow: 1px 1px 4px rgba(57, 59, 64, 0.3);
   box-shadow: 1px 2px 4px rgba(57, 59, 64, 0.3);
-  transition: background 0.5s ease-in-out;
+  transition: background var(--transition-slow) ease-in-out;
 }
 
 a.button:hover,
 a.button:active {
-  transition: background 0.1s ease-in-out;
-}
-
-a.button:hover,
-a.button:active {
+  transition: background var(--transition-quick) ease-in-out;
   text-decoration: none;
   background: #f04e00;
 }

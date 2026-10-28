@@ -24,16 +24,12 @@ table {
   margin: 1em 0 1.414em 0;
 }
 
-/*
- * The background fades slowly and responds quickly on hover: the same
- * transition pair as the buttons of the theme and the header and footer links.
- */
 table tr {
-  transition: background 0.5s ease-in-out;
+  transition: background var(--transition-slow) ease-in-out;
 }
 
 table tr:hover, table tr:active {
-  transition: background 0.1s ease-in-out;
+  transition: background var(--transition-quick) ease-in-out;
 }
 
 table tr:hover {
@@ -62,10 +58,6 @@ table td > a {
   padding: 0 1.414rem;
 }
 
-/*
- * The colour fades slowly and responds quickly on hover: the same
- * transition pair as the buttons of the theme and the header and footer links.
- */
 table th > a, table th > a:link, table th > a:visited, table th > a:hover, table th > a:active,
 table td > a,
 table td > a:link,
@@ -73,21 +65,13 @@ table td > a:visited,
 table td > a:hover,
 table td > a:active {
   text-decoration: none;
-  transition: color 0.5s ease-in-out;
+  transition: color var(--transition-slow) ease-in-out;
 }
 
-table th > a:hover, table th > a:active, table th > a:link:hover, table th > a:link:active, table th > a:visited:hover, table th > a:visited:active, table th > a:hover:hover, table th > a:hover:active, table th > a:active:hover, table th > a:active:active,
+table th > a:hover, table th > a:active,
 table td > a:hover,
-table td > a:active,
-table td > a:link:hover,
-table td > a:link:active,
-table td > a:visited:hover,
-table td > a:visited:active,
-table td > a:hover:hover,
-table td > a:hover:active,
-table td > a:active:hover,
-table td > a:active:active {
-  transition: color 0.1s ease-in-out;
+table td > a:active {
+  transition: color var(--transition-quick) ease-in-out;
 }
 
 table a[href$='application/grammar.html'] {

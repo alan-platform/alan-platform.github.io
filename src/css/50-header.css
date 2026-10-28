@@ -35,17 +35,10 @@ header ul {
     }
 }
 
-/* A slow transition back to rest and a quick one on hover and active, the same pairing as on the button, table
-   rows and links of the theme, docs and footer files. */
 header ul a {
-    transition: all 0.5s ease-in-out;
+    transition: all var(--transition-slow) ease-in-out;
     display: inline-block;
     white-space: nowrap;
-}
-
-header ul a:hover,
-header ul a:active {
-    transition: all 0.1s ease-in-out;
 }
 
 header ul a,
@@ -62,6 +55,7 @@ header ul a:active {
 
 header ul a:hover,
 header ul a:active {
+    transition: all var(--transition-quick) ease-in-out;
     text-decoration: none;
     text-shadow: 0 0 2px #FFF;
     border-bottom-color: #2163ff;
@@ -150,11 +144,9 @@ header .logo svg .stripes path:hover:nth-child(4n + 2) {
     fill: #ffc94a;
 }
 
-/* A button, styled the way the link it replaced was. Its first declaration and the rule after it are the slow
-   transition back to rest and the quick one on hover and active, the same pairing as on the button, table rows and
-   links of the theme, docs and footer files. */
+/* A button, styled the way the link it replaced was. */
 header .nav-toggle {
-    transition: color 0.5s ease-in-out;
+    transition: color var(--transition-slow) ease-in-out;
     display: none;
     padding-right: 0;
     padding-left: 0;
@@ -168,11 +160,7 @@ header .nav-toggle {
 
 header .nav-toggle:hover,
 header .nav-toggle:active {
-    transition: color 0.1s ease-in-out;
-}
-
-header .nav-toggle:hover,
-header .nav-toggle:active {
+    transition: color var(--transition-quick) ease-in-out;
     color: #ffb794;
 }
 
