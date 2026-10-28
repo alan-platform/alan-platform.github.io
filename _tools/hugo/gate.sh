@@ -43,4 +43,5 @@ allowed=(
   --allow-diff "5:index.html"
 )
 
-exec python3 _tools/hugo/compare.py "${allowed[@]}" "$@" "$baseline" public
+# --strict: a file that only the Hugo build has fails the gate too.
+exec python3 _tools/hugo/compare.py --strict "${allowed[@]}" "$@" "$baseline" public
