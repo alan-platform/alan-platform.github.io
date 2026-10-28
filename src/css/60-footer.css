@@ -1,0 +1,94 @@
+/* Footer: the dark band at the bottom of every page, with the social links,
+   the copyright line and the orange logo. */
+
+footer {
+  margin: 4rem 0 0 0;
+  position: relative;
+  background: #2b2c30;
+  padding: 0 1.999396rem;
+  font-size: 14px;
+  color: #d9dadd;
+  line-height: 21px;
+}
+
+/* Black diagonal overlay over the left part of the band. Only the footer
+   uses this overlay now. */
+footer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 20%;
+  bottom: 0;
+  left: 0;
+  background: transparent url("../assets/overlay-black.svg") no-repeat right top/cover;
+  pointer-events: none;
+  opacity: .2;
+}
+
+/* The footer's overlay is fainter and narrower than the default above. */
+footer::after {
+  opacity: .1;
+  right: 50%;
+}
+
+footer img {
+  margin-bottom: 8px;
+}
+
+footer .social {
+  margin-top: 2.827145944rem;
+  margin-bottom: 1.414rem;
+  color: #fff;
+}
+
+footer .social a {
+  display: inline-block;
+}
+
+footer .social a + a {
+  margin-left: 1.414rem;
+}
+
+footer .copyright {
+  margin-top: 3.9975843648rem;
+  margin-bottom: 1rem;
+  font-weight: 200;
+  font-size: 13px;
+  letter-spacing: .05ex;
+}
+
+footer .inner {
+  padding: 2.827145944rem 0 1.414rem 0;
+  background-size: 90px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+@media (min-width: 480px) {
+  footer .inner {
+    background: url("../assets/logo/full-orange.svg") no-repeat right 1.999396rem bottom 2.827145944rem / 120px;
+  }
+}
+
+/* Links fade slowly to their new colour and react fast on hover and active.
+   The same transition pair is used in the theme, docs and header files. */
+footer a,
+footer a:link,
+footer a:visited {
+  color: inherit;
+  transition: color 0.5s ease-in-out;
+}
+
+footer a:hover,
+footer a:active,
+footer a:link:hover,
+footer a:link:active,
+footer a:visited:hover,
+footer a:visited:active {
+  transition: color 0.1s ease-in-out;
+}
+
+footer a:hover,
+footer a:active {
+  color: #fff;
+}

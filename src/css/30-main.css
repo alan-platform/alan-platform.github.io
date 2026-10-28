@@ -1,0 +1,155 @@
+/*
+ * Main page styles: the anchor arrows on section headings, the offset for
+ * linked targets under the fixed header, spacing in sections, centered
+ * headings and paragraphs, the video wrapper, the main column and the strip
+ * of boxes that fades out at both ends.
+ */
+
+h2[id],
+h3[id] {
+  position: relative;
+}
+
+/* The anchor arrow fades in with the same fast transition as in the hub and index styles. */
+h2[id] a::after,
+h3[id] a::after {
+  transition: opacity 0.25s ease-in-out;
+  content: "";
+  width: 16px;
+  height: 1.414em;
+  background: url("../assets/arrow.svg") no-repeat center center;
+  background-size: 16px 16px;
+  position: absolute;
+  left: -1em;
+  opacity: 0;
+}
+
+/* The pseudo-class follows the pseudo-element here, so this rule matches nothing; it is kept as it was. */
+h2[id] a::after:hover,
+h2[id] a::after:active,
+h3[id] a::after:hover,
+h3[id] a::after:active {
+  transition: opacity 0.05s ease-in-out;
+}
+
+h2[id]:target,
+h3[id]:target {
+  z-index: -1;
+}
+
+h2[id]:target a::after,
+h2[id] a:hover::after,
+h3[id]:target a::after,
+h3[id] a:hover::after {
+  opacity: 1;
+}
+
+h2[id] a,
+h2[id] a:link,
+h2[id] a:visited,
+h2[id] a:hover,
+h2[id] a:active,
+h3[id] a,
+h3[id] a:link,
+h3[id] a:visited,
+h3[id] a:hover,
+h3[id] a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+h3[id] a::after {
+  background-size: 12px 12px;
+}
+
+/* make name-linked-content doesn't disappear behind header for # links */
+a[name] {
+  display: block;
+  position: relative;
+  top: -3rem;
+}
+
+/* offset for fixed header */
+:target::before {
+  content: "";
+  display: block;
+  height: 8rem;
+  margin-top: -8rem;
+}
+
+section > * + * {
+  margin-top: 0.7072135785em;
+}
+
+h2.centered {
+  color: #c3c5ca;
+  font-style: italic;
+  text-align: center;
+}
+
+p.centered {
+  margin-top: 1.999396rem;
+  text-align: center;
+}
+
+.video-wrapper {
+  text-align: center;
+}
+
+main {
+  max-width: 49rem;
+  margin: 4rem auto 0 auto;
+}
+
+main > * {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.strip {
+  list-style: none;
+  display: flex;
+  position: relative;
+  padding: 0;
+  margin-bottom: 1.999396rem;
+}
+
+.strip::before,
+.strip::after,
+.strip li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1.999396rem;
+  border: 2px solid #eeeff0;
+  background: #f7f7f7;
+}
+
+@media (max-width: 700px) {
+  .strip::before,
+  .strip::after,
+  .strip li {
+    padding: 2.67vw;
+  }
+}
+
+.strip li + li {
+  margin-left: 1rem;
+}
+
+.strip::before {
+  content: '';
+  margin-right: 1rem;
+  background: linear-gradient(to right, #fff, #f7f7f7);
+  border-image: linear-gradient(to right, #fff, #eeeff0) 2;
+  border-left: none;
+}
+
+.strip::after {
+  content: '';
+  margin-left: 1rem;
+  background: linear-gradient(to left, #fff, #f7f7f7);
+  border-image: linear-gradient(to left, #fff, #eeeff0) 2;
+  border-right: none;
+}

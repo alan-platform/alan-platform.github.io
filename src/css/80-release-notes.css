@@ -1,0 +1,81 @@
+/*
+ * Release notes: the notes of one component version, or those of a platform
+ * version with its component table.
+ * The pages are generated from the RELEASE.md of each component, so
+ * everything here is presentation.
+ */
+
+/* the version the notes are about, right under the header that already names it */
+.release-notes section > h2:first-child {
+  margin-top: 1rem;
+}
+
+.release-notes li + li {
+  margin-top: .75em;
+}
+
+/* main.js moves the code that illustrates an item into that item */
+.release-notes li > .highlighter-rouge,
+.release-notes li > p,
+.release-notes li > table {
+  margin-top: .5em;
+  margin-bottom: .5em;
+}
+
+/* error messages quoted in full: let them wrap rather than push the page sideways */
+.release-notes p > code,
+.release-notes li > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* the version number in a documentation table, linking the release notes of that version */
+td > a.doc-table-notes {
+  display: inline;
+  width: auto;
+  padding: 0;
+}
+
+/* a table in the notes, or the component table of a platform release: read as text */
+.release-notes section table {
+  border-spacing: 0;
+}
+
+/* aligned with the text above, the columns kept apart by the space on their right */
+.release-notes section table th,
+.release-notes section table td {
+  padding: .35em 1.5rem .35em 0;
+  border-right: none;
+  border-bottom: 1px solid #eeeff0;
+  text-align: left;
+}
+
+.release-notes section table thead th {
+  border-bottom-color: #c3c5ca;
+  font-size: .875em;
+  color: #484a50;
+}
+
+/* narrow screens (the site-wide 50rem breakpoint): less space between the columns */
+@media (max-width: 50rem) {
+  .release-notes section table th,
+  .release-notes section table td {
+    padding-right: 1rem;
+  }
+}
+
+/* a version that changed, linking its release notes */
+.release-components td > a {
+  display: inline;
+  width: auto;
+  padding: 0;
+  font-weight: bold;
+}
+
+.release-components .unchanged {
+  color: #838590;
+}
+
+.release-components .unchanged th {
+  font-weight: normal;
+}

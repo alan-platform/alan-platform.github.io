@@ -1,0 +1,91 @@
+/* The Learn and Documentation pages: cards for a choice between paths and for short lists of destinations. */
+
+/* Two across the text column, one on a phone or when zoomed. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: 1rem;
+  margin: 1em 0 1.414em;
+}
+
+.cards-small .card-title {
+  font-size: 1em;
+}
+
+/* The fast border-color transition: .25s at rest, .05s on hover and active,
+   the same timing as the page index links and the heading anchor arrows. */
+a.card,
+a.card:link,
+a.card:visited {
+  transition: border-color 0.25s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: .35em;
+  padding: 1rem 1.25rem;
+  border: 1px solid #c3c5ca;
+  border-radius: 6px;
+  background: #FFF;
+  color: #393b40;
+}
+
+a.card:hover,
+a.card:active,
+a.card:link:hover,
+a.card:link:active,
+a.card:visited:hover,
+a.card:visited:active {
+  transition: border-color 0.05s ease-in-out;
+}
+
+a.card:hover,
+a.card:active {
+  border-color: #ff641a;
+  color: #393b40;
+}
+
+a.card:hover .card-title,
+a.card:active .card-title {
+  color: #ff641a;
+}
+
+/* What kind of destination it is, above the title. */
+.card-kicker {
+  font-size: .75em;
+  font-weight: bold;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #484a50;
+}
+
+/* The fast color transition: .25s at rest, .05s on hover and active,
+   the same timing as the page index links and the heading anchor arrows. */
+.card-title {
+  transition: color 0.25s ease-in-out;
+  font-size: 1.15em;
+  font-weight: bold;
+  color: #4a80ff;
+}
+
+.card-title:hover,
+.card-title:active {
+  transition: color 0.05s ease-in-out;
+}
+
+.card-text {
+  font-size: .9em;
+  line-height: 1.5;
+}
+
+/* The link to everything else, under a list or a table. */
+p.more {
+  text-align: right;
+}
+
+/* A release that is out, at the top of the documentation page.
+   The background is the notice yellow #ffc94a lightened by 30%. */
+.notice {
+  padding: .6em 1em;
+  border-left: 3px solid #ffc94a;
+  border-radius: 0 4px 4px 0;
+  background: #fff7e3;
+}

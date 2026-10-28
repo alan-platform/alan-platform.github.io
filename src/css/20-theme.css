@@ -1,0 +1,230 @@
+/*
+ * Theme: the base styles of every page. Box sizing, the body text, headings, lists, images, focus outlines, the
+ * skip link, links and buttons, quotes, code and rules.
+ *
+ * Sizes follow a scale with ratio 1.414: 1.414em and 2.828em are one and two times the ratio, 3.9975843648em is
+ * its fourth power, 0.7072135785em and 0.5001510456em are one and two steps down (1 / 1.414 and 1 / 1.414^2).
+ *
+ * Colours: text #333, blue #4a80ff, orange #ff641a (#f04e00 is the orange 8% darker), and greys lightened from
+ * #2b2c30: #393b40 (6%), #c3c5ca (60%) and #eeeff0 (76%).
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: 'clear sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.414;
+  color: #333;
+}
+
+h1 {
+  margin: 0;
+  padding: 1em 0 0.7072135785em 0;
+  text-align: center;
+  font-size: 4em;
+}
+
+/* 50rem: the 45rem content width (720px at 16px) plus 5rem (80px). */
+@media (max-width: 50rem) {
+  h1 {
+    font-size: 2.828em;
+  }
+}
+
+h2 {
+  margin: 3.9975843648em 0 0.5001510456em 0;
+  font-size: 1.414em;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  margin: 1em 0 0 0;
+  font-size: 1em;
+}
+
+h3 {
+  font-size: 1.2em;
+}
+
+small {
+  font-size: 0.7072135785em;
+  line-height: 2;
+}
+
+ol,
+ul {
+  margin: 1em auto 1.414em auto;
+  /* padding: 0; */
+}
+
+ol li,
+ul li {
+  margin-bottom: 0.5001510456em;
+}
+
+nav ol,
+nav ul {
+  margin-top: 0;
+}
+
+nav ol li,
+nav ul li {
+  margin-bottom: 0;
+}
+
+ol ol,
+ol ul,
+ul ol,
+ul ul {
+  margin-top: .5em;
+  margin-left: 1.414em;
+}
+
+img {
+  max-width: 100%;
+}
+
+/*
+ * Content images keep their proportions when the column is narrower than they are; logos in the header and footer
+ * are sized by their height attribute, so leave those alone.
+ */
+main section img {
+  height: auto;
+}
+
+/* Keyboard users need to see where they are. */
+:focus-visible {
+  outline: 3px solid #ff641a;
+  outline-offset: 2px;
+}
+
+/* The first thing a keyboard reaches, out of the way until it is focused. */
+.skip-link {
+  display: block;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  overflow: hidden;
+  padding: 0;
+}
+
+.skip-link:focus {
+  width: auto;
+  height: auto;
+  overflow: visible;
+  padding: 1rem 1.414rem;
+  background: #FFF;
+  color: #2b2c30;
+}
+
+a,
+a:link,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: #4a80ff;
+}
+
+a:hover,
+a:active {
+  text-decoration: underline;
+}
+
+/*
+ * The transition below and its faster variant on hover and active are the slow hover transition (0.5s out,
+ * 0.1s in) that the docs, header and footer parts of src/css/ use as well.
+ */
+a.button {
+  display: inline-block;
+  position: relative;
+  padding: 0.5001510456em 0.7072135785em 0.7072135785em 0.7072135785em;
+  border: 1px solid #f04e00;
+  text-align: center;
+  line-height: 1;
+  background: #ff641a;
+  color: #FFF;
+  text-shadow: 1px 1px 4px rgba(57, 59, 64, 0.3);
+  box-shadow: 1px 2px 4px rgba(57, 59, 64, 0.3);
+  transition: background 0.5s ease-in-out;
+}
+
+a.button:hover,
+a.button:active {
+  transition: background 0.1s ease-in-out;
+}
+
+a.button:hover,
+a.button:active {
+  text-decoration: none;
+  background: #f04e00;
+}
+
+a.button:active {
+  top: 1px;
+  box-shadow: inset 1px 1px 2px rgba(57, 59, 64, 0.3);
+}
+
+blockquote {
+  margin: 0;
+  padding-left: 0.7072135785em;
+  border-left: 2px solid #c3c5ca;
+  color: #393b40;
+}
+
+pre {
+  margin: 0;
+  padding: 0.5001510456em 0.7072135785em;
+  border-radius: 4px;
+  line-height: 1;
+  background: #eeeff0;
+  box-sizing: border-box;
+}
+
+code {
+  padding: 0 0.7072135785ex;
+  border-radius: 4px;
+  font-family: 'pt mono', monospace;
+  font-size: 0.8em;
+  background: #eeeff0;
+}
+
+p > code {
+  white-space: nowrap;
+}
+
+pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  white-space: pre;
+}
+
+code .punctuation {
+  color: #393b40;
+}
+
+code .string {
+  color: #4a80ff;
+}
+
+code .operator {
+  color: #ff641a;
+}
+
+hr {
+  margin: 0 0.7072135785rem;
+  border: none;
+  border-bottom: 2px solid #4a80ff;
+}

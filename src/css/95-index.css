@@ -1,0 +1,133 @@
+/*
+ * The page index: the table of contents of a page, which the layout builds into a rail beside the content
+ * (page-index.html). Narrow screens show it in the flow of the page, above the content.
+ *
+ * The rail is 14rem wide with a 2rem gap, so it takes 16rem beside the text column. The rail appears from
+ * 64rem: the 45rem text column, the 16rem rail and gap, and 2rem of air make the 63rem below which the
+ * index stays in the flow.
+ */
+
+/* The inline styling from the docs stylesheet does not apply once the list is in the rail. */
+.page-index #markdown-toc {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.page-index .page-index-label {
+  margin: 0 0 .5em .75em;
+  font-weight: bold;
+  font-size: .75em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #484a50;
+}
+
+/* The table of contents is an ordered list. */
+.page-index nav > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.page-index ol ol {
+  list-style: none;
+  margin: 0;
+  padding-left: .75rem;
+}
+
+/* Grammar pages go down to h5; two levels are enough to navigate by. */
+.page-index ol ol ol {
+  display: none;
+}
+
+.page-index li {
+  margin: 0;
+}
+
+.page-index a,
+.page-index a:link,
+.page-index a:visited {
+  /* The quick transition shared with the cards and card titles (hub) and the heading anchors (main). */
+  transition: color 0.25s ease-in-out;
+  display: block;
+  padding: .2em .5em .2em .75em;
+  border-left: 3px solid transparent;
+  font-size: .875em;
+  line-height: 1.35;
+  text-decoration: none;
+  /* #838590 on white is 3.4:1, below the 4.5:1 that small text needs. */
+  color: #484a50;
+}
+
+/* The transition is faster on hover and active. */
+.page-index a:hover, .page-index a:active,
+.page-index a:link:hover,
+.page-index a:link:active,
+.page-index a:visited:hover,
+.page-index a:visited:active {
+  transition: color 0.05s ease-in-out;
+}
+
+/* Top-level sections carry a little more weight than their subsections. */
+.page-index nav > ol > li > a {
+  color: #393b40;
+}
+
+.page-index a:hover,
+.page-index a:active {
+  border-left-color: #c3c5ca;
+  color: #2b2c30;
+}
+
+.page-index a[aria-current] {
+  border-left-color: #ff641a;
+  font-weight: bold;
+  color: #2b2c30;
+}
+
+/* In the flow, above the content. */
+@media (max-width: 63rem) {
+  .page-index {
+    max-height: 40vh;
+    overflow-y: auto;
+    margin-bottom: 1.414rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #eeeff0;
+  }
+}
+
+@media (min-width: 64rem) {
+  /* Room for the rail, with the text column its usual width. */
+  main.has-page-index {
+    max-width: 65rem;
+    padding-left: 16rem;
+  }
+
+  /* Floated out of the text column, and sticky within the page body. */
+  .page-index {
+    width: 14rem;
+    max-height: calc(100vh - 11rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: sticky;
+    float: left;
+    top: 8rem;
+    margin-top: 1.414rem;
+    margin-right: 0;
+    margin-left: -16rem;
+    scrollbar-width: thin;
+  }
+}
+
+/* Room for the fixed header when jumping from the index. */
+h2[id],
+h3[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

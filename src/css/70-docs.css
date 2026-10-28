@@ -1,0 +1,278 @@
+/*
+ * Documentation pages: the version tables, the archive of older versions,
+ * the document switcher in the page header, the table of contents and the
+ * code blocks with their copy and grammar buttons.
+ */
+
+/* 1.999396em is 1.414 squared: the type scale ratio applied twice. */
+.doc h1 + p {
+  list-style: none;
+  margin: -1.999396em 0 1.999396em 0;
+  padding: 0;
+  border-bottom: 1px solid #eeeff0;
+  text-align: center;
+  color: #393b40;
+}
+
+/* Cells do not wrap, so a wide table scrolls instead of pushing the page sideways. */
+main section table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+table {
+  margin: 1em 0 1.414em 0;
+}
+
+/*
+ * The background fades slowly and responds quickly on hover: the same
+ * transition pair as the buttons of the theme and the header and footer links.
+ */
+table tr {
+  border-bottom: 1px solid #c3c5ca;
+  transition: background 0.5s ease-in-out;
+}
+
+table tr:hover, table tr:active {
+  transition: background 0.1s ease-in-out;
+}
+
+table tr:hover {
+  background: #eeeff0;
+}
+
+table tr:hover td:last-child > a, table tr:hover td:last-child > a:link, table tr:hover td:last-child > a:visited, table tr:hover td:last-child > a:hover, table tr:hover td:last-child > a:active {
+  color: #4a80ff;
+}
+
+table tr.current {
+  background: #ffc94a;
+}
+
+table th,
+table td {
+  white-space: nowrap;
+}
+
+table th {
+  text-align: right;
+  border-right: 1px dotted #eeeff0;
+  font-weight: bold;
+}
+
+table th > a,
+table td > a {
+  display: inline-block;
+  width: 100%;
+  padding: 0 1.414rem;
+}
+
+/*
+ * The colour fades slowly and responds quickly on hover: the same
+ * transition pair as the buttons of the theme and the header and footer links.
+ */
+table th > a, table th > a:link, table th > a:visited, table th > a:hover, table th > a:active,
+table td > a,
+table td > a:link,
+table td > a:visited,
+table td > a:hover,
+table td > a:active {
+  text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+
+table th > a:hover, table th > a:active, table th > a:link:hover, table th > a:link:active, table th > a:visited:hover, table th > a:visited:active, table th > a:hover:hover, table th > a:hover:active, table th > a:active:hover, table th > a:active:active,
+table td > a:hover,
+table td > a:active,
+table td > a:link:hover,
+table td > a:link:active,
+table td > a:visited:hover,
+table td > a:visited:active,
+table td > a:hover:hover,
+table td > a:hover:active,
+table td > a:active:hover,
+table td > a:active:active {
+  transition: color 0.1s ease-in-out;
+}
+
+table a[href$='application/grammar.html'] {
+  font-weight: bold;
+  font-style: italic;
+}
+
+details.archive summary {
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+details.archive summary a {
+  margin-left: 1em;
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+details.archive table {
+  margin-top: 0;
+}
+
+/* Beside the version in the header of a documentation page, like "Switch document". */
+.doc-notes-link {
+  margin-left: 1rem;
+}
+
+[aria-controls='doc-list'] {
+  -webkit-appearance: none;
+  margin: 0 0 0 1rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #ff641a;
+  cursor: pointer;
+}
+
+[aria-controls='doc-list'] svg {
+  margin: 3px 0 -3px .5ex;
+}
+
+[aria-controls='doc-list'] svg path {
+  fill: currentColor;
+}
+
+[aria-controls='doc-list']:hover, [aria-controls='doc-list']:active {
+  color: #4a80ff;
+}
+
+#doc-list {
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  width: 100%;
+  position: absolute;
+  z-index: 1;
+  margin: -1em 0 0 0;
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: slideMenuIn .2s ease-in-out forwards;
+}
+
+@keyframes slideMenuIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#doc-list[aria-expanded='true'] {
+  display: block;
+}
+
+#doc-list table {
+  margin: 0 auto;
+  border: 1px solid #c3c5ca;
+  background: #FFF;
+}
+
+#doc-list table::before {
+  content: '';
+  display: block;
+  width: 0;
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  margin-left: -3px;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #c3c5ca;
+  border-left: 6px solid transparent;
+}
+
+#markdown-toc {
+  margin-bottom: 1.999396rem;
+  padding-bottom: 1.414rem;
+  border-bottom: 2px solid #eeeff0;
+}
+
+.code-custom {
+  font-family: 'pt mono', monospace;
+  font-size: 0.8em;
+  tab-size: 4;
+  line-height: 1.414;
+  background-color: #ffce5d17;
+}
+
+.code-custom .punctuation {
+  color: #393b40;
+}
+
+.code-custom .string {
+  color: #4a80ff;
+}
+
+.code-custom .operator {
+  color: #ff641a;
+  font-weight: bold;
+}
+
+code {
+  line-height: 1.414 !important;
+  tab-size: 4;
+}
+
+pre.highlight {
+  overflow: auto;
+}
+
+/* A block to copy holds prose such as a prompt: wrap it, and keep room for the copy button. */
+.copy pre.highlight {
+  padding-right: 4.5rem;
+}
+
+.copy pre.highlight code {
+  white-space: pre-wrap;
+}
+
+div.highlight {
+  position: relative;
+}
+
+/* 0.3536067893rem is 0.5rem divided by the type scale ratio 1.414. */
+div.highlight .copy-button {
+  -webkit-appearance: none;
+  position: absolute;
+  top: 0.3536067893rem;
+  right: 0.3536067893rem;
+  padding: .5ex 1ex;
+  border: 1px solid #c3c5ca;
+  border-radius: 3px;
+  background: #FFF;
+  color: #393b40;
+  cursor: pointer;
+  font: bold 11px Arial;
+}
+
+div.highlight .copy-button:hover, div.highlight .copy-button:active {
+  background: #eeeff0;
+}
+
+div.highlight .grammar-button {
+  -webkit-appearance: none;
+  position: absolute;
+  top: 0.3536067893rem;
+  right: 0.3536067893rem;
+  padding: .5ex 1ex;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.7072135785rem;
+  background: #4a80ff;
+  color: #FFF;
+  cursor: pointer;
+  font: bold 11px Arial;
+}
+
+/* #2b6bff is the blue #4a80ff darkened by 6%. */
+div.highlight .grammar-button:hover, div.highlight .grammar-button:active {
+  background: #2b6bff;
+}

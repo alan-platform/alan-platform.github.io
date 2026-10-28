@@ -1,0 +1,165 @@
+/*
+ * Home page: the brand name in running text, the hero with its background
+ * photo, call to action and scroll hint, and the card that links to a post.
+ *
+ * Lengths such as 0.7072135785rem, 1.414rem, 2.827145944rem and
+ * 5.6525842918rem are steps of the 1.414 type scale used across the site.
+ */
+
+span.brand {
+  display: inline-block;
+  margin-right: .1em;
+  font-weight: bold;
+  font-size: 1.3em;
+  font-style: italic;
+  font-variant: small-caps;
+  text-transform: lowercase;
+}
+
+.home-hero {
+  display: flex;
+  justify-content: flex-end;
+  height: calc(100vh - 5rem);
+  position: relative;
+  background: #393b40 url("../assets/heroes/iStock-1055872862.jpg") no-repeat center bottom/cover;
+  color: #FFF;
+}
+
+@media (max-width: 600px) {
+  .home-hero {
+    background-image: url("../assets/heroes/iStock-1055872862-1200.jpg");
+  }
+}
+
+@media (min-width: 601px) {
+  .home-hero {
+    background-image: url("../assets/heroes/iStock-1055872862-1920.jpg");
+  }
+}
+
+@media (max-width: 961px) {
+  .home-hero {
+    background-image: url("../assets/heroes/iStock-1055872862-2560.jpg");
+  }
+}
+
+@media (min-width: 1281px) {
+  .home-hero {
+    background-image: url("../assets/heroes/iStock-1055872862-3840.jpg");
+  }
+}
+
+.home-hero .inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  padding: 1rem 2.827145944rem 5.6525842918rem 2.827145944rem;
+}
+
+.home-hero p {
+  z-index: 1;
+  margin: 0;
+  font-weight: bold;
+  font-size: 2.827145944rem;
+  line-height: 1;
+  text-shadow: 0 0 2rem #000;
+}
+
+.home-hero p + p {
+  margin-top: 1em;
+  font-weight: normal;
+  font-size: 1.414rem;
+}
+
+.home-hero svg {
+  width: 32px;
+  height: 32px;
+}
+
+.home-hero svg.scroll-hint {
+  position: absolute;
+  bottom: -48px;
+  left: 50%;
+  margin-left: -16px;
+  color: #393b40;
+  opacity: 0;
+  animation: 2s fadeIn 1s ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.home-hero svg.scroll-hint polyline {
+  stroke: currentColor;
+}
+
+.home-hero .call-to-action {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1.414rem;
+  padding: 0.7072135785rem 1rem;
+  font-size: 1.414rem;
+  text-align: left;
+  line-height: 0.7072135785;
+}
+
+.home-hero .call-to-action small {
+  line-height: inherit;
+  opacity: .8;
+}
+
+.home-hero .call-to-action svg {
+  display: inline-block;
+  margin-right: 1ex;
+}
+
+.medium-post {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: 1rem 2.827145944rem 1.414rem 2.827145944rem;
+  padding: 1rem;
+  border: 1px solid #c3c5ca;
+  border-radius: 3px;
+  background: #FFF;
+  box-shadow: 1px 2px 4px rgba(57, 59, 64, 0.3);
+  transition: background .2s ease-in-out;
+}
+
+.medium-post,
+.medium-post:link,
+.medium-post:visited {
+  color: #393b40;
+}
+
+.medium-post:hover,
+.medium-post:active {
+  text-decoration: none;
+  background: #eeeff0;
+  color: #2b2c30;
+}
+
+.medium-post:active {
+  top: 1px;
+  box-shadow: inset 1px 1px 2px rgba(57, 59, 64, 0.3);
+}
+
+.medium-post img {
+  width: 48px;
+  height: 48px;
+  border-radius: 100%;
+}
+
+.medium-post svg {
+  position: relative;
+  top: -12px;
+  left: -12px;
+}
