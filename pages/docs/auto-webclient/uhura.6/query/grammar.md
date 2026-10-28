@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "query"
 version: "uhura.6"
 type: "grammar"
+url: "/pages/docs/auto-webclient/uhura.6/query/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -91,8 +91,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--node-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node selector</span>' {
@@ -120,8 +119,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--singular-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular selector</span>' {
@@ -152,8 +150,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--conditional-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional selector</span>' {
@@ -178,8 +175,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--entity-descendant-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entity-descendant-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entity descendant selector</span>' {
@@ -203,8 +199,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection selector</span>' {
@@ -221,8 +216,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection expression</span>' {
@@ -238,8 +232,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection format</span>' {
@@ -253,8 +246,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-value }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-value" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number value</span>' {
@@ -271,8 +263,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number expression</span>' {
@@ -290,8 +281,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number format</span>' {
@@ -309,8 +299,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-value }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-value" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text value</span>' {
@@ -327,8 +316,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text expression</span>' {
@@ -346,8 +334,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text format</span>' {
@@ -359,8 +346,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--stategroup-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stategroup-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stategroup expression</span>' {
@@ -371,8 +357,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--state-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--state-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">state format</span>' {
@@ -384,8 +369,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--filter-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--filter-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">filter expression</span>' {
@@ -397,7 +381,7 @@ type: "grammar"
 					'<span class="token string">operator</span>': stategroup (
 						'<span class="token string">equal</span>' { [ <span class="token operator">==</span> ] }
 						'<span class="token string">greater</span>' { [ <span class="token operator">></span> ] }
-						'<span class="token string">smaller</span>' { [ <span class="token operator"><</span> ] }
+						'<span class="token string">smaller</span>' { [ <span class="token operator">&lt;</span> ] }
 					)
 					'<span class="token string">right value</span>': component <a href="#grammar-rule--number-value">'number value'</a>
 				}

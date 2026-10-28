@@ -4,10 +4,10 @@ origin: "webclient"
 language: "production features"
 version: "partitions.1.1"
 type: "features"
+url: "/pages/docs/webclient/partitions.1.1/production features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

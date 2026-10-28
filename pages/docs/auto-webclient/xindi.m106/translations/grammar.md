@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "translations"
 version: "xindi.m106"
 type: "grammar"
+url: "/pages/docs/auto-webclient/xindi.m106/translations/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

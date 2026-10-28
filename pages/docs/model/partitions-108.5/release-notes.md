@@ -4,6 +4,7 @@ origin: "model"
 language: "release notes"
 version: "partitions-108.5"
 type: "release notes"
+url: "/pages/docs/model/partitions-108.5/release-notes.html"
 ---
 ## Model 109 (after 108)
 

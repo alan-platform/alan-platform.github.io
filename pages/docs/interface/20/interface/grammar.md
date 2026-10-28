@@ -4,10 +4,10 @@ origin: "interface"
 language: "interface"
 version: "20"
 type: "grammar"
+url: "/pages/docs/interface/20/interface/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -34,8 +34,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
@@ -96,8 +95,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number type</span>' {
@@ -127,8 +125,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--optional-evaluation-annotation }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-evaluation-annotation" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional evaluation annotation</span>' {
@@ -141,8 +138,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--explicit-evaluation-annotation }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--explicit-evaluation-annotation" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">explicit evaluation annotation</span>' {
@@ -155,8 +151,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--referencer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--referencer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">referencer</span>' { [ <span class="token operator">-></span> ]
@@ -190,8 +185,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--where-clause }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--where-clause" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">where clause</span>' {
@@ -220,8 +214,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--graphs-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--graphs-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">graphs definition</span>' {
@@ -239,8 +232,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--property-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--property-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">property step</span>' {
@@ -250,8 +242,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--reference-property-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-property-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference property step</span>' {
@@ -261,8 +252,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--node-path-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path tail</span>' {
@@ -297,8 +287,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--context-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context node path</span>' {

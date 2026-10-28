@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "generator_settings"
 version: "uhura.6"
 type: "grammar"
+url: "/pages/docs/auto-webclient/uhura.6/generator_settings/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ### Settings
 Global settings for the user interface:
@@ -148,8 +148,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--ancestor-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor node path</span>' {
@@ -164,8 +163,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--landing-page-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--landing-page-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">landing page path</span>' {
@@ -181,8 +179,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--landing-page-branches }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--landing-page-branches" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">landing page branches</span>' {
@@ -198,8 +195,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--landing-page-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--landing-page-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">landing page selector</span>' {

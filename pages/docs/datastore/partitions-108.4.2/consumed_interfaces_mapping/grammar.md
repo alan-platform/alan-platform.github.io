@@ -4,10 +4,10 @@ origin: "datastore"
 language: "consumed_interfaces_mapping"
 version: "partitions-108.4.2"
 type: "grammar"
+url: "/pages/docs/datastore/partitions-108.4.2/consumed_interfaces_mapping/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -24,8 +24,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--application-rules-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--application-rules-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">application rules mapping</span>' {
@@ -37,8 +36,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--interface-rules-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-rules-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface rules mapping</span>' {
@@ -50,8 +48,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--node-type-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-type-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node type mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -116,8 +113,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--parameter-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--parameter-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">parameter mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]

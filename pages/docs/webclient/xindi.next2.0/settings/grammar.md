@@ -4,10 +4,10 @@ origin: "webclient"
 language: "settings"
 version: "xindi.next2.0"
 type: "grammar"
+url: "/pages/docs/webclient/xindi.next2.0/settings/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

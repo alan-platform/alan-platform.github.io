@@ -4,10 +4,10 @@ origin: "connector"
 language: "processor"
 version: "39"
 type: "grammar"
+url: "/pages/docs/connector/39/processor/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -17,6 +17,7 @@ type: "grammar"
 </pre>
 </div>
 </div>
+
 # Release Notes
 
 ## 39
@@ -699,6 +700,7 @@ Obscures all textual data during assignment in a consistent way.
 </pre>
 </div>
 </div>
+
 ## The internal library.
 Allows defining reusable types.
 
@@ -739,7 +741,7 @@ Allows defining reusable types.
 					'<span class="token string">element name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
 				}
 			)
-			'<span class="token string">target</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+			'<span class="token string">target</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 			'<span class="token string">instruct</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 		}
 	)
@@ -747,6 +749,7 @@ Allows defining reusable types.
 </pre>
 </div>
 </div>
+
 ## The type of the connector.
 This is chosen externally, the archetype here must follow the external choice.
 
@@ -879,6 +882,7 @@ This is chosen externally, the archetype here must follow the external choice.
 </pre>
 </div>
 </div>
+
 ## Internal error handler.
 Allows specifying an error handler routine.
 Example:
@@ -913,8 +917,7 @@ on error {
 </div>
 </div>
 
-{: #grammar-rule--hook }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--hook" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">hook</span>' { }
@@ -922,8 +925,7 @@ on error {
 </div>
 </div>
 
-{: #grammar-rule--library-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--library-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">library selector</span>' {
@@ -940,6 +942,7 @@ on error {
 </pre>
 </div>
 </div>
+
 ## Library Hook
 The standard library defines hooks.
 When or how these hooks are triggered is defined by the individual hooks.
@@ -972,8 +975,7 @@ add-hook 'network'::'webserver' "/echo" {
 ```
 
 
-{: #grammar-rule--library-hook }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--library-hook" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">library hook</span>' {
@@ -996,8 +998,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--interface-binding-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-binding-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface binding assignment</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -1013,8 +1014,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--interface-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface type path</span>' {
@@ -1045,8 +1045,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--interface-named-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-named-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface named path</span>' {
@@ -1063,8 +1062,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--comparator }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--comparator" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">comparator</span>' {
@@ -1089,8 +1087,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--schema-scalar-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-scalar-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema scalar type</span>' {
@@ -1233,8 +1230,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--schema-complex-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-complex-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema complex type</span>' {
@@ -1323,8 +1319,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--schema-node-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-node-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema node type</span>' {
@@ -1343,7 +1338,7 @@ add-hook 'network'::'webserver' "/echo" {
 			| none = '<span class="token string">no</span>'
 		)
 		'<span class="token string">has attributes</span>': stategroup (
-			'<span class="token string">yes</span>' { [ <span class="token operator"><</span>, <span class="token operator">></span> ]
+			'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
 				'<span class="token string">attributes</span>': dictionary {
 					'<span class="token string">has next</span>': stategroup = node-switch successor (
 						| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
@@ -1370,8 +1365,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--schema-instance }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-instance" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema instance</span>' {
@@ -1381,8 +1375,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--instruct-create }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruct-create" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruct create</span>' {
@@ -1403,8 +1396,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--instruct-create-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruct-create-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruct create list</span>' {
@@ -1420,8 +1412,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--instruct-XML-name }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruct-XML-name" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruct XML name</span>' {
@@ -1437,8 +1428,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--instruct }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruct" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruct</span>' {
@@ -1634,8 +1624,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--stack-block }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-block" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack block</span>' {
@@ -1680,8 +1669,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--stack-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack selector</span>' {
@@ -1709,8 +1697,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--type-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--type-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">type path step</span>' {
@@ -1734,8 +1721,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">type path</span>' {
@@ -1753,8 +1739,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--type-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--type-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">type definition</span>' {
@@ -1772,15 +1757,14 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--signature }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signature" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signature</span>' {
 	/* The signature of a callable.
 	 */
 	'<span class="token string">template</span>': stategroup (
-		'<span class="token string">yes</span>' { [ <span class="token operator"><</span> <span class="token operator">T</span>, <span class="token operator">></span> ]
+		'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span> <span class="token operator">T</span>, <span class="token operator">></span> ]
 			/* Add a template type to the signature.
 			 * An optional constraint can be added to the type.
 			 */
@@ -1841,8 +1825,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--callable-instance }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--callable-instance" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">callable instance</span>' {
@@ -1851,7 +1834,7 @@ add-hook 'network'::'webserver' "/echo" {
 	 * Otherwise the template, if any, is inferred from the context.
 	 */
 	'<span class="token string">template</span>': stategroup (
-		'<span class="token string">explicit</span>' { [ <span class="token operator"><</span>, <span class="token operator">></span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
 			'<span class="token string">type</span>': component <a href="#grammar-rule--type-definition">'type definition'</a>
 		}
 		'<span class="token string">implicit</span>' { }
@@ -1862,8 +1845,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--function-implementation }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--function-implementation" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">function implementation</span>' {
@@ -1875,8 +1857,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--function-call }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--function-call" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">function call</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -1896,8 +1877,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--root-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--root-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">root selector</span>' {
@@ -1913,8 +1893,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--callable-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--callable-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">callable selector</span>' {
@@ -1943,8 +1922,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--decimal-import-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--decimal-import-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">decimal import rule</span>' {
@@ -1954,8 +1932,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--pattern-rule-piece }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pattern-rule-piece" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pattern rule piece</span>' {
@@ -2014,8 +1991,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--pattern-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pattern-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pattern rule</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -2037,8 +2013,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--expression-tail-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression-tail-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression tail step</span>' {
@@ -2069,7 +2044,7 @@ add-hook 'network'::'webserver' "/echo" {
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">sub property</span>': stategroup (
 				'<span class="token string">yes</span>' {
-					'<span class="token string">attribute</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] reference
+					'<span class="token string">attribute</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] reference
 				}
 				'<span class="token string">no</span>' { }
 			)
@@ -2095,8 +2070,7 @@ add-hook 'network'::'webserver' "/echo" {
 </div>
 </div>
 
-{: #grammar-rule--expression-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression tail</span>' {
@@ -2111,13 +2085,13 @@ add-hook 'network'::'webserver' "/echo" {
 </pre>
 </div>
 </div>
+
 ## Expression
 An expression consists of an operation optionally followed by path steps.
 No all operations guarantee their result and can fail, indicated by the expression guarantee.
 For operations that can fail, either an alternative can be provided or the failure can be propagated to the parent context.
 
-{: #grammar-rule--expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression</span>' {
@@ -2232,13 +2206,13 @@ For operations that can fail, either an alternative can be provided or the failu
 					/* Parses JSON.
 					 * On success it results in a document and must first be passed to a decorator before it is usable.
 					 */
-					'<span class="token string">schema</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 				}
 				'<span class="token string">XML</span>' { [ <span class="token operator">XML</span> ]
 					/* Parses a XML document.
 					 * On success it results in a document and must first be passed to a decorator before it is usable.
 					 */
-					'<span class="token string">mapping</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] stategroup (
+					'<span class="token string">mapping</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] stategroup (
 						'<span class="token string">builtin</span>' {
 							'<span class="token string">schema</span>': component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 						}
@@ -2259,12 +2233,12 @@ For operations that can fail, either an alternative can be provided or the failu
 						}
 						'<span class="token string">default</span>' { }
 					)
-					'<span class="token string">schema</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 				}
 				'<span class="token string">choice</span>' { [ <span class="token operator">choice</span> ]
 					/* Parses text to a choice.
 					*/
-					'<span class="token string">schema</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 				}
 				'<span class="token string">ISO Date Time</span>' { [ <span class="token operator">ISODateTime</span> ]
 					/* Parses an ISO-8601 date and time, however it must have at least Seconds accuracy. (source: https://en.wikipedia.org/wiki/ISO_8601)
@@ -2479,8 +2453,7 @@ For operations that can fail, either an alternative can be provided or the failu
 </div>
 </div>
 
-{: #grammar-rule--expression-alternative }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression-alternative" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression alternative</span>' {
@@ -2504,8 +2477,7 @@ For operations that can fail, either an alternative can be provided or the failu
 </div>
 </div>
 
-{: #grammar-rule--plural-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural expression</span>' {
@@ -2526,13 +2498,13 @@ For operations that can fail, either an alternative can be provided or the failu
 </pre>
 </div>
 </div>
+
 ## Safe Expression
 This represents a top-level expression.
 A safe expression indicates that an expression guarantee of no cannot be propagated from the wrapped expression.
 The wrapped expression must always have an alternative with a guarantee of yes, or throw.
 
-{: #grammar-rule--safe-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--safe-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">safe expression</span>' {
@@ -2542,8 +2514,7 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 </div>
 </div>
 
-{: #grammar-rule--target-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--target-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">target expression</span>' {
@@ -2566,7 +2537,7 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 						)
 						'<span class="token string">attributes</span>': stategroup (
 							'<span class="token string">yes</span>' {
-								'<span class="token string">attributes</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] dictionary {
+								'<span class="token string">attributes</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] dictionary {
 									'<span class="token string">value</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--target-expression">'target expression'</a>
 								}
 							}
@@ -2613,6 +2584,7 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 </pre>
 </div>
 </div>
+
 ## Statement
 A statement is responsible for the control flow of the processor.
 All statements produce a value that is return to the parent context.
@@ -2621,8 +2593,7 @@ Each statement is bound to an execution context.
 The execution context can be restricted when the statement is not allowed to fail.
 When the execution context is restricted, operations that (could) generate errors are disabled.
 
-{: #grammar-rule--statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statement</span>' {
@@ -2717,18 +2688,18 @@ When the execution context is restricted, operations that (could) generate error
 						'<span class="token string">behavior</span>': stategroup (
 							'<span class="token string">legacy</span>' { [ <span class="token operator">with</span> ]
 								/* The legacy behavior is for backwards compatibility and is deprecated.
-								 * Legacy requires the use of `from <begin> until <end> with <step>` syntax.
-								 * It runs from <begin> in increments of <step> and includes the value <end>.
-								 * The sign of <step> has significant meaning.
-								 *  positive) it runs while the value remains below <end>, if <end> is lower than <begin>, it never runs
-								 *  negative) it runs while the value remains above <end>, if <end> is greater than <begin>, it never runs
-								 *  zero) it runs once for <begin>, and if <end> differs, it runs once for <end>
+								 * Legacy requires the use of `from &lt;begin> until &lt;end> with &lt;step>` syntax.
+								 * It runs from &lt;begin> in increments of &lt;step> and includes the value &lt;end>.
+								 * The sign of &lt;step> has significant meaning.
+								 *  positive) it runs while the value remains below &lt;end>, if &lt;end> is lower than &lt;begin>, it never runs
+								 *  negative) it runs while the value remains above &lt;end>, if &lt;end> is greater than &lt;begin>, it never runs
+								 *  zero) it runs once for &lt;begin>, and if &lt;end> differs, it runs once for &lt;end>
 								 */
 							}
 							'<span class="token string">current</span>' { [ <span class="token operator">by</span> ]
-								/* The range runs from from <begin> in increments of <step> and stops at <end>.
-								 * Whether <end> is inclusive or exclusive is controlled with the <range> option.
-								 * When <step> is zero, an error is logged at runtime and no iterations are performed regardless of the other values.
+								/* The range runs from from &lt;begin> in increments of &lt;step> and stops at &lt;end>.
+								 * Whether &lt;end> is inclusive or exclusive is controlled with the &lt;range> option.
+								 * When &lt;step> is zero, an error is logged at runtime and no iterations are performed regardless of the other values.
 								 */
 							}
 						)
@@ -2796,8 +2767,7 @@ When the execution context is restricted, operations that (could) generate error
 </div>
 </div>
 
-{: #grammar-rule--statements }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statements" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statements</span>' {
@@ -2822,8 +2792,7 @@ When the execution context is restricted, operations that (could) generate error
 </div>
 </div>
 
-{: #grammar-rule--block-statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--block-statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">block statement</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]

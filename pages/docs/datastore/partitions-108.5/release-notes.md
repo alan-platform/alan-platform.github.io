@@ -4,6 +4,7 @@ origin: "datastore"
 language: "release notes"
 version: "partitions-108.5"
 type: "release notes"
+url: "/pages/docs/datastore/partitions-108.5/release-notes.html"
 ---
 ## Datastore 120 (after 119.2)
 

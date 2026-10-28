@@ -4,14 +4,13 @@ origin: webclient
 language: widget
 version: seven.5.0
 type: grammar
+url: "/pages/docs/webclient/seven.5.0/widget/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--binding-context }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--binding-context" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">binding context</span>': stategroup (
@@ -38,8 +37,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--widget }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget</span>': component <a href="#grammar-rule--widget-configuration-node">'widget configuration node'</a>
@@ -47,8 +45,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression</span>': component <a href="#grammar-rule--expression">'expression'</a>
@@ -56,8 +53,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--client-binding-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--client-binding-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">client binding type path</span>' {
@@ -84,8 +80,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--configuration-attribute-persistence }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--configuration-attribute-persistence" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">configuration attribute persistence</span>' {
@@ -107,8 +102,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--optional-state-HACK }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-state-HACK" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional state HACK</span>' { }
@@ -116,8 +110,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--widget-configuration-node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-configuration-node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget configuration node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
@@ -203,13 +196,13 @@ type: grammar
 </pre>
 </div>
 </div>
-A widget can be initialized 'lazily'. The engine will not
+
+A widget can be initialized ‘lazily’. The engine will not
 create subscriptions or initialize queries for the
 widget if the widget is not rendered in the widget
 implementation.
 
-{: #grammar-rule--widget-implementation-context-parent-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-implementation-context-parent-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget implementation context parent path</span>' {
@@ -225,8 +218,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--control-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--control-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">control binding</span>' {
@@ -264,8 +256,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--entries-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entries-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entries list</span>' {
@@ -281,8 +272,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--context-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context selection</span>' {
@@ -300,8 +290,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--bound-context-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--bound-context-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">bound context selection</span>' {
@@ -314,8 +303,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--context-selection-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-selection-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context selection path</span>' {
@@ -341,8 +329,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--instruction-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruction-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction selection</span>' {
@@ -399,8 +386,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--instruction-argument }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruction-argument" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction argument</span>' {
@@ -428,8 +414,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--instruction-argument-configuration-node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruction-argument-configuration-node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction argument configuration node</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -456,8 +441,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--instruction-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruction-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction list</span>' {
@@ -473,8 +457,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--widget-implementation-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-implementation-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget implementation attribute</span>' {
@@ -484,8 +467,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--widget-implementation-node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-implementation-node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget implementation node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
@@ -506,8 +488,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression</span>' {
@@ -655,8 +636,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--number-argument }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-argument" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number argument</span>' {
@@ -681,8 +661,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--text-argument }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-argument" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text argument</span>' {
@@ -697,8 +676,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--number-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number binding</span>' {
@@ -737,8 +715,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--text-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text binding</span>' {
@@ -809,8 +786,7 @@ implementation.
 </div>
 </div>
 
-{: #grammar-rule--string-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--string-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">string list</span>' {

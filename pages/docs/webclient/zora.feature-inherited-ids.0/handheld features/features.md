@@ -4,10 +4,10 @@ origin: "webclient"
 language: "handheld features"
 version: "zora.feature-inherited-ids.0"
 type: "features"
+url: "/pages/docs/webclient/zora.feature-inherited-ids.0/handheld features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

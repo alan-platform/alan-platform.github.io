@@ -4,10 +4,10 @@ origin: "webclient"
 language: "client bindings"
 version: "zora.3.0"
 type: "client_bindings"
+url: "/pages/docs/webclient/zora.3.0/client bindings/client_bindings.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Client bindings
 ---
@@ -212,7 +212,7 @@ engine crashes
 'operation' node operation {
 	'reset': instruction
 ```
-Clears the parameters and applies the defaults again. In contrast to 'reset',
+Clears the parameters and applies the defaults again. In contrast to ‘reset’,
 the result of the last execution is preserved.
 ```js
 	'clear parameters': instruction
@@ -252,7 +252,7 @@ the result of the last execution is preserved.
 			'execute': instruction
 ```
 Executes the operation, but leaves the parameters as they are, so that the
-user can review the parameters that were used. Use 'clear parameters' to
+user can review the parameters that were used. Use ‘clear parameters’ to
 clear them afterwards.
 ```js
 			'execute and keep parameters': instruction
@@ -404,8 +404,8 @@ clear them afterwards.
 }
 'entity' node entity {
 ```
-'save all' includes all the collection entries that are part of this
-entity. 'save' only saves the properties and collections that are
+‘save all’ includes all the collection entries that are part of this
+entity. ‘save’ only saves the properties and collections that are
 annotated with @small.
 ```js
 	'save': instruction
@@ -1132,9 +1132,9 @@ A column can be hidden initially. And should not be rendered by default.
 			'set text starts with': instruction ( text )
 			'set text ends with': instruction ( text )
 ```
-Negates the filter. With 'not in' the entries that do *not* match the
-operation are returned. E.g. 'contains' becomes 'does not contain'. The
-'containment' operation is not affected; it has its own operator.
+Negates the filter. With ‘not in’ the entries that do *not* match the
+operation are returned. E.g. ‘contains’ becomes ‘does not contain’. The
+‘containment’ operation is not affected; it has its own operator.
 ```js
 			'set operator in': instruction
 			'set operator not in': instruction
@@ -1267,8 +1267,8 @@ operation are returned. E.g. 'contains' becomes 'does not contain'. The
 	'set text ends with': instruction ( text )
 	'reset filter': instruction
 ```
-Negates the filter. With 'not in' the entries that do *not* match the
-operation are returned. E.g. 'contains' becomes 'does not contain'.
+Negates the filter. With ‘not in’ the entries that do *not* match the
+operation are returned. E.g. ‘contains’ becomes ‘does not contain’.
 ```js
 	'set operator in': instruction
 	'set operator not in': instruction

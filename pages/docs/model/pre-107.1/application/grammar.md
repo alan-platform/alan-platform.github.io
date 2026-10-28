@@ -4,10 +4,10 @@ origin: "model"
 language: "application"
 version: "pre-107.1"
 type: "grammar"
+url: "/pages/docs/model/pre-107.1/application/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## The *minimal model*
 ---
@@ -43,7 +43,7 @@ For an application that handles user authentication, you need to specify:
 - a collection that holds `Passwords` and some required properties, or
 - an `Authorities` collection listing third parties that handle authorization using the OAuth standard (Google, Microsoft, etc.).
 For application-specific user authentication, you need to specify which collection and text property holds (hashed) user passwords.
-In addition, you have to specify states for the 'active' and 'reset' status of the password.
+In addition, you have to specify states for the ‘active’ and ‘reset’ status of the password.
 
 The following model expresses an application that supports all aforementioned features:
 - user sign-up, by providing a `user-initializer`
@@ -163,6 +163,7 @@ Thus, users cannot sign up as an `Admin`; `Admin` [permissions](#permissions-and
 </pre>
 </div>
 </div>
+
 ##### Interfaces
 If your application consumes data from external sources, you will have defined an Alan `interface`.
 For consuming an `interface`, you mention it in the `interfaces` section of your `application` model.
@@ -309,6 +310,7 @@ For example, when `parameters` (`context keys` in the `interface` language) are 
 </pre>
 </div>
 </div>
+
 ##### The `root` node type
 Alan models are hierarchical models specifying hierarchical data.
 An Alan model is a hierarchy of nested types with a single root type:
@@ -328,6 +330,7 @@ as we define `node types` in a model (for legacy reasons it is called the `'node
 </pre>
 </div>
 </div>
+
 ##### Numerical types
 Numbers in an application model require a numerical type. Also, computations with numbers of different numerical types require conversion rules.
 Divisions require a division conversion rule, products require a product conversion rule, and so on. Some examples of numerical types, with conversion rules are
@@ -407,6 +410,7 @@ If you do so, be sure to set `@label:` to `"sec"` as well!
 </pre>
 </div>
 </div>
+
 ### Node types
 Node types contain a `permissions definition` for controlling read and update permissions,
  a `todo definition` to mark a node as a `todo`-item,
@@ -490,7 +494,7 @@ Some examples of GUI annotations are
 - `@default: 'Assembled'`: specifies a default state for a state group property.
 - `@default: today|now`: sets date or date-time number value to the current time.
 - `@default: guid`: initializes a text property with a generated unique id string.
-- `@small`: displays (small) collections inline, and includes them when pressing 'Duplicate'.
+- `@small`: displays (small) collections inline, and includes them when pressing ‘Duplicate’.
 - `@multi-line`: presents a multi-line text area for a text property.
 
 ##### Reference set attributes
@@ -512,8 +516,7 @@ For an `action`, you can specify parameters that users have to provide before st
 After the parameters, you have specify which operations should be performed.
 
 
-{: #grammar-rule--node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
@@ -717,7 +720,7 @@ After the parameters, you have specify which operations should be performed.
 								'<span class="token string">behaviour</span>': component <a href="#grammar-rule--reference-behaviour">'reference behaviour'</a>
 								'<span class="token string">behaviour specialization</span>': stategroup (
 									'<span class="token string">none</span>' { }
-									'<span class="token string">propagate key to value</span>' { [ <span class="token operator"><-</span> ] }
+									'<span class="token string">propagate key to value</span>' { [ <span class="token operator">&lt;-</span> ] }
 								)
 								'<span class="token string">direction</span>': component <a href="#grammar-rule--direction-annotation">'direction annotation'</a>
 								'<span class="token string">recursion</span>': component <a href="#grammar-rule--recursion-annotation">'recursion annotation'</a>
@@ -823,6 +826,7 @@ After the parameters, you have specify which operations should be performed.
 </pre>
 </div>
 </div>
+
 ## Cardinality constraint
 ---
 Collections support a lower bound cardinality constraint, ensuring that a `collection` is not empty.
@@ -830,8 +834,7 @@ This is useful for ensuring that you can always derive a reference to the source
 It also ensures that `min`, `max`, and similar computations on sets of number values do not require a fallback value.
 
 
-{: #grammar-rule--lower-bound-cardinality-constraint }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lower-bound-cardinality-constraint" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lower bound cardinality constraint</span>' {
@@ -843,6 +846,7 @@ It also ensures that `min`, `max`, and similar computations on sets of number va
 </pre>
 </div>
 </div>
+
 ## References
 ---
 References indicate relations between different parts of your application data.
@@ -871,7 +875,7 @@ You can express that reference in your model, such that your users can see it, a
 }
 ```
 The example indicates that you can specify multiple references at a text property.
-You can also specify additional rules for the 'main' reference with keyword `$`, which refers to the referenced node.
+You can also specify additional rules for the ‘main’ reference with keyword `$`, which refers to the referenced node.
 
 In order for the text value to reference an item in a collection, its value has to equal the key value of an item in the specified `collection`.
 At runtime, reference expressions always produce a single specific node (or none at all, if the reference is broken).
@@ -887,8 +891,7 @@ Mandatory references (specified with keyword `->`) are constraints that are enfo
 Optional references (specified with keyword `~>`) do not have to resolve to a node.
 
 
-{: #grammar-rule--reference-behaviour }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-behaviour" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference behaviour</span>' {
@@ -900,6 +903,7 @@ Optional references (specified with keyword `~>`) do not have to resolve to a no
 </pre>
 </div>
 </div>
+
 The language ensures that references either point to a *single specific node, or none at all*.
 Thus, mandatory references unambiguously point to a single specific node.
 Because of that, derived value computations and command invocations can safely use them.
@@ -913,8 +917,7 @@ Reference constraint expressions exist in two different flavours:
 Downstream references require an explicit annotation: `downstream` after the arrow (`->`/`~>`) specifying the reference behaviour.
 
 
-{: #grammar-rule--direction-annotation }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--direction-annotation" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">direction annotation</span>' {
@@ -927,8 +930,7 @@ Downstream references require an explicit annotation: `downstream` after the arr
 </div>
 </div>
 
-{: #grammar-rule--graph-traversal-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--graph-traversal-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">graph traversal definition</span>' {
@@ -942,8 +944,7 @@ Downstream references require an explicit annotation: `downstream` after the arr
 </div>
 </div>
 
-{: #grammar-rule--graph-traversal-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--graph-traversal-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">graph traversal selector</span>' {
@@ -960,8 +961,7 @@ Downstream references require an explicit annotation: `downstream` after the arr
 </div>
 </div>
 
-{: #grammar-rule--recursion-annotation }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--recursion-annotation" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">recursion annotation</span>' {
@@ -975,6 +975,7 @@ Downstream references require an explicit annotation: `downstream` after the arr
 </pre>
 </div>
 </div>
+
 [Below](#sibling-references) we explain the annotation for `sibling navigation`.
 ##### Bidirectional references
 Text references are either unidirectional or bidirectional.
@@ -1010,8 +1011,7 @@ The compiler requires that you reference an earlier defined property, and not th
 For references from `Products` to other other `Products`, you need special `sibling` references.
 
 
-{: #grammar-rule--entry-reference-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entry-reference-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entry reference definition</span>' {
@@ -1028,8 +1028,7 @@ For references from `Products` to other other `Products`, you need special `sibl
 </div>
 </div>
 
-{: #grammar-rule--sibling-reference-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--sibling-reference-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">sibling reference definition</span>' {
@@ -1049,8 +1048,7 @@ For references from `Products` to other other `Products`, you need special `sibl
 </div>
 </div>
 
-{: #grammar-rule--where-rules-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--where-rules-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">where rules definition</span>' {
@@ -1080,9 +1078,10 @@ For references from `Products` to other other `Products`, you need special `sibl
 </pre>
 </div>
 </div>
+
 The following model expresses sibling references from `Products` to other `Products` which are corresponding (`Parts`),
 and also from `Orders` to a `Previous Order`:
-{: #example--sibling-recursion }
+{#example--sibling-recursion}
 ```js
 'Products': collection ['Name']
 	'assembly': acyclic-graph
@@ -1128,8 +1127,7 @@ For example, an `acyclic-graph` constraint ensures that references that partake 
 For a detailed explanation, see [AlanLight](http://resolver.tudelft.nl/uuid:3eedbb63-29ea-4671-a016-4c037eec94cd).
 
 
-{: #grammar-rule--graph-constraints-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--graph-constraints-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">graph constraints definition</span>' {
@@ -1168,7 +1166,7 @@ For ordered graphs, the application language supports deriving the `source` and 
 Note that the expression for computing a `Part Price` starts with an [annotation](#grammar-rule--recursion-annotation): `( recurse ^ 'assembly' )`.
 That is because the `Part Price` is computed recursively: for all recursive computations, the annotation is required.
 The (hierarchy of) graph(s) that you have to name as part of the annotation, imply an order in which recursive computations can be evaluated.
-If the annotation is missing, the compiler produces an error message indicating that a 'cyclic dependency' exists.
+If the annotation is missing, the compiler produces an error message indicating that a ‘cyclic dependency’ exists.
 The existence of an order for evaluating recursion ensures that the recursive computations are finite.
 
 A [recursion annotation](#grammar-rule--recursion-annotation) should be placed at a property or reference definition
@@ -1247,8 +1245,7 @@ The following code sample exemplifies the use of the different types of `switch`
 ```
 
 
-{: #grammar-rule--derivation-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--derivation-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">derivation expression</span>' {
@@ -1317,11 +1314,11 @@ The following code sample exemplifies the use of the different types of `switch`
 			'<span class="token string">last case</span>': reference = last
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary (
 				static '<span class="token string">equals</span>' [ <span class="token operator">==</span> ]
-				static '<span class="token string">less than or greater than</span>' [ <span class="token operator"><></span> ]
+				static '<span class="token string">less than or greater than</span>' [ <span class="token operator">&lt;></span> ]
 				static '<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
 				static '<span class="token string">greater than or equals</span>' [ <span class="token operator">>=</span> ]
-				static '<span class="token string">less than</span>' [ <span class="token operator"><</span> ]
-				static '<span class="token string">less than or equals</span>' [ <span class="token operator"><=</span> ]
+				static '<span class="token string">less than</span>' [ <span class="token operator">&lt;</span> ]
+				static '<span class="token string">less than or equals</span>' [ <span class="token operator">&lt;=</span> ]
 			) { [ <span class="token operator">|</span> ]
 				'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 					| node = '<span class="token string">yes</span>' { '<span class="token string">case</span>' = predecessor }
@@ -1351,8 +1348,7 @@ The following code sample exemplifies the use of the different types of `switch`
 </div>
 </div>
 
-{: #grammar-rule--derivation-expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--derivation-expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">derivation expression list</span>' {
@@ -1368,8 +1364,7 @@ The following code sample exemplifies the use of the different types of `switch`
 </div>
 </div>
 
-{: #grammar-rule--derivation-expression-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--derivation-expression-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">derivation expression tail</span>' {
@@ -1415,6 +1410,7 @@ The following code sample exemplifies the use of the different types of `switch`
 </pre>
 </div>
 </div>
+
 #### Derived texts
 A derived text value can consist of static text values and text values from other properties:
 ```js
@@ -1492,8 +1488,7 @@ numerical-types
 ```
 
 
-{: #grammar-rule--number-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number expression</span>' {
@@ -1581,8 +1576,7 @@ numerical-types
 </div>
 </div>
 
-{: #grammar-rule--unary-number-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--unary-number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">unary number expression</span>' {
@@ -1592,8 +1586,7 @@ numerical-types
 </div>
 </div>
 
-{: #grammar-rule--constant-number-value }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--constant-number-value" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">constant number value</span>' {
@@ -1602,6 +1595,7 @@ numerical-types
 </pre>
 </div>
 </div>
+
 #### Derived files
 Derived `file` values take their value (token + extension) from another `file` value.
 For example, you can derive a `Contract` which is a `Default Contract` in case of a `Standard` `Agreement`, and a `Custom` `Contract` in case of a `Custom` `Agreement`:
@@ -1651,7 +1645,7 @@ For this purpose, we check if the *optional* `Product` reference on an `Order` p
 
 The expression for deriving a state, has to satisfy all `where` rules for the state.
 In the example, the `where` rule expresses that the optional `Product` reference is no longer optional.
-Instead, the reference is mandatory in context of the `Yes` state. The expression 'proves' that.
+Instead, the reference is mandatory in context of the `Yes` state. The expression ‘proves’ that.
 You can use the `Found Product` for deriving values such as `Description` on the state node.
 
 An expression for deriving a state can express how to initialize property values of the state as well, such as `Price` in the example.
@@ -1660,8 +1654,7 @@ This language construct is especially useful when a reference to a node like `'F
 Furthermore, it useful for special operations such as `source-of` and `sink-of`, which we discuss below.
 
 
-{: #grammar-rule--state-initializer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--state-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">state initializer</span>' {
@@ -1675,8 +1668,7 @@ Furthermore, it useful for special operations such as `source-of` and `sink-of`,
 </div>
 </div>
 
-{: #grammar-rule--node-initializer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node initializer</span>' {
@@ -1687,6 +1679,7 @@ Furthermore, it useful for special operations such as `source-of` and `sink-of`,
 </pre>
 </div>
 </div>
+
 #### Derived references
 Sometimes it is useful to derive a reference to a collection entry for use by the application user and other computations.
 Similar to base references, derived references require you to express a text property follow by a reference definition.
@@ -1732,8 +1725,7 @@ Therefore, we first `switch` on the content of the `'Orders'` collection.
 If it holds `nodes` (meaning that it is not empty), then we can apply the `source-of` and `sink-of` operations.
 #### Derived collections
 
-{: #grammar-rule--flatten-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--flatten-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">flatten expression</span>' {
@@ -1744,8 +1736,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </div>
 </div>
 
-{: #grammar-rule--reference-set-subset-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-set-subset-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference set subset step</span>' {
@@ -1764,8 +1755,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </div>
 </div>
 
-{: #grammar-rule--plural-reference-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-reference-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural reference expression</span>' {
@@ -1812,8 +1802,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </div>
 </div>
 
-{: #grammar-rule--plural-descendant-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-descendant-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural descendant node path</span>' {
@@ -1835,6 +1824,7 @@ If it holds `nodes` (meaning that it is not empty), then we can apply the `sourc
 </pre>
 </div>
 </div>
+
 ## Permissions and Todos
 ---
 The application language supports expression permission and todo requirements down to the level of a single specific `user` or `interface`.
@@ -1845,8 +1835,7 @@ At command attributes you can express permission requirements for executing a co
 
 
 
-{: #grammar-rule--node-permissions-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-permissions-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node permissions definition</span>' { dynamic-order
@@ -1867,8 +1856,7 @@ At command attributes you can express permission requirements for executing a co
 </div>
 </div>
 
-{: #grammar-rule--item-permissions-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--item-permissions-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">item permissions definition</span>' { dynamic-order
@@ -1889,8 +1877,7 @@ At command attributes you can express permission requirements for executing a co
 </div>
 </div>
 
-{: #grammar-rule--permission }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--permission" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">permission</span>' {
@@ -1906,6 +1893,7 @@ At command attributes you can express permission requirements for executing a co
 </pre>
 </div>
 </div>
+
 ### Permissions
 When *read permissions* and *update permissions* are not specified at the root node type, **all** application users can read and update all application data.
 Thus, if your applications supports `anonymous` users, anyone with your application's url can access all application data.
@@ -1974,8 +1962,7 @@ That is, the application only verifies that the user is permitted to execute com
 > NOTE: for executing a command, the command has to be reachable, meaning that users need read access for the node on which they want to execute the command!
 
 
-{: #grammar-rule--command-permission-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command-permission-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command permission definition</span>' {
@@ -1989,6 +1976,7 @@ That is, the application only verifies that the user is permitted to execute com
 </pre>
 </div>
 </div>
+
 ### Todo items
 Todo items are shown in a special section of your generated application.
 The lists of todo items is constructed from nodes that are marked as todos.
@@ -2023,8 +2011,7 @@ Because of that, when using `where` clauses, the order of subexpressions is impo
 )
 ```
 
-{: #grammar-rule--todo-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--todo-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">todo definition</span>' {
@@ -2039,14 +2026,14 @@ Because of that, when using `where` clauses, the order of subexpressions is impo
 </pre>
 </div>
 </div>
+
 ### User requirements
 For user requirements you can depend on your application data via complex expressions that traverse your model.
 With the `||` keyword, you specify alternatives.
-With a `where` clause, you specify requirements on top of requirements ('and').
+With a `where` clause, you specify requirements on top of requirements (‘and’).
 
 
-{: #grammar-rule--user-requirement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--user-requirement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">user requirement</span>' {
@@ -2068,6 +2055,7 @@ With a `where` clause, you specify requirements on top of requirements ('and').
 </pre>
 </div>
 </div>
+
 ## Commands and Timers
 ---
 
@@ -2110,8 +2098,7 @@ Also, the `external` command needs to be consumed by the application model, like
 	)
 ```
 
-{: #grammar-rule--command-object-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command-object-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command object expression</span>' {
@@ -2123,8 +2110,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--object-initialization-behaviour }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-initialization-behaviour" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object initialization behaviour</span>' {
@@ -2137,8 +2123,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--command-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command expression</span>' {
@@ -2172,7 +2157,7 @@ Also, the `external` command needs to be consumed by the application model, like
 					'<span class="token string">collection</span>': [ <span class="token operator">.</span> ] reference
 				}
 				'<span class="token string">reference set</span>' {
-					'<span class="token string">reference set</span>': [ <span class="token operator"><</span> ] reference
+					'<span class="token string">reference set</span>': [ <span class="token operator">&lt;</span> ] reference
 				}
 			)
 			'<span class="token string">tail</span>': [ <span class="token operator">*</span> ] component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
@@ -2233,8 +2218,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--command }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command</span>' {
@@ -2250,8 +2234,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--user-initializer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--user-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">user initializer</span>' {
@@ -2261,8 +2244,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--password-initializer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--password-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">password initializer</span>' {
@@ -2272,8 +2254,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--identity-initializer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--identity-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">identity initializer</span>' {
@@ -2283,8 +2264,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--internal-initializer }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--internal-initializer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">internal initializer</span>' {
@@ -2294,8 +2274,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--scalar-expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--scalar-expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">scalar expression list</span>' {
@@ -2311,8 +2290,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </div>
 </div>
 
-{: #grammar-rule--scalar-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--scalar-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">scalar expression</span>' {
@@ -2380,6 +2358,7 @@ Also, the `external` command needs to be consumed by the application model, like
 </pre>
 </div>
 </div>
+
 ## Navigation
 ---
 Navigation steps:
@@ -2399,8 +2378,7 @@ $              // select nearest $ object
 
 ### Node navigation
 
-{: #grammar-rule--ancestor-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor node path</span>' {
@@ -2415,8 +2393,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--context-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context node path</span>' {
@@ -2438,8 +2415,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--node-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node step</span>' {
@@ -2468,8 +2444,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--node-path-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path tail</span>' {
@@ -2485,8 +2460,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path</span>' {
@@ -2497,8 +2471,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--singular-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular node path</span>' {
@@ -2508,8 +2481,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--conditional-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional node path</span>' {
@@ -2519,8 +2491,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--descendant-base-property-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--descendant-base-property-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">descendant base property path</span>' {
@@ -2531,8 +2502,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--node-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node expression</span>' {
@@ -2554,10 +2524,10 @@ $              // select nearest $ object
 </pre>
 </div>
 </div>
+
 ### Variable assignment and navigation
 
-{: #grammar-rule--optional-variable-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-variable-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional variable assignment</span>' {
@@ -2572,8 +2542,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--variable-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--variable-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variable assignment</span>' {
@@ -2594,8 +2563,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--named-object-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--named-object-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">named object assignment</span>' {
@@ -2616,8 +2584,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--optional-named-object-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-named-object-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional named object assignment</span>' {
@@ -2632,8 +2599,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--ancestor-named-object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-named-object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor named object path</span>' {
@@ -2648,8 +2614,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--ancestor-variable-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-variable-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor variable path</span>' {
@@ -2663,10 +2628,10 @@ $              // select nearest $ object
 </pre>
 </div>
 </div>
+
 ### Navigation for references & derivations
 
-{: #grammar-rule--named-object-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--named-object-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">named object step</span>' {
@@ -2682,8 +2647,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--context-object-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-object-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context object step</span>' {
@@ -2699,8 +2663,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--group-ancestor-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--group-ancestor-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">group ancestor node path</span>' {
@@ -2715,8 +2678,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--property-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--property-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">property step</span>' {
@@ -2726,8 +2688,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--where-rule-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--where-rule-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">where rule step</span>' {
@@ -2737,8 +2698,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--dependency-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dependency-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dependency step</span>' {
@@ -2759,19 +2719,17 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--reference-set-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-set-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference set step</span>' {
-	'<span class="token string">reference set</span>': [ <span class="token operator"><</span> ] reference
+	'<span class="token string">reference set</span>': [ <span class="token operator">&lt;</span> ] reference
 }
 </pre>
 </div>
 </div>
 
-{: #grammar-rule--object-path-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-path-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object path tail</span>' {
@@ -2801,8 +2759,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--plural-object-path-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-object-path-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural object path tail</span>' {
@@ -2818,8 +2775,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--plural-object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural object path</span>' {
@@ -2830,8 +2786,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--descendant-object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--descendant-object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">descendant object path</span>' {
@@ -2841,8 +2796,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--variablized-object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--variablized-object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variablized object path</span>' {
@@ -2853,8 +2807,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--singular-variablized-object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-variablized-object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular variablized object path</span>' {
@@ -2864,8 +2817,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--object-set-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-set-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object set path</span>' {
@@ -2876,8 +2828,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--where-rule-object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--where-rule-object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">where rule object path</span>' {
@@ -2895,8 +2846,7 @@ $              // select nearest $ object
 </div>
 </div>
 
-{: #grammar-rule--object-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object expression</span>' {
@@ -2914,6 +2864,7 @@ $              // select nearest $ object
 </pre>
 </div>
 </div>
+
 ## User interface annotations
 ---
 User interface annotations, or annotations for short, are recognizable by the
@@ -2963,11 +2914,10 @@ with the `@identifying` annotation. Identifying properties are shown together wi
 unique identifier of a collection entry, whenever the entry is referenced.
 For example, when an employee has a uniquely identifying personnel number
 in a collection of employees, a reference to employee will show the name of the employee
-when the 'name' property is marked as identifying.
+when the ‘name’ property is marked as identifying.
 
 
-{: #grammar-rule--ui-identifying-property-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-identifying-property-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui identifying property selection</span>' {
@@ -3005,14 +2955,14 @@ when the 'name' property is marked as identifying.
 </pre>
 </div>
 </div>
+
 #### Icons
 For better visual identification, attributes support the `@icon:` annotation
 attribute. As an argument it takes an icon name. A complete list of the
 supported icons can be found at: [fonts.google.com/icons](https://fonts.google.com/icons).
 
 
-{: #grammar-rule--ui-icon }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-icon" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui icon</span>' {
@@ -3027,8 +2977,7 @@ supported icons can be found at: [fonts.google.com/icons](https://fonts.google.c
 </div>
 </div>
 
-{: #grammar-rule--ui-description }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-description" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui description</span>' {
@@ -3043,8 +2992,7 @@ supported icons can be found at: [fonts.google.com/icons](https://fonts.google.c
 </div>
 </div>
 
-{: #grammar-rule--ui-optional-style }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-optional-style" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui optional style</span>' {
@@ -3058,11 +3006,11 @@ supported icons can be found at: [fonts.google.com/icons](https://fonts.google.c
 </pre>
 </div>
 </div>
+
 ### Actions
 
 
-{: #grammar-rule--ui-action-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-action-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui action attribute</span>' {
@@ -3072,11 +3020,11 @@ supported icons can be found at: [fonts.google.com/icons](https://fonts.google.c
 </pre>
 </div>
 </div>
+
 An action attribute describes a sequence of actions (operations), as explained in the section on [action attributes](#action-attributes).
 
 
-{: #grammar-rule--ui-action }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-action" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui action</span>' {
@@ -3091,10 +3039,10 @@ An action attribute describes a sequence of actions (operations), as explained i
 </pre>
 </div>
 </div>
+
 The keyword `interactive` instructs your application to display a screen to the user for applying/executing an operation.
 
-{: #grammar-rule--ui-action-interaction }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-action-interaction" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui action interaction</span>' {
@@ -3106,10 +3054,10 @@ The keyword `interactive` instructs your application to display a screen to the 
 </pre>
 </div>
 </div>
+
 The keyword `show` presents the result of an operation after performing it.
 
-{: #grammar-rule--ui-action-visualization }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-action-visualization" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui action visualization</span>' {
@@ -3122,8 +3070,7 @@ The keyword `show` presents the result of an operation after performing it.
 </div>
 </div>
 
-{: #grammar-rule--ui-object-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-object-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui object expression</span>' {
@@ -3135,8 +3082,7 @@ The keyword `show` presents the result of an operation after performing it.
 </div>
 </div>
 
-{: #grammar-rule--ui-entry-expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-entry-expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui entry expression list</span>' {
@@ -3151,6 +3097,7 @@ The keyword `show` presents the result of an operation after performing it.
 </pre>
 </div>
 </div>
+
 Create a collection entry with the keyword `create`.
 
 Note: user interaction for `create` within an `update <path to node> ( ... )` statement yields
@@ -3170,8 +3117,7 @@ To show only the created entry, you can use this:
 ```
 
 
-{: #grammar-rule--ui-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui expression</span>' {
@@ -3265,8 +3211,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-scalar-value-expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-scalar-value-expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui scalar value expression list</span>' {
@@ -3282,8 +3227,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-scalar-value-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-scalar-value-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui scalar value expression</span>' {
@@ -3406,8 +3350,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-scalar-default-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-scalar-default-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui scalar default list</span>' {
@@ -3423,8 +3366,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-default-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-default-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui default type</span>' {
@@ -3437,8 +3379,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-scalar-default }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-scalar-default" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui scalar default</span>' {
@@ -3454,8 +3395,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-style }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-style" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui style</span>' {
@@ -3474,8 +3414,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-parametrized-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-parametrized-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui parametrized node path</span>' {
@@ -3485,8 +3424,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui node path</span>' {
@@ -3496,8 +3434,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--node-type-id }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-type-id" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node type id</span>' {
@@ -3507,8 +3444,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--node-type-id-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-type-id-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node type id path</span>' {
@@ -3531,8 +3467,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-property-classification }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-property-classification" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui property classification</span>' {
@@ -3548,8 +3483,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-visibility }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-visibility" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui visibility</span>' {
@@ -3562,8 +3496,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-break-out }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-break-out" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui break out</span>' {
@@ -3576,8 +3509,7 @@ To show only the created entry, you can use this:
 </div>
 </div>
 
-{: #grammar-rule--ui-emphasis }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-emphasis" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui emphasis</span>' {
@@ -3589,10 +3521,10 @@ To show only the created entry, you can use this:
 </pre>
 </div>
 </div>
+
 ### Reference sets
 
-{: #grammar-rule--ui-reference-set-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-reference-set-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui reference set attribute</span>' { dynamic-order
@@ -3603,10 +3535,10 @@ To show only the created entry, you can use this:
 </pre>
 </div>
 </div>
+
 ### Commands
 
-{: #grammar-rule--ui-command-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-command-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui command attribute</span>' { dynamic-order
@@ -3617,6 +3549,7 @@ To show only the created entry, you can use this:
 </pre>
 </div>
 </div>
+
 ### Groups
 The `@breakout` annotation indicates that a group property
 should not be displayed together with the other properties. At the time of
@@ -3624,8 +3557,7 @@ this writing, the group is put in a separate tab in the details view of an entry
 Note that the tab is always added to the top level tabs of a details view.
 That is, if a group is inside a state or another group, it is not added to the tabs of the state.
 
-{: #grammar-rule--ui-group-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-group-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui group property</span>' { dynamic-order
@@ -3638,6 +3570,7 @@ That is, if a group is inside a state or another group, it is not added to the t
 </pre>
 </div>
 </div>
+
 ### Collections
 The `@default:` annotation copies entries of a source collection into the annotated collection.
 A subset of the entries from the source collection can be copied by specifying a state filter:
@@ -3687,8 +3620,7 @@ the keys are the same.
 }
 ```
 
-{: #grammar-rule--ui-collection-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-collection-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui collection property</span>' { dynamic-order
@@ -3723,13 +3655,13 @@ the keys are the same.
 </pre>
 </div>
 </div>
+
 ### Numbers
 
 The `@show-aggregate:` annotation is for showing aggregate values
 at the bottom of the table for to the parent collection.
 
-{: #grammar-rule--ui-number-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-number-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui number property</span>' { dynamic-order
@@ -3779,10 +3711,10 @@ at the bottom of the table for to the parent collection.
 </pre>
 </div>
 </div>
+
 ### Files
 
-{: #grammar-rule--ui-file-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-file-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui file property</span>' { dynamic-order
@@ -3800,10 +3732,10 @@ at the bottom of the table for to the parent collection.
 </pre>
 </div>
 </div>
+
 ### Texts
 
-{: #grammar-rule--ui-text-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-text-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui text property</span>' { dynamic-order
@@ -3853,8 +3785,7 @@ at the bottom of the table for to the parent collection.
 </div>
 </div>
 
-{: #grammar-rule--ui-reference-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-reference-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui reference rule</span>' { //dynamic-order
@@ -3866,10 +3797,10 @@ at the bottom of the table for to the parent collection.
 </pre>
 </div>
 </div>
+
 ### State groups
 
-{: #grammar-rule--ui-state-group-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-state-group-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui state group property</span>' { dynamic-order
@@ -3882,10 +3813,10 @@ at the bottom of the table for to the parent collection.
 </pre>
 </div>
 </div>
+
 ### States
 
-{: #grammar-rule--ui-state }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-state" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui state</span>' { dynamic-order
@@ -3906,10 +3837,10 @@ at the bottom of the table for to the parent collection.
 </pre>
 </div>
 </div>
+
 ### Todo items
 
-{: #grammar-rule--ui-todo }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-todo" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui todo</span>' {
@@ -3918,15 +3849,15 @@ at the bottom of the table for to the parent collection.
 </pre>
 </div>
 </div>
+
 ### Numerical types
 The custom numerical type can be displayed in four different styles:
 - in the default decimal notation,
-- as a currency: to indicate the currency, the ISO code (https://en.wikipedia.org/wiki/ISO_4217) is expected to be found in the 'label' property. The formatting is done according to the browsers locale settings.
+- as a currency: to indicate the currency, the ISO code (https://en.wikipedia.org/wiki/ISO_4217) is expected to be found in the ‘label’ property. The formatting is done according to the browsers locale settings.
 - in scientific notation, or
 - in engineering notation.
 
-{: #grammar-rule--ui-numerical-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ui-numerical-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ui numerical type</span>' {

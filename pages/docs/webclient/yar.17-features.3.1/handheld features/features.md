@@ -4,10 +4,10 @@ origin: "webclient"
 language: "handheld features"
 version: "yar.17-features.3.1"
 type: "features"
+url: "/pages/docs/webclient/yar.17-features.3.1/handheld features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

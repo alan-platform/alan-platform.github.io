@@ -4,16 +4,16 @@ origin: "webclient"
 language: "widget"
 version: "yar.13rc16.0"
 type: "grammar"
+url: "/pages/docs/webclient/yar.13rc16.0/widget/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Widgets
 ---
 
 Widgets are used to initialize and compose controls and bind data to them using
-the [client bindings](../client bindings/client_bindings.html). Widgets in turn
+the [client bindings](<../client bindings/client_bindings.html>). Widgets in turn
 are used by [views](../views/grammar.html) which manage the binding to the
 application model.
 
@@ -91,6 +91,7 @@ done by using [expressions](#grammar-rule--expression).
 </pre>
 </div>
 </div>
+
 ### Configuration
 ---
 
@@ -132,8 +133,7 @@ window and one view to properly function.
 For widgets, view attributes are used to open new content. E.g. opening a new
 view when the user clicks on a link or a row in a table.
 
-{: #grammar-rule--widget-configuration }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-configuration" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget configuration</span>' {
@@ -231,8 +231,7 @@ view when the user clicks on a link or a row in a table.
 </div>
 </div>
 
-{: #grammar-rule--client-binding-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--client-binding-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">client binding type path</span>' {
@@ -259,8 +258,7 @@ view when the user clicks on a link or a row in a table.
 </div>
 </div>
 
-{: #grammar-rule--configuration-attribute-persistence }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--configuration-attribute-persistence" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">configuration attribute persistence</span>' {
@@ -282,6 +280,7 @@ view when the user clicks on a link or a row in a table.
 </pre>
 </div>
 </div>
+
 ### Expressions
 ---
 
@@ -293,7 +292,7 @@ expression is.
 control 'empty' ( )
 ```
 
-The above snippet initializes a new control called 'empty' and renders nothing.
+The above snippet initializes a new control called ‘empty’ and renders nothing.
 
 Expressions are also used to bind data to control properties.
 
@@ -308,7 +307,7 @@ instructions.
 
 At the start of the widget, the context is set to the binding context of the
 node and the root widget configuration. The binding context refers to a binding
-in the [client bindings](../client bindings/client_bindings.html).
+in the [client bindings](<../client bindings/client_bindings.html>).
 
 This is best explained using the following example.
 
@@ -353,8 +352,7 @@ To summarize. There are two scopes:
 > **Pro Tip!** Use variable names when widgets get more complex and mix
 > different scopes.
 
-{: #grammar-rule--expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression</span>' {
@@ -396,8 +394,8 @@ To summarize. There are two scopes:
 				static '<span class="token string">not equal</span>' [ <span class="token operator">!=</span> ]
 				static '<span class="token string">greater than</span>' [ <span class="token operator">></span> ]
 				static '<span class="token string">greater than or equals</span>' [ <span class="token operator">>=</span> ]
-				static '<span class="token string">less than</span>' [ <span class="token operator"><</span> ]
-				static '<span class="token string">less than or equals</span>' [ <span class="token operator"><=</span> ]
+				static '<span class="token string">less than</span>' [ <span class="token operator">&lt;</span> ]
+				static '<span class="token string">less than or equals</span>' [ <span class="token operator">&lt;=</span> ]
 			) { [ <span class="token operator">|</span> ]
 				'<span class="token string">has predecessor</span>': stategroup = node-switch predecessor (
 					| node = '<span class="token string">yes</span>' { '<span class="token string">case</span>' = predecessor }
@@ -450,8 +448,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--expression-target }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression-target" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression target</span>' {
@@ -524,8 +521,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">expression list</span>' {
@@ -542,8 +538,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--one-or-more-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--one-or-more-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">one or more expression</span>' {
@@ -560,8 +555,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--node-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node binding</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -573,8 +567,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--static-control }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--static-control" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">static control</span>' {
@@ -592,8 +585,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--control-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--control-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">control binding</span>' {
@@ -632,8 +624,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--widget-configuration-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-configuration-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget configuration binding</span>' {
@@ -643,8 +634,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--scalar }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--scalar" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">scalar</span>' {
@@ -734,8 +724,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--instruction-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruction-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction selection</span>' {
@@ -760,8 +749,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--instruction-argument }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--instruction-argument" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">instruction argument</span>' {
@@ -787,10 +775,10 @@ To summarize. There are two scopes:
 </pre>
 </div>
 </div>
+
 ### Let declarations
 
-{: #grammar-rule--let-declarations }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--let-declarations" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">let declarations</span>' {
@@ -828,8 +816,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--control-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--control-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">control type path</span>' {
@@ -853,8 +840,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--widget-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget type path</span>' {
@@ -880,10 +866,10 @@ To summarize. There are two scopes:
 </pre>
 </div>
 </div>
+
 ### Variables
 
-{: #grammar-rule--variable }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--variable" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variable</span>' {
@@ -919,8 +905,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--optional-context-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-context-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional context definition</span>' {
@@ -935,8 +920,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--variable-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--variable-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variable assignment</span>' {
@@ -950,10 +934,10 @@ To summarize. There are two scopes:
 </pre>
 </div>
 </div>
+
 ### Navigation
 
-{: #grammar-rule--context-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context selection</span>' {
@@ -971,8 +955,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--context-ancestor-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-ancestor-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context ancestor path</span>' {
@@ -995,8 +978,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--context-selection-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-selection-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context selection path</span>' {
@@ -1022,8 +1004,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--optional-context-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-context-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional context selection</span>' {
@@ -1038,8 +1019,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--conditional-context-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-context-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional context selection</span>' {
@@ -1057,8 +1037,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--conditional-context-selection-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-context-selection-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional context selection path</span>' {
@@ -1087,8 +1066,7 @@ To summarize. There are two scopes:
 </div>
 </div>
 
-{: #grammar-rule--client-binding-context-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--client-binding-context-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">client binding context selection</span>' {

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "translations"
 version: "uhura.6.2"
 type: "grammar"
+url: "/pages/docs/webclient/uhura.6.2/translations/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

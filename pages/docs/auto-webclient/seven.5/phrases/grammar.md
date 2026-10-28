@@ -4,14 +4,13 @@ origin: auto-webclient
 language: phrases
 version: seven.5
 type: grammar
+url: "/pages/docs/auto-webclient/seven.5/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--phrases }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--phrases" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">phrases</span>': dictionary { }

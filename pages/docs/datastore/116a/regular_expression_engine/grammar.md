@@ -4,10 +4,10 @@ origin: "datastore"
 language: "regular_expression_engine"
 version: "116a"
 type: "grammar"
+url: "/pages/docs/datastore/116a/regular_expression_engine/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -27,8 +27,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--match-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--match-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">match list</span>' {
@@ -52,8 +51,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--bracket-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--bracket-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">bracket expression</span>' { [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
@@ -67,8 +65,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--atom }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--atom" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">atom</span>' {
@@ -86,8 +83,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--atom-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--atom-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">atom list</span>' {
@@ -103,8 +99,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--piece }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--piece" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">piece</span>' {
@@ -149,8 +144,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--pieces }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pieces" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pieces</span>' {

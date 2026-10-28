@@ -4,14 +4,13 @@ origin: datastore
 language: consumed_interfaces_mapping
 version: 85
 type: grammar
+url: "/pages/docs/datastore/85/consumed_interfaces_mapping/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--imported-interfaces }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--imported-interfaces" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">imported interfaces</span>': [ <span class="token operator">imported-interfaces</span> ] dictionary {
@@ -25,8 +24,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--node-type-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-type-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node type mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -77,8 +75,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--parameter-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--parameter-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">parameter mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -133,8 +130,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--event-node-type-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--event-node-type-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">event node type mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -171,8 +167,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--command-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command mapping</span>' { [ <span class="token operator">execute</span> ]
@@ -183,8 +178,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--event-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--event-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">event mapping</span>' { [ <span class="token operator">handle</span> ]

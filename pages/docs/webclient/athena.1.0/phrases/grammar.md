@@ -4,10 +4,10 @@ origin: "webclient"
 language: "phrases"
 version: "athena.1.0"
 type: "grammar"
+url: "/pages/docs/webclient/athena.1.0/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

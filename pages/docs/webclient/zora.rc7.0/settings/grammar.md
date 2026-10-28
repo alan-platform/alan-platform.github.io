@@ -4,10 +4,10 @@ origin: "webclient"
 language: "settings"
 version: "zora.rc7.0"
 type: "grammar"
+url: "/pages/docs/webclient/zora.rc7.0/settings/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

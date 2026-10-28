@@ -4,6 +4,7 @@ origin: "webclient"
 language: "release notes"
 version: "partitions-108.6.0"
 type: "release notes"
+url: "/pages/docs/webclient/partitions-108.6.0/release-notes.html"
 ---
 ## partitions-108.6
 

@@ -4,6 +4,7 @@ origin: "connector"
 language: "release notes"
 version: "40"
 type: "release notes"
+url: "/pages/docs/connector/40/release-notes.html"
 ---
 ## 40
 Upgrade instructions:

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "views"
 version: "xindi.next2.0"
 type: "grammar"
+url: "/pages/docs/webclient/xindi.next2.0/views/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -107,11 +107,11 @@ type: "grammar"
 </pre>
 </div>
 </div>
+
 The `view context` is the location in the model where the view binds to. This is
 especially convenient for queries that filter on the current node.
 
-{: #grammar-rule--gui-node-type-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-node-type-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui node type path step</span>' {
@@ -133,8 +133,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--gui-node-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-node-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui node type path</span>' {
@@ -144,8 +143,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--widget-configuration-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-configuration-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget configuration list</span>' {
@@ -161,8 +159,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--view-context-parent-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--view-context-parent-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">view context parent path</span>' {
@@ -182,8 +179,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--view-context-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--view-context-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">view context path</span>' {
@@ -206,8 +202,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--widget-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget expression</span>' {
@@ -228,8 +223,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--widget-expression-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-expression-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget expression tail</span>' {
@@ -493,8 +487,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--node-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node step</span>' {
@@ -527,8 +520,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--context-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context path</span>' {
@@ -544,8 +536,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path</span>' {
@@ -555,8 +546,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--node-query }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-query" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node query</span>' {
@@ -598,8 +588,8 @@ especially convenient for queries that filter on the current node.
 							'<span class="token string">no</span>' { }
 							'<span class="token string">yes</span>' {
 								'<span class="token string">operator</span>': stategroup (
-									'<span class="token string">smaller than</span>' { [ <span class="token operator"><</span> ] }
-									'<span class="token string">smaller than or equal to</span>' { [ <span class="token operator"><=</span> ] }
+									'<span class="token string">smaller than</span>' { [ <span class="token operator">&lt;</span> ] }
+									'<span class="token string">smaller than or equal to</span>' { [ <span class="token operator">&lt;=</span> ] }
 									'<span class="token string">equal to</span>' { [ <span class="token operator">=</span> ] }
 									'<span class="token string">greater than or equal to</span>' { [ <span class="token operator">>=</span> ] }
 									'<span class="token string">greater than</span>' { [ <span class="token operator">></span> ] }
@@ -669,8 +659,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--query-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--query-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">query path step</span>' {
@@ -695,8 +684,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--query-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--query-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">query path</span>' {
@@ -713,8 +701,7 @@ especially convenient for queries that filter on the current node.
 </div>
 </div>
 
-{: #grammar-rule--number-filter-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-filter-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number filter expression</span>' {
@@ -727,7 +714,7 @@ especially convenient for queries that filter on the current node.
 				'<span class="token string">no</span>' { }
 			)
 			'<span class="token string">less than</span>': stategroup (
-				'<span class="token string">yes</span>' { [ <span class="token operator"><</span> ]
+				'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span> ]
 					'<span class="token string">criterium</span>': integer
 				}
 				'<span class="token string">no</span>' { }

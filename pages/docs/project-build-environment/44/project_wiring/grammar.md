@@ -4,10 +4,10 @@ origin: "project-build-environment"
 language: "project_wiring"
 version: "44"
 type: "grammar"
+url: "/pages/docs/project-build-environment/44/project_wiring/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## The *minimal wiring*
 ---
@@ -62,6 +62,7 @@ For each item in the list, you need a file `interfaces/<name>/interface.alan` in
 </pre>
 </div>
 </div>
+
 ### Models
 An Alan project typically has one Alan `application` model, but projects can have multiple `application` models.
 For each item in the `models` section, you need a corresponding file `models/<name>/application.alan` in your project.
@@ -73,6 +74,7 @@ For each item in the `models` section, you need a corresponding file `models/<na
 </pre>
 </div>
 </div>
+
 ### External Systems
 If your application consumes data from external sources, you need to specify the types of these sources.
 The type of an external source must be one of:
@@ -117,6 +119,7 @@ The type of an external source must be one of:
 </pre>
 </div>
 </div>
+
 ### Internal Systems
 The internal `systems` are the active components of your Alan project.
 Each system is an instance of a System Type, which defines the structure of the connection mapping.
@@ -166,6 +169,7 @@ The compiler can tell you which one(s) you need.
 </pre>
 </div>
 </div>
+
 ### Provided Connections
 The `provided-connections` section describes which parts of your systems can be accessed from the outside world.
 
@@ -186,10 +190,10 @@ The `provided-connections` section describes which parts of your systems can be 
 </pre>
 </div>
 </div>
+
 ## Components
 
-{: #grammar-rule--library-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--library-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">library mapping</span>' {
@@ -227,8 +231,7 @@ The `provided-connections` section describes which parts of your systems can be 
 </div>
 </div>
 
-{: #grammar-rule--library-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--library-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">library selector</span>' {
@@ -244,8 +247,7 @@ The `provided-connections` section describes which parts of your systems can be 
 </div>
 </div>
 
-{: #grammar-rule--provider-selector-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--provider-selector-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">provider selector step</span>' {
@@ -267,8 +269,7 @@ The `provided-connections` section describes which parts of your systems can be 
 </div>
 </div>
 
-{: #grammar-rule--provider-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--provider-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">provider selector</span>' {
@@ -278,8 +279,7 @@ The `provided-connections` section describes which parts of your systems can be 
 </div>
 </div>
 
-{: #grammar-rule--provider-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--provider-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">provider selection</span>' {

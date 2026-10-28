@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "generator_annotations"
 version: "partitions.1.1-xindi.m106"
 type: "grammar"
+url: "/pages/docs/auto-webclient/partitions.1.1-xindi.m106/generator_annotations/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -50,6 +50,7 @@ type: "grammar"
 </pre>
 </div>
 </div>
+
 ### Dashboard
 Dashboards use a grid layout. The grid needs to be configured with a cell width
 and cell height. Optionally a gap between cells can be configured. Widgets are
@@ -59,8 +60,7 @@ can be explicitly set. Widgets with axes should be provided with a margin as the
 axes and labels are placed in the margin. Each widget has a context node, all
 paths are relative to this node.
 
-{: #grammar-rule--dashboard }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dashboard" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dashboard</span>' {
@@ -563,6 +563,7 @@ paths are relative to this node.
 </pre>
 </div>
 </div>
+
 #### Widget: integer
 Displays a single number found directly under the context node in a (by default) large font.
 The label of the numerical type is also shown, by default in the normal font size.
@@ -577,7 +578,7 @@ The label of the numerical type is also shown on the gauge.
 #### Widget: Pie Chart
 Displays a pie chart. It creates a slice for each entry in the query result.
 A label and value for each entry must be provided.
-Optionally a threshold can be set, slice which occupy less percentage then the threshold are merged in a single 'other' slice.
+Optionally a threshold can be set, slice which occupy less percentage then the threshold are merged in a single ‘other’ slice.
 The entries can optionally be sorted.
 As pie charts can not show non-existing (value = 0) or negative values, it can only plot positive numbers.
 #### Widget: Bar Chart
@@ -637,8 +638,7 @@ The query variant automatically assigns colors to the labels use the same algori
 Allows the default size of a widget to be changed.
 All values are in pixels.
 
-{: #grammar-rule--dashboard-ui-dimension }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dashboard-ui-dimension" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dashboard ui dimension</span>' {
@@ -653,12 +653,12 @@ All values are in pixels.
 </pre>
 </div>
 </div>
+
 ### Widget Annotation: Margin
 Allows the default margin of a widget to be changed.
 All values are in pixels.
 
-{: #grammar-rule--dashboard-ui-margin }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dashboard-ui-margin" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dashboard ui margin</span>' {
@@ -675,6 +675,7 @@ All values are in pixels.
 </pre>
 </div>
 </div>
+
 ### Widget Annotations: Axis Range
 Allows the range of any axis to be changed. By default the axis range is
 dynamically calculated based on the data. When providing a hint, the provided
@@ -682,8 +683,7 @@ value is guaranteed to be on axis, but the range might be increased beyond the
 hint to prevent data from going out of bounds of the axis.  A static axis
 ignores all data and while always have the exact range as provided.
 
-{: #grammar-rule--dashboard-axis-range }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dashboard-axis-range" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dashboard axis range</span>' {
@@ -715,8 +715,7 @@ ignores all data and while always have the exact range as provided.
 </div>
 </div>
 
-{: #grammar-rule--dashboard-ranges }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dashboard-ranges" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dashboard ranges</span>' {
@@ -744,6 +743,7 @@ ignores all data and while always have the exact range as provided.
 </pre>
 </div>
 </div>
+
 ### Widget Color
 Allows the selection of a color. This can either be a predefined color or a
 custom color.  Predefined colors are provided by the color theme.  Custom colors
@@ -751,8 +751,7 @@ are not bound to the theme and can be any CSS color, for example: `#FF8000`,
 `rgb(100%, 50%, 0%)` and `hsl(30deg, 100%, 50%)` all specify the same shade of
 orange.
 
-{: #grammar-rule--dashboard-color }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dashboard-color" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dashboard color</span>' {
@@ -775,10 +774,10 @@ orange.
 </pre>
 </div>
 </div>
+
 ### Navigation expressions
 
-{: #grammar-rule--singular-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular path</span>' {
@@ -798,8 +797,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--conditional-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional path</span>' {
@@ -821,8 +819,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--collection-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection path</span>' {
@@ -839,8 +836,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--query-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--query-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">query path</span>' {
@@ -874,8 +870,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--extended-annotations }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--extended-annotations" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">extended annotations</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -949,8 +944,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--custom-queries }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--custom-queries" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">custom queries</span>' {
@@ -987,8 +981,8 @@ orange.
 							'<span class="token string">filter</span>': stategroup (
 								'<span class="token string">yes</span>' { [ <span class="token operator">filter</span> ]
 									'<span class="token string">operator</span>': stategroup (
-										'<span class="token string">smaller</span>' { [ <span class="token operator"><</span> ] }
-										'<span class="token string">smaller equal</span>' { [ <span class="token operator"><=</span> ] }
+										'<span class="token string">smaller</span>' { [ <span class="token operator">&lt;</span> ] }
+										'<span class="token string">smaller equal</span>' { [ <span class="token operator">&lt;=</span> ] }
 										'<span class="token string">greater</span>' { [ <span class="token operator">></span> ] }
 										'<span class="token string">greater equal</span>' { [ <span class="token operator">>=</span> ] }
 										'<span class="token string">equal</span>' { [ <span class="token operator">==</span> ] }
@@ -1051,8 +1045,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--annotated-collection-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--annotated-collection-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">annotated collection selector</span>' {
@@ -1077,8 +1070,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-frame-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-frame-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld frame selector</span>' {
@@ -1095,8 +1087,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-details }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-details" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view details</span>' {
@@ -1122,8 +1113,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-elements }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-elements" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view elements</span>' {
@@ -1149,8 +1139,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-frame }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-frame" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view frame</span>' {
@@ -1361,8 +1350,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-descriptor }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-descriptor" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view descriptor</span>' {
@@ -1388,8 +1376,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view property</span>' {
@@ -1426,8 +1413,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-property-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-property-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view property selector</span>' {
@@ -1463,8 +1449,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-command-annotations }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-command-annotations" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld command annotations</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -1499,8 +1484,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-context }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-context" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view context</span>' {
@@ -1515,8 +1499,7 @@ orange.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view selector</span>' {

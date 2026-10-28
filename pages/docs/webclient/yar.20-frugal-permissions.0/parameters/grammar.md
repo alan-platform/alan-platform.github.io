@@ -4,10 +4,10 @@ origin: "webclient"
 language: "parameters"
 version: "yar.20-frugal-permissions.0"
 type: "grammar"
+url: "/pages/docs/webclient/yar.20-frugal-permissions.0/parameters/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -37,8 +37,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--singular-type-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-type-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular type selector</span>' {
@@ -54,8 +53,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--conditional-type-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-type-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional type selector</span>' {
@@ -73,8 +71,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--plural-type-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-type-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural type selector</span>' {

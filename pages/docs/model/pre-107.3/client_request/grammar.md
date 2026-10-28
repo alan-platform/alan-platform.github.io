@@ -4,10 +4,10 @@ origin: "model"
 language: "client_request"
 version: "pre-107.3"
 type: "grammar"
+url: "/pages/docs/model/pre-107.3/client_request/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Request types
 
@@ -167,17 +167,18 @@ type: "grammar"
 </pre>
 </div>
 </div>
+
 ### Collection query
 Queries an hierarchy of collections and produces a `select` and/or `aggregate` result the entries that match the filters.
 
 If a filter cannot be evaluated because the user lacks required permissions, it evaluates to false.
 This means that the node will be excluded from the result.
 ### Acyclic graph tree query
-Produces a dependency tree showing the dependencies of a node in a predefined 'graph'.
-The 'context node' is the root of the tree.
+Produces a dependency tree showing the dependencies of a node in a predefined ‘graph’.
+The ‘context node’ is the root of the tree.
 ### Acyclic graph list query
-Queries a collection of references and create a flat subgraph of the provided 'graph' for each of them.
-The 'query' group defines what data will be queried for each of the entries.
+Queries a collection of references and create a flat subgraph of the provided ‘graph’ for each of them.
+The ‘query’ group defines what data will be queried for each of the entries.
 
 For example, suppose we have this model, specifying `Products` and `Orders`:
 ```js
@@ -248,8 +249,7 @@ Updates a user's password.
 Resets a user's password.
 ## Rules
 
-{: #grammar-rule--filter-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--filter-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">filter expression</span>' {
@@ -270,8 +270,7 @@ Resets a user's password.
 </div>
 </div>
 
-{: #grammar-rule--number-filter-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-filter-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number filter expression</span>' {
@@ -284,7 +283,7 @@ Resets a user's password.
 				'<span class="token string">no</span>' { }
 			)
 			'<span class="token string">less than</span>': stategroup (
-				'<span class="token string">yes</span>' { [ <span class="token operator"><</span> ]
+				'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span> ]
 					'<span class="token string">criterium</span>': integer
 				}
 				'<span class="token string">no</span>' { }
@@ -299,8 +298,7 @@ Resets a user's password.
 </div>
 </div>
 
-{: #grammar-rule--reference-filter-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-filter-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference filter list</span>' {
@@ -316,8 +314,7 @@ Resets a user's password.
 </div>
 </div>
 
-{: #grammar-rule--id-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--id-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">id path</span>' {
@@ -345,8 +342,7 @@ Resets a user's password.
 </div>
 </div>
 
-{: #grammar-rule--conditional-child-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-child-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional child path</span>' {
@@ -370,8 +366,7 @@ Resets a user's password.
 </div>
 </div>
 
-{: #grammar-rule--collection-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection path</span>' {
@@ -387,10 +382,10 @@ Resets a user's password.
 </pre>
 </div>
 </div>
+
 NOTE: the datastore produces an entry key for a collection entry, iff the user has read permissions for the entry node.
 
-{: #grammar-rule--collection-query-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-query-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection query path</span>' {
@@ -423,8 +418,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--entry-point-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entry-point-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entry point path</span>' {
@@ -443,8 +437,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path</span>' {
@@ -483,8 +476,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--aggregate }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--aggregate" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">aggregate</span>' {
@@ -496,8 +488,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--number-aggregate }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-aggregate" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number aggregate</span>' {
@@ -508,8 +499,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--signed-number-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signed-number-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signed number property</span>' {
@@ -524,8 +514,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--signed-number-property-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signed-number-property-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signed number property list</span>' {
@@ -541,8 +530,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--number-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number expression</span>' {
@@ -599,8 +587,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--singular-text-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-text-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular text expression</span>' {
@@ -618,8 +605,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--singular-text-expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-text-expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular text expression list</span>' {
@@ -635,8 +621,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--text-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text expression</span>' {
@@ -652,10 +637,10 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </pre>
 </div>
 </div>
+
 NOTE: the datastore produces an entry key for a collection entry, iff the user has read permissions for the entry node.
 
-{: #grammar-rule--node-subscription }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-subscription" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node subscription</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -713,8 +698,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--node-update }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-update" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node update</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -764,8 +748,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--node-initialization }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-initialization" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node initialization</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -800,8 +783,7 @@ NOTE: the datastore produces an entry key for a collection entry, iff the user h
 </div>
 </div>
 
-{: #grammar-rule--node-query }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-query" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node query</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "handheld features"
 version: "partitions-108.3.1.0"
 type: "features"
+url: "/pages/docs/webclient/partitions-108.3.1.0/handheld features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

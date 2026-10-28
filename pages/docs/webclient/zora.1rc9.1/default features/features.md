@@ -4,10 +4,10 @@ origin: "webclient"
 language: "default features"
 version: "zora.1rc9.1"
 type: "features"
+url: "/pages/docs/webclient/zora.1rc9.1/default features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features
@@ -998,7 +998,7 @@ collection-features
 	}
 ```
 Custom filters are added as extra toggle filters on the collection. They are
-only added on the 'compact' and 'full' views. For custom query filters are
+only added on the ‘compact’ and ‘full’ views. For custom query filters are
 specified separately.
 ```js
 	'custom filters' stategroup @default: 'not set' @strategy (

@@ -4,10 +4,10 @@ origin: "connector"
 language: "variables"
 version: "39"
 type: "grammar"
+url: "/pages/docs/connector/39/variables/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

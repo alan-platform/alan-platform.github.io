@@ -4,14 +4,13 @@ origin: webclient
 language: translations
 version: seven.5.0
 type: grammar
+url: "/pages/docs/webclient/seven.5.0/translations/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--language }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--language" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">language</span>': [ <span class="token operator">language:</span> ] text
@@ -19,8 +18,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--engine-language }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--engine-language" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">engine language</span>': [ <span class="token operator">engine</span> <span class="token operator">language:</span> ] stategroup (
@@ -31,8 +29,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--translations }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--translations" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">translations</span>': dictionary {

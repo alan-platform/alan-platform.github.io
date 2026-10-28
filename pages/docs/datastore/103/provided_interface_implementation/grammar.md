@@ -4,17 +4,17 @@ origin: "datastore"
 language: "provided_interface_implementation"
 version: "103"
 type: "grammar"
+url: "/pages/docs/datastore/103/provided_interface_implementation/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## The *minimal implementation*
 ---
 Every provided interface implementation contains at least
 > ```js
-root = root /* context path goes here */ ( /* node type mapping */ )
-```
+> root = root /* context path goes here */ ( /* node type mapping */ )
+> ```
 
 <div class="language-js highlighter-rouge">
 <div class="highlight">
@@ -39,12 +39,12 @@ root = root /* context path goes here */ ( /* node type mapping */ )
 </pre>
 </div>
 </div>
+
 ## Context identification path
 ---
 This path can be used for expressing the context node for an interface (the interface `root`).
 
-{: #grammar-rule--interface-context-id-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-context-id-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface context id path</span>' {
@@ -72,11 +72,11 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ## Node type mapping
 ---
 
-{: #grammar-rule--node-type-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-type-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node type mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -154,11 +154,11 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ## Command mapping expressions
 ---
 
-{: #grammar-rule--command-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command mapping</span>' { [ <span class="token operator">=></span> ]
@@ -170,8 +170,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--parameter-mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--parameter-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">parameter mapping</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -237,12 +236,12 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ## Property mapping expressions
 ---
 ### Texts, numbers and files
 
-{: #grammar-rule--text-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text expression</span>' {
@@ -253,8 +252,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--number-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number expression</span>' {
@@ -276,8 +274,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--file-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--file-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">file expression</span>' {
@@ -287,10 +284,10 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ### Collections
 
-{: #grammar-rule--key-separator }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--key-separator" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">key separator</span>' {
@@ -306,8 +303,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--key-constructor }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--key-constructor" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">key constructor</span>' {
@@ -331,8 +327,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--collection-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection expression</span>' {
@@ -343,8 +338,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--collection-expression-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-expression-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection expression tail</span>' {
@@ -370,8 +364,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--filter-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--filter-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">filter expression</span>' {
@@ -396,10 +389,10 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ### Groups and stategroups
 
-{: #grammar-rule--group-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--group-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">group expression</span>' {
@@ -415,8 +408,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--state-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--state-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">state expression</span>' {
@@ -439,11 +431,11 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ## Navigation expressions
 ---
 
-{: #grammar-rule--optional-variable-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-variable-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional variable assignment</span>' {
@@ -458,8 +450,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--variable-assignment }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--variable-assignment" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variable assignment</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ] }
@@ -467,8 +458,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--ancestor-variable-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-variable-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor variable path</span>' {
@@ -483,8 +473,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--context-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--context-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">context node path</span>' {
@@ -505,8 +494,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--node-path-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path tail</span>' {
@@ -522,8 +510,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--dependency-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dependency-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dependency step</span>' {
@@ -544,8 +531,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--node-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node step</span>' {
@@ -581,8 +567,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--singular-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular node path</span>' {
@@ -593,8 +578,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--conditional-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional node path</span>' {
@@ -605,8 +589,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--plural-descendant-node-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--plural-descendant-node-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">plural descendant node step</span>' {
@@ -615,11 +598,11 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
 ## Expressions for mapping safety
 ---
 
-{: #grammar-rule--conditional-descendant-branch-imp-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-descendant-branch-imp-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional descendant branch imp node path</span>' {
@@ -634,8 +617,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--conditional-descendant-imp-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-descendant-imp-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional descendant imp node path</span>' {
@@ -659,8 +641,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--singular-imp-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-imp-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular imp node path</span>' {
@@ -684,8 +665,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--ancestor-parameter-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-parameter-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor parameter path</span>' {
@@ -700,8 +680,7 @@ This path can be used for expressing the context node for an interface (the inte
 </div>
 </div>
 
-{: #grammar-rule--parametrized-singular-imp-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--parametrized-singular-imp-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">parametrized singular imp node path</span>' {

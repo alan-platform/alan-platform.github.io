@@ -4,10 +4,10 @@ origin: "webclient"
 language: "main"
 version: "yar.17-features.3.1"
 type: "grammar"
+url: "/pages/docs/webclient/yar.17-features.3.1/main/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -48,8 +48,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--node-equality }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-equality" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node equality</span>' { }
@@ -57,8 +56,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--ancestor-node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor node path</span>' {
@@ -73,8 +71,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--view-expression-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--view-expression-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">view expression list</span>' {
@@ -90,8 +87,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--view-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--view-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">view expression</span>' {

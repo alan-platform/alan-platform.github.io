@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "phrases"
 version: "yar.20-frugal-permissions"
 type: "grammar"
+url: "/pages/docs/auto-webclient/yar.20-frugal-permissions/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

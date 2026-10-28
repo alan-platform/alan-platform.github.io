@@ -4,10 +4,10 @@ origin: "connector"
 language: "processor"
 version: "36.5"
 type: "grammar"
+url: "/pages/docs/connector/36.5/processor/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 # Release Notes
 
@@ -1402,6 +1402,7 @@ Allows defining reusable types.
 </pre>
 </div>
 </div>
+
 ## The type of the connector.
 This is chosen externally, the archetype here must follow the external choice.
 
@@ -1565,6 +1566,7 @@ This is chosen externally, the archetype here must follow the external choice.
 </pre>
 </div>
 </div>
+
 ## Internal error handler.
 Allows specifying an error handler routine.
 Example:
@@ -1596,8 +1598,7 @@ on error do @log: $
 </div>
 </div>
 
-{: #grammar-rule--library-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--library-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">library selector</span>' {
@@ -1614,6 +1615,7 @@ on error do @log: $
 </pre>
 </div>
 </div>
+
 ## Library Hook
 The standard library defines hooks.
 When or how these hooks are triggered is defined by the individual hooks.
@@ -1643,8 +1645,7 @@ do (
 ```
 
 
-{: #grammar-rule--library-hook }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--library-hook" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">library hook</span>' {
@@ -1667,8 +1668,7 @@ do (
 </div>
 </div>
 
-{: #grammar-rule--interface-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface type path</span>' {
@@ -1690,13 +1690,13 @@ do (
 </pre>
 </div>
 </div>
+
 ## Interface Named Path
 As the connector does not allow stepping from a child node to the parent, the path is segmented.
 Each segment has a name and specifies a part of the path. This name is then assigned that node.
 This allows a routine to access its parents by explicitly naming them.
 
-{: #grammar-rule--interface-named-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-named-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface named path</span>' {
@@ -1723,8 +1723,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--comparator }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--comparator" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">comparator</span>' {
@@ -1748,8 +1747,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--schema-scalar-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-scalar-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema scalar type</span>' {
@@ -1848,8 +1846,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--schema-complex-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-complex-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema complex type</span>' {
@@ -1922,8 +1919,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--schema-node-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-node-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema node type</span>' {
@@ -1943,7 +1939,7 @@ This allows a routine to access its parents by explicitly naming them.
 			| none = '<span class="token string">no</span>'
 		)
 		'<span class="token string">has attributes</span>': stategroup (
-			'<span class="token string">yes</span>' { [ <span class="token operator"><</span>, <span class="token operator">></span> ]
+			'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
 				'<span class="token string">attributes</span>': dictionary {
 					'<span class="token string">has next</span>': stategroup = node-switch successor (
 						| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
@@ -1976,8 +1972,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--stack-block }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-block" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack block</span>' {
@@ -2027,8 +2022,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--stack-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack selector</span>' {
@@ -2056,8 +2050,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--target-type-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--target-type-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">target type path step</span>' {
@@ -2087,8 +2080,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--target-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--target-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">target type path</span>' {
@@ -2115,8 +2107,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--type-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--type-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">type path step</span>' {
@@ -2146,8 +2137,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">type path</span>' {
@@ -2164,8 +2154,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--type-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--type-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">type definition</span>' {
@@ -2195,8 +2184,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--signature-parameters }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signature-parameters" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signature parameters</span>' {
@@ -2214,15 +2202,14 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--signature-promise }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signature-promise" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signature promise</span>' {
 	/* The signature of a callable object.
 	 * This represents a callable object that must be called in a promise chain context.
 	 */
-	'<span class="token string">template</span>': [ <span class="token operator"><</span> ] stategroup (
+	'<span class="token string">template</span>': [ <span class="token operator">&lt;</span> ] stategroup (
 		'<span class="token string">yes</span>' {
 			'<span class="token string">requirement</span>': [ <span class="token operator">template</span>, <span class="token operator">T</span> <span class="token operator">,</span> ] stategroup (
 				'<span class="token string">plural</span>' { [ <span class="token operator">plural</span> ] }
@@ -2258,8 +2245,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--signature-statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signature-statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signature statement</span>' {
@@ -2283,8 +2269,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--signature }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--signature" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">signature</span>' {
@@ -2303,13 +2288,12 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--callable-instance }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--callable-instance" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">callable instance</span>' {
 	'<span class="token string">template</span>': stategroup (
-		'<span class="token string">yes</span>' { [ <span class="token operator"><</span>, <span class="token operator">></span> ]
+		'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
 			'<span class="token string">type</span>': component <a href="#grammar-rule--type-definition">'type definition'</a>
 		}
 		'<span class="token string">no</span>' { }
@@ -2319,8 +2303,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--lambda-implementation }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lambda-implementation" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lambda implementation</span>' {
@@ -2337,8 +2320,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--lambda-argument }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lambda-argument" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lambda argument</span>' {
@@ -2383,8 +2365,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--lambda-arguments }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lambda-arguments" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lambda arguments</span>' {
@@ -2400,8 +2381,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--lambda-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lambda-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lambda definition</span>' {
@@ -2415,8 +2395,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--root-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--root-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">root selector</span>' {
@@ -2432,8 +2411,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--callable-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--callable-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">callable selector</span>' {
@@ -2468,8 +2446,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--decimal-import-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--decimal-import-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">decimal import rule</span>' {
@@ -2479,7 +2456,7 @@ This allows a routine to access its parents by explicitly naming them.
 	 */
 	'<span class="token string">decimal point translation</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">places</span>': [ <span class="token operator"><<</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--value-promise">'value promise'</a>
+			'<span class="token string">places</span>': [ <span class="token operator">&lt;&lt;</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--value-promise">'value promise'</a>
 		}
 		'<span class="token string">no</span>' { }
 	)
@@ -2488,8 +2465,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--date-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--date-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">date expression</span>' {
@@ -2520,8 +2496,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--time-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--time-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">time expression</span>' {
@@ -2533,8 +2508,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--pattern-rule-piece }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pattern-rule-piece" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pattern rule piece</span>' {
@@ -2589,8 +2563,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--pattern-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pattern-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pattern rule</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -2612,8 +2585,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--promise-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promise-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promise path</span>' {
@@ -2644,7 +2616,7 @@ This allows a routine to access its parents by explicitly naming them.
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">sub property</span>': stategroup (
 				'<span class="token string">yes</span>' {
-					'<span class="token string">attribute</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] reference
+					'<span class="token string">attribute</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] reference
 				}
 				'<span class="token string">no</span>' { }
 			)
@@ -2665,8 +2637,7 @@ This allows a routine to access its parents by explicitly naming them.
 </div>
 </div>
 
-{: #grammar-rule--promise-chain }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promise-chain" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promise chain</span>' {
@@ -2908,6 +2879,7 @@ This allows a routine to access its parents by explicitly naming them.
 </pre>
 </div>
 </div>
+
 ## Promise
 A promise consists of a `head`, an instruction producing a value without any input, and a `chain`.
 The chain of a promise is a set of ordered instructions which each take the output of the previous instruction as their input.
@@ -2927,8 +2899,7 @@ All changes, if any, to the target since this try are undone an execution resume
 The promise guarantees safe execution. When an instruction fails at runtime, the remainder of the chain is aborted and the alternative is evaluated.
 As a result it is always safe the chain multiple instructions with a guarantee of no.
 
-{: #grammar-rule--promise }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promise" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promise</span>' {
@@ -3087,8 +3058,7 @@ As a result it is always safe the chain multiple instructions with a guarantee o
 </div>
 </div>
 
-{: #grammar-rule--promises }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promises" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promises</span>' {
@@ -3103,13 +3073,13 @@ As a result it is always safe the chain multiple instructions with a guarantee o
 </pre>
 </div>
 </div>
+
 ## Value Promise
 This represents a top-level promise.
 A value promise indicates that a promise guarantee of no cannot be propagated from the wrapped promise.
 The wrapped promise must always have an alternative with a guarantee of yes, or throw.
 
-{: #grammar-rule--value-promise }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--value-promise" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">value promise</span>' {
@@ -3119,8 +3089,7 @@ The wrapped promise must always have an alternative with a guarantee of yes, or 
 </div>
 </div>
 
-{: #grammar-rule--target-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--target-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">target expression</span>' {
@@ -3141,7 +3110,7 @@ The wrapped promise must always have an alternative with a guarantee of yes, or 
 					'<span class="token string">properties</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary {
 						'<span class="token string">attributes</span>': stategroup (
 							'<span class="token string">yes</span>' {
-								'<span class="token string">attributes</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] dictionary {
+								'<span class="token string">attributes</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] dictionary {
 									'<span class="token string">value</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--value-promise">'value promise'</a>
 								}
 							}
@@ -3189,6 +3158,7 @@ The wrapped promise must always have an alternative with a guarantee of yes, or 
 </pre>
 </div>
 </div>
+
 ## Statement
 A statement is responsible for the control flow of the processor.
 Statements operate on a target, the target specifies the cardinality of the statement.
@@ -3199,8 +3169,7 @@ Each statement is bound to an execution context.
 The execution context can be restricted when the statement is not allowed to fail.
 When the execution context is restricted, operations that (could) generate errors are disabled.
 
-{: #grammar-rule--statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statement</span>' {
@@ -3345,8 +3314,7 @@ When the execution context is restricted, operations that (could) generate error
 </div>
 </div>
 
-{: #grammar-rule--statements }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statements" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statements</span>' {
@@ -3361,6 +3329,7 @@ When the execution context is restricted, operations that (could) generate error
 </pre>
 </div>
 </div>
+
 # Examples
 
 ```js

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "production features"
 version: "yar.16rc6.0"
 type: "features"
+url: "/pages/docs/webclient/yar.16rc6.0/production features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "settings"
 version: "yar.14rc0.1"
 type: "grammar"
+url: "/pages/docs/webclient/yar.14rc0.1/settings/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "default features"
 version: "zora.2.0"
 type: "features"
+url: "/pages/docs/webclient/zora.2.0/default features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features
@@ -472,8 +472,8 @@ values on the same x value.
 	)
 ```
 The properties of a query are its columns: they are shown in the table and can be
-sorted and filtered. Every property has a label, and 'number', 'text' and
-'stategroup' properties also take a filter.
+sorted and filtered. Every property has a label, and ‘number’, ‘text’ and
+‘stategroup’ properties also take a filter.
 ```js
 	'properties' component list stategroup @strategy (
 		'stategroup' binding stategroup {
@@ -487,12 +487,12 @@ Filter on the state of this stategroup.
 			'filter': stategroup @default: 'auto' (
 ```
 Let the generator decide: a filter on a query or a custom query, and no
-filter on the query of a 'node' feature, which is a detail view of a
+filter on the query of a ‘node’ feature, which is a detail view of a
 single node.
 ```js
 				'auto' { }
 ```
-Only show entries that are in one of the 'states to include'. The user
+Only show entries that are in one of the ‘states to include’. The user
 cannot change this filter.
 ```js
 				'yes' {
@@ -531,15 +531,15 @@ Do not filter on this property.
 	)
 	// Common features
 ```
-A number filter is added as a filter on the query column. Use 'simple' to let the
-user choose the operator and the value, or 'yes' to set a fixed criteria that the
+A number filter is added as a filter on the query column. Use ‘simple’ to let the
+user choose the operator and the value, or ‘yes’ to set a fixed criteria that the
 user cannot change.
 ```js
 	'number filter' component stategroup @default: 'simple' (
 ```
 A fixed criteria: an operator plus the value to compare against. That value is
-either a 'static' number, or 'now' (the current time) with an optional
-'offset'. The offset is in the unit of the bound number property and can be
+either a ‘static’ number, or ‘now’ (the current time) with an optional
+‘offset’. The offset is in the unit of the bound number property and can be
 negative to select a moment in the past.
 ```js
 		'yes' {
@@ -564,7 +564,7 @@ The user chooses the operator and the value.
 		'simple' { }
 	)
 ```
-A text filter is added as a filter on the query column. The default 'auto' lets the
+A text filter is added as a filter on the query column. The default ‘auto’ lets the
 generator pick the most suitable filter for the property.
 ```js
 	'text filter' component stategroup @default: 'auto' (
@@ -584,8 +584,8 @@ A text search that the user fills in.
 ```js
 		'simple' { }
 ```
-A list of the referenced entries, to either include ('in') or exclude
-('not in'). Only for texts that are references; other texts get no filter.
+A list of the referenced entries, to either include (‘in’) or exclude
+(‘not in’). Only for texts that are references; other texts get no filter.
 ```js
 		'containment' {
 			'operator': stategroup (
@@ -597,12 +597,12 @@ A list of the referenced entries, to either include ('in') or exclude
 	// Optional variants of the filters above, adding the option of no filter at all. Only
 	// 'properties' uses these, so they are not part of the common features.
 ```
-Filter on this number property, or use 'none' for a column without a filter.
+Filter on this number property, or use ‘none’ for a column without a filter.
 ```js
 	'optional number filter' component stategroup @default: 'auto' @strategy (
 ```
 Let the generator decide: a simple filter on a query or a custom query, and no
-filter on the query of a 'node' feature, which is a detail view of a single
+filter on the query of a ‘node’ feature, which is a detail view of a single
 node. This is the default, so a property without a filter needs no
 configuration.
 ```js
@@ -614,12 +614,12 @@ Do not filter on this property.
 		'none' none
 	)
 ```
-Filter on this text property, or use 'none' for a column without a filter.
+Filter on this text property, or use ‘none’ for a column without a filter.
 ```js
 	'optional text filter' component stategroup @default: 'auto' @strategy (
 ```
-Let the generator decide: the filter of the 'auto' state of 'text filter' on a
-query or a custom query, and no filter on the query of a 'node' feature, which
+Let the generator decide: the filter of the ‘auto’ state of ‘text filter’ on a
+query or a custom query, and no filter on the query of a ‘node’ feature, which
 is a detail view of a single node. This is the default, so a property without a
 filter needs no configuration.
 ```js
@@ -1106,7 +1106,7 @@ collection-features
 	}
 ```
 Custom filters are added as extra toggle filters on the collection. They are
-only added on the 'compact' and 'full' views. For custom query filters are
+only added on the ‘compact’ and ‘full’ views. For custom query filters are
 specified separately.
 ```js
 	'custom filters' stategroup @default: 'not set' @strategy (

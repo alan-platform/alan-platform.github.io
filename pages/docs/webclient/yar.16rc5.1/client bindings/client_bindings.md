@@ -4,10 +4,10 @@ origin: "webclient"
 language: "client bindings"
 version: "yar.16rc5.1"
 type: "client_bindings"
+url: "/pages/docs/webclient/yar.16rc5.1/client bindings/client_bindings.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Client bindings
 ---
@@ -391,8 +391,8 @@ engine crashes
 }
 'entity' node entity {
 ```
-'save all' includes all the collection entries that are part of this
-entity. 'save' only saves the properties and collections that are
+‘save all’ includes all the collection entries that are part of this
+entity. ‘save’ only saves the properties and collections that are
 annotated with @small.
 ```js
 	'save': instruction

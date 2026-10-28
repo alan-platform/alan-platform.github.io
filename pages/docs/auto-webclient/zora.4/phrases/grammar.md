@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "phrases"
 version: "zora.4"
 type: "grammar"
+url: "/pages/docs/auto-webclient/zora.4/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

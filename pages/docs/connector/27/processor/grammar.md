@@ -4,14 +4,13 @@ origin: connector
 language: processor
 version: 27
 type: grammar
+url: "/pages/docs/connector/27/processor/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--archetype }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--archetype" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">archetype</span>': stategroup (
@@ -60,8 +59,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--interface-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface type path</span>' {
@@ -84,8 +82,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--interface-named-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--interface-named-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">interface named path</span>' {
@@ -113,8 +110,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--schema-scalar-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-scalar-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema scalar type</span>' {
@@ -140,8 +136,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--schema-complex-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-complex-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema complex type</span>' {
@@ -165,8 +160,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--schema-node-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-node-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema node type</span>' {
@@ -176,7 +170,7 @@ type: grammar
 			| none = '<span class="token string">no</span>'
 		)
 		'<span class="token string">has attributes</span>': stategroup (
-			'<span class="token string">yes</span>' { [ <span class="token operator"><</span>, <span class="token operator">></span> ]
+			'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
 				'<span class="token string">attributes</span>': dictionary {
 					'<span class="token string">has next</span>': stategroup = node-switch successor (
 						| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
@@ -205,8 +199,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--schema-type }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schema-type" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schema type</span>' {
@@ -217,8 +210,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--stack-block }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-block" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack block</span>' {
@@ -246,8 +238,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--stack-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack selector</span>' {
@@ -268,8 +259,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--parameters }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--parameters" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">parameters</span>' {
@@ -289,8 +279,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--arguments }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--arguments" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">arguments</span>' {
@@ -306,8 +295,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--lambda }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lambda" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lambda</span>' { [ <span class="token operator">lambda</span> ]
@@ -318,8 +306,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--lambda-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--lambda-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">lambda selector</span>' {
@@ -336,14 +323,13 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--decimal-import-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--decimal-import-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">decimal import rule</span>' {
 	'<span class="token string">decimal point translation</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">places</span>': [ <span class="token operator"><<</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--value-promise">'value promise'</a>
+			'<span class="token string">places</span>': [ <span class="token operator">&lt;&lt;</span> <span class="token operator">(</span>, <span class="token operator">)</span> ] component <a href="#grammar-rule--value-promise">'value promise'</a>
 		}
 		'<span class="token string">no</span>' { }
 	)
@@ -352,8 +338,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--pattern-rule-piece }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pattern-rule-piece" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pattern rule piece</span>' {
@@ -385,8 +370,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--pattern-rule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--pattern-rule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">pattern rule</span>' {
@@ -403,8 +387,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--promise-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promise-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promise path</span>' {
@@ -435,7 +418,7 @@ type: grammar
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">sub property</span>': stategroup (
 				'<span class="token string">yes</span>' {
-					'<span class="token string">attribute</span>': [ <span class="token operator"><</span>, <span class="token operator">></span> ] reference
+					'<span class="token string">attribute</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] reference
 				}
 				'<span class="token string">no</span>' { }
 			)
@@ -449,8 +432,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--promise-chain }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promise-chain" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promise chain</span>' {
@@ -646,8 +628,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--promise }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promise" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promise</span>' {
@@ -734,8 +715,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--promises }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--promises" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">promises</span>' {
@@ -751,8 +731,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--value-promise }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--value-promise" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">value promise</span>' {
@@ -762,8 +741,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--target-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--target-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">target expression</span>' {
@@ -802,8 +780,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statement</span>' {
@@ -898,8 +875,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--statements }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statements" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statements</span>' {

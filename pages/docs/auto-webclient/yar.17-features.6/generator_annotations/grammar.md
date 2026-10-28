@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "generator_annotations"
 version: "yar.17-features.6"
 type: "grammar"
+url: "/pages/docs/auto-webclient/yar.17-features.6/generator_annotations/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 # Generator Contracts
 ## Default
@@ -1403,6 +1403,7 @@ The root node of the annotations.
 </pre>
 </div>
 </div>
+
 ## Global Features
 Configure global features provided by the selected generator.
 
@@ -1424,6 +1425,7 @@ Configure global features provided by the selected generator.
 </pre>
 </div>
 </div>
+
 ## Handheld Menu
 
 <div class="language-js highlighter-rouge">
@@ -1445,10 +1447,10 @@ Configure global features provided by the selected generator.
 </pre>
 </div>
 </div>
+
 ### Navigation expressions
 
-{: #grammar-rule--singular-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular path</span>' {
@@ -1468,8 +1470,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--conditional-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional path</span>' {
@@ -1491,8 +1492,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--collection-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection path</span>' {
@@ -1509,8 +1509,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path</span>' {
@@ -1542,10 +1541,10 @@ Configure global features provided by the selected generator.
 </pre>
 </div>
 </div>
+
 ### Annotation Node
 
-{: #grammar-rule--extended-annotations }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--extended-annotations" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">extended annotations</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -1673,8 +1672,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--custom-queries }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--custom-queries" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">custom queries</span>' {
@@ -1696,8 +1694,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--features-matrix }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--features-matrix" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">features matrix</span>' {
@@ -1713,8 +1710,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--feature }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--feature" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">feature</span>' {
@@ -1774,8 +1770,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--feature-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--feature-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">feature list</span>' {
@@ -1791,8 +1786,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--feature-reference }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--feature-reference" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">feature reference</span>' {
@@ -1809,8 +1803,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--feature-node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--feature-node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">feature node</span>' {
@@ -1822,8 +1815,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--custom-query }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--custom-query" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">custom query</span>' {
@@ -1867,8 +1859,8 @@ Configure global features provided by the selected generator.
 				'<span class="token string">filter</span>': stategroup (
 					'<span class="token string">yes</span>' { [ <span class="token operator">filter</span> ]
 						'<span class="token string">operator</span>': stategroup (
-							'<span class="token string">smaller</span>' { [ <span class="token operator"><</span> ] }
-							'<span class="token string">smaller equal</span>' { [ <span class="token operator"><=</span> ] }
+							'<span class="token string">smaller</span>' { [ <span class="token operator">&lt;</span> ] }
+							'<span class="token string">smaller equal</span>' { [ <span class="token operator">&lt;=</span> ] }
 							'<span class="token string">greater</span>' { [ <span class="token operator">></span> ] }
 							'<span class="token string">greater equal</span>' { [ <span class="token operator">>=</span> ] }
 							'<span class="token string">equal</span>' { [ <span class="token operator">==</span> ] }
@@ -1934,10 +1926,10 @@ Configure global features provided by the selected generator.
 </pre>
 </div>
 </div>
+
 ### Handheld
 
-{: #grammar-rule--annotated-collection-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--annotated-collection-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">annotated collection selector</span>' {
@@ -1962,8 +1954,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-frame-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-frame-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld frame selector</span>' {
@@ -1980,8 +1971,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-details }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-details" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view details</span>' {
@@ -2007,8 +1997,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-elements }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-elements" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view elements</span>' {
@@ -2034,8 +2023,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-frame }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-frame" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view frame</span>' {
@@ -2252,8 +2240,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-descriptor }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-descriptor" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view descriptor</span>' {
@@ -2279,8 +2266,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-property }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-property" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view property</span>' {
@@ -2317,8 +2303,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-property-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-property-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view property selector</span>' {
@@ -2354,8 +2339,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-command-annotations }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-command-annotations" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld command annotations</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -2390,8 +2374,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-context }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-context" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view context</span>' {
@@ -2406,8 +2389,7 @@ Configure global features provided by the selected generator.
 </div>
 </div>
 
-{: #grammar-rule--handheld-view-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--handheld-view-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">handheld view selector</span>' {

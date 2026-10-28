@@ -4,10 +4,10 @@ origin: "webclient"
 language: "client bindings"
 version: "voyager.2.0"
 type: "client_bindings"
+url: "/pages/docs/webclient/voyager.2.0/client bindings/client_bindings.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Client bindings
 ---

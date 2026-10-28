@@ -4,14 +4,13 @@ origin: sql-mirror
 language: sql_mapping
 version: 85
 type: grammar
+url: "/pages/docs/sql-mirror/85/sql_mapping/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--formatting }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--formatting" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">formatting</span>': group {
@@ -30,12 +29,11 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--tables }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--tables" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">tables</span>': [ <span class="token operator">schema</span> ] dictionary {
-	'<span class="token string">primary key</span>': [ <span class="token operator"><--</span> ] group {
+	'<span class="token string">primary key</span>': [ <span class="token operator">&lt;--</span> ] group {
 		'<span class="token string">root key field</span>': stategroup (
 			'<span class="token string">no</span>' {
 				'<span class="token string">entity type path</span>': component <a href="#grammar-rule--entity-type-path">'entity type path'</a>
@@ -96,8 +94,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--root-table }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--root-table" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">root table</span>': [ <span class="token operator">mapping</span> <span class="token operator">root</span> ] component <a href="#grammar-rule--optional-table-selection">'optional table selection'</a>
@@ -105,8 +102,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--mapping }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">mapping</span>': component <a href="#grammar-rule--mapping-definition">'mapping definition'</a>
@@ -114,8 +110,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--entity-scoped-node-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entity-scoped-node-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entity scoped node type path</span>' {
@@ -139,8 +134,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--entity-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entity-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entity type path</span>' {
@@ -151,8 +145,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--table-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--table-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">table selection</span>' {
@@ -162,8 +155,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--optional-table-selection }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-table-selection" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional table selection</span>' {
@@ -178,8 +170,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--mapping-definition }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--mapping-definition" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">mapping definition</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]

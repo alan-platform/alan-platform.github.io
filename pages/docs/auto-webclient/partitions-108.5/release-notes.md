@@ -4,6 +4,7 @@ origin: "auto-webclient"
 language: "release notes"
 version: "partitions-108.5"
 type: "release notes"
+url: "/pages/docs/auto-webclient/partitions-108.5/release-notes.html"
 ---
 ## partitions-108.5 (after zora.3)
 

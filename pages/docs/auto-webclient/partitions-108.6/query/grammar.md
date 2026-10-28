@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "query"
 version: "partitions-108.6"
 type: "grammar"
+url: "/pages/docs/auto-webclient/partitions-108.6/query/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -129,8 +129,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--id-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--id-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">id path</span>' {
@@ -158,8 +157,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--node-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--node-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">node path</span>' {
@@ -198,8 +196,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--entity-descendant-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--entity-descendant-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">entity descendant selector</span>' {
@@ -223,8 +220,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection selector</span>' {
@@ -241,8 +237,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection expression</span>' {
@@ -258,8 +253,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection format</span>' {
@@ -273,8 +267,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-value }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-value" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number value</span>' {
@@ -291,8 +284,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number expression</span>' {
@@ -310,8 +302,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number format</span>' {
@@ -329,8 +320,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-value }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-value" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text value</span>' {
@@ -347,8 +337,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text expression</span>' {
@@ -366,8 +355,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text format</span>' {
@@ -379,8 +367,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--stategroup-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stategroup-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stategroup expression</span>' {
@@ -391,8 +378,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--state-format }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--state-format" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">state format</span>' {
@@ -404,8 +390,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-filter-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-filter-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number filter expression</span>' {
@@ -418,7 +403,7 @@ type: "grammar"
 				'<span class="token string">no</span>' { }
 			)
 			'<span class="token string">less than</span>': stategroup (
-				'<span class="token string">yes</span>' { [ <span class="token operator"><</span> ]
+				'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span> ]
 					'<span class="token string">criterium</span>': component <a href="#grammar-rule--number-value">'number value'</a>
 				}
 				'<span class="token string">no</span>' { }
@@ -433,8 +418,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--reference-filter-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-filter-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference filter list</span>' {

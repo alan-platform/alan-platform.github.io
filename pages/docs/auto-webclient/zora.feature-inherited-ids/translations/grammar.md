@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "translations"
 version: "zora.feature-inherited-ids"
 type: "grammar"
+url: "/pages/docs/auto-webclient/zora.feature-inherited-ids/translations/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

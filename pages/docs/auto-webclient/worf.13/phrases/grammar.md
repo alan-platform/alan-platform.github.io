@@ -4,10 +4,10 @@ origin: "auto-webclient"
 language: "phrases"
 version: "worf.13"
 type: "grammar"
+url: "/pages/docs/auto-webclient/worf.13/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

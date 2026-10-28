@@ -4,10 +4,10 @@ origin: "webclient"
 language: "handheld features"
 version: "partitions-108.5.0"
 type: "features"
+url: "/pages/docs/webclient/partitions-108.5.0/handheld features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features
@@ -94,15 +94,15 @@ node-features
 		'set' text
 	)
 ```
-A number filter is added as a filter on the query column. Use 'simple' to let the
-user choose the operator and the value, or 'yes' to set a fixed criteria that the
+A number filter is added as a filter on the query column. Use ‘simple’ to let the
+user choose the operator and the value, or ‘yes’ to set a fixed criteria that the
 user cannot change.
 ```js
 	'number filter' component stategroup @default: 'simple' (
 ```
 A fixed criteria: an operator plus the value to compare against. That value is
-either a 'static' number, or 'now' (the current time) with an optional
-'offset'. The offset is in the unit of the bound number property and can be
+either a ‘static’ number, or ‘now’ (the current time) with an optional
+‘offset’. The offset is in the unit of the bound number property and can be
 negative to select a moment in the past.
 ```js
 		'yes' {
@@ -127,7 +127,7 @@ The user chooses the operator and the value.
 		'simple' { }
 	)
 ```
-A text filter is added as a filter on the query column. The default 'auto' lets the
+A text filter is added as a filter on the query column. The default ‘auto’ lets the
 generator pick the most suitable filter for the property.
 ```js
 	'text filter' component stategroup @default: 'auto' (
@@ -142,7 +142,7 @@ A fixed search pattern that the user cannot change.
 		'yes' {
 			'criteria': text
 ```
-Use 'not in' to exclude the rows that match the criteria.
+Use ‘not in’ to exclude the rows that match the criteria.
 ```js
 			'operator': stategroup @default: 'in' (
 				'in' { }
@@ -154,7 +154,7 @@ A text search that the user fills in.
 ```js
 		'simple' {
 ```
-Use 'not in' to exclude the rows that match what the user fills in.
+Use ‘not in’ to exclude the rows that match what the user fills in.
 ```js
 			'operator': stategroup @default: 'in' (
 				'in' { }
@@ -162,8 +162,8 @@ Use 'not in' to exclude the rows that match what the user fills in.
 			)
 		}
 ```
-A list of the referenced entries, to either include ('in') or exclude
-('not in'). Only for texts that are references; other texts get no filter.
+A list of the referenced entries, to either include (‘in’) or exclude
+(‘not in’). Only for texts that are references; other texts get no filter.
 ```js
 		'containment' {
 			'operator': stategroup (

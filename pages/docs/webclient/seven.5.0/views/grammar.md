@@ -4,14 +4,13 @@ origin: webclient
 language: views
 version: seven.5.0
 type: grammar
+url: "/pages/docs/webclient/seven.5.0/views/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--dependencies }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--dependencies" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">dependencies</span>': dictionary { [ <span class="token operator">using</span> ] }
@@ -19,8 +18,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--views }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--views" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">views</span>': dictionary {
@@ -97,8 +95,8 @@ type: grammar
 								'<span class="token string">no</span>' { }
 								'<span class="token string">yes</span>' {
 									'<span class="token string">operator</span>': stategroup (
-										'<span class="token string">smaller than</span>' { [ <span class="token operator"><</span> ] }
-										'<span class="token string">smaller than or equal to</span>' { [ <span class="token operator"><=</span> ] }
+										'<span class="token string">smaller than</span>' { [ <span class="token operator">&lt;</span> ] }
+										'<span class="token string">smaller than or equal to</span>' { [ <span class="token operator">&lt;=</span> ] }
 										'<span class="token string">equal to</span>' { [ <span class="token operator">=</span> ] }
 										'<span class="token string">greater than or equal to</span>' { [ <span class="token operator">>=</span> ] }
 										'<span class="token string">greater than</span>' { [ <span class="token operator">></span> ] }
@@ -157,8 +155,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--model-context }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--model-context" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">model context</span>' { }
@@ -166,8 +163,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--gui-node-type-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-node-type-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui node type path step</span>' {
@@ -189,8 +185,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--gui-node-type-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-node-type-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui node type path</span>' {
@@ -200,8 +195,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--gui-widget-configuration-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-widget-configuration-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui widget configuration list</span>' {
@@ -217,8 +211,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--view-context-parent-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--view-context-parent-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">view context parent path</span>' {
@@ -238,8 +231,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--view-context-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--view-context-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">view context path</span>' {
@@ -262,8 +254,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--widget-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget expression</span>' {
@@ -299,8 +290,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--widget-instance }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--widget-instance" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">widget instance</span>' {
@@ -311,8 +301,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--gui-widget-configuration-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-widget-configuration-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui widget configuration attribute</span>' {
@@ -566,8 +555,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--gui-widget-configuration-node }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--gui-widget-configuration-node" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">gui widget configuration node</span>' { [ <span class="token operator">{</span>, <span class="token operator">}</span> ]
@@ -579,8 +567,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--singular-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--singular-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">singular path</span>' {
@@ -611,8 +598,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--conditional-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--conditional-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">conditional path</span>' {
@@ -641,8 +627,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--model-binding-property-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--model-binding-property-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">model binding property path</span>' {
@@ -666,8 +651,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--query-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--query-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">query path step</span>' {
@@ -691,8 +675,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--query-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--query-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">query path</span>' {

@@ -4,6 +4,7 @@ origin: "datastore"
 language: "release notes"
 version: "120"
 type: "release notes"
+url: "/pages/docs/datastore/120/release-notes.html"
 ---
 ## Datastore 120
 

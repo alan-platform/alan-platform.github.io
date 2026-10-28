@@ -4,10 +4,10 @@ origin: "webclient"
 language: "default features"
 version: "zora.1rc1.0"
 type: "features"
+url: "/pages/docs/webclient/zora.1rc1.0/default features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

@@ -4,10 +4,10 @@ origin: "webclient"
 language: "phrases"
 version: "partitions-108.4.2.0"
 type: "grammar"
+url: "/pages/docs/webclient/partitions-108.4.2.0/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

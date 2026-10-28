@@ -4,6 +4,7 @@ origin: "platform"
 language: "release notes"
 version: "2026.3"
 type: "release notes"
+url: "/pages/docs/platform/2026.3/release-notes.html"
 ---
 ## 2026.3
 

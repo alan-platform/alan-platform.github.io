@@ -4,10 +4,10 @@ origin: "webclient"
 language: "client bindings"
 version: "uhura.6.2"
 type: "client_bindings"
+url: "/pages/docs/webclient/uhura.6.2/client bindings/client_bindings.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Client bindings
 ---

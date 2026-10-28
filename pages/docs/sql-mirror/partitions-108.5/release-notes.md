@@ -4,6 +4,7 @@ origin: "sql-mirror"
 language: "release notes"
 version: "partitions-108.5"
 type: "release notes"
+url: "/pages/docs/sql-mirror/partitions-108.5/release-notes.html"
 ---
 ## SQL-mirror 120 (after 119.2)
 

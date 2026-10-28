@@ -4,10 +4,10 @@ origin: "webclient"
 language: "client bindings"
 version: "worf.13.1"
 type: "client_bindings"
+url: "/pages/docs/webclient/worf.13.1/client bindings/client_bindings.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Client bindings
 ---

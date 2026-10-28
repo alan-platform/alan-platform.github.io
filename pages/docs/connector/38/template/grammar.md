@@ -4,10 +4,10 @@ origin: "connector"
 language: "template"
 version: "38"
 type: "grammar"
+url: "/pages/docs/connector/38/template/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -26,8 +26,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">binding</span>' {
@@ -48,8 +47,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--optional-binding }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--optional-binding" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">optional binding</span>' {
@@ -64,8 +62,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--stack-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stack-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stack path</span>' {
@@ -80,8 +77,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--binding-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--binding-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">binding step</span>' {
@@ -97,8 +93,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--object-path-step }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-path-step" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object path step</span>' {
@@ -115,8 +110,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--object-path-tail }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-path-tail" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object path tail</span>' {
@@ -132,8 +126,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--object-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object path</span>' {
@@ -162,8 +155,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--object-expression }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--object-expression" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">object expression</span>' {
@@ -189,8 +181,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number path</span>' {
@@ -200,8 +191,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--text-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--text-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">text path</span>' {
@@ -211,8 +201,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">statement</span>' {

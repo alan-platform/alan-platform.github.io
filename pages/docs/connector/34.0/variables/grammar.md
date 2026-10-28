@@ -4,10 +4,10 @@ origin: "connector"
 language: "variables"
 version: "34.0"
 type: "grammar"
+url: "/pages/docs/connector/34.0/variables/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 #### Instance Data
 Every `connector` has a `variables.alan` file where a set of key value-type pairs is specified.

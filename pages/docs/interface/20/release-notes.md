@@ -4,6 +4,7 @@ origin: "interface"
 language: "release notes"
 version: "20"
 type: "release notes"
+url: "/pages/docs/interface/20/release-notes.html"
 ---
 ## 20
 

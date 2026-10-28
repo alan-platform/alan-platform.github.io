@@ -4,10 +4,10 @@ origin: "project-build-environment"
 language: "deployment"
 version: "43"
 type: "grammar"
+url: "/pages/docs/project-build-environment/43/deployment/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ## Deployment
 ---
@@ -31,6 +31,7 @@ The Application Server performing the deployment can be referenced with the keyw
 </pre>
 </div>
 </div>
+
 ### External Systems
 The `wiring.alan` file declares which external sources your applications require.
 In the `deployment.alan`, you need to provide the exact location of these sources.
@@ -67,6 +68,7 @@ For specifying a source location, you can use
 </pre>
 </div>
 </div>
+
 ### Systems
 The `systems` section provides deployment specific information for each system mentioned in a `wiring.alan` file.
 Depending on the System Type, a system may require additional configuration, instance data, or a schedule.
@@ -140,10 +142,10 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </pre>
 </div>
 </div>
+
 ## Component rules
 
-{: #grammar-rule--tcp-socket }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--tcp-socket" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">tcp socket</span>' {
@@ -154,8 +156,7 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </div>
 </div>
 
-{: #grammar-rule--value }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--value" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">value</span>' {
@@ -182,8 +183,7 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </div>
 </div>
 
-{: #grammar-rule--value-switch }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--value-switch" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">value switch</span>' {
@@ -207,8 +207,7 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </div>
 </div>
 
-{: #grammar-rule--schedule }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--schedule" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">schedule</span>' {
@@ -274,8 +273,7 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </div>
 </div>
 
-{: #grammar-rule--day }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--day" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">day</span>' {
@@ -285,8 +283,7 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </div>
 </div>
 
-{: #grammar-rule--hour-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--hour-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">hour list</span>' {
@@ -303,8 +300,7 @@ Some systems require a schedule to perform tasks at specific moments in time.
 </div>
 </div>
 
-{: #grammar-rule--minute-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--minute-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">minute list</span>' {

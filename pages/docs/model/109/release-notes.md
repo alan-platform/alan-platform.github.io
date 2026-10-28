@@ -4,6 +4,7 @@ origin: "model"
 language: "release notes"
 version: "109"
 type: "release notes"
+url: "/pages/docs/model/109/release-notes.html"
 ---
 ## Model 109
 
@@ -64,7 +65,7 @@ type: "release notes"
 }
 ```
 
-- Support for unions that depend on a branch `reference-set` without collection steps. Model 108 rejected the inner union below. 'Shift' and 'Time Slot' are references on the entry that holds 'Available Shifts':
+- Support for unions that depend on a branch `reference-set` without collection steps. Model 108 rejected the inner union below. ‘Shift’ and ‘Time Slot’ are references on the entry that holds ‘Available Shifts’:
 
 ```js
 'Available Shifts': collection ['Shift'] = union (
@@ -80,7 +81,7 @@ type: "release notes"
 }
 ```
 
-- Containment switch for collections with key references. 'Ordered Products' is keyed by a reference to 'Products', 'Favorite Product' is a reference to 'Products':
+- Containment switch for collections with key references. ‘Ordered Products’ is keyed by a reference to ‘Products’, ‘Favorite Product’ is a reference to ‘Products’:
 
 ```js
 'Favorite Product Ordered': stategroup = switch .'Ordered Products'>[ >'Favorite Product'] (
@@ -159,14 +160,14 @@ Without `| nodes`, this switch reports `no valid 'upper bound cardinality for se
 'Price': number 'cents' = switch >'Product' ( | node  as $ => $ .'Price' )
 ```
 
-- Plural paths chain collection steps and reference set subsets, and reference set signatures are plural paths as well, so a signature may take a key reference lookup. 'Lines' below sits on a contact of a customer; 'Orders' is keyed by a reference to 'Customers':
+- Plural paths chain collection steps and reference set subsets, and reference set signatures are plural paths as well, so a signature may take a key reference lookup. ‘Lines’ below sits on a contact of a customer; ‘Orders’ is keyed by a reference to ‘Customers’:
 
 ```js
 'Lines': reference-set -> downstream ^ ^ .'Orders'>[ ^ ] .'Lines'* = inverse >'Contact'
 '# Deliveries': number 'items' = count ( .'Orders'* .'Lines'* >'Product'.'Deliveries'* )
 ```
 
-- A reference set subset takes a complete plural path between `[` and `]`. Model 108 already placed the `*` inside the brackets, in a union branch over a reference set; model 109 accepts a complete plural path there, and the subset step in every plural path. The part of the path before its first `*` is the head: it selects one node, and the members of the set are matched against that node. The rest of the path walks the levels of the reference set signature again, down to the level of the nodes wanted. The head selects its node freely: it may reach the level by a reference or a lookup that the signature does not use. Below the head, the path takes only the levels that the signature walks: a reference set step or a set bound by `| nodes as $` is an error there, and a state filter is accepted only where the signature declares the same filter. The filters of the signature may be left out. A subset step produces every node once, also when several members of the set lead to it. A rejected path is fixed by hand. 'Customers' below has the signature `^ .'Countries'* .'Cities'* .'Customers'*`:
+- A reference set subset takes a complete plural path between `[` and `]`. Model 108 already placed the `*` inside the brackets, in a union branch over a reference set; model 109 accepts a complete plural path there, and the subset step in every plural path. The part of the path before its first `*` is the head: it selects one node, and the members of the set are matched against that node. The rest of the path walks the levels of the reference set signature again, down to the level of the nodes wanted. The head selects its node freely: it may reach the level by a reference or a lookup that the signature does not use. Below the head, the path takes only the levels that the signature walks: a reference set step or a set bound by `| nodes as $` is an error there, and a state filter is accepted only where the signature declares the same filter. The filters of the signature may be left out. A subset step produces every node once, also when several members of the set lead to it. A rejected path is fixed by hand. ‘Customers’ below has the signature `^ .'Countries'* .'Cities'* .'Customers'*`:
 
 ```js
 '# Members': number 'items' = count ( >'Region'<'Customers'[ >'Country'.'Cities'* .'Customers'* ] )
@@ -175,7 +176,7 @@ Without `| nodes`, this switch reports `no valid 'upper bound cardinality for se
 // accepted: the filter follows the subset step
 '# Active': number 'items' = count ( >'Region'<'Customers'[ >'Country'.'Cities'* .'Customers'* ] .'Status'?'Active' )
 ```
-A `siblings` step after the head walks from the node that the head selects, while the signature walks its siblings from the entry itself; the two do not match, so this is an error. Without a head, a `siblings` step walks from the entry itself, like the signature. It is accepted where the signature walks the same siblings or the same graph, and also where the signature walks a graph and the path takes all siblings. A `siblings || self` step walks the whole collection and may follow a head. 'Taken over next year' below sits on a supplier of a year; 'Other Year' is `-> siblings []` on the year:
+A `siblings` step after the head walks from the node that the head selects, while the signature walks its siblings from the entry itself; the two do not match, so this is an error. Without a head, a `siblings` step walks from the entry itself, like the signature. It is accepted where the signature walks the same siblings or the same graph, and also where the signature walks a graph and the path takes all siblings. A `siblings || self` step walks the whole collection and may follow a head. ‘Taken over next year’ below sits on a supplier of a year; ‘Other Year’ is `-> siblings []` on the year:
 
 ```js
 'Taken over next year': reference-set -> ^ siblings in inverse 'Ordered Years'* .'Suppliers'* .'Taken Over'?'Yes' = inverse >'Supplier Last Year'
@@ -187,7 +188,7 @@ A `siblings` step after the head walks from the node that the head selects, whil
 )
 ```
 
-- The cardinality of a reference set subset is computed per level: a head that selects the parent level of a set that inverts a key reference yields at most one node, so a `switch` without `| nodes` is accepted. 'Line' is the key of 'Lines', 'Order' a reference to 'Orders':
+- The cardinality of a reference set subset is computed per level: a head that selects the parent level of a set that inverts a key reference yields at most one node, so a `switch` without `| nodes` is accepted. ‘Line’ is the key of ‘Lines’, ‘Order’ a reference to ‘Orders’:
 
 ```js
 'Lines': reference-set -> ^ .'Orders'* .'Lines'* = inverse >'Line'
@@ -208,7 +209,7 @@ A `siblings` step after the head walks from the node that the head selects, whil
 'this' = <'Shifts'[ >'Work Center'.'Shifts'* ] // merge: one entry per node the path produces
 ```
 
-- A containment `where` rule finds one entry of a collection. In a plural path, a reference step after the rule is accepted only when distinct entries of the iterated collection find distinct entries: the lookup value is unique per entry (its key, or a reference that is its key), or the collection looked up lives inside the entry itself. A grouping path of a union branch may continue over the rule under the same condition. The rules below sit on an order; 'Invoices' and 'Contracts' are keyed by references to 'Order Numbers' and 'Suppliers' and hold a reference 'Debtor':
+- A containment `where` rule finds one entry of a collection. In a plural path, a reference step after the rule is accepted only when distinct entries of the iterated collection find distinct entries: the lookup value is unique per entry (its key, or a reference that is its key), or the collection looked up lives inside the entry itself. A grouping path of a union branch may continue over the rule under the same condition. The rules below sit on an order; ‘Invoices’ and ‘Contracts’ are keyed by references to ‘Order Numbers’ and ‘Suppliers’ and hold a reference ‘Debtor’:
 
 ```js
 'Order': text -> ^ .'Order Numbers'[] as $
@@ -222,7 +223,7 @@ A `siblings` step after the head walks from the node that the head selects, whil
 '# Line debtors': number 'items' = count ( .'Orders'* .'Supplier'&'Line'>'Debtor' ) // accepted
 ```
 
-- State filters are part of the path that a reference walks, and they are checked. A reference that demands a state forces every path that feeds it to take the same filter. A model that skipped the filter is fixed by hand. 'Address' and 'Any Address' below sit on a line of an order, 'Customer' on the order:
+- State filters are part of the path that a reference walks, and they are checked. A reference that demands a state forces every path that feeds it to take the same filter. A model that skipped the filter is fixed by hand. ‘Address’ and ‘Any Address’ below sit on a line of an order, ‘Customer’ on the order:
 
 ```js
 'Address': text ~> ^ >'Customer'.'Status'?'Active' ^ .'Addresses'[] // takes the filter of the key below
@@ -251,7 +252,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 }
 ```
 
-- The parameters of a command or action are an entity of their own, so a parent step after a state step may not leave them, just as it may not leave a collection entry. A `where` rule that tests a parameter state and then steps out of the parameters fails with `equality constraint violation for 'context entity'`; the upgrade leaves it as it is. Fix it by hand: split the rule into a rule that tests the state and a rule that steps out of the parameters. The rule that steps out of the parameters has one `^` fewer than the old rule: the `^` right after the state step only left the state node. Where the rule selects collection candidates, take one as the source and add the other with `where`, which keeps the "and". A migration's source model holds the same rule and gets the same fix. 'Lines' below sits on the item that holds the command:
+- The parameters of a command or action are an entity of their own, so a parent step after a state step may not leave them, just as it may not leave a collection entry. A `where` rule that tests a parameter state and then steps out of the parameters fails with `equality constraint violation for 'context entity'`; the upgrade leaves it as it is. Fix it by hand: split the rule into a rule that tests the state and a rule that steps out of the parameters. The rule that steps out of the parameters has one `^` fewer than the old rule: the `^` right after the state step only left the state node. Where the rule selects collection candidates, take one as the source and add the other with `where`, which keeps the "and". A migration's source model holds the same rule and gets the same fix. ‘Lines’ below sits on the item that holds the command:
 
 ```js
 'Bundle': command {
@@ -300,7 +301,7 @@ The reverse is allowed: a value path may filter where the reference does not.
 
 - The cyclic dependency error at a derivation names the value the compiler resolves: `cyclic dependency detected for 'type'?>'value use of recursion'` replaces `cyclic dependency detected for 'type'?>'value computation phase'`. The meaning is unchanged: the compiler found a dependency cycle through the derivation that its recursion annotations do not cover.
 
-- A todo item takes a `@label:`, the text that names it in the list of todo items, and a `@style:`, like a state or a property does. The webclient lists todo items in a section of their own, away from the node that carries them, so both expressions start at the **root** of the dataset and not at that node. The three annotations of a todo item may be written in any order. 'Number' below is the key of the orders that hold the stategroup:
+- A todo item takes a `@label:`, the text that names it in the list of todo items, and a `@style:`, like a state or a property does. The webclient lists todo items in a section of their own, away from the node that carries them, so both expressions start at the **root** of the dataset and not at that node. The three annotations of a todo item may be written in any order. ‘Number’ below is the key of the orders that hold the stategroup:
 
 ```js
 'Open'
@@ -361,7 +362,7 @@ A todo on a root, group or collection node is moved by upgrade/108 to the one st
 	)
 }
 ```
-The requirement still controls when the todo applies. Replace the generated stategroup by one of your own when you want an explicit state, as 'Handled' above. A todo on the parameters of a command or action has no derived stategroup to carry it and is dropped. A node that already has a property `'Todo item'` cannot take the new one: rename that property before you upgrade.
+The requirement still controls when the todo applies. Replace the generated stategroup by one of your own when you want an explicit state, as ‘Handled’ above. A todo on the parameters of a command or action has no derived stategroup to carry it and is dropped. A node that already has a property `'Todo item'` cannot take the new one: rename that property before you upgrade.
 
 ### After the upgrade
 
@@ -369,14 +370,14 @@ The requirement still controls when the todo applies. Replace the generated stat
 
 Errors that converted code can report:
 
-- `no valid 'lower bound cardinality for set' found for 'match none' option 'no'`: a `switch` in a derivation without `| none` on a path that can produce no node, such as a collection or a state filter. Add the case, as 'Open Orders' has it (see "In derivations, one `switch`").
-- `no valid 'upper bound cardinality for set' found for 'match nodes' option 'no'`: a `switch` in a derivation without `| nodes` on a path that can produce several nodes, such as a branch reference set with several members per entry. Add the case, as 'Open Orders' has it (same change).
-- `no valid 'lower bound cardinality for set' found for 'match none' option 'yes'`: a `| none` case on a path that always produces a node, such as a mandatory reference. The transformation drops it from an existence switch; it stays in a switch on a set and in code that was not converted. Remove the case, as the old and new 'Price' show (same change).
+- `no valid 'lower bound cardinality for set' found for 'match none' option 'no'`: a `switch` in a derivation without `| none` on a path that can produce no node, such as a collection or a state filter. Add the case, as ‘Open Orders’ has it (see "In derivations, one `switch`").
+- `no valid 'upper bound cardinality for set' found for 'match nodes' option 'no'`: a `switch` in a derivation without `| nodes` on a path that can produce several nodes, such as a branch reference set with several members per entry. Add the case, as ‘Open Orders’ has it (same change).
+- `no valid 'lower bound cardinality for set' found for 'match none' option 'yes'`: a `| none` case on a path that always produces a node, such as a mandatory reference. The transformation drops it from an existence switch; it stays in a switch on a set and in code that was not converted. Remove the case, as the old and new ‘Price’ show (same change).
 - `no valid 'upper bound cardinality for set' found for 'match nodes' option 'yes'`: a `| nodes` case on a path that produces at most one node, such as a subset whose head selects the parent of a set that inverts a key reference. Remove the case (see "The cardinality of a reference set subset is computed per level").
-- `equality constraint violation for 'key reference dependency'`: a grouping path or a derived key skips a state filter that the reference it ends in demands. Take the reference that walks the same filter, as 'ok' does next to 'bad', or supply the filter with a `where` rule (see "State filters are part of the path that a reference walks" and "A `where` rule may supply the state filter").
-- `equality constraint violation for 'subset of reference set'`: a subset path filters on a state that the signature of the reference set does not declare, iterates a reference set level, or selects a node in its head and then iterates a `siblings` or graph level. Move the filter out of the brackets, as the two '# Active' lines show, or select the level with a reference instead of iterating it (see "A reference set subset takes a complete plural path").
+- `equality constraint violation for 'key reference dependency'`: a grouping path or a derived key skips a state filter that the reference it ends in demands. Take the reference that walks the same filter, as ‘ok’ does next to ‘bad’, or supply the filter with a `where` rule (see "State filters are part of the path that a reference walks" and "A `where` rule may supply the state filter").
+- `equality constraint violation for 'subset of reference set'`: a subset path filters on a state that the signature of the reference set does not declare, iterates a reference set level, or selects a node in its head and then iterates a `siblings` or graph level. Move the filter out of the brackets, as the two ‘# Active’ lines show, or select the level with a reference instead of iterating it (see "A reference set subset takes a complete plural path").
 - `equality constraint violation for 'context entity'`: a parent step after a state step leaves the entity of that state, for example the parameters of a command or action. Split the rule, in the model and in each migration's source model (see "The parameters of a command or action are an entity of their own").
-- `no valid 'value source' found for 'edge reference'`: a base ordered graph names a derived reference as its edge. Name the base reference, as the second 'Order Copy' does, or derive the graph (see "A base ordered graph takes a base ordering stategroup").
+- `no valid 'value source' found for 'edge reference'`: a base ordered graph names a derived reference as its edge. Name the base reference, as the second ‘Order Copy’ does, or derive the graph (see "A base ordered graph takes a base ordering stategroup").
 
 Errors in code that was not converted, such as a model upgraded by hand:
 

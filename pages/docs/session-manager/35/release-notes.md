@@ -4,6 +4,7 @@ origin: "session-manager"
 language: "release notes"
 version: "35"
 type: "release notes"
+url: "/pages/docs/session-manager/35/release-notes.html"
 ---
 ## 35
 

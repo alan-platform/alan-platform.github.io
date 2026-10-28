@@ -4,6 +4,7 @@ origin: "sql-mirror"
 language: "release notes"
 version: "120"
 type: "release notes"
+url: "/pages/docs/sql-mirror/120/release-notes.html"
 ---
 ## SQL-mirror 120
 

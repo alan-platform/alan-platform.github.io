@@ -4,14 +4,13 @@ origin: webclient
 language: settings
 version: seven.5.0
 type: grammar
+url: "/pages/docs/webclient/seven.5.0/settings/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--settings }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--settings" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">settings</span>': [ <span class="token operator">settings</span> ] group {
@@ -38,8 +37,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--windows }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--windows" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">windows</span>': [ <span class="token operator">windows</span> ] dictionary { }
@@ -47,8 +45,7 @@ type: grammar
 </div>
 </div>
 
-{: #grammar-rule--allow-deeplink }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--allow-deeplink" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">allow deeplink</span>': stategroup (

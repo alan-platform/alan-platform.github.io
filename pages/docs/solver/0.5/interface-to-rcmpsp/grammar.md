@@ -4,10 +4,10 @@ origin: "solver"
 language: "interface-to-rcmpsp"
 version: "0.5"
 type: "grammar"
+url: "/pages/docs/solver/0.5/interface-to-rcmpsp/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -163,8 +163,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--collection-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--collection-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">collection attribute</span>' {
@@ -174,8 +173,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number attribute</span>' {
@@ -185,8 +183,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--zero-or-positive-number-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--zero-or-positive-number-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">zero or positive number attribute</span>' {
@@ -196,8 +193,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--positive-number-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--positive-number-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">positive number attribute</span>' {
@@ -207,8 +203,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--reference-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--reference-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">reference attribute</span>' {
@@ -218,8 +213,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--command-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--command-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">command attribute</span>' {
@@ -229,8 +223,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--stategroup-attribute }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--stategroup-attribute" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">stategroup attribute</span>' {

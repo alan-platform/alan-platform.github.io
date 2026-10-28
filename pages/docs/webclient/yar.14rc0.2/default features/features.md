@@ -4,10 +4,10 @@ origin: "webclient"
 language: "default features"
 version: "yar.14rc0.2"
 type: "features"
+url: "/pages/docs/webclient/yar.14rc0.2/default features/features.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ```js
 global-features

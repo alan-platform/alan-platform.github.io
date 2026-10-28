@@ -4,10 +4,10 @@ origin: "relational-database-bridge"
 language: "database"
 version: "111"
 type: "grammar"
+url: "/pages/docs/relational-database-bridge/111/database/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">
@@ -92,8 +92,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--field }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--field" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">field</span>' {
@@ -133,7 +132,7 @@ type: "grammar"
 	)
 	'<span class="token string">has description</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">description</span>': [ <span class="token operator"></</span>, <span class="token operator">/></span> ] text
+			'<span class="token string">description</span>': [ <span class="token operator">&lt;/</span>, <span class="token operator">/></span> ] text
 		}
 		'<span class="token string">no</span>' { }
 	)
@@ -142,8 +141,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--table-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--table-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">table selector</span>' {
@@ -159,8 +157,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--number-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--number-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">number list</span>' {
@@ -184,8 +181,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--filter-statement }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--filter-statement" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">filter statement</span>' {
@@ -213,7 +209,7 @@ type: "grammar"
 		'<span class="token string">compare</span>' {
 			'<span class="token string">field</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">operator</span>': stategroup (
-				'<span class="token string">smaller</span>' { [ <span class="token operator"><</span> ] }
+				'<span class="token string">smaller</span>' { [ <span class="token operator">&lt;</span> ] }
 				'<span class="token string">greater</span>' { [ <span class="token operator">></span> ] }
 				'<span class="token string">equal</span>' { [ <span class="token operator">==</span> ] }
 				'<span class="token string">not equal</span>' { [ <span class="token operator">!=</span> ] }
@@ -259,8 +255,7 @@ type: "grammar"
 </div>
 </div>
 
-{: #grammar-rule--filter-statement-list }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--filter-statement-list" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">filter statement list</span>' {

@@ -4,6 +4,7 @@ origin: "session-manager"
 language: "release notes"
 version: "partitions-108.5"
 type: "release notes"
+url: "/pages/docs/session-manager/partitions-108.5/release-notes.html"
 ---
 ## partitions-108.4.1
 

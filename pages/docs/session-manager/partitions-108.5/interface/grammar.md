@@ -4,10 +4,10 @@ origin: "session-manager"
 language: "interface"
 version: "partitions-108.5"
 type: "grammar"
+url: "/pages/docs/session-manager/partitions-108.5/interface/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

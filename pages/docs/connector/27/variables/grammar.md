@@ -4,14 +4,13 @@ origin: connector
 language: variables
 version: 27
 type: grammar
+url: "/pages/docs/connector/27/variables/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
-{: #grammar-rule--variables }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--variables" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">variables</span>': dictionary { [ <span class="token operator">var</span> ]

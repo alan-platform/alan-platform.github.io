@@ -4,10 +4,10 @@ origin: "webclient"
 language: "phrases"
 version: "xindi.3.1"
 type: "grammar"
+url: "/pages/docs/webclient/xindi.3.1/phrases/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

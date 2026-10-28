@@ -4,6 +4,7 @@ origin: "connector"
 language: "release notes"
 version: "partitions-108.6"
 type: "release notes"
+url: "/pages/docs/connector/partitions-108.6/release-notes.html"
 ---
 ## 40
 Upgrade instructions:

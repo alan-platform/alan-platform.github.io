@@ -4,10 +4,10 @@ origin: "session-manager"
 language: "interface"
 version: "34"
 type: "grammar"
+url: "/pages/docs/session-manager/34/interface/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 
 <div class="language-js highlighter-rouge">

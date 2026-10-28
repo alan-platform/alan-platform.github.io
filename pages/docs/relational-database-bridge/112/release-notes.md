@@ -4,6 +4,7 @@ origin: "relational-database-bridge"
 language: "release notes"
 version: "112"
 type: "release notes"
+url: "/pages/docs/relational-database-bridge/112/release-notes.html"
 ---
 ## 112
 

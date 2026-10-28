@@ -4,6 +4,7 @@ origin: "project-build-environment"
 language: "release notes"
 version: "45"
 type: "release notes"
+url: "/pages/docs/project-build-environment/45/release-notes.html"
 ---
 ## 45
 

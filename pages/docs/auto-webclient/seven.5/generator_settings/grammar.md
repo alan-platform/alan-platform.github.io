@@ -4,16 +4,15 @@ origin: auto-webclient
 language: generator_settings
 version: seven.5
 type: grammar
+url: "/pages/docs/auto-webclient/seven.5/generator_settings/grammar.html"
+toc: true
 ---
 
-1. TOC
-{:toc}
 
 ### Settings
 Global settings for the user interface:
 
-{: #grammar-rule--application-creator }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--application-creator" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">application creator</span>': [ <span class="token operator">application</span> <span class="token operator">creator:</span> ] text
@@ -21,8 +20,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--application-name }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--application-name" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">application name</span>': [ <span class="token operator">application</span> <span class="token operator">name:</span> ] text
@@ -30,8 +28,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--allow-anonymous-user }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--allow-anonymous-user" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">allow anonymous user</span>': [ <span class="token operator">anonymous</span> <span class="token operator">login:</span> ] stategroup (
@@ -42,8 +39,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--enable-csv-actions }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--enable-csv-actions" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">enable csv actions</span>': [ <span class="token operator">csv</span> <span class="token operator">actions:</span> ] stategroup (
@@ -54,8 +50,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--report-limit }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--report-limit" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">report limit</span>': [ <span class="token operator">report</span> <span class="token operator">limit:</span> ] integer
@@ -63,8 +58,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--announcement-title }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--announcement-title" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">announcement title</span>': [ <span class="token operator">announcement:</span> ] text
@@ -72,8 +66,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--announcements }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--announcements" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">announcements</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] dictionary { }
@@ -81,8 +74,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--custom-color-theme }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--custom-color-theme" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">custom color theme</span>': stategroup (
@@ -108,8 +100,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--language }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--language" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">language</span>': [ <span class="token operator">language:</span> ] text
@@ -117,8 +108,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--engine-language }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--engine-language" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">engine language</span>': [ <span class="token operator">engine</span> <span class="token operator">language:</span> ] stategroup (
@@ -129,8 +119,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--generator }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--generator" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">generator</span>': stategroup (
@@ -141,8 +130,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--has-landing-page }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--has-landing-page" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">has landing page</span>': stategroup (
@@ -159,8 +147,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--ancestor-entity-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--ancestor-entity-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">ancestor entity path</span>' {
@@ -175,8 +162,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--landing-page-path }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--landing-page-path" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">landing page path</span>' {
@@ -192,8 +178,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--landing-page-branches }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--landing-page-branches" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">landing page branches</span>' {
@@ -209,8 +194,7 @@ Global settings for the user interface:
 </div>
 </div>
 
-{: #grammar-rule--landing-page-selector }
-<div class="language-js highlighter-rouge">
+<div id="grammar-rule--landing-page-selector" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">landing page selector</span>' {

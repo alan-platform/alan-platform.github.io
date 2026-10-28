@@ -4,6 +4,7 @@ origin: "auto-webclient"
 language: "release notes"
 version: "athena.2"
 type: "release notes"
+url: "/pages/docs/auto-webclient/athena.2/release-notes.html"
 ---
 ## athena.2 (after athena.1)
 
