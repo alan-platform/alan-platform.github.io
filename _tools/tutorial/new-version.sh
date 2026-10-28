@@ -35,17 +35,17 @@ NEW_DS=$(dist_field "$NEW" '."system types".datastore.version'); [ -n "$NEW_DS" 
 echo "model $FROM_MODEL -> $NEW_MODEL, datastore $PREV_DS -> $NEW_DS" >&2
 
 say B "copy website tutorials"
-cp -r "$WEB/$PREV" "$WEB/$NEW"; sed -i -E "s/^model_version: .*/model_version: $NEW_MODEL/; s/^platform_version: .*/platform_version: $NEW/" "$WEB/$NEW"/*.md
+cp -r "$WEB/$PREV" "$WEB/$NEW"; sed -i -E "s/^model_version: .*/model_version: $NEW_MODEL/; s/^platform_version: .*/platform_version: \"$NEW\"/" "$WEB/$NEW"/*.md
 HAVE_MIG=false
 if [ -d "$MIG/$PREV" ]; then
-  cp -r "$MIG/$PREV" "$MIG/$NEW"; sed -i -E "s/^platform_version: .*/platform_version: $NEW/" "$MIG/$NEW"/*.md
+  cp -r "$MIG/$PREV" "$MIG/$NEW"; sed -i -E "s/^platform_version: .*/platform_version: \"$NEW\"/" "$MIG/$NEW"/*.md
   if [ -d "$MIG/$NEW/models" ]; then HAVE_MIG=true; else echo "warning: $MIG/$PREV has no models/, copied the page without verification" >&2; fi
 else
   echo "warning: no migrations tutorial for $PREV; nothing copied" >&2
 fi
 HAVE_MSN=false
 if [ -d "$MSN/$PREV" ]; then
-  cp -r "$MSN/$PREV" "$MSN/$NEW"; sed -i -E "s/^model_version: .*/model_version: $NEW_MODEL/; s/^platform_version: .*/platform_version: $NEW/" "$MSN/$NEW"/*.md
+  cp -r "$MSN/$PREV" "$MSN/$NEW"; sed -i -E "s/^model_version: .*/model_version: $NEW_MODEL/; s/^platform_version: .*/platform_version: \"$NEW\"/" "$MSN/$NEW"/*.md
   if [ -d "$MSN/$NEW/models" ]; then HAVE_MSN=true; fi
 fi
 SHOTS="$TOOLS/screenshots"; HAVE_SHOTS=false
