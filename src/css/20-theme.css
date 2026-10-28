@@ -5,8 +5,14 @@
  * Sizes follow a scale with ratio 1.414: 1.414em and 2.828em are one and two times the ratio, 3.9975843648em is
  * its fourth power, 0.7072135785em and 0.5001510456em are one and two steps down (1 / 1.414 and 1 / 1.414^2).
  *
- * Colours: text #333, blue #4a80ff, orange #ff641a (#f04e00 is the orange 8% darker), and greys lightened from
- * #2b2c30: #393b40 (6%), #c3c5ca (60%) and #eeeff0 (76%).
+ * Colours: text #333, blue #4a80ff, orange #ff641a, yellow #ffc94a and green #8fcc27. The five greys are #2b2c30
+ * lightened the way Sass did it, the HSL lightness raised by that many points: #393b40 (6%), #484a50 (12%), #838590
+ * (36%), #c3c5ca (60%) and #eeeff0 (76%). The other derived colours: #f04e00 is the orange darkened 8%; #2163ff,
+ * #2b6bff and #0d55ff are the blue darkened 8%, 6% and 12%; #ffb794 is the orange lightened 24%; #fff7e3 is the
+ * yellow lightened 30%; #f7f7f7 is the lightest grey lightened 3%, computed from its unrounded value, which makes it
+ * #2b2c30 lightened 79% (the rounded #eeeff0 lightened 3% gives #f6f7f7); rgba(247, 247, 247, 0.9) is #f7f7f7 at
+ * 90% opacity; #d9dadd is the even mix of #c3c5ca and #eeeff0; rgba(57, 59, 64, 0.3) is the second grey #393b40 at
+ * 30% opacity.
  */
 
 * {
@@ -30,7 +36,11 @@ h1 {
   font-size: 4em;
 }
 
-/* 50rem: the 45rem content width (720px at 16px) plus 5rem (80px). */
+/*
+ * 50rem: the 45rem content width plus 5rem. A media query takes rem from the browser's initial font size, 16px, so
+ * the breakpoint is 800px. In a value rem is the 15px of html: main, 4rem wider than the content width, is 49rem or
+ * 735px, and its children, 1rem in from each side, are 705px.
+ */
 @media (max-width: 50rem) {
   h1 {
     font-size: 2.828em;
@@ -62,7 +72,6 @@ small {
 ol,
 ul {
   margin: 1em auto 1.414em auto;
-  /* padding: 0; */
 }
 
 ol li,
