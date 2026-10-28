@@ -29,8 +29,7 @@ has `.md` files; one of the pages and files that every deployment needs is missi
 about, faq and deps pages, `sitemap.xml`, `robots.txt`, `CNAME`, the stylesheet and scripts, a font); a rule block of the
 model 109 grammar has lost its id; the sitemap has fewer than 3000 entries; or Hugo logged a warning or an error other
 than the deprecation of LibSass; or the text `{:`, or a line that starts with `{.` or `{#` outside `<pre>`, is left in
-a generated page. That last check fails the build of pages in the old form (see "The one-time conversion"), and of a
-generator that writes a form that Hugo does not read.
+a generated page. That last check fails the build of a generator that writes a form that Hugo does not read.
 
 The tools have tests: `python3 -m unittest discover -s _tools/hugo/tests` (the workflow runs them before the build).
 
@@ -91,36 +90,6 @@ A page under `pages/docs` is written in the form Hugo reads. What the build reli
 
 `check-output.sh` fails a build whose pages still contain `{:` or a line that starts with `{.` or `{#` outside `<pre>`.
 
-## The one-time conversion
-
-The documentation pages that were committed before the generator of alan-tools wrote the Hugo form are in the old
-form, kramdown syntax. `_tools/hugo/prepare.py` converts them, once: run `python3 _tools/hugo/prepare.py --in-place`
-right before the first deploy, look at the diff, commit the converted pages, and delete the script and its tests
-afterwards. Nothing at build time depends on it.
-
-The script rewrites the pages under `pages/docs` of the repository and nothing else. A page that has a `url` in its front
-matter is in the Hugo form already and passes through unchanged, so a second run, and the pages that the new generator
-writes, change nothing. It:
-
-- removes the `1. TOC` and `{:toc}` lines and puts `toc: true` in the front matter;
-- turns the `{: #grammar-rule--X }` line before a rule block into an `id` on its `<div>` (27921 times), and the
-  `{: #example--X }` line after a paragraph into `{#example--X}`;
-- adds `url: "/pages/docs/<path>.html"` to the front matter, the address the toolchains deep-link to;
-- repairs what Goldmark would render differently from kramdown: a blank line after a rule block that text follows
-  directly (a heading there would be swallowed by the HTML block), a `>` prefix on a fence that opens in a blockquote, a
-  stray backtick after a fence language, every `<` of a rule block that starts none of its tags (written `&lt;`: the
-  operators `<!` and `</`, and names such as `<begin>` and `<end>` in the connector grammars, which a browser reads as
-  elements and loses the words of), and link destinations with a space (wrapped in `<...>`);
-- writes the quotes of a quoted word in prose as `‘` and `’`: Goldmark's typographer renders `'empty'` with two right
-  quotes, where kramdown's smart quotes open and close it. Apostrophes inside words, code and raw HTML are left alone;
-- stops with the file and line, and writes nothing, when it meets a `{:` line of a kind it does not know, or a line
-  outside fences and raw HTML that starts with `{.` or `{#` (Goldmark would take it for a block attribute and not show
-  it).
-
-It prints a counter for each rewrite. `--check` runs the rewrite in memory and prints the counters only; `--output DIR`
-writes the converted pages to an empty directory, to look at them. Pages in the old form that are not converted fail the
-build: `check-output.sh` finds the `{:` lines.
-
 ## URL contract
 
 Other systems link to the pages, so the addresses must not change. The toolchains ship
@@ -153,8 +122,3 @@ https://github.com/alan-platform/alan-platform.github.io/settings/pages). Hugo i
 checked against a SHA-256 pinned in the workflow; to update Hugo, change `HUGO_VERSION` and `HUGO_SHA256` together (the
 checksum is in the `checksums.txt` of the release).
 
-Cutover order: set the Pages source to "GitHub Actions" first, while `master` still holds the previous tree; convert the
-documentation pages once (`python3 _tools/hugo/prepare.py --in-place`) and commit them; push the Hugo tree to `master`
-last. With the source on a branch, GitHub builds the pushed tree with its own builder, which cannot build it, and the
-workflow cannot deploy. A pull request from the branch that holds the Hugo tree and the converted pages to `master`
-builds and checks it on a runner before that, without deploying. The cutover runbook has the steps.

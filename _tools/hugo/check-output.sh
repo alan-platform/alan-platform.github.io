@@ -72,13 +72,11 @@ else
 fi
 
 # 6. no attribute syntax is left in the text of a page: {: anywhere, and a line that starts with {. or {#
-# outside <pre>, where Goldmark would have taken it for a block attribute or shown it. The generated
-# pages in the old form carry such lines (the old generator's, in kramdown syntax), so this fails a
-# build of pages that the one-time conversion (_tools/hugo/prepare.py --in-place) has not run on, and
-# a generator that writes a form Hugo does not read.
+# outside <pre>, where Goldmark would have taken it for a block attribute or shown it. This fails the
+# build of a generator that writes a form Hugo does not read.
 literal=$(grep -rlF --include='*.html' '{:' public/pages/docs 2>/dev/null | head -5)
 if [ -n "$literal" ]; then
-  fail "the text {: is left in built pages; the pages are in the old form (prepare.py --in-place converts them) or the generator writes a form Hugo does not read:"
+  fail "the text {: is left in built pages; the generator writes a form Hugo does not read:"
   while IFS= read -r page; do
     echo "  $page" >&2
   done <<< "$literal"
