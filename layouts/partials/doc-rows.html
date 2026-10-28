@@ -1,0 +1,27 @@
+{{- /*
+	Rows for one system type or platform component, (dict "type" T "version" V), selected by the front matter of the
+	documentation pages. Call it through partialCached keyed on type and version: once per type and version for the
+	whole build, so nothing in here may depend on the current page. The current page's row is highlighted by
+	main.js. A version that has release notes links them from its number, as the component table of a platform
+	release does.
+*/ -}}
+{{- $type := .type -}}
+{{- $version := .version -}}
+{{- $pages := index (partialCached "doc-pages.html" "doc-pages") (printf "%v|%v" $type $version) | default slice -}}
+{{- $docs := sort (where $pages "Params.type" "ne" "release notes") "Params.language" -}}
+{{- $notes := partial "notes-page.html" (dict "origin" $type "version" $version) -}}
+{{- range $i, $doc := $docs }}
+	<tr>
+		<th>{{ if eq $i 0 }}{{ $type }}{{ end }}</th>
+		<td>{{ if eq $i 0 }}{{ with $notes }}<a class="doc-table-notes" href="{{ .RelPermalink }}" title="Release notes of {{ $type }} {{ $version }}">{{ $version }}</a>{{ else }}{{ $version }}{{ end }}{{ end }}</td>
+		<td><a href="{{ $doc.RelPermalink }}">{{ $doc.Params.language }}</a></td>
+	</tr>
+{{- else }}
+	{{- with $notes }}
+	<tr>
+		<th>{{ $type }}</th>
+		<td><a class="doc-table-notes" href="{{ .RelPermalink }}" title="Release notes of {{ $type }} {{ $version }}">{{ $version }}</a></td>
+		<td></td>
+	</tr>
+	{{- end }}
+{{- end }}

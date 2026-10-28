@@ -1,0 +1,39 @@
+{{- /*
+	A hand-written page: the tutorials, the guides, and the documentation, learn, about and FAQ pages. The front
+	matter can add a hero image, anchors to sections of the page and buttons below the title. The title and the
+	labels are written as they are, as Jekyll did: a title can hold markup such as <br>.
+*/ -}}
+{{ define "body-attributes" }} class="page"{{ end }}
+
+{{ define "main" }}
+	{{- /* the content first: the heading render hook records the headings that stay out of the page index */ -}}
+	{{- $content := .Content -}}
+	{{- $pageIndex := partial "page-index.html" . -}}
+	{{ partial "header.html" . }}
+
+		{{ with .Params.hero }}
+			<div class="hero" style="{{ printf "background-image: url(%s)" (relURL .) | safeCSS }}"></div>
+		{{ end }}
+
+		<main id="content"{{ if $pageIndex }} class="has-page-index"{{ end }}>
+			<h1>{{ .Params.title | safeHTML }}</h1>
+			<nav>
+				<ul>
+					{{ range .Params.anchors }}
+					<li>
+						<a href="#{{ .name }}">{{ .label | safeHTML }}</a>
+					</li>
+					{{ end }}
+				</ul>
+
+				{{ range .Params.buttons }}
+				<a class="button" href="{{ .link | relURL }}">{{ .label | safeHTML }}</a>
+				{{ end }}
+
+			</nav>
+			{{ $pageIndex }}
+			<section>
+				{{ replace $content "<img src=" `<img loading="lazy" decoding="async" src=` | safeHTML }}
+			</section>
+		</main>
+{{ end }}

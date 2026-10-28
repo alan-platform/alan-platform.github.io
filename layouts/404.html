@@ -1,0 +1,9 @@
+{{- /*
+	The page GitHub Pages serves for an address that has none: the text of 404.md in the plain page Jekyll gave it,
+	without the site header. 404.md is not published as a page of its own.
+*/ -}}
+{{ define "main" }}
+	<main id="content">
+		{{ with site.GetPage "/404-text" }}{{ .Content }}{{ end }}
+	</main>
+{{ end }}

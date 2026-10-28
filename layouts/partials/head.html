@@ -1,0 +1,108 @@
+{{- /*
+	The head of every page. The front matter is read through .Params, as Jekyll read it: a key a page does not set
+	is nil, where Hugo would fill in .Title, .Description or .Type itself.
+*/ -}}
+{{- $time := partialCached "build-time.html" "build-time" -}}
+{{- /* the 404 page has no front matter; GitHub's Jekyll gave it the title of its heading, "404" */ -}}
+{{- $title := or .Params.title (cond (eq .Kind "404") "404" "") -}}
+{{- $head := .Params.head -}}
+{{- $type := .Params.type -}}
+{{- $origin := .Params.origin -}}
+{{- $language := .Params.language -}}
+{{- $version := .Params.version -}}
+{{- $isRoot := eq .RelPermalink "/" -}}
+{{- /*
+	The address search engines and shared links should use. A page whose file name is not its address sets it in
+	the front matter field "canonical": docs/archive.html is served at /docs/archive, the address the site links.
+	Otherwise the address of the page.
+*/ -}}
+{{- $canonical := .Permalink -}}
+{{- with .Params.canonical }}{{ $canonical = absURL . }}{{ end -}}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	{{ if $isRoot -}}
+		<title>{{ site.Title }} - By Kjerner</title>
+	{{- else if $head -}}
+		<title>{{ $head }} - {{ site.Title }}</title>
+	{{- else if $title -}}
+		<title>{{ $title }} - {{ site.Title }}</title>
+	{{- else if eq $type "release notes" -}}
+		<title>{{ if eq $origin "platform" }}Alan{{ else }}{{ $origin }}{{ end }} {{ $version }} release notes - {{ site.Title }}</title>
+	{{- else -}}
+		<title>{{ $origin }}/{{ $language }}{{ if ne $type $language }} {{ $type }}{{ end }} - {{ site.Title }}</title>
+	{{- end }}
+
+	{{- /*
+		A description and a preview for search results and for links shared in chat: pages can set
+		"description" in their front matter, otherwise the opening of the page is used.
+		The kind of a documentation page is left out where it repeats the language ("release notes").
+	*/}}
+	{{- $docKind := "" -}}
+	{{- if and $type (ne $type $language) -}}
+		{{- $docKind = printf " %v" $type -}}
+	{{- end -}}
+	{{- $description := "" -}}
+	{{- if .Params.description -}}
+		{{- $description = .Params.description -}}
+	{{- else if eq $type "release notes" -}}
+		{{- if eq $origin "platform" -}}
+			{{- $description = printf "What changed in Alan %v, and what an upgrade to it asks of a project." $version -}}
+		{{- else -}}
+			{{- $description = printf "What changed in %v %v of the Alan platform, and what an upgrade to it asks of a project." $origin $version -}}
+		{{- end -}}
+	{{- else if $language -}}
+		{{- $description = printf "Documentation of the %v%s for the Alan platform, %v version %v." $language $docKind $origin $version -}}
+	{{- else -}}
+		{{- $description = site.Params.description -}}
+	{{- end -}}
+	{{- $description = replaceRE `[\r\n]` "" $description -}}
+	{{- $pageTitle := "" -}}
+	{{- if $isRoot -}}
+		{{- $pageTitle = site.Title -}}
+	{{- else if $head -}}
+		{{- $pageTitle = $head -}}
+	{{- else if $title -}}
+		{{- $pageTitle = replace $title "<br>" " " | plainify -}}
+	{{- else if eq $type "release notes" -}}
+		{{- $pageTitle = printf "%s %v release notes" (cond (eq $origin "platform") "Alan" (printf "%v" $origin)) $version -}}
+	{{- else -}}
+		{{- $pageTitle = printf "%v/%v%s" (or $origin "") (or $language "") $docKind -}}
+	{{- end }}
+
+	<meta name="description" content="{{ $description }}">
+	<link rel="canonical" href="{{ $canonical }}">
+
+	<meta property="og:type" content="{{ if $isRoot }}website{{ else }}article{{ end }}">
+	<meta property="og:site_name" content="Alan Platform">
+	<meta property="og:title" content="{{ $pageTitle }}">
+	<meta property="og:description" content="{{ $description }}">
+	<meta property="og:url" content="{{ $canonical }}">
+	<meta property="og:image" content="{{ "/assets/logo/square-color.png" | absURL }}">
+	<meta name="twitter:card" content="summary">
+
+	<link rel="icon" href="{{ "favicon.ico" | relURL }}">
+
+	{{- /*
+		The fonts of the header, preloaded. A font is otherwise requested at the first layout, so a page lays out its
+		first frames with the metrics of the fallback font, which is wider: the navigation sat further left until the
+		fonts arrived, even from the cache. Thin is the links, Regular the body and the small text of the documentation
+		button, Bold Italic the brand name.
+	*/}}
+	<link rel="preload" href="{{ "/assets/fonts/ClearSans-Thin.woff" | relURL }}" as="font" type="font/woff" crossorigin>
+	<link rel="preload" href="{{ "/assets/fonts/ClearSans-Regular.woff" | relURL }}" as="font" type="font/woff" crossorigin>
+	<link rel="preload" href="{{ "/assets/fonts/ClearSans-BoldItalic.woff" | relURL }}" as="font" type="font/woff" crossorigin>
+
+	{{- $stylesheet := partialCached "stylesheet.html" "stylesheet" }}
+	<link rel="stylesheet" href="{{ "src/normalize.css" | relURL }}?{{ $time.Unix }}">
+	<link rel="stylesheet" href="{{ $stylesheet.RelPermalink }}?{{ $time.Unix }}">
+
+	{{ "<!-- Google Tag Manager -->" | safeHTML }}
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-KFQDQ37N');</script>
+	{{ "<!-- End Google Tag Manager -->" | safeHTML }}
+</head>

@@ -1,0 +1,8 @@
+{{- /*
+	A link to the release notes of a component version, (dict "origin" O "version" V), for the header of its other
+	documentation pages; nothing when that version has none. Call it through partialCached keyed on origin and
+	version: once per component version.
+*/ -}}
+{{- with partial "notes-page.html" . -}}
+<a class="doc-notes-link" href="{{ .RelPermalink }}">release notes</a>
+{{- end -}}

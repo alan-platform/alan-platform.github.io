@@ -1,0 +1,36 @@
+{{- /*
+	The keys of a map from the data files, in the order of the file: (dict "map" M "kind" K "name" N), where K is
+	"platform" (M is the platform object of version N in _data/versions.json) or "system types" (M is "system types"
+	of _data/dist/N/versions.json).
+
+	Hugo hands data over as maps, and a range over a map goes in sorted key order. The tables keep the order of the
+	files, as Jekyll did: platform components as _data/versions.json lists them (model before interface), system
+	types as the dist versions.json lists them (older versions are not alphabetical). _tools/hugo/prepare.py reads
+	that order from the parsed files and writes it to .build/data/key_order.json, mounted as data:
+	  {"platform": {"<version>": [keys]}, "system types": {"<version>": [keys]}}
+	Keys that order does not name, such as those of a version it lacks, follow in sorted order, so that nothing in
+	the map is left out.
+*/ -}}
+{{- $order := slice -}}
+{{- with hugo.Data.key_order -}}
+	{{- with index . $.kind -}}
+		{{- with index . $.name -}}
+			{{- $order = . -}}
+		{{- end -}}
+	{{- end -}}
+{{- else -}}
+	{{- /* without the file every table would silently come out in sorted order: the build ran without prepare.py */ -}}
+	{{- errorf "ordered-keys: .build/data/key_order.json is missing; run _tools/hugo/build.sh, which runs prepare.py first" -}}
+{{- end -}}
+{{- $keys := slice -}}
+{{- range $order -}}
+	{{- if and (isset $.map .) (not (in $keys .)) -}}
+		{{- $keys = $keys | append . -}}
+	{{- end -}}
+{{- end -}}
+{{- range $key, $value := .map -}}
+	{{- if not (in $keys $key) -}}
+		{{- $keys = $keys | append $key -}}
+	{{- end -}}
+{{- end -}}
+{{- return $keys -}}

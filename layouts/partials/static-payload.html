@@ -1,0 +1,13 @@
+{{- /*
+	Publishes the files that Jekyll copied as they were and that hugo.toml mounts as assets: everything beside the
+	pages under pages/ (images, models, snippets, data of the tutorials) and the scripts and plain stylesheets of
+	src/. Each lands at its path in the repository, as with a static mount: hugo.toml mounts the files of pages/
+	under payload/, see there for why.
+	The home page calls this, once per build; hugo server calls it again when one of these files changes.
+*/ -}}
+{{- range resources.Match "payload/pages/**" -}}
+	{{- (resources.Copy (replaceRE `^/?payload/` "" .Name) .).Publish -}}
+{{- end -}}
+{{- range resources.Match "src/*.{js,css}" -}}
+	{{- .Publish -}}
+{{- end -}}

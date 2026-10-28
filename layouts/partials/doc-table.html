@@ -1,0 +1,23 @@
+{{- /*
+	Language documentation table of one platform version, (dict "version" V "platform_row" B), where V is an entry
+	of _data/versions.json. Platform component versions come from that entry, system type versions from
+	_data/dist/<platform version>/versions.json, both in the order of their file. The rows come from the
+	documentation pages themselves, see doc-rows.html. Nothing in here depends on the current page: callers can
+	use partialCached keyed on the version name and platform_row.
+*/ -}}
+{{- $version := .version -}}
+{{- $systemTypes := partial "system-types.html" $version.name -}}
+<table>
+	{{- /* the "Switch document" menu names its platform version first, linking its release notes when it has them */}}
+	{{- if .platform_row }}
+	{{- partialCached "doc-rows.html" (dict "type" "platform" "version" $version.name) "platform" $version.name }}
+	{{- end }}
+	{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform" "name" $version.name) }}
+	{{- $componentVersion := index $version.platform $component }}
+	{{- partialCached "doc-rows.html" (dict "type" $component "version" $componentVersion) $component $componentVersion }}
+	{{- end }}
+	{{- range $systemType := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types" "name" $version.name) }}
+	{{- $typeVersion := (index $systemTypes $systemType).version }}
+	{{- partialCached "doc-rows.html" (dict "type" $systemType "version" $typeVersion) $systemType $typeVersion }}
+	{{- end }}
+</table>

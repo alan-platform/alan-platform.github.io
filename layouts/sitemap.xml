@@ -1,0 +1,20 @@
+{{- /*
+	The sitemap: the address of every page, nothing else, as the Jekyll template wrote it. A page with sitemap: false
+	in its front matter is left out (Hugo's own sitemap: {disable: true} as well), and so are pages whose address
+	names a stylesheet, script, text or XML file or the 404 page; Hugo lists no such pages, the test is kept so the
+	list follows the same rule. In address order, so that a build gives the same file each time.
+*/ -}}
+{{ printf "<?xml version=%q encoding=%q?>" "1.0" "UTF-8" | safeHTML }}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{{- range sort site.Pages "RelPermalink" -}}
+	{{- $url := .RelPermalink -}}
+	{{- /* a page lists the address of its front matter field "canonical" when it has one, as head.html does */ -}}
+	{{- $loc := .Permalink -}}
+	{{- with .Params.canonical }}{{ $loc = absURL . }}{{ end -}}
+	{{- if not (or (eq .Params.sitemap false) .Sitemap.Disable (strings.Contains $url ".xml") (strings.Contains $url ".txt") (strings.Contains $url ".css") (strings.Contains $url ".js") (strings.Contains $url "404")) -}}
+		<url>
+		<loc>{{ $loc }}</loc>
+	</url>
+	{{- end -}}
+{{- end }}
+</urlset>

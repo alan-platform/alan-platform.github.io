@@ -1,0 +1,23 @@
+{{- /*
+	For the release notes of a component version, (dict "origin" O "version" V): the platform version that introduced
+	it, linking that platform's release notes when it has them. Several platform versions can ship one component
+	version; the one that introduced it is the oldest of them, provided the platform version before it shipped a
+	different version. When the oldest platform version listed already ships it, that is unknown, and nothing is
+	shown. Platform components come from _data/versions.json (newest first), system types from
+	_data/dist/<platform version>/versions.json.
+*/ -}}
+{{- $origin := .origin -}}
+{{- $version := .version -}}
+{{- $list := hugo.Data.versions.versions -}}
+{{- $intro := false -}}
+{{- $known := false -}}
+{{- range $i, $platform := $list -}}
+	{{- if eq (partial "shipped-version.html" (dict "platform" $platform "component" $origin)) $version -}}
+		{{- $intro = $platform -}}
+		{{- $known = lt (add $i 1) (len $list) -}}
+	{{- end -}}
+{{- end -}}
+{{- if and $intro $known -}}
+	{{- $notes := partial "notes-page.html" (dict "origin" "platform" "version" $intro.name) }}
+	<span class="doc-notes-link">new in {{ with $notes }}<a href="{{ .RelPermalink }}">Alan {{ $intro.name }}</a>{{ else }}Alan {{ $intro.name }}{{ end }}</span>
+{{- end -}}

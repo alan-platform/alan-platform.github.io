@@ -1,0 +1,50 @@
+{{- /*
+	The components of a platform version (the context: its name) beside their versions in the platform version
+	before it, for the release notes of that platform version. Each component version that has release notes links
+	to them. Platform components come from _data/versions.json, system types from
+	_data/dist/<platform version>/versions.json, both in the order of their file.
+*/ -}}
+{{- $name := . -}}
+{{- $this := false -}}
+{{- $prev := false -}}
+{{- range hugo.Data.versions.versions -}}
+	{{- if and $this (not $prev) -}}
+		{{- $prev = . -}}
+	{{- end -}}
+	{{- if eq .name $name -}}
+		{{- $this = . -}}
+	{{- end -}}
+{{- end -}}
+{{- with $this -}}
+{{- $systemTypes := partial "system-types.html" $this.name -}}
+{{- $prevPlatform := dict -}}
+{{- $prevSystemTypes := dict -}}
+{{- with $prev -}}
+	{{- $prevPlatform = .platform | default dict -}}
+	{{- $prevSystemTypes = partial "system-types.html" .name -}}
+{{- end }}
+<h2 id="components">Component versions</h2>
+<p>
+	The version of every component in {{ $this.name }}{{ with $prev }}, beside its version in {{ .name }}{{ end }}.
+	A version that changed links to its own release notes.
+</p>
+<table class="release-components">
+	<thead>
+		<tr>
+			<th scope="col">Component</th>
+			{{ with $prev }}<th scope="col">{{ .name }}</th>{{ end }}
+			<th scope="col">{{ $this.name }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{- range $component := partial "ordered-keys.html" (dict "map" $this.platform "kind" "platform" "name" $this.name) }}
+		{{- partial "release-component-row.html" (dict "name" $component "new" (index $this.platform $component) "old" (index $prevPlatform $component) "compare" $prev) }}
+		{{- end }}
+		{{- range $component := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types" "name" $this.name) }}
+		{{- $old := false }}
+		{{- with index $prevSystemTypes $component }}{{ $old = .version }}{{ end }}
+		{{- partial "release-component-row.html" (dict "name" $component "new" (index $systemTypes $component).version "old" $old "compare" $prev) }}
+		{{- end }}
+	</tbody>
+</table>
+{{- end -}}

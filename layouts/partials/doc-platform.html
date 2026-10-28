@@ -1,0 +1,33 @@
+{{- /*
+	Returns the entry of _data/versions.json whose documentation table the "Switch document" menu of a documentation
+	page shows; the context is the page. For a platform page that is its own version. For a component version it is
+	the current platform version when that ships it, otherwise the newest platform version that does (the list is
+	newest first), otherwise the current one. Platform components come from _data/versions.json, system types from
+	_data/dist/<platform version>/versions.json.
+
+	The result depends on the origin and version of the page only: call it through partialCached keyed on those two,
+	written with printf "%#v", which keeps a version: 101 apart from a version: "101". Jekyll compared the version of
+	the page with the version in the data with ==, which tells a number from a text, and eq does the same.
+*/ -}}
+{{- $origin := .Params.origin -}}
+{{- $version := .Params.version -}}
+{{- $versions := hugo.Data.versions -}}
+{{- $result := false -}}
+{{- range $versions.versions -}}
+	{{- if eq $origin "platform" -}}
+		{{- if eq .name $version -}}
+			{{- $result = . -}}
+		{{- end -}}
+	{{- else -}}
+		{{- $shipped := partial "shipped-version.html" (dict "platform" . "component" $origin) -}}
+		{{- if eq $shipped $version -}}
+			{{- if or (not $result) (eq .name $versions.current) -}}
+				{{- $result = . -}}
+			{{- end -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+{{- if not $result -}}
+	{{- $result = index (where $versions.versions "name" $versions.current) 0 -}}
+{{- end -}}
+{{- return $result -}}

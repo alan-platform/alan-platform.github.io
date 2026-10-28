@@ -1,0 +1,13 @@
+{{- /*
+	One row of release-components.html: a component (.name), its version in the previous platform version (.old,
+	empty when it is new), and its version in this one (.new). A version that changed links to its release notes;
+	the notes of an unchanged version describe an earlier platform version. .compare is the previous platform
+	version, if there is one.
+*/ -}}
+{{- $notes := partial "notes-page.html" (dict "origin" .name "version" .new) -}}
+{{- $changed := not (and .compare (eq .old .new)) }}
+<tr{{ if not $changed }} class="unchanged"{{ end }}>
+	<th scope="row">{{ .name }}</th>
+	{{ if .compare }}<td>{{ with .old }}{{ . }}{{ else }}<em>new</em>{{ end }}</td>{{ end }}
+	<td>{{ if and $changed $notes }}<a href="{{ $notes.RelPermalink }}" title="Release notes of {{ .name }} {{ .new }}">{{ .new }}</a>{{ else if $changed }}<strong>{{ .new }}</strong>{{ else }}{{ .new }}{{ end }}</td>
+</tr>

@@ -1,0 +1,11 @@
+{{- /*
+	The release notes page of a component version, (dict "origin" O "version" V), or false when it has none.
+	The release notes of a platform version have origin "platform".
+*/ -}}
+{{- $notes := false -}}
+{{- with index (partialCached "doc-pages.html" "doc-pages") (printf "%v|%v" .origin .version) -}}
+	{{- with where . "Params.type" "release notes" -}}
+		{{- $notes = index . 0 -}}
+	{{- end -}}
+{{- end -}}
+{{- return $notes -}}

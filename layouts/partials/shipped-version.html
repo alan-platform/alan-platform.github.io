@@ -1,0 +1,14 @@
+{{- /*
+	The version of a component in a platform version, (dict "platform" P "component" C), where P is an entry of
+	_data/versions.json: its platform component C, otherwise its system type C from
+	_data/dist/<P.name>/versions.json, otherwise nil.
+*/ -}}
+{{- $shipped := index .platform.platform .component -}}
+{{- if not $shipped -}}
+	{{- with index hugo.Data.dist .platform.name -}}
+		{{- with index .versions "system types" $.component -}}
+			{{- $shipped = .version -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+{{- return $shipped -}}
