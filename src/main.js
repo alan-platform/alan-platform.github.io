@@ -130,19 +130,19 @@ if (document.readyState === 'loading') {
     pageIndex();
 }
 
-// The archive lists a section per platform version, the current one open. A link that names a version in the
-// fragment (/docs/archive#2026.3) opens that section and closes the others, so the reader lands on the version
-// the link is about; the browser scrolls to it as to any fragment.
+// The archive lists a section per platform version, the table of the stable one open. A link that names a
+// version in the fragment (/docs/archive#2026.3) opens the table of that section and closes the others, so the
+// reader lands on the version the link is about; the browser scrolls to it as to any fragment.
 function archiveVersion() {
     if (!location.hash) {
         return;
     }
     var target = document.getElementById(decodeURIComponent(location.hash.substring(1)));
-    if (!target || !target.matches('details.archive')) {
+    if (!target || !target.matches('.archive-version')) {
         return;
     }
-    document.querySelectorAll('details.archive').forEach(function(section) {
-        section.open = section === target;
+    document.querySelectorAll('.archive-version').forEach(function(section) {
+        section.querySelector('details').open = section === target;
     });
 }
 if (document.readyState === 'loading') {

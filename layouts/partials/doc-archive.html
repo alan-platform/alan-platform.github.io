@@ -1,21 +1,47 @@
 {{- /*
-	The language documentation of every platform version, newest first, the current one open. Each section carries
-	its version as id, so that a link to /docs/archive#2026.3 reaches that version; src/main.js then opens that
-	section and closes the others. The release notes of a platform version are the documentation page that the
-	versions publish writes, the one page with origin "platform" and that version.
+	The language documentation of every platform version, newest first: a list of the versions to jump to, then a
+	section per version with its release notes, versions.json and alan script, the versions of its platform
+	components, and its language table in a folding part, open for the stable version. Each section carries its
+	version as id, so that a link to /docs/archive#2026.3 reaches that version; src/main.js then opens that
+	section's table and closes the others. The stable version is "current" in _data/versions.json, the one of the
+	documentation page and the tutorials; a version before it in the list is newer, and the first of the list is
+	marked as the latest when it is not the stable one. The release notes of a platform version are the
+	documentation page that the versions publish writes, the one page with origin "platform" and that version.
 */ -}}
 {{- $versions := hugo.Data.versions -}}
-{{- $docPages := partialCached "doc-pages.html" "doc-pages" -}}
-{{- range $versions.versions }}
-{{- $notes := false }}
-{{- with index $docPages (printf "platform|%v" .name) }}{{ $notes = index . 0 }}{{ end }}
-<details class="archive" id="{{ .name }}"{{ if eq .name $versions.current }} open{{ end }}>
-<summary>
-	{{ .name }}
-	<a href="https://dist.alan-platform.com/share/versions/{{ .name }}/versions.json">versions.json</a>
-	{{ with .alan }}<a href="{{ . }}">alan script</a>{{ end }}
-	{{ with $notes }}<a href="{{ .RelPermalink }}">release notes</a>{{ end }}
-</summary>
-{{ partialCached "doc-table.html" (dict "version" . "caption" false) .name false }}
-</details>
+<nav class="archive-nav" aria-label="Platform versions">
+	<ul>
+		{{- range $versions.versions }}
+		<li><a href="#{{ .name }}"{{ if eq .name $versions.current }} class="archive-nav-stable"{{ end }}>{{ .name }}</a></li>
+		{{- end }}
+	</ul>
+</nav>
+{{- range $i, $version := $versions.versions }}
+{{- $stable := eq .name $versions.current }}
+<section class="archive-version{{ if $stable }} archive-stable{{ end }}" id="{{ .name }}">
+	<div class="archive-head">
+		<h2>
+			{{ .name }}
+			{{- if $stable }} <span class="archive-badge">Stable</span>{{ else if eq $i 0 }} <span class="archive-badge archive-badge-latest">Latest</span>{{ end }}
+		</h2>
+		<ul class="archive-links">
+			{{- with partial "notes-page.html" (dict "origin" "platform" "version" .name) }}
+			<li><a href="{{ .RelPermalink }}">release notes</a></li>
+			{{- end }}
+			<li><a href="https://dist.alan-platform.com/share/versions/{{ .name }}/versions.json">versions.json</a></li>
+			{{- with .alan }}
+			<li><a href="{{ . }}"><code>alan</code> script</a></li>
+			{{- end }}
+		</ul>
+	</div>
+	<p class="archive-components">
+		{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform") }}
+		<span>{{ $component }} <strong>{{ index $version.platform $component }}</strong></span>
+		{{- end }}
+	</p>
+	<details{{ if $stable }} open{{ end }}>
+		<summary>Language reference</summary>
+		{{ partialCached "doc-table.html" (dict "version" . "caption" false) .name false }}
+	</details>
+</section>
 {{- end }}

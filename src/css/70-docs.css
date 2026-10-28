@@ -213,13 +213,16 @@ table td > a:active {
 }
 
 /*
- * Links shown as tags: the languages of a component. A tag is
+ * Links shown as tags: the languages of a component, and the versions and downloads of the archive. A tag is
  * white whatever the row behind it, except the tag of the current page, which is the notice yellow. The text is
  * the blue darkened by 8%, 4.9:1 on that white where the blue itself gives 3.6:1, below the 4.5:1 that small text
  * needs; the border is the even mix of the two lightest greys. On hover the border turns orange and the text takes
- * the orange darkened by 18%, #bd3d00, as the border and the title of a card do: 5.5:1 on white.
+ * the orange darkened by 18%, #bd3d00, as the border and the title of a card do: 5.5:1 on white, 5.1:1 on the
+ * yellow tint of the stable version in the archive.
  */
-.doc-table-languages {
+.doc-table-languages,
+.archive-nav ul,
+.archive-links {
   display: flex;
   flex-wrap: wrap;
   gap: .375rem;
@@ -229,13 +232,21 @@ table td > a:active {
 }
 
 /* With the table: the release notes space their list items apart (.release-notes li + li), the menu included. */
-.doc-table .doc-table-languages li {
+.doc-table .doc-table-languages li,
+.archive-nav li,
+.archive-links li {
   margin: 0;
 }
 
 .doc-table-languages a,
 .doc-table-languages a:link,
-.doc-table-languages a:visited {
+.doc-table-languages a:visited,
+.archive-nav a,
+.archive-nav a:link,
+.archive-nav a:visited,
+.archive-links a,
+.archive-links a:link,
+.archive-links a:visited {
   transition: border-color var(--transition-fast) ease-in-out, color var(--transition-fast) ease-in-out;
   display: inline-block;
   padding: .1em .55em;
@@ -250,7 +261,11 @@ table td > a:active {
 }
 
 .doc-table-languages a:hover,
-.doc-table-languages a:active {
+.doc-table-languages a:active,
+.archive-nav a:hover,
+.archive-nav a:active,
+.archive-links a:hover,
+.archive-links a:active {
   transition: border-color var(--transition-fastest) ease-in-out, color var(--transition-fastest) ease-in-out;
   border-color: #ff641a;
   text-decoration: none;
@@ -349,20 +364,129 @@ table td > a:active {
   }
 }
 
-details.archive summary {
-  font-size: 1.2em;
+/*
+ * The archive: a list of the versions to jump to, then a section per platform version with its links, the versions
+ * of its platform components and its language table, which folds. The stable version, the one of the documentation
+ * page, has the notice yellow on its left edge, 3px wide as on the notice; its padding is 2px less, so that its
+ * text lines up with the others.
+ */
+.archive-nav ul {
+  margin: 1.414em 0;
+}
+
+.archive-nav .archive-nav-stable,
+.archive-nav .archive-nav-stable:link,
+.archive-nav .archive-nav-stable:visited {
+  border-color: #ffc94a;
+  background: #fff7e3;
   font-weight: bold;
+}
+
+.archive-version {
+  margin-top: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #c3c5ca;
+  border-radius: 6px;
+}
+
+.archive-stable {
+  padding-left: calc(1.25rem - 2px);
+  border-left: 3px solid #ffc94a;
+}
+
+.archive-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 1rem;
+}
+
+.archive-version h2 {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0;
+  font-size: 1.414em;
+  line-height: 1.2;
+}
+
+/* A kicker: the stable version on the notice yellow, the latest version on the green of the logo. */
+.archive-badge {
+  padding: .2em .55em;
+  border-radius: 3px;
+  background: #ffc94a;
+  font-size: .75rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #2b2c30;
+}
+
+.archive-badge-latest {
+  background: #8fcc27;
+}
+
+.archive-version .archive-components {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.25em;
+  margin: .35rem 0 0 0;
+  font-size: .875em;
+  color: #484a50;
+}
+
+/* A component and its version stay on one line. */
+.archive-components span {
+  white-space: nowrap;
+}
+
+.archive-components strong {
+  font-variant-numeric: tabular-nums;
+  color: #2b2c30;
+}
+
+.archive-version details {
+  margin-top: .75rem;
+}
+
+.archive-version summary {
+  display: inline-flex;
+  align-items: center;
+  list-style: none;
+  font-size: .875em;
+  font-weight: bold;
+  color: #2163ff;
   cursor: pointer;
 }
 
-details.archive summary a {
-  margin-left: 1em;
-  font-size: 1rem;
-  font-weight: normal;
+.archive-version summary::-webkit-details-marker {
+  display: none;
 }
 
-details.archive table {
-  margin-top: 0;
+/* A chevron that points right while the table is folded and down while it is open. */
+.archive-version summary::before {
+  transition: transform var(--transition-fast) ease-in-out;
+  content: '';
+  width: .45em;
+  height: .45em;
+  margin: 0 .65em 0 .1em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg);
+}
+
+.archive-version details[open] > summary::before {
+  transform: rotate(45deg);
+}
+
+/* On hover the text takes the orange of a hovered tag. */
+.archive-version summary:hover,
+.archive-version summary:active {
+  color: #bd3d00;
+}
+
+.archive-version .doc-table {
+  margin: .75rem 0 0 0;
 }
 
 /* Beside the version in the header of a documentation page, like "Switch document". */
