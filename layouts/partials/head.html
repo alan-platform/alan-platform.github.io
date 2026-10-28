@@ -85,14 +85,12 @@
 	<link rel="icon" href="{{ "favicon.ico" | relURL }}">
 
 	{{- /*
-		The fonts of the header, preloaded. A font is otherwise requested at the first layout, so a page lays out its
-		first frames with the metrics of the fallback font, which is wider: the navigation sat further left until the
-		fonts arrived, even from the cache. Thin is the links, Regular the body and the small text of the documentation
-		button, Bold Italic the brand name.
+		The upright latin face of Instrument Sans, preloaded: every page sets its text, its headings and its
+		navigation in it. A font is otherwise requested at the first layout, so a page lays out its first frames with
+		the metrics of the fallback font and moves when the face arrives. The other faces load when a page uses them
+		(10-fonts.css).
 	*/}}
-	<link rel="preload" href="{{ "/assets/fonts/ClearSans-Thin.woff" | relURL }}" as="font" type="font/woff" crossorigin>
-	<link rel="preload" href="{{ "/assets/fonts/ClearSans-Regular.woff" | relURL }}" as="font" type="font/woff" crossorigin>
-	<link rel="preload" href="{{ "/assets/fonts/ClearSans-BoldItalic.woff" | relURL }}" as="font" type="font/woff" crossorigin>
+	<link rel="preload" href="{{ "/assets/fonts/instrument-sans-latin-wght-normal.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 
 	{{- $stylesheet := partialCached "stylesheet.html" "stylesheet" }}
 	<link rel="stylesheet" href="{{ "src/normalize.css" | relURL }}?{{ $time.Unix }}">

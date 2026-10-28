@@ -36,7 +36,7 @@ fi
 for file in \
   index.html 404.html docs/index.html docs/archive.html learn/index.html about/index.html faq/index.html \
   deps/index.html deps/status.json sitemap.xml robots.txt CNAME \
-  src/main.css src/main.js src/prism.min.js assets/fonts/ClearSans-Regular.woff; do
+  src/main.css src/main.js src/prism.min.js assets/fonts/instrument-sans-latin-wght-normal.woff2; do
   if [ ! -f "public/$file" ]; then
     fail "public/$file is missing"
   fi

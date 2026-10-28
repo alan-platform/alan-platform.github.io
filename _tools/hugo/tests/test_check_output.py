@@ -15,7 +15,7 @@ SCRIPT = os.path.join(os.path.dirname(HERE), "check-output.sh")
 REQUIRED = [
     "index.html", "404.html", "docs/index.html", "docs/archive.html", "learn/index.html", "about/index.html",
     "faq/index.html", "deps/index.html", "deps/status.json", "sitemap.xml", "robots.txt", "CNAME",
-    "src/main.css", "src/main.js", "src/prism.min.js", "assets/fonts/ClearSans-Regular.woff",
+    "src/main.css", "src/main.js", "src/prism.min.js", "assets/fonts/instrument-sans-latin-wght-normal.woff2",
 ]
 GRAMMAR = "pages/docs/model/109/application/grammar"
 PAGES = ["pages/docs/a", "pages/docs/b/c", GRAMMAR]

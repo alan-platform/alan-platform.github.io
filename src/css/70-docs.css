@@ -614,7 +614,7 @@ table td > a:active {
 }
 
 .code-custom {
-  font-family: 'pt mono', monospace;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: 0.8em;
   tab-size: 4;
   line-height: 1.414;

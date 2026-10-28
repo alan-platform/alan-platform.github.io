@@ -70,7 +70,8 @@ it in the browser. Page logic is in shortcodes: `{{< file >}}` includes a file r
   `src/css/`, numbered in the order of the cascade (`10-fonts.css` up to `95-index.css`).
   `layouts/partials/stylesheet.html` concatenates them in the order of their names into `/src/main.css`, as they
   are, comments included: a minifier would rewrite values into equivalent forms, and the server compresses the
-  file anyway. A new part gets a number that puts it at its place in that order.
+  file anyway. A new part gets a number that puts it at its place in that order. The fonts, Instrument Sans and IBM
+  Plex Mono, are served from `assets/fonts/` with their licenses; `10-fonts.css` says where the files come from.
 - The order of the components in the version tables is configuration, not data: Hugo hands the data files over as maps
   and a range over a map goes in sorted key order, so `[params.order]` in `hugo.toml` lists the platform components and
   the system types in the order that the data files use, and `layouts/partials/ordered-keys.html` follows it. A key that

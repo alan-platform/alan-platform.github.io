@@ -37,7 +37,7 @@ html,
 body {
   width: 100%;
   height: 100%;
-  font-family: 'clear sans', sans-serif;
+  font-family: 'Instrument Sans', Arial, sans-serif;
   font-size: 15px;
   line-height: 1.414;
   color: #333;
@@ -212,7 +212,7 @@ pre {
 code {
   padding: 0 0.7072135785ex;
   border-radius: 4px;
-  font-family: 'pt mono', monospace;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: 0.8em;
   background: #eeeff0;
 }
