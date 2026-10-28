@@ -101,8 +101,8 @@ What changes, and why:
 
  12. The front matter gets `url: "/pages/docs/<path without .md>.html"`. Jekyll
      wrote every page to that path (it keeps the spaces of directory names such
-     as "client bindings"), the toolchains deep-link to it, and the parity gate
-     compares file paths, so Hugo must write the same file.
+     as "client bindings"), and the toolchains deep-link to it, so Hugo must write
+     the same file.
 
  13. Not a page: .build/data/key_order.json records the order of the keys that
      the version files list. Hugo's data loader gives a JSON object as a map,
@@ -128,7 +128,8 @@ a guess.
 Rules 4 to 9 exist because kramdown and Goldmark read the same generated text
 differently. They were found by rendering the whole prepared tree with Hugo and
 comparing it with the Jekyll output page by page; a new kind of difference
-shows up in the parity gate (compare.py) rather than here.
+is not found here. check-output.sh catches leftover syntax in a built page, and
+the output of the generator must be checked when it changes.
 
 Usage:
     python3 _tools/hugo/prepare.py [--check] [--root REPOSITORY_ROOT]

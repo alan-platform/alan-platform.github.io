@@ -107,33 +107,6 @@ there too. Therefore the pages under `pages/` keep `.html` (`uglyURLs` for that 
 hand-written pages that Jekyll gave a `permalink` set `url:` (`/docs/`, `/learn/`, `/about/`, `/faq/`, `/docs/archive`),
 and the ids `grammar-rule--X` and `example--X` stay as they are.
 
-## Parity gate
-
-`_tools/hugo/compare.py BASELINE_DIR HUGO_DIR` compares two builds of the site and exits with 1 when they differ beyond
-its allowlist. The baseline is a Jekyll build of the tag `jekyll-last` (`bundle exec jekyll build -d <dir>` there).
-It compares, per file or page: the file inventory; the visible text of the body and, line by line, the text of every
-`<pre>`; title, description, canonical link, the `og:` and `twitter:` metadata, and the scripts and stylesheet links in
-order; the ordered headings and the set of ids; the set of `href` and `src` values and the ordered pairs of link text
-and destination; that every link into the site resolves to a file and every fragment to an id (links that were broken
-in the baseline too do not count); `src/main.css` after whitespace normalisation and three spellings the two Sass
-compilers differ in; the `<loc>` set of `sitemap.xml` and `robots.txt`; the bytes of all other files. The report gives a
-count per category and the first differences of each, with a short diff. The allowlist: `feed.xml`, `README.md` and
-`LICENSE` are no longer published, the `?digits` cache-buster on `/src/*.css` and `/src/*.js`, an encoded space in a
-reference. `--allow` and `--allow-diff` add more, `--fold-quotes` ignores which side a single quote leans to. `--help`
-lists the options.
-
-`_tools/hugo/gate.sh JEKYLL_SITE_DIR` runs it on `public/` with `--strict` and the differences that are allowed on
-purpose, each with its reason: that is the gate of the port.
-
-```
-_tools/hugo/build.sh
-_tools/hugo/gate.sh /path/to/jekyll-site
-```
-
-The gate needs the Jekyll build and says nothing about a page that Jekyll never had, so it belongs to the port. It
-stops being the check once the Hugo tree is on `master` and the generator has moved on; `check-output.sh` and the tests
-are what remain.
-
 ## Deploy
 
 `.github/workflows/pages.yml` has three jobs.
@@ -143,8 +116,7 @@ are what remain.
   Run workflow, on any branch).
 - `deploy` publishes the artifact with GitHub Pages and runs only for a push to `master`. The push of the
   documentation CI job publishes too. A pull request or a manual run stops after the build, with the artifact
-  `github-pages` (a tar of `public/`) attached to the run: download it from the run page to compare it with the Jekyll
-  build, for example with `_tools/hugo/compare.py`. A deployment that failed after a push is redeployed by re-running
+  `github-pages` (a tar of `public/`) attached to the run: download it from the run page to inspect it. A deployment that failed after a push is redeployed by re-running
   that run; a manual run does not deploy.
 - `notify` runs when a push failed, in `build` or in `deploy`. GitHub emails only the person whose action started a
   failed run, and the documentation pushes come from the GitLab CI user, so the job opens an issue titled

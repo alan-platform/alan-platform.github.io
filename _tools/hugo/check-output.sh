@@ -73,8 +73,8 @@ fi
 
 # 6. no attribute syntax of the generator is left in the text of a page. prepare.py stops on a line of
 # that kind it knows nothing about, but only in the source it reads; this is the cheap second look at
-# what Hugo wrote, once the parity gate no longer runs. {: anywhere, and a line that starts with {. or {#
-# outside <pre>, where Goldmark would have taken it for a block attribute or shown it.
+# what Hugo wrote: {: anywhere, and a line that starts with {. or {# outside <pre>, where Goldmark
+# would have taken it for a block attribute or shown it.
 literal=$(grep -rlF --include='*.html' '{:' public/pages/docs 2>/dev/null | head -5)
 if [ -n "$literal" ]; then
   fail "the text {: is left in built pages, the generator may write a form that prepare.py does not know:"
