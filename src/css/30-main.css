@@ -3,6 +3,9 @@
  * linked targets under the fixed header, spacing in sections, centered
  * headings and paragraphs, the video wrapper, the main column and the strip
  * of boxes that fades out at both ends.
+ *
+ * 1.414em, 1.999396rem and 0.7072135785em are powers of 1.414, the square
+ * root of two (1.414, 1.414^2 and 1 / 1.414), kept exactly as computed.
  */
 
 h2[id],

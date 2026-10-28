@@ -2,8 +2,9 @@
  * Theme: the base styles of every page. Box sizing, the body text, headings, lists, images, focus outlines, the
  * skip link, links and buttons, quotes, code and rules.
  *
- * Sizes follow a scale with ratio 1.414: 1.414em and 2.828em are one and two times the ratio, 3.9975843648em is
- * its fourth power, 0.7072135785em and 0.5001510456em are one and two steps down (1 / 1.414 and 1 / 1.414^2).
+ * Sizes follow a scale with ratio 1.414, the square root of two: 1.414em and 2.828em are one and two times the ratio,
+ * 3.9975843648em is its fourth power, 0.7072135785em and 0.5001510456em are one and two steps down (1 / 1.414 and
+ * 1 / 1.414^2). The values are kept exactly as they were computed.
  *
  * Colours: text #333, blue #4a80ff, orange #ff641a, yellow #ffc94a and green #8fcc27. The five greys are #2b2c30
  * lightened the way Sass did it, the HSL lightness raised by that many points: #393b40 (6%), #484a50 (12%), #838590

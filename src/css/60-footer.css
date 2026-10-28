@@ -1,5 +1,7 @@
 /* Footer: the dark band at the bottom of every page, with the social links,
-   the copyright line and the orange logo. */
+   the copyright line and the orange logo.
+   1.414rem, 1.999396rem, 2.827145944rem and 3.9975843648rem are powers of
+   1.414, the square root of two (1.414 to 1.414^4), kept exactly as computed. */
 
 footer {
   margin: 4rem 0 0 0;

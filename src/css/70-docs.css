@@ -2,6 +2,10 @@
  * Documentation pages: the version tables, the archive of older versions,
  * the document switcher in the page header, the table of contents and the
  * code blocks with their copy and grammar buttons.
+ *
+ * 1.414, 1.999396 and 0.3536067893rem are powers of 1.414, the square root
+ * of two, and a product with it (1.414, 1.414^2 and 0.5 / 1.414), kept
+ * exactly as computed.
  */
 
 /* 1.999396em is 1.414 squared: the type scale ratio applied twice. */
