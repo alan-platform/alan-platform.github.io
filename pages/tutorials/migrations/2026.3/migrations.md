@@ -61,13 +61,13 @@ The folder is a complete migration project:
 
 Since there is no source data, the generated `migration.alan` sets every collection to `none`, the empty collection:
 ```js
-{% include_relative snippets/from-empty-generated.alan %}
+{{< file "snippets/from-empty-generated.alan" >}}
 ```
 
 To start the app with data instead, replace those `none` expressions with `create` entries.
 This migration gives the `Menu` of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) three items:
 ```js
-{% include_relative snippets/from-empty.alan %}
+{{< file "snippets/from-empty.alan" >}}
 ```
 
 **One thing to watch:** `migrations/from_empty` is regenerated on every deployment with the **empty** option, so anything you write there is overwritten.
@@ -97,7 +97,7 @@ The rest of this section is what a typical application needs.
 
 The example below migrates the first step of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) — a `Menu` whose `Selling price` is in whole euros — to the second step, where the price is in eurocents and every item has an `Item type`:
 ```js
-{% include_relative snippets/from-release.alan %}
+{{< file "snippets/from-release.alan" >}}
 ```
 
 **The shape of a migration.** It starts with `root = root as $ {`.
@@ -109,31 +109,31 @@ Text and number values can be copied like that whenever their type did not chang
 
 **Collections.** Walk the source collection and create one target entry per source entry:
 ```js
-{% include_relative snippets/walk-create.alan %}
+{{< file "snippets/walk-create.alan" >}}
 ```
 Inside the `walk`, `$` is the current source entry, so `$ .'Item name'` now reads from that entry.
 A collection without a source is written as a block of `create` entries, as in the `from_empty` example above, or as `none` when it should start empty.
 
 **Stategroups.** Switch on the source stategroup and create the matching target state in every case:
 ```js
-{% include_relative snippets/switch-stategroup.alan %}
+{{< file "snippets/switch-stategroup.alan" >}}
 ```
 Each case binds `$` to the state's node with `as $`, which is how `'Slots'` above reads a property that only exists in that state.
 A stategroup that is *new* in the target model has nothing to switch on, so create a fixed state:
 ```js
-{% include_relative snippets/new-stategroup.alan %}
+{{< file "snippets/new-stategroup.alan" >}}
 ```
 
 **Groups.** A group is a node, so it is a block with parentheses in it:
 ```js
-{% include_relative snippets/group-block.alan %}
+{{< file "snippets/group-block.alan" >}}
 ```
 
 **Numbers.** A number is migrated as an integer in the unit of the *target* numerical type.
 When that unit changes, convert the value with `product` or `division` — the language has no `*` and `/` operators.
 From euros to eurocents:
 ```js
-{% include_relative snippets/number-conversion.alan %}
+{{< file "snippets/number-conversion.alan" >}}
 ```
 
 **Literals.** Text goes between double quotes (`"Example"`), a number is a plain integer (`2042`), and `none` is the empty collection.
@@ -141,7 +141,7 @@ From euros to eurocents:
 **Reaching data further up.** Inside a `walk` or a `switch`, `$` is the innermost source node, so properties higher up in the source are out of reach.
 Give a node a name with `let`, and use that name wherever you need it, however deep:
 ```js
-{% include_relative snippets/named-node.alan %}
+{{< file "snippets/named-node.alan" >}}
 ```
 Here every charter takes the fleet-wide `Default rate` from the root of the source, while `$` inside the walk still refers to the charter being migrated.
 
@@ -154,7 +154,7 @@ That failure is the feature — it is the platform refusing to put data into an 
 A generated migration (see [Generating a migration](#generating-a-migration)) is a starting point, not a finished one: it assumes the source model has the same structure as the target and copies everything.
 For the model change of the previous section, the generator produces:
 ```js
-{% include_relative snippets/from-release-generated.alan %}
+{{< file "snippets/from-release-generated.alan" >}}
 ```
 Compiling that fails, because the source model has no `Item type` yet:
 
@@ -164,11 +164,11 @@ Two edits fix it, both shown in the complete migration above: the `switch` on `$
 
 A second example. For an `application.alan` with
 ```js
-{% include_relative snippets/maintenance-model.alan %}
+{{< file "snippets/maintenance-model.alan" >}}
 ```
 a valid migration from a model that only had an `Original App Name` is:
 ```js
-{% include_relative snippets/maintenance-migration.alan %}
+{{< file "snippets/maintenance-migration.alan" >}}
 ```
 Note what each line does: `App Name` is renamed, `App Description` is a value chosen here and now, `Users` starts empty, and `Year` gets a literal.
 New data has to come from somewhere, and a migration is where you decide from where.
@@ -176,15 +176,15 @@ New data has to come from somewhere, and a migration is where you decide from wh
 **When source data can be missing.** Some expressions can fail: a lookup in a collection with `[ ... ]` fails when the key is not there, and following a reference can fail for the same reason.
 Suppose the target model turns an `Administrator` text into a reference to `Users`, and adds the administrator's name:
 ```js
-{% include_relative snippets/error-handling-model.alan %}
+{{< file "snippets/error-handling-model.alan" >}}
 ```
 Either stop the migration with a message of your own:
 ```js
-{% include_relative snippets/throw-alternative.alan %}
+{{< file "snippets/throw-alternative.alan" >}}
 ```
 which appears in the `Output` window when the deployment fails, or handle both outcomes with a `switch` that distinguishes `value` from `none`:
 ```js
-{% include_relative snippets/switch-value-none.alan %}
+{{< file "snippets/switch-value-none.alan" >}}
 ```
 The second form is the one to reach for when missing data is normal rather than exceptional.
 

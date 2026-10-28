@@ -72,7 +72,7 @@ A vehicle has a dry mass and a propellant load, and it weighs the two together.
 That last part is not something a user types; it follows from the other two.
 
 ```js
-{% include_relative snippets/act_01.alan %}
+{{< file "snippets/act_01.alan" >}}
 ```
 
 Four sections make a model: `users` (who may use the app — `anonymous` means no sign-in, which Act 6 replaces), `interfaces` (the other systems this application exchanges data with — empty here, and empty is fine), `root` (the data itself), and `numerical-types` (what the numbers mean).
@@ -93,13 +93,13 @@ Everything visible there — the navigation, the list, the detail form, the add 
 Engines. Each one has a thrust and a burn time, and their product is impulse: the quantity that decides whether the flight makes it to the Moon.
 
 ```js
-{% include_relative snippets/engines.alan %}
+{{< file "snippets/engines.alan" >}}
 ```
 
 The numerical types carry the physics:
 
 ```js
-{% include_relative snippets/impulse-numtypes.alan %}
+{{< file "snippets/impulse-numtypes.alan" >}}
 ```
 
 `= 'newton' * 'second'` is a ***product conversion rule***: it states that multiplying newtons by seconds yields newton seconds.
@@ -125,7 +125,7 @@ This is a wrong turn on purpose. Type it if you want to watch it fail — the ne
 In the vehicle, the `Total impulse` line from a moment ago becomes two lines, and the supplier's unit has to be declared like any other:
 
 ```js
-{% include_relative snippets/units-clash.alan %}
+{{< file "snippets/units-clash.alan" >}}
 ```
 
 `Engine impulse` is the total of the engines, as before under a new name; `Total impulse` adds the booster to it.
@@ -156,11 +156,11 @@ The fix is not a comment or a code review: it is one conversion rule, and then a
 That factor is not folklore — one pound-force is 4.448222 newtons by definition — and since Alan stores whole numbers, it is written as an integer with a power of ten.
 
 ```js
-{% include_relative snippets/pound-force-conversion.alan %}
+{{< file "snippets/pound-force-conversion.alan" >}}
 ```
 
 ```js
-{% include_relative snippets/impulse-converted.alan %}
+{{< file "snippets/impulse-converted.alan" >}}
 ```
 
 ![Impulse totalled across three engines and a converted booster](./images/03-impulse.png)
@@ -177,11 +177,11 @@ Payloads are booked onto vehicles.
 A payload refers to its vehicle; the vehicle needs the other direction — everything booked onto it, its total mass, its remaining margin, and whether that margin is gone.
 
 ```js
-{% include_relative snippets/payloads.alan %}
+{{< file "snippets/payloads.alan" >}}
 ```
 
 ```js
-{% include_relative snippets/manifest.alan %}
+{{< file "snippets/manifest.alan" >}}
 ```
 
 Four things happen in those lines.
@@ -217,7 +217,7 @@ A vehicle moves through assembly, the pad, flight, and landing, and it may not s
 In Alan, a process like that is a stategroup whose states carry the operations that leave them:
 
 ```js
-{% include_relative snippets/status.alan %}
+{{< file "snippets/status.alan" >}}
 ```
 
 Read the middle of it: while the vehicle is `On the pad`, `Readiness` is derived — `Hold` when the load is over capacity or the tanks are empty, `Go` otherwise — and the `Launch` command exists **only inside the state `Go`**.
@@ -247,7 +247,7 @@ A recursive computation over that data would never finish.
 Alan's answer is a **graph constraint**. Declare the graph, and the compiler and the runtime take it from there:
 
 ```js
-{% include_relative snippets/parts.alan %}
+{{< file "snippets/parts.alan" >}}
 ```
 
 Three pieces do the work.
@@ -277,11 +277,11 @@ Users first: an application with sign-in has a collection of people and a collec
 `passwords: .'Passwords'` points at the collection holding password data: `password-value` is the property with the hash, `password-status` says which state means the password works and which means it has to be reset, and `password-initializer` states what to create alongside a new password.
 
 ```js
-{% include_relative snippets/crew-users.alan %}
+{{< file "snippets/crew-users.alan" >}}
 ```
 
 ```js
-{% include_relative snippets/crew.alan %}
+{{< file "snippets/crew.alan" >}}
 ```
 
 > **Two files outside the model have to change with it.** Sign-in is not the model's business alone: the client decides whether visitors are allowed, and the session manager decides how people log in.
@@ -304,7 +304,7 @@ The second one nothing asks for. With `password-authentication` left `disabled`,
 Then three lines of authorization:
 
 ```js
-{% include_relative snippets/permissions.alan %}
+{{< file "snippets/permissions.alan" >}}
 ```
 
 `can-read: user` at the root: everyone who is signed in may read.
@@ -335,7 +335,7 @@ An auth middleware, a permission table, role checks spread through controllers a
 The freighters have a destination now, so the model needs a landing site — while the application is running, with data in it.
 
 ```js
-{% include_relative snippets/landing-site.alan %}
+{{< file "snippets/landing-site.alan" >}}
 ```
 
 Deploy with the **migrate** option instead of **empty**.
@@ -361,7 +361,7 @@ No `ALTER TABLE` script, no backfill query, no rollback plan — and no deployme
 This is the application, complete — users, authorization, physics, a manifest that maintains itself, a launch procedure that cannot be skipped, and an assembly graph that cannot loop:
 
 ```js
-{% include_relative snippets/mission-control.alan %}
+{{< file "snippets/mission-control.alan" >}}
 ```
 
 Two settings outside the model go with it, both from Act 6: `anonymous login: disabled` in `systems/client/settings.alan`, and `password-authentication: enabled` in `systems/sessions/config.alan`. Without the second one the app deploys and shows a login page that cannot accept a password.

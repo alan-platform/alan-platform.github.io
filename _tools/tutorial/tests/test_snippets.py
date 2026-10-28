@@ -55,7 +55,7 @@ class ExtractTests(unittest.TestCase):
             v = root / "pages/tutorials/model/v"; (v/"models/step_01").mkdir(parents=True); (v/"snippets").mkdir()
             (v/"models/step_01/application.alan").write_text("//@ begin one\nx\n//@ end one\n")
             (v/"snippets/one.alan").write_text("x")
-            (v/"page.md").write_text("<tutorial folder: x/step_01/>\n```js\n{% include_relative snippets/one.alan %}\n```\n")
+            (v/"page.md").write_text("<tutorial folder: x/step_01/>\n```js\n{{< file \"snippets/one.alan\" >}}\n```\n")
             errors, warnings = snippets.verify("v", platform=None, no_compile=True)
             self.assertEqual((errors, warnings), (0, 0))
         finally: snippets.ROOT = old

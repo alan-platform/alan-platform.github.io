@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 NAME = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]*$")
-INCLUDE = re.compile(r"^\{% include_relative snippets/([A-Za-z0-9][A-Za-z0-9_-]*)\.alan %\}$")
+INCLUDE = re.compile(r'^\{\{< file "snippets/([A-Za-z0-9][A-Za-z0-9_-]*)\.alan" >\}\}$')
 FOLDER = re.compile(r"<tutorial folder: .*?/((?:step|act)_[0-9]+[a-z]?)/>")
 DIAG_LINE = re.compile(r"^.+:(\d+):(\d+)(?: to \d+:\d+)?: (?:error|warning):")
 DIAG_LOC = re.compile(r"^(.+?):(\d+):(\d+)(?: to \d+:\d+)?: (?:error|warning):")
@@ -220,7 +220,7 @@ def audit_docs(vdir, generated):
                 inc = lines[n].strip() if n < len(lines) else ""
                 close = lines[n + 1].rstrip() if n + 1 < len(lines) else ""
                 m = INCLUDE.fullmatch(inc)
-                if not m or close != "```": print(diag(md, n, "```js fence must contain exactly one include_relative of snippets/<name>.alan")); errors += 1
+                if not m or close != "```": print(diag(md, n, '```js fence must contain exactly one {{< file "snippets/<name>.alan" >}}')); errors += 1
                 else:
                     name = m.group(1); refs.add(name)
                     if name not in generated: print(diag(md, n + 1, f"unknown snippet '{name}'")); errors += 1

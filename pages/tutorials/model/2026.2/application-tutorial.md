@@ -74,7 +74,7 @@ This menu holds five kinds of data:
 
 A first model of such a menu looks like this:
 ```js
-{% include_relative snippets/menu.alan %}
+{{< file "snippets/menu.alan" >}}
 ```
 
 This small, unfinished model says that a `Menu` is a **collection**: a collection of menu items.
@@ -100,7 +100,7 @@ The keywords `text` and `number` express the **types** of those attributes: an a
 To turn the `Menu` model into an app, put it inside a complete model.
 Open `models/model/application.alan` and write down the sections that every `application` model has, if they are not already there:
 ```js
-{% include_relative snippets/minimal-model.alan %}
+{{< file "snippets/minimal-model.alan" >}}
 ```
 
 This is the ***minimal model***: the smallest model the Alan platform accepts.
@@ -121,7 +121,7 @@ The `Selling price` of a menu item is in `'euro'`, so add `'euro'` there.
 
 The model now looks like this:
 ```js
-{% include_relative snippets/step_01.alan %}
+{{< file "snippets/step_01.alan" >}}
 ```
 
 One rule while typing Alan code: separate keywords with **whitespace**.
@@ -182,7 +182,7 @@ To keep the cents, pick a numerical type with the accuracy you need, and tell th
 
 Change `euro` at the `Selling price` to `eurocent`, and make the `numerical-types` section look like this:
 ```js
-{% include_relative snippets/numerical-types.alan %}
+{{< file "snippets/numerical-types.alan" >}}
 ```
 
 The `@numerical-type:` part is a GUI annotation: an instruction for the graphical user interface of the app.
@@ -196,7 +196,7 @@ A menu item carries more information than a name and a price.
 A first example: an item is either a dish or a beverage.
 Add an `Item type` for that:
 ```js
-{% include_relative snippets/stategroups1.alan %}
+{{< file "snippets/stategroups1.alan" >}}
 ```
 `Item type` is a **stategroup** attribute: it holds a choice between states, here `Dish` or `Beverage`.
 Each state has its own curly braces, and attributes inside those braces belong to that state alone.
@@ -205,7 +205,7 @@ The data stored therefore depends on the state a user chooses.
 A dish, for instance, is an appetizer, a main course, or a dessert — another choice.
 Add a `Dish type` stategroup inside the state `Dish`, and something similar for `Beverage`:
 ```js
-{% include_relative snippets/stategroups2.alan %}
+{{< file "snippets/stategroups2.alan" >}}
 ```
 
 An `application` model is hierarchical, and so is the data it describes.
@@ -233,12 +233,12 @@ Add an item yourself, and the new stategroup attributes appear as radio buttons:
 A restaurant is more than a menu; it also has tables.
 Express that in the model:
 ```js
-{% include_relative snippets/builtins1.alan %}
+{{< file "snippets/builtins1.alan" >}}
 ```
 
 The numerical types `chairs` and `units` are new to the model, so add them as well:
 ```js
-{% include_relative snippets/builtins2.alan %}
+{{< file "snippets/builtins2.alan" >}}
 ```
 
 Deploy, and click `Tables` in the left column.
@@ -274,7 +274,7 @@ The application language has six built-in attribute types.
 ## References
 One line in the model deserves attention:
 ```js
-{% include_relative snippets/reference-item.alan %}
+{{< file "snippets/reference-item.alan" >}}
 ```
 It says that the `Item` of an order line refers to a menu item.
 See first what that means in the app.
@@ -311,7 +311,7 @@ The expression ends with `.'Menu'[]`, which means: look up the value of `Item` i
 
 To see where a series of `^` leads, count the opening curly braces (`{`) above the expression: each brace corresponds to one node, and each `^` to one step up:
 ```js
-{% include_relative snippets/parent-steps.alan %}
+{{< file "snippets/parent-steps.alan" >}}
 ```
 
 > **In summary**: `Item` is a text value that references a menu item, so its value has to equal the `Item name` of an existing menu item.
@@ -334,7 +334,7 @@ A fixed set of beverage types turns out to be impractical: bartenders keep inven
 Replace the fixed states by a collection of beverage types.
 Remove the states of the `Beverage type` attribute, add a collection `Beverage types`, and let the state `Beverage` reference an item from it:
 ```js
-{% include_relative snippets/states-vs-refs.alan %}
+{{< file "snippets/states-vs-refs.alan" >}}
 ```
 
 Note that `Beverage types` goes *above* the `Menu`.

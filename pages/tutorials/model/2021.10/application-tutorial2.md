@@ -29,12 +29,12 @@ For that, we add an `Order type`.
 
 So, we rewrite this piece of code:
 ```js
-{% include_relative files_application-tutorial2/take-away1/application.alan %}
+{{< file "files_application-tutorial2/take-away1/application.alan" >}}
 ```
 
 to this:
 ```js
-{% include_relative files_application-tutorial2/take-away2/application.alan %}
+{{< file "files_application-tutorial2/take-away2/application.alan" >}}
 ```
 
 What changed?
@@ -50,7 +50,7 @@ Our customers have to pay us, and for that we need to compute the cost of their 
 Let's start with a `Line total`: the cost of a single `Order line`.
 The `Line total` of an `Order line` is a derived value, computed from the (base values) `Selling price` and the `Amount`:
 ```js
-{% include_relative files_application-tutorial2/derived-values/application.alan %}
+{{< file "files_application-tutorial2/derived-values/application.alan" >}}
 ```
 After `eurocent` for the `Line total` we have have written a formula for deriving the `Line total` of an `Order line`.
 The formula (derivation expression) expresses that the `Line total` is computed by multiplying (taking the `product` of) the `Selling price` and `Amount`.
@@ -63,7 +63,7 @@ After `Selling price`, there is some special code: `as 'eurocent'`.
 To explain what this means and for the health of our model we need to add this line:
 `= 'eurocent' * 'units'` below `euro` so our `numerical-types` section now looks like this:
 ```js
-{% include_relative files_application-tutorial2/derived-values-numtypes/application.alan %}
+{{< file "files_application-tutorial2/derived-values-numtypes/application.alan" >}}
 ```
 The `as` keyword is followed by a ***product conversion rule***.
 Such a rule describes how `numerical-types` of the two properties are multiplied, like `euro` and `unit`.
@@ -75,7 +75,7 @@ For a `division` the `as` keyword is followed by a ***division conversion rule**
 
 For converting number values with a constant factor, you can use the `from` keyword followed by the name of a ***singular conversion rule***, like `'diameter'`:
 ```js
-{% include_relative files_application-tutorial2/derived-values-pi/application.alan %}
+{{< file "files_application-tutorial2/derived-values-pi/application.alan" >}}
 ```
 In the example, `diameter` refers to the *singular conversion rule* on the last line.
 
@@ -100,7 +100,7 @@ Can you determine where the line needs to go? Spoiler alert: answer ahead...
 
 So now our whole model looks like this:
 ```js
-{% include_relative files_application-tutorial2/step_04a/application.alan %}
+{{< file "files_application-tutorial2/step_04a/application.alan" >}}
 ```
 
 And at runtime (in your app) it looks like this:
@@ -149,7 +149,7 @@ When rebuilding the app, you'll get some **errors** saying the compiler can't fi
 Correct the errors according to the changes made, by adding missing navigation steps such as `.'Management'`.
 
 ```js
-{% include_relative files_application-tutorial2/management/application.alan %}
+{{< file "files_application-tutorial2/management/application.alan" >}}
 ```
 
 The `VAT percentage` will be used for computing the value added tax (VAT).
@@ -172,7 +172,7 @@ The actual `Total` cost will depend on a discount when applicable.
 Now, let's add a stategroup `Discount applicable` to `Orders`.
 Note that we also need to update the `numerical-types` section with the new numerical type `fraction`, a corresponding product conversion rule, and a singular conversion rule `percent`:
 ```js
-{% include_relative files_application-tutorial2/discount-applicable/application.alan %}
+{{< file "files_application-tutorial2/discount-applicable/application.alan" >}}
 ```
 
 With this model extension, you can apply a discount by selecting a `Discount period` from the previously added collection `Discount periods`.
@@ -209,7 +209,7 @@ To do this we need to know the `Total` cost and take a percentage of it.
 But, the actual `Total` cost of an `Orders` item depends on whether a discount was applied or not.
 For that purpose, we use a `switch` statement for switching on the state of a stategroup attribute, after which we can compute the `VAT` from the `Total` of the order:
 ```js
-{% include_relative files_application-tutorial2/vat/application.alan %}
+{{< file "files_application-tutorial2/vat/application.alan" >}}
 ```
 
 For computing the `Total`, we `switch` on the state of `Discount applicable`.
@@ -266,11 +266,11 @@ You can turn unidirectional references into bidirectional references with a **re
 A *reference set* holds inverse references, which are identical to the usages that we just saw.
 Let's add that reference set, and some derivations that use it:
 ```js
-{% include_relative files_application-tutorial2/refsets1/application.alan %}
+{{< file "files_application-tutorial2/refsets1/application.alan" >}}
 ```
 Also, add `-<'Orders'` at the `Table` reference below `'In-house'` in your model.
 ```js
-{% include_relative files_application-tutorial2/refsets2/application.alan %}
+{{< file "files_application-tutorial2/refsets2/application.alan" >}}
 ```
 
 Now, build it and take a look at the app.
@@ -358,7 +358,7 @@ Which of the two you should choose depends entirely on your use case, as illustr
 
 Now let's look at our implementation of `Place new order` for the third party app:
 ```js
-{% include_relative files_application-tutorial2/commands1/application.alan %}
+{{< file "files_application-tutorial2/commands1/application.alan" >}}
 ```
 
 That's a lot to take in!
@@ -386,7 +386,7 @@ Let's take a closer look at our code for the command.
 The first part of the command looks a lot like a data model.
 And that is what it is: for expressing the required parameters (fields) for a command, we define a small data model:
 ```js
-{% include_relative files_application-tutorial2/commands2/application.alan %}
+{{< file "files_application-tutorial2/commands2/application.alan" >}}
 ```
 
 In this small data model inside our main model, we can express references to the main model, like `-> .'Tables'[]`.
@@ -396,7 +396,7 @@ If instead we have a command called `Remove order line` for `Orders`, we will ge
 When picking a `Line` from the `Order lines`, we can choose from the lines from the open `Orders` item.
 Navigation expressions are evaluated with respect to the `Orders` item for which we click the command button, called the **'this'**-node.
 ```js
-{% include_relative files_application-tutorial2/commands3/application.alan %}
+{{< file "files_application-tutorial2/commands3/application.alan" >}}
 ```
 
 If needed, you can also express references inside the small data model by starting the reference with the special keyword **`@`**.
@@ -424,7 +424,7 @@ The `ensure` operation does not fail. It creates the node, or otherwise overwrit
 
 The part between the parentheses of keyword `create` reads:
 ```js
-{% include_relative files_application-tutorial2/commands4/application.alan %}
+{{< file "files_application-tutorial2/commands4/application.alan" >}}
 ```
 This part expresses how the new order is constructed from the command parameters.
 For example, the attribute `Order` will hold whatever the external app provides for `Provide an order number`.

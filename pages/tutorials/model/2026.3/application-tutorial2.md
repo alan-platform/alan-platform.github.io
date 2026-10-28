@@ -28,12 +28,12 @@ An order does need to record whether it is a `Takeaway` order or an `In-house` o
 
 So this part of the model:
 ```js
-{% include_relative snippets/take-away1.alan %}
+{{< file "snippets/take-away1.alan" >}}
 ```
 
 becomes this:
 ```js
-{% include_relative snippets/take-away2.alan %}
+{{< file "snippets/take-away2.alan" >}}
 ```
 
 Four things changed:
@@ -47,7 +47,7 @@ Customers have to pay, so the app has to compute what an order costs.
 Start with the `Line total`: the cost of a single order line.
 A `Line total` is a **derived value**: it is not entered by a user, but computed from the `Amount` and the `Selling price`:
 ```js
-{% include_relative snippets/derived-values.alan %}
+{{< file "snippets/derived-values.alan" >}}
 ```
 A derived value is written as `= <expression>` behind its type: `Line total` is a `number 'eurocent'`, and the expression behind it says how that number comes about — the `product` of the `Amount` and the `Selling price`.
 
@@ -58,7 +58,7 @@ Multiplying an amount by a price multiplies their units as well: `units` times `
 Alan does not assume such a rule; the model states it.
 Add it under `'eurocent'` in the `numerical-types` section, which then reads:
 ```js
-{% include_relative snippets/derived-values-numtypes.alan %}
+{{< file "snippets/derived-values-numtypes.alan" >}}
 ```
 `= 'units' * 'eurocent'` is a ***product conversion rule***, and it is declared under the numerical type of the *result*.
 Its general form is `= 'num-type1' * 'num-type2'`.
@@ -70,7 +70,7 @@ A `division` works the same way, with a ***division conversion rule*** that uses
 A conversion by a constant factor is a ***singular conversion rule***.
 The rule is declared under the resulting type, and the expression names the type it starts from with `from`:
 ```js
-{% include_relative snippets/derived-values-pi.alan %}
+{{< file "snippets/derived-values-pi.alan" >}}
 ```
 Here, `circum` is derived from `diameter` by the factor on the last line — pi, written as an integer with a power of ten, because Alan stores whole numbers.
 
@@ -80,7 +80,7 @@ Conversion rules keep the numerical types of derived values correct, and make co
 
 The order needs a total as well:
 ```js
-{% include_relative snippets/total.alan %}
+{{< file "snippets/total.alan" >}}
 ```
 
 `Total` is the sum of the `Line total` of all order lines.
@@ -92,7 +92,7 @@ Where does this line belong in the model? Think about it before you read on — 
 
 The whole model now looks like this:
 ```js
-{% include_relative snippets/step_04a.alan %}
+{{< file "snippets/step_04a.alan" >}}
 ```
 
 And in the app:
@@ -101,7 +101,7 @@ And in the app:
 Operations such as `sum` work on a set of values and on a list of values, and both go between the same parentheses.
 To sum separate values, list them there, separated by commas, as with `product`:
 ```js
-{% include_relative snippets/sum-list.alan %}
+{{< file "snippets/sum-list.alan" >}}
 ```
 
 The [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html#derived-numbers) lists all operations for deriving numbers:
@@ -137,7 +137,7 @@ Put a group `Management` at the top of the model.
 It holds a new collection `Discount periods`, a `VAT percentage`, and the existing collections `Beverage types` and `Tables`:
 
 ```js
-{% include_relative snippets/management.alan %}
+{{< file "snippets/management.alan" >}}
 ```
 
 Rebuilding now produces **errors**: expressions elsewhere in the model still navigate to the old locations, and the compiler cannot find those attributes any more.
@@ -146,14 +146,14 @@ This is normal Alan work — the compiler points at every place that a structura
 
 The `VAT percentage` is used to compute value added tax, and needs a numerical type of its own:
 ```js
-{% include_relative snippets/percent.alan %}
+{{< file "snippets/percent.alan" >}}
 ```
 
 The `Discount periods` hold discounts for different periods, where the discount depends on the amount spent.
 
 Rename the `Total` of an order to `Subtotal`, since the actual total will depend on a discount:
 ```js
-{% include_relative snippets/subtotal.alan %}
+{{< file "snippets/subtotal.alan" >}}
 ```
 
 > <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_05/`>
@@ -162,7 +162,7 @@ Rename the `Total` of an order to `Subtotal`, since the actual total will depend
 Add a stategroup `Discount applicable` to `Orders`.
 The `numerical-types` section needs the new numerical type `fraction`, a product conversion rule for it, and a singular conversion rule `percent`:
 ```js
-{% include_relative snippets/discount-applicable.alan %}
+{{< file "snippets/discount-applicable.alan" >}}
 ```
 
 With this extension, a discount applies when a user selects a `Discount period` from the collection added earlier.
@@ -194,7 +194,7 @@ An order with a subtotal of €40.20 gets 3% discount, because it exceeds the �
 Next, compute the tax (`VAT`), which is a percentage of the total.
 The total depends on whether a discount applied, so the expression has to `switch` on the state of `Discount applicable` before it can use the total:
 ```js
-{% include_relative snippets/vat.alan %}
+{{< file "snippets/vat.alan" >}}
 ```
 
 In the case of state `Yes`, the expression uses `as $'discount'`.
@@ -235,7 +235,7 @@ Usages are a debugging aid.
 To show inverse references among the properties of a table, and to compute with them, the model needs a **reference set**: an attribute that holds all orders whose `Table` reference points to this table.
 Add the reference set and two derivations that use it:
 ```js
-{% include_relative snippets/refsets1.alan %}
+{{< file "snippets/refsets1.alan" >}}
 ```
 
 Build, deploy, and open the table you used earlier ('T03' in this example):
@@ -279,7 +279,7 @@ Which one fits depends on the use case, as described above.
 
 Here is the implementation of `Place new order`:
 ```js
-{% include_relative snippets/commands1.alan %}
+{{< file "snippets/commands1.alan" >}}
 ```
 
 That is a lot at once, so look at the result first.
@@ -304,7 +304,7 @@ The answer 'At the restaurant' to the question 'Where is the meal consumed?' bec
 Now to the code.
 The first part of a command looks like a data model, and that is what it is: the parameters of a command are described by a small data model of their own:
 ```js
-{% include_relative snippets/commands2.alan %}
+{{< file "snippets/commands2.alan" >}}
 ```
 
 Inside these command parameters, references to the main model are expressed as usual, for example `-> ^ ^ .'Management'.'Tables'[]`.
@@ -313,7 +313,7 @@ Navigation inside the parameter node works exactly as it does anywhere else in t
 A command on a collection has access to that collection.
 A command `Remove order line` on `Orders`, for example, gives every order a button, and its `Line` parameter can only refer to the order lines of the order it is called on:
 ```js
-{% include_relative snippets/commands3.alan %}
+{{< file "snippets/commands3.alan" >}}
 ```
 
 The parameter node is named with `as $'param'`, which makes the properties inside the parameter node available as `$'param'.'...'` in the rest of the command.
@@ -331,7 +331,7 @@ The implementation ends with `... = create ( ... )`: the update *is* (`=`) the c
 
 Between the parentheses of `create` stands how the new order is built from the parameters:
 ```js
-{% include_relative snippets/commands4.alan %}
+{{< file "snippets/commands4.alan" >}}
 ```
 The attribute `Order`, for instance, takes whatever the caller provided for `Provide an order number`.
 The named object `$'param'` refers to the parameter node — the data that conforms to the small model above — and is used for each value taken from it.

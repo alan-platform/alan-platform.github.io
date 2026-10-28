@@ -1,0 +1,25 @@
+{{- /*
+  Contents of a file next to the page, HTML-escaped once: {{< file "snippets/NAME.alan" >}}.
+
+  The path is relative to the directory of the page's source file. Hugo puts the output of a {{< >}} shortcode into
+  the rendered HTML after Markdown rendering, also when the shortcode stands alone in a fenced code block, so the
+  escaping has to happen here and a code block render hook must not escape this output again (it escapes the
+  placeholder Hugo leaves in the block, which is plain letters, so nothing is escaped twice).
+
+  The file is read as is: generated snippets carry no trailing newline and the shortcode adds none.
+*/ -}}
+{{- $name := .Get 0 -}}
+{{- $page := .Page -}}
+{{- if not $name -}}
+  {{- errorf "file shortcode: no path given in %s" $page.File.Path -}}
+{{- end -}}
+{{- /*
+  hugo.toml mounts the files beside the pages as assets under payload/, at the paths they have in the repository.
+  Read as an asset, the file is a dependency of the page: hugo server renders the page again when the file changes.
+*/ -}}
+{{- $asset := path.Join "payload" $page.File.Dir $name -}}
+{{- with resources.Get $asset -}}
+  {{- .Content | transform.HTMLEscape | safeHTML -}}
+{{- else -}}
+  {{- errorf "file shortcode: %s does not exist (included from %s)" $asset $page.File.Path -}}
+{{- end -}}

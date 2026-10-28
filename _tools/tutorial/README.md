@@ -19,7 +19,8 @@ Markers live in `models/*/application.alan`:
 
 Regions may nest, overlap, and repeat. Hidden sections become one indented `...`.
 Generated snippets have no trailing newline and markdown fences include them with
-`{% include_relative snippets/NAME.alan %}`.
+`{{< file "snippets/NAME.alan" >}}`, the `file` shortcode of the site (`layouts/shortcodes/file.html`), which reads
+the file relative to the page and escapes it.
 
 `fetch-toolchain.sh VERSION` obtains a compatible devenv. `upgrade-model.sh` transforms one model dir,
 `upgrade-migration.sh` converts one online-ide step migration (legacy layout), `upgrade-migration-project.sh`

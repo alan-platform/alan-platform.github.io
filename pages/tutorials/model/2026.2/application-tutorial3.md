@@ -35,14 +35,14 @@ In [Conditional expressions](/pages/tutorials/model/{{ page.platform_version }}/
 Both visually and model-wise, `Total` belongs to the order itself.
 Move it out, so that the tail of the `Orders` collection reads:
 ```js
-{% include_relative snippets/orders-tail.alan %}
+{{< file "snippets/orders-tail.alan" >}}
 ```
 `Total` now switches on the state of `Discount applicable`, and `VAT` simply uses `Total`.
 
 The restaurant processes need two more stategroups: `Line status` on `Order lines`, and `Order status` on `Orders`.
 The head of the `Orders` collection becomes:
 ```js
-{% include_relative snippets/orders-head.alan %}
+{{< file "snippets/orders-head.alan" >}}
 ```
 
 Customers change their mind while ordering, so order lines should not go to the kitchen one by one; they are placed together once everybody has decided.
@@ -56,7 +56,7 @@ Customers change their mind while ordering, so order lines should not go to the 
 
 The command `Place new order` has to set these states for the order and its lines:
 ```js
-{% include_relative snippets/place-new-order-statuses.alan %}
+{{< file "snippets/place-new-order-statuses.alan" >}}
 ```
 Apart from `Apply discount?`, the command needs no new parameters: the states `Placed` and `Open` follow from the purpose of the command itself, so they are created without asking the user anything.
 
@@ -64,7 +64,7 @@ Apart from `Apply discount?`, the command needs no new parameters: the states `P
 
 Add `@default: auto-increment` to the key attributes of `Orders` and `Order lines`:
 ```js
-{% include_relative snippets/auto-increment.alan %}
+{{< file "snippets/auto-increment.alan" >}}
 ```
 This is a ***GUI annotation***: an instruction to the generated user interface, always written with an ***@*** prefix.
 This one fills in the next free number when a user adds an order or an order line, which saves typing for the rest of the tutorial.
@@ -85,7 +85,7 @@ A line should never skip a step — a dish cannot be served before it is prepare
 
 A stategroup whose states change one step at a time is a **state machine**, and commands are what move it forward:
 ```js
-{% include_relative snippets/line-status-commands.alan %}
+{{< file "snippets/line-status-commands.alan" >}}
 ```
 Each state gets a command that moves it to the next one.
 These commands take no parameters, because they need no input: the current state determines what happens.
@@ -101,7 +101,7 @@ The [Users & Authentication guide](/pages/tutorials/model/{{ page.platform_versi
 
 Clicking every line separately is tedious, so add a command that places all lines of an order that are still `On hold`:
 ```js
-{% include_relative snippets/place-order-lines.alan %}
+{{< file "snippets/place-order-lines.alan" >}}
 ```
 
 This command goes below `Order lines`, inside `Orders`.
@@ -117,7 +117,7 @@ Click the button and refresh the order lines. Only the lines that were `On hold`
 The last part of the process: when the customer leaves, all lines have to be served and the bill has to be paid before the order can be closed.
 Add these lines to the state `Open` of `Order status`:
 ```js
-{% include_relative snippets/order-status-all-served.alan %}
+{{< file "snippets/order-status-all-served.alan" >}}
 ```
 
 How does the model determine that *all* lines are served, without knowing how many lines an order has?
@@ -145,7 +145,7 @@ Add that information in two steps, starting from the overview of `Order lines` w
 
 First, a `Priority` in the state `Service` of `Line status`:
 ```js
-{% include_relative snippets/service-priority.alan %}
+{{< file "snippets/service-priority.alan" >}}
 ```
 This resembles the derivation of `All served` in the previous topic, except that it switches on the state of a stategroup instead of on the existence of nodes.
 To keep the model simple: desserts get a low priority (mostly cold), appetizers a medium one, and main courses a high one (mostly warm food that should not wait).
@@ -155,7 +155,7 @@ The result is an extra column:
 Second, the table to serve to — but only for `In-house` orders, and only when the line is ready for service.
 That means looking at the states of two stategroups at once, `Order type` and `Line status`:
 ```js
-{% include_relative snippets/to-serve-v1.alan %}
+{{< file "snippets/to-serve-v1.alan" >}}
 ```
 This shows the table when `To serve` is `Yes`:
 ![To serve table](./images_model/032.png)
@@ -176,7 +176,7 @@ The model this produces is not clean — the priority ends up in the table twice
 The priority lives on the node of state `Service` of `Line status`, so that node has to be reachable.
 Store it as `$'service'` in the state switch of `To serve`:
 ```js
-{% include_relative snippets/to-serve-scope-error.alan %}
+{{< file "snippets/to-serve-scope-error.alan" >}}
 ```
 Building this model fails: the compiler cannot find the named object `in-house`.
 `$'service'` was stored one level below `$'in-house'`, and at that level only the nearest named object is visible.
@@ -186,18 +186,18 @@ Their names, by the way, exist for the reader only; the compiler is just as happ
 
 With that step added, the model builds:
 ```js
-{% include_relative snippets/to-serve-unused.alan %}
+{{< file "snippets/to-serve-unused.alan" >}}
 ```
 It builds, but `$'service'` is not used yet, so put it to work:
 ```js
-{% include_relative snippets/to-serve-where.alan %}
+{{< file "snippets/to-serve-where.alan" >}}
 ```
 The keyword `where` declares a ***reference rule***: it narrows down what a reference may point at.
 Here it further constrains the state `Yes`, which now holds a reference to a node of state `Service`.
 
 Zooming out on the structure:
 ```js
-{% include_relative snippets/to-serve-structure.alan %}
+{{< file "snippets/to-serve-structure.alan" >}}
 ```
 It contains:
 - a state derivation inside a state derivation (two nested `switch`es),
@@ -206,13 +206,13 @@ It contains:
 
 The node of state `Service` is now available inside the state `Yes`, so `Priority` can be derived from the `Priority` of that node:
 ```js
-{% include_relative snippets/to-serve-yes-priority.alan %}
+{{< file "snippets/to-serve-yes-priority.alan" >}}
 ```
 A reference rule is addressed with the ***&-symbol***: `.&'Service' .'Priority'` reads the stategroup `Priority` of the node reached through the `Service` rule, and the rest is an ordinary state derivation.
 
 Why the `&`? Reference rules are more often used on a text property, as in this example:
 ```js
-{% include_relative snippets/where-car.alan %}
+{{< file "snippets/where-car.alan" >}}
 ```
 The property `Car` has a reference rule `fast` — a `Car` can only be an electric vehicle that is also `Fast` — and `Top speed` is derived through that rule, written as `.'property'&'where'`: first the property, then the rule.
 A state is not a property and has no property name to put in front, so for a state the notation shortens to `.&'where'`.
@@ -230,15 +230,15 @@ It is where ingredients become dishes: basic ingredients have to be in stock, an
 
 Start with a group `Kitchen` between `Management` and `Service`, a collection `Products`, and a stategroup that says whether a product is a basic ingredient or a composed product such as a dish:
 ```js
-{% include_relative snippets/kitchen-v1.alan %}
+{{< file "snippets/kitchen-v1.alan" >}}
 ```
 For a basic ingredient, the purchase price is registered together with the amount it was bought for — 1000 grams of potatoes for 5 euro, for instance:
 ```js
-{% include_relative snippets/basic-ingredient.alan %}
+{{< file "snippets/basic-ingredient.alan" >}}
 ```
 That needs a new numerical type, `thousandth eurocent`:
 ```js
-{% include_relative snippets/thousandth-eurocent.alan %}
+{{< file "snippets/thousandth-eurocent.alan" >}}
 ```
 A number such as 500000 is then shown as "Euro 5.00000".
 Dividing that by the 1000 grams bought gives "Euro 0.00500" per gram, which stays accurate enough for the calculations that follow.
@@ -256,7 +256,7 @@ All of them are nodes of the same collection `Products`:
 A composed product should have a cost price: the prices of its ingredients, in proportion to the amounts used.
 First express that composed products consist of products from the same collection:
 ```js
-{% include_relative snippets/composed-product-selfref.alan %}
+{{< file "snippets/composed-product-selfref.alan" >}}
 ```
 Building this model produces an error:
 >'property' `Products` is a self-reference, but a reference to a sibling is required.
@@ -265,7 +265,7 @@ A self-reference is exactly the intention, but the compiler wants it stated as a
 All nodes of one collection are siblings: they live at the same level.
 Referring from one node to another node of the same collection uses the keyword `sibling`:
 ```js
-{% include_relative snippets/composed-product-sibling.alan %}
+{{< file "snippets/composed-product-sibling.alan" >}}
 ```
 Note that this navigation goes up two levels instead of three.
 A sibling reference points at the level of the collection's key, not at the level of the collection itself.
@@ -273,12 +273,12 @@ A sibling reference points at the level of the collection's key, not at the leve
 Next, the price — first without amounts, to keep the steps small.
 The group `Kitchen` so far, including the cost price computations:
 ```js
-{% include_relative snippets/kitchen-cost-price.alan %}
+{{< file "snippets/kitchen-cost-price.alan" >}}
 ```
 
 The price of an ingredient is the cost price of the product it refers to, so `'Price' ... = ... >'Product' .'Cost price'` points here:
 ```js
-{% include_relative snippets/kitchen-cost-price-pointers.alan %}
+{{< file "snippets/kitchen-cost-price-pointers.alan" >}}
 ```
 
 And the cost price of a product depends on its state: a basic ingredient uses its `Purchase price`, a composed product sums the prices of its ingredients with `sum $'composed' .'Ingredients'* .'Price'`.
@@ -301,7 +301,7 @@ Building the model produces a second error:
 
 pointing at `Cost price` in this line:
 ```js
-{% include_relative snippets/price-sibling-error.alan %}
+{{< file "snippets/price-sibling-error.alan" >}}
 ```
 
 The keyword `sibling` in `'Product': text -> ^ ^ sibling` solved one problem — a user can now say that potato mash consists of potato, milk and butter — and created another: nothing stops a user from saying that potato mash consists of potato, and potato of potato mash, or even that potato mash consists of potato mash.
@@ -323,11 +323,11 @@ A computer has no concept of potatoes, grapefruit or chicken soup; it only knows
 
 The `Products` collection needs an acyclic-graph constraint:
 ```js
-{% include_relative snippets/products-acyclic.alan %}
+{{< file "snippets/products-acyclic.alan" >}}
 ```
 The sibling reference has to become part of that graph, `Assembly`:
 ```js
-{% include_relative snippets/product-in-assembly.alan %}
+{{< file "snippets/product-in-assembly.alan" >}}
 ```
 The graph `Assembly` records the edges between the products and keeps them acyclic.
 In the app, a user can no longer select a product that would close a cycle: the app either leaves it out of the list or refuses to save.
@@ -335,11 +335,11 @@ In the app, a user can no longer select a product that would close a cycle: the 
 Finally, the derivations have to state which graph they follow, so that the platform knows the computation terminates.
 The keyword `recurse` does that:
 ```js
-{% include_relative snippets/price-in-assembly.alan %}
+{{< file "snippets/price-in-assembly.alan" >}}
 ```
 and:
 ```js
-{% include_relative snippets/cost-price-in-assembly.alan %}
+{{< file "snippets/cost-price-in-assembly.alan" >}}
 ```
 
 The app now shows the products:
@@ -353,12 +353,12 @@ The price is not right yet: it ignores the amounts.
 The price of an ingredient should be the price of the amount used in the composed product.
 Change the computation of `Price` and add a `Price per unit` in the collection `Ingredients`:
 ```js
-{% include_relative snippets/ingredients-price-per-unit.alan %}
+{{< file "snippets/ingredients-price-per-unit.alan" >}}
 ```
 `Price per unit` refers to the `Amount` of a product, which still has to be added.
 Its derivation has the same shape as the one for `Cost price`:
 ```js
-{% include_relative snippets/products-amount.alan %}
+{{< file "snippets/products-amount.alan" >}}
 ```
 `Price per unit` is the cost price of a product divided by the amount it was bought for.
 `Price` is that price per unit multiplied by the amount the recipe uses.
@@ -369,7 +369,7 @@ Deriving the amount of a composed product from its ingredients would require the
 
 The numerical type `thousandth eurocent` needs a product and a division conversion rule, in that order:
 ```js
-{% include_relative snippets/thousandth-eurocent-conversions.alan %}
+{{< file "snippets/thousandth-eurocent-conversions.alan" >}}
 ```
 
 Potato mash is cheaper now, because its ingredients are counted per unit:
@@ -378,12 +378,12 @@ Potato mash is cheaper now, because its ingredients are counted per unit:
 One more addition closes the circle between the kitchen and the menu.
 A stategroup `To be put on menu` in `Products` records which products a customer can order:
 ```js
-{% include_relative snippets/to-be-put-on-menu.alan %}
+{{< file "snippets/to-be-put-on-menu.alan" >}}
 ```
 
 The key `Item name` of the `Menu` can then refer to `Products`, restricted to products whose `To be put on menu` is `Yes`:
 ```js
-{% include_relative snippets/menu-item-name-where.alan %}
+{{< file "snippets/menu-item-name-where.alan" >}}
 ```
 <sup>(NOTE: `as $` is implicit after the reference constraint in the first line.)</sup>
 

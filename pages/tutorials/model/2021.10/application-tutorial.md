@@ -93,7 +93,7 @@ Let's make an app from the `Menu` model.
 For that we need the following code in our `./models/model/application.alan` file.
 Let's open it up, and put down the following code that describes the main sections of an `application` model:
 ```js
-{% include_relative files_application-tutorial/minimal_model/application.alan %}
+{{< file "files_application-tutorial/minimal_model/application.alan" >}}
 ```
 
 This is the ***minimal model*** that is needed for every application that you build on the Alan platform.
@@ -114,7 +114,7 @@ We use `'euro'` as the unit for the `Selling price` of a `Menu` item, so let's a
 
 Our model should now look like this:
 ```js
-{% include_relative files_application-tutorial/step_01/application.alan %}
+{{< file "files_application-tutorial/step_01/application.alan" >}}
 ```
 
 By the way, when you type Alan code, make sure to use **whitespace between keywords**, and **tabs for indentation**!
@@ -167,7 +167,7 @@ Then you can tweak the GUI such that decimals work as well.
 
 Go back to your model, change `euro` at the `Selling price` to `eurocent`, and make sure your `numerical-types` section looks like this:
 ```js
-{% include_relative files_application-tutorial/numerical-types/application.alan %}
+{{< file "files_application-tutorial/numerical-types/application.alan" >}}
 ```
 
 The `@numerical-type:` part is a GUI annotation; an instruction for the graphical user interface of your app.
@@ -182,7 +182,7 @@ For our `Menu` items, we want our application to store some additional informati
 For example, we want to store if an item is a dish or a beverage.
 For that, we add an `Item type` to our model:
 ```js
-{% include_relative files_application-tutorial/stategroups1/application.alan %}
+{{< file "files_application-tutorial/stategroups1/application.alan" >}}
 ```
 An `Item type` is a stategroup attribute, which holds a choice between states: `Dish` or `Beverage`.
 Notice that you can specify attributes specific to `Dish` and `Beverage` in your model between the curly braces.
@@ -192,7 +192,7 @@ For example, a dish can be an appetizer, main course, or dessert.
 This again is a choice, so let's make the states available by adding the attribute `Dish type` of type `stategroup` to the state type `Dish`.
 In addition, let's do something similar for `Beverages`, such that we can neatly organize menu items in our application:
 ```js
-{% include_relative files_application-tutorial/stategroups2/application.alan %}
+{{< file "files_application-tutorial/stategroups2/application.alan" >}}
 ```
 
 Alan `application` models are hierarchical models specifying a hierarchical dataset: the `root` node holds a collection of `Menu` items.
@@ -221,12 +221,12 @@ As discussed before, for this tutorial we provide migration files for each topic
 ## Built-in attribute types
 Our restaurant is more than just a menu. We also have `Tables`; let's express that in our model:
 ```js
-{% include_relative files_application-tutorial/builtins1/application.alan %}
+{{< file "files_application-tutorial/builtins1/application.alan" >}}
 ```
 
 Don't forget to add `chairs` and `units` to the `numerical-types`, as these numerical types are new to the model:
 ```js
-{% include_relative files_application-tutorial/builtins2/application.alan %}
+{{< file "files_application-tutorial/builtins2/application.alan" >}}
 ```
 
 Deploy and check the app in your browser: click `Tables` in the left menu bar. `Table number`'s and corresponding `Seatings` are already there:
@@ -306,7 +306,7 @@ Which means: look up the `Item` value in the `Menu` collection.
 
 In a model you can just count opening curly braces (`{`) above an expression to see where a series of `^` leads to, as each curly brace corresponds to a node in your application when navigating from a child node to a parent node:
 ```js
-{% include_relative files_application-tutorial/parent-steps/application.alan %}
+{{< file "files_application-tutorial/parent-steps/application.alan" >}}
 ```
 
 > **In summary**, the expression states that `Item` is a text value and references a `Menu` item. Therefore, the text value of an item has to equal the `Item name` (key value) of a `Menu` item.
@@ -331,7 +331,7 @@ For that, you need to remove the code for the `Beverage type` attribute, and exp
 
 As we still want to be able to select a `Beverage type` when we compose our `Menu`, we need to be able to reference a `Beverages types` item from the state `Beverage` in our model.
 ```js
-{% include_relative files_application-tutorial/states-vs-refs/application.alan %}
+{{< file "files_application-tutorial/states-vs-refs/application.alan" >}}
 ```
 
 Notice that we place `Beverage types` above the `Menu`.
