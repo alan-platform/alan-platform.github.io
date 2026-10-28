@@ -1,0 +1,453 @@
+/*
+ * Shared components, used on more than one kind of page: buttons, cards, tags, callouts, figures, the wrappers of
+ * code blocks with their copy and grammar controls, and the colours of highlighted code. The page files after this
+ * one compose them and add what is their own; they do not restyle them.
+ *
+ * The values are tokens (15-tokens.css). Hover, focus and pressed states change colour, background and border
+ * only: nothing lifts, slides or grows, and nothing has a shadow at rest. Focus keeps the ring of 20-theme.css.
+ */
+
+/*
+ * Buttons, on an a or a button with the class button. The primary button is charcoal with white text, darker on
+ * hover and pressed. button-secondary is white with a charcoal label and a control border, paper on hover and the
+ * inset grey pressed. button-ghost is a link-coloured, underlined label without a border, on paper when hovered, for
+ * an action on a light surface that needs no weight. All three are 16/24 semibold, at least 44px high with 20px on
+ * either side; an icon in a button is 20px, 8px from the label. The border of the primary button is transparent:
+ * forced colours draw it, so the button keeps an outline when its fill is gone.
+ */
+:is(a, button).button {
+  transition: background-color var(--duration-hover) var(--ease-standard), border-color var(--duration-hover) var(--ease-standard), color var(--duration-hover) var(--ease-standard);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: var(--target-min);
+  padding: 0 var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-button);
+  background: var(--action-primary);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-ui);
+  color: var(--text-on-action);
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+:is(a, button).button:hover {
+  background: var(--action-primary-hover);
+  color: var(--text-on-action);
+}
+
+:is(a, button).button:active {
+  background: var(--action-primary-active);
+  color: var(--text-on-action);
+}
+
+:is(a, button).button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+
+:is(a, button).button-secondary {
+  border-color: var(--border-control);
+  background: var(--surface-page);
+  color: var(--text-heading);
+}
+
+:is(a, button).button-secondary:hover {
+  background: var(--surface-subtle);
+  color: var(--text-heading);
+}
+
+:is(a, button).button-secondary:active {
+  background: var(--surface-inset);
+  color: var(--text-heading);
+}
+
+:is(a, button).button-ghost {
+  background: transparent;
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+:is(a, button).button-ghost:hover,
+:is(a, button).button-ghost:active {
+  background: var(--surface-subtle);
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/*
+ * Cards: a grid of linked destinations, two across the content column (cards-three: three, for three short ones),
+ * fewer when the column is narrower. Cards in a row have the same height; rows take the height of their content.
+ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(17rem, 100%), 1fr));
+  gap: var(--gap-cards);
+  margin: 0 0 var(--space-6) 0;
+}
+
+.cards-three {
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
+}
+
+/*
+ * A card is a link as one block: white, a subtle border, 8px corners. Its kicker says what kind of destination it
+ * is, its title is in the link colour and underlined, so the card reads as a link, and its text is body text. On
+ * hover, focus and press the card turns paper, its border takes the control colour and its title the hover colour
+ * with a thicker underline. The card itself is not underlined.
+ */
+a.card {
+  transition: background-color var(--duration-hover) var(--ease-standard), border-color var(--duration-hover) var(--ease-standard);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--padding-card);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-page);
+  color: var(--text-body);
+  text-decoration: none;
+}
+
+a.card:hover,
+a.card:focus-visible,
+a.card:active {
+  border-color: var(--border-control);
+  background: var(--surface-subtle);
+  color: var(--text-body);
+}
+
+.card-kicker {
+  font-size: var(--font-size-label);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.card-title {
+  transition: color var(--duration-hover) var(--ease-standard);
+  font-size: var(--font-size-h4);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-h4);
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.cards-small .card-title {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+a.card:hover .card-title,
+a.card:focus-visible .card-title,
+a.card:active .card-title {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+.card-text {
+  font-size: var(--font-size-ui);
+  line-height: var(--line-height-ui);
+}
+
+/*
+ * Tags: links in a row that wraps, such as the languages of a component in the language tables and the versions
+ * and downloads of the archive. A list of tags has the class tags, or is one of those lists; a tag is a link with
+ * the class tag, or a link in one of them. The release notes space their list items apart (.release-notes li + li),
+ * the language table in the document switcher included, so the reset of the items in a table is as specific as
+ * that rule.
+ */
+.tags,
+.doc-table-languages,
+.archive-nav ul,
+.archive-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags > li,
+.doc-table .doc-table-languages li,
+.archive-nav li,
+.archive-links li {
+  margin: 0;
+}
+
+/*
+ * A tag is 14/20 in the link colour and underlined, on white with a subtle border and 4px corners, at least 32px
+ * high, 44px on a touch screen. A long name wraps inside its tag rather than widen the row. On hover the tag turns
+ * paper with a control border and the hover colour.
+ */
+.tag,
+.doc-table-languages a,
+.archive-nav a,
+.archive-links a {
+  transition: background-color var(--duration-hover) var(--ease-standard), border-color var(--duration-hover) var(--ease-standard), color var(--duration-hover) var(--ease-standard);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min-dense);
+  padding: var(--space-1) var(--space-3);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-tag);
+  background: var(--surface-page);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.tag:hover,
+.doc-table-languages a:hover,
+.archive-nav a:hover,
+.archive-links a:hover {
+  border-color: var(--border-control);
+  background: var(--surface-subtle);
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+@media (pointer: coarse) {
+  .tag,
+  .doc-table-languages a,
+  .archive-nav a,
+  .archive-links a {
+    min-height: var(--target-min);
+  }
+}
+
+/*
+ * The tag of the page that is open (aria-current, which main.js sets): charcoal on the yellow of the logo, 9.10:1,
+ * semibold and not underlined, as it leads nowhere new. In forced colours the fill is gone, so its border takes the
+ * highlight colour.
+ */
+.tag[aria-current],
+.doc-table-languages a[aria-current] {
+  border-color: var(--spectrum-yellow);
+  background: var(--spectrum-yellow);
+  font-weight: var(--weight-semibold);
+  color: var(--ink-800);
+  text-decoration: none;
+}
+
+@media (forced-colors: active) {
+  .tag[aria-current],
+  .doc-table-languages a[aria-current] {
+    border-color: Highlight;
+  }
+}
+
+/*
+ * Callouts. A notice is existing information that stands out from the text, such as a release that is out: body
+ * text on the warning surface, 16px by 20px of padding, 8px corners, with a 3px edge in the yellow of the logo on
+ * its left. The edge is an inset shadow, so it follows the rounded corners; it decorates, the words say what the
+ * notice is. The border has the colour of the surface: invisible, except in forced colours, which draw it.
+ */
+.notice {
+  margin: 0 0 var(--space-6) 0;
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--surface-warning);
+  border-radius: var(--radius-panel);
+  background: var(--surface-warning);
+  box-shadow: inset 3px 0 0 var(--spectrum-yellow);
+}
+
+/*
+ * A call to action at the end of a page: its text beside a primary button, the button under the text when the
+ * column is narrow. It is white with a subtle border, as commercial text is not a warning.
+ */
+.call-out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-6);
+  margin: var(--space-6) 0;
+  padding: var(--padding-card);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-page);
+}
+
+.call-out p {
+  flex: 1 1 20rem;
+  margin: 0;
+}
+
+/*
+ * Figures. A caption is 14/20 secondary text, 12px below its image. The screenshots of the tutorials carry their
+ * own margin and shadow in the image, so images get no frame here. A video is centred in its wrapper.
+ */
+figure {
+  margin: 0 0 var(--space-6) 0;
+}
+
+figcaption {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--text-secondary);
+}
+
+.video-wrapper {
+  margin: 0 0 var(--space-6) 0;
+  text-align: center;
+}
+
+.video-wrapper video {
+  height: auto;
+  border-radius: var(--radius-panel);
+}
+
+/*
+ * Code blocks. A fenced block is div.language-X.highlighter-rouge > div.highlight > pre.highlight > code; the rule
+ * blocks of the generated grammars are pre.highlight.code-custom in the same wrappers, with their tokens written
+ * out. The pre is the panel (20-theme.css); the outer wrapper carries the spacing of a block, and div.highlight is
+ * the box that the copy and grammar controls are placed in.
+ */
+div.highlighter-rouge {
+  margin: 0 0 var(--space-4) 0;
+}
+
+div.highlighter-rouge:last-child {
+  margin-bottom: 0;
+}
+
+div.highlight {
+  position: relative;
+}
+
+/* A block marked copy holds prose, such as a prompt: it wraps instead of scrolling. */
+.copy pre.highlight code {
+  white-space: pre-wrap;
+}
+
+/*
+ * The copy and grammar controls, which main.js adds: the copy button to a block marked copy, the grammar link to
+ * every grammar rule block. They sit in the top right corner, in a row of their own that the padding of the block
+ * reserves from the first paint, so they never cover the first line of code. The copy button is a small secondary
+ * button, the grammar link a ghost one, both 14/20 in the interface font.
+ */
+.copy pre.highlight {
+  padding-top: calc(var(--space-2) + var(--target-min-dense) + var(--space-2));
+}
+
+pre.code-custom {
+  padding-top: calc(var(--space-2) + var(--line-height-small) + var(--space-3));
+}
+
+div.highlight .copy-button,
+div.highlight .grammar-button {
+  transition: background-color var(--duration-hover) var(--ease-standard), border-color var(--duration-hover) var(--ease-standard), color var(--duration-hover) var(--ease-standard);
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  cursor: pointer;
+}
+
+div.highlight .copy-button {
+  min-height: var(--target-min-dense);
+  padding: 0 var(--space-3);
+  border: var(--border-width) solid var(--border-control);
+  border-radius: var(--radius-button);
+  background: var(--surface-page);
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
+}
+
+div.highlight .copy-button:hover {
+  background: var(--surface-subtle);
+}
+
+div.highlight .copy-button:active {
+  background: var(--surface-inset);
+}
+
+div.highlight .grammar-button {
+  top: var(--space-1);
+  padding: 0.125rem var(--space-2);
+  border-radius: var(--radius-tag);
+  font-weight: var(--weight-medium);
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+div.highlight .grammar-button:hover,
+div.highlight .grammar-button:active {
+  background: var(--surface-inset);
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/*
+ * The colours of highlighted code: the tokens of Prism, which highlights the fenced blocks in the browser, and the
+ * tokens that the grammar rule blocks carry. Only code in a highlight wrapper is coloured; inline code in prose is
+ * not parsed and keeps the colour of its text. A comment is in the true italic of IBM Plex Mono.
+ */
+.highlight .token.keyword {
+  color: var(--syntax-keyword);
+}
+
+.highlight .token.string {
+  color: var(--syntax-string);
+}
+
+.highlight .token.number {
+  color: var(--syntax-number);
+}
+
+.highlight .token.comment {
+  font-style: italic;
+  color: var(--syntax-comment);
+}
+
+.highlight .token.punctuation {
+  color: var(--syntax-punctuation);
+}
+
+.highlight .token.operator {
+  color: var(--syntax-operator);
+}
+
+.highlight .token.function {
+  color: var(--syntax-function);
+}
+
+.highlight .token.class-name {
+  color: var(--syntax-class-name);
+}
+
+.highlight .token.property {
+  color: var(--syntax-property);
+}
+
+.highlight .token.boolean {
+  color: var(--syntax-boolean);
+}
+
+.code-custom .token.operator {
+  font-weight: var(--weight-semibold);
+  color: var(--syntax-grammar-literal);
+}

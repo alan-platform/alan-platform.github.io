@@ -1,11 +1,11 @@
 /*
  * Documentation pages: the language tables, the archive of all versions,
- * the document switcher in the page header, the table of contents and the
- * code blocks with their copy and grammar buttons.
+ * the document switcher in the page header and the table of contents. The
+ * tags of the tables and the code blocks are shared components
+ * (35-components.css).
  *
- * 1.414, 1.999396 and 0.3536067893rem are powers of 1.414, an approximation of the square root
- * of two, and a product with it (1.414, 1.414^2 and 0.5 / 1.414), kept
- * exactly as computed.
+ * 1.414 and 1.999396 are powers of 1.414, an approximation of the square root
+ * of two (1.414 and 1.414^2), kept exactly as computed.
  */
 
 /* The origin, type and version of the document, under its title. */
@@ -227,80 +227,9 @@ table td > a:active {
   white-space: normal;
 }
 
-/*
- * Links shown as tags: the languages of a component, and the versions and downloads of the archive. A tag is
- * white whatever the row behind it, except the tag of the current page, which is the notice yellow. The text is
- * the blue darkened by 8%, 4.9:1 on that white where the blue itself gives 3.6:1, below the 4.5:1 that small text
- * needs; the border is the even mix of the two lightest greys. On hover the border turns orange and the text takes
- * the orange darkened by 18%, #bd3d00, as the border and the title of a card do: 5.5:1 on white, 5.1:1 on the
- * yellow tint of the stable version in the archive.
- */
-.doc-table-languages,
-.archive-nav ul,
-.archive-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: .375rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* With the table: the release notes space their list items apart (.release-notes li + li), the menu included. */
-.doc-table .doc-table-languages li,
-.archive-nav li,
-.archive-links li {
-  margin: 0;
-}
-
-.doc-table-languages a,
-.doc-table-languages a:link,
-.doc-table-languages a:visited,
-.archive-nav a,
-.archive-nav a:link,
-.archive-nav a:visited,
-.archive-links a,
-.archive-links a:link,
-.archive-links a:visited {
-  transition: border-color var(--duration-hover) ease-in-out, color var(--duration-hover) ease-in-out;
-  display: inline-block;
-  padding: .1em .55em;
-  border: 1px solid #d9dadd;
-  border-radius: 4px;
-  background: #fff;
-  font-size: .9em;
-  line-height: 1.4;
-  white-space: nowrap;
-  text-decoration: none;
-  color: #2163ff;
-}
-
-.doc-table-languages a:hover,
-.doc-table-languages a:active,
-.archive-nav a:hover,
-.archive-nav a:active,
-.archive-links a:hover,
-.archive-links a:active {
-  transition: border-color var(--duration-hover) ease-in-out, color var(--duration-hover) ease-in-out;
-  border-color: #ff641a;
-  text-decoration: none;
-  color: #bd3d00;
-}
-
 /* The language that most readers come for. */
 .doc-table-languages a[href$='application/grammar.html'] {
   font-weight: bold;
-}
-
-/*
- * The page that is open: the tag in the notice yellow, its row in the yellow lightened by 30% (on the cells
- * above 40rem, on the row below it).
- */
-.doc-table-languages a[aria-current] {
-  border-color: #ffc94a;
-  background: #ffc94a;
-  font-weight: bold;
-  color: #2b2c30;
 }
 
 /*
@@ -494,7 +423,7 @@ table td > a:active {
   transform: rotate(45deg);
 }
 
-/* On hover the text takes the orange of a hovered tag. */
+/* On hover the text takes the orange darkened by 18%. */
 .archive-version summary:hover,
 .archive-version summary:active {
   color: #bd3d00;
@@ -573,7 +502,7 @@ table td > a:active {
 
 /*
  * The menu is as wide as the window; the table in it is as wide as the text column at most, on a white caption
- * that joins its border. The shadow is the second grey at 30% opacity, as on the buttons.
+ * that joins its border. The shadow is the second grey at 30% opacity.
  */
 #doc-list .doc-table {
   width: min(45rem, 100% - 2rem);
@@ -622,87 +551,4 @@ table td > a:active {
   margin-bottom: 1.999396rem;
   padding-bottom: 1.414rem;
   border-bottom: 2px solid #eeeff0;
-}
-
-.code-custom {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.8em;
-  tab-size: 4;
-  line-height: 1.414;
-  background-color: #ffce5d17;
-}
-
-.code-custom .punctuation {
-  color: #393b40;
-}
-
-.code-custom .string {
-  color: #4a80ff;
-}
-
-.code-custom .operator {
-  color: #ff641a;
-  font-weight: bold;
-}
-
-code {
-  line-height: 1.414;
-  tab-size: 4;
-}
-
-pre.highlight {
-  overflow: auto;
-}
-
-/* A block to copy holds prose such as a prompt: wrap it, and keep room for the copy button. */
-.copy pre.highlight {
-  padding-right: 4.5rem;
-}
-
-.copy pre.highlight code {
-  white-space: pre-wrap;
-}
-
-div.highlight {
-  position: relative;
-}
-
-/* 0.3536067893rem is 0.5rem divided by the type scale ratio 1.414. */
-div.highlight .copy-button {
-  -webkit-appearance: none;
-  position: absolute;
-  top: 0.3536067893rem;
-  right: 0.3536067893rem;
-  padding: .5ex 1ex;
-  border: 1px solid #c3c5ca;
-  border-radius: 3px;
-  background: #fff;
-  color: #393b40;
-  cursor: pointer;
-  font: bold 11px Arial;
-}
-
-div.highlight .copy-button:hover,
-div.highlight .copy-button:active {
-  background: #eeeff0;
-}
-
-div.highlight .grammar-button {
-  -webkit-appearance: none;
-  position: absolute;
-  top: 0.3536067893rem;
-  right: 0.3536067893rem;
-  padding: .5ex 1ex;
-  border: none;
-  border-radius: 3px;
-  background: #4a80ff;
-  color: #fff;
-  cursor: pointer;
-  font: bold 11px Arial;
-}
-
-/* #2b6bff is the blue #4a80ff darkened by 6%. */
-div.highlight .grammar-button:hover,
-div.highlight .grammar-button:active {
-  background: #2b6bff;
 }

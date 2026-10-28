@@ -70,7 +70,8 @@ it in the browser. Page logic is in shortcodes: `{{< file >}}` includes a file r
   `src/css/`, numbered in the order of the cascade: `10-fonts.css` (the font faces), `15-tokens.css` (the design
   tokens: colours, type scale, spacing, widths, radii, shadows, durations and stacking levels, as custom properties
   that the other parts use), `20-theme.css` (the base styles of the elements), `30-main.css` (the page layout),
-  `40-home.css` (the home page), `50-header.css` and `60-footer.css` (the site header and footer), `70-docs.css`
+  `35-components.css` (the shared components: buttons, cards, tags, callouts, figures, code blocks and the colours
+  of highlighted code), `40-home.css` (the home page), `50-header.css` and `60-footer.css` (the site header and footer), `70-docs.css`
   (the language tables, the archive and the document switcher), `80-release-notes.css`, `90-hub.css` (the Learn,
   Documentation, About and FAQ pages) and `95-index.css` (the page index). `layouts/partials/stylesheet.html` concatenates them in the order of their names into `/src/main.css`, as they
   are, comments included: a minifier would rewrite values into equivalent forms, and the server compresses the
