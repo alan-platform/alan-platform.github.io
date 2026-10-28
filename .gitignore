@@ -4,3 +4,8 @@ _site
 .toolchains/
 _tools/tutorial/screenshots/node_modules/
 __pycache__/
+/public/
+/resources/
+.hugo_build.lock
+/.build/
+/.claude/

@@ -1,0 +1,136 @@
+# Builds the site with Hugo and deploys it to GitHub Pages on every push to master. The GitLab
+# job that updates the generated documentation pushes to master, so it ends up here as well.
+# The Pages source of the repository must be "GitHub Actions" (Settings, Pages).
+#
+# A pull request to master and a manual run build and check the site, and keep the build as an
+# artifact (the artifact "github-pages", a tar of public/), but do not deploy it.
+name: Pages
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+# Every job asks for what it needs: the build only reads the repository, the deployment is the
+# only job that may write to Pages and request the OIDC token that the deployment is signed with.
+permissions:
+  contents: read
+
+env:
+  HUGO_VERSION: 0.167.0
+  # SHA-256 of hugo_extended_0.167.0_linux-amd64.tar.gz, from the checksums file of the release
+  HUGO_SHA256: 0163f5c3deddac1f494a1629ddc40c65d18de9d5794facd98f7f96ac2c7d8957
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      # The job pushes nothing, so the token is not left in .git/config for the steps that follow.
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # Downloaded and checked here instead of through a third party action: the version and the
+      # bytes are pinned in this file, and the job runs nothing that is not from GitHub or Hugo.
+      # The extended edition carries the Sass compiler.
+      - name: Install Hugo
+        run: |
+          curl -sSfL --retry 3 -o "$RUNNER_TEMP/hugo.tar.gz" \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          echo "${HUGO_SHA256}  $RUNNER_TEMP/hugo.tar.gz" | sha256sum --check
+          mkdir "$RUNNER_TEMP/hugo"
+          tar -xzf "$RUNNER_TEMP/hugo.tar.gz" -C "$RUNNER_TEMP/hugo" hugo
+          echo "$RUNNER_TEMP/hugo" >> "$GITHUB_PATH"
+          "$RUNNER_TEMP/hugo/hugo" version
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # The tools that rewrite the pages and check the build have tests of their own.
+      - name: Test the build tools
+        run: python3 -m unittest discover -s _tools/hugo/tests
+
+      # No actions/configure-pages: it reads the Pages settings through the API, which the build
+      # job has no permission for, and its outputs (the base URL) are not used, hugo.toml has it.
+      # build.sh also runs check-output.sh, which fails the step when Hugo wrote an incomplete site.
+      - name: Build
+        run: _tools/hugo/build.sh
+
+      # upload-pages-artifact leaves out hidden files (names that start with a dot) unless
+      # include-hidden-files is set. The site has none, so the default is right.
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    # only a push to master deploys; a pull request or a manual run stops after the build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    # The group covers the deployments and nothing else: one deployment runs at a time and is never
+    # cancelled, and of the pushes that arrive meanwhile only the newest waits (GitHub drops the older
+    # waiting run, which is fine: the newer build holds the older pushes as well). The builds, the pull
+    # request builds and the notification are outside the group, so none of them can displace a deployment.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
+
+  # GitHub emails only the person whose action started a failed run, and the pushes of the generated
+  # documentation come from the GitLab CI user, so nobody who acts on it would hear of a failure.
+  # This job opens an issue assigned to gjkunst, or comments on the open one that carries the label
+  # site-build, so that one failure that lasts is one issue. Pull requests and manual runs are not
+  # reported: the person who started them sees the failure.
+  notify:
+    needs: [build, deploy]
+    if: ${{ failure() && github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      actions: read # to read which step failed
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUN_ID: ${{ github.run_id }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      COMMIT_SHA: ${{ github.sha }}
+      COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+      COMMIT_AUTHOR: ${{ github.event.head_commit.author.name || github.actor }}
+      COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+    steps:
+      - name: Report the failure in an issue
+        run: |
+          failed=$(gh api "repos/$GH_REPO/actions/runs/$RUN_ID/jobs" --jq '
+            [.jobs[] | select(.conclusion == "failure")
+             | .name + ([.steps[] | select(.conclusion == "failure") | .name] | first | if . then " / " + . else "" end)]
+            | first // "unknown step"')
+          subject=${COMMIT_MESSAGE%%$'\n'*}
+          body="The site build failed at: $failed
+
+          - Commit: [${COMMIT_SHA:0:12}]($COMMIT_URL) ${subject}
+          - Author: $COMMIT_AUTHOR
+          - Run: $RUN_URL
+
+          The site stays at the last deployment until a build passes."
+
+          existing=$(gh issue list --state open --label site-build --json number --jq '.[0].number // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh label create site-build --description "The site build or deployment failed" --color B60205 2>/dev/null || true
+            gh issue create --title "Site build failed: $failed" --body "$body" --label site-build --assignee gjkunst \
+              || gh issue create --title "Site build failed: $failed" --body "$body" --label site-build
+          fi
