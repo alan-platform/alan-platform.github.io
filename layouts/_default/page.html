@@ -1,9 +1,10 @@
 {{- /*
 	A hand-written page: the tutorials, the guides, and the documentation, learn, about and FAQ pages. The front
-	matter can add a hero image, anchors to sections of the page and buttons below the title. The title and the
-	labels are written as they are: a title can hold markup such as <br>.
+	matter can add a hero image, anchors to sections of the page and buttons below the title, and a class for the
+	body beside "page", which the stylesheet selects the styles of one page on. The title and the labels are
+	written as they are: a title can hold markup such as <br>.
 */ -}}
-{{ define "body-attributes" }} class="page"{{ end }}
+{{ define "body-attributes" }} class="page{{ with .Params.class }} {{ . }}{{ end }}"{{ end }}
 
 {{ define "main" }}
 	{{- /* the content first: the heading render hook records the headings that stay out of the page index */ -}}

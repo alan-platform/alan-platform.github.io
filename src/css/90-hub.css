@@ -1,6 +1,7 @@
 /*
- * The Learn, Documentation and About pages: cards for a choice between paths and for short lists of
- * destinations, and the feature panels, the list of services and the call to action of the About page.
+ * The Learn, Documentation, About and FAQ pages: cards for a choice between paths and for short lists of
+ * destinations, the feature panels, the list of services and the call to action of the About page, and the
+ * questions of the FAQ.
  * 1.414em is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
@@ -273,4 +274,30 @@ p.more {
 
 .call-out .button {
   white-space: nowrap;
+}
+
+/*
+ * The FAQ: the topics are labels in the style of the card kickers, so that the questions under them carry the
+ * weight. A question is apart from the question before it by a rule; the first question of a topic follows the
+ * label without one.
+ */
+.faq main section h2 {
+  margin-top: 2.828rem;
+  font-size: .8em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #484a50;
+}
+
+.faq main section h3 {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #eeeff0;
+  color: #2b2c30;
+}
+
+.faq main section h2 + h3 {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
 }
