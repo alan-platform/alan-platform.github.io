@@ -14,7 +14,8 @@
   margin-top: .75em;
 }
 
-/* main.js moves the code that illustrates an item into that item */
+/* the code, paragraphs and tables of an item; the code (li > .highlighter-rouge)
+   is in the item because main.js moves it there from after the list */
 .release-notes li > .highlighter-rouge,
 .release-notes li > p,
 .release-notes li > table {
