@@ -32,7 +32,8 @@ table tr {
   transition: background var(--transition-slow) ease-in-out;
 }
 
-table tr:hover, table tr:active {
+table tr:hover,
+table tr:active {
   transition: background var(--transition-quick) ease-in-out;
 }
 
@@ -62,7 +63,11 @@ table td > a {
   padding: 0 1.414rem;
 }
 
-table th > a, table th > a:link, table th > a:visited, table th > a:hover, table th > a:active,
+table th > a,
+table th > a:link,
+table th > a:visited,
+table th > a:hover,
+table th > a:active,
 table td > a,
 table td > a:link,
 table td > a:visited,
@@ -72,7 +77,8 @@ table td > a:active {
   transition: color var(--transition-slow) ease-in-out;
 }
 
-table th > a:hover, table th > a:active,
+table th > a:hover,
+table th > a:active,
 table td > a:hover,
 table td > a:active {
   transition: color var(--transition-quick) ease-in-out;
@@ -122,7 +128,8 @@ details.archive table {
   fill: currentColor;
 }
 
-[aria-controls='doc-list']:hover, [aria-controls='doc-list']:active {
+[aria-controls='doc-list']:hover,
+[aria-controls='doc-list']:active {
   color: #4a80ff;
 }
 
@@ -136,13 +143,14 @@ details.archive table {
   margin: -1em 0 0 0;
   opacity: 0;
   will-change: opacity, transform;
-  animation: slideMenuIn .2s ease-in-out forwards;
+  animation: slideMenuIn 0.2s ease-in-out forwards;
 }
 
 @keyframes slideMenuIn {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -155,7 +163,7 @@ details.archive table {
 #doc-list table {
   margin: 0 auto;
   border: 1px solid #c3c5ca;
-  background: #FFF;
+  background: #fff;
 }
 
 #doc-list table::before {
@@ -228,13 +236,14 @@ div.highlight .copy-button {
   padding: .5ex 1ex;
   border: 1px solid #c3c5ca;
   border-radius: 3px;
-  background: #FFF;
+  background: #fff;
   color: #393b40;
   cursor: pointer;
   font: bold 11px Arial;
 }
 
-div.highlight .copy-button:hover, div.highlight .copy-button:active {
+div.highlight .copy-button:hover,
+div.highlight .copy-button:active {
   background: #eeeff0;
 }
 
@@ -247,12 +256,13 @@ div.highlight .grammar-button {
   border: none;
   border-radius: 3px;
   background: #4a80ff;
-  color: #FFF;
+  color: #fff;
   cursor: pointer;
   font: bold 11px Arial;
 }
 
 /* #2b6bff is the blue #4a80ff darkened by 6%. */
-div.highlight .grammar-button:hover, div.highlight .grammar-button:active {
+div.highlight .grammar-button:hover,
+div.highlight .grammar-button:active {
   background: #2b6bff;
 }

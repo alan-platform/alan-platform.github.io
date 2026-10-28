@@ -1,46 +1,50 @@
-/* The site header: the fixed bar at the top of every page with the logo, the navigation links, the documentation
-   and login buttons, and the menu toggle that opens the navigation on narrow screens.
-   0.7072135785em, 1.414, 1.999396, 2.827145944rem and 5.654291888rem are powers of 1.414, the square root of two,
-   and a product with it (1 / 1.414, 1.414, 1.414^2, 1.414^3 and 2 * 1.414^3), kept exactly as computed. */
+/*
+ * The site header: the fixed bar at the top of every page with the logo, the navigation links, the documentation
+ * and login buttons, and the menu toggle that opens the navigation on narrow screens.
+ * 0.7072135785em, 1.414, 1.999396, 2.827145944rem and 5.654291888rem are powers of 1.414, the square root of two,
+ * and a product with it (1 / 1.414, 1.414, 1.414^2, 1.414^3 and 2 * 1.414^3), kept exactly as computed.
+ */
 
 header {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 2;
-    font-size: 0.7072135785em;
-    color: #393b40;
-    transform: translateZ(0);
-    transition: background-color .2s ease-in-out;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 2;
+  font-size: 0.7072135785em;
+  color: #393b40;
+  transform: translateZ(0);
+  transition: background-color 0.2s ease-in-out;
 }
 
 header .inner {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    padding: 0 2.827145944rem;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 2.827145944rem;
 }
 
 header ul {
-    list-style: none;
-    display: flex;
-    justify-content: flex-end;
-    margin: 0;
-    flex: 1;
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0;
+  flex: 1;
 }
 
-/* Narrow and wide screens split at 50rem: the narrow rules use max-width: 50rem and the wide ones min-width: 50.01rem,
-   everywhere in this file, so every width gets exactly one of the two sets and no width gets both. */
+/*
+ * Narrow and wide screens split at 50rem: the narrow rules use max-width: 50rem and the wide ones min-width: 50.01rem,
+ * everywhere in this file, so every width gets exactly one of the two sets and no width gets both.
+ */
 @media (max-width: 50rem) {
-    header ul {
-        display: none;
-    }
+  header ul {
+    display: none;
+  }
 }
 
 header ul a {
-    transition: all var(--transition-slow) ease-in-out;
-    display: inline-block;
-    white-space: nowrap;
+  transition: all var(--transition-slow) ease-in-out;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 header ul a,
@@ -48,267 +52,269 @@ header ul a:link,
 header ul a:visited,
 header ul a:hover,
 header ul a:active {
-    margin-bottom: 3px;
-    border-bottom: 3px solid transparent;
-    font-weight: 200;
-    font-size: 1.414em;
-    color: inherit;
+  margin-bottom: 3px;
+  border-bottom: 3px solid transparent;
+  font-weight: 200;
+  font-size: 1.414em;
+  color: inherit;
 }
 
 header ul a:hover,
 header ul a:active {
-    transition: all var(--transition-quick) ease-in-out;
-    text-decoration: none;
-    text-shadow: 0 0 2px #FFF;
-    border-bottom-color: #2163ff;
-    transform: skew(-16.7deg);
+  transition: all var(--transition-quick) ease-in-out;
+  text-decoration: none;
+  text-shadow: 0 0 2px #fff;
+  border-bottom-color: #2163ff;
+  transform: skew(-16.7deg);
 }
 
 header ul a:active {
-    border-bottom-color: #0d55ff;
+  border-bottom-color: #0d55ff;
 }
 
 header ul .current > a,
 header ul .current-section > a {
-    border-bottom-color: #0d55ff;
+  border-bottom-color: #0d55ff;
 }
 
 header li {
-    padding-top: 1.999396rem;
-    padding-bottom: 1.999396rem;
-    line-height: 2rem;
+  padding-top: 1.999396rem;
+  padding-bottom: 1.999396rem;
+  line-height: 2rem;
 }
 
 header li + li {
-    margin-left: 1.999396em;
+  margin-left: 1.999396em;
 }
 
 @media (min-width: 50.01rem) {
-    header li {
-        display: inline-block;
-    }
+  header li {
+    display: inline-block;
+  }
 
-    header li + li {
-        padding-left: 0;
-    }
+  header li + li {
+    padding-left: 0;
+  }
 }
 
 header li svg {
-    width: 0.7072135785em;
-    height: 0.7072135785em;
+  width: 0.7072135785em;
+  height: 0.7072135785em;
 }
 
 header .logo {
-    display: block;
-    margin-right: 1.414em;
-    padding-top: 1.999396rem;
-    padding-bottom: 1.999396rem;
+  display: block;
+  margin-right: 1.414em;
+  padding-top: 1.999396rem;
+  padding-bottom: 1.999396rem;
 }
 
 header .logo svg .word path {
-    fill: #2b2c30;
-    transition: fill .2s ease-in-out;
+  fill: #2b2c30;
+  transition: fill 0.2s ease-in-out;
 }
 
 header .logo svg .stripes path {
-    transition: fill .2s ease-in-out;
+  transition: fill 0.2s ease-in-out;
 }
 
 header .logo svg .stripes path:nth-child(4n + 1) {
-    fill: #4a80ff;
+  fill: #4a80ff;
 }
 
 header .logo svg .stripes path:nth-child(4n + 2) {
-    fill: #ff641a;
+  fill: #ff641a;
 }
 
 header .logo svg .stripes path:nth-child(4n + 3) {
-    fill: #8fcc27;
+  fill: #8fcc27;
 }
 
 header .logo svg .stripes path:nth-child(4n + 4) {
-    fill: #ffc94a;
+  fill: #ffc94a;
 }
 
 header .logo svg .stripes path:hover:nth-child(4n + 3) {
-    fill: #4a80ff;
+  fill: #4a80ff;
 }
 
 header .logo svg .stripes path:hover:nth-child(4n + 4) {
-    fill: #ff641a;
+  fill: #ff641a;
 }
 
 header .logo svg .stripes path:hover:nth-child(4n + 1) {
-    fill: #8fcc27;
+  fill: #8fcc27;
 }
 
 header .logo svg .stripes path:hover:nth-child(4n + 2) {
-    fill: #ffc94a;
+  fill: #ffc94a;
 }
 
 /* A button, styled the way the link it replaced was. */
 header .nav-toggle {
-    transition: color var(--transition-slow) ease-in-out;
-    display: none;
-    padding-right: 0;
-    padding-left: 0;
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding-top: 1.999396rem;
-    padding-bottom: 1.999396rem;
-    color: #2b2c30;
+  transition: color var(--transition-slow) ease-in-out;
+  display: none;
+  padding-right: 0;
+  padding-left: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding-top: 1.999396rem;
+  padding-bottom: 1.999396rem;
+  color: #2b2c30;
 }
 
 header .nav-toggle:hover,
 header .nav-toggle:active {
-    transition: color var(--transition-quick) ease-in-out;
-    color: #ffb794;
+  transition: color var(--transition-quick) ease-in-out;
+  color: #ffb794;
 }
 
 header .nav-toggle svg {
-    fill: currentColor;
-    display: none;
+  fill: currentColor;
+  display: none;
 }
 
 @media (max-width: 50rem) {
-    header .nav-toggle {
-        display: block;
-    }
+  header .nav-toggle {
+    display: block;
+  }
 }
 
 header.scrolled {
-    background-color: #FFF;
+  background-color: #fff;
 }
 
 @media (max-width: 50rem) {
-    header.open {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: #FFF;
-    }
-
-    header.open ul {
-        display: block;
-        width: 100%;
-        position: fixed;
-        top: 5.654291888rem;
-        left: 0;
-        text-align: center;
-        margin: 0;
-        padding: 1.999396rem 2.827145944rem 1.999396rem 2.827145944rem;
-        font-size: 1.999396rem;
-    }
-
-    header.open ul li {
-        padding: 0;
-    }
-
-    header.open ul li + li {
-        margin: 1.414rem 0 0 0;
-    }
-
-    header.open ul .login-button a::before {
-        display: none;
-    }
-
-    header.open .closer {
-        display: block;
-    }
-
-    header:not(.open) .opener {
-        display: block;
-    }
-}
-
-/* The grey panel behind the links: a skewed box on the first link after the documentation button, from the right
-   edge of that button to beyond the right edge of the viewport. The button is a box skewed the same way, so the panel
-   joins it along the whole slant (the boxes overlap by a pixel, so no seam shows), and the panel grows with the links,
-   so a link more or less in the navigation does not push one onto the slant. */
-@media (min-width: 50.01rem) {
-    header ul .doc-button + li {
-        position: relative;
-    }
-
-    header ul .doc-button + li::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: -100vw;
-        bottom: 0;
-        left: calc(-1.999396em - 1px); /* the margin between the links, and the overlap */
-        z-index: -1;
-        background: rgba(247, 247, 247, 0.9);
-        transform: skewX(-27.6deg);
-    }
-}
-
-header ul .login-button a {
-    position: relative;
-    padding: 0 1em;
-    border: none;
-}
-
-header ul .login-button a::before {
-    content: '';
-    position: absolute;
+  header.open {
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    background: #fff;
+  }
+
+  header.open ul {
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 5.654291888rem;
+    left: 0;
+    text-align: center;
+    margin: 0;
+    padding: 1.999396rem 2.827145944rem 1.999396rem 2.827145944rem;
+    font-size: 1.999396rem;
+  }
+
+  header.open ul li {
+    padding: 0;
+  }
+
+  header.open ul li + li {
+    margin: 1.414rem 0 0 0;
+  }
+
+  header.open ul .login-button a::before {
+    display: none;
+  }
+
+  header.open .closer {
+    display: block;
+  }
+
+  header:not(.open) .opener {
+    display: block;
+  }
+}
+
+/*
+ * The grey panel behind the links: a skewed box on the first link after the documentation button, from the right
+ * edge of that button to beyond the right edge of the viewport. The button is a box skewed the same way, so the panel
+ * joins it along the whole slant (the boxes overlap by a pixel, so no seam shows), and the panel grows with the links,
+ * so a link more or less in the navigation does not push one onto the slant.
+ */
+@media (min-width: 50.01rem) {
+  header ul .doc-button + li {
+    position: relative;
+  }
+
+  header ul .doc-button + li::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -100vw;
+    bottom: 0;
+    left: calc(-1.999396em - 1px); /* the margin between the links, and the overlap */
     z-index: -1;
-    border: 1px solid #ffc94a;
-    transform: skew(-26.7deg);
-    transition: background .2s ease-in-out;
+    background: rgba(247, 247, 247, 0.9);
+    transform: skewX(-27.6deg);
+  }
+}
+
+header ul .login-button a {
+  position: relative;
+  padding: 0 1em;
+  border: none;
+}
+
+header ul .login-button a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  border: 1px solid #ffc94a;
+  transform: skew(-26.7deg);
+  transition: background 0.2s ease-in-out;
 }
 
 header ul .login-button a:hover,
 header ul .login-button a:active {
-    color: #2b2c30;
-    text-shadow: none;
-    transform: none;
+  color: #2b2c30;
+  text-shadow: none;
+  transform: none;
 }
 
 header ul .login-button a:hover::before,
 header ul .login-button a:active::before {
-    background: #ffc94a;
+  background: #ffc94a;
 }
 
 header ul .login-button svg {
-    margin-top: -2px;
-    will-change: transform;
+  margin-top: -2px;
+  will-change: transform;
 }
 
 header .doc-button {
-    position: relative;
-    padding: 0 0 0 1.999396rem;
-    opacity: .9;
+  position: relative;
+  padding: 0 0 0 1.999396rem;
+  opacity: .9;
 }
 
 /* The yellow box, skewed like the login button and the grey panel of the links. */
 header .doc-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    background: #ffc94a;
-    transform: skewX(-27.6deg);
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  background: #ffc94a;
+  transform: skewX(-27.6deg);
 }
 
 @media (max-width: 50rem) {
-    header .doc-button {
-        display: none;
-    }
+  header .doc-button {
+    display: none;
+  }
 }
 
 header .doc-button:hover,
 header .doc-button:active {
-    opacity: 1;
+  opacity: 1;
 }
 
 header .doc-button a,
@@ -316,19 +322,19 @@ header .doc-button a:link,
 header .doc-button a:visited,
 header .doc-button a:hover,
 header .doc-button a:active {
-    display: block;
-    height: 100%;
-    margin-top: 0;
-    margin-right: 1.414rem;
-    padding-top: 1.999396rem;
-    padding-bottom: 1.999396rem;
-    border-bottom: 0;
-    color: #2b2c30;
+  display: block;
+  height: 100%;
+  margin-top: 0;
+  margin-right: 1.414rem;
+  padding-top: 1.999396rem;
+  padding-bottom: 1.999396rem;
+  border-bottom: 0;
+  color: #2b2c30;
 }
 
 header .doc-button a:hover,
 header .doc-button a:active {
-    border-bottom: 0;
-    text-shadow: none;
-    transform: none;
+  border-bottom: 0;
+  text-shadow: none;
+  transform: none;
 }

@@ -1,5 +1,7 @@
-/* The Learn and Documentation pages: cards for a choice between paths and for short lists of destinations.
-   1.414em is the square root of two, the ratio of the type scale, kept exactly as computed. */
+/*
+ * The Learn and Documentation pages: cards for a choice between paths and for short lists of destinations.
+ * 1.414em is the square root of two, the ratio of the type scale, kept exactly as computed.
+ */
 
 /* Two across the text column, one on a phone or when zoomed. */
 .cards {
@@ -23,7 +25,7 @@ a.card:visited {
   padding: 1rem 1.25rem;
   border: 1px solid #c3c5ca;
   border-radius: 6px;
-  background: #FFF;
+  background: #fff;
   color: #393b40;
 }
 
@@ -70,8 +72,10 @@ p.more {
   text-align: right;
 }
 
-/* A release that is out, at the top of the documentation page.
-   The background is the notice yellow #ffc94a lightened by 30%. */
+/*
+ * A release that is out, at the top of the documentation page.
+ * The background is the notice yellow #ffc94a lightened by 30%.
+ */
 .notice {
   padding: .6em 1em;
   border-left: 3px solid #ffc94a;
