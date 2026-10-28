@@ -2,7 +2,7 @@
 layout: page
 title: About
 category: main
-permalink: /about/
+url: /about/
 ---
 
 In Alan data models drive everything.

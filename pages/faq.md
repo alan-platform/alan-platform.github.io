@@ -2,7 +2,7 @@
 layout: page
 title: FAQ
 category: main
-permalink: /faq/
+url: /faq/
 description: >-
   Answers to the questions people ask before their first Alan application: programming background, permissions, SQL, connecting other systems, versions.
 ---
