@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -30,7 +29,7 @@ toc: true
 		| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
 		| none = '<span class="token string">no</span>'
 	)
-	'<span class="token string">object</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--object-expression">'object expression'</a>
+	'<span class="token string">object</span>': [ <span class="token operator">-&gt;</span> ] component <a href="#grammar-rule--object-expression">'object expression'</a>
 	'<span class="token string">suffix</span>': text
 }
 </pre>
@@ -133,7 +132,7 @@ toc: true
 			'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 		}
 		'<span class="token string">reference</span>' {
-			'<span class="token string">property</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">property</span>': [ <span class="token operator">&gt;</span> ] reference
 		}
 		'<span class="token string">property</span>' {
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
@@ -168,7 +167,7 @@ toc: true
 		'<span class="token string">explicit</span>' {
 			'<span class="token string">context</span>': stategroup (
 				'<span class="token string">data constraint</span>' {
-					'<span class="token string">constraint</span>': [ <span class="token operator">&</span> ] reference
+					'<span class="token string">constraint</span>': [ <span class="token operator">&amp;</span> ] reference
 				}
 				'<span class="token string">binding</span>' {
 					'<span class="token string">step</span>': component <a href="#grammar-rule--binding-step">'binding step'</a>
@@ -352,3 +351,4 @@ toc: true
 </pre>
 </div>
 </div>
+

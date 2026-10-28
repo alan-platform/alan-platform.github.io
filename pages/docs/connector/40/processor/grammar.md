@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -673,7 +672,7 @@ Allows defining reusable types.
 			'<span class="token string">signature</span>': component <a href="#grammar-rule--signature">'signature'</a>
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">implementation</span>' {
-					'<span class="token string">implementation</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--function-implementation">'function implementation'</a>
+					'<span class="token string">implementation</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--function-implementation">'function implementation'</a>
 				}
 				'<span class="token string">binding</span>' {
 					/* The function is part of a standard library.
@@ -689,8 +688,8 @@ Allows defining reusable types.
 					'<span class="token string">element name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
 				}
 			)
-			'<span class="token string">target</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
-			'<span class="token string">instruct</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+			'<span class="token string">target</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+			'<span class="token string">instruct</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 		}
 	)
 }
@@ -847,7 +846,6 @@ on error {
 }
 ```
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -924,7 +922,6 @@ add-hook 'network'::'webserver' "/echo" {
 	)
 }
 ```
-
 
 <div id="grammar-rule--library-hook" class="language-js highlighter-rouge">
 <div class="highlight">
@@ -1025,11 +1022,11 @@ add-hook 'network'::'webserver' "/echo" {
 		}
 		'<span class="token string">simple</span>' {
 			/* The simple comparator behaves depending on the it operates on.
-			 *  > boolean: supports only equality comparisons
-			 *  > integer: supports equality and relational comparisons
-			 *  > binary : supports only equality comparisons, 2 binaries are considered equal when they are bitwise identical
-			 *  > text   : supports equality and relational comparisons, 2 texts are compared based on their code-points, the values are not normalized
-			 *  > file   : supports only equality comparisons, 2 files are considered equal when both token and extension are identical
+			 *  &gt; boolean: supports only equality comparisons
+			 *  &gt; integer: supports equality and relational comparisons
+			 *  &gt; binary : supports only equality comparisons, 2 binaries are considered equal when they are bitwise identical
+			 *  &gt; text   : supports equality and relational comparisons, 2 texts are compared based on their code-points, the values are not normalized
+			 *  &gt; file   : supports only equality comparisons, 2 files are considered equal when both token and extension are identical
 			 */
 		}
 	)
@@ -1289,7 +1286,7 @@ add-hook 'network'::'webserver' "/echo" {
 			| none = '<span class="token string">no</span>'
 		)
 		'<span class="token string">has attributes</span>': stategroup (
-			'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
+			'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ]
 				'<span class="token string">attributes</span>': dictionary {
 					'<span class="token string">has next</span>': stategroup = node-switch successor (
 						| node = '<span class="token string">yes</span>' { '<span class="token string">next</span>' = successor }
@@ -1389,7 +1386,7 @@ add-hook 'network'::'webserver' "/echo" {
 			 * when it fails, backtrack and try `on unmatched` instead
 			 */
 			'<span class="token string">instruct</span>': component <a href="#grammar-rule--instruct">'instruct'</a>
-			'<span class="token string">on unmatched</span>': [ <span class="token operator">|></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+			'<span class="token string">on unmatched</span>': [ <span class="token operator">|&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 		}
 		'<span class="token string">process xml</span>' {
 			'<span class="token string">operation</span>': stategroup (
@@ -1408,7 +1405,7 @@ add-hook 'network'::'webserver' "/echo" {
 							}
 						)
 					}
-					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+					'<span class="token string">on matched</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 				}
 				'<span class="token string">enumerate elements</span>' { [ <span class="token operator">enumerate-elements</span> ]
 					/* advance the current sequence iterator over each consecutive element matching the provided condition
@@ -1431,7 +1428,7 @@ add-hook 'network'::'webserver' "/echo" {
 							}
 						)
 					}
-					'<span class="token string">on element</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+					'<span class="token string">on element</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 				}
 				'<span class="token string">enter children</span>' { [ <span class="token operator">enter-children</span> ]
 					/* start a new sequence for the children of the current element
@@ -1459,7 +1456,7 @@ add-hook 'network'::'webserver' "/echo" {
 							}
 						)
 					}
-					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+					'<span class="token string">on matched</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 				}
 				'<span class="token string">get attribute</span>' { [ <span class="token operator">get-attribute</span> ]
 					/* get an attribute from the current element
@@ -1470,14 +1467,14 @@ add-hook 'network'::'webserver' "/echo" {
 					'<span class="token string">parameters</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
 						'<span class="token string">name</span>': component <a href="#grammar-rule--instruct-XML-name">'instruct XML name'</a>
 					}
-					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+					'<span class="token string">on matched</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 				}
 				'<span class="token string">get content</span>' { [ <span class="token operator">get-content</span> ]
 					/* get the content of the current element
 					 * this runs `on matched` on the textual value of the content
 					 * when the current element has more than text content, this instruction fails
 					 */
-					'<span class="token string">on matched</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
+					'<span class="token string">on matched</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--instruct">'instruct'</a>
 				}
 			)
 		}
@@ -1715,7 +1712,7 @@ add-hook 'network'::'webserver' "/echo" {
 	/* The signature of a callable.
 	 */
 	'<span class="token string">template</span>': stategroup (
-		'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span> <span class="token operator">T</span>, <span class="token operator">></span> ]
+		'<span class="token string">yes</span>' { [ <span class="token operator">&lt;</span> <span class="token operator">T</span>, <span class="token operator">&gt;</span> ]
 			/* Add a template type to the signature.
 			 * An optional constraint can be added to the type.
 			 */
@@ -1785,7 +1782,7 @@ add-hook 'network'::'webserver' "/echo" {
 	 * Otherwise the template, if any, is inferred from the context.
 	 */
 	'<span class="token string">template</span>': stategroup (
-		'<span class="token string">explicit</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ]
+		'<span class="token string">explicit</span>' { [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ]
 			'<span class="token string">type</span>': component <a href="#grammar-rule--type-definition">'type definition'</a>
 		}
 		'<span class="token string">implicit</span>' { }
@@ -1995,7 +1992,7 @@ add-hook 'network'::'webserver' "/echo" {
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">sub property</span>': stategroup (
 				'<span class="token string">yes</span>' {
-					'<span class="token string">attribute</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] reference
+					'<span class="token string">attribute</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] reference
 				}
 				'<span class="token string">no</span>' { }
 			)
@@ -2003,7 +2000,7 @@ add-hook 'network'::'webserver' "/echo" {
 		'<span class="token string">reference follow</span>' {
 			/* Retrieve the target of a reference of a node.
 			 */
-			'<span class="token string">property</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">property</span>': [ <span class="token operator">&gt;</span> ] reference
 		}
 		'<span class="token string">choice cast</span>' {
 			/* Retrieve the value of a specific state.
@@ -2123,7 +2120,7 @@ For operations that can fail, either an alternative can be provided or the failu
 				}
 				'<span class="token string">inferred</span>' { }
 			)
-			'<span class="token string">implementation</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--function-implementation">'function implementation'</a>
+			'<span class="token string">implementation</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--function-implementation">'function implementation'</a>
 		}
 		'<span class="token string">none</span>' { [ <span class="token operator">none</span> ]
 			/* Returns none.
@@ -2157,13 +2154,13 @@ For operations that can fail, either an alternative can be provided or the failu
 					/* Parses JSON.
 					 * On success it results in a document and must first be passed to a decorator before it is usable.
 					 */
-					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 				}
 				'<span class="token string">XML</span>' { [ <span class="token operator">XML</span> ]
 					/* Parses a XML document.
 					 * On success it results in a document and must first be passed to a decorator before it is usable.
 					 */
-					'<span class="token string">mapping</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] stategroup (
+					'<span class="token string">mapping</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] stategroup (
 						'<span class="token string">builtin</span>' {
 							'<span class="token string">schema</span>': component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 						}
@@ -2184,12 +2181,12 @@ For operations that can fail, either an alternative can be provided or the failu
 						}
 						'<span class="token string">default</span>' { }
 					)
-					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 				}
 				'<span class="token string">choice</span>' { [ <span class="token operator">choice</span> ]
 					/* Parses text to a choice.
 					*/
-					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
+					'<span class="token string">schema</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] component <a href="#grammar-rule--schema-instance">'schema instance'</a>
 				}
 				'<span class="token string">ISO Date Time</span>' { [ <span class="token operator">ISODateTime</span> ]
 					/* Parses an ISO-8601 date and time, however it must have at least Seconds accuracy. (source: https://en.wikipedia.org/wiki/ISO_8601)
@@ -2488,7 +2485,7 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 						)
 						'<span class="token string">attributes</span>': stategroup (
 							'<span class="token string">yes</span>' {
-								'<span class="token string">attributes</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">></span> ] dictionary {
+								'<span class="token string">attributes</span>': [ <span class="token operator">&lt;</span>, <span class="token operator">&gt;</span> ] dictionary {
 									'<span class="token string">value</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--target-expression">'target expression'</a>
 								}
 							}
@@ -2563,7 +2560,7 @@ When the execution context is restricted, operations that (could) generate error
 				'<span class="token string">yes</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ] }
 				'<span class="token string">no</span>' { }
 			)
-			'<span class="token string">fallback statement</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
+			'<span class="token string">fallback statement</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
 		}
 		'<span class="token string">switch</span>' {
 			'<span class="token string">value</span>': [ <span class="token operator">switch</span> ] component <a href="#grammar-rule--expression">'expression'</a>
@@ -2572,8 +2569,8 @@ When the execution context is restricted, operations that (could) generate error
 					/* Execute a conditional branch.
 					 * The condition is evaluated and based on the result, either the `true` or `false` case is executed.
 					 */
-					'<span class="token string">on true</span>': [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
-					'<span class="token string">on false</span>': [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
+					'<span class="token string">on true</span>': [ <span class="token operator">|</span> <span class="token operator">true</span> <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
+					'<span class="token string">on false</span>': [ <span class="token operator">|</span> <span class="token operator">false</span> <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
 				}
 				'<span class="token string">existence</span>' { [ <span class="token operator">(</span>, <span class="token operator">)</span> ]
 					/* Execute a conditional branch.
@@ -2581,8 +2578,8 @@ When the execution context is restricted, operations that (could) generate error
 					 * Based on whether or not the expression succeeded or failed, the corresponding case is executed.
 					 * When the expression succeeds, the result is available in `$`.
 					 */
-					'<span class="token string">on value</span>': [ <span class="token operator">|</span> <span class="token operator">value</span> <span class="token operator">as</span> <span class="token operator">$</span> <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
-					'<span class="token string">on none</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
+					'<span class="token string">on value</span>': [ <span class="token operator">|</span> <span class="token operator">value</span> <span class="token operator">as</span> <span class="token operator">$</span> <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
+					'<span class="token string">on none</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
 				}
 				'<span class="token string">choice</span>' {
 					/* Execute a conditional branch.
@@ -2598,7 +2595,7 @@ When the execution context is restricted, operations that (could) generate error
 							'<span class="token string">yes</span>' { [ <span class="token operator">as</span> <span class="token operator">$</span> ] }
 							'<span class="token string">no</span>' { }
 						)
-						'<span class="token string">statement</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
+						'<span class="token string">statement</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
 					}
 				}
 			)
@@ -2619,7 +2616,7 @@ When the execution context is restricted, operations that (could) generate error
 						}
 						'<span class="token string">none</span>' { }
 					)
-					'<span class="token string">statement</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
+					'<span class="token string">statement</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
 				}
 				'<span class="token string">range</span>' {
 					/* Execute a statement for a range of integers.
@@ -2639,24 +2636,24 @@ When the execution context is restricted, operations that (could) generate error
 						'<span class="token string">behavior</span>': stategroup (
 							'<span class="token string">legacy</span>' { [ <span class="token operator">with</span> ]
 								/* The legacy behavior is for backwards compatibility and is deprecated.
-								 * Legacy requires the use of `from &lt;begin> until &lt;end> with &lt;step>` syntax.
-								 * It runs from &lt;begin> in increments of &lt;step> and includes the value &lt;end>.
-								 * The sign of &lt;step> has significant meaning.
-								 *  positive) it runs while the value remains below &lt;end>, if &lt;end> is lower than &lt;begin>, it never runs
-								 *  negative) it runs while the value remains above &lt;end>, if &lt;end> is greater than &lt;begin>, it never runs
-								 *  zero) it runs once for &lt;begin>, and if &lt;end> differs, it runs once for &lt;end>
+								 * Legacy requires the use of `from &lt;begin&gt; until &lt;end&gt; with &lt;step&gt;` syntax.
+								 * It runs from &lt;begin&gt; in increments of &lt;step&gt; and includes the value &lt;end&gt;.
+								 * The sign of &lt;step&gt; has significant meaning.
+								 *  positive) it runs while the value remains below &lt;end&gt;, if &lt;end&gt; is lower than &lt;begin&gt;, it never runs
+								 *  negative) it runs while the value remains above &lt;end&gt;, if &lt;end&gt; is greater than &lt;begin&gt;, it never runs
+								 *  zero) it runs once for &lt;begin&gt;, and if &lt;end&gt; differs, it runs once for &lt;end&gt;
 								 */
 							}
 							'<span class="token string">current</span>' { [ <span class="token operator">by</span> ]
-								/* The range runs from from &lt;begin> in increments of &lt;step> and stops at &lt;end>.
-								 * Whether &lt;end> is inclusive or exclusive is controlled with the &lt;range> option.
-								 * When &lt;step> is zero, an error is logged at runtime and no iterations are performed regardless of the other values.
+								/* The range runs from from &lt;begin&gt; in increments of &lt;step&gt; and stops at &lt;end&gt;.
+								 * Whether &lt;end&gt; is inclusive or exclusive is controlled with the &lt;range&gt; option.
+								 * When &lt;step&gt; is zero, an error is logged at runtime and no iterations are performed regardless of the other values.
 								 */
 							}
 						)
 						'<span class="token string">step</span>': component <a href="#grammar-rule--safe-expression">'safe expression'</a>
 					}
-					'<span class="token string">statement</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--statement">'statement'</a>
+					'<span class="token string">statement</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--statement">'statement'</a>
 				}
 			)
 			/* The result is determined by the following:
@@ -2767,3 +2764,4 @@ When the execution context is restricted, operations that (could) generate error
 </pre>
 </div>
 </div>
+
