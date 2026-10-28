@@ -32,11 +32,6 @@ h3[id] a::after:active {
   transition: opacity 0.05s ease-in-out;
 }
 
-h2[id]:target,
-h3[id]:target {
-  z-index: -1;
-}
-
 h2[id]:target a::after,
 h2[id] a:hover::after,
 h3[id]:target a::after,
@@ -62,19 +57,10 @@ h3[id] a::after {
   background-size: 12px 12px;
 }
 
-/* make name-linked-content doesn't disappear behind header for # links */
+/* A jump target, an element with an id or a link with a name, stops 7rem below the top of the window, clear of the fixed header, which is 6.4rem (96px) tall at every width. */
+[id],
 a[name] {
-  display: block;
-  position: relative;
-  top: -3rem;
-}
-
-/* offset for fixed header */
-:target::before {
-  content: "";
-  display: block;
-  height: 8rem;
-  margin-top: -8rem;
+  scroll-margin-top: 7rem;
 }
 
 section > * + * {

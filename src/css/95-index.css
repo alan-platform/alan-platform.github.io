@@ -120,12 +120,6 @@
   }
 }
 
-/* Room for the fixed header when jumping from the index. */
-h2[id],
-h3[id] {
-  scroll-margin-top: 6rem;
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
