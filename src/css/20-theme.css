@@ -1,167 +1,348 @@
 /*
- * Theme: the base styles of every page. Box sizing, the body text, headings, lists, images, focus outlines, the
- * skip link, links and buttons, quotes, code and rules.
+ * Theme: the base styles of every page, on top of normalize.css. Box sizing, the root size and the body text, the
+ * headings, the flow of paragraphs and lists, links, focus, selection, inline code and code blocks, quotes, rules,
+ * images, the skip link, and the behaviour under reduced motion and forced colours.
  *
- * Sizes follow a scale with ratio 1.414, an approximation of the square root of two: 1.414em and 2.828em are one and two times the ratio,
- * 3.9975843648em is its fourth power, 0.7072135785em and 0.5001510456em are one and two steps down (1 / 1.414 and
- * 1 / 1.414^2). The values are kept exactly as they were computed.
+ * Every value comes from 15-tokens.css. The root is 100%, the browser's font size, 16px by default, so a reader
+ * who sets a larger size gets every rem of the site larger. Body text is 17/28.
  *
- * Colours: text #333, blue #4a80ff, orange #ff641a, yellow #ffc94a and green #8fcc27. The five greys are #2b2c30
- * lightened the way Sass did it, the HSL lightness raised by that many points: #393b40 (6%), #484a50 (12%), #838590
- * (36%), #c3c5ca (60%) and #eeeff0 (76%). The other derived colours: #d24400 and #bd3d00 are the orange darkened
- * 14% and 18%; #2163ff, #2b6bff and #0d55ff are the blue darkened 8%, 6% and 12%; #ffb794 is the orange lightened
- * 24%; #fff7e3 is the yellow lightened 30%; #f7f7f7 is the lightest grey lightened 3%, computed from its unrounded
- * value, which makes it #2b2c30 lightened 79% (the rounded #eeeff0 lightened 3% gives #f6f7f7); rgba(247, 247, 247,
- * 0.9) is #f7f7f7 at 90% opacity; #d9dadd is the even mix of #c3c5ca and #eeeff0; rgba(57, 59, 64, 0.3) is the
- * second grey #393b40 at 30% opacity.
+ * Margins run downwards: a block has no top margin and a bottom margin that separates it from the next one, and a
+ * heading adds the space it needs above itself. Adjacent margins collapse, so the larger one wins: a paragraph
+ * followed by an h2 is 48px apart, not 64px. The last block of a container has no bottom margin, so a card or a
+ * notice ends at its padding.
  */
 
-/*
- * Transition durations, used in pairs: the first of a pair at rest, the second on hover and active. Slow and quick
- * are on the buttons, the header links, the menu toggle, the table rows and links and the footer links; fast and
- * fastest are on the cards, the card titles and the page index links. The heading anchor arrows use fast alone:
- * their quick rule is the one browsers drop (see 30-main.css).
- */
-:root {
-  --transition-slow: 0.5s;
-  --transition-quick: 0.1s;
-  --transition-fast: 0.25s;
-  --transition-fastest: 0.05s;
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html,
-body {
-  width: 100%;
-  height: 100%;
-  font-family: 'Instrument Sans', Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.414;
-  color: #333;
-}
-
-h1 {
-  margin: 0;
-  padding: 1em 0 0.7072135785em 0;
-  text-align: center;
-  font-size: 4em;
+html {
+  font-size: 100%;
 }
 
 /*
- * 50rem: the 45rem content width plus 5rem. A media query takes rem from the browser's initial font size, 16px, so
- * the breakpoint is 800px at the initial font size of 16px. In a value rem is the 15px of html: main, 4rem wider than the content width, is 49rem or
- * 735px, and its children, 1rem in from each side, are 705px.
+ * Weights and styles that a font has no face for are not faked: a synthesized bold or italic is a smeared or
+ * slanted copy of the regular face. 10-fonts.css says which faces exist. Small capitals are still synthesized:
+ * Instrument Sans has none of its own, and the brand name in running text (span.brand) is set in them.
  */
-@media (max-width: 50rem) {
-  h1 {
-    font-size: 2.828em;
-  }
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-height-body);
+  color: var(--text-body);
+  background: var(--surface-page);
+  font-synthesis: small-caps;
+  font-kerning: normal;
+  overflow-wrap: break-word;
 }
 
-h2 {
-  margin: 3.9975843648em 0 0.5001510456em 0;
-  font-size: 1.414em;
+/* Form controls take the font of the page instead of the browser's interface font. */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  letter-spacing: inherit;
 }
 
+/*
+ * Headings: the page title is the h1, at the phone size under 40rem and the desktop size from there; the reading
+ * headings h2 to h6 have one size at every width. Their lines are balanced, so a heading that wraps does not leave
+ * one word on its last line.
+ */
+h1,
+h2,
 h3,
 h4,
 h5,
 h6 {
-  margin: 1em 0 0 0;
-  font-size: 1em;
+  margin: 0;
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--font-size-title-phone);
+  line-height: var(--line-height-title-phone);
+  letter-spacing: var(--tracking-title-phone);
+}
+
+@media (min-width: 40rem) {
+  h1 {
+    font-size: var(--font-size-title);
+    line-height: var(--line-height-title);
+    letter-spacing: var(--tracking-title);
+  }
+}
+
+h2 {
+  margin: var(--space-12) 0 var(--space-4) 0;
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: var(--tracking-h2);
 }
 
 h3 {
-  font-size: 1.2em;
+  margin: var(--space-8) 0 var(--space-3) 0;
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--tracking-h3);
 }
 
-small {
-  font-size: 0.7072135785em;
-  line-height: 2;
+h4 {
+  margin: var(--space-6) 0 var(--space-2) 0;
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-h4);
 }
 
+h5,
+h6 {
+  margin: var(--space-6) 0 var(--space-2) 0;
+  font-size: var(--font-size-h5);
+  font-weight: var(--weight-bold);
+  line-height: var(--line-height-h5);
+}
+
+/* Paragraphs and list items wrap so that a short last line is avoided where the browser can do so. */
+p,
+ul,
 ol,
-ul {
-  margin: 1em auto 1.414em auto;
+dl,
+blockquote,
+figure,
+pre {
+  margin: 0 0 var(--space-4) 0;
 }
 
-ol li,
-ul li {
-  margin-bottom: 0.5001510456em;
+p,
+li {
+  text-wrap: pretty;
 }
 
-nav ol,
-nav ul {
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child {
   margin-top: 0;
 }
 
-nav ol li,
-nav ul li {
+p:last-child,
+ul:last-child,
+ol:last-child,
+dl:last-child,
+blockquote:last-child,
+figure:last-child,
+pre:last-child {
   margin-bottom: 0;
 }
 
-ol ol,
-ol ul,
-ul ol,
-ul ul {
-  margin-top: .5em;
-  margin-left: 1.414em;
+/* Existing strong emphasis is bold; headings and controls use the semibold weight for hierarchy. */
+b,
+strong {
+  font-weight: var(--weight-bold);
 }
 
-img {
+small {
+  font-size: 0.875em;
+}
+
+ul,
+ol {
+  padding-left: var(--space-6);
+}
+
+li {
+  margin: 0 0 var(--space-2) 0;
+}
+
+li::marker {
+  color: var(--text-secondary);
+}
+
+li > ul,
+li > ol {
+  margin: var(--space-2) 0 0 0;
+}
+
+/* Lists of links in a navigation are spaced by the navigation itself. */
+nav ol,
+nav ul {
+  margin: 0;
+}
+
+nav li {
+  margin: 0;
+}
+
+/*
+ * Links in running text are underlined at rest, 1px below the letters with 3px of air, so that they read as links
+ * without relying on colour. Hovering darkens the colour and thickens the underline. A visited link keeps the
+ * colour of a new one. Navigation, tags, cards and buttons set their own look.
+ */
+a {
+  transition: color var(--duration-hover) var(--ease-standard), text-decoration-thickness var(--duration-hover) var(--ease-standard);
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover,
+a:active {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/*
+ * Keyboard focus: a 3px ring in the focus colour, 3px away from the element, so that the page background shows as
+ * a gap between a filled control and its ring. A dark surface sets --focus-ring to --focus-ring-inverse, white.
+ * The ring appears at once: no transition names the outline.
+ */
+:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+::selection {
+  background: var(--selection-background);
+  color: var(--selection-text);
+}
+
+/*
+ * Inline code: IBM Plex Mono at 15px in the 17px text, on the inset grey with a little padding. It is an inline
+ * block, so an identifier is not split over two lines at a hyphen or a space: it moves to the next line as a whole,
+ * and wraps only when it is longer than a whole line, which on a phone a command can be. Its line height is the
+ * height of its letters, so it never makes the line it sits in taller. An inline block does not take the underline
+ * of a link around it, so code in a link takes the decoration of its parent: the underline of a link in running
+ * text, none in a navigation.
+ */
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code-inline);
+  tab-size: 4;
+}
+
+code {
+  display: inline-block;
+  max-width: 100%;
+  padding: 0.125rem var(--space-1);
+  border-radius: var(--radius-inline);
+  background: var(--surface-inset);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+a code {
+  text-decoration: inherit;
+}
+
+/*
+ * A code block: the paper surface with a subtle border, charcoal code at 15/24. The code keeps its whitespace and
+ * scrolls within the block when a line is longer than the column.
+ */
+pre {
+  overflow: auto;
+  padding: var(--padding-code);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-subtle);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-code);
+  line-height: var(--line-height-code);
+  color: var(--text-heading);
+  tab-size: 4;
+}
+
+pre code {
+  display: inline;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre;
+  overflow-wrap: normal;
+}
+
+/*
+ * Tables are set in the table text, 14/22, with figures of equal width, so that the versions in a column line up.
+ * Their layout belongs to the page that has them (70-docs.css, 80-release-notes.css).
+ */
+table {
+  font-size: var(--font-size-table);
+  line-height: var(--line-height-table);
+  font-variant-numeric: tabular-nums;
+}
+
+blockquote {
+  padding-left: var(--space-5);
+  border-left: var(--indicator-width) solid var(--border-control);
+}
+
+/* A rule is a hairline of the subtle border colour; under an h2 it sits close to the heading, as its underline. */
+hr {
+  margin: var(--space-8) 0;
+  border: none;
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+h2 + hr {
+  margin-top: calc(var(--space-3) - var(--space-4));
+  margin-bottom: var(--space-6);
+}
+
+img,
+svg,
+video {
   max-width: 100%;
 }
 
 /*
- * Content images keep their proportions when the column is narrower than they are; logos in the header and footer
- * are sized by their height attribute, so leave those alone.
+ * Images in the content keep their proportions when the column is narrower than they are. The logos in the header
+ * and the footer are sized by their height attribute, which height: auto would override, so they are left alone.
  */
-main section img {
+main img {
   height: auto;
 }
 
-/* Keyboard users need to see where they are. */
-:focus-visible {
-  outline: 3px solid #ff641a;
-  outline-offset: 2px;
-}
-
-/* The first thing a keyboard reaches, out of the way until it is focused. */
+/*
+ * The first thing a keyboard reaches: out of view until it is focused, then a charcoal button in the top left
+ * corner, above the site header.
+ */
 .skip-link {
   width: 1px;
   height: 1px;
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 3;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: var(--z-skip-link);
   overflow: hidden;
-  padding: 0;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .skip-link:focus {
   width: auto;
   height: auto;
   overflow: visible;
-  padding: 1rem 1.414rem;
-  background: #fff;
-  color: #2b2c30;
-}
-
-a,
-a:link,
-a:visited,
-a:hover,
-a:active {
+  clip-path: none;
+  padding: var(--space-3) var(--space-5);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-button);
+  background: var(--action-primary);
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-ui);
+  color: var(--text-on-action);
   text-decoration: none;
-  color: #4a80ff;
-}
-
-a:hover,
-a:active {
-  text-decoration: underline;
 }
 
 /*
@@ -179,53 +360,20 @@ a.button {
   color: #fff;
   text-shadow: 1px 1px 4px rgba(57, 59, 64, 0.3);
   box-shadow: 1px 2px 4px rgba(57, 59, 64, 0.3);
-  transition: background var(--transition-slow) ease-in-out;
+  text-decoration: none;
+  transition: background var(--duration-hover) ease-in-out;
 }
 
 a.button:hover,
 a.button:active {
-  transition: background var(--transition-quick) ease-in-out;
   text-decoration: none;
   background: #bd3d00;
+  color: #fff;
 }
 
 a.button:active {
   top: 1px;
   box-shadow: inset 1px 1px 2px rgba(57, 59, 64, 0.3);
-}
-
-blockquote {
-  margin: 0;
-  padding-left: 0.7072135785em;
-  border-left: 2px solid #c3c5ca;
-  color: #393b40;
-}
-
-pre {
-  margin: 0;
-  padding: 0.5001510456em 0.7072135785em;
-  border-radius: 4px;
-  line-height: 1;
-  background: #eeeff0;
-}
-
-code {
-  padding: 0 0.7072135785ex;
-  border-radius: 4px;
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 0.8em;
-  background: #eeeff0;
-}
-
-p > code {
-  white-space: nowrap;
-}
-
-pre code {
-  padding: 0;
-  border-radius: 0;
-  background: none;
-  white-space: pre;
 }
 
 code .punctuation {
@@ -240,8 +388,31 @@ code .operator {
   color: #ff641a;
 }
 
-hr {
-  margin: 0 0.7072135785rem;
-  border: none;
-  border-bottom: 2px solid #4a80ff;
+/*
+ * Without motion every transition and animation ends at once: state changes are immediate, and an animation that
+ * fades something in shows it at its end state. The rule overrides the durations of every component, which is why
+ * it is marked important.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    animation-duration: 1ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/*
+ * In forced colours the browser replaces the colours with the system ones and drops backgrounds and shadows. The
+ * focus ring takes the highlight colour, and a transparent border (the skip link and the buttons have one) is drawn
+ * in the text colour, so a filled control keeps an outline.
+ */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
 }

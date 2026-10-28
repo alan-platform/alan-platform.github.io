@@ -8,12 +8,11 @@
  * exactly as computed.
  */
 
-/* 1.999396em is 1.414 squared: the type scale ratio applied twice. */
+/* The origin, type and version of the document, under its title. */
 .doc h1 + p {
-  margin: -1.999396em 0 1.999396em 0;
-  padding: 0;
+  margin: var(--space-3) 0 var(--space-8) 0;
+  padding: 0 0 var(--space-3) 0;
   border-bottom: 1px solid #eeeff0;
-  text-align: center;
   color: #393b40;
 }
 
@@ -29,12 +28,12 @@ table {
 }
 
 table tr {
-  transition: background var(--transition-slow) ease-in-out;
+  transition: background var(--duration-hover) ease-in-out;
 }
 
 table tr:hover,
 table tr:active {
-  transition: background var(--transition-quick) ease-in-out;
+  transition: background var(--duration-hover) ease-in-out;
 }
 
 table tr:hover {
@@ -70,14 +69,14 @@ table td > a:visited,
 table td > a:hover,
 table td > a:active {
   text-decoration: none;
-  transition: color var(--transition-slow) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
 }
 
 table th > a:hover,
 table th > a:active,
 table td > a:hover,
 table td > a:active {
-  transition: color var(--transition-quick) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
 }
 
 /*
@@ -135,7 +134,7 @@ table td > a:active {
 .doc-table td,
 .release-components th,
 .release-components td {
-  transition: background var(--transition-slow) ease-in-out;
+  transition: background var(--duration-hover) ease-in-out;
   padding: .5rem .9rem;
   border-top: 1px solid #eeeff0;
   border-right: none;
@@ -147,7 +146,7 @@ table td > a:active {
 .doc-table tbody tr:active > *,
 .release-components tbody tr:hover > *,
 .release-components tbody tr:active > * {
-  transition: background var(--transition-quick) ease-in-out;
+  transition: background var(--duration-hover) ease-in-out;
   background: #f7f7f7;
 }
 
@@ -172,7 +171,8 @@ table td > a:active {
   padding-top: .6rem;
   padding-bottom: .6rem;
   border-top: none;
-  font-size: .75em;
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
   letter-spacing: .06em;
   text-transform: uppercase;
   color: #484a50;
@@ -184,7 +184,6 @@ table td > a:active {
   padding-bottom: .4rem;
   border-top-color: #d9dadd;
   background: #f7f7f7;
-  font-size: .875em;
   color: #393b40;
 }
 
@@ -263,7 +262,7 @@ table td > a:active {
 .archive-links a,
 .archive-links a:link,
 .archive-links a:visited {
-  transition: border-color var(--transition-fast) ease-in-out, color var(--transition-fast) ease-in-out;
+  transition: border-color var(--duration-hover) ease-in-out, color var(--duration-hover) ease-in-out;
   display: inline-block;
   padding: .1em .55em;
   border: 1px solid #d9dadd;
@@ -282,7 +281,7 @@ table td > a:active {
 .archive-nav a:active,
 .archive-links a:hover,
 .archive-links a:active {
-  transition: border-color var(--transition-fastest) ease-in-out, color var(--transition-fastest) ease-in-out;
+  transition: border-color var(--duration-hover) ease-in-out, color var(--duration-hover) ease-in-out;
   border-color: #ff641a;
   text-decoration: none;
   color: #bd3d00;
@@ -481,7 +480,7 @@ table td > a:active {
 
 /* A chevron that points right while the table is folded and down while it is open. */
 .archive-version summary::before {
-  transition: transform var(--transition-fast) ease-in-out;
+  transition: transform var(--duration-hover) ease-in-out;
   content: '';
   width: .45em;
   height: .45em;

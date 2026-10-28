@@ -5,7 +5,9 @@
  * 1.414, an approximation of the square root of two (1.414 to 1.414^4), kept exactly as computed.
  */
 
+/* The focus ring is white on the charcoal band: the blue of the light pages is 2.19:1 on it. */
 footer {
+  --focus-ring: var(--focus-ring-inverse);
   margin: 4rem 0 0 0;
   position: relative;
   background: #2b2c30;
@@ -71,11 +73,11 @@ footer a,
 footer a:link,
 footer a:visited {
   color: inherit;
-  transition: color var(--transition-slow) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
 }
 
 footer a:hover,
 footer a:active {
-  transition: color var(--transition-quick) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
   color: #fff;
 }

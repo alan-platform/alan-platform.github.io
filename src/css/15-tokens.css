@@ -276,7 +276,8 @@
 
   /*
    * Motion. A hover changes in 120ms, a disclosure or an icon in 180ms, and no transition takes longer than 240ms.
-   * The standard easing starts fast and settles; the exit easing accelerates out. Focus is never animated.
+   * The standard easing starts fast and settles; the exit easing accelerates out. Focus is never animated. Under
+   * reduced motion 20-theme.css makes every transition and animation immediate.
    */
   --duration-immediate: 0ms;
   --duration-hover: 120ms;

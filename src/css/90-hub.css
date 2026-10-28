@@ -32,7 +32,7 @@
 a.card,
 a.card:link,
 a.card:visited {
-  transition: border-color var(--transition-fast) ease-in-out, box-shadow var(--transition-fast) ease-in-out, transform var(--transition-fast) ease-in-out, background-position var(--transition-fast) ease-in-out, background-size var(--transition-fast) ease-in-out;
+  transition: border-color var(--duration-hover) ease-in-out, box-shadow var(--duration-hover) ease-in-out, transform var(--duration-hover) ease-in-out, background-position var(--duration-hover) ease-in-out, background-size var(--duration-hover) ease-in-out;
   display: flex;
   flex-direction: column;
   gap: .35em;
@@ -65,7 +65,7 @@ a.card:visited {
 a.card:hover,
 a.card:focus-visible,
 a.card:active {
-  transition: border-color var(--transition-fastest) ease-in-out, box-shadow var(--transition-fastest) ease-in-out, transform var(--transition-fastest) ease-in-out, background-position var(--transition-fastest) ease-in-out, background-size var(--transition-fastest) ease-in-out;
+  transition: border-color var(--duration-hover) ease-in-out, box-shadow var(--duration-hover) ease-in-out, transform var(--duration-hover) ease-in-out, background-position var(--duration-hover) ease-in-out, background-size var(--duration-hover) ease-in-out;
   border-color: #ff641a;
   background-position: left top, left top;
   background-size: 100% 3px, 200% 200%;
@@ -99,13 +99,13 @@ a.card:active .card-title {
   a.card,
   a.card:link,
   a.card:visited {
-    transition: border-color var(--transition-fast) ease-in-out, box-shadow var(--transition-fast) ease-in-out;
+    transition: border-color var(--duration-hover) ease-in-out, box-shadow var(--duration-hover) ease-in-out;
   }
 
   a.card:hover,
   a.card:focus-visible,
   a.card:active {
-    transition: border-color var(--transition-fastest) ease-in-out, box-shadow var(--transition-fastest) ease-in-out;
+    transition: border-color var(--duration-hover) ease-in-out, box-shadow var(--duration-hover) ease-in-out;
     transform: none;
   }
 }
@@ -121,7 +121,7 @@ a.card:active .card-title {
 
 /* The blue darkened 8%: 4.9:1 on the white of a card, where the blue gives 3.6:1. */
 .card-title {
-  transition: color var(--transition-fast) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
   font-size: 1.15em;
   font-weight: bold;
   color: #2163ff;
@@ -129,7 +129,7 @@ a.card:active .card-title {
 
 .card-title:hover,
 .card-title:active {
-  transition: color var(--transition-fastest) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
 }
 
 .card-text {

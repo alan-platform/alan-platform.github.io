@@ -50,7 +50,7 @@
 .page-index a,
 .page-index a:link,
 .page-index a:visited {
-  transition: color var(--transition-fast) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
   display: block;
   padding: .2em .5em .2em .75em;
   border-left: 3px solid transparent;
@@ -68,7 +68,7 @@
 
 .page-index a:hover,
 .page-index a:active {
-  transition: color var(--transition-fastest) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
   border-left-color: #c3c5ca;
   color: #2b2c30;
 }
@@ -110,11 +110,5 @@
     margin-right: 0;
     margin-left: -16rem;
     scrollbar-width: thin;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
   }
 }

@@ -23,6 +23,11 @@ header .inner {
   padding: 0 2.827145944rem;
 }
 
+/* The links of the header are navigation, not running text: no underline. */
+header a {
+  text-decoration: none;
+}
+
 header ul {
   list-style: none;
   display: flex;
@@ -43,7 +48,7 @@ header ul {
 }
 
 header ul a {
-  transition: all var(--transition-slow) ease-in-out;
+  transition: all var(--duration-hover) ease-in-out;
   display: inline-block;
   white-space: nowrap;
 }
@@ -62,7 +67,7 @@ header ul a:active {
 
 header ul a:hover,
 header ul a:active {
-  transition: all var(--transition-quick) ease-in-out;
+  transition: all var(--duration-hover) ease-in-out;
   text-decoration: none;
   text-shadow: 0 0 2px #fff;
   border-bottom-color: #2163ff;
@@ -153,7 +158,7 @@ header .logo svg .stripes path:hover:nth-child(4n + 2) {
 
 /* A button, styled the way the link it replaced was. */
 header .nav-toggle {
-  transition: color var(--transition-slow) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
   display: none;
   padding-right: 0;
   padding-left: 0;
@@ -167,7 +172,7 @@ header .nav-toggle {
 
 header .nav-toggle:hover,
 header .nav-toggle:active {
-  transition: color var(--transition-quick) ease-in-out;
+  transition: color var(--duration-hover) ease-in-out;
   color: #ffb794;
 }
 
