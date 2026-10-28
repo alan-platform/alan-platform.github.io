@@ -1,0 +1,28 @@
+{{- /*
+	A notice for the newest platform version that has release notes: {{< docs-whats-new >}}. The list in
+	_data/versions.json is newest first, so a version met before the current one is newer than it; the reference on
+	the documentation page stays at the current version, the one the tutorials are written for, until that moves on.
+	Nothing when no version up to the current one has release notes.
+*/ -}}
+{{- $versions := hugo.Data.versions -}}
+{{- $notes := false -}}
+{{- $newer := false -}}
+{{- range $versions.versions -}}
+	{{- if not $notes -}}
+		{{- $notes = partial "notes-page.html" (dict "origin" "platform" "version" .name) -}}
+		{{- if and $notes (ne .name $versions.current) -}}
+			{{- $newer = true -}}
+		{{- end -}}
+	{{- end -}}
+	{{- if eq .name $versions.current -}}
+		{{- break -}}
+	{{- end -}}
+{{- end -}}
+{{- with $notes }}
+<p class="notice">
+	<strong>Alan {{ .Params.version }}</strong>{{ if $newer }} is out{{ end }}:
+	<a href="{{ .RelPermalink }}">release notes</a> ·
+	<a href="/pages/tuts/upgrading.html">upgrading a project</a>{{ if $newer }} ·
+	<a href="/docs/archive">its language reference</a>{{ end }}
+</p>
+{{- end -}}

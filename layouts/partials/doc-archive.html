@@ -1,0 +1,20 @@
+{{- /*
+	The language documentation of every platform version, newest first, the current one open. The release notes of
+	a platform version are the documentation page that the versions publish writes, the one page with origin
+	"platform" and that version.
+*/ -}}
+{{- $versions := hugo.Data.versions -}}
+{{- $docPages := partialCached "doc-pages.html" "doc-pages" -}}
+{{- range $versions.versions }}
+{{- $notes := false }}
+{{- with index $docPages (printf "platform|%v" .name) }}{{ $notes = index . 0 }}{{ end }}
+<details class="archive"{{ if eq .name $versions.current }} open{{ end }}>
+<summary>
+	{{ .name }}
+	<a href="https://dist.alan-platform.com/share/versions/{{ .name }}/versions.json">versions.json</a>
+	{{ with .alan }}<a href="{{ . }}">alan script</a>{{ end }}
+	{{ with $notes }}<a href="{{ .RelPermalink }}">release notes</a>{{ end }}
+</summary>
+{{ partialCached "doc-table.html" (dict "version" . "platform_row" false) .name false }}
+</details>
+{{- end }}

@@ -1,0 +1,32 @@
+{{- /*
+	The section on the alan script, in Markdown, so that its heading is in the page index: {{% alan-script %}}.
+	The alan script is offered per platform version in _data/versions.json ("alan" field). This shows the quickstart
+	for the current version, the one the tutorials are written for; a newer version can be listed (with its script)
+	on the versions page before the tutorials move to it. Nothing when the current version has no script.
+
+	The values go into the Markdown as plain text, as the Liquid put them there, and the Markdown renderer escapes
+	them once. Escaped here as well, an & in the address would show as &amp; in the code block.
+*/ -}}
+{{- $versions := hugo.Data.versions -}}
+{{- range first 1 (where $versions.versions "name" $versions.current) -}}
+{{- if .alan -}}
+{{- $alan := .alan | safeHTML -}}
+{{- $name := .name | safeHTML -}}
+<a name="alan"></a>
+## The `alan` script ({{ $name }})
+
+The [`alan`]({{ $alan }}) script is the command-line entry point to the platform.
+It downloads the toolchain of its platform version, sets up a project from a template, builds the project, and packages it for deployment.
+Deploying a package is what the [online IDE](/pages/tutorials/ide/ide-tutorial.html) does; the script does not deploy.
+To move a project to a newer platform version, see [Upgrading a project](/pages/tuts/upgrading.html).
+
+```sh
+curl -O {{ $alan }}
+chmod +x alan
+./alan init     # a project from the default template, with the {{ $name }} toolchain
+./alan build
+```
+
+`./alan --help` lists every subcommand.
+{{- end -}}
+{{- end -}}

@@ -1,0 +1,15 @@
+{{- /*
+	The card of the application language on the documentation page: {{< application-card >}}. It links the grammar
+	of the model component of the current platform version, and is left out when that version has none, as the
+	Liquid of the page had it.
+*/ -}}
+{{- $versions := hugo.Data.versions -}}
+{{- range first 1 (where $versions.versions "name" $versions.current) -}}
+{{- with .platform }}{{ with .model }}
+<a class="card" href="/pages/docs/model/{{ . }}/application/grammar.html" aria-labelledby="card-application" aria-describedby="card-application-text">
+<span class="card-kicker">Most used · model {{ . }}</span>
+<span class="card-title" id="card-application">The application language</span>
+<span class="card-text" id="card-application-text">Everything an <code>application.alan</code> can say: data, derivations, references, commands, users and permissions.</span>
+</a>
+{{- end }}{{ end -}}
+{{- end -}}
