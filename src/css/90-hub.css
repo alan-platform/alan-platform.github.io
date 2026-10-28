@@ -1,5 +1,6 @@
 /*
- * The Learn and Documentation pages: cards for a choice between paths and for short lists of destinations.
+ * The Learn, Documentation and About pages: cards for a choice between paths and for short lists of
+ * destinations, and the feature panels, the list of services and the call to action of the About page.
  * 1.414em is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
@@ -13,6 +14,11 @@
 
 .cards-small .card-title {
   font-size: 1em;
+}
+
+/* Three across the text column, for three short destinations; fewer when the column is narrower. */
+.cards-three {
+  grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr));
 }
 
 /*
@@ -143,4 +149,128 @@ p.more {
   border-left: 3px solid #ffc94a;
   border-radius: 0 4px 4px 0;
   background: #fff7e3;
+}
+
+/*
+ * The features of the About page: panels in a grid, three across the text column, each topped with a stripe in one
+ * of the colours of the logo, in the order of its stripes from left to right.
+ */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+  gap: 1rem;
+  margin: 1em 0 1.414em;
+}
+
+.features .feature {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid #c3c5ca;
+  border-top: 3px solid #ffc94a;
+  border-radius: 6px;
+}
+
+.feature:nth-child(4n + 2) {
+  border-top-color: #8fcc27;
+}
+
+.feature:nth-child(4n + 3) {
+  border-top-color: #ff641a;
+}
+
+.feature:nth-child(4n + 4) {
+  border-top-color: #4a80ff;
+}
+
+.feature h3 {
+  margin: 0 0 .35em 0;
+  font-size: 1em;
+  color: #2b2c30;
+}
+
+.feature p {
+  margin: 0;
+  font-size: .9em;
+  line-height: 1.5;
+  color: #393b40;
+}
+
+/*
+ * The services of the About page: a light grey panel with a checklist in two columns, one when the column is
+ * narrow. The check marks are in the green of the logo; they decorate a list that is a list without them, so they
+ * have an empty alternative text, which a browser without that syntax ignores, reading the check marks out. The
+ * list has role="list": without its markers WebKit would not expose it as a list. The link takes the blue
+ * darkened by 8%, 4.6:1 on the grey, where the blue gives 3.4:1.
+ */
+.services {
+  margin: 1.414em 0;
+  padding: 1rem 1.25rem;
+  border-radius: 6px;
+  background: #f7f7f7;
+}
+
+.services .services-title {
+  margin: 0;
+  font-size: 1em;
+  color: #2b2c30;
+}
+
+.services a,
+.services a:link,
+.services a:visited {
+  color: #2163ff;
+}
+
+.services ul {
+  columns: 2 16rem;
+  column-gap: 1.5rem;
+  margin: .6em 0 .8em 0;
+  padding: 0;
+  list-style: none;
+}
+
+.services li {
+  break-inside: avoid;
+  position: relative;
+  margin: 0 0 .35em 0;
+  padding-left: 1.5em;
+}
+
+.services li::before {
+  content: '\2713';
+  content: '\2713' / '';
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+  color: #8fcc27;
+}
+
+.services p:last-child {
+  margin: 0;
+}
+
+/*
+ * A call to action at the end of a page: its text beside an orange button, the button under the text when the
+ * column is narrow. The orange edge is 3px wide, as the yellow one of the notice.
+ */
+.call-out {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 1.5rem;
+  margin: 1em 0 1.414em;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid #c3c5ca;
+  border-left: 3px solid #ff641a;
+  border-radius: 6px;
+}
+
+.call-out p {
+  flex: 1 1 20rem;
+  margin: 0;
+}
+
+.call-out .button {
+  white-space: nowrap;
 }
