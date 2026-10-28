@@ -24,7 +24,7 @@ h3[id] a::after {
   opacity: 0;
 }
 
-/* The pseudo-class follows the pseudo-element here, so this rule matches nothing; it is kept as it was. */
+/* The pseudo-class follows the pseudo-element, so browsers drop this rule; it stays only to keep the stylesheet unchanged. */
 h2[id] a::after:hover,
 h2[id] a::after:active,
 h3[id] a::after:hover,
