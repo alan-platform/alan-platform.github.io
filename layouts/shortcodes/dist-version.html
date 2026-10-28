@@ -1,0 +1,22 @@
+{{- /*
+  The version of a system type in a platform version: {{< dist-version "connector" >}} or
+  {{< dist-version "connector" "2026.2" >}}.
+
+  Reads "system types" of _data/dist/<platform version>/versions.json, which the CI job of the platform writes.
+  The platform version is the second argument; without it the platform_version of the page, and without that the
+  current platform version of _data/versions.json. Hugo keeps the dot in the name of the directory.
+*/ -}}
+{{- $type := .Get 0 -}}
+{{- if not $type -}}
+  {{- errorf "dist-version shortcode: no system type given in %s" .Page.File.Path -}}
+{{- end -}}
+{{- $platform := .Get 1 | default .Page.Params.platform_version | default hugo.Data.versions.current | printf "%v" -}}
+{{- $dist := index hugo.Data.dist $platform -}}
+{{- if not $dist -}}
+  {{- errorf "dist-version shortcode: no _data/dist/%s/versions.json (used in %s)" $platform .Page.File.Path -}}
+{{- end -}}
+{{- $entry := index $dist.versions "system types" $type -}}
+{{- if not $entry -}}
+  {{- errorf "dist-version shortcode: platform version %s has no system type %q (used in %s)" $platform $type .Page.File.Path -}}
+{{- end -}}
+{{- $entry.version -}}

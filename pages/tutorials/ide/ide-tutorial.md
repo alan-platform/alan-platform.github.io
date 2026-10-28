@@ -95,9 +95,9 @@ These are the files and folders that matter while you work through the `applicat
 `models/model/application.alan` holds the model of your application: the file you spend most of your time in.
 
 `migrations/from_release/migration.alan`, which appears after your first deployment, describes how the data of the running app is carried over to the next version of your model.
-Migrations are a subject of their own; the [migrations guide](/pages/tutorials/migrations/{{ site.data.versions.current }}/migrations.html) covers them.
+Migrations are a subject of their own; the [migrations guide](/pages/tutorials/migrations/{{< site-version >}}/migrations.html) covers them.
 
-So that the tutorial can stay on the `application` language, a ready-made migration is provided for each of its steps, in `_docs/tutorials/restaurant1/{{ site.data.versions.current }}`.
+So that the tutorial can stay on the `application` language, a ready-made migration is provided for each of its steps, in `_docs/tutorials/restaurant1/{{< site-version >}}`.
 Each topic of the tutorial ends with the folder to use.
 Copying that migration file into your project gives your app example data to work with.
 The `to_model` folder of each step also contains a complete, valid `application.alan`, to compare with when your own model does not build.
@@ -136,4 +136,4 @@ After a deployment, click `Alan Show` to open the published version of your appl
 More information about Visual Studio Code is available in [its documentation](https://code.visualstudio.com/).
 
 ## Next up
-You are set up to start with the `application` language tutorial, which builds a restaurant app step by step: [Part I](/pages/tutorials/model/{{ site.data.versions.current }}/application-tutorial.html).
+You are set up to start with the `application` language tutorial, which builds a restaurant app step by step: [Part I](/pages/tutorials/model/{{< site-version >}}/application-tutorial.html).

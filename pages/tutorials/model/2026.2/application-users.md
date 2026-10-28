@@ -16,7 +16,7 @@ description: >-
 Every app in the tutorials so far used `anonymous` users: anyone who opens the app can read and change everything.
 This guide replaces that with real users and password **authentication**, which is the basis for permissions — deciding who may see and change which part of the data.
 
-It assumes the project structure of the online Alan IDE, as described in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html), and a model you can build, such as the one from the [application tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html).
+It assumes the project structure of the online Alan IDE, as described in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html), and a model you can build, such as the one from the [application tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html).
 
 Three things need to change:
 - the `application.alan` model, which gains a users administration,
@@ -24,7 +24,7 @@ Three things need to change:
 - the deployment, which needs an initial username and password to bootstrap authentication.
 
 ## Updating your `application.alan`
-Read the section on **Application users** in the [application language documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html#application-users).
+Read the section on **Application users** in the [application language documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html#application-users).
 From the example model there, copy the parts you need for a `'Users'` and a `'Passwords'` collection, and the contents of the `users` section.
 The parts about *authorities* can be ignored for basic password authentication.
 

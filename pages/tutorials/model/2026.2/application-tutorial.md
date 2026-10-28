@@ -21,7 +21,7 @@ That model expresses the core of your application: the structure of the data, co
 You start with the most basic ingredient of a data-intensive application: *base data*.
 Base data is the primary data an application needs to work, such as the menu of a meal ordering app.
 It includes *all states* that matter to the application, such as the status of an order or a payment.
-On top of the base data you express further aspects, such as the permissions required to read a piece of data, or a [*todo* item](/pages/docs/model/{{ page.model_version }}/application/grammar.html#todo-items) for a rejected payment.
+On top of the base data you express further aspects, such as the permissions required to read a piece of data, or a [*todo* item](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html#todo-items) for a rejected payment.
 
 The tutorial follows one story and extends one model step by step.
 Most topics end with a reference to a tutorial folder in your project, so you can compare your model with the expected result.
@@ -107,7 +107,7 @@ This is the ***minimal model***: the smallest model the Alan platform accepts.
 
 The `users` section defines who can access the application and how.
 Use `anonymous` for now, which means that anyone can open the app and read and edit its data.
-The [application language documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) describes the other options.
+The [application language documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) describes the other options.
 
 The `interfaces` section defines which other apps and databases this app is connected to.
 For this tutorial the app stays disconnected.
@@ -142,7 +142,7 @@ A build reports nothing when the project is valid, and reports errors when it is
 Once the build succeeds, run `Alan Deploy` to turn the project into a running app.
 `Alan Deploy` asks for a *'data source for this deployment'*.
 Choose the **empty** option for the first deployment.
-The **migrate** option keeps the data of an already running app, which is what you use for every later deployment in this tutorial; the [migrations guide](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html) explains how that works.
+The **migrate** option keeps the data of an already running app, which is what you use for every later deployment in this tutorial; the [migrations guide](/pages/tutorials/migrations/{{< param "platform_version" >}}/migrations.html) explains how that works.
 
 ---
 
@@ -164,13 +164,13 @@ That returns you to the `Menu` table, where you can add more items and edit exis
 Typing test data by hand after every model change gets tedious, so the tutorial ships data for each step in the `_docs` folder.
 To load the data for a step:
 1. run `Alan Deploy` and choose the **migrate** option, which creates the folder `migrations/from_release`,
-2. open `_docs/tutorials/restaurant1/{{ page.platform_version }}/step_01/migration/migration.alan` (`step_01` for this step),
+2. open `_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_01/migration/migration.alan` (`step_01` for this step),
 3. copy its contents over the contents of `migrations/from_release/migration.alan`,
 4. run `Alan Deploy` again and choose the **migrate** option.
 
 After the deployment succeeds, the data is in your app.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_01/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_01/`>
 
 ## Numerical-types
 A price entered with decimals is rounded to a whole number:
@@ -214,7 +214,7 @@ Each menu item is a node with an `Item type` that is either `Dish` or `Beverage`
 `Dish` and `Beverage` are nodes themselves, holding a `Dish type` and a `Beverage type` respectively.
 A `Dish type` is `Appetizer`, `Main course` or `Dessert`; a `Beverage type` is `Juice` or one of the other states in the model.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_02/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_02/`>
 
 Build and deploy to see what stategroups and numerical types do for the app.
 Before deploying, copy the `migration.alan` file from the tutorial folder to `migrations/from_release/migration.alan` as described above, and choose the **migrate** option.
@@ -257,7 +257,7 @@ Each table therefore has its own collection of orders, and each order line recor
 | 04 | Chocolate mousse | 1 |
 | 05 | Cappuccino | 1 |
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_03/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_03/`>
 
 ---
 
@@ -339,7 +339,7 @@ Remove the states of the `Beverage type` attribute, add a collection `Beverage t
 
 Note that `Beverage types` goes *above* the `Menu`.
 That is logical — beverage types exist before a menu uses them — and the compiler requires it: by default, expressions in an `application` model point to attributes defined earlier in the model.
-That rule is what allows the language to guarantee that computations terminate and stay consistent; the [docs](/pages/docs/model/{{ page.model_version }}/application/grammar.html) explain it in detail.
+That rule is what allows the language to guarantee that computations terminate and stay consistent; the [docs](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) explain it in detail.
 
 Build, deploy, and select `Beverage types` in the left column:
 
@@ -359,7 +359,7 @@ Then click the magnifier next to `Beverage type`:
 
 The `Beverage types` collection appears, just like the `Menu` items earlier, and one of them can be chosen for 'Mojito'.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_04/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_04/`>
 
 ## Next
 This concludes the introduction to the `application` language.
@@ -370,5 +370,5 @@ Two pieces of advice for your own application:
 - ***Experiment***. Try things out. Restructuring a model is cheap, and parts of a model are easy to reuse.
 
 There is more to discover.
-[Part II](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial2.html) covers derived values, reference sets, commands, and actions.
+[Part II](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial2.html) covers derived values, reference sets, commands, and actions.
 Questions or comments about the tutorial or the platform are welcome on the [forum](https://forum.alan-platform.com/).

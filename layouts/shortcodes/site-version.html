@@ -1,0 +1,6 @@
+{{- /* The current platform version, `current` in _data/versions.json: {{< site-version >}} */ -}}
+{{- $current := hugo.Data.versions.current -}}
+{{- if not $current -}}
+  {{- errorf "site-version shortcode: _data/versions.json has no \"current\" (used in %s)" .Page.File.Path -}}
+{{- end -}}
+{{- $current -}}

@@ -26,7 +26,7 @@ More interesting than what you build is what the compiler refuses to let you bui
 Somewhere in the middle of this tutorial you will write the mistake that cost NASA the Mars Climate Orbiter, and watch it get caught before the app even starts.
 
 This tutorial assumes you can build and deploy a project, as in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
-It does not assume you have done the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html); that one goes slower and explains more.
+It does not assume you have done the [restaurant tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html); that one goes slower and explains more.
 
 ### How to work through this page
 {:.no_toc}
@@ -35,7 +35,7 @@ Seven acts grow one model, the file `models/model/application.alan`.
 The first code block is a complete model; every later block is what that act adds, where `...` stands for lines that stay as they are.
 The finished model is at [the end of the page](#the-whole-thing).
 
-Each act has a matching folder in your own project, under `_docs/tutorials/mission-control/{{ page.platform_version }}/`, named after the act:
+Each act has a matching folder in your own project, under `_docs/tutorials/mission-control/{{< param "platform_version" >}}/`, named after the act:
 
 | Act | Folder |
 | :- | :- |
@@ -64,7 +64,7 @@ Do this from Act 1 onward if you want your app to show what the screenshots show
 A deployment with **empty** regenerates `migrations/from_empty` from scratch each time, so anything written there is thrown away without a warning.
 If a deployment gets stuck, delete the `migrations` folder, deploy once with **empty**, and carry on.
 
-Migrations have a [tutorial of their own](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html); here they are only a way to load the example data, until Act 7 changes the model with data already in the app.
+Migrations have a [tutorial of their own](/pages/tutorials/migrations/{{< param "platform_version" >}}/migrations.html); here they are only a way to load the example data, until Act 7 changes the model with data already in the app.
 
 ## Act 1 — Five minutes
 
@@ -86,7 +86,7 @@ Everything visible there — the navigation, the list, the detail form, the add 
 
 > **What you did not write:** a table definition, an ORM class, an API endpoint, a form, a validation rule, a recomputation hook.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_01/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_01/`>
 
 ## Act 2 — Numbers that know what they are
 
@@ -108,7 +108,7 @@ Without that rule the model does not compile — Alan will not multiply two quan
 Build and deploy here, and each engine carries its own impulse with the vehicle's total underneath the list.
 This is the halfway folder of this act, `act_02a`, with three engines in it:
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_02a/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_02a/`>
 
 One thing on that screen reads wrong: a burn time shows as **380 second**.
 The word after a number is the name of its numerical type, so the fix is a better name — and not a search-and-replace.
@@ -169,7 +169,7 @@ That factor is not folklore — one pound-force is 4.448222 newtons by definitio
 
 > **What you did not write:** unit tests for unit handling. The unit *is* the type. A mismatch is not a bug you hunt, it is a program that does not exist.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_02b/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_02b/`>
 
 ## Act 3 — A manifest that keeps itself
 
@@ -209,7 +209,7 @@ Change one payload's mass and every value that depends on it — on this screen 
 
 > **What you did not write:** a foreign key constraint, a join, an aggregate query, a cache, an invalidation strategy, and the bug where the total is right on one screen and wrong on another.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_03/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_03/`>
 
 ## Act 4 — Operations, not buttons
 
@@ -223,7 +223,7 @@ In Alan, a process like that is a stategroup whose states carry the operations t
 Read the middle of it: while the vehicle is `On the pad`, `Readiness` is derived — `Hold` when the load is over capacity or the tanks are empty, `Go` otherwise — and the `Launch` command exists **only inside the state `Go`**.
 
 These commands need no input, so their parameter lists are empty (`command { }`).
-A command can also declare parameters — a small data model of its own, filled in from a form or by another system, which is how an external booking system would add a payload; the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial2.html#commands-and-actions) builds one of those.
+A command can also declare parameters — a small data model of its own, filled in from a form or by another system, which is how an external booking system would add a payload; the [restaurant tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial2.html#commands-and-actions) builds one of those.
 
 ![A vehicle on the pad, cleared for launch](./images/05-launch.png)
 
@@ -234,7 +234,7 @@ An operator cannot launch an overloaded freighter by double-clicking fast, by ca
 
 > **What you did not write:** the check in the click handler, the same check again in the API, the race between them, and the incident report explaining which one was missing.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_04/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_04/`>
 
 ## Act 5 — Assemblies that cannot loop
 
@@ -264,7 +264,7 @@ Try to make a part contain itself and the app refuses the reference — the grap
 
 > **What you did not write:** a recursion-depth guard, a cycle detector, a nightly job to recompute totals, and the incident where two parts pointed at each other and a request hung.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_05/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_05/`>
 
 ## Act 6 — Who may push the button
 
@@ -299,7 +299,7 @@ Unexpected state for 'allow anonymous user'
 which is the compiler pointing out that a client configured for visitors cannot serve an application that has none.
 
 The second one nothing asks for. With `password-authentication` left `disabled`, the project builds, deploys, and serves a login page that has no way to accept a password — no error anywhere to say why.
-(The same file can enable `user-creation` for sign-up from the login page; the [Users & Authentication guide](/pages/tutorials/model/{{ page.platform_version }}/application-users.html) covers that.)
+(The same file can enable `user-creation` for sign-up from the login page; the [Users & Authentication guide](/pages/tutorials/model/{{< param "platform_version" >}}/application-users.html) covers that.)
 
 Then three lines of authorization:
 
@@ -328,7 +328,7 @@ There is no second place to keep in sync.
 
 An auth middleware, a permission table, role checks spread through controllers and templates, the endpoint somebody forgot to protect: none of it exists here, because the rule has only one place to live.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_06/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_06/`>
 
 ## Act 7 — Change the mission in flight
 
@@ -350,11 +350,11 @@ What it cannot know is where `Landing site` comes from, so it asks you — in co
 ```
 
 Deploy again, and the vehicles, payloads, parts and crew are all still there, now with a landing site.
-The [migrations tutorial](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html) covers the language in full.
+The [migrations tutorial](/pages/tutorials/migrations/{{< param "platform_version" >}}/migrations.html) covers the language in full.
 
 No `ALTER TABLE` script, no backfill query, no rollback plan — and no deployment where one of the three was wrong.
 
-> <tutorial folder: `./_docs/tutorials/mission-control/{{ page.platform_version }}/act_07/`>
+> <tutorial folder: `./_docs/tutorials/mission-control/{{< param "platform_version" >}}/act_07/`>
 
 ## The whole thing
 
@@ -377,10 +377,10 @@ Those are not lint warnings. They are programs that do not exist.
 
 ## Where to go next
 
-- The [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html), in three parts, takes the same language at a slower pace and covers commands with parameters, more derivations, and advanced references.
-- [Users & Authentication](/pages/tutorials/model/{{ page.platform_version }}/application-users.html) covers sign-up and the session manager.
-- The [application language documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) is the full reference, with examples for every construct used here.
-- The [migrations tutorial](/pages/tutorials/migrations/{{ page.platform_version }}/migrations.html) is the next thing to read if you intend to run an application for longer than one deployment.
+- The [restaurant tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html), in three parts, takes the same language at a slower pace and covers commands with parameters, more derivations, and advanced references.
+- [Users & Authentication](/pages/tutorials/model/{{< param "platform_version" >}}/application-users.html) covers sign-up and the session manager.
+- The [application language documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) is the full reference, with examples for every construct used here.
+- The [migrations tutorial](/pages/tutorials/migrations/{{< param "platform_version" >}}/migrations.html) is the next thing to read if you intend to run an application for longer than one deployment.
 
 Then model something of your own — the thing your organization actually does, with the rules it actually has.
 

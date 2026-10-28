@@ -15,7 +15,7 @@ description: >-
 
 ## Introduction
 This is the second part of the application language tutorial that builds a restaurant app.
-Complete [the first part](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) before continuing.
+Complete [the first part](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html) before continuing.
 
 In Part I you wrote a small data model for a restaurant, and generated a web application from it for entering a menu, tables, and orders.
 Part II adds computation and interaction: [derived values](#derived-values), [conditional expressions](#conditional-expressions), [reference sets](#usages-and-reference-sets), and [commands and actions](#commands-and-actions).
@@ -85,7 +85,7 @@ The order needs a total as well:
 
 `Total` is the sum of the `Line total` of all order lines.
 The expression starts with the keyword `sum`, followed by parentheses around a path that produces the set of numbers to add up.
-The grammar calls that a [`plural object path`](/pages/docs/model/{{ page.model_version }}/application/grammar.html#grammar-rule--plural-object-path).
+The grammar calls that a [`plural object path`](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html#grammar-rule--plural-object-path).
 It starts with navigation steps that lead to a collection (`.'Order lines'`), continues with `*`, which expands the collection into the set of its nodes, and ends with the value to take from each node (`.'Line total'`).
 
 Where does this line belong in the model? Think about it before you read on — the answer is in the model below.
@@ -104,7 +104,7 @@ To sum separate values, list them there, separated by commas, as with `product`:
 {{< file "snippets/sum-list.alan" >}}
 ```
 
-The [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html#derived-numbers) lists all operations for deriving numbers:
+The [documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html#derived-numbers) lists all operations for deriving numbers:
 - `sum`: the sum of a *set or list* of values
 - `min`: the minimum of a *set or list* of values
 - `max`: the maximum of a *set or list* of values
@@ -127,7 +127,7 @@ A number is *absolute* when it expresses an amount, and *relative* when it expre
 
 Numbers are only one kind of derived value; the language derives other types as well, as the next sections show.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_04a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_04a/`>
 
 ## Growing the business
 The restaurant is growing, more people work with the app, and the model needs some reorganization.
@@ -156,7 +156,7 @@ Rename the `Total` of an order to `Subtotal`, since the actual total will depend
 {{< file "snippets/subtotal.alan" >}}
 ```
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_05/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_05/`>
 
 ## Conditional expressions
 Add a stategroup `Discount applicable` to `Orders`.
@@ -205,9 +205,9 @@ The result:
 ![VAT](./images_model/024.png)
 
 Every property type in the `application` language can be derived, not just numbers: text values, file values, references, stategroup states, and even collections.
-The [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html#derived-values) has examples of each.
+The [documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html#derived-values) has examples of each.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_06/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_06/`>
 
 
 ## Usages and reference sets
@@ -256,7 +256,7 @@ When the compiler demands it elsewhere, reordering the attributes usually remove
 The navigation path uses `*` where a reference attribute uses `[]`, because several orders can refer to the same table: the reference set holds *all* of them.
 The path ends by taking the `inverse` of the `Table` reference found under `In-house`.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_06a/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_06a/`>
 
 ## Commands and actions
 Alan applications are often connected to other systems that send them information.
@@ -336,11 +336,11 @@ Between the parentheses of `create` stands how the new order is built from the p
 The attribute `Order`, for instance, takes whatever the caller provided for `Provide an order number`.
 The named object `$'param'` refers to the parameter node — the data that conforms to the small model above — and is used for each value taken from it.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_06b/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_06b/`>
 
 ## Next
 Part II covered computation over the data and the first way to change data from a button: derived values, conditional expressions, reference sets, and commands.
 
-[Part III](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial3.html) uses these to model the processes of the restaurant: order and line statuses that move forward step by step, references that reach across the model, and products assembled from other products.
+[Part III](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial3.html) uses these to model the processes of the restaurant: order and line statuses that move forward step by step, references that reach across the model, and products assembled from other products.
 
-The [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) describes every feature of the language in full, and questions are welcome on the [forum](https://forum.alan-platform.com/).
+The [documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) describes every feature of the language in full, and questions are welcome on the [forum](https://forum.alan-platform.com/).

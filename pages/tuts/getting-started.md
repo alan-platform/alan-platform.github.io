@@ -6,12 +6,6 @@ description: >-
   From an empty project to a small Alan application with users, passwords and permissions, in one page.
 ---
 
-{% assign version = site.data.versions.current %}
-{% assign release = site.data.versions.versions | where: "name", version | first %}
-{% assign model_version = release.platform.model %}
-{% assign dist_key = version | remove: '.' %}
-{% assign connector_version = site.data.dist[dist_key].versions["system types"].connector.version %}
-
 This tutorial takes you from a blank model to a small application with users, authorization, and data of your own.
 It uses the project template that the online Alan IDE sets up for you, and the buttons of the Alan extension for VS Code.
 For a guided tour of the IDE itself, read the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html) first.
@@ -80,7 +74,7 @@ Inside **root**, the data model is composed of properties of the six built-in ty
 	Something you can count or compute with. Dates and date-times are numbers too. Alan has no floats: every number property has a numerical type that fixes its accuracy.
 - **text**
 	A plain, unbounded text value: a name, a phone number, a licence plate, a remark.
-	Text values can carry [validation rules](/pages/docs/model/{{ model_version }}/application/grammar.html#user-interface-annotations) for the user interface, such as a minimum length or a pattern, and a text value can reference an entry of a collection, like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key).
+	Text values can carry [validation rules](/pages/docs/model/{{< platform-component "model" >}}/application/grammar.html#user-interface-annotations) for the user interface, such as a minimum length or a pattern, and a text value can reference an entry of a collection, like a [foreign key](https://en.wikipedia.org/wiki/Foreign_key).
 - **file**
 	With file storage connected to your server, a property can hold a file, which the client shows or downloads.
 - **collection**
@@ -116,7 +110,7 @@ Choosing **migrate** generates `migrations/from_release`, which describes where 
 A generated migration covers everything that the platform can map by itself: properties that kept their name and type are copied across.
 The parts it cannot decide are left for you — a property that is new in your model has no data to come from, so you say what it should hold.
 
-Migrations are written in the connector processor language, which is [documented here](/pages/docs/connector/{{ connector_version }}/processor/grammar.html); the [migrations tutorial](/pages/tutorials/migrations/{{ version }}/migrations.html) walks through writing one.
+Migrations are written in the connector processor language, which is [documented here](/pages/docs/connector/{{< dist-version "connector" >}}/processor/grammar.html); the [migrations tutorial](/pages/tutorials/migrations/{{< site-version >}}/migrations.html) walks through writing one.
 This is the shape of a migration that walks a collection and creates its entries in the new dataset:
 
 ```js
@@ -377,12 +371,12 @@ Build the project, deploy it with the **migrate** option, and the accounts you c
 
 ## Next steps
 
-The `_docs` folder of your project holds the models of the [application tutorial](/pages/tutorials/model/{{ version }}/application-tutorial.html), which builds a restaurant app in three parts and covers computations, processes, and references in depth.
+The `_docs` folder of your project holds the models of the [application tutorial](/pages/tutorials/model/{{< site-version >}}/application-tutorial.html), which builds a restaurant app in three parts and covers computations, processes, and references in depth.
 
 From here:
 
-- [Users & Authentication](/pages/tutorials/model/{{ version }}/application-users.html) explains user sign-up and the session manager settings behind the sign-in page.
-- The [model language documentation](/pages/docs/model/{{ model_version }}/application/grammar.html) describes every feature of the language, including [user interface annotations](/pages/docs/model/{{ model_version }}/application/grammar.html#user-interface-annotations) for default values and number formats.
-- The [migrations tutorial](/pages/tutorials/migrations/{{ version }}/migrations.html) covers writing migrations by hand, for instance to bootstrap an app with data of your own.
+- [Users & Authentication](/pages/tutorials/model/{{< site-version >}}/application-users.html) explains user sign-up and the session manager settings behind the sign-in page.
+- The [model language documentation](/pages/docs/model/{{< platform-component "model" >}}/application/grammar.html) describes every feature of the language, including [user interface annotations](/pages/docs/model/{{< platform-component "model" >}}/application/grammar.html#user-interface-annotations) for default values and number formats.
+- The [migrations tutorial](/pages/tutorials/migrations/{{< site-version >}}/migrations.html) covers writing migrations by hand, for instance to bootstrap an app with data of your own.
 
 Questions are welcome on the [forum](https://forum.alan-platform.com/).

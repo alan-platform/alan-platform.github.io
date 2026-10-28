@@ -1,0 +1,20 @@
+{{- /*
+  The version of a platform component in the current platform version: {{< platform-component "model" >}}.
+
+  Finds the entry of _data/versions.json whose name is `current` and reads its platform.<component>. The component
+  names are the keys of that platform object (model, interface, project-build-environment).
+*/ -}}
+{{- $component := .Get 0 -}}
+{{- if not $component -}}
+  {{- errorf "platform-component shortcode: no component given in %s" .Page.File.Path -}}
+{{- end -}}
+{{- $current := hugo.Data.versions.current -}}
+{{- $release := where hugo.Data.versions.versions "name" $current -}}
+{{- if not $release -}}
+  {{- errorf "platform-component shortcode: _data/versions.json has no entry named %q, the current version (used in %s)" $current .Page.File.Path -}}
+{{- end -}}
+{{- $value := index (index $release 0).platform $component -}}
+{{- if not $value -}}
+  {{- errorf "platform-component shortcode: platform version %s has no component %q (used in %s)" $current $component .Page.File.Path -}}
+{{- end -}}
+{{- $value -}}

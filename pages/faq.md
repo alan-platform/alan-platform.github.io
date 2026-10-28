@@ -7,9 +7,6 @@ description: >-
   Answers to the questions people ask before their first Alan application: programming background, permissions, SQL, connecting other systems, versions.
 ---
 
-{% assign release = site.data.versions.versions | where: "name", site.data.versions.current | first %}
-{% assign model_language_version = release.platform.model %}
-
 
 ## Do I need to learn programming for Alan?
 Alan looks like code, but it lives on a different level than what you normally think of as programming. Instead of using abstract logic, you create data models that describes aspects of a particular domain as you can observe it. Alan does know decisions (e.g. you can describe that a mountain bike has gears but a fixie doesn't), but you don't have to express that in abstract algorithms.
@@ -19,7 +16,7 @@ If you're not afraid of a deeply nested `IF` or a crafty `VLOOKUP` in Excel, Ala
 It has characteristics that make it really suitable for something like a visual application builder, so who knows what the future brings here.
 
 ## Can I change how a property is visualized?
-The generated user interface reads the annotations (`@...`) in an `application.alan` file to decide how to render a property. The [docs](/pages/docs/model/{{ model_language_version }}/application/grammar.html) cover the possibilities in more detail.
+The generated user interface reads the annotations (`@...`) in an `application.alan` file to decide how to render a property. The [docs](/pages/docs/model/{{< platform-component "model" >}}/application/grammar.html) cover the possibilities in more detail.
 
 If you want more control over the user interface, e.g. to create one for a specific work flow, you may want to create a custom client. Documentation about this is being worked on.
 
@@ -31,7 +28,7 @@ Permissions are set on nodes, i.e. groups, entries and states. You can set read 
 ## Can I create 2-way many-to-many relations?
 If you want to simply get a list of everything that has a reference to a certain object, you don’t have to model that explicitly. The client has a “usages” feature that automatically queries references in the opposite direction.
 
-For computations based on references in the opposite direction, you need to specify [bidirectional references](/pages/docs/model/{{ model_language_version }}/application/grammar.html#bidirectional-references).
+For computations based on references in the opposite direction, you need to specify [bidirectional references](/pages/docs/model/{{< platform-component "model" >}}/application/grammar.html#bidirectional-references).
 
 
 ## Can I write SQL queries?

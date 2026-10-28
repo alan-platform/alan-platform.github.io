@@ -19,7 +19,7 @@ This includes -- but is not limited to -- the required data structure, computati
 You start by specifying the most basic ingredient of a data-intensive application: *base data*.
 This is the primary data an application needs to work, like a menu which is essential for a meal ordering app.
 Note that this includes *all state* that is important to your application, like the status of an order or a payment.
-On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a [*todo* item](/pages/docs/model/{{ page.version }}/application/grammar.html#todo-items) for a rejected payment.
+On top of the base data model, you express other aspects such as required permissions for reading a piece of data, or a [*todo* item](/pages/docs/model/{{< param "version" >}}/application/grammar.html#todo-items) for a rejected payment.
 
 By means of a story we will take you along several topics and build up the model at the same time.
 At the end of some topics, a reference to a tutorial folder is provided in case you need extra help to get the expected result. Enjoy!
@@ -109,7 +109,7 @@ This is the ***minimal model*** that is needed for every application that you bu
 
 The `users` section defines who can access your application and how.
 We use `anonymous` for now, which means that anyone can access your app and read and edit the app data.
-In the [application language documentation](/pages/docs/model/{{ page.version }}/application/grammar.html) you can find more details about the `users` section.
+In the [application language documentation](/pages/docs/model/{{< param "version" >}}/application/grammar.html) you can find more details about the `users` section.
 
 The `interfaces` section defines what other apps and/or databases this app is connected with.
 For now we stay 'disconnected' from other apps and databases.
@@ -349,7 +349,7 @@ As we still want to be able to select a `Beverage type` when we compose our `Men
 Notice that we place `Beverage types` above the `Menu`.
 That is quite logical as `Beverage types` should be entered before creating a `Menu`, but the compiler requires it as well.
 By default, expressions in an `application` model point to earlier defined attributes.
-This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/{{ page.version }}/application/grammar.html).
+This is important for the guarantees that the language gives you, which we discuss in the [docs](/pages/docs/model/{{< param "version" >}}/application/grammar.html).
 
 Again, build and check your app, selecting `Beverage types` from the left menu bar:
 ![beverages types collection](./images_model/011.png)

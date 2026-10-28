@@ -15,7 +15,7 @@ description: >-
 
 ## Introduction
 This is the third part of the application language tutorial that builds a restaurant app.
-Complete [Part I](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) and [Part II](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial2.html) before continuing.
+Complete [Part I](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html) and [Part II](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial2.html) before continuing.
 
 So far the model describes what the restaurant *has*: a menu, tables, orders, and the values computed from them.
 Part III describes what the restaurant *does*.
@@ -31,7 +31,7 @@ The model grows considerably in this part.
 Use the tutorial folder listed at the end of each topic when your model and the text no longer match.
 
 ## Extensions and GUI annotations
-In [Conditional expressions](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial2.html#conditional-expressions) the `Total` of an order was computed inside the stategroup `Discount applicable`, which is why the app shows it in a box together with `Discount period` and `Discount`.
+In [Conditional expressions](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial2.html#conditional-expressions) the `Total` of an order was computed inside the stategroup `Discount applicable`, which is why the app shows it in a box together with `Discount period` and `Discount`.
 Both visually and model-wise, `Total` belongs to the order itself.
 Move it out, so that the tail of the `Orders` collection reads:
 ```js
@@ -68,14 +68,14 @@ Add `@default: auto-increment` to the key attributes of `Orders` and `Order line
 ```
 This is a ***GUI annotation***: an instruction to the generated user interface, always written with an ***@*** prefix.
 This one fills in the next free number when a user adds an order or an order line, which saves typing for the rest of the tutorial.
-GUI annotations deserve a topic of their own; the [documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) lists them all.
+GUI annotations deserve a topic of their own; the [documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) lists them all.
 
 Finally, group `Menu`, `Orders` and `Place new order` in a new group `Service`, next to `Management`.
 
 Notice how cheap these changes are: moving a block of code, adding a derivation, regrouping attributes.
 The compiler reports every place that a change affects, so a model can be reorganized without putting the data at risk.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_07/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_07/`>
 
 
 ## State machines
@@ -97,7 +97,7 @@ Click it: the line moves to `Placed`, the button disappears, and `Ready for serv
 Click that one too and watch the status advance.
 
 The buttons are exactly the operations that a state allows, which is also the basis for permissions: different roles in the restaurant — service, kitchen, management — can be given access to different parts of the model, so that each of them sees only the buttons that belong to their job.
-The [Users & Authentication guide](/pages/tutorials/model/{{ page.platform_version }}/application-users.html) is the starting point for that.
+The [Users & Authentication guide](/pages/tutorials/model/{{< param "platform_version" >}}/application-users.html) is the starting point for that.
 
 Clicking every line separately is tedious, so add a command that places all lines of an order that are still `On hold`:
 ```js
@@ -136,7 +136,7 @@ Once `All served` is `Yes`, the model offers a button for the moment the custome
 ![All served?](./images_model/028.png)
 ![All served!](./images_model/029.png)
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_08/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_08/`>
 
 ## Advanced references
 Service staff need more than a list of prepared lines: they need to know which line to take first, and where to bring it.
@@ -222,7 +222,7 @@ The result in the app:
 
 The example is contrived on purpose: it shows, in a few lines, how far a model can reach into its own structure when a real application needs it.
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_09/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_09/`>
 
 ## More advanced references
 The kitchen has not been modeled yet.
@@ -392,7 +392,7 @@ The definition of `Item name` is extended with a reference to `Products` and a `
 Adding an item to the menu now means selecting one from that list:
 ![Menu items](./images_model/037.png)
 
-> <tutorial folder: `./_docs/tutorials/restaurant1/{{ page.platform_version }}/step_10/`>
+> <tutorial folder: `./_docs/tutorials/restaurant1/{{< param "platform_version" >}}/step_10/`>
 
 ## The End
 The restaurant app now covers the whole story: a menu built from the products of the kitchen, orders that are placed, prepared, served and paid, prices and taxes computed from the data itself, and a kitchen that assembles products from other products without ever running in circles.
@@ -403,9 +403,9 @@ Three ideas carried all of it:
 - **states model processes** — what a user may do next follows from the state the data is in.
 
 Where to go next:
-- [Users & Authentication](/pages/tutorials/model/{{ page.platform_version }}/application-users.html) adds real users, passwords, and with them the permissions that decide who may push which button.
-- The [application language documentation](/pages/docs/model/{{ page.model_version }}/application/grammar.html) covers every feature of the language, with examples.
-- The tutorial folders in `_docs/tutorials/restaurant1/{{ page.platform_version }}/` contain the complete model of each step, to compare against.
+- [Users & Authentication](/pages/tutorials/model/{{< param "platform_version" >}}/application-users.html) adds real users, passwords, and with them the permissions that decide who may push which button.
+- The [application language documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) covers every feature of the language, with examples.
+- The tutorial folders in `_docs/tutorials/restaurant1/{{< param "platform_version" >}}/` contain the complete model of each step, to compare against.
 
 Then build something of your own: begin with the end in mind, and experiment.
 The [forum](https://forum.alan-platform.com/) is the place for questions about the language, the platform, or a model you are working on.

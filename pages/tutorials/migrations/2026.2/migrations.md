@@ -7,13 +7,6 @@ platform_version: 2026.2
 description: >-
   How an Alan deployment carries existing data into a new version of your model, and how to write a migration when the platform cannot work it out by itself.
 ---
-{% comment %}
-	The migration language is the connector's processor language. Its version for this platform version
-	comes from _data/dist/<platform version>/versions.json (Jekyll drops the dot from that directory name).
-{% endcomment %}
-{% assign dist_key = page.platform_version | remove: '.' %}
-{% assign dist = site.data.dist[dist_key].versions %}
-{% assign connector_version = dist["system types"].connector.version %}
 
 1. TOC
 {:toc}
@@ -64,7 +57,7 @@ Since there is no source data, the generated `migration.alan` sets every collect
 ```
 
 To start the app with data instead, replace those `none` expressions with `create` entries.
-This migration gives the `Menu` of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) three items:
+This migration gives the `Menu` of the [restaurant tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html) three items:
 ```js
 {{< file "snippets/from-empty.alan" >}}
 ```
@@ -91,10 +84,10 @@ Do not edit it — it describes what the running app holds, which is not yours t
 A `migration.alan` file gives an expression for every base data property of the target model.
 Derived values are not migrated: the app recomputes those from the data itself.
 
-The language is the processor language of the Alan `connector`; its [grammar](/pages/docs/connector/{{ connector_version }}/processor/grammar.html) lists every operation.
+The language is the processor language of the Alan `connector`; its [grammar](/pages/docs/connector/{{< dist-version "connector" >}}/processor/grammar.html) lists every operation.
 The rest of this section is what a typical application needs.
 
-The example below migrates the first step of the [restaurant tutorial](/pages/tutorials/model/{{ page.platform_version }}/application-tutorial.html) — a `Menu` whose `Selling price` is in whole euros — to the second step, where the price is in eurocents and every item has an `Item type`:
+The example below migrates the first step of the [restaurant tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html) — a `Menu` whose `Selling price` is in whole euros — to the second step, where the price is in eurocents and every item has an `Item type`:
 ```js
 {{< file "snippets/from-release.alan" >}}
 ```
