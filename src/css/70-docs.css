@@ -6,7 +6,6 @@
 
 /* 1.999396em is 1.414 squared: the type scale ratio applied twice. */
 .doc h1 + p {
-  list-style: none;
   margin: -1.999396em 0 1.999396em 0;
   padding: 0;
   border-bottom: 1px solid #eeeff0;
@@ -30,7 +29,6 @@ table {
  * transition pair as the buttons of the theme and the header and footer links.
  */
 table tr {
-  border-bottom: 1px solid #c3c5ca;
   transition: background 0.5s ease-in-out;
 }
 
@@ -40,10 +38,6 @@ table tr:hover, table tr:active {
 
 table tr:hover {
   background: #eeeff0;
-}
-
-table tr:hover td:last-child > a, table tr:hover td:last-child > a:link, table tr:hover td:last-child > a:visited, table tr:hover td:last-child > a:hover, table tr:hover td:last-child > a:active {
-  color: #4a80ff;
 }
 
 table tr.current {
@@ -178,7 +172,6 @@ details.archive table {
 
 #doc-list table::before {
   content: '';
-  display: block;
   width: 0;
   position: absolute;
   top: -6px;
@@ -217,7 +210,7 @@ details.archive table {
 }
 
 code {
-  line-height: 1.414 !important;
+  line-height: 1.414;
   tab-size: 4;
 }
 
@@ -265,7 +258,6 @@ div.highlight .grammar-button {
   padding: .5ex 1ex;
   border: none;
   border-radius: 3px;
-  font-size: 0.7072135785rem;
   background: #4a80ff;
   color: #FFF;
   cursor: pointer;
