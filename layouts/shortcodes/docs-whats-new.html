@@ -23,6 +23,6 @@
 	<strong>Alan {{ .Params.version }}</strong>{{ if $newer }} is out{{ end }}:
 	<a href="{{ .RelPermalink }}">release notes</a> ·
 	<a href="/pages/tuts/upgrading.html">upgrading a project</a>{{ if $newer }} ·
-	<a href="/docs/archive">its language reference</a>{{ end }}
+	<a href="/docs/archive#{{ .Params.version }}">its language reference</a>{{ end }}
 </p>
 {{- end -}}

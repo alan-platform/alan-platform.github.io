@@ -1,14 +1,15 @@
 {{- /*
-	The language documentation of every platform version, newest first, the current one open. The release notes of
-	a platform version are the documentation page that the versions publish writes, the one page with origin
-	"platform" and that version.
+	The language documentation of every platform version, newest first, the current one open. Each section carries
+	its version as id, so that a link to /docs/archive#2026.3 reaches that version; src/main.js then opens that
+	section and closes the others. The release notes of a platform version are the documentation page that the
+	versions publish writes, the one page with origin "platform" and that version.
 */ -}}
 {{- $versions := hugo.Data.versions -}}
 {{- $docPages := partialCached "doc-pages.html" "doc-pages" -}}
 {{- range $versions.versions }}
 {{- $notes := false }}
 {{- with index $docPages (printf "platform|%v" .name) }}{{ $notes = index . 0 }}{{ end }}
-<details class="archive"{{ if eq .name $versions.current }} open{{ end }}>
+<details class="archive" id="{{ .name }}"{{ if eq .name $versions.current }} open{{ end }}>
 <summary>
 	{{ .name }}
 	<a href="https://dist.alan-platform.com/share/versions/{{ .name }}/versions.json">versions.json</a>
