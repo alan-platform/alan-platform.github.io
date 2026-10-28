@@ -86,5 +86,5 @@ We are based near the campus of Delft University of Technology.
 
 <div class="call-out">
 <p>Discover all the advantages of Alan in a free demo. Fill in the form on kjerner.nl, or e-mail us at <a href="mailto:info@kjerner.com">info@kjerner.com</a>.</p>
-<a class="button" href="https://www.kjerner.nl/site/demo-alan-platform">Request a demo</a>
+<a class="button" href="https://www.kjerner.nl/alan-platform/#demoformulieralan">Request a demo</a>
 </div>
