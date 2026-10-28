@@ -2,7 +2,7 @@
  * Theme: the base styles of every page. Box sizing, the body text, headings, lists, images, focus outlines, the
  * skip link, links and buttons, quotes, code and rules.
  *
- * Sizes follow a scale with ratio 1.414, the square root of two: 1.414em and 2.828em are one and two times the ratio,
+ * Sizes follow a scale with ratio 1.414, an approximation of the square root of two: 1.414em and 2.828em are one and two times the ratio,
  * 3.9975843648em is its fourth power, 0.7072135785em and 0.5001510456em are one and two steps down (1 / 1.414 and
  * 1 / 1.414^2). The values are kept exactly as they were computed.
  *
@@ -19,7 +19,8 @@
 /*
  * Transition durations, used in pairs: the first of a pair at rest, the second on hover and active. Slow and quick
  * are on the buttons, the header links, the menu toggle, the table rows and links and the footer links; fast and
- * fastest are on the heading anchor arrows, the cards, the card titles and the page index links.
+ * fastest are on the cards, the card titles and the page index links. The heading anchor arrows use fast alone:
+ * their quick rule is the one browsers drop (see 30-main.css).
  */
 :root {
   --transition-slow: 0.5s;
@@ -51,7 +52,7 @@ h1 {
 
 /*
  * 50rem: the 45rem content width plus 5rem. A media query takes rem from the browser's initial font size, 16px, so
- * the breakpoint is 800px. In a value rem is the 15px of html: main, 4rem wider than the content width, is 49rem or
+ * the breakpoint is 800px at the initial font size of 16px. In a value rem is the 15px of html: main, 4rem wider than the content width, is 49rem or
  * 735px, and its children, 1rem in from each side, are 705px.
  */
 @media (max-width: 50rem) {

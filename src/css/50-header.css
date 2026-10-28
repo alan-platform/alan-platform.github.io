@@ -1,7 +1,7 @@
 /*
  * The site header: the fixed bar at the top of every page with the logo, the navigation links, the documentation
  * and login buttons, and the menu toggle that opens the navigation on narrow screens.
- * 0.7072135785em, 1.414, 1.999396, 2.827145944rem and 5.654291888rem are powers of 1.414, the square root of two,
+ * 0.7072135785em, 1.414, 1.999396, 2.827145944rem and 5.654291888rem are powers of 1.414, an approximation of the square root of two,
  * and a product with it (1 / 1.414, 1.414, 1.414^2, 1.414^3 and 2 * 1.414^3), kept exactly as computed.
  */
 

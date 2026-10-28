@@ -6,7 +6,7 @@
  * 63rem: the 45rem text column, the 16rem rail and gap, and 2rem of air; up to 63rem the index stays in the
  * flow. The rail range is the exact complement of the in-flow one, so no width is left without either styling.
  *
- * 1.414rem is the square root of two, the ratio of the type scale, kept exactly as computed.
+ * 1.414rem is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
 /* The inline styling from the docs stylesheet does not apply once the list is in the rail. */
@@ -57,7 +57,7 @@
   font-size: .875em;
   line-height: 1.35;
   text-decoration: none;
-  /* Not the lighter grey #838590: on white that is 3.4:1, below the 4.5:1 that small text needs. */
+  /* Not the lighter grey #838590: on white that is 3.7:1, below the 4.5:1 that small text needs. */
   color: #484a50;
 }
 
