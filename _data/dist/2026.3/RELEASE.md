@@ -22,3 +22,11 @@ these options used to be optional. For a connector system with `configuration: '
 `'texts'` and `'integers'`, with a value for each of their keys. `./alan upgrade` does not fill them
 in: choose each value (`instance/values.json` is not read). `./alan package` names every option that
 is missing.
+
+Session manager: 2026.3 publishes session-manager 35; 34 is withdrawn, do not deploy it. A 2026.3
+project on 34 runs `./alan upgrade system-type session-manager`. Its configuration in every
+`deployment.alan` changes by hand, `./alan upgrade` does not do this: delete `'token interval'` (a
+session now lasts until its `'token limit'` or logout) and add `'openid authority client secrets'`,
+keyed like `'openid authority client ids'`, `( )` when no authority has a secret. An OpenID login
+now returns to `<base uri>oidc/resume`: register that address with the client at every provider
+before the application moves to 35, or the provider refuses the login.
