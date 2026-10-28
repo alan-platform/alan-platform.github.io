@@ -64,7 +64,7 @@ Add `@default: auto-increment` to the key attributes of `Orders` and `Order line
 ```js
 {{< file "snippets/auto-increment.alan" >}}
 ```
-This is a ***GUI annotation***: an instruction to the generated user interface, always written with an ***@*** prefix.
+This is a **_GUI annotation_**: an instruction to the generated user interface, always written with an **_@_** prefix.
 This one fills in the next free number when a user adds an order or an order line, which saves typing for the rest of the tutorial.
 GUI annotations deserve a topic of their own; the [documentation](/pages/docs/model/{{< param "model_version" >}}/application/grammar.html) lists them all.
 
@@ -159,7 +159,7 @@ This shows the table when `To serve` is `Yes`:
 ![To serve table](./images_model/032.png)
 
 The structure is familiar — state switches on stategroups — but the parentheses after the state `Yes` are new.
-They declare a ***state parameter***: a piece of information that a state carries, comparable to a command parameter.
+They declare a **_state parameter_**: a piece of information that a state carries, comparable to a command parameter.
 Here the state `Yes` carries the `Table` of the order.
 
 The node of state `In-house` is stored as `$'in-house'`, and a few lines further down its `Table` reference is passed to the state parameter.
@@ -190,7 +190,7 @@ It builds, but `$'service'` is not used yet, so put it to work:
 ```js
 {{< file "snippets/to-serve-where.alan" >}}
 ```
-The keyword `where` declares a ***reference rule***: it narrows down what a reference may point at.
+The keyword `where` declares a **_reference rule_**: it narrows down what a reference may point at.
 Here it further constrains the state `Yes`, which now holds a reference to a node of state `Service`.
 
 Zooming out on the structure:
@@ -206,7 +206,7 @@ The node of state `Service` is now available inside the state `Yes`, so `Priorit
 ```js
 {{< file "snippets/to-serve-yes-priority.alan" >}}
 ```
-A reference rule is addressed with the ***&-symbol***: `.&'Service' .'Priority'` reads the stategroup `Priority` of the node reached through the `Service` rule, and the rest is an ordinary state derivation.
+A reference rule is addressed with the **_&-symbol_**: `.&'Service' .'Priority'` reads the stategroup `Priority` of the node reached through the `Service` rule, and the rest is an ordinary state derivation.
 
 Why the `&`? Reference rules are more often used on a text property, as in this example:
 ```js
@@ -306,15 +306,15 @@ pointing at `Cost price` in this line:
 The step `siblings` in `'Product': text -> ^ ^ siblings []` solved one problem — a user can now say that potato mash consists of potato, milk and butter — and created another: nothing stops a user from saying that potato mash consists of potato, and potato of potato mash, or even that potato mash consists of potato mash.
 Computing the price of potato mash would then never finish.
 
-Computations that use their own result are called ***recursive computations***.
+Computations that use their own result are called **_recursive computations_**.
 They are useful, but only when something guarantees that they end.
-The Alan platform provides that guarantee with ***graph constraints***: constraints on the relations (***edges***) between the nodes of a collection.
+The Alan platform provides that guarantee with **_graph constraints_**: constraints on the relations (**_edges_**) between the nodes of a collection.
 
 The platform has two of them.
-An ***acyclic-graph*** constraint forbids cycles: a node may link to other nodes, but no chain of links may lead back to where it started.
-An ***ordered-graph*** constraint is stricter and puts all nodes in a single chain, from a first node (***source***) to a last one (***sink***) — the way the months of a year follow one another.
+An **_acyclic-graph_** constraint forbids cycles: a node may link to other nodes, but no chain of links may lead back to where it started.
+An **_ordered-graph_** constraint is stricter and puts all nodes in a single chain, from a first node (**_source_**) to a last one (**_sink_**) — the way the months of a year follow one another.
 
-<img src="./images_model/graph constraints.svg">
+<p><img src="./images_model/graph constraints.svg"></p>
 
 These constraints restrict the *relations* between nodes, not their content.
 Neither of them prevents a user from entering nonsense such as "potatoes consist of eggs and grapefruit" in an acyclic graph, or "the year starts in October and ends in April" in an ordered one.

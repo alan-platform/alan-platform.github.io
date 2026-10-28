@@ -36,9 +36,7 @@ After completing at least one successful deployment, you can make changes to you
 
 This automatically generates a migration in the `migrations/from_release` folder. The `from/` folder contains the deployed version of your `application.alan` file. It is updated automatically when you deploy your app. When using the online Alan IDE: do not modify `from/application.alan` manually for this migration!*
 
-<sup>
-*Sometimes it is useful to specify derived properties in the `from/` model for use in your `migration.alan`. In that case, you can copy the `migrations/from_release` folder and modify the copied `from` model.
-</sup>
+<sup>*Sometimes it is useful to specify derived properties in the `from/` model for use in your `migration.alan`. In that case, you can copy the `migrations/from_release` folder and modify the copied `from` model.</sup>
 
 
 ## Migration maintenance

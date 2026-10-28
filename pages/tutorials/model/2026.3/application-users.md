@@ -41,16 +41,25 @@ Run `Alan Deploy` and choose the **empty** option. \*
 
 Open the app after the deployment succeeds and sign in with:
 
-> | **username:** | `root` |
-> | **password:** | `welcome` |
+> <table>
+>   <tbody>
+>     <tr>
+>       <td><strong>username:</strong></td>
+>       <td><code class="language-plaintext highlighter-rouge">root</code></td>
+>     </tr>
+>     <tr>
+>       <td><strong>password:</strong></td>
+>       <td><code class="language-plaintext highlighter-rouge">welcome</code></td>
+>     </tr>
+>   </tbody>
+> </table>
 
 Choose your own password for the `root` user when the app asks for it.
 Authentication is now bootstrapped: you can add `Users` in the app and send them the URL to sign in.
 
-<br>
-\* The **empty** option deletes the data of the running app, which is what the first deployment with authentication needs.
+<br>\* The **empty** option deletes the data of the running app, which is what the first deployment with authentication needs.
 To keep your data, use your own `migration.alan` file instead:
 - Run the command `Alan: Generate Migration` from the [command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) in VS Code. It asks for the migration directory and the model to migrate to — accept the defaults with Enter — and then for the *'migration type'*: choose *'initialization from empty dataset'*.
 - The generated file `migrations/from_empty/migration.alan` contains initial username and password data. Copy the parts for the `Users` and `Passwords` collections into your own `migration.alan` file.
 
-***Do not change the username or the password hash in your migration file***: the hash is what makes `welcome` work as the initial password, and a changed hash locks you out of your own app.
+**_Do not change the username or the password hash in your migration file_**: the hash is what makes `welcome` work as the initial password, and a changed hash locks you out of your own app.

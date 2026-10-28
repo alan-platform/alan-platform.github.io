@@ -129,7 +129,7 @@ Also add `@default: auto-increment` this to the existing lines within collection
 
 'Order line': text @default: auto-increment
 ```
-This is called a ***GUI annotation*** and makes sure that when you add an order or order line it automatically creates a followup number for those keys. GUI annotations always have the symbol ***@*** as prefix. GUI annotations need a seperate topic to be described in full, so we won't elaborate on this right now. This just makes it easier to add orders and order lines for now.
+This is called a **_GUI annotation_** and makes sure that when you add an order or order line it automatically creates a followup number for those keys. GUI annotations always have the symbol **_@_** as prefix. GUI annotations need a seperate topic to be described in full, so we won't elaborate on this right now. This just makes it easier to add orders and order lines for now.
 
 Finally, let's create a group `Service` and add `Menu`, `Orders` and `Place new order` in it, to further streamline the model.
 
@@ -270,7 +270,7 @@ Only if an order is of order type `In-house` we would like to show the table to 
 ```
 This shows the table if `To serve` is `Yes`:
 ![To serve table](./images_model/032.png)
-The main part again looks like structures we've seen before: The code has a state switches that switch on stategroups. The addition is between parenthesis. This is also known as a ***state parameter*** (similar to the command parameter) and with it we can supply a state with an additional piece of information from a node, in this case `Table`.
+The main part again looks like structures we've seen before: The code has a state switches that switch on stategroups. The addition is between parenthesis. This is also known as a **_state parameter_** (similar to the command parameter) and with it we can supply a state with an additional piece of information from a node, in this case `Table`.
 We temporarily stored the node of state `In-house` as `$'in-house'` and a few lines down in the model we want to follow the reference of `Table` within that node to appoint it to the state parameter `Table`. Then when we get to the state `Yes` we can derive the value of text property `Table` from the parameter, but first have to tell that this property is related to the collection `Tables` in group `Management` by providing a reference to it.
 By providing this reference, as part of the definition of `Table`, we 'close the loop' and make sure that the value of the derivation can only be of the same collection `Tables` as the text property `Table`. The compiler will check this 'reference loop' during compilation and if we by accident referenced for example another collection `Tables` it will throw an error.
 <!-- This makes the Alan platform very stable, as we have to be very clear about what data we expect at which part in the model. -->
@@ -359,7 +359,7 @@ Now the node of state `Service` of stategroup `Line status` is available from wi
 	)
 }
 ```
-For referencing the reference rule (`where`) the ***&-symbol*** is used.
+For referencing the reference rule (`where`) the **_&-symbol_** is used.
 In our model we access the stategroup `Priority` of node `Service` by writing `.&'Service' .'Priority'`. The rest is a common state derivation.
 
 By revisiting the Car example from the topic 'References', where we explained the where rule applied to a text property, we can show you why the notation `.&'where'` is used:
@@ -440,7 +440,7 @@ If a products has state `Composed product` we want to know a cost price by addin
 Build your model and an error occurs:
 >'property' `Products` is a self-reference, but a reference to a sibling is required.
 
-What this means is exactly what we try to accomplish ( a self-reference), but the compiler doesn't comply and needs 'a reference to a sibling'. To understand this you first need to know that all nodes in the same collection are siblings: They all 'live' on the same level.
+What this means is exactly what we try to accomplish ( a self-reference), but the compiler doesn't comply and needs 'a reference to a sibling'. To understand this you first need to know that all nodes in the same collection are siblings: They all ‘live’ on the same level.
 To refer to a node from within another node in the same collection we need to apply the word `sibling`:
 ```js
 'Composed product' {
@@ -515,7 +515,7 @@ And is detemined like this:
 Every time a derivation uses information from a sibling we need to tell the compiler it should look for a sibling by adding `( sibling )` (make sure you add the space before and after the word `sibling`!).
 Let's build the model and find out another error occurs:
 >no valid 'dependency location' found for 'property'. Unexpected 'relative object location':
-	- expected:  'non sibling entity'
+	- expected:  ‘non sibling entity’
 	- but found: 'sibling entity'
 
 And the error points to `Cost price` in this line:
@@ -524,17 +524,17 @@ And the error points to `Cost price` in this line:
 ```
 
 Keyword `sibling` in this line `'Product': text -> ^ ^ sibling` solves the problem of not being able to point at a node within the same collection (a user can now say potato mash consists of potato, milk and butter), but also creates a new problem: A user could potentially say that potato mash consists of potato which consists of potato mash, or even worse, that potato mash consists of potato mash itself! Without getting philosophical about whether this is correct or not on an existential level, if a computer would try to calculate the price of potato mash it would end up in an eternal calculation.
-The kinds of calculations that use the result of the same calculation are called ***recursive computations***. Like a printer that prints on the back side of its just printed page. It's convenient, but not if it keeps doing that with the same sheet of paper. We'll end up with black pages and unreadable text. The printer needs to know when to stop turning the same sheet of paper and load a new sheet for the next printing step.
-To avoid never ending calculations and still make use of the strength of these recursive calculations the Alan platform uses ***graph constraints***, a type of constraints that limits the kind of relations (***edges***) between nodes in a graph (a graph being for example a collection of nodes).
-Two graph constraints are implemented on the Alan platform: The ***acyclic-graph*** and the ***ordered-graph***. The next image shows a visual representation of the definitions of these graph constraints:
+The kinds of calculations that use the result of the same calculation are called **_recursive computations_**. Like a printer that prints on the back side of its just printed page. It's convenient, but not if it keeps doing that with the same sheet of paper. We'll end up with black pages and unreadable text. The printer needs to know when to stop turning the same sheet of paper and load a new sheet for the next printing step.
+To avoid never ending calculations and still make use of the strength of these recursive calculations the Alan platform uses **_graph constraints_**, a type of constraints that limits the kind of relations (**_edges_**) between nodes in a graph (a graph being for example a collection of nodes).
+Two graph constraints are implemented on the Alan platform: The **_acyclic-graph_** and the **_ordered-graph_**. The next image shows a visual representation of the definitions of these graph constraints:
 <img src="./images_model/graph constraints.svg">
 
 An acyclic-graph constraint constrains nodes from forming a cycle: Every node can have links to (multiple) other nodes, but it's not allowed to be referenced back to itself. Any loop is forbidden.
-An ordered-graph constraint is even more strict and constrains all nodes to one single chain, like a train with a locomotive (***source***) and a final wagon (***sink***). Obvious examples for an ordered-graph are the days in a month or months in a year: There is a first and a last and in between a consecutive order.
+An ordered-graph constraint is even more strict and constrains all nodes to one single chain, like a train with a locomotive (**_source_**) and a final wagon (**_sink_**). Obvious examples for an ordered-graph are the days in a month or months in a year: There is a first and a last and in between a consecutive order.
 
 To be very explicit, these constraints do not prevent a user from entering or manipulating data like this:
-- In a collection with acyclic-graph constraint:"Potatos consist of eggs and grapefruit, and eggs consist of potato mash and chicken soup"
-- In a collection with ordered-graph constraint:"The year starts with month October and ends with month April"
+- In a collection with acyclic-graph constraint:”Potatos consist of eggs and grapefruit, and eggs consist of potato mash and chicken soup”
+- In a collection with ordered-graph constraint:”The year starts with month October and ends with month April”
 
 It's the relations between the nodes in a collection that is constrained, not the content. Most computers have no concept of potato, grapefruit or chicken soup.
 

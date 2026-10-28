@@ -13,10 +13,12 @@ In this article we'll take a look at how everything in Alan connects, from the b
 
 A typical Alan runtime environment looks like this:
 
-	╔══════════════════════════════════════╗
-	║[            alan server             ]║
-	║[   linux kernel + some core utils   ]║  <- or macOS, Ubuntu 16.04+, etc
-	╚══════════════════════════════════════╝
+```
+╔══════════════════════════════════════╗
+║[            alan server             ]║
+║[   linux kernel + some core utils   ]║  <- or macOS, Ubuntu 16.04+, etc
+╚══════════════════════════════════════╝
+```
 
 We depend on a number of Unix utilities. The initial Alan layer provides a basic infrastructure server to interact with.
 
@@ -30,14 +32,16 @@ When you deploy an [image](#image) to the server, it will pull additional runtim
 
 Systems in the stack can expose interfaces, but otherwise stacks are isolated containers running on top of the server:
 
-	┌────────────── stack A ───────────────┐
-	│[ datastore ][ reporter ][ webclient ]│
-	│[        alan operating system       ]│
-	└──────────────────────────────────────┘
-	╔══════════════════════════════════════╗
-	║[            alan server             ]║
-	║[   linux kernel + some core utils   ]║
-	╚══════════════════════════════════════╝
+```
+┌────────────── stack A ───────────────┐
+│[ datastore ][ reporter ][ webclient ]│
+│[        alan operating system       ]│
+└──────────────────────────────────────┘
+╔══════════════════════════════════════╗
+║[            alan server             ]║
+║[   linux kernel + some core utils   ]║
+╚══════════════════════════════════════╝
+```
 
 
 ## Image
@@ -51,19 +55,21 @@ So, you can think of the image as the complete set of instructions for the serve
 You compile an image using `./alan package <project.pkg> <deployment>`, i.e. by combining the project package with a deployment configuration.
 
 
-	┌────────────── image ───────────────┐
-	| deployment.alan                    │
-	│ system instance data               │
-	│ data migration packages            │
-	│ runtime ("minor") versions         │
-	│                                    │
-	│ ┌─────────── project ────────────┐ │
-	│ │ wiring.alan                    │ │
-	│ │ interface configuration        │ │
-	│ │ system configuration           │ │
-	│ │ design time ("major") versions │ │
-	│ └────────────────────────────────┘ │
-	└────────────────────────────────────┘
+```
+┌────────────── image ───────────────┐
+| deployment.alan                    │
+│ system instance data               │
+│ data migration packages            │
+│ runtime ("minor") versions         │
+│                                    │
+│ ┌─────────── project ────────────┐ │
+│ │ wiring.alan                    │ │
+│ │ interface configuration        │ │
+│ │ system configuration           │ │
+│ │ design time ("major") versions │ │
+│ └────────────────────────────────┘ │
+└────────────────────────────────────┘
+```
 
 
 ## Project

@@ -60,19 +60,19 @@ That is, unless numbers use a *dynamic* number of decimals in your app. In that 
 
 Some examples of updates for the `Products` collection:
 - add a new `Products` item called 'Seat':
-	```
-Seat,add,A car part for sitting.,Simple,,249.99
-	```
+  ```
+  Seat,add,A car part for sitting.,Simple,,249.99
+  ```
 - remove an item with key 'Car':
-	```
-Car,remove,,,,
-	```
+  ```
+  Car,remove,,,,
+  ```
 - update the `Type` of the 'Steering wheel' from `Simple` to `Assembled`:
-	```
-Steering wheel,update,A steering wheel for a car.,Assembled,update,
-	```
+  ```
+  Steering wheel,update,A steering wheel for a car.,Assembled,update,
+  ```
 - update the `Selling price` of a `Tire`
-	```
-Tire,update,A car part.,Simple,update,29.99
-	```
+  ```
+  Tire,update,A car part.,Simple,update,29.99
+  ```
 

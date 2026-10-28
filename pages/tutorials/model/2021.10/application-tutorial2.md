@@ -63,15 +63,15 @@ To explain what this means and for the health of our model we need to add this l
 ```js
 {{< file "files_application-tutorial2/derived-values-numtypes/application.alan" >}}
 ```
-The `as` keyword is followed by a ***product conversion rule***.
+The `as` keyword is followed by a **_product conversion rule_**.
 Such a rule describes how `numerical-types` of the two properties are multiplied, like `euro` and `unit`.
 So the general format of a *product conversion rule* is `= 'num-type1' * 'num-type2'`.
 The first part (`'num-type1'`) is wat we mention after the keyword `as`.
-For a `division` the `as` keyword is followed by a ***division conversion rule*** indicated by the `/` in place of the `*` keyword.
+For a `division` the `as` keyword is followed by a **_division conversion rule_** indicated by the `/` in place of the `*` keyword.
 <sup>NOTE: for future versions of Alan, we plan to let the compiler infer this.</sup>
 
 
-For converting number values with a constant factor, you can use the `from` keyword followed by the name of a ***singular conversion rule***, like `'diameter'`:
+For converting number values with a constant factor, you can use the `from` keyword followed by the name of a **_singular conversion rule_**, like `'diameter'`:
 ```js
 {{< file "files_application-tutorial2/derived-values-pi/application.alan" >}}
 ```
@@ -129,7 +129,7 @@ Examples of absolute and relative numbers:
 - degrees: absolute, "21 degrees"
 - temperature: relative, "21˚C"
 - seconds, minutes, hours: absolute, "2 hours, 35 minutes and 8 seconds" (duration)
-- time of day or 'the time': relative "14:35:08"
+- time of day or ‘the time’: relative "14:35:08"
 
 So far we've seen number derivations, but we can also derive other types of data.
 
@@ -189,10 +189,10 @@ With the `switch` expression for the `Discount`, you switch on the comparison (`
 We can match against the following possible results for the comparison:
 - 'greater than' (`>`)
 - 'greater than or equal to' (`>=`)
-- 'less than' (`<`)
-- 'less than or equal to' (`<=`)
-- 'equal to' (`==`)
-- 'less than or greater than' (`<>`)
+- ‘less than’ (`<`)
+- ‘less than or equal to’ (`<=`)
+- ‘equal to’ (`==`)
+- ‘less than or greater than’ (`<>`)
 
 Cases may not overlap, so you cannot match against `<` as well as `<=`.
 
@@ -341,10 +341,8 @@ For example, a command `Place new order` for placing a new order.
 Our app needs to implement the `Place new order` command for it to work.
 We do that with `application` language.
 
-<sup>
-NOTE: discussing the Alan `interface` language goes beyond the scope of this tutorial.
-If you would like to see a tutorial about the Alan `interface` language, and interconnecting multiple different applications, please let us know on the [forum](https://forum.alan-platform.com).
-</sup>
+<sup>NOTE: discussing the Alan `interface` language goes beyond the scope of this tutorial.
+If you would like to see a tutorial about the Alan `interface` language, and interconnecting multiple different applications, please let us know on the [forum](https://forum.alan-platform.com).</sup>
 
 Alternatively, we need a user interfaces that works well on a mobile device with clickable buttons to execute operations.
 In addition, users may need to perform multiple different operations on data in sequential manner to complete a task.
@@ -392,7 +390,7 @@ Like for references in our main model, the navigation expressions are evaluated 
 So, for a command on the `root`, the navigation expression is evaluated with respect to the root node.
 If instead we have a command called `Remove order line` for `Orders`, we will get a button when opening an `Orders` item.
 When picking a `Line` from the `Order lines`, we can choose from the lines from the open `Orders` item.
-Navigation expressions are evaluated with respect to the `Orders` item for which we click the command button, called the **'this'**-node.
+Navigation expressions are evaluated with respect to the `Orders` item for which we click the command button, called the **‘this’**-node.
 ```js
 {{< file "files_application-tutorial2/commands3/application.alan" >}}
 ```
@@ -415,7 +413,7 @@ The command implementation concludes with:
 ```js
 		... = create ( ... )
 ```
-This tells us what the update should be about: 'the update is (`=`) the creation (`create`) of a node.
+This tells us what the update should be about: ‘the update is (`=`) the creation (`create`) of a node.
 Instead of `create`, you can also use `ensure`.
 Create will check if an entry in the target collection with the provided key already exists, and reject the whole command in that case.
 The `ensure` operation does not fail. It creates the node, or otherwise overwrites values in the way that you specify in your model.

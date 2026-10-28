@@ -35,21 +35,30 @@ In the `config.alan` file, you can also enable user creation for supporting user
 For user sign-up, make sure that you have the required `user-initializer:` section in your `application` model.
 
 ## Deploying your changes
-You can now run **Alan: Deploy** with the **'empty'** option. \*
+You can now run **Alan: Deploy** with the **‘empty’** option. \*
 
 After a succesfull deployment, open your app and sign in with these credentials:
 
-> | **username:** | `root` |
-> | **password:** | `welcome` |
+> <table>
+>   <tbody>
+>     <tr>
+>       <td><strong>username:</strong></td>
+>       <td><code class="language-plaintext highlighter-rouge">root</code></td>
+>     </tr>
+>     <tr>
+>       <td><strong>password:</strong></td>
+>       <td><code class="language-plaintext highlighter-rouge">welcome</code></td>
+>     </tr>
+>   </tbody>
+> </table>
 
 When asked, choose your own password for the `root` user.
 You have now succesfully bootstrapped authentication.
 You can add `Users` in your app, and send them urls for signing in.
 
-<br>
-\* If you wish to use your own `migration.alan` file, follow these steps:
+<br>\* If you wish to use your own `migration.alan` file, follow these steps:
 - Run the [command](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) `Alan: Generate Migration` from VS Code, hit Enter twice, and select *'initialization from empty dataset'* as the *'migration type'*.
 - The generated file `migrations/from_empty/migration.alan` will provide you with initial username/password data for bootstrapping authentication. Copy the parts for the `Users` and `Passwords` collection to your own `migration.alan` file.
-***Do not change the username (or password hash) in your migration file!***
+**_Do not change the username (or password hash) in your migration file!_**
 
 

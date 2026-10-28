@@ -100,7 +100,7 @@ Open `models/model/application.alan` and write down the sections that every `app
 {{< file "snippets/minimal-model.alan" >}}
 ```
 
-This is the ***minimal model***: the smallest model the Alan platform accepts.
+This is the **_minimal model_**: the smallest model the Alan platform accepts.
 
 The `users` section defines who can access the application and how.
 Use `anonymous` for now, which means that anyone can open the app and read and edit its data.
@@ -126,14 +126,14 @@ Indentation is free — spaces and tabs are both accepted, and the Alan formatte
 
 ## Deploying the app
 To run this app, the model has to be translated into code that a server can execute.
-A ***compiler*** does that; it is part of the Alan platform tools.
+A **_compiler_** does that; it is part of the Alan platform tools.
 Download those tools with `Alan Fetch` in VS Code, or with `./alan fetch` from the command line.
 `Alan Fetch` reads the `versions.json` file in the project root to determine which versions of the tools it needs.
 
 After fetching, the *Alan language server* starts by itself and checks every `.alan` file in the project — models, migrations, and the rest — while you type.
 Its findings appear in the **Problems** panel and are underlined in the editor, so most mistakes surface long before you build anything.
 
-To ***build*** (compile) the whole project yourself, use `Alan Build`, or `./alan build` from the command line.
+To **_build_** (compile) the whole project yourself, use `Alan Build`, or `./alan build` from the command line.
 A build reports nothing when the project is valid, and reports errors when it is not.
 
 Once the build succeeds, run `Alan Deploy` to turn the project into a running app.
@@ -260,12 +260,12 @@ Each table therefore has its own collection of orders, and each order line recor
 
 ### Overview of attribute types {.no_toc}
 The application language has six built-in attribute types.
-- A ***text*** attribute holds an unbounded string value (for example *"this is text"*).
-- A ***number*** attribute holds an integer value (for example *31415927*).
-- A ***file*** attribute holds two unbounded string values: a file token and a file extension (for example *"screenshot"* and *"png"*).
-- A ***collection*** attribute holds a set of nodes, each identified by a unique key, so that every node can be referenced unambiguously. The key is defined by the collection; the nodes have an inline defined node type.
-- A ***stategroup*** attribute holds one state out of a fixed set of alternatives, such as `'Main course'`. Each state can hold its own attributes.
-- A ***group*** attribute holds a node of an inline defined node type. Groups add structure by grouping attributes that belong together or that share permission requirements.
+- A **_text_** attribute holds an unbounded string value (for example *"this is text"*).
+- A **_number_** attribute holds an integer value (for example *31415927*).
+- A **_file_** attribute holds two unbounded string values: a file token and a file extension (for example *"screenshot"* and *"png"*).
+- A **_collection_** attribute holds a set of nodes, each identified by a unique key, so that every node can be referenced unambiguously. The key is defined by the collection; the nodes have an inline defined node type.
+- A **_stategroup_** attribute holds one state out of a fixed set of alternatives, such as `'Main course'`. Each state can hold its own attributes.
+- A **_group_** attribute holds a node of an inline defined node type. Groups add structure by grouping attributes that belong together or that share permission requirements.
 
 ## References
 One line in the model deserves attention:
@@ -362,8 +362,8 @@ This concludes the introduction to the `application` language.
 You can now design a data model of your own and generate an app from it.
 
 Two pieces of advice for your own application:
-- ***Begin with the end in mind***. What is the purpose of the app, which data does that purpose require, and how does that data organize into collections?
-- ***Experiment***. Try things out. Restructuring a model is cheap, and parts of a model are easy to reuse.
+- **_Begin with the end in mind_**. What is the purpose of the app, which data does that purpose require, and how does that data organize into collections?
+- **_Experiment_**. Try things out. Restructuring a model is cheap, and parts of a model are easy to reuse.
 
 There is more to discover.
 [Part II](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial2.html) covers derived values, reference sets, commands, and actions.

@@ -235,8 +235,18 @@ Read the expression from the inside out: `^` is the password entry, `>'User'` fo
 Build, then click `Alan Deploy` and choose **empty**.
 That deployment injects an initial account, so open the app and sign in with:
 
-> | **username:** | `root` |
-> | **password:** | `welcome` |
+> <table>
+>   <tbody>
+>     <tr>
+>       <td><strong>username:</strong></td>
+>       <td><code class="language-plaintext highlighter-rouge">root</code></td>
+>     </tr>
+>     <tr>
+>       <td><strong>password:</strong></td>
+>       <td><code class="language-plaintext highlighter-rouge">welcome</code></td>
+>     </tr>
+>   </tbody>
+> </table>
 
 The app asks for a new password on first sign-in.
 Add an account for someone else, make it a `Reader`, and see what that account may and may not do.

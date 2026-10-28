@@ -21,16 +21,14 @@ We recommend that you do not use your own private key, but generate one instead 
 For details on SSH, see [this guide](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent).
 
 - From the **Terminal** in the Alan IDE environment, run
-```sh
-ssh-keygen -t ed25519 -C "<user>@<domain>.<ext>"
-```
-and **just press Enter** when asked for a *file* and a *passphrase*\*, unless you know exactly what you are doing. <sup>*Please note that if you do provide a passphrase, you may experience issues with Git integration in VS Code.</sup>
-
+  ```sh
+  ssh-keygen -t ed25519 -C "<user>@<domain>.<ext>"
+  ```
+  and **just press Enter** when asked for a *file* and a *passphrase*\*, unless you know exactly what you are doing. <sup>*Please note that if you do provide a passphrase, you may experience issues with Git integration in VS Code.</sup>
 - Copy the contents of the public key file to your clipboard:
-```
-cat ~/.ssh/id_ed25519.pub # contents of public key file
-```
-
+  ```
+  cat ~/.ssh/id_ed25519.pub # contents of public key file
+  ```
 
 ## Git hosting provider
 Now, head to [GitHub](https://github.com/) or another hosting provider for Git.

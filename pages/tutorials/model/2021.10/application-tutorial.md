@@ -79,7 +79,7 @@ A single `Menu` item consisting of an `Item name` and a `Selling price` is calle
 
 `Menu`, `Item name`, and `Selling Price` are **attributes** of a node. The keywords *collection*, *text* and *number* in a model express the **types** of the attributes. An *attribute type* specifies what kind of data an attribute can hold.
 
-<!-- >Curly braces ( ***{ ... }*** ) describe the start and end of a **node type** definition. A *node type* defines the types of data and its structure in a node. -->
+<!-- >Curly braces ( **_{ ... }_** ) describe the start and end of a **node type** definition. A *node type* defines the types of data and its structure in a node. -->
 
 ![node](./images_model/000A.png)
 
@@ -93,7 +93,7 @@ Let's open it up, and put down the following code that describes the main sectio
 {{< file "files_application-tutorial/minimal_model/application.alan" >}}
 ```
 
-This is the ***minimal model*** that is needed for every application that you build on the Alan platform.
+This is the **_minimal model_** that is needed for every application that you build on the Alan platform.
 
 The `users` section defines who can access your application and how.
 We use `anonymous` for now, which means that anyone can access your app and read and edit the app data.
@@ -119,11 +119,11 @@ Otherwise, the compiler will start complaining.
 
 ## Deploying the app
 How to get this app up and running? The model needs to be processed to produce executable code for a server.
-This is done by a ***compiler*** that is part of the Alan platform tools.
+This is done by a **_compiler_** that is part of the Alan platform tools.
 You can download the platform tools by clicking `Alan Fetch` in VS Code, or by running `./alan fetch` from the command line.
 `Alan Fetch` uses the `versions.json` file in your project root to determine which versions of the tools are needed.
 
-When `Alan Fetch` is done, you can ***build*** (compile) an application by clicking the button `Alan Build` or running `./alan build` from the command line.
+When `Alan Fetch` is done, you can **_build_** (compile) an application by clicking the button `Alan Build` or running `./alan build` from the command line.
 If your model and other parts of your Alan project are valid, the compiler shows no errors.
 After editing your model, you need to run Alan build again to see if the model is still valid.
 Note that if you build your application regularly, it is easier to troubleshoot errors.
@@ -250,12 +250,12 @@ An `Order line` describes an order for a specific `Item` with an ordered `Amount
 
 ### Overview of attribute types {.no_toc}
 The application language supports six built-in attribute types.
-- A ***text*** attribute holds an unbounded string value (e.g. *"this is text"*).
-- A ***number*** attribute holds an integer value (e.g. *31415927*).
-- A ***file*** attribute holds two unbounded string values representing a file token and a file extension (e.g. *"screenshot"* and *"png"*).
-- A ***collection*** attribute holds a map of key-value pairs. Keys are string values that have to be unique such that we can reference them unambiguously. Keys are implicitly defined for collection attributes; values are nodes of an inline defined type (e.g. `{"001"; "Eggs"; 6; 'stired', 'fried'; 'omelette.jpg'}`).
-- A ***stategroup*** attribute holds a value indicating a state. States are alternatives to a property that a state group attribute indicates, such as `'Main course'`.
-- A ***group*** attribute holds a node of an inline defined node type. Group attributes add structure by grouping other attributes that belong together or share permission requirements, which we'll discuss later in this tutorial.
+- A **_text_** attribute holds an unbounded string value (e.g. *"this is text"*).
+- A **_number_** attribute holds an integer value (e.g. *31415927*).
+- A **_file_** attribute holds two unbounded string values representing a file token and a file extension (e.g. *"screenshot"* and *"png"*).
+- A **_collection_** attribute holds a map of key-value pairs. Keys are string values that have to be unique such that we can reference them unambiguously. Keys are implicitly defined for collection attributes; values are nodes of an inline defined type (e.g. `{"001"; "Eggs"; 6; 'stired', 'fried'; 'omelette.jpg'}`).
+- A **_stategroup_** attribute holds a value indicating a state. States are alternatives to a property that a state group attribute indicates, such as `'Main course'`.
+- A **_group_** attribute holds a node of an inline defined node type. Group attributes add structure by grouping other attributes that belong together or share permission requirements, which we'll discuss later in this tutorial.
 
 ## References
 There's an interesting line in the model that needs our attention:

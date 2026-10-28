@@ -58,14 +58,14 @@ Add it under `'eurocent'` in the `numerical-types` section, which then reads:
 ```js
 {{< file "snippets/derived-values-numtypes.alan" >}}
 ```
-`= 'units' * 'eurocent'` is a ***product conversion rule***, and it is declared under the numerical type of the *result*.
+`= 'units' * 'eurocent'` is a **_product conversion rule_**, and it is declared under the numerical type of the *result*.
 Its general form is `= 'num-type1' * 'num-type2'`.
 In the expression itself, `as 'units'` behind `.'Amount'` names the operand this rule multiplies first, so the compiler can check that the multiplication makes sense.
-A `division` works the same way, with a ***division conversion rule*** that uses `/` instead of `*`.
+A `division` works the same way, with a **_division conversion rule_** that uses `/` instead of `*`.
 <sub>NOTE: a future version of the compiler is planned to infer these rules.</sub>
 
 
-A conversion by a constant factor is a ***singular conversion rule***.
+A conversion by a constant factor is a **_singular conversion rule_**.
 The rule is declared under the resulting type, and the expression names the type it starts from with `from`:
 ```js
 {{< file "snippets/derived-values-pi.alan" >}}
@@ -176,10 +176,10 @@ The `switch` expression for the `Discount` switches on the result of a `compare`
 A case matches one of these results:
 - 'greater than' (`>`)
 - 'greater than or equal to' (`>=`)
-- 'less than' (`<`)
-- 'less than or equal to' (`<=`)
-- 'equal to' (`==`)
-- 'less than or greater than' (`<>`)
+- ‘less than’ (`<`)
+- ‘less than or equal to’ (`<=`)
+- ‘equal to’ (`==`)
+- ‘less than or greater than’ (`<>`)
 
 Cases may not overlap, so a `switch` cannot match both `<` and `<=`.
 
@@ -263,10 +263,8 @@ The two systems agree on an Alan `interface` — a file that looks a lot like an
 
 The restaurant app has to implement that command, and it does so in the `application` language.
 
-<sup>
-NOTE: the Alan `interface` language is beyond the scope of this tutorial.
-If a tutorial about the `interface` language and connecting applications would help you, say so on the [forum](https://forum.alan-platform.com).
-</sup>
+<sup>NOTE: the Alan `interface` language is beyond the scope of this tutorial.
+If a tutorial about the `interface` language and connecting applications would help you, say so on the [forum](https://forum.alan-platform.com).</sup>
 
 A second reason for commands is the user interface itself: a screen that works on a mobile device needs buttons that perform an operation in one click, and some tasks consist of several operations that a user should perform as one step.
 For that, Alan has `action`s.

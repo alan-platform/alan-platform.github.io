@@ -26,9 +26,7 @@ Every deployment therefore starts from a dataset, and there are two ways to get 
 This guide covers both, and the language migrations are written in.
 It assumes the project layout of the online Alan IDE, as described in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
 
-<sup>
-Returning after a while? Since platform version 2026.1 a migration is written in the processor language of the Alan `connector`. The language changed completely: no typed declarations, no `map`, and no error annotations between `<!` and `!>`.
-</sup>
+<sup>Returning after a while? Since platform version 2026.1 a migration is written in the processor language of the Alan `connector`. The language changed completely: no typed declarations, no `map`, and no error annotations between `<!` and `!>`.</sup>
 
 ## Starting with an empty dataset
 

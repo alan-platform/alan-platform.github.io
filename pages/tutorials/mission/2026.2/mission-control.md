@@ -99,7 +99,7 @@ The numerical types carry the physics:
 {{< file "snippets/impulse-numtypes.alan" >}}
 ```
 
-`= 'newton' * 'second'` is a ***product conversion rule***: it states that multiplying newtons by seconds yields newton seconds.
+`= 'newton' * 'second'` is a **_product conversion rule_**: it states that multiplying newtons by seconds yields newton seconds.
 Without that rule the model does not compile — Alan will not multiply two quantities unless you have said what the result is.
 
 Build and deploy here, and each engine carries its own impulse with the vehicle's total underneath the list.
@@ -148,7 +148,7 @@ The difference is where the boundary sits — here it is inside a model, in fron
 
 The fix is not a comment or a code review: it is one conversion rule, and then a conversion the compiler can check.
 
-`= 'pound-force second' * 4448222 * 10 ^ -6` is a ***singular conversion rule***: one numerical type expressed in another by a constant factor.
+`= 'pound-force second' * 4448222 * 10 ^ -6` is a **_singular conversion rule_**: one numerical type expressed in another by a constant factor.
 That factor is not folklore — one pound-force is 4.448222 newtons by definition — and since Alan stores whole numbers, it is written as an integer with a power of ten.
 
 ```js
