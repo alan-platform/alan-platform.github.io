@@ -5,10 +5,8 @@ title: "Alan IDE:<br>version control<br> & offline editing"
 category: learn
 description: >-
   Put an Alan project in Git, collaborate with others, and edit it on your own machine while deploying from the online IDE.
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 This guide explains how to **set up version control** with Git for Alan IDE projects.

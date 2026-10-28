@@ -4,10 +4,8 @@ title: "Tutorial: developing software with Alan"
 category: learn
 description: >-
   Get an Alan project running in the online IDE: the layout of a project, the editor, and the build and deploy buttons you use in every tutorial.
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 A computer application is a tool for a purpose: tracking orders and supplies, planning maintenance, exchanging information between people.
@@ -36,7 +34,7 @@ For *version control* and *local editing* of Alan projects, read [this guide](/p
 ## An application for building applications
 Alan development happens in an Integrated Development Environment (IDE): an application that gives you an overview of files and folders, an editor that understands Alan code, and tools such as the compiler at your fingertips.
 This tutorial uses Visual Studio Code (VS Code) in a Chromium-based browser, such as Google Chrome or Microsoft Edge.
-Open a separate tab and sign in to your [online IDE account](https://coder.alan-platform.com/){:target="_blank"}, or create one:
+Open a separate tab and sign in to your <a href="https://coder.alan-platform.com/" target="_blank">online IDE account</a>, or create one:
 
 <p style="text-align:center;">
 <a class="button call-to-action" href="https://coder.alan-platform.com/signup/" target="_blank" rel="noopener noreferrer" style="display: inline-flex;align-items: center;">

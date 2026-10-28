@@ -7,10 +7,8 @@ model_version: 109
 platform_version: 2026.3
 description: >-
   Part I of the application language tutorial: collections, nodes, keys, states and references, building a restaurant app from an empty model.
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 This tutorial teaches you to model data with the `application` language, the main language for building Alan apps.
@@ -35,8 +33,7 @@ You never write the application itself; you describe what the data is, and the p
 ## Modeling data
 A restaurant is nothing without a good menu, so start there.
 
-### Menu
-{:.no_toc}
+### Menu {.no_toc}
 
 | *Appetizer* | *Price (€)* |
 | :- | -: |
@@ -261,8 +258,7 @@ Each table therefore has its own collection of orders, and each order line recor
 
 ---
 
-### Overview of attribute types
-{:.no_toc}
+### Overview of attribute types {.no_toc}
 The application language has six built-in attribute types.
 - A ***text*** attribute holds an unbounded string value (for example *"this is text"*).
 - A ***number*** attribute holds an integer value (for example *31415927*).

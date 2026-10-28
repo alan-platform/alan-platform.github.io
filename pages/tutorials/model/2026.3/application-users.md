@@ -7,10 +7,8 @@ model_version: 109
 platform_version: 2026.3
 description: >-
   Add users, passwords and authentication to an Alan application: the model, the session manager, and the first sign-in.
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 Every app in the tutorials so far used `anonymous` users: anyone who opens the app can read and change everything.

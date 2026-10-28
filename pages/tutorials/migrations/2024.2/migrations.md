@@ -4,10 +4,8 @@ head: "Application data migration"
 title: "Migrating Alan application data"
 category: learn
 datastore_version: 116
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 

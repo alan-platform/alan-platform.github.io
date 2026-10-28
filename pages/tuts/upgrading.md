@@ -17,10 +17,9 @@ The details are in the `AGENTS.md` that `./alan fetch` puts in the project, and 
 
 Open the project in your editor and give the agent this prompt:
 
-```
+``` {.copy}
 Run ./alan f to update AGENTS.md, then upgrade this project to platform 2026.3.
 ```
-{: .copy}
 
 The agent runs the upgrade, fixes what the build reports with the release notes at hand, and goes through the report.
 Use a strong model at a high thinking effort: in our tests, Claude Opus at effort xhigh did best (max was not tested).

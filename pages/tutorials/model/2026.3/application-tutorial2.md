@@ -7,11 +7,9 @@ model_version: 109
 platform_version: 2026.3
 description: >-
   Part II of the application language tutorial: derived values, conditional expressions, reference sets, commands and actions.
+toc: true
 ---
 
-
-1. TOC
-{:toc}
 
 ## Introduction
 This is the second part of the application language tutorial that builds a restaurant app.

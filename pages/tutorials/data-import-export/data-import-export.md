@@ -5,10 +5,8 @@ title: "Spreadsheet data<br>import & export"
 category: learn
 description: >-
   Download any collection of an Alan app as Excel or CSV, and import CSV back into it, including the format the import expects.
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 

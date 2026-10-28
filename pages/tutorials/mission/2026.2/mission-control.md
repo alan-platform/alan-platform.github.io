@@ -7,10 +7,8 @@ model_version: 108
 platform_version: 2026.2
 description: >-
   Build the ground software for a lunar cargo flight in one afternoon, and watch the compiler refuse the mistake that cost NASA the Mars Climate Orbiter.
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 
@@ -28,8 +26,7 @@ Somewhere in the middle of this tutorial you will write the mistake that cost NA
 This tutorial assumes you can build and deploy a project, as in the [IDE tutorial](/pages/tutorials/ide/ide-tutorial.html).
 It does not assume you have done the [restaurant tutorial](/pages/tutorials/model/{{< param "platform_version" >}}/application-tutorial.html); that one goes slower and explains more.
 
-### How to work through this page
-{:.no_toc}
+### How to work through this page {.no_toc}
 
 Seven acts grow one model, the file `models/model/application.alan`.
 The first code block is a complete model; every later block is what that act adds, where `...` stands for lines that stay as they are.
@@ -116,8 +113,7 @@ Put the cursor on `'second'`, press **F2**, type `seconds`, and press Enter.
 The language server renames the type and every use of it, the burn time and the product rule included, and leaves `'newton second'` alone: that is a different name, not a use of this one.
 The blocks from here on use `'seconds'`.
 
-### The bug that lost an orbiter
-{:.no_toc}
+### The bug that lost an orbiter {.no_toc}
 
 Now the strap-on booster arrives from a supplier who reports its impulse in **pound-force seconds**, and someone adds it to the total.
 

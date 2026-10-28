@@ -4,10 +4,8 @@ head: "Application Tutorial: a Restaurant app, Part I"
 title: "Application Tutorial:<br>a Restaurant app<br>Part I"
 category: learn
 version: 97
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 This tutorial aims to give you a basis for modeling data with the `application` language: the main language for building Alan apps.
@@ -36,8 +34,7 @@ So, let's dive in!
 ## Modeling data
 A restaurant is nothing without a good menu. So, first, let's take a look at the menu that shows us all the good food and nice drinks you offer.
 
-### Menu
-{:.no_toc}
+### Menu {.no_toc}
 
 | *Appetizer* | *Price (€)* |
 | :- | -: |
@@ -263,8 +260,7 @@ An `Order line` describes an order for a specific `Item` with an ordered `Amount
 
 ---
 
-### Overview of attribute types
-{:.no_toc}
+### Overview of attribute types {.no_toc}
 The application language supports six built-in attribute types.
 - A ***text*** attribute holds an unbounded string value (e.g. *"this is text"*).
 - A ***number*** attribute holds an integer value (e.g. *31415927*).

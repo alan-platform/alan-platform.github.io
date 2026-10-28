@@ -4,11 +4,9 @@ head: "Application Tutorial: a Restaurant app, Part III"
 title: "Application Tutorial:<br>a Restaurant app<br>Part III"
 category: learn
 version: 89
+toc: true
 ---
 
-
-1. TOC
-{:toc}
 
 ## Introduction
 <!-- This is the second part of the application language tutorial where we build a restaurant app.

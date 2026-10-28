@@ -5,10 +5,8 @@ title: "Application Guide: <br>Users & Authentication"
 category: learn
 model_version: 106
 platform_version: 2024.2
+toc: true
 ---
-
-1. TOC
-{:toc}
 
 ## Introduction
 This guide explains how to **add users** and basic password **authentication** to your Alan application.

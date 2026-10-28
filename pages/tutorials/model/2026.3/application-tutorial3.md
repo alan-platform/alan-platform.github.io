@@ -7,11 +7,9 @@ model_version: 109
 platform_version: 2026.3
 description: >-
   Part III of the application language tutorial: state machines, advanced references, and products assembled from other products.
+toc: true
 ---
 
-
-1. TOC
-{:toc}
 
 ## Introduction
 This is the third part of the application language tutorial that builds a restaurant app.

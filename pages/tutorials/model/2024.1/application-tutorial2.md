@@ -5,11 +5,9 @@ title: "Application Tutorial:<br>a Restaurant app<br>Part II"
 category: learn
 model_version: 105
 platform_version: 2024.1
+toc: true
 ---
 
-
-1. TOC
-{:toc}
 
 ## Introduction
 This is the second part of the application language tutorial where we build a restaurant app.
