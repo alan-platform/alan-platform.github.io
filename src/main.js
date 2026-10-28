@@ -53,8 +53,36 @@ function pageIndex() {
         }
     }
 
-    // the reader is in the section of the last heading that passed under the fixed header
+    // A section the reader jumped to (an entry of the index, or any link to its heading) stays marked while its
+    // heading is on screen: the last sections of a page cannot scroll up to the top, so the rule below would
+    // never reach them. Until the jump has arrived, the scrolling it causes does not count.
+    var pinned = null;
+    var arrived = false;
+    function pin(id) {
+        var heading = document.getElementById(id);
+        if (!heading || !links[heading.id]) {
+            return;
+        }
+        pinned = heading;
+        arrived = false;
+        mark(heading);
+    }
+
+    // the reader is in the section of the last heading that passed under the fixed header, or in the last section
+    // once the page is scrolled to its end
     function follow() {
+        if (pinned) {
+            var top = pinned.getBoundingClientRect().top;
+            if (top >= 0 && top < window.innerHeight) {
+                arrived = true;
+                mark(pinned);
+                return;
+            }
+            if (!arrived) {
+                return;
+            }
+            pinned = null;
+        }
         var heading = headings[0];
         for (var i = 0; i < headings.length; i++) {
             if (headings[i].getBoundingClientRect().top > 96) {
@@ -62,7 +90,23 @@ function pageIndex() {
             }
             heading = headings[i];
         }
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+            heading = headings[headings.length - 1];
+        }
         mark(heading);
+    }
+
+    rail.addEventListener('click', function(event) {
+        var link = event.target.closest('a[href^="#"]');
+        if (link) {
+            pin(decodeURIComponent(link.getAttribute('href').substring(1)));
+        }
+    });
+    window.addEventListener('hashchange', function() {
+        pin(decodeURIComponent(location.hash.substring(1)));
+    });
+    if (location.hash) {
+        pin(decodeURIComponent(location.hash.substring(1)));
     }
 
     var scheduled = false;
