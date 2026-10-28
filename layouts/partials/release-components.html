@@ -37,10 +37,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		{{- range $component := partial "ordered-keys.html" (dict "map" $this.platform "kind" "platform" "name" $this.name) }}
+		{{- range $component := partial "ordered-keys.html" (dict "map" $this.platform "kind" "platform") }}
 		{{- partial "release-component-row.html" (dict "name" $component "new" (index $this.platform $component) "old" (index $prevPlatform $component) "compare" $prev) }}
 		{{- end }}
-		{{- range $component := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types" "name" $this.name) }}
+		{{- range $component := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types") }}
 		{{- $old := false }}
 		{{- with index $prevSystemTypes $component }}{{ $old = .version }}{{ end }}
 		{{- partial "release-component-row.html" (dict "name" $component "new" (index $systemTypes $component).version "old" $old "compare" $prev) }}

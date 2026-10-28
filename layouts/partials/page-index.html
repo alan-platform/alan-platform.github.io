@@ -1,7 +1,7 @@
 {{- /*
 	The index of the current page, beside the text on a wide screen and above it on a narrow one: the table of
-	contents, built from the headings of a page with toc: true in its front matter (prepare.py sets it on a
-	generated page whose source carries the table-of-contents marker). src/main.js marks the section in view.
+	contents, built from the headings of a page with toc: true in its front matter (a generated page that has an
+	index carries it). src/main.js marks the section in view.
 
 	The list is <ol id="markdown-toc">, an entry per heading with the link id markdown-toc-<id>, the names that
 	the stylesheet and main.js select on. The headings with class no_toc are left out first (the heading render

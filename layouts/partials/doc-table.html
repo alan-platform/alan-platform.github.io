@@ -12,11 +12,11 @@
 	{{- if .platform_row }}
 	{{- partialCached "doc-rows.html" (dict "type" "platform" "version" $version.name) "platform" $version.name }}
 	{{- end }}
-	{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform" "name" $version.name) }}
+	{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform") }}
 	{{- $componentVersion := index $version.platform $component }}
 	{{- partialCached "doc-rows.html" (dict "type" $component "version" $componentVersion) $component $componentVersion }}
 	{{- end }}
-	{{- range $systemType := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types" "name" $version.name) }}
+	{{- range $systemType := partial "ordered-keys.html" (dict "map" $systemTypes "kind" "system types") }}
 	{{- $typeVersion := (index $systemTypes $systemType).version }}
 	{{- partialCached "doc-rows.html" (dict "type" $systemType "version" $typeVersion) $systemType $typeVersion }}
 	{{- end }}

@@ -25,6 +25,15 @@ enableRobotsTXT = true
   # The description of a page that has none of its own.
   description = "Alan is a model-driven platform: you write a model of your application, and the platform generates the database, the server, the web application, the authorization and the migrations that go with it."
 
+  # The order of the components in the version tables. Hugo hands the data files over as maps and a range over a
+  # map goes in sorted key order, but the tables list the components as the files do: the platform components in the
+  # order of the platform object of _data/versions.json, the system types in the order of the system types object
+  # of every _data/dist/<version>/versions.json (which agree). A key that a list does not name follows in sorted
+  # order, so that nothing is left out (see layouts/partials/ordered-keys.html).
+  [params.order]
+    platform = ["model", "interface", "project-build-environment"]
+    systemTypes = ["auto-webclient", "connector", "datastore", "emailnotifier", "relational-database-bridge", "image-http", "session-manager", "sql-mirror", "webclient", "hosting-server"]
+
 # hugo server answers /docs/archive with docs/archive.html, as GitHub Pages does for an address without .html.
 # The site links that address; the page's canonical field only changes its metadata.
 [[server.redirects]]
@@ -44,14 +53,13 @@ enableRobotsTXT = true
       autoHeadingID = true
       autoHeadingIDType = "github"
       [markup.goldmark.parser.attribute]
-        # {#id .class} after a block or a heading: the Goldmark form of the kramdown attribute lists ({: #id .class })
-        # that the generated documentation is written with (prepare.py rewrites them).
+        # {#id .class} after a block or a heading, and the id of the generated grammar blocks and examples.
         block = true
         title = true
     [markup.goldmark.extensions]
       # A bare URL in the text is not turned into a link.
       linkify = false
-      # Smart quotes and dashes in prose (prepare.py writes the quotes of a quoted word itself).
+      # Smart quotes and dashes in prose.
       [markup.goldmark.extensions.typographer]
         disable = false
   [markup.highlight]
@@ -69,17 +77,14 @@ enableRobotsTXT = true
   # A component that has mounts of its own gets no default mount. That keeps the repository's assets/
   # directory (fonts, images) out of Hugo's asset pipeline: it is mounted as static content below.
 
-  # Content: the hand-written pages, the generated documentation as _tools/hugo/prepare.py adapts it, the
-  # home page placeholder and the text of the 404 page. A mount takes the first pattern of files that matches
-  # a path. The 404 text gets a name of its own: a content page at /404 would take the place of Hugo's 404
-  # page, which layouts/404.html renders.
+  # Content: the hand-written pages and the generated documentation (pages/docs, written in the form Hugo reads:
+  # url and toc in the front matter), the home page placeholder and the text of the 404 page. The 404 text gets a
+  # name of its own: a content page at /404 would take the place of Hugo's 404 page, which layouts/404.html
+  # renders.
   [[module.mounts]]
     source = "pages"
     target = "content/pages"
-    files = ["! docs/**", "**/*.md", "*.md"]
-  [[module.mounts]]
-    source = ".build/content/pages/docs"
-    target = "content/pages/docs"
+    files = ["**/*.md", "*.md"]
   [[module.mounts]]
     source = "index.md"
     target = "content/_index.md"
@@ -87,18 +92,13 @@ enableRobotsTXT = true
     source = "404.md"
     target = "content/404-text.md"
 
-  # Data: versions.json, navigation.yml and the dist/<platform version>/ files written by CI. The RELEASE.md
-  # files beside them are no data. Beside them key_order.json, the order of the keys in those files, which
-  # _tools/hugo/prepare.py writes because Hugo hands data over as maps (see layouts/partials/ordered-keys.html).
-  # Only json, yml and yaml files count as data: Hugo stops the build on a file type it cannot read, and the
-  # release script puts RELEASE.md beside the data files.
+  # Data: versions.json, navigation.yml and the dist/<platform version>/ files written by CI. Only json, yml and
+  # yaml files count as data: Hugo stops the build on a file type it cannot read, and the release script puts
+  # RELEASE.md beside the data files.
   [[module.mounts]]
     source = "_data"
     target = "data"
     files = ["**/*.json", "*.json", "**/*.yml", "*.yml", "**/*.yaml", "*.yaml"]
-  [[module.mounts]]
-    source = ".build/data"
-    target = "data"
 
   # Static files, copied as they are: the fonts and images, the dependency graph.
   [[module.mounts]]
