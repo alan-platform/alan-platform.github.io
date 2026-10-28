@@ -51,7 +51,7 @@ platform's transformation produces for the tutorial models. Write a rewrite only
 breaks the layout the tutorials depend on.
 Promoting `_data/versions.json` `current` is a separate, manual commit. A version entry there may carry an `alan`
 field with the URL of that platform version's `alan` script (`https://dist.alan-platform.com/share/versions/VERSION/alan`);
-`pages/docs.md` shows a quickstart for the newest version that has one, and `_includes/doc-archive.html` links it per version.
+`pages/docs.md` shows a quickstart for the newest version that has one, and `layouts/partials/doc-archive.html` links it per version.
 
 ## Screenshots
 

@@ -142,9 +142,6 @@ def extract_file(path):
         chunk = trim_dedent(all_lines)
         if not chunk: diagnostics.append(diag(path, 1, "empty region"))
         else: done.setdefault(all_name, []).append(chunk); regions.setdefault(all_name, []).append((1, len(lines)))
-    for name, chunks in done.items():
-        text = "\n...\n".join("\n".join(chunk) for chunk in chunks)
-        if "{{" in text or "{%" in text: diagnostics.append(diag(path, 1, "Liquid syntax in snippet"))
     if diagnostics: raise ExtractError(diagnostics)
     return done, expect, regions
 

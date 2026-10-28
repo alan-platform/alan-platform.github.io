@@ -36,7 +36,7 @@ class ExtractTests(unittest.TestCase):
         cases = [
             "//@ nope x\n", "x //@ begin x\n", "//@ begin x\n//@ begin x\n",
             "//@ end x\n", "//@ begin x\n", "//@ begin x\na\n//@ end x cut=\"z\"\n",
-            "//@ begin x\n{{ hi }}\n//@ end x\n", "//@ all x\n//@ all y\n",
+            "//@ all x\n//@ all y\n",
         ]
         for source in cases:
             with self.subTest(source=source):
