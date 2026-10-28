@@ -1,0 +1,27 @@
+{{- /*
+	The entries of page-index.html, nested as kramdown nested them: (dict "items" L), where L is a list of headings
+	in document order from page-index-flat.html. Each heading goes under the nearest heading before it of a higher
+	level (a lower number); a heading that has none in L is an entry of this list, and the headings after it up to
+	the next such entry are its sub-list. The link text is the heading's HTML.
+*/ -}}
+{{- $items := .items -}}
+{{- $tops := slice -}}
+{{- $lowest := 7 -}}
+{{- range $i, $item := $items -}}
+	{{- if le $item.level $lowest -}}
+		{{- $tops = $tops | append $i -}}
+		{{- $lowest = $item.level -}}
+	{{- end -}}
+{{- end -}}
+{{- range $k, $top := $tops -}}
+	{{- $end := len $items -}}
+	{{- if lt (add $k 1) (len $tops) }}{{ $end = index $tops (add $k 1) }}{{ end -}}
+	{{- $item := index $items $top -}}
+	{{- $children := slice -}}
+	{{- if gt $end (add $top 1) }}{{ $children = first (sub $end (add $top 1)) (after (add $top 1) $items) }}{{ end }}
+<li><a href="#{{ $item.id }}" id="markdown-toc-{{ $item.id }}">{{ $item.title | safeHTML }}</a>
+	{{- with $children }}<ol>
+{{ partial "page-index-items.html" (dict "items" .) }}</ol>
+{{ end -}}
+</li>
+{{- end -}}

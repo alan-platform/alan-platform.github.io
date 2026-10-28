@@ -1,0 +1,19 @@
+{{- /*
+	A fenced code block in the markup kramdown and Rouge wrote, which the stylesheet and main.js select on and from
+	which Prism takes the language when it highlights the code in the browser:
+	  <div class="language-LANG [classes of the fence] highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CODE
+	  </code></pre></div></div>
+	A fence without a language is plaintext. Attributes of the fence other than its classes, such as an id, go on
+	the outer div. The code is escaped once; the output of a {{< file >}} shortcode in the block is already escaped
+	and replaces a placeholder of plain letters after this hook ran, so it is not escaped again. Goldmark hands over
+	the code without its final newline, which kramdown kept.
+*/ -}}
+{{- $class := printf "language-%s" (.Type | default "plaintext") -}}
+{{- with .Attributes.class }}{{ $class = printf "%s %s" $class . }}{{ end -}}
+{{- $class = printf "%s highlighter-rouge" $class -}}
+<div class="{{ $class }}"
+{{- range $name, $value := .Attributes }}
+	{{- if ne $name "class" }} {{ printf `%s="%s"` $name (htmlEscape (string $value)) | safeHTMLAttr }}{{ end }}
+{{- end -}}
+><div class="highlight"><pre class="highlight"><code>{{ .Inner | htmlEscape | safeHTML }}
+</code></pre></div></div>

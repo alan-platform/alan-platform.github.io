@@ -1,0 +1,14 @@
+{{- /*
+	A heading with its id and the attributes the page gives it ({.no_toc}), class first, as kramdown wrote them.
+	A heading with class no_toc stays out of the page index: its id is recorded in the page's Store, which
+	partials/page-index.html reads once the content is rendered.
+*/ -}}
+{{- $class := .Attributes.class | default "" -}}
+{{- if in (split $class " ") "no_toc" -}}
+	{{- .Page.Store.SetInMap "no_toc" .Anchor true -}}
+{{- end -}}
+<h{{ .Level }}
+{{- range $name, $value := .Attributes }}
+	{{- if ne $name "id" }} {{ printf `%s="%s"` $name (htmlEscape (string $value)) | safeHTMLAttr }}{{ end }}
+{{- end }} id="{{ .Anchor }}">{{ .Text }}</h{{ .Level }}>
+{{- /* a newline after the heading, as Goldmark writes one after every block */}}

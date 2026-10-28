@@ -1,0 +1,19 @@
+{{- /*
+	The headings of a page in document order, for page-index.html: (dict "headings" H "skip" S), where H is
+	.Fragments.Headings or a level of it, returns a list of (dict "level" "id" "title"). Hugo's heading tree has an
+	entry without an id for every level a page skips (an h5 straight under an h3 hangs under an empty h4); those
+	entries are not headings and are left out, and so are the headings whose ids S holds. Their sub-headings stay.
+*/ -}}
+{{- $skip := .skip -}}
+{{- $list := slice -}}
+{{- range .headings -}}
+	{{- if and .ID (not (index $skip .ID)) -}}
+		{{- $list = $list | append (dict "level" .Level "id" .ID "title" .Title) -}}
+	{{- end -}}
+	{{- with .Headings -}}
+		{{- with partial "page-index-flat.html" (dict "headings" . "skip" $skip) -}}
+			{{- $list = $list | append . -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+{{- return $list -}}

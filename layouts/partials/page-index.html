@@ -1,0 +1,20 @@
+{{- /*
+	The index of the current page, beside the text on a wide screen and above it on a narrow one: the table of
+	contents that kramdown wrote for a "1. TOC / {:toc}" marker, now built from the headings of the page for a page
+	with toc: true in its front matter. src/main.js marks the section in view.
+
+	The list is kramdown's: <ol id="markdown-toc">, an entry per heading with the link id markdown-toc-<id>. As
+	kramdown did, the headings with class no_toc are left out first (the heading render hook records them), and
+	the rest are nested: each under the nearest heading before it of a higher level. Render .Content before calling
+	this, so that the hook has run. Outputs nothing for a page without an index, so a layout can test the result.
+*/ -}}
+{{- if .Params.toc -}}
+	{{- $headings := partial "page-index-flat.html" (dict "headings" .Fragments.Headings "skip" (.Store.Get "no_toc" | default dict)) -}}
+	{{- with partial "page-index-items.html" (dict "items" $headings) }}
+<aside class="page-index">
+	<p class="page-index-label" id="page-index-label">On this page</p>
+	<nav aria-labelledby="page-index-label"><ol id="markdown-toc">
+{{ . }}</ol></nav>
+</aside>
+	{{- end -}}
+{{- end -}}
