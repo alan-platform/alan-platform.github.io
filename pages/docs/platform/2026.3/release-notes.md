@@ -35,3 +35,9 @@ session now lasts until its `'token limit'` or logout) and add `'openid authorit
 keyed like `'openid authority client ids'`, `( )` when no authority has a secret. An OpenID login
 now returns to `<base uri>oidc/resume`: register that address with the client at every provider
 before the application moves to 35, or the provider refuses the login.
+
+Web clients: 2026.3 publishes auto-webclient athena.2 and webclient athena.2.0 (planning interaction
+modes, selections, resizing and nesting; the barcode feature). A 2026.3 project on athena.1 runs
+`./alan upgrade system-type auto-webclient` (and `webclient`); the bundles convert the systems from
+athena.1 and from zora.1 to zora.4, and leave the planning annotations to the hand: their RELEASE.md
+says which, and the build reports each.
