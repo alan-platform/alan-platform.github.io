@@ -1,37 +1,200 @@
 /*
- * Main page styles: the anchor arrows on section headings, the offset for
- * linked targets under the fixed header, spacing in sections, centered
- * headings and paragraphs, the video wrapper, the main column and the strip
- * of boxes that fades out at both ends.
+ * Layout: the page as a column that keeps the footer at the bottom of a short page, the main column with its
+ * gutters, the reading layout with a rail beside the content, the hand-written page header, the measure of prose,
+ * the separation of major sections, the offset of jump targets under the header, and the anchor arrows of section
+ * headings.
  *
- * 1.414em, 1.999396rem and 0.7072135785em are powers of 1.414, the square
- * root of two (1.414, 1.414^2 and 1 / 1.414), kept exactly as computed.
+ * The widths and distances are tokens (15-tokens.css). Without a page index the main column is the 50rem content
+ * column. With one, from 64rem, it is the reading layout: the 14rem rail and the content column side by side, 3rem
+ * apart, 67rem in all. Under 64rem the page index stays in the flow, above the content (95-index.css).
  */
 
+/*
+ * The body is a column: main takes the height that the header, the home hero and the footer leave, so the footer
+ * of a short page sits at the bottom of the window instead of halfway up.
+ */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/*
+ * The main column: centred, the content width plus a gutter on each side, the gutters part of its width so that
+ * the column is never wider than the window. It is the containing block of what is positioned in it, such as the
+ * document switcher.
+ */
+main {
+  flex: 1 0 auto;
+  position: relative;
+  width: 100%;
+  max-width: calc(var(--width-content) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/*
+ * The hand-written page header: the title and, when the page has them, its anchors and buttons, left-aligned with
+ * the content under it and 32px above it. The title of a documentation page and of the 404 page, which have no
+ * header element of their own, get the same space above them. The space is 40px on a phone and 64px from 40rem.
+ */
+.page-header {
+  margin: var(--space-10) 0 var(--space-8) 0;
+}
+
+main > h1:first-child {
+  margin-top: var(--space-10);
+}
+
+@media (min-width: 40rem) {
+  .page-header,
+  main > h1:first-child {
+    margin-top: var(--space-16);
+  }
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+/*
+ * A long title, one written over several lines with <br> (the tutorials), takes the long-title scale: the page
+ * layout marks its header with page-header-long. The lines the title gives stay as they are.
+ */
+.page-header-long h1 {
+  font-size: var(--font-size-title-long-phone);
+  line-height: var(--line-height-title-long-phone);
+  letter-spacing: var(--tracking-title-long-phone);
+}
+
+@media (min-width: 40rem) {
+  .page-header-long h1 {
+    font-size: var(--font-size-title-long);
+    line-height: var(--line-height-title-long);
+    letter-spacing: var(--tracking-title-long);
+  }
+}
+
+/* The anchors and buttons under the title: one row that wraps, the anchors as links, the buttons after them. */
+.page-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-6);
+}
+
+.page-header nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-6);
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-ui);
+  line-height: var(--line-height-ui);
+}
+
+/*
+ * The reading layout, from 64rem: a grid of the rail and the content column. Every child of main is in the content
+ * column; the page index is in the rail, on the row of the content it indexes, so the header above stays aligned
+ * with the content and the rail starts beside the body of the page. The rail sticks below the header while the
+ * content scrolls, as long as the window is at least 30rem high, and scrolls on its own when it is taller than the
+ * window.
+ */
+@media (min-width: 64rem) {
+  main.has-page-index {
+    display: grid;
+    grid-template-columns: var(--width-rail) minmax(0, var(--width-content));
+    column-gap: var(--gap-rail);
+    align-items: start;
+    max-width: calc(var(--width-reading) + 2 * var(--gutter));
+  }
+
+  main.has-page-index > * {
+    grid-column: 2;
+  }
+
+  main.has-page-index > .page-index {
+    grid-column: 1;
+  }
+}
+
+@media (min-width: 64rem) and (min-height: 30rem) {
+  main.has-page-index > .page-index {
+    max-height: calc(100vh - var(--header-height) - var(--space-12));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-6));
+    z-index: var(--z-rail);
+    scrollbar-width: thin;
+  }
+}
+
+/*
+ * Prose keeps a readable measure inside the content column (--measure, 680px in the body text). Tables, code
+ * blocks, cards and other blocks with a class take the full column. The selector has no specificity, so any rule
+ * of a component overrides it.
+ */
+:where(main section > :is(p, ul, ol, dl, blockquote, h2, h3, h4, h5, h6):not([class])) {
+  max-width: var(--measure);
+}
+
+/*
+ * Major sections of a page that is made of them (the home page) are apart by the section separation, and the first
+ * one is as far from what is above main.
+ */
+main > section:first-child,
+main > section + section {
+  margin-top: var(--space-section);
+}
+
+/*
+ * A jump target, an element with an id or a link with a name, stops 24px below the site header, so a heading that
+ * a link leads to is not hidden under it.
+ */
+[id],
+a[name] {
+  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+}
+
+/*
+ * main.js wraps the text of every h2 and h3 with an id in a link to the heading. The link is the heading itself,
+ * not a link in running text: no colour or underline of its own. An arrow in the secondary text colour shows in the
+ * gutter to the left of the heading on hover, and stays while the heading is the target of the address. The arrow
+ * is the shape of assets/arrow.svg, used as a mask so that it takes the colour.
+ */
 h2[id],
 h3[id] {
   position: relative;
 }
 
+h2[id] a,
+h3[id] a {
+  color: inherit;
+  text-decoration: none;
+}
+
 h2[id] a::after,
 h3[id] a::after {
-  transition: opacity var(--duration-hover) ease-in-out;
-  content: "";
-  width: 16px;
-  height: 1.414em;
-  background: url("../assets/arrow.svg") no-repeat center center;
-  background-size: 16px 16px;
+  transition: opacity var(--duration-hover) var(--ease-standard);
+  content: '';
+  width: var(--space-4);
+  height: var(--line-height-h2);
   position: absolute;
-  left: -1em;
+  top: 0;
+  left: calc(-1 * var(--space-5));
+  background: var(--text-secondary);
+  -webkit-mask: url("../assets/arrow.svg") no-repeat center / var(--space-4);
+  mask: url("../assets/arrow.svg") no-repeat center / var(--space-4);
   opacity: 0;
 }
 
-/* The pseudo-class follows the pseudo-element, so browsers drop this rule; it stays only to keep the stylesheet unchanged. */
-h2[id] a::after:hover,
-h2[id] a::after:active,
-h3[id] a::after:hover,
-h3[id] a::after:active {
-  transition: opacity var(--duration-hover) ease-in-out;
+h3[id] a::after {
+  height: var(--line-height-h3);
+  -webkit-mask-size: var(--space-3);
+  mask-size: var(--space-3);
 }
 
 h2[id]:target a::after,
@@ -41,103 +204,6 @@ h3[id] a:hover::after {
   opacity: 1;
 }
 
-h2[id] a,
-h2[id] a:link,
-h2[id] a:visited,
-h2[id] a:hover,
-h2[id] a:active,
-h3[id] a,
-h3[id] a:link,
-h3[id] a:visited,
-h3[id] a:hover,
-h3[id] a:active {
-  color: inherit;
-  text-decoration: none;
-}
-
-h3[id] a::after {
-  background-size: 12px 12px;
-}
-
-/* A jump target, an element with an id or a link with a name, stops 7rem below the top of the window, clear of the fixed header, which is 6.4rem (96px) tall at every width. */
-[id],
-a[name] {
-  scroll-margin-top: 7rem;
-}
-
-section > * + * {
-  margin-top: 0.7072135785em;
-}
-
-h2.centered {
-  color: #c3c5ca;
-  font-style: italic;
-  text-align: center;
-}
-
-p.centered {
-  margin-top: 1.999396rem;
-  text-align: center;
-}
-
 .video-wrapper {
   text-align: center;
-}
-
-main {
-  max-width: 49rem;
-  margin: 4rem auto 0 auto;
-}
-
-main > * {
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-
-.strip {
-  list-style: none;
-  display: flex;
-  position: relative;
-  padding: 0;
-  margin-bottom: 1.999396rem;
-}
-
-.strip::before,
-.strip::after,
-.strip li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 1.999396rem;
-  border: 2px solid #eeeff0;
-  background: #f7f7f7;
-}
-
-@media (max-width: 700px) {
-  .strip::before,
-  .strip::after,
-  .strip li {
-    padding: 2.67vw;
-  }
-}
-
-.strip li + li {
-  margin-left: 1rem;
-}
-
-.strip::before {
-  content: '';
-  margin-right: 1rem;
-  background: linear-gradient(to right, #fff, #f7f7f7);
-  border-image: linear-gradient(to right, #fff, #eeeff0) 2;
-  border-left: none;
-}
-
-.strip::after {
-  content: '';
-  margin-left: 1rem;
-  background: linear-gradient(to left, #fff, #f7f7f7);
-  border-image: linear-gradient(to left, #fff, #eeeff0) 2;
-  border-right: none;
 }

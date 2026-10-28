@@ -23,6 +23,19 @@ header .inner {
   padding: 0 2.827145944rem;
 }
 
+/*
+ * The header is fixed over the top of the page and 106px tall at every width: --header-height, which places jump
+ * targets and the rail below it, is set to that height, and the content of a page that starts under the header
+ * starts below it. (The home page starts with its hero, which the header lies over.)
+ */
+:root {
+  --header-height: 6.625rem;
+}
+
+header + main {
+  margin-top: var(--header-height);
+}
+
 /* The links of the header are navigation, not running text: no underline. */
 header a {
   text-decoration: none;

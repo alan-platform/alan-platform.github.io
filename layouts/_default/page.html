@@ -17,21 +17,30 @@
 		{{ end }}
 
 		<main id="content"{{ if $pageIndex }} class="has-page-index"{{ end }}>
-			<h1>{{ .Params.title | safeHTML }}</h1>
-			<nav>
-				<ul>
-					{{ range .Params.anchors }}
-					<li>
-						<a href="#{{ .name }}">{{ .label | safeHTML }}</a>
-					</li>
+			{{- /*
+				The page header: the title, and the anchors and buttons of the front matter when there are any. A title
+				written over several lines with <br> takes the long-title scale (page-header-long).
+			*/}}
+			<div class="page-header{{ if in (string .Params.title) "<br" }} page-header-long{{ end }}">
+				<h1>{{ .Params.title | safeHTML }}</h1>
+				{{ if or .Params.anchors .Params.buttons }}
+				<nav>
+					{{ with .Params.anchors }}
+					<ul>
+						{{ range . }}
+						<li>
+							<a href="#{{ .name }}">{{ .label | safeHTML }}</a>
+						</li>
+						{{ end }}
+					</ul>
 					{{ end }}
-				</ul>
 
-				{{ range .Params.buttons }}
-				<a class="button" href="{{ .link | relURL }}">{{ .label | safeHTML }}</a>
+					{{ range .Params.buttons }}
+					<a class="button" href="{{ .link | relURL }}">{{ .label | safeHTML }}</a>
+					{{ end }}
+				</nav>
 				{{ end }}
-
-			</nav>
+			</div>
 			{{ $pageIndex }}
 			<section>
 				{{ replace $content "<img src=" `<img loading="lazy" decoding="async" src=` | safeHTML }}

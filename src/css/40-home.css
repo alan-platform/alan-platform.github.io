@@ -1,6 +1,8 @@
 /*
  * Home page: the brand name in running text, the hero with its background
- * photo, call to action and scroll hint, and the card that links to a post.
+ * photo, call to action and scroll hint, the centred heading of the customers,
+ * the strip of their logos that fades out at both ends, and the card that
+ * links to a post.
  *
  * Lengths such as 0.7072135785rem, 1.414rem, 2.827145944rem and
  * 5.6525842918rem are powers of 1.414, an approximation of the square root of two (1 / 1.414,
@@ -162,4 +164,63 @@ span.brand {
   position: relative;
   top: -12px;
   left: -12px;
+}
+
+h2.centered {
+  color: #c3c5ca;
+  font-style: italic;
+  text-align: center;
+}
+
+p.centered {
+  margin-top: 1.999396rem;
+  text-align: center;
+}
+
+.strip {
+  list-style: none;
+  display: flex;
+  position: relative;
+  padding: 0;
+  margin-bottom: 1.999396rem;
+}
+
+.strip::before,
+.strip::after,
+.strip li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 1.999396rem;
+  border: 2px solid #eeeff0;
+  background: #f7f7f7;
+}
+
+@media (max-width: 700px) {
+  .strip::before,
+  .strip::after,
+  .strip li {
+    padding: 2.67vw;
+  }
+}
+
+.strip li + li {
+  margin-left: 1rem;
+}
+
+.strip::before {
+  content: '';
+  margin-right: 1rem;
+  background: linear-gradient(to right, #fff, #f7f7f7);
+  border-image: linear-gradient(to right, #fff, #eeeff0) 2;
+  border-left: none;
+}
+
+.strip::after {
+  content: '';
+  margin-left: 1rem;
+  background: linear-gradient(to left, #fff, #f7f7f7);
+  border-image: linear-gradient(to left, #fff, #eeeff0) 2;
+  border-right: none;
 }

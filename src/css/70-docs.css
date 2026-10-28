@@ -560,6 +560,18 @@ table td > a:active {
 }
 
 /*
+ * In the reading layout (30-main.css) main is a grid, and a positioned child of a grid would start at its top. The
+ * switcher is placed in the content column on the row of the page index and the content, the third after the title
+ * and the line under it, so it opens below that line as it does without a grid.
+ */
+@media (min-width: 64rem) {
+  main.has-page-index > #doc-list {
+    grid-row: 3;
+    grid-column: 2;
+  }
+}
+
+/*
  * The menu is as wide as the window; the table in it is as wide as the text column at most, on a white caption
  * that joins its border. The shadow is the second grey at 30% opacity, as on the buttons.
  */

@@ -1,10 +1,8 @@
 /*
  * The page index: the table of contents of a page, which the layout builds into a rail beside the content
- * (page-index.html). Narrow screens show it in the flow of the page, above the content.
- *
- * The rail is 14rem wide with a 2rem gap, so it takes 16rem beside the text column. The rail appears above
- * 63rem: the 45rem text column, the 16rem rail and gap, and 2rem of air; up to 63rem the index stays in the
- * flow. The rail range is the exact complement of the in-flow one, so no width is left without either styling.
+ * (page-index.html). From 64rem it is the rail of the reading layout, whose grid and sticky position are in
+ * 30-main.css; under 64rem it is in the flow of the page, above the content. The in-flow range is the exact
+ * complement of the rail one, not all and (min-width: 64rem), so no width is left without either styling.
  *
  * 1.414rem is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
@@ -80,35 +78,12 @@
 }
 
 /* In the flow, above the content. */
-@media (max-width: 63rem) {
+@media not all and (min-width: 64rem) {
   .page-index {
     max-height: 40vh;
     overflow-y: auto;
     margin-bottom: 1.414rem;
     padding-bottom: 1rem;
     border-bottom: 2px solid #eeeff0;
-  }
-}
-
-@media not all and (max-width: 63rem) {
-  /* Room for the rail, with the text column its usual width. */
-  main.has-page-index {
-    max-width: 65rem;
-    padding-left: 16rem;
-  }
-
-  /* Floated out of the text column, and sticky within the page body. */
-  .page-index {
-    width: 14rem;
-    max-height: calc(100vh - 11rem);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    position: sticky;
-    float: left;
-    top: 8rem;
-    margin-top: 1.414rem;
-    margin-right: 0;
-    margin-left: -16rem;
-    scrollbar-width: thin;
   }
 }
