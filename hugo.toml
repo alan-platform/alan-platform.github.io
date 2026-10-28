@@ -1,0 +1,136 @@
+# Hugo configuration of alan-platform.com.
+#
+# The repository keeps the layout it had under Jekyll: the module mounts below map its directories into Hugo's
+# components, so the paths that other tools write to (pages/docs, _data/dist, deps) stay where they are.
+# Run hugo from the repository root, where this file is: the mount sources are relative to it.
+
+baseURL = "https://alan-platform.com/"
+title = "Alan Platform - Model-Driven Software Development Platform"
+
+# Hugo writes its generator meta tag into the home page; Jekyll did not.
+disableHugoGeneratorInject = true
+# Directory and file names keep their case, so a link to images_IDE keeps working.
+disablePathToLower = true
+# The site has hand-written navigation and no lists: no section pages, taxonomies or feeds.
+disableKinds = ["section", "taxonomy", "term", "RSS"]
+enableRobotsTXT = true
+
+# Every page under pages/ is a file with its own name, as Jekyll wrote it: /pages/x/y.html, not /pages/x/y/.
+# Only that section: the home page stays at /.
+[uglyURLs]
+  pages = true
+
+[params]
+  # Jekyll's site.description: the description of a page that has none of its own.
+  description = "Alan is a model-driven platform: you write a model of your application, and the platform generates the database, the server, the web application, the authorization and the migrations that go with it."
+
+# hugo server answers /docs/archive with docs/archive.html, as GitHub Pages does for an address without .html.
+# The site links that address; the page's canonical field only changes its metadata.
+[[server.redirects]]
+  from = "/docs/archive"
+  to = "/docs/archive.html"
+  status = 200
+  force = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # Pages hold raw HTML: the generated documentation carries pre-rendered grammar blocks.
+      unsafe = true
+      # kramdown writes void elements as <hr />, <br /> and <img ... />.
+      xhtml = true
+    [markup.goldmark.parser]
+      autoHeadingID = true
+      autoHeadingIDType = "github"
+      [markup.goldmark.parser.attribute]
+        # {#id .class} after a block or a heading, the Goldmark form of kramdown's attribute lists.
+        block = true
+        title = true
+    [markup.goldmark.extensions]
+      # kramdown does not turn a bare URL into a link.
+      linkify = false
+      # kramdown's smart quotes and dashes.
+      [markup.goldmark.extensions.typographer]
+        disable = false
+  [markup.highlight]
+    # Fenced code goes through layouts/_markup/render-codeblock.html, which Hugo only calls with codeFences on.
+    # The hook writes the wrapper Prism looks for in place of Chroma's markup; Prism highlights in the browser.
+    codeFences = true
+
+[module]
+  # The build needs this Hugo or newer, with the Sass compiler: an older or plain binary stops with a message
+  # instead of building something else.
+  [module.hugoVersion]
+    min = "0.167.0"
+    extended = true
+
+  # A component that has mounts of its own gets no default mount. That keeps the repository's assets/
+  # directory (fonts, images) out of Hugo's asset pipeline: it is mounted as static content below.
+
+  # Content: the hand-written pages, the generated documentation as _tools/hugo/prepare.py adapts it, the
+  # home page placeholder and the text of the 404 page. A mount takes the first pattern of files that matches
+  # a path. The 404 text gets a name of its own: a content page at /404 would take the place of Hugo's 404
+  # page, which layouts/404.html renders.
+  [[module.mounts]]
+    source = "pages"
+    target = "content/pages"
+    files = ["! docs/**", "**/*.md", "*.md"]
+  [[module.mounts]]
+    source = ".build/content/pages/docs"
+    target = "content/pages/docs"
+  [[module.mounts]]
+    source = "index.md"
+    target = "content/_index.md"
+  [[module.mounts]]
+    source = "404.md"
+    target = "content/404-text.md"
+
+  # Data: versions.json, navigation.yml and the dist/<platform version>/ files written by CI. The RELEASE.md
+  # files beside them are no data. Beside them key_order.json, the order of the keys in those files, which
+  # _tools/hugo/prepare.py writes because Hugo hands data over as maps (see layouts/partials/ordered-keys.html).
+  # Only the file types Jekyll read as data count: Hugo stops the build on a file type it cannot read, and the
+  # release script puts RELEASE.md beside the data files.
+  [[module.mounts]]
+    source = "_data"
+    target = "data"
+    files = ["**/*.json", "*.json", "**/*.yml", "*.yml", "**/*.yaml", "*.yaml"]
+  [[module.mounts]]
+    source = ".build/data"
+    target = "data"
+
+  # Static files, copied as they are: the fonts and images, the dependency graph.
+  [[module.mounts]]
+    source = "assets"
+    target = "static/assets"
+  [[module.mounts]]
+    source = "deps"
+    target = "static/deps"
+  [[module.mounts]]
+    source = "CNAME"
+    target = "static/CNAME"
+  [[module.mounts]]
+    source = "favicon.ico"
+    target = "static/favicon.ico"
+
+  # Assets: the files beside the pages (images, models, snippets of the tutorials), and the scripts and plain
+  # stylesheets of src/. layouts/partials/static-payload.html publishes them at their paths in the repository.
+  # They are no static mounts because of hugo server: it maps a changed file to every mount whose source holds it,
+  # whatever the mount's files filter, and then keeps one entry per path, whichever component the path is in.
+  # pages/about.md was content /pages/about.md and static /pages/about.md; the static entry was kept, and the page
+  # was not rendered again (src/main.scss the same, as static and as asset /src/main.scss). Under payload/ the asset
+  # paths differ from the content paths. The file shortcode reads its snippets from there as well, which makes a
+  # page follow a change of its snippet.
+  [[module.mounts]]
+    source = "pages"
+    target = "assets/payload/pages"
+    files = ["! **/*.md", "! *.md"]
+  [[module.mounts]]
+    source = "src"
+    target = "assets/src"
+
+  # The stylesheet: src/main.scss, compiled by layouts/partials/stylesheet.html, imports the partials in _sass/.
+  # They are mounted beside it, so that its @import lines resolve in Hugo's asset filesystem, which records them:
+  # hugo server compiles the stylesheet again when one of them changes.
+  [[module.mounts]]
+    source = "_sass"
+    target = "assets/src"
