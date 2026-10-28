@@ -56,7 +56,7 @@
   font-size: .875em;
   line-height: 1.35;
   text-decoration: none;
-  /* #838590 on white is 3.4:1, below the 4.5:1 that small text needs. */
+  /* Not the lighter grey #838590: on white that is 3.4:1, below the 4.5:1 that small text needs. */
   color: #484a50;
 }
 
