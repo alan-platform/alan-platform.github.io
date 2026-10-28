@@ -1,0 +1,17 @@
+{{- /*
+	The site's stylesheet, compiled from src/main.scss and published at /src/main.css, where Jekyll wrote it.
+	hugo.toml mounts the partials of _sass/ beside it in the assets, where its @import lines find them, as they found
+	them in Jekyll's sass_dir.
+
+	Jekyll compiled with Ruby Sass, which writes numbers with ten digits; LibSass writes eight unless told
+	otherwise. Hugo marks LibSass deprecated and warns once per build; Dart Sass would need its own binary on
+	every machine that builds the site. Call this through partialCached: it compiles once per build.
+*/ -}}
+{{- $options := dict
+	"transpiler" "libsass"
+	"outputStyle" "compressed"
+	"precision" 10
+	"targetPath" "src/main.css"
+-}}
+{{- $stylesheet := resources.Get "src/main.scss" | css.Sass $options -}}
+{{- return $stylesheet -}}
