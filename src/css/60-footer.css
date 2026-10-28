@@ -11,24 +11,17 @@ footer {
   line-height: 21px;
 }
 
-/* Black diagonal overlay over the left part of the band. Only the footer
-   uses this overlay now. */
+/* A black diagonal overlay over the left part of the band. */
 footer::after {
   content: '';
   position: absolute;
   top: 0;
-  right: 20%;
+  right: 50%;
   bottom: 0;
   left: 0;
   background: transparent url("../assets/overlay-black.svg") no-repeat right top/cover;
   pointer-events: none;
-  opacity: .2;
-}
-
-/* The footer's overlay is fainter and narrower than the default above. */
-footer::after {
   opacity: .1;
-  right: 50%;
 }
 
 footer img {
