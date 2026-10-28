@@ -19,7 +19,6 @@ REQUIRED = [
 ]
 GRAMMAR = "pages/docs/model/109/application/grammar"
 PAGES = ["pages/docs/a", "pages/docs/b/c", GRAMMAR]
-LIBSASS = "WARN  deprecated: css.Sass: libsass was deprecated in Hugo v0.153.0 and will be removed in a future release."
 
 
 class CheckOutput(unittest.TestCase):
@@ -34,7 +33,7 @@ class CheckOutput(unittest.TestCase):
         for name in REQUIRED:
             self.write("public/" + name, "x\n")
         self.write("public/sitemap.xml", "<urlset>" + "<url><loc>https://x.test/p</loc></url>\n" * 3000 + "</urlset>")
-        self.write("hugo.log", "Start building sites\n" + LIBSASS + "\n")
+        self.write("hugo.log", "Start building sites\n")
 
     def write(self, relative, text):
         path = os.path.join(self.root, relative)
@@ -80,10 +79,9 @@ class CheckOutput(unittest.TestCase):
         self.assertFails("2999 <loc> entries")
 
     def test_hugo_warnings(self):
-        self.write("hugo.log", LIBSASS + "\nWARN  found no layout file for \"html\" for kind \"page\"\n")
+        self.write("hugo.log", "Start building sites\nWARN  found no layout file for \"html\" for kind \"page\"\n")
         result = self.assertFails("Hugo reported:")
         self.assertIn("found no layout file", result.stderr)
-        self.assertNotIn("libsass", result.stderr)
         self.write("hugo.log", "ERROR something\n")
         self.assertFails("ERROR something")
 

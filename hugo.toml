@@ -68,11 +68,10 @@ enableRobotsTXT = true
     codeFences = true
 
 [module]
-  # The build needs this Hugo or newer, with the Sass compiler: an older or plain binary stops with a message
-  # instead of building something else.
+  # The build needs this Hugo or newer: an older binary makes Hugo warn, and the output check then fails the build.
+  # The standard edition suffices; the stylesheet is plain CSS.
   [module.hugoVersion]
     min = "0.167.0"
-    extended = true
 
   # A component that has mounts of its own gets no default mount. That keeps the repository's assets/
   # directory (fonts, images) out of Hugo's asset pipeline: it is mounted as static content below.
@@ -115,24 +114,18 @@ enableRobotsTXT = true
     target = "static/favicon.ico"
 
   # Assets: the files beside the pages (images, models, snippets of the tutorials), and the scripts and plain
-  # stylesheets of src/. layouts/partials/static-payload.html publishes them at their paths in the repository.
+  # stylesheets of src/. layouts/partials/static-payload.html publishes them at their paths in the repository. The
+  # parts of the site's stylesheet in src/css/ are not published one by one: layouts/partials/stylesheet.html
+  # concatenates them into /src/main.css.
   # They are no static mounts because of hugo server: it maps a changed file to every mount whose source holds it,
   # whatever the mount's files filter, and then keeps one entry per path, whichever component the path is in.
   # pages/about.md was content /pages/about.md and static /pages/about.md; the static entry was kept, and the page
-  # was not rendered again (src/main.scss the same, as static and as asset /src/main.scss). Under payload/ the asset
-  # paths differ from the content paths. The file shortcode reads its snippets from there as well, which makes a
-  # page follow a change of its snippet.
+  # was not rendered again. Under payload/ the asset paths differ from the content paths. The file shortcode reads
+  # its snippets from there as well, which makes a page follow a change of its snippet.
   [[module.mounts]]
     source = "pages"
     target = "assets/payload/pages"
     files = ["! **/*.md", "! *.md"]
   [[module.mounts]]
     source = "src"
-    target = "assets/src"
-
-  # The stylesheet: src/main.scss, compiled by layouts/partials/stylesheet.html, imports the partials in _sass/.
-  # They are mounted beside it, so that its @import lines resolve in Hugo's asset filesystem, which records them:
-  # hugo server compiles the stylesheet again when one of them changes.
-  [[module.mounts]]
-    source = "_sass"
     target = "assets/src"

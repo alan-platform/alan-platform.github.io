@@ -1,16 +1,10 @@
 {{- /*
-	The site's stylesheet, compiled from src/main.scss and published at /src/main.css.
-	hugo.toml mounts the partials of _sass/ beside it in the assets, where its @import lines find them.
-
-	The precision is 10 digits: LibSass writes eight unless told otherwise. Hugo marks LibSass deprecated and warns
-	once per build; Dart Sass would need its own binary on every machine that builds the site. Call this through
-	partialCached: it compiles once per build.
+	The site's stylesheet, published at /src/main.css: the ten plain CSS files of src/css/, concatenated in the
+	order of their names. They are numbered in the order in which the stylesheet takes them (10-fonts.css up to
+	95-index.css), so that the order of the cascade is explicit in their names. There is no Sass: the standard
+	Hugo binary builds the site. The concatenation is published as it is, comments included: a minifier would
+	rewrite values into equivalent forms, and the files are small once the server compresses them.
+	Call this through partialCached: it concatenates once per build.
 */ -}}
-{{- $options := dict
-	"transpiler" "libsass"
-	"outputStyle" "compressed"
-	"precision" 10
-	"targetPath" "src/main.css"
--}}
-{{- $stylesheet := resources.Get "src/main.scss" | css.Sass $options -}}
+{{- $stylesheet := sort (resources.Match "src/css/*.css") "Name" | resources.Concat "src/main.css" -}}
 {{- return $stylesheet -}}

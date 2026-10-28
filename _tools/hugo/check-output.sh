@@ -54,12 +54,12 @@ if [ "$locations" -lt "$SITEMAP_FLOOR" ]; then
   fail "public/sitemap.xml has $locations <loc> entries, fewer than $SITEMAP_FLOOR"
 fi
 
-# 5. Hugo warned about nothing but the deprecation of LibSass, which the stylesheet pipeline uses
+# 5. Hugo warned about nothing: any warning or error in its log fails the build
 if [ -n "$LOG" ]; then
   if [ ! -f "$LOG" ]; then
     fail "the Hugo log $LOG does not exist"
   else
-    warnings=$(grep -E '^(WARN|ERROR)' "$LOG" | grep -vi 'libsass')
+    warnings=$(grep -E '^(WARN|ERROR)' "$LOG")
     if [ -n "$warnings" ]; then
       fail "Hugo reported:"
       while IFS= read -r line; do
