@@ -67,8 +67,12 @@ it in the browser. Page logic is in shortcodes: `{{< file >}}` includes a file r
   directories are laid out as the tools that write into them expect (CI writes `pages/docs` and `deps/`, the versions
   repo writes `_data/dist/`), which is why `hugo.toml` mounts them.
 - The stylesheet is plain CSS: no Sass, so the build needs only the standard Hugo binary. Its parts are the files in
-  `src/css/`, numbered in the order of the cascade (`10-fonts.css` up to `95-index.css`).
-  `layouts/partials/stylesheet.html` concatenates them in the order of their names into `/src/main.css`, as they
+  `src/css/`, numbered in the order of the cascade: `10-fonts.css` (the font faces), `15-tokens.css` (the design
+  tokens: colours, type scale, spacing, widths, radii, shadows, durations and stacking levels, as custom properties
+  that the other parts use), `20-theme.css` (the base styles of the elements), `30-main.css` (the page layout),
+  `40-home.css` (the home page), `50-header.css` and `60-footer.css` (the site header and footer), `70-docs.css`
+  (the language tables, the archive and the document switcher), `80-release-notes.css`, `90-hub.css` (the Learn,
+  Documentation, About and FAQ pages) and `95-index.css` (the page index). `layouts/partials/stylesheet.html` concatenates them in the order of their names into `/src/main.css`, as they
   are, comments included: a minifier would rewrite values into equivalent forms, and the server compresses the
   file anyway. A new part gets a number that puts it at its place in that order. The fonts, Instrument Sans and IBM
   Plex Mono, are served from `assets/fonts/` with their licenses; `10-fonts.css` says where the files come from.

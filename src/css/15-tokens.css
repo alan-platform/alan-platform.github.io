@@ -1,0 +1,317 @@
+/*
+ * Design tokens: every colour, size, distance, radius, shadow, duration and stacking level of the site, as custom
+ * properties on :root. The values are those of the design specification of the redesign, "In Register" (concept v1,
+ * sections 4.1 to 4.5). The other files use these names and write no raw colour or size of their own where a token
+ * exists; a value that one component needs and no other stays in that component's file, with its reason.
+ *
+ * Contrast ratios are WCAG 2 ratios, (L1 + 0.05) / (L2 + 0.05) of the relative luminances, rounded to two decimals.
+ * Text needs 4.5:1, a boundary or indicator that identifies a control 3:1.
+ *
+ * The breakpoints, which a custom property cannot hold (a media query does not read them), are the same in every
+ * file: 40rem (640px) for more than one column, 64rem (1024px) for the desktop navigation, the page rail and the
+ * side-by-side hero, 80rem (1280px) for the largest home display size, and a height under 30rem (480px), below
+ * which nothing sticks to the top of the window. A media query takes rem from the browser's initial font size, so
+ * at the default 16px these are the pixel widths given.
+ */
+
+:root {
+  /*
+   * The site has one, light, colour scheme: form controls and scroll bars follow it, and a browser in dark mode
+   * does not invert them.
+   */
+  color-scheme: light;
+
+  /*
+   * Palette. The inks are the charcoal of the wordmark, #2b2c30 (--ink-800), with two darker steps for the primary
+   * action states and two lighter ones for body and secondary text. The neutrals are warm off-whites and greys for
+   * surfaces and rules. The four spectrum colours are the stripes of the logo, unchanged; they are not text colours
+   * (on white yellow is 1.53:1, green 1.94:1, orange 2.96:1, blue 3.61:1). Each has a darker text colour of its own
+   * family that is. The surfaces are the tints of the existing notice, information and success treatments.
+   */
+  --ink-950: #18191c;
+  --ink-900: #222327;
+  --ink-800: #2b2c30;
+  --ink-700: #42454c;
+  --ink-600: #5b606a;
+  --neutral-0: #ffffff;
+  --neutral-50: #f7f7f5;
+  --neutral-100: #eeeeeb;
+  --neutral-200: #dddeda;
+  --neutral-400: #b7b9b3;
+  --neutral-500: #81858d;
+  --spectrum-yellow: #ffc94a;
+  --spectrum-green: #8fcc27;
+  --spectrum-orange: #ff641a;
+  --spectrum-blue: #4a80ff;
+  --yellow-text: #765400;
+  --green-text: #3c6512;
+  --orange-text: #b53f0d;
+  --link: #2459c4;
+  --link-hover: #1c4496;
+  --surface-info: #edf2ff;
+  --surface-warning: #fff4d6;
+  --surface-success: #eef6e4;
+
+  /*
+   * Semantic aliases, the names the components use. Text on the light surfaces, from white to the inset grey:
+   * heading 13.95:1 to 12.00:1, body 9.60:1 to 8.26:1, secondary 6.31:1 to 5.43:1, link 6.36:1 to 5.47:1, link
+   * hover 9.06:1 to 7.80:1. On the info, warning and success tints at least: heading 12.45:1, body 8.57:1,
+   * secondary 5.64:1, link 5.68:1, link hover 8.09:1. The yellow, green and orange text colours are 4.91:1 or more
+   * on every light surface (orange on the inset grey is the lowest).
+   *
+   * The primary action is charcoal with white text: 13.95:1 at rest, 17.58:1 on hover (--ink-950) and 15.70:1
+   * pressed (--ink-900). The inverse surface is the charcoal of the footer: --text-inverse on it is 10.32:1,
+   * --text-inverse-secondary 7.04:1, white 13.95:1.
+   *
+   * --border-control is 3.70:1 on white, 3.45:1 on paper and 3.18:1 on the inset grey: the boundary of a control
+   * that needs one. --border-subtle is decorative, for rules and the outline of panels that are identified
+   * otherwise.
+   *
+   * The focus ring is the link blue, 6.36:1 on white and 5.93:1 on paper; on the charcoal of the footer that blue
+   * is 2.19:1, so a dark surface sets --focus-ring to --focus-ring-inverse, white. Selected text is charcoal on the
+   * yellow of the logo, 9.10:1.
+   */
+  --text-heading: var(--ink-800);
+  --text-body: var(--ink-700);
+  --text-secondary: var(--ink-600);
+  --text-on-action: var(--neutral-0);
+  --text-inverse: var(--neutral-200);
+  --text-inverse-secondary: var(--neutral-400);
+  --surface-page: var(--neutral-0);
+  --surface-subtle: var(--neutral-50);
+  --surface-inset: var(--neutral-100);
+  --surface-inverse: var(--ink-800);
+  --border-subtle: var(--neutral-200);
+  --border-control: var(--neutral-500);
+  --action-primary: var(--ink-800);
+  --action-primary-hover: var(--ink-950);
+  --action-primary-active: var(--ink-900);
+  --focus-ring: var(--link);
+  --focus-ring-inverse: var(--neutral-0);
+  --selection-text: var(--ink-800);
+  --selection-background: var(--spectrum-yellow);
+
+  /*
+   * Syntax colours of highlighted code, on the paper of a code block and the inset grey of inline code: keyword and
+   * function 5.93:1 and 5.47:1, string 6.39:1 and 5.90:1, number and boolean 5.32:1 and 4.91:1, comment and
+   * punctuation 5.89:1 and 5.43:1, operator 8.95:1 and 8.26:1, class name 6.44:1 and 5.95:1, property 13.00:1 and
+   * 12.00:1. A token without a colour of its own takes the charcoal of the block.
+   *
+   * The rule blocks of the generated grammars (.code-custom) mark the words and symbols that a model writes
+   * literally as operator tokens, and the names of properties as string tokens. The literals are the point of a
+   * rule, so they take a colour of their own, the orange text colour (5.32:1 on paper), not the muted operator
+   * colour of an example; the names take the string colour, as quoted names do in a highlighted example.
+   */
+  --syntax-keyword: var(--link);
+  --syntax-function: var(--link);
+  --syntax-string: var(--green-text);
+  --syntax-number: var(--orange-text);
+  --syntax-boolean: var(--orange-text);
+  --syntax-comment: var(--ink-600);
+  --syntax-punctuation: var(--ink-600);
+  --syntax-operator: var(--ink-700);
+  --syntax-class-name: var(--yellow-text);
+  --syntax-property: var(--ink-800);
+  --syntax-grammar-literal: var(--orange-text);
+
+  /*
+   * Type. One proportional family for display, prose and interface, one monospaced family for code. In the code
+   * stack Courier New comes before the generic monospace: its glyphs are 0.6em wide, as those of IBM Plex Mono are.
+   * The box-drawing characters of the diagrams in the tutorials are not in the Plex subsets and come from a
+   * fallback, and a fallback of another width, such as Consolas, would pull the lines of a diagram apart.
+   */
+  --font-sans: 'Instrument Sans', Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Courier New', monospace;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /*
+   * The type scale: a size, a line height and a tracking per role, with the root at 100%, 16px by default. Sizes
+   * and line heights are in rem, so a reader's font size scales all of them; line heights fall on a 4px grid at the
+   * default size. Display sizes are for the home page, from the widest (xl, 80rem and up) to the narrowest (sm,
+   * under 40rem). A page title is the desktop size from 40rem, the phone size under it; a long title, one written
+   * over several lines, has a scale of its own. Headings are weight 600 (h5 and h6 700), body text 400.
+   */
+  --font-size-display-xl: 4.5rem;
+  --line-height-display-xl: 4.75rem;
+  --tracking-display-xl: -0.035em;
+  --font-size-display-lg: 4rem;
+  --line-height-display-lg: 4.25rem;
+  --tracking-display-lg: -0.035em;
+  --font-size-display-md: 3.5rem;
+  --line-height-display-md: 3.75rem;
+  --tracking-display-md: -0.03em;
+  --font-size-display-sm: 2.5rem;
+  --line-height-display-sm: 2.75rem;
+  --tracking-display-sm: -0.025em;
+  --font-size-title: 3.5rem;
+  --line-height-title: 3.75rem;
+  --tracking-title: -0.03em;
+  --font-size-title-phone: 2.5rem;
+  --line-height-title-phone: 2.75rem;
+  --tracking-title-phone: -0.025em;
+  --font-size-title-long: 3rem;
+  --line-height-title-long: 3.5rem;
+  --tracking-title-long: -0.025em;
+  --font-size-title-long-phone: 2.25rem;
+  --line-height-title-long-phone: 2.75rem;
+  --tracking-title-long-phone: -0.02em;
+  --font-size-section: 2.25rem;
+  --line-height-section: 2.75rem;
+  --tracking-section: -0.02em;
+  --font-size-section-phone: 1.75rem;
+  --line-height-section-phone: 2.25rem;
+  --tracking-section-phone: -0.015em;
+  --font-size-h2: 1.75rem;
+  --line-height-h2: 2.25rem;
+  --tracking-h2: -0.015em;
+  --font-size-h3: 1.375rem;
+  --line-height-h3: 1.875rem;
+  --tracking-h3: -0.01em;
+  --font-size-h4: 1.125rem;
+  --line-height-h4: 1.75rem;
+  --font-size-h5: 1.0625rem;
+  --line-height-h5: 1.75rem;
+  --font-size-lead: 1.25rem;
+  --line-height-lead: 1.875rem;
+  --font-size-lead-phone: 1.125rem;
+  --line-height-lead-phone: 1.75rem;
+  --font-size-body: 1.0625rem;
+  --line-height-body: 1.75rem;
+  --font-size-ui: 1rem;
+  --line-height-ui: 1.5rem;
+  --font-size-table: 0.875rem;
+  --line-height-table: 1.375rem;
+  --font-size-small: 0.875rem;
+  --line-height-small: 1.25rem;
+  --font-size-label: 0.75rem;
+  --line-height-label: 1rem;
+  --tracking-label: 0.06em;
+  --font-size-code: 0.9375rem;
+  --line-height-code: 1.5rem;
+
+  /*
+   * Inline code is 15px in the 17px body text: 15 / 17 is 0.882 of the surrounding size, so code in a heading or a
+   * table keeps that proportion to its text.
+   */
+  --font-size-code-inline: 0.882em;
+
+  /*
+   * Spacing, a scale of 4px steps: --space-N is N times 4px (0.25rem). 1px and 2px are not on it; they are for
+   * borders, indicators and optical corrections only.
+   */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /*
+   * Layout widths. The site shell (header, footer, home page) is at most 78rem (1248px) wide. A page with a rail
+   * is at most 67rem (1072px): the 14rem rail, the 3rem gap and the 50rem (800px) content column. Prose within the
+   * content column keeps a measure of 40em, 680px in the 17px body text, about 85 characters of running text,
+   * whose average width in this typeface is 0.47em; tables, code and cards take the full column. The measure of the
+   * design specification, 72ch, is the width of 72 zeros, and the zero of Instrument Sans is 0.67em wide: 72ch
+   * would be 815px, wider than the content column. The widths exclude the page gutters.
+   */
+  --width-shell: 78rem;
+  --width-reading: 67rem;
+  --width-rail: 14rem;
+  --gap-rail: 3rem;
+  --width-content: 50rem;
+  --measure: 40em;
+  --gap-hero: 4rem;
+
+  /*
+   * Distances that change with the width of the window, given here at their phone values and set again in the
+   * media queries below: the page gutters, the gap between cards, the padding of cards and code blocks, the
+   * separation between the major sections of a page, and the height of the site header (min-height: the header
+   * grows when the text is enlarged).
+   */
+  --gutter: var(--space-5);
+  --gap-cards: var(--space-4);
+  --padding-card: var(--space-5);
+  --padding-code: var(--space-4);
+  --space-section: var(--space-12);
+  --header-height: var(--space-16);
+
+  /*
+   * Target sizes: the least height of a control or link that is not in running text. A button, and any target on a
+   * touch screen, is 44px high; a dense target on a desktop, such as a tag or a link of the page index, 32px.
+   */
+  --target-min: 2.75rem;
+  --target-min-dense: 2rem;
+
+  /*
+   * Shape. Radii grow with the size of the element: inline code, tags, buttons, panels (cards, callouts, code
+   * blocks) and the home artwork. They and the border widths are in px: they do not grow with the text.
+   */
+  --radius-inline: 3px;
+  --radius-tag: 4px;
+  --radius-button: 6px;
+  --radius-panel: 8px;
+  --radius-artwork: 12px;
+  --border-width: 1px;
+  --indicator-width: 2px;
+  --focus-width: 3px;
+  --focus-offset: 3px;
+
+  /*
+   * Elevation, in the darkest ink at low opacity. Cards and buttons have no shadow; the small one is for a control
+   * that sits on top of content, the popover one for a panel that overlays the page, such as the document switcher.
+   */
+  --shadow-small: 0 2px 6px rgb(24 25 28 / 0.06);
+  --shadow-popover: 0 12px 32px rgb(24 25 28 / 0.12), 0 2px 6px rgb(24 25 28 / 0.06);
+
+  /*
+   * Motion. A hover changes in 120ms, a disclosure or an icon in 180ms, and no transition takes longer than 240ms.
+   * The standard easing starts fast and settles; the exit easing accelerates out. Focus is never animated.
+   */
+  --duration-immediate: 0ms;
+  --duration-hover: 120ms;
+  --duration-disclosure: 180ms;
+  --duration-max: 240ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /*
+   * Stacking order, from the content up: the rail, the document switcher, the site header, its open menu, the
+   * skip link.
+   */
+  --z-base: 0;
+  --z-rail: 10;
+  --z-popover: 20;
+  --z-header: 30;
+  --z-menu: 40;
+  --z-skip-link: 50;
+}
+
+/* From 40rem: wider gutters, more room between and inside the cards and code blocks, more between the sections. */
+@media (min-width: 40rem) {
+  :root {
+    --gutter: var(--space-8);
+    --gap-cards: var(--space-6);
+    --padding-card: var(--space-6);
+    --padding-code: var(--space-5);
+    --space-section: var(--space-16);
+  }
+}
+
+/* From 64rem, the desktop layout: the full section separation and the taller header. */
+@media (min-width: 64rem) {
+  :root {
+    --space-section: var(--space-24);
+    --header-height: 4.5rem;
+  }
+}

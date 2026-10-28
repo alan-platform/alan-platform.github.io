@@ -1,7 +1,7 @@
 {{- /*
-	The site's stylesheet, published at /src/main.css: the ten plain CSS files of src/css/, concatenated in the
-	order of their names. They are numbered in the order in which the stylesheet takes them (10-fonts.css up to
-	95-index.css), so that the order of the cascade is explicit in their names. There is no Sass: the standard
+	The site's stylesheet, published at /src/main.css: the plain CSS files of src/css/, concatenated in the order
+	of their names. They are numbered in the order in which the stylesheet takes them (10-fonts.css, 15-tokens.css
+	and so on up to 95-index.css), so that the order of the cascade is explicit in their names. There is no Sass: the standard
 	Hugo binary builds the site. The concatenation is published as it is, comments included: a minifier would
 	rewrite values into equivalent forms, and the files are small once the server compresses them.
 	Call this through partialCached: it concatenates once per build.
