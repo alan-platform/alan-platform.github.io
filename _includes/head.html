@@ -64,6 +64,16 @@
 
 	<link rel="icon" href="{{ 'favicon.ico' | relative_url }}">
 
+	{% comment %}
+		The fonts of the header, preloaded. A font is otherwise requested at the first layout, so a page lays out its
+		first frames with the metrics of the fallback font, which is wider: the navigation sat further left until the
+		fonts arrived, even from the cache. Thin is the links, Regular the body and the small text of the documentation
+		button, Bold Italic the brand name.
+	{% endcomment %}
+	<link rel="preload" href="{{ '/assets/fonts/ClearSans-Thin.woff' | relative_url }}" as="font" type="font/woff" crossorigin>
+	<link rel="preload" href="{{ '/assets/fonts/ClearSans-Regular.woff' | relative_url }}" as="font" type="font/woff" crossorigin>
+	<link rel="preload" href="{{ '/assets/fonts/ClearSans-BoldItalic.woff' | relative_url }}" as="font" type="font/woff" crossorigin>
+
 	<link rel="stylesheet" href="{{ 'src/normalize.css' | relative_url }}?{{ site.time | date: "%s"}}">
 	<link rel="stylesheet" href="{{ 'src/main.css' | relative_url }}?{{ site.time | date: "%s"}}">
 
