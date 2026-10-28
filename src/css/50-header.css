@@ -87,23 +87,6 @@ header li + li {
     margin-left: 1.999396em;
 }
 
-header li.home {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-header li.home img {
-    margin-bottom: -8px;
-}
-
-header li.home a,
-header li.home a:link,
-header li.home a:visited,
-header li.home a:hover,
-header li.home a:active {
-    border-bottom: none;
-}
-
 @media (min-width: 50.01rem) {
     header li {
         display: inline-block;
