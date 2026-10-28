@@ -1,4 +1,4 @@
-// The page index: the kramdown table of contents, which the layout builds into a rail beside the content
+// The page index: the table of contents of a page, which the layout builds into a rail beside the content
 // (split-index.html). Narrow screens show it in the flow of the page, above the content.
 
 $index-width: 14rem;
@@ -20,7 +20,7 @@ $index-breakpoint: $base-width + $index-offset + 2rem; // column + rail + gap + 
         text-transform: uppercase;
         color: $grey3;
     }
-    nav > ol { // kramdown emits the table of contents as an ordered list
+    nav > ol { // the table of contents is an ordered list
         list-style: none;
         margin: 0;
         padding: 0;
@@ -63,7 +63,7 @@ $index-breakpoint: $base-width + $index-offset + 2rem; // column + rail + gap + 
     }
 }
 
-@media (max-width: $index-breakpoint) { // in the flow, above the content, as kramdown emits it
+@media (max-width: $index-breakpoint) { // in the flow, above the content
     .page-index {
         max-height: 40vh;
         overflow-y: auto;

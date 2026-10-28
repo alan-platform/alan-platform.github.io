@@ -8,8 +8,8 @@ function menuOpen(button) {
     }
 }
 
-// Marks the section in view in the rail beside the content. The layout builds the rail from the table of
-// contents that kramdown emits, so nothing here changes the layout of the page.
+// Marks the section in view in the rail beside the content. The layout builds the rail from the headings of
+// the page (page-index.html), so nothing here changes the layout of the page.
 function pageIndex() {
     var rail = document.querySelector('.page-index nav');
     if (!rail || !rail.querySelector('#markdown-toc')) {

@@ -1,5 +1,5 @@
 {{- /*
-	The entries of page-index.html, nested as kramdown nested them: (dict "items" L), where L is a list of headings
+	The entries of page-index.html, nested by heading level: (dict "items" L), where L is a list of headings
 	in document order from page-index-flat.html. Each heading goes under the nearest heading before it of a higher
 	level (a lower number); a heading that has none in L is an entry of this list, and the headings after it up to
 	the next such entry are its sub-list. The link text is the heading's HTML.

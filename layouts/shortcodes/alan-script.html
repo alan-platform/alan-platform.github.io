@@ -4,8 +4,8 @@
 	for the current version, the one the tutorials are written for; a newer version can be listed (with its script)
 	on the versions page before the tutorials move to it. Nothing when the current version has no script.
 
-	The values go into the Markdown as plain text, as the Liquid put them there, and the Markdown renderer escapes
-	them once. Escaped here as well, an & in the address would show as &amp; in the code block.
+	The values go into the Markdown as plain text, and the Markdown renderer escapes them once. Escaped here as
+	well, an & in the address would show as &amp; in the code block.
 */ -}}
 {{- $versions := hugo.Data.versions -}}
 {{- range first 1 (where $versions.versions "name" $versions.current) -}}

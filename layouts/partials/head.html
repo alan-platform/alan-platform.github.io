@@ -1,9 +1,9 @@
 {{- /*
-	The head of every page. The front matter is read through .Params, as Jekyll read it: a key a page does not set
+	The head of every page. The front matter is read through .Params: a key a page does not set
 	is nil, where Hugo would fill in .Title, .Description or .Type itself.
 */ -}}
 {{- $time := partialCached "build-time.html" "build-time" -}}
-{{- /* the 404 page has no front matter; GitHub's Jekyll gave it the title of its heading, "404" */ -}}
+{{- /* the 404 page has no front matter; its title is its status, "404" */ -}}
 {{- $title := or .Params.title (cond (eq .Kind "404") "404" "") -}}
 {{- $head := .Params.head -}}
 {{- $type := .Params.type -}}

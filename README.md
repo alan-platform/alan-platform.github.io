@@ -35,14 +35,14 @@ The tools have tests: `python3 -m unittest discover -s _tools/hugo/tests` (the w
 
 ## Markdown
 
-Markdown is converted by Hugo's Goldmark, a CommonMark parser, set up to read like kramdown did: raw HTML is enabled,
-block attributes work (`{#id .class}` on the line after a paragraph, `{#id}` after a fence's language), the typographer
+Markdown is converted by Hugo's Goldmark, a CommonMark parser. Its settings in `hugo.toml`: raw HTML is enabled, block
+attributes work (`{#id .class}` on the line after a paragraph, `{#id}` after a fence's language), the typographer
 writes smart quotes and dashes, a bare URL is not a link, and void elements are written `<br />`. Fenced code and
-headings go through render hooks (`layouts/_markup/`): a fence renders as the markup the styles and `src/main.js` expect
-(`div.language-X.highlighter-rouge > div.highlight > pre.highlight > code`), and Prism highlights it in the browser. Page logic that was Liquid is a shortcode now: `{{< file >}}`
-includes a file relative to the page, `{{< param >}}` and `{{< site-version >}}` print versions,
-`{{< dist-version >}}` and `{{< platform-component >}}` read the version data. Front matter keys keep their names;
-`url:` is the page's address.
+headings go through render hooks (`layouts/_markup/`): a fence renders as the wrapper that the stylesheet, `src/main.js`
+and Prism select on (`div.language-X.highlighter-rouge > div.highlight > pre.highlight > code`), and Prism highlights
+it in the browser. Page logic is in shortcodes: `{{< file >}}` includes a file relative to the page, `{{< param >}}` and
+`{{< site-version >}}` print versions, `{{< dist-version >}}` and `{{< platform-component >}}` read the version data.
+`url:` in the front matter is the page's address.
 
 ## Where content comes from
 
@@ -66,7 +66,8 @@ includes a file relative to the page, `{{< param >}}` and `{{< site-version >}}`
   `layouts/partials/static-payload.html` publishes at their paths in the repository: a static mount of `pages/` would
   make `hugo server` miss every edit of a page (see `hugo.toml`). `_sass/` is mounted beside `src/main.scss`.
   `robots.txt` and `sitemap.xml` are not static files but templates, and `src/main.css` is compiled, so none of the
-  three is in the repository as a file. The repository layout is the one the Jekyll site had.
+  three is in the repository as a file. The directories are laid out as the tools that write into them expect (CI writes
+  `pages/docs` and `deps/`, the versions repo writes `_data/dist/`), which is why `hugo.toml` mounts them.
 
 ## prepare.py
 
@@ -78,13 +79,13 @@ The generator writes kramdown syntax, and kramdown and Goldmark read some of it 
   page (the rail) from the headings of pages that have it;
 - turns the `{: #grammar-rule--X }` line before a rule block into an `id` on its `<div>` (27921 times), and the
   `{: #example--X }` line after a paragraph into `{#example--X}`;
-- adds `url: "/pages/docs/<path>.html"` to the front matter, the address Jekyll gave every page;
+- adds `url: "/pages/docs/<path>.html"` to the front matter, the address the toolchains deep-link to;
 - repairs what Goldmark would render differently: a blank line after a rule block that text follows directly (a heading
   there would be swallowed by the HTML block), a `>` prefix on a fence that opens in a blockquote, a stray backtick
   after a fence language, `<!`, `<!--` and `</` that a browser would read as markup in rule blocks (written `&lt;`), and
   link destinations with a space (wrapped in `<...>`);
-- writes the quotes of a quoted word in prose as `‘` and `’`, as kramdown did; Goldmark's typographer renders
-  `'empty'` with two right quotes. Apostrophes inside words, code and raw HTML are left alone;
+- writes the quotes of a quoted word in prose as `‘` and `’`: Goldmark's typographer renders `'empty'` with two right
+  quotes, where kramdown's smart quotes open and close it. Apostrophes inside words, code and raw HTML are left alone;
 - stops with the file and line when it meets a `{:` line of a kind it does not know, or a line outside fences and raw
   HTML that starts with `{.` or `{#` (Goldmark would take it for a block attribute and not show it), so a new form of
   the generator is noticed and not published as text.
@@ -104,8 +105,8 @@ Other systems link to the pages, so the addresses must not change. The toolchain
 `/pages/docs/<origin>/<version>/<language>/grammar.html#grammar-rule--<rule>`; the forum and the `./alan` script link
 there too. Therefore the pages under `pages/` keep `.html` (`uglyURLs` for that section; the home page stays at `/`),
 `disablePathToLower = true` (directories such as `client bindings` and `images_IDE` keep their space and case), the
-hand-written pages that Jekyll gave a `permalink` set `url:` (`/docs/`, `/learn/`, `/about/`, `/faq/`, `/docs/archive`),
-and the ids `grammar-rule--X` and `example--X` stay as they are.
+hand-written pages whose address differs from their file name set `url:` (`/docs/`, `/learn/`, `/about/`, `/faq/`,
+`/docs/archive`), and the ids `grammar-rule--X` and `example--X` stay as they are.
 
 ## Deploy
 
@@ -129,7 +130,7 @@ https://github.com/alan-platform/alan-platform.github.io/settings/pages). Hugo i
 checked against a SHA-256 pinned in the workflow; to update Hugo, change `HUGO_VERSION` and `HUGO_SHA256` together (the
 checksum is in the `checksums.txt` of the release).
 
-Cutover order: set the Pages source to "GitHub Actions" first, while `master` still holds the Jekyll tree, and push the
-Hugo tree to `master` afterwards. With the source on a branch, GitHub builds the pushed tree with Jekyll, which cannot
-build it, and the workflow cannot deploy. A pull request from the branch that holds the Hugo tree to `master` builds and
-checks it on a runner before that, without deploying. The cutover runbook has the steps.
+Cutover order: set the Pages source to "GitHub Actions" first, while `master` still holds the previous tree, and push
+the Hugo tree to `master` afterwards. With the source on a branch, GitHub builds the pushed tree with its own builder,
+which cannot build it, and the workflow cannot deploy. A pull request from the branch that holds the Hugo tree to
+`master` builds and checks it on a runner before that, without deploying. The cutover runbook has the steps.

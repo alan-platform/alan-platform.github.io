@@ -1,7 +1,7 @@
 {{- /*
 	The "system types" of a platform version (the context: its name) from _data/dist/<name>/versions.json, which the
-	CI job of the platform writes; an empty dict when that file is missing. Hugo keeps the dot in the directory
-	name, where Jekyll dropped it.
+	CI job of the platform writes; an empty dict when that file is missing. The directory name keeps its dot
+	as the key of hugo.Data.dist.
 */ -}}
 {{- $systemTypes := dict -}}
 {{- with index hugo.Data.dist . -}}

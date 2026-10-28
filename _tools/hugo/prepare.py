@@ -95,14 +95,13 @@ What changes, and why:
      it to the block before it and not show it.
 
  11. The front matter gets `toc: true` on every page whose table of contents
-     marker was removed. Jekyll gave a page an index only when it had the marker
-     (the 31 release notes have headings and no index), and the layouts build
-     the index from this key.
+     marker was removed. A page gets an index when its source carries the
+     marker (the 31 release notes have headings and no index), and the layouts
+     build the index from this key.
 
- 12. The front matter gets `url: "/pages/docs/<path without .md>.html"`. Jekyll
-     wrote every page to that path (it keeps the spaces of directory names such
-     as "client bindings"), and the toolchains deep-link to it, so Hugo must write
-     the same file.
+ 12. The front matter gets `url: "/pages/docs/<path without .md>.html"`. Every
+     page is written to that path (it keeps the spaces of directory names such
+     as "client bindings"), the address the toolchains deep-link to.
 
  13. Not a page: .build/data/key_order.json records the order of the keys that
      the version files list. Hugo's data loader gives a JSON object as a map,
@@ -126,10 +125,9 @@ marker, which is removed, begins), and two ranges that overlap are an error, not
 a guess.
 
 Rules 4 to 9 exist because kramdown and Goldmark read the same generated text
-differently. They were found by rendering the whole prepared tree with Hugo and
-comparing it with the Jekyll output page by page; a new kind of difference
-is not found here. check-output.sh catches leftover syntax in a built page, and
-the output of the generator must be checked when it changes.
+differently. A new kind of difference is not found here: check-output.sh catches
+leftover syntax in a built page, and the output of the generator must be checked
+when it changes.
 
 Usage:
     python3 _tools/hugo/prepare.py [--check] [--root REPOSITORY_ROOT]

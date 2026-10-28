@@ -1,13 +1,13 @@
 # Hugo configuration of alan-platform.com.
 #
-# The repository keeps the layout it had under Jekyll: the module mounts below map its directories into Hugo's
-# components, so the paths that other tools write to (pages/docs, _data/dist, deps) stay where they are.
+# The module mounts below map the directories of the repository into Hugo's components, so the paths that other
+# tools write to (pages/docs, _data/dist, deps) stay where they are.
 # Run hugo from the repository root, where this file is: the mount sources are relative to it.
 
 baseURL = "https://alan-platform.com/"
 title = "Alan Platform - Model-Driven Software Development Platform"
 
-# Hugo writes its generator meta tag into the home page; Jekyll did not.
+# The home page carries no generator meta tag.
 disableHugoGeneratorInject = true
 # Directory and file names keep their case, so a link to images_IDE keeps working.
 disablePathToLower = true
@@ -15,13 +15,14 @@ disablePathToLower = true
 disableKinds = ["section", "taxonomy", "term", "RSS"]
 enableRobotsTXT = true
 
-# Every page under pages/ is a file with its own name, as Jekyll wrote it: /pages/x/y.html, not /pages/x/y/.
+# Every page under pages/ is a file with its own name, the address other systems link to: /pages/x/y.html, not
+# /pages/x/y/.
 # Only that section: the home page stays at /.
 [uglyURLs]
   pages = true
 
 [params]
-  # Jekyll's site.description: the description of a page that has none of its own.
+  # The description of a page that has none of its own.
   description = "Alan is a model-driven platform: you write a model of your application, and the platform generates the database, the server, the web application, the authorization and the migrations that go with it."
 
 # hugo server answers /docs/archive with docs/archive.html, as GitHub Pages does for an address without .html.
@@ -37,19 +38,20 @@ enableRobotsTXT = true
     [markup.goldmark.renderer]
       # Pages hold raw HTML: the generated documentation carries pre-rendered grammar blocks.
       unsafe = true
-      # kramdown writes void elements as <hr />, <br /> and <img ... />.
+      # Void elements are written self-closed: <hr />, <br /> and <img ... />.
       xhtml = true
     [markup.goldmark.parser]
       autoHeadingID = true
       autoHeadingIDType = "github"
       [markup.goldmark.parser.attribute]
-        # {#id .class} after a block or a heading, the Goldmark form of kramdown's attribute lists.
+        # {#id .class} after a block or a heading: the Goldmark form of the kramdown attribute lists ({: #id .class })
+        # that the generated documentation is written with (prepare.py rewrites them).
         block = true
         title = true
     [markup.goldmark.extensions]
-      # kramdown does not turn a bare URL into a link.
+      # A bare URL in the text is not turned into a link.
       linkify = false
-      # kramdown's smart quotes and dashes.
+      # Smart quotes and dashes in prose (prepare.py writes the quotes of a quoted word itself).
       [markup.goldmark.extensions.typographer]
         disable = false
   [markup.highlight]
@@ -88,7 +90,7 @@ enableRobotsTXT = true
   # Data: versions.json, navigation.yml and the dist/<platform version>/ files written by CI. The RELEASE.md
   # files beside them are no data. Beside them key_order.json, the order of the keys in those files, which
   # _tools/hugo/prepare.py writes because Hugo hands data over as maps (see layouts/partials/ordered-keys.html).
-  # Only the file types Jekyll read as data count: Hugo stops the build on a file type it cannot read, and the
+  # Only json, yml and yaml files count as data: Hugo stops the build on a file type it cannot read, and the
   # release script puts RELEASE.md beside the data files.
   [[module.mounts]]
     source = "_data"

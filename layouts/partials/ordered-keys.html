@@ -4,7 +4,7 @@
 	of _data/dist/N/versions.json).
 
 	Hugo hands data over as maps, and a range over a map goes in sorted key order. The tables keep the order of the
-	files, as Jekyll did: platform components as _data/versions.json lists them (model before interface), system
+	files: platform components as _data/versions.json lists them (model before interface), system
 	types as the dist versions.json lists them (older versions are not alphabetical). _tools/hugo/prepare.py reads
 	that order from the parsed files and writes it to .build/data/key_order.json, mounted as data:
 	  {"platform": {"<version>": [keys]}, "system types": {"<version>": [keys]}}

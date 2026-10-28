@@ -1,5 +1,5 @@
 {{- /*
-	The sitemap: the address of every page, nothing else, as the Jekyll template wrote it. A page with sitemap: false
+	The sitemap: the address of every page, nothing else. A page with sitemap: false
 	in its front matter is left out (Hugo's own sitemap: {disable: true} as well), and so are pages whose address
 	names a stylesheet, script, text or XML file or the 404 page; Hugo lists no such pages, the test is kept so the
 	list follows the same rule. In address order, so that a build gives the same file each time.

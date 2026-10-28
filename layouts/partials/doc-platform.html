@@ -6,8 +6,8 @@
 	_data/dist/<platform version>/versions.json.
 
 	The result depends on the origin and version of the page only: call it through partialCached keyed on those two,
-	written with printf "%#v", which keeps a version: 101 apart from a version: "101". Jekyll compared the version of
-	the page with the version in the data with ==, which tells a number from a text, and eq does the same.
+	written with printf "%#v", which keeps a version: 101 apart from a version: "101". The version of the page is
+	compared with the version in the data with eq, which tells a number from a text, so the cache key must tell them apart as well.
 */ -}}
 {{- $origin := .Params.origin -}}
 {{- $version := .Params.version -}}

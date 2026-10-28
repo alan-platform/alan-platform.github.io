@@ -1,7 +1,6 @@
 {{- /*
 	The card of the application language on the documentation page: {{< application-card >}}. It links the grammar
-	of the model component of the current platform version, and is left out when that version has none, as the
-	Liquid of the page had it.
+	of the model component of the current platform version, and is left out when that version has none.
 */ -}}
 {{- $versions := hugo.Data.versions -}}
 {{- range first 1 (where $versions.versions "name" $versions.current) -}}
