@@ -119,11 +119,12 @@ a.card:active .card-title {
   color: #484a50;
 }
 
+/* The blue darkened 8%: 4.9:1 on the white of a card, where the blue gives 3.6:1. */
 .card-title {
   transition: color var(--transition-fast) ease-in-out;
   font-size: 1.15em;
   font-weight: bold;
-  color: #4a80ff;
+  color: #2163ff;
 }
 
 .card-title:hover,

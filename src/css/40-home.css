@@ -111,9 +111,9 @@ span.brand {
   line-height: 0.7072135785;
 }
 
+/* The second line is as white as the first: at 80% opacity it was 3.5:1 on the button. */
 .home-hero .call-to-action small {
   line-height: inherit;
-  opacity: .8;
 }
 
 .home-hero .call-to-action svg {
