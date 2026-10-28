@@ -18,7 +18,7 @@ The details are in the `AGENTS.md` that `./alan fetch` puts in the project, and 
 Open the project in your editor and give the agent this prompt:
 
 ``` {.copy}
-Run ./alan f to update AGENTS.md, then upgrade this project to platform 2026.3.
+Run ./alan f twice to update AGENTS.md, then upgrade this project to platform 2026.3.
 ```
 
 The agent runs the upgrade, fixes what the build reports with the release notes at hand, and goes through the report.
@@ -38,5 +38,5 @@ On Windows, run `./alan` in Git Bash.
 
 ## From 2026.2
 
-A 2026.2 project gets the upgrade command with `./alan fetch`: the first step of the prompt above, or run it by hand.
-Then upgrade as above; nothing else changes.
+A 2026.2 project gets the upgrade command and the agent guide from two runs of `./alan fetch`: the first installs the new `alan` script, the second lets that script write `.alan/AGENTS.md`.
+That is the first step of the prompt above. Then upgrade as above; nothing else changes.
