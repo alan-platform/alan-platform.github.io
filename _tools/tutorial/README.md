@@ -113,11 +113,13 @@ cp <online-ide>/templates/default/project/deployments/default/systems/client/ins
 
 No conversion: browsers decode an image from its content, not from its name or content type.
 
-Captures are downscaled to `maxWidth` (1600 by default, `lib/resize.mjs`) after framing: the site shows them in a
-column of about 800 CSS pixels, so anything wider is bytes nobody sees. `resize-images.mjs <width> <file>...` applies
-the same step to images that are already committed. Every capture is framed
-afterwards (`lib/frame.mjs`: rounded corners, thin border, drop shadow on a transparent margin); `frame` on the
-config or a shot overrides `margin`, `radius`, `border`, `shadow`, and `"frame": false` disables it.
+Captures are downscaled to `maxWidth` (1600 by default, `lib/resize.mjs`): the site shows them in a column of about
+800 CSS pixels, so anything wider is bytes nobody sees. `resize-images.mjs <width> <file>...` applies the same step to
+images that are already committed. A capture is the rectangle of the window it shows, with no margin: the site frames
+every screenshot itself, with rounded corners and a thin ring (`src/css/90-hub.css`), so that the edge of a
+screenshot lines up with the text and the code blocks around it. `frame` on the config or a shot still frames a
+capture with `lib/frame.mjs` (rounded corners, thin border, drop shadow on a transparent margin; `margin`, `radius`,
+`border`, `shadow`), which the committed screenshots no longer have.
 
 The models in `pages/tutorials/model/VERSION/models/` that exist only for a screenshot (`step_09-priority`) carry no
 snippet markers; they are still compiled by `snippets.py verify`.

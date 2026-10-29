@@ -289,7 +289,7 @@ for (const [dataset, datasetShots] of groups) {
         const destination = path.join(output, shot.file);
         await page.screenshot({ path: destination, ...(clip ? { clip } : {}) });
         await page.evaluate(() => document.getElementById("shot-annotations")?.remove());
-        if (shot.frame !== false && config.frame !== false) await framePng(browser, destination, { ...(config.frame ?? {}), ...(shot.frame ?? {}) });
+        if (shot.frame || config.frame) await framePng(browser, destination, { ...(config.frame ?? {}), ...(shot.frame ?? {}) }); // the site frames screenshots itself
       await resizePng(browser, destination, config.maxWidth ?? 1600); // the site shows these in a column of about 800 CSS pixels
         const size = await pngSize(destination); summary.push({ ...shot, ...size });
         await page.close();

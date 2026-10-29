@@ -279,7 +279,7 @@ try {
       await capture(destination, clip);
       if (process.env.SHOT_DEBUG) await dump(process.env.SHOT_DEBUG);
       await page.evaluate(() => document.getElementById("shot-annotations")?.remove());
-      if (shot.frame !== false && config.frame !== false) await framePng(browser, destination, { ...(config.frame ?? {}), ...(shot.frame ?? {}) });
+      if (shot.frame || config.frame) await framePng(browser, destination, { ...(config.frame ?? {}), ...(shot.frame ?? {}) }); // the site frames screenshots itself
       await resizePng(browser, destination, config.maxWidth ?? 1600); // the site shows these in a column of about 800 CSS pixels
       summary.push({ id: shot.id, file: shot.file, size: await pngSize(destination) });
       for (const key of shot.after ?? []) await page.keyboard.press(key);
