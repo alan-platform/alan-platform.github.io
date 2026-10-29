@@ -1,12 +1,14 @@
 /*
- * Layout: the page as a column that keeps the footer at the bottom of a short page, the main column with its
- * gutters, the reading layout with a rail beside the content, the hand-written page header, the measure of prose,
- * the separation of major sections, the offset of jump targets under the header, and the anchor arrows of section
- * headings.
+ * Layout: the page as a column that keeps the footer at the bottom of a short page, the page grid with its gutters,
+ * the rail beside the content, the hand-written page header, the measure of prose, the separation of major sections,
+ * the offset of jump targets under the header, and the anchor arrows of section headings.
  *
- * The widths and distances are tokens (15-tokens.css). Without a page index the main column is the 50rem content
- * column. With one, from 64rem, it is the reading layout: the 14rem rail and the content column side by side, 3rem
- * apart, 67rem in all. Under 64rem the page index stays in the flow, above the content (95-index.css).
+ * The widths and distances are tokens (15-tokens.css). Every page but the home page is laid out on one grid, so that
+ * the titles of all pages stand on one left edge at a given width of the window, and the rail on the left edge of
+ * the logo in the header. Main is as wide as the site shell (40-home.css composes the home page in it). From 64rem it
+ * is a grid of the rail column, the 3rem gap, the 50rem content column and a margin column; a page without a page
+ * index keeps its rail column empty. Under 64rem the content is one column on the left edge of the shell, and the
+ * page index stays in the flow, above the content (95-index.css).
  */
 
 /*
@@ -21,17 +23,51 @@ body {
 }
 
 /*
- * The main column: centred, the content width plus a gutter on each side, the gutters part of its width so that
- * the column is never wider than the window. It is the containing block of what is positioned in it, such as the
- * document switcher.
+ * Main: centred, the width of the site shell plus a gutter on each side, the gutters part of its width so that it is
+ * never wider than the window. Its content box starts where the logo of the header starts. It is the containing
+ * block of what is positioned in it, such as the document switcher.
  */
 main {
   flex: 1 0 auto;
   position: relative;
   width: 100%;
-  max-width: calc(var(--width-content) + 2 * var(--gutter));
+  max-width: calc(var(--width-shell) + 2 * var(--gutter));
   margin: 0 auto;
   padding: 0 var(--gutter);
+}
+
+/*
+ * The page grid, on every page but the home page (whose root has the class home). Under 64rem every child of main
+ * is at most the 50rem content column wide, from the left edge of the shell.
+ *
+ * From 64rem main is a grid of four columns: the rail, at least 14rem wide, the 3rem gap, the content column of at
+ * most 50rem, and a margin column. The rail and the margin share what the content column leaves, four to one, so
+ * the content stands right of the centre of the shell, beside the rail, and the content column narrows before the
+ * rail does. At a window of 1440px the rail is 320px wide and the content starts 368px right of the logo. Every
+ * child of main is in the content column; the page index is in the rail, on the row of the content it indexes, so
+ * the header above stays aligned with the content and the rail starts beside the body of the page. The selectors
+ * have the specificity of main alone, so that the rules of a page or a component override them.
+ */
+@media not all and (min-width: 64rem) {
+  :where(:root:not(.home)) main > * {
+    max-width: var(--width-content);
+  }
+}
+
+@media (min-width: 64rem) {
+  :where(:root:not(.home)) main {
+    display: grid;
+    grid-template-columns: [rail-start] minmax(var(--width-rail), 1fr) [rail-end] var(--gap-rail) [content-start] minmax(0, var(--width-content)) [content-end] minmax(0, 0.25fr);
+    align-items: start;
+  }
+
+  :where(:root:not(.home)) main > * {
+    grid-column: content;
+  }
+
+  :where(:root:not(.home)) main > .page-index {
+    grid-column: rail;
+  }
 }
 
 /*
@@ -96,37 +132,17 @@ main > h1:first-child {
 }
 
 /*
- * The reading layout, from 64rem: a grid of the rail and the content column. Every child of main is in the content
- * column; the page index is in the rail, on the row of the content it indexes, so the header above stays aligned
- * with the content and the rail starts beside the body of the page. The rail sticks below the header while the
- * content scrolls, as long as the window is at least 30rem high, and scrolls on its own when it is taller than the
- * window.
+ * The rail sticks below the header while the content scrolls, as long as the window is at least 30rem high, and
+ * scrolls on its own when it is taller than the window. The header's height is the one main.js measures
+ * (--header-offset on the root), or the least height of the header before it has measured.
  */
-@media (min-width: 64rem) {
-  main.has-page-index {
-    display: grid;
-    grid-template-columns: var(--width-rail) minmax(0, var(--width-content));
-    column-gap: var(--gap-rail);
-    align-items: start;
-    max-width: calc(var(--width-reading) + 2 * var(--gutter));
-  }
-
-  main.has-page-index > * {
-    grid-column: 2;
-  }
-
-  main.has-page-index > .page-index {
-    grid-column: 1;
-  }
-}
-
 @media (min-width: 64rem) and (min-height: 30rem) {
   main.has-page-index > .page-index {
-    max-height: calc(100vh - var(--header-height) - var(--space-12));
+    max-height: calc(100vh - var(--header-offset, var(--header-height)) - var(--space-12));
     overflow-y: auto;
     overscroll-behavior: contain;
     position: sticky;
-    top: calc(var(--header-height) + var(--space-6));
+    top: calc(var(--header-offset, var(--header-height)) + var(--space-6));
     z-index: var(--z-rail);
     scrollbar-width: thin;
   }
@@ -152,11 +168,11 @@ main > section + section {
 
 /*
  * A jump target, an element with an id or a link with a name, stops 24px below the site header, so a heading that
- * a link leads to is not hidden under it.
+ * a link leads to is not hidden under it. The header's height is the measured one, as for the rail.
  */
 [id],
 a[name] {
-  scroll-margin-top: calc(var(--header-height) + var(--space-6));
+  scroll-margin-top: calc(var(--header-offset, var(--header-height)) + var(--space-6));
 }
 
 /*
