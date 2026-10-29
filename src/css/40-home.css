@@ -1,12 +1,14 @@
 /*
  * Home page: the brand name in running text, which the header and the footer use as well, and the composition of
  * the home page. Its main column is the width of the site shell. The hero sets the headline, the sentence under it
- * and the action beside the artwork, four bands at the angle of the stripes of the logo. Below it are the centred
- * heading of the customers, the strip of their logos that fades out at both ends, and the card that links to a post.
+ * and the action beside the artwork, four bands at the angle of the stripes of the logo. The sections after it are
+ * apart by a rule, and the platform section sets its heading in a narrow column beside its text. Further down are the
+ * centred heading of the customers, the strip of their logos that fades out at both ends, and the card that links to
+ * a post.
  *
- * The values of the hero are tokens (15-tokens.css), apart from the lengths that only this page has, which are
- * explained where they are set. The older lengths 1.414rem, 1.999396rem and 2.827145944rem are powers of 1.414, an
- * approximation of the square root of two (1.414, 1.414^2 and 1.414^3), kept exactly as computed.
+ * The values of the hero and the sections are tokens (15-tokens.css), apart from the lengths that only this page
+ * has, which are explained where they are set. The older lengths 1.414rem, 1.999396rem and 2.827145944rem are powers
+ * of 1.414, an approximation of the square root of two (1.414, 1.414^2 and 1.414^3), kept exactly as computed.
  */
 
 span.brand {
@@ -232,6 +234,78 @@ span.brand {
 
   60% {
     opacity: 1;
+  }
+}
+
+/*
+ * The sections after the hero: a hairline at the top of each, the heading 32px below it on a phone and 48px from
+ * 40rem, and the section separation above the rule. The first one follows the hero without a margin: its rule lies
+ * at the end of the padding of the hero.
+ */
+.home main > section {
+  margin-top: var(--space-section);
+  padding-top: var(--space-8);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.home main > .home-hero + section {
+  margin-top: 0;
+}
+
+@media (min-width: 40rem) {
+  .home main > section {
+    padding-top: var(--space-12);
+  }
+}
+
+/* The headings of the sections are marketing section titles: 28/36 on a phone, 36/44 from 40rem. */
+.home main > section > h2 {
+  margin: 0 0 var(--space-6) 0;
+  font-size: var(--font-size-section-phone);
+  line-height: var(--line-height-section-phone);
+  letter-spacing: var(--tracking-section-phone);
+}
+
+@media (min-width: 40rem) {
+  .home main > section > h2 {
+    font-size: var(--font-size-section);
+    line-height: var(--line-height-section);
+    letter-spacing: var(--tracking-section);
+  }
+}
+
+/*
+ * A section in two columns: from 64rem the heading in the narrower left column, five twelfths of the shell, and the
+ * text in the right one, 691px wide in the full shell, 64px apart. The first line of the heading and the first line
+ * of the text share their baseline. The text keeps the measure of prose.
+ */
+@media (min-width: 64rem) {
+  .home-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: first baseline;
+    column-gap: var(--gap-hero);
+  }
+
+  .home main > .home-columns > h2 {
+    margin: 0;
+  }
+}
+
+.home-columns-text > p {
+  max-width: var(--measure);
+}
+
+/* The two paragraphs about the platform are in the lead size, as the sentence of the hero. */
+.home-platform-text p {
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
+}
+
+@media (min-width: 40rem) {
+  .home-platform-text p {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
   }
 }
 
