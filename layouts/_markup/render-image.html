@@ -1,0 +1,28 @@
+{{- /*
+	A Markdown image, written as Goldmark writes it, with the width and the height of the image file when Hugo finds
+	the file: the browser then reserves the image's space before the image has loaded (the layouts load images lazily),
+	and the text under it does not move. The stylesheet keeps the proportions (height: auto), so the attributes give
+	the ratio, not the size.
+
+	The files beside the pages are assets under payload/ (hugo.toml), at their paths in the site. A relative
+	destination is resolved against the directory of the page's address, as the browser resolves it; an address on
+	another host, or a file that is not a PNG, JPEG, GIF or WebP image, gets no dimensions, and neither does a file
+	that is not there: the image is then written as it was before this hook.
+*/ -}}
+{{- $width := 0 -}}
+{{- $height := 0 -}}
+{{- $url := urls.Parse .Destination -}}
+{{- if and (not $url.Scheme) (not $url.Host) $url.Path -}}
+	{{- $path := $url.Path -}}
+	{{- if not (hasPrefix $path "/") }}{{ $path = path.Join (path.Dir .Page.RelPermalink) $path }}{{ end -}}
+	{{- with resources.Get (printf "payload%s" $path) -}}
+		{{- if in (slice "png" "jpeg" "gif" "webp") .MediaType.SubType -}}
+			{{- $width = .Width -}}
+			{{- $height = .Height -}}
+		{{- end -}}
+	{{- end -}}
+{{- end -}}
+<img src="{{ .Destination | safeURL }}" alt="{{ .PlainText }}"
+{{- with .Title }} title="{{ . }}"{{ end -}}
+{{- if $width }} width="{{ $width }}" height="{{ $height }}"{{ end }} />
+{{- /* no newline: the image is inline, in the paragraph Goldmark writes around it */ -}}

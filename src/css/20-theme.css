@@ -326,8 +326,10 @@ video {
 }
 
 /*
- * Images in the content keep their proportions when the column is narrower than they are. The logos in the header
- * and the footer are sized by their height attribute, which height: auto would override, so they are left alone.
+ * Images in the content keep their proportions when the column is narrower than they are: their width and height
+ * attributes (the image render hook writes them for a Markdown image) give the ratio, from which the browser
+ * reserves their space before they load. The header and the footer are outside main and size their logos in their
+ * own files (50-header.css, 60-footer.css).
  */
 main img {
   height: auto;
