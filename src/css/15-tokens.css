@@ -288,6 +288,13 @@
   --shadow-popover: 0 12px 32px rgb(24 25 28 / 0.12), 0 2px 6px rgb(24 25 28 / 0.06);
 
   /*
+   * The shade at the edge of a box that scrolls sideways, where more of its content lies (20-theme.css): the darkest
+   * ink at the opacity of the popover shadow, fading out over 16px.
+   */
+  --scroll-shade: rgb(24 25 28 / 0.12);
+  --scroll-shade-width: var(--space-4);
+
+  /*
    * Motion. A hover changes in 120ms, a disclosure or an icon in 180ms, and no transition takes longer than 240ms.
    * The standard easing starts fast and settles; the exit easing accelerates out. Focus is never animated. Under
    * reduced motion 20-theme.css makes every transition and animation immediate.

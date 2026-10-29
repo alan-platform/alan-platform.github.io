@@ -299,8 +299,12 @@ main.not-found h1 + p {
   box-shadow: inset 3px 0 0 var(--spectrum-yellow);
 }
 
-/* A table in a callout, such as the first login of the users guide, ends at the padding of the callout. */
+/*
+ * A table in a callout, such as the first login of the users guide, ends at the padding of the callout, and is on
+ * its surface.
+ */
 .article main > section blockquote > table {
+  --surface-table: var(--surface-warning);
   margin: 0;
 }
 

@@ -381,6 +381,66 @@ if (document.readyState === 'loading') {
     documentSwitch();
 }
 
+// Code blocks and the tables in the text scroll sideways on their own when they are wider than the content column
+// (20-theme.css, 70-docs.css). Safari does not move the focus to a scrolling box that holds nothing focusable, so
+// the keyboard could not scroll them there: a box that is wider than its content is made focusable, and is named by
+// the heading of the section it is in, the nearest heading before it. A code block is then a group, which a name is
+// allowed on; a table keeps its role. A box that no longer scrolls, once the window has widened, loses the focus
+// stop again. This runs once the fonts, which set the widths, have loaded, and again when the window changes size.
+function scrollRegions() {
+    var boxes = document.querySelectorAll('main pre, main section table:not([class])');
+    if (boxes.length === 0) {
+        return;
+    }
+    function heading(box) {
+        for (var node = box; node && node.tagName !== 'MAIN'; node = node.parentElement) {
+            for (var before = node.previousElementSibling; before; before = before.previousElementSibling) {
+                if (/^H[1-6]$/.test(before.tagName) && before.id) {
+                    return before;
+                }
+            }
+        }
+        return null;
+    }
+    function update() {
+        // all widths are read before anything changes, so the layout is computed once
+        var wide = [];
+        boxes.forEach(function(box) {
+            wide.push(box.scrollWidth > box.clientWidth);
+        });
+        boxes.forEach(function(box, i) {
+            if (wide[i] && !box.hasAttribute('tabindex')) {
+                box.setAttribute('tabindex', '0');
+                var title = heading(box);
+                if (title) {
+                    if (box.tagName === 'PRE') {
+                        box.setAttribute('role', 'group');
+                    }
+                    box.setAttribute('aria-labelledby', title.id);
+                }
+            } else if (!wide[i] && box.getAttribute('tabindex') === '0') {
+                box.removeAttribute('tabindex');
+                box.removeAttribute('role');
+                box.removeAttribute('aria-labelledby');
+            }
+        });
+    }
+    var scheduled = false;
+    window.addEventListener('resize', function() {
+        if (!scheduled) {
+            scheduled = true;
+            window.requestAnimationFrame(function() {
+                scheduled = false;
+                update();
+            });
+        }
+    });
+    update();
+    if (document.fonts) {
+        document.fonts.ready.then(update);
+    }
+}
+
 window.onload = function() {
     var deeplinks = document.querySelectorAll('h2[id], h3[id]');
     deeplinks.forEach(function(i) {
@@ -443,4 +503,6 @@ window.onload = function() {
         };
         block.appendChild(button);
     });
+
+    scrollRegions();
 };

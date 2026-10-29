@@ -170,8 +170,8 @@
  * syntax colour keeps 5.09:1 or more on the tint (15-tokens.css lists the colours; the orange is the lowest).
  */
 .doc [id^='grammar-rule--']:target pre {
+  --surface-code: var(--surface-info);
   border-color: var(--border-control);
-  background: var(--surface-info);
 }
 
 /*
@@ -180,15 +180,23 @@
  * its cells do not wrap. The text of the first column lines up with the text around the table, and the columns are
  * apart by the space on their right. Rows are apart by hairlines, the column labels in the heading colour above a
  * rule of 2px; there are no vertical rules and no stripes. An alignment that the source gives a column (style
- * attributes from the Markdown) stays.
+ * attributes from the Markdown) stays. A table that scrolls shows a shade on the edge where more of it lies, as a
+ * code block does (20-theme.css), with covers of the surface it is on: white, unless a callout sets its own.
  */
 main section table:not([class]) {
+  --surface-table: var(--surface-page);
   display: block;
   width: fit-content;
   max-width: 100%;
   margin: 0 0 var(--space-6) 0;
   overflow-x: auto;
   border-collapse: collapse;
+  background:
+    linear-gradient(to right, var(--surface-table) var(--scroll-shade-width), transparent) left / calc(2 * var(--scroll-shade-width)) 100% no-repeat local,
+    linear-gradient(to left, var(--surface-table) var(--scroll-shade-width), transparent) right / calc(2 * var(--scroll-shade-width)) 100% no-repeat local,
+    linear-gradient(to right, var(--scroll-shade), transparent) left / var(--scroll-shade-width) 100% no-repeat scroll,
+    linear-gradient(to left, var(--scroll-shade), transparent) right / var(--scroll-shade-width) 100% no-repeat scroll,
+    var(--surface-table);
 }
 
 table:not([class]) th,

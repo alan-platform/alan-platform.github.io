@@ -255,13 +255,26 @@ code.code-name {
 /*
  * A code block: the paper surface with a subtle border, charcoal code at 15/24. The code keeps its whitespace and
  * scrolls within the block when a line is longer than the column.
+ *
+ * A block that scrolls shows a shade on the edge where more code lies, without a script. Two shades are fixed to the
+ * edges of the box (background-attachment: scroll), and over each lies a cover of the block's surface that scrolls
+ * with the code (local), placed at the start and at the end of the code. The cover at an end hides the shade there
+ * while that end is in view, so a block that does not scroll shows none, and a block shows a shade on the right
+ * until it is scrolled to its end, and one on the left once it is scrolled from its start. The surface is a custom
+ * property, so that a block on another surface, such as a grammar rule that a link jumped to, keeps its covers.
  */
 pre {
+  --surface-code: var(--surface-subtle);
   overflow: auto;
   padding: var(--padding-code);
   border: var(--border-width) solid var(--border-subtle);
   border-radius: var(--radius-panel);
-  background: var(--surface-subtle);
+  background:
+    linear-gradient(to right, var(--surface-code) var(--scroll-shade-width), transparent) left / calc(2 * var(--scroll-shade-width)) 100% no-repeat local,
+    linear-gradient(to left, var(--surface-code) var(--scroll-shade-width), transparent) right / calc(2 * var(--scroll-shade-width)) 100% no-repeat local,
+    linear-gradient(to right, var(--scroll-shade), transparent) left / var(--scroll-shade-width) 100% no-repeat scroll,
+    linear-gradient(to left, var(--scroll-shade), transparent) right / var(--scroll-shade-width) 100% no-repeat scroll,
+    var(--surface-code);
   font-family: var(--font-mono);
   font-size: var(--font-size-code);
   line-height: var(--line-height-code);
