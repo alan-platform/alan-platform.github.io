@@ -38,11 +38,14 @@
 /*
  * In the dark scheme the glass is the colour of the dark page at 85%. Over white, the lightest the page can put
  * behind it (a screenshot), that is #36373a, on which the heading colour of the links is 10.52:1. The rule under
- * the bar and the opaque fallback are the tokens of the dark scheme.
+ * the bar and the opaque fallback are the tokens of the dark scheme. The grey bar under a hovered link and the
+ * border of the Login button take the control border of a dark surface, --border-inverse-control: over that same
+ * lightest glass it is 3.20:1, where the dark scheme's --border-control is 2.42:1.
  */
 @media (prefers-color-scheme: dark) {
   .site-header {
     --header-glass: rgb(19 20 23 / 0.85);
+    --border-control: var(--border-inverse-control);
   }
 }
 
