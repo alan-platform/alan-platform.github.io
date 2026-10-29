@@ -1,19 +1,96 @@
 /*
- * Documentation pages: the language tables, the archive of all versions,
- * the document switcher in the page header and the table of contents. The
- * tags of the tables and the code blocks are shared components
- * (35-components.css).
+ * Documentation pages: the header of a generated document with its "Switch document" button, the language tables,
+ * the archive of all versions, and the table of contents. The tags of the tables and the code blocks are shared
+ * components (35-components.css).
  *
- * 1.414 and 1.999396 are powers of 1.414, an approximation of the square root
- * of two (1.414 and 1.414^2), kept exactly as computed.
+ * 1.414 and 1.999396 are powers of 1.414, an approximation of the square root of two (1.414 and 1.414^2), kept
+ * exactly as computed.
  */
 
-/* The origin, type and version of the document, under its title. */
-.doc h1 + p {
-  margin: var(--space-3) 0 var(--space-8) 0;
-  padding: 0 0 var(--space-3) 0;
-  border-bottom: 1px solid #eeeff0;
-  color: #393b40;
+/*
+ * The header of a grammar or of release notes (doc.html): the title, left-aligned with the content as on every page
+ * (.page-header, 30-main.css), then a row with what the document is and the "Switch document" button, ruled off from
+ * the document by a hairline. The title is a language name, which can be one long word joined by underscores; it
+ * breaks anywhere rather than widen a phone's page. The header is the containing block of the language table that
+ * the button shows.
+ */
+.doc-header {
+  position: relative;
+}
+
+.doc-header h1 {
+  overflow-wrap: anywhere;
+}
+
+/*
+ * The row under the title: the origin, type and version, with the link to the release notes or to the platform
+ * version that introduced them, in the interface text; the button at the end of the row when the two fit side by
+ * side, under the text when they do not. The origin is bold (its strong), the version in the heading colour.
+ */
+.doc-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-6);
+  margin-top: var(--space-4);
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+
+.doc-meta p {
+  margin: 0;
+  font-size: var(--font-size-ui);
+  line-height: var(--line-height-ui);
+  color: var(--text-secondary);
+}
+
+.doc-meta strong,
+.doc-meta em {
+  color: var(--text-heading);
+}
+
+.doc-meta em {
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * The release notes link, or the platform version that introduced the notes, apart from the version by a rule. It
+ * moves to the next line as a whole: "new in" stays with the version it names.
+ */
+.doc-notes-link {
+  display: inline-block;
+  margin-left: var(--space-3);
+  padding-left: var(--space-3);
+  border-left: var(--border-width) solid var(--border-subtle);
+}
+
+/* The chevron of the button: the triangle that it always had, at 12px beside the 16px label. */
+.doc-meta .button svg {
+  width: var(--space-3);
+  height: var(--space-3);
+}
+
+.doc-meta .button svg path {
+  fill: currentColor;
+}
+
+/*
+ * Under 40rem the button has a row of its own, under the text, and the release notes link a line of its own, under
+ * the version, without the rule that sets it apart on one line.
+ */
+@media not all and (min-width: 40rem) {
+  .doc-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .doc-notes-link {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+  }
 }
 
 /* Cells do not wrap, so a wide table scrolls instead of pushing the page sideways. */
@@ -433,34 +510,6 @@ table td > a:active {
   margin: .75rem 0 0 0;
 }
 
-/* Beside the version in the header of a documentation page, like "Switch document". */
-.doc-notes-link {
-  margin-left: 1rem;
-}
-
-[aria-controls='doc-list'] {
-  -webkit-appearance: none;
-  margin: 0 0 0 1rem;
-  padding: 0;
-  border: none;
-  background: none;
-  color: #ff641a;
-  cursor: pointer;
-}
-
-[aria-controls='doc-list'] svg {
-  margin: 3px 0 -3px .5ex;
-}
-
-[aria-controls='doc-list'] svg path {
-  fill: currentColor;
-}
-
-[aria-controls='doc-list']:hover,
-[aria-controls='doc-list']:active {
-  color: #4a80ff;
-}
-
 #doc-list {
   left: 50%;
   transform: translateX(-50%);
@@ -486,18 +535,6 @@ table td > a:active {
 
 #doc-list[aria-expanded='true'] {
   display: block;
-}
-
-/*
- * In the reading layout (30-main.css) main is a grid, and a positioned child of a grid would start at its top. The
- * switcher is placed in the content column on the row of the page index and the content, the third after the title
- * and the line under it, so it opens below that line as it does without a grid.
- */
-@media (min-width: 64rem) {
-  main.has-page-index > #doc-list {
-    grid-row: 3;
-    grid-column: 2;
-  }
 }
 
 /*
