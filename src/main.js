@@ -32,6 +32,17 @@ if (document.readyState === 'loading') {
     siteMenu();
 }
 
+// The id that a fragment names (#id, or the href of a link to one): the fragment decoded, or as it is when it is
+// not valid percent-encoding, such as #100%, which decodeURIComponent refuses.
+function fragmentId(fragment) {
+    var raw = fragment.charAt(0) === '#' ? fragment.substring(1) : fragment;
+    try {
+        return decodeURIComponent(raw);
+    } catch (error) {
+        return raw;
+    }
+}
+
 // The page index (page-index.html): beside the content from 64rem, above it under 64rem. Under 64rem the label
 // opens and closes the index; the rail marks the section in view. The layout builds the index from the headings of
 // the page, so nothing here changes the layout of the page beyond opening and closing it.
@@ -66,7 +77,13 @@ function pageIndex() {
         var layout = function() {
             if (wide.matches) {
                 if (toggle.parentNode) {
+                    var focused = document.activeElement === toggle;
                     label.textContent = toggle.textContent;
+                    // the button that had the focus is gone: the focus goes to the marked entry of the rail, or
+                    // the first one
+                    if (focused) {
+                        (list.querySelector('a[aria-current]') || list.querySelector('a')).focus();
+                    }
                 }
             } else if (!toggle.parentNode) {
                 label.textContent = '';
@@ -90,7 +107,7 @@ function pageIndex() {
         if (link.closest('li li li')) {
             return;
         }
-        var heading = document.getElementById(decodeURIComponent(link.getAttribute('href').substring(1)));
+        var heading = document.getElementById(fragmentId(link.getAttribute('href')));
         if (heading) {
             links[heading.id] = link;
             headings.push(heading);
@@ -139,7 +156,7 @@ function pageIndex() {
     // The line where a jump puts a heading: the bottom of the site header, which sticks to the top of the window
     // or has scrolled out of it on a low window, and the 24px (1.5rem) that the stylesheet keeps between the two.
     // The header is measured, not taken from the stylesheet: it grows when the text is enlarged.
-    var header = document.querySelector('body > header');
+    var header = document.querySelector('.site-header');
     function line() {
         var bottom = header ? Math.max(header.getBoundingClientRect().bottom, 0) : 0;
         return bottom + 1.5 * parseFloat(getComputedStyle(document.documentElement).fontSize);
@@ -177,14 +194,14 @@ function pageIndex() {
     list.addEventListener('click', function(event) {
         var link = event.target.closest('a[href^="#"]');
         if (link) {
-            pin(decodeURIComponent(link.getAttribute('href').substring(1)));
+            pin(fragmentId(link.getAttribute('href')));
         }
     });
     window.addEventListener('hashchange', function() {
-        pin(decodeURIComponent(location.hash.substring(1)));
+        pin(fragmentId(location.hash));
     });
     if (location.hash) {
-        pin(decodeURIComponent(location.hash.substring(1)));
+        pin(fragmentId(location.hash));
     }
 
     var scheduled = false;
@@ -210,17 +227,34 @@ if (document.readyState === 'loading') {
 
 // The archive lists a section per platform version, the table of the stable one open. A link that names a
 // version in the fragment (/docs/archive#2026.3) opens the table of that section and closes the others, so the
-// reader lands on the version the link is about; the browser scrolls to it as to any fragment.
+// reader lands on the version the link is about; the browser scrolls to it as to any fragment. A link on the page
+// to the version that the address already names changes nothing in the address, so no hashchange follows: the
+// click on such a link, or Enter on it, opens the version as well.
 function archiveVersion() {
-    if (!location.hash) {
+    var sections = document.querySelectorAll('.archive-version');
+    if (sections.length === 0) {
         return;
     }
-    var target = document.getElementById(decodeURIComponent(location.hash.substring(1)));
-    if (!target || !target.matches('.archive-version')) {
-        return;
+    function open(id) {
+        var target = document.getElementById(id);
+        if (!target || !target.matches('.archive-version')) {
+            return;
+        }
+        sections.forEach(function(section) {
+            section.querySelector('details').open = section === target;
+        });
     }
-    document.querySelectorAll('.archive-version').forEach(function(section) {
-        section.querySelector('details').open = section === target;
+    if (location.hash) {
+        open(fragmentId(location.hash));
+    }
+    window.addEventListener('hashchange', function() {
+        open(fragmentId(location.hash));
+    });
+    document.addEventListener('click', function(event) {
+        var link = event.target.closest('a[href^="#"]');
+        if (link) {
+            open(fragmentId(link.getAttribute('href')));
+        }
     });
 }
 if (document.readyState === 'loading') {
@@ -228,7 +262,6 @@ if (document.readyState === 'loading') {
 } else {
     archiveVersion();
 }
-window.addEventListener('hashchange', archiveVersion);
 
 // The documentation tables are rendered once per version (partialCached), so the link of the current page is marked
 // here, and its row, before the reader can open the "Switch document" table.
