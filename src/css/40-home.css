@@ -1,12 +1,12 @@
 /*
- * Home page: the brand name in running text, the hero with its background
- * photo, call to action and scroll hint, the centred heading of the customers,
- * the strip of their logos that fades out at both ends, and the card that
- * links to a post.
+ * Home page: the brand name in running text, which the header and the footer use as well, and the composition of
+ * the home page. Its main column is the width of the site shell. The hero sets the headline, the sentence under it
+ * and the action beside the artwork, four bands at the angle of the stripes of the logo. The sections after it are
+ * apart by a rule: the platform and the business sections set their heading in a narrow column beside their text,
+ * and the customers are a wall of logos in one grey.
  *
- * Lengths such as 0.7072135785rem, 1.414rem, 2.827145944rem and
- * 5.6525842918rem are powers of 1.414, an approximation of the square root of two (1 / 1.414,
- * 1.414, 1.414^3 and 1.414^5), kept exactly as computed.
+ * The values are tokens (15-tokens.css), apart from the lengths that only this page has, which are explained where
+ * they are set.
  */
 
 span.brand {
@@ -19,208 +19,478 @@ span.brand {
   text-transform: lowercase;
 }
 
-.home-hero {
-  display: flex;
-  justify-content: flex-end;
-  height: calc(100vh - 5rem);
-  position: relative;
-  background: #393b40 url("../assets/heroes/iStock-1055872862-1200.jpg") no-repeat center bottom/cover;
-  color: #fff;
+/*
+ * The main column of the home page is the site shell, 78rem, with the gutters, instead of the content column of a
+ * reading page. The last section is a section separation away from the footer.
+ */
+.home main {
+  max-width: calc(var(--width-shell) + 2 * var(--gutter));
+  padding-bottom: var(--space-section);
 }
 
 /*
- * One image per range of widths, the smallest as the default above: the ranges do not overlap, so a phone
- * loads the 1200 px image and never a larger one.
+ * The hero. On a phone and a tablet it is one column: the text, the action and then the artwork, 48px from the
+ * header and from the rule below it, the artwork 32px below the action. From 64rem the text and the artwork are two
+ * equal columns, 64px apart, the text centred on the artwork, with 80px above and below.
  */
-@media (min-width: 601px) {
+.home-hero {
+  display: grid;
+  row-gap: var(--space-8);
+  padding: var(--space-12) 0;
+}
+
+@media (min-width: 64rem) {
   .home-hero {
-    background-image: url("../assets/heroes/iStock-1055872862-1920.jpg");
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    column-gap: var(--gap-hero);
+    padding: var(--space-20) 0;
   }
 }
 
-@media (min-width: 962px) {
-  .home-hero {
-    background-image: url("../assets/heroes/iStock-1055872862-2560.jpg");
+/*
+ * The headline, the one h1 of the page, in the display sizes: 40/44 on a phone, 56/60 from 40rem and 72/76 from
+ * 80rem. Its second line, "Software Failures", is 483px wide at the 64px display size, wider than the 448px of the
+ * text column at 64rem, so the hero keeps 56px up to 80rem, where 72px (544px) fits the 576px column.
+ */
+.home-hero h1 {
+  font-size: var(--font-size-display-sm);
+  line-height: var(--line-height-display-sm);
+  letter-spacing: var(--tracking-display-sm);
+}
+
+@media (min-width: 40rem) {
+  .home-hero h1 {
+    font-size: var(--font-size-display-md);
+    line-height: var(--line-height-display-md);
+    letter-spacing: var(--tracking-display-md);
   }
 }
 
-@media (min-width: 1281px) {
-  .home-hero {
-    background-image: url("../assets/heroes/iStock-1055872862-3840.jpg");
+@media (min-width: 80rem) {
+  .home-hero h1 {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--tracking-display-xl);
   }
 }
 
-.home-hero .inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  padding: 1rem 2.827145944rem 5.6525842918rem 2.827145944rem;
+/*
+ * The sentence under the headline, 24px below it, in the lead size: 18/28 on a phone, 20/30 from 40rem. The text
+ * column is a container, so that the sentence can follow its width (below).
+ */
+.home-hero-text {
+  container-type: inline-size;
 }
 
-.home-hero p {
-  z-index: 1;
-  margin: 0;
-  font-weight: bold;
-  font-size: 2.827145944rem;
-  line-height: 1;
-  text-shadow: 0 0 2rem #000;
+.home-hero-lead {
+  max-width: var(--measure);
+  margin: var(--space-6) 0 0 0;
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
 }
 
-.home-hero p + p {
-  margin-top: 1em;
-  font-weight: normal;
-  font-size: 1.414rem;
+@media (min-width: 40rem) {
+  .home-hero-lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+  }
 }
 
-.home-hero svg {
-  width: 32px;
-  height: 32px;
+/*
+ * The sentence breaks after "Platform", where its two halves fit a line each: the first half is 477px wide in the
+ * 20px lead. In a narrower text column, on a phone and between 64rem and 68rem, the break would leave a short line
+ * in the middle, so there the sentence wraps as a whole.
+ */
+@container (width < 30rem) {
+  .home-hero-lead br {
+    display: none;
+  }
 }
 
-.home-hero svg.scroll-hint {
-  position: absolute;
-  bottom: -48px;
-  left: 50%;
-  margin-left: -16px;
-  color: #393b40;
-  opacity: 0;
-  animation: 2s fadeIn 1s ease-in-out;
-  animation-fill-mode: forwards;
+/*
+ * The action, 32px below the sentence: a primary button of two lines, with 12px above and below them instead of a
+ * fixed height. The second line, "Request Access", is 14/20 in the inverse text colour, 10.32:1 on the charcoal of
+ * the button, 13.00:1 on its hover colour and 11.61:1 pressed.
+ */
+.home-hero-action {
+  margin: var(--space-8) 0 0 0;
 }
 
-@keyframes fadeIn {
+.home-hero .call-to-action {
+  justify-content: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6) var(--space-3) var(--space-5);
+  text-align: left;
+}
+
+.home-hero .call-to-action > span {
+  display: block;
+}
+
+.home-hero .call-to-action small {
+  display: block;
+  font-size: var(--font-size-small);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-height-small);
+  color: var(--text-inverse);
+}
+
+/*
+ * The artwork: a field in the darkest ink with 12px corners, 220px high on a phone and 320px (20rem) on a tablet,
+ * from 64rem the 7:6 of its drawing, which is 507px high in the widest text column. The drawing keeps its
+ * proportions in the middle of the field. The browser leaves its colours alone in forced colours, as it does with an
+ * image: it is decoration, hidden from assistive technology.
+ */
+.home-hero-art {
+  height: 13.75rem;
+  overflow: hidden;
+  border-radius: var(--radius-artwork);
+  background: var(--ink-950);
+  forced-color-adjust: none;
+}
+
+@media (min-width: 40rem) {
+  .home-hero-art {
+    height: 20rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .home-hero-art {
+    height: auto;
+    aspect-ratio: 7 / 6;
+  }
+}
+
+.home-hero-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * The drawing is 560 by 480. Four bands, 42 wide and 24 apart, run from the rule at y 80 to the rule at y 400. Their
+ * edges lean 27.6 degrees from the vertical, the angle of the stripes of the logo (21.814 across for 41.707 up), so
+ * the top of a band is 167.37 to the right of its foot. The four start at x 76.32, 142.32, 208.32 and 274.32, which
+ * puts the middle of the group in the middle of the drawing. The colours are those of the logo, in its order. The
+ * two rules are hairlines in the ink of body text, 1.83:1 on the field: they are quiet, and they run from edge to
+ * edge of the field however wide it is.
+ */
+.home-hero-rules {
+  fill: none;
+  stroke: var(--ink-700);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.home-hero-band-yellow {
+  fill: var(--spectrum-yellow);
+}
+
+.home-hero-band-green {
+  fill: var(--spectrum-green);
+}
+
+.home-hero-band-orange {
+  fill: var(--spectrum-orange);
+}
+
+.home-hero-band-blue {
+  fill: var(--spectrum-blue);
+}
+
+/*
+ * The one movement of the page: when the page first shows, each band slides 28 units up along its own slant into
+ * its place between the rules and fades in, one after the other from left to right, 60ms apart. The last one is in
+ * place after 540ms. The bands are decoration; the text does not move. It runs only when the reader has not asked
+ * for reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero-band {
+    animation: home-hero-band-in 360ms var(--ease-standard) backwards;
+  }
+
+  .home-hero-band-green {
+    animation-delay: 60ms;
+  }
+
+  .home-hero-band-orange {
+    animation-delay: 120ms;
+  }
+
+  .home-hero-band-blue {
+    animation-delay: 180ms;
+  }
+}
+
+@keyframes home-hero-band-in {
   from {
     opacity: 0;
+    transform: translate(-12.98px, 24.81px);
   }
 
-  to {
+  60% {
     opacity: 1;
   }
 }
 
-.home-hero svg.scroll-hint polyline {
-  stroke: currentColor;
+/*
+ * The sections after the hero: a hairline at the top of each, the heading 32px below it on a phone and 48px from
+ * 40rem, and the section separation above the rule. The first one follows the hero without a margin: its rule lies
+ * at the end of the padding of the hero.
+ */
+.home main > section {
+  margin-top: var(--space-section);
+  padding-top: var(--space-8);
+  border-top: var(--border-width) solid var(--border-subtle);
 }
 
-.home-hero .call-to-action {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 1.414rem;
-  padding: 0.7072135785rem 1rem;
-  font-size: 1.414rem;
-  text-align: left;
-  line-height: 0.7072135785;
+.home main > .home-hero + section {
+  margin-top: 0;
 }
 
-/* The second line is as white as the first: at 80% opacity it was 3.5:1 on the button. */
-.home-hero .call-to-action small {
-  line-height: inherit;
-}
-
-.home-hero .call-to-action svg {
-  display: inline-block;
-  margin-right: 1ex;
-}
-
-.medium-post {
-  display: flex;
-  align-items: center;
-  position: relative;
-  margin: 1rem 2.827145944rem 1.414rem 2.827145944rem;
-  padding: 1rem;
-  border: 1px solid #c3c5ca;
-  border-radius: 3px;
-  background: #fff;
-  box-shadow: 1px 2px 4px rgba(57, 59, 64, 0.3);
-  transition: background 0.2s ease-in-out;
-}
-
-.medium-post,
-.medium-post:link,
-.medium-post:visited {
-  color: #393b40;
-}
-
-.medium-post:hover,
-.medium-post:active {
-  text-decoration: none;
-  background: #eeeff0;
-  color: #2b2c30;
-}
-
-.medium-post:active {
-  top: 1px;
-  box-shadow: inset 1px 1px 2px rgba(57, 59, 64, 0.3);
-}
-
-.medium-post img {
-  width: 48px;
-  height: 48px;
-  border-radius: 100%;
-}
-
-.medium-post svg {
-  position: relative;
-  top: -12px;
-  left: -12px;
-}
-
-h2.centered {
-  color: #c3c5ca;
-  font-style: italic;
-  text-align: center;
-}
-
-p.centered {
-  margin-top: 1.999396rem;
-  text-align: center;
-}
-
-.strip {
-  list-style: none;
-  display: flex;
-  position: relative;
-  padding: 0;
-  margin-bottom: 1.999396rem;
-}
-
-.strip::before,
-.strip::after,
-.strip li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 1.999396rem;
-  border: 2px solid #eeeff0;
-  background: #f7f7f7;
-}
-
-@media (max-width: 700px) {
-  .strip::before,
-  .strip::after,
-  .strip li {
-    padding: 2.67vw;
+@media (min-width: 40rem) {
+  .home main > section {
+    padding-top: var(--space-12);
   }
 }
 
-.strip li + li {
-  margin-left: 1rem;
+/* The headings of the sections are marketing section titles: 28/36 on a phone, 36/44 from 40rem. */
+.home main > section > h2 {
+  margin: 0 0 var(--space-6) 0;
+  font-size: var(--font-size-section-phone);
+  line-height: var(--line-height-section-phone);
+  letter-spacing: var(--tracking-section-phone);
 }
 
-.strip::before {
-  content: '';
-  margin-right: 1rem;
-  background: linear-gradient(to right, #fff, #f7f7f7);
-  border-image: linear-gradient(to right, #fff, #eeeff0) 2;
-  border-left: none;
+@media (min-width: 40rem) {
+  .home main > section > h2 {
+    font-size: var(--font-size-section);
+    line-height: var(--line-height-section);
+    letter-spacing: var(--tracking-section);
+  }
 }
 
-.strip::after {
-  content: '';
-  margin-left: 1rem;
-  background: linear-gradient(to left, #fff, #f7f7f7);
-  border-image: linear-gradient(to left, #fff, #eeeff0) 2;
-  border-right: none;
+/*
+ * A section in two columns: from 64rem the heading in the narrower left column, five twelfths of the shell, and the
+ * text in the right one, 691px wide in the full shell, 64px apart. The first line of the heading and the first line
+ * of the text share their baseline. The text keeps the measure of prose.
+ */
+@media (min-width: 64rem) {
+  .home-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: first baseline;
+    column-gap: var(--gap-hero);
+  }
+
+  .home main > .home-columns > h2 {
+    margin: 0;
+  }
+}
+
+.home-columns-text > p {
+  max-width: var(--measure);
+}
+
+/* The two paragraphs about the platform are in the lead size, as the sentence of the hero. */
+.home-platform-text p {
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
+}
+
+@media (min-width: 40rem) {
+  .home-platform-text p {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+  }
+}
+
+/*
+ * The customers: a wall of ten logos, two across on a phone and five across from 40rem, so that every row is full.
+ * Hairlines in the subtle border colour run between the tiles, not around the wall. The logos are in one neutral
+ * grey at full opacity: the existing PNGs are drawn in #6f6d7e, which grayscale turns into #6f6f6f (5.02:1 on
+ * white), and the other files are drawn in #6f6f6f. Nothing changes on hover: the logos are not links.
+ */
+.logo-wall {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: var(--space-8) 0 0 0;
+  padding: 0;
+  list-style: none;
+  --logo-scale: 0.75;
+}
+
+.logo-wall li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 7rem;
+  margin: 0;
+  padding: var(--space-4);
+}
+
+.logo-wall li:nth-child(n + 3) {
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.logo-wall li:nth-child(2n) {
+  border-left: var(--border-width) solid var(--border-subtle);
+}
+
+@media (min-width: 40rem) {
+  .logo-wall {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    --logo-scale: 0.7;
+  }
+
+  .logo-wall li {
+    min-height: 8rem;
+    padding: var(--space-3);
+  }
+
+  .logo-wall li:nth-child(n) {
+    border-top: none;
+    border-left: var(--border-width) solid var(--border-subtle);
+  }
+
+  .logo-wall li:nth-child(5n + 1) {
+    border-left: none;
+  }
+
+  .logo-wall li:nth-child(n + 6) {
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+}
+
+@media (min-width: 64rem) {
+  .logo-wall {
+    --logo-scale: 0.85;
+  }
+
+  .logo-wall li {
+    min-height: 9rem;
+    padding: var(--space-4);
+  }
+}
+
+@media (min-width: 80rem) {
+  .logo-wall {
+    --logo-scale: 1;
+  }
+}
+
+.logo-wall img {
+  width: auto;
+  height: calc(var(--logo-height) * var(--logo-scale));
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+}
+
+/*
+ * The height of each logo at full scale, set so that the logos look the same size: a wide one is lower than a square
+ * one, and a heavy one smaller than a light one. The PNGs of Allegion, Hydro and Tata Steel have a margin of their
+ * own (their drawing is 75%, 75% and 64% of their height), which their height includes.
+ */
+.logo-allegion {
+  --logo-height: 6.125rem;
+}
+
+.logo-hydro {
+  --logo-height: 6rem;
+}
+
+.logo-tata {
+  --logo-height: 6.5rem;
+}
+
+.logo-chdr {
+  --logo-height: 3.625rem;
+}
+
+.logo-rigo {
+  --logo-height: 2.75rem;
+}
+
+.logo-bokmerk {
+  --logo-height: 2.375rem;
+}
+
+.logo-growers {
+  --logo-height: 3.5rem;
+}
+
+.logo-locomotive {
+  --logo-height: 4.75rem;
+}
+
+.logo-apenheul {
+  --logo-height: 4.5rem;
+}
+
+.logo-corrosion {
+  --logo-height: 2.5rem;
+}
+
+/*
+ * The card of the articles on Medium: a card (35-components.css) with the 48px portrait of the author, the title and
+ * the line under it, and the Medium mark, 16px apart. From 40rem they are one row, the mark at the end, level with
+ * the first line of the title. On a phone the portrait and the mark are a row of their own above the text, which then
+ * has the whole width of the card. The portrait is round and has no shadow; the mark is in the heading ink.
+ */
+.home a.medium-post {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "portrait . mark"
+    "text text text";
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.medium-post img {
+  grid-area: portrait;
+  width: var(--space-12);
+  height: var(--space-12);
+  border-radius: 50%;
+}
+
+.medium-post-text {
+  grid-area: text;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.medium-post small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--text-secondary);
+}
+
+.medium-mark {
+  grid-area: mark;
+  width: var(--space-6);
+  height: var(--space-6);
+  fill: var(--text-heading);
+}
+
+/* In forced colours the mark takes the text colour of the system, as the text beside it does. */
+@media (forced-colors: active) {
+  .medium-mark {
+    fill: CanvasText;
+  }
+}
+
+@media (min-width: 40rem) {
+  .home a.medium-post {
+    grid-template-areas: "portrait text mark";
+    align-items: start;
+  }
+
+  .medium-mark {
+    margin-top: calc((var(--line-height-h4) - var(--space-6)) / 2);
+  }
 }

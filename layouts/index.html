@@ -11,70 +11,89 @@
 		{{- partial "static-payload.html" . }}
 		{{ partial "header.html" . }}
 
-		<div class="home-hero">
-			<div class="inner">
-				<p>
-					No More<br>
-					Software Failures<br>
-				</p>
-				<p> Use <span class="brand">Alan</span>, the Model-Driven Development Platform <br />
-				    to build core business applications<br />
-					<a class="button call-to-action" href="https://coder.alan-platform.com/signup/">
-						<svg fill="none" height="24" viewBox="0 0 24 24" width="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
-							<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-							<polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
-							<polyline points="7.5 19.79 7.5 14.6 3 12"/>
-							<polyline points="21 12 16.5 14.6 16.5 19.79"/>
-							<polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-							<line x1="12" x2="12" y1="22.08" y2="12"/>
-						</svg>
-						<span>
-							Start now with <span class="brand">Alan</span>
-							<br>
-							<small>Request Access</small>
-						</span>
-					</a>
-				</p>
-			</div>
-			<svg class="scroll-hint" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-				<polyline points="7 13 12 18 17 13"/>
-				<polyline points="7 6 12 11 17 6"/>
-			</svg>
-		</div>
-
 		<main id="content">
-			<section>
+			{{- /*
+				The hero: the headline, the sentence under it and the action on the left, the artwork on the right
+				from 64rem, below the action on narrower screens. The artwork is decoration: four bands at the angle
+				of the stripes of the logo, in its colours and order, between two rules. Its geometry is in
+				40-home.css.
+			*/}}
+			<div class="home-hero">
+				<div class="home-hero-text">
+					<h1>
+						No More<br>
+						Software Failures
+					</h1>
+					<p class="home-hero-lead">
+						Use <span class="brand">Alan</span>, the Model-Driven Development Platform <br>
+						to build core business applications
+					</p>
+					<p class="home-hero-action">
+						<a class="button call-to-action" href="https://coder.alan-platform.com/signup/">
+							<svg aria-hidden="true" fill="none" height="24" viewBox="0 0 24 24" width="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" xmlns="http://www.w3.org/2000/svg">
+								<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+								<polyline points="7.5 4.21 12 6.81 16.5 4.21"/>
+								<polyline points="7.5 19.79 7.5 14.6 3 12"/>
+								<polyline points="21 12 16.5 14.6 16.5 19.79"/>
+								<polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+								<line x1="12" x2="12" y1="22.08" y2="12"/>
+							</svg>
+							<span>
+								Start now with <span class="brand">Alan</span>
+								<small>Request Access</small>
+							</span>
+						</a>
+					</p>
+				</div>
+				<div class="home-hero-art" aria-hidden="true">
+					<svg viewBox="0 0 560 480" preserveAspectRatio="xMidYMid meet" focusable="false" xmlns="http://www.w3.org/2000/svg">
+						<path class="home-hero-rules" d="M-2000 80H2560M-2000 400H2560"/>
+						<path class="home-hero-band home-hero-band-yellow" d="M76.32 400H118.32L285.68 80H243.68Z"/>
+						<path class="home-hero-band home-hero-band-green" d="M142.32 400H184.32L351.68 80H309.68Z"/>
+						<path class="home-hero-band home-hero-band-orange" d="M208.32 400H250.32L417.68 80H375.68Z"/>
+						<path class="home-hero-band home-hero-band-blue" d="M274.32 400H316.32L483.68 80H441.68Z"/>
+					</svg>
+				</div>
+			</div>
+
+			<section class="home-columns">
 				<h2>
 					The Model-Driven Development Platform
 				</h2>
-				<p>
-					<span class="brand">Alan</span> is a model-driven platform that enables the rapid development
-					of data centric applications, from small to very, very large.
-				</p>
-				<p>
-					It feels like prototyping, and lets you
-					go from back-of-the-napkin to a running application in minutes.
-				</p>
+				<div class="home-columns-text home-platform-text">
+					<p>
+						<span class="brand">Alan</span> is a model-driven platform that enables the rapid development
+						of data centric applications, from small to very, very large.
+					</p>
+					<p>
+						It feels like prototyping, and lets you
+						go from back-of-the-napkin to a running application in minutes.
+					</p>
+				</div>
 			</section>
 
-			<section>
+			<section class="home-customers">
 
-				<h2 class="centered">
+				<h2>
 					<span class="brand">Alan</span> supports global businesses
 				</h2>
 
-				<ul class="strip">
+				{{- /*
+					The customers, five across from 40rem and two across on phones, as ten tiles fill both grids. Each
+					logo has a height of its own (40-home.css), so that wide and tall ones look the same size.
+				*/}}
+				<ul class="logo-wall">
 					{{ `<!-- <li>
 						<img width="136" alt="OGD logo" src="/assets/companies/ogd.png">
 					</li> -->` | safeHTML }}
-					<li>
-						<img width="136" alt="Allegion logo" src="/assets/companies/allegion.png">
+					<li class="logo-allegion">
+						<img width="98" height="98" alt="Allegion logo" src="/assets/companies/allegion.png">
 					</li>
-					<li>
-						<img width="136" alt="Hydro logo" src="/assets/companies/hydro.png">
+					<li class="logo-hydro">
+						<img width="96" height="96" alt="Hydro logo" src="/assets/companies/hydro.png">
 					</li>
-					<li>
-						<img width="136" alt="Tata Steel logo" src="/assets/companies/tata.png">
+					<li class="logo-tata">
+						<img width="104" height="104" alt="Tata Steel logo" src="/assets/companies/tata.png">
 					</li>
 					{{ `<!-- <li>
 						<img width="136" alt="Apenheul logo" src="/assets/companies/apenheul.png">
@@ -82,6 +101,27 @@
 					<li>
 						<img width="136" alt="Natural Bulbs logo" src="/assets/companies/natural-bulbs.png">
 					</li> -->` | safeHTML }}
+					<li class="logo-chdr">
+						<img width="159" height="58" alt="CHDR logo" src="/assets/companies/chdr.png">
+					</li>
+					<li class="logo-rigo">
+						<img width="102" height="44" alt="RIGO Verffabriek logo" src="/assets/companies/rigo.svg">
+					</li>
+					<li class="logo-bokmerk">
+						<img width="131" height="38" alt="Bokmerk logo" src="/assets/companies/bokmerk.svg">
+					</li>
+					<li class="logo-growers">
+						<img width="114" height="56" alt="Growers Packers logo" src="/assets/companies/growers.png">
+					</li>
+					<li class="logo-locomotive">
+						<img width="53" height="76" alt="Locomotive logo" src="/assets/companies/locomotive.svg">
+					</li>
+					<li class="logo-apenheul">
+						<img width="57" height="72" alt="Apenheul logo" src="/assets/companies/apenheul.svg">
+					</li>
+					<li class="logo-corrosion">
+						<img width="146" height="40" alt="Corrosion logo" src="/assets/companies/corrosion.svg">
+					</li>
 				</ul>
 
 			</section>
@@ -99,34 +139,35 @@
 				</p>
 			</section> -->` | safeHTML }}
 
-			<section class="notes">
+			<section class="home-columns notes">
 				<h2><span class="brand">Alan</span> for your Business</h2>
-				<p>
-					<span class="brand">Alan</span>'s model-driven approach will change the way you think about software development.
-					<a rel="external" href="https://medium.com/@rvanderarend/do-low-code-or-no-code-really-change-software-development-f7a2084961c9">
-						We wrote an article about what this means.
-					</a>
-				</p>
-				<p>
-					<a class="medium-post" rel="external" href="https://medium.com/@rvanderarend/">
-						<img src="/assets/photo/rvda.jpg">
-						<svg width="24" height="24" viewBox="0 0 45 45" class="am"><path d="M5 40V5h35v35H5zm8.56-12.63c0 .56-.03.69-.32 1.03L10.8 31.4v.4h6.97v-.4L15.3 28.4c-.29-.34-.34-.5-.34-1.03v-8.95l6.13 13.36h.71l5.26-13.36v10.64c0 .3 0 .35-.19.53l-1.85 1.8v.4h9.2v-.4l-1.83-1.8c-.18-.18-.2-.24-.2-.53V15.94c0-.3.02-.35.2-.53l1.82-1.8v-.4h-6.47l-4.62 11.55-5.2-11.54h-6.8v.4l2.15 2.63c.24.3.29.37.29.77v10.35z"></path></svg>
-						<span>
-							Do low-code or no-code really change software development?
-							<br>
-							<small>and other articles about Alan</small>
-						</span>
-					</a>
-				</p>
-				<p>
-					Are you running into the limitations of legacy systems or Excel?
-					Get in touch with <a href="https://www.kjerner.nl">Kjerner</a>
-					and learn about the possibilities.
-				</p>
-				<p>
-					For proprietary solutions, please contact us
-					at <a href="mailto:info@kjerner.com">info@kjerner.com</a>.
-				</p>
+				<div class="home-columns-text">
+					<p>
+						<span class="brand">Alan</span>'s model-driven approach will change the way you think about software development.
+						<a rel="external" href="https://medium.com/@rvanderarend/do-low-code-or-no-code-really-change-software-development-f7a2084961c9">
+							We wrote an article about what this means.
+						</a>
+					</p>
+					<p>
+						<a class="card medium-post" rel="external" href="https://medium.com/@rvanderarend/">
+							<img src="/assets/photo/rvda.jpg" alt="" width="48" height="48">
+							<span class="medium-post-text">
+								<span class="card-title">Do low-code or no-code really change software development?</span>
+								<small>and other articles about Alan</small>
+							</span>
+							<svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="5 5 35 35" class="medium-mark"><path d="M5 40V5h35v35H5zm8.56-12.63c0 .56-.03.69-.32 1.03L10.8 31.4v.4h6.97v-.4L15.3 28.4c-.29-.34-.34-.5-.34-1.03v-8.95l6.13 13.36h.71l5.26-13.36v10.64c0 .3 0 .35-.19.53l-1.85 1.8v.4h9.2v-.4l-1.83-1.8c-.18-.18-.2-.24-.2-.53V15.94c0-.3.02-.35.2-.53l1.82-1.8v-.4h-6.47l-4.62 11.55-5.2-11.54h-6.8v.4l2.15 2.63c.24.3.29.37.29.77v10.35z"></path></svg>
+						</a>
+					</p>
+					<p>
+						Are you running into the limitations of legacy systems or Excel?
+						Get in touch with <a href="https://www.kjerner.nl">Kjerner</a>
+						and learn about the possibilities.
+					</p>
+					<p>
+						For proprietary solutions, please contact us
+						at <a href="mailto:info@kjerner.com">info@kjerner.com</a>.
+					</p>
+				</div>
 			</section>
 
 		</main>
