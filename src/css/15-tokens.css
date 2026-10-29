@@ -205,10 +205,10 @@
   --line-height-code: 1.25rem;
 
   /*
-   * Inline code is 15px in the 17px body text: 15 / 17 is 0.882 of the surrounding size, so code in a heading or a
+   * Inline code is 14px in the 17px body text: 14 / 17 is 0.824 of the surrounding size, so code in a heading or a
    * table keeps that proportion to its text.
    */
-  --font-size-code-inline: 0.882em;
+  --font-size-code-inline: 0.824em;
 
   /*
    * Spacing, a scale of 4px steps: --space-N is N times 4px (0.25rem). 1px and 2px are not on it; they are for

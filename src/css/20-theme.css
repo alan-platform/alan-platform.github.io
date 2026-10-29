@@ -234,7 +234,7 @@ a:active {
 }
 
 /*
- * Inline code: IBM Plex Mono at 15px in the 17px text, on the inset grey with a little padding. It runs on with the
+ * Inline code: IBM Plex Mono at 14px in the 17px text, on the inset grey with a little padding. It runs on with the
  * text, as words do, and the punctuation after it stays on its line. A line breaks at its spaces, after its hyphens
  * (except in a short name, below), and anywhere in a name that is longer than a whole line, which on a phone a
  * command can be. Each piece of code that a line break splits keeps the inset background, the padding and the
@@ -265,7 +265,7 @@ code.code-name {
 }
 
 /*
- * A code block: the paper surface with a subtle border, charcoal code at 13/20, two steps below the 15px of inline
+ * A code block: the paper surface with a subtle border, charcoal code at 13/20, a step below the 14px of inline
  * code, as a block holds many lines and IBM Plex Mono is wide. The code keeps its whitespace and scrolls within the block when a line is
  * longer than the column.
  *
