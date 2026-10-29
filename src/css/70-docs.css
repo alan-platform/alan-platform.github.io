@@ -710,12 +710,12 @@ table:not([class]) thead th {
  * --border-inverse-subtle, 1.92:1 on the page instead of the 1.40:1 of the subtle border, so that its edge stays
  * visible over the document.
  */
-@media (prefers-color-scheme: dark) and (min-width: 40rem) {
+@media (min-width: 40rem) {
   #doc-list {
-    --surface-page: #1b1c20;
-    --surface-subtle: #25272c;
-    --surface-table: #1b1c20;
-    border-color: var(--border-inverse-subtle);
+    --surface-page: light-dark(var(--neutral-0), #1b1c20);
+    --surface-subtle: light-dark(var(--neutral-50), #25272c);
+    --surface-table: light-dark(var(--neutral-0), #1b1c20);
+    border-color: light-dark(var(--neutral-200), var(--border-inverse-subtle));
   }
 }
 

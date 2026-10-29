@@ -317,20 +317,19 @@ main.not-found h1 + p {
  * lies on a white plate with the corners of a panel, so it looks as it does on the light page. It has margins of
  * its own, so the plate needs no padding. No image is inverted.
  */
-@media (prefers-color-scheme: dark) {
-  .article main > section img[src$='.svg'] {
-    border-radius: var(--radius-panel);
-    background: var(--neutral-0);
-  }
+.article main > section img[src$='.svg'] {
+  border-radius: var(--radius-panel);
+  background: light-dark(transparent, var(--neutral-0));
 }
 
 /*
- * In forced colours the browser would replace the white plate with the system canvas, which is dark in a dark high
- * contrast theme, while the drawing of the SVG keeps its own dark lines: the plate keeps its white there.
+ * In forced colours the page is the system canvas, dark in a dark high contrast theme, while the drawing of the SVG
+ * keeps its own dark lines: there the drawing lies on its white plate in either scheme.
  */
-@media (prefers-color-scheme: dark) and (forced-colors: active) {
+@media (forced-colors: active) {
   .article main > section img[src$='.svg'] {
     forced-color-adjust: none;
+    background: var(--neutral-0);
   }
 }
 

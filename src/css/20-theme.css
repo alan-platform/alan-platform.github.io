@@ -380,6 +380,17 @@ main img {
 }
 
 /*
+ * While the theme switch changes the scheme (partials/theme-script.html sets theme-switching on the html element for
+ * two frames), no transition runs: the colours of the components with a hover transition would otherwise change
+ * 120ms after the rest of the page, and the page would pass through greys.
+ */
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+
+/*
  * Without motion every transition and animation ends at once: state changes are immediate, and an animation that
  * fades something in shows it at its end state. The rule overrides the durations of every component, which is why
  * it is marked important.

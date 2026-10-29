@@ -16,8 +16,10 @@
 
 :root {
   /*
-   * The site has a light and a dark colour scheme and shows the one that the reader's system asks for: the dark
-   * block after this one redefines the colours. Form controls and scroll bars follow the scheme.
+   * The site has a light and a dark colour scheme. Every colour that differs between them is a light-dark() pair
+   * below, light first, and color-scheme picks the half: the scheme of the reader's system, unless the reader has
+   * chosen one with the theme switch in the header, which sets data-theme on the html element (the rules after
+   * this block, and partials/theme-script.html). Form controls and scroll bars follow the scheme.
    */
   color-scheme: light dark;
 
@@ -43,14 +45,14 @@
   --spectrum-green: #8fcc27;
   --spectrum-orange: #ff641a;
   --spectrum-blue: #4a80ff;
-  --yellow-text: #765400;
-  --green-text: #3c6512;
-  --orange-text: #b53f0d;
-  --link: #2459c4;
-  --link-hover: #1c4496;
-  --surface-info: #edf2ff;
-  --surface-warning: #fff4d6;
-  --surface-success: #eef6e4;
+  --yellow-text: light-dark(#765400, #ffc94a);
+  --green-text: light-dark(#3c6512, #9fd447);
+  --orange-text: light-dark(#b53f0d, #ff8c55);
+  --link: light-dark(#2459c4, #8aabff);
+  --link-hover: light-dark(#1c4496, #b6caff);
+  --surface-info: light-dark(#edf2ff, #172038);
+  --surface-warning: light-dark(#fff4d6, #2a2314);
+  --surface-success: light-dark(#eef6e4, #19250f);
 
   /*
    * Semantic aliases, the names the components use. Text on the light surfaces, from white to the inset grey:
@@ -76,25 +78,25 @@
    * is 2.19:1, so a dark surface sets --focus-ring to --focus-ring-inverse, white. Selected text is charcoal on the
    * yellow of the logo, 9.10:1.
    */
-  --text-heading: var(--ink-800);
-  --text-body: var(--ink-700);
-  --text-secondary: var(--ink-600);
-  --text-on-action: var(--neutral-0);
+  --text-heading: light-dark(var(--ink-800), #f1f1ee);
+  --text-body: light-dark(var(--ink-700), #d0d2cd);
+  --text-secondary: light-dark(var(--ink-600), #a3a7ae);
+  --text-on-action: light-dark(var(--neutral-0), #131417);
   --text-on-accent: var(--ink-800);
   --text-inverse: var(--neutral-200);
   --text-inverse-secondary: var(--neutral-400);
   --text-inverse-hover: var(--neutral-0);
-  --surface-page: var(--neutral-0);
-  --surface-subtle: var(--neutral-50);
-  --surface-inset: var(--neutral-100);
-  --surface-inverse: var(--ink-800);
-  --border-subtle: var(--neutral-200);
-  --border-control: var(--neutral-500);
+  --surface-page: light-dark(var(--neutral-0), #131417);
+  --surface-subtle: light-dark(var(--neutral-50), #1b1c20);
+  --surface-inset: light-dark(var(--neutral-100), #25272c);
+  --surface-inverse: light-dark(var(--ink-800), #1b1c20);
+  --border-subtle: light-dark(var(--neutral-200), #2e3036);
+  --border-control: light-dark(var(--neutral-500), #6c717b);
   --border-inverse-subtle: var(--ink-700);
   --border-inverse-control: var(--neutral-500);
-  --action-primary: var(--ink-800);
-  --action-primary-hover: var(--ink-950);
-  --action-primary-active: var(--ink-900);
+  --action-primary: light-dark(var(--ink-800), #f1f1ee);
+  --action-primary-hover: light-dark(var(--ink-950), #ffffff);
+  --action-primary-active: light-dark(var(--ink-900), #dddeda);
   --focus-ring: var(--link);
   --focus-ring-inverse: var(--neutral-0);
   --selection-text: var(--ink-800);
@@ -296,14 +298,14 @@
    * Elevation, in the darkest ink at low opacity. Cards and buttons have no shadow; the small one is for a control
    * that sits on top of content, the popover one for a panel that overlays the page, such as the document switcher.
    */
-  --shadow-small: 0 2px 6px rgb(24 25 28 / 0.06);
-  --shadow-popover: 0 12px 32px rgb(24 25 28 / 0.12), 0 2px 6px rgb(24 25 28 / 0.06);
+  --shadow-small: 0 2px 6px light-dark(rgb(24 25 28 / 0.06), rgb(0 0 0 / 0.4));
+  --shadow-popover: 0 12px 32px light-dark(rgb(24 25 28 / 0.12), rgb(0 0 0 / 0.5)), 0 2px 6px light-dark(rgb(24 25 28 / 0.06), rgb(0 0 0 / 0.4));
 
   /*
    * The shade at the edge of a box that scrolls sideways, where more of its content lies (20-theme.css): the darkest
    * ink at the opacity of the popover shadow, fading out over 16px.
    */
-  --scroll-shade: rgb(24 25 28 / 0.12);
+  --scroll-shade: light-dark(rgb(24 25 28 / 0.12), rgb(0 0 0 / 0.45));
   --scroll-shade-width: var(--space-4);
 
   /*
@@ -331,8 +333,19 @@
 }
 
 /*
- * The dark colour scheme, for a reader whose system asks for it. It redefines the colours that change and nothing
- * else: the components name the semantic tokens, so they follow. The surfaces are charcoal neutrals, the darkest the
+ * A scheme the reader has chosen with the theme switch (partials/theme-script.html) wins over the system's.
+ */
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/*
+ * The dark colour scheme: the second halves of the light-dark() pairs above. Only the colours that change have a
+ * pair; the components name the semantic tokens, so they follow. The surfaces are charcoal neutrals, the darkest the
  * page, then paper, the inset grey and the inverse surface of the footer, which is paper here, lighter than the page;
  * the tints of the callouts are dark tints of the same hues. Text is a light neutral, links and the text colours of
  * the spectrum are light steps of their hues, and the four spectrum colours themselves, the inks and the neutrals
@@ -357,34 +370,6 @@
  * keeps its 1px border in --border-subtle, which marks its edge. The shade of a box that scrolls sideways is black
  * at 45%.
  */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --yellow-text: #ffc94a;
-    --green-text: #9fd447;
-    --orange-text: #ff8c55;
-    --link: #8aabff;
-    --link-hover: #b6caff;
-    --surface-info: #172038;
-    --surface-warning: #2a2314;
-    --surface-success: #19250f;
-    --text-heading: #f1f1ee;
-    --text-body: #d0d2cd;
-    --text-secondary: #a3a7ae;
-    --text-on-action: #131417;
-    --surface-page: #131417;
-    --surface-subtle: #1b1c20;
-    --surface-inset: #25272c;
-    --surface-inverse: #1b1c20;
-    --border-subtle: #2e3036;
-    --border-control: #6c717b;
-    --action-primary: #f1f1ee;
-    --action-primary-hover: #ffffff;
-    --action-primary-active: #dddeda;
-    --shadow-small: 0 2px 6px rgb(0 0 0 / 0.4);
-    --shadow-popover: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.4);
-    --scroll-shade: rgb(0 0 0 / 0.45);
-  }
-}
 
 /* From 40rem: wider gutters, more room between and inside the cards and code blocks, more between the sections. */
 @media (min-width: 40rem) {

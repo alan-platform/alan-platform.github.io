@@ -1,0 +1,78 @@
+{{- /*
+	The theme switch, inline in the head so that it runs before the first paint: a reader who chose a scheme never
+	sees the other one first. Without a choice the page follows the system (color-scheme: light dark in
+	15-tokens.css). The button in the header (header.html, theme-toggle) switches to the other scheme than the one
+	shown; the choice is kept in localStorage under "theme" and set as data-theme on the html element, unless it is
+	the scheme of the system, in which case the choice is forgotten and the page follows the system again. The
+	button is aria-pressed while the dark scheme is shown, and follows a change of the system scheme while there is
+	no choice. During a change the class theme-switching stops every transition for two frames (20-theme.css), so
+	that the whole page changes at once. The color-scheme and theme-color metas are set to the chosen scheme, so
+	that the browser's own surfaces agree. The class theme-switch on the html element shows the button
+	(50-header.css): without scripts it could not do anything. The click is handled on the document, so the button works as soon as it is parsed.
+	localStorage can be missing or refuse (a private window, blocked site data): then the choice lasts as long as
+	the page.
+*/ -}}
+<script>
+(function (root) {
+	var system = window.matchMedia('(prefers-color-scheme: dark)');
+	var colours = {light: '#ffffff', dark: '#131417'};
+	function systemTheme() {
+		return system.matches ? 'dark' : 'light';
+	}
+	function shown() {
+		return root.getAttribute('data-theme') || systemTheme();
+	}
+	function apply(theme) {
+		root.classList.add('theme-switching');
+		window.requestAnimationFrame(function () {
+			window.requestAnimationFrame(function () {
+				root.classList.remove('theme-switching');
+			});
+		});
+		if (theme) {
+			root.setAttribute('data-theme', theme);
+		} else {
+			root.removeAttribute('data-theme');
+		}
+		var scheme = document.querySelector('meta[name="color-scheme"]');
+		if (scheme) {
+			scheme.setAttribute('content', theme || 'light dark');
+		}
+		document.querySelectorAll('meta[name="theme-color"]').forEach(function (meta) {
+			var own = /dark/.test(meta.getAttribute('media')) ? 'dark' : 'light';
+			meta.setAttribute('content', colours[theme || own]);
+		});
+		document.querySelectorAll('.theme-toggle').forEach(function (button) {
+			button.setAttribute('aria-pressed', shown() === 'dark' ? 'true' : 'false');
+		});
+	}
+	var chosen = null;
+	try {
+		chosen = localStorage.getItem('theme');
+	} catch (error) {}
+	apply(chosen === 'light' || chosen === 'dark' ? chosen : null);
+	root.classList.add('theme-switch');
+
+	document.addEventListener('DOMContentLoaded', function () {
+		apply(root.getAttribute('data-theme'));
+	});
+	system.addEventListener('change', function () {
+		apply(root.getAttribute('data-theme'));
+	});
+	document.addEventListener('click', function (event) {
+		if (!event.target.closest || !event.target.closest('.theme-toggle')) {
+			return;
+		}
+		var next = shown() === 'dark' ? 'light' : 'dark';
+		var choice = next === systemTheme() ? null : next;
+		try {
+			if (choice) {
+				localStorage.setItem('theme', choice);
+			} else {
+				localStorage.removeItem('theme');
+			}
+		} catch (error) {}
+		apply(choice);
+	});
+})(document.documentElement);
+</script>

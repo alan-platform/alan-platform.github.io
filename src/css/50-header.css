@@ -28,7 +28,7 @@
  */
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
   .site-header {
-    --header-glass: rgb(255 255 255 / 0.85);
+    --header-glass: light-dark(rgb(255 255 255 / 0.85), rgb(19 20 23 / 0.85));
     background: var(--header-glass);
     -webkit-backdrop-filter: saturate(180%) blur(12px);
     backdrop-filter: saturate(180%) blur(12px);
@@ -36,17 +36,15 @@
 }
 
 /*
- * In the dark scheme the glass is the colour of the dark page at 85%. Over white, the lightest the page can put
- * behind it (a screenshot), that is #36373a, on which the heading colour of the links is 10.52:1. The rule under
- * the bar and the opaque fallback are the tokens of the dark scheme. The grey bar under a hovered link and the
- * border of the Login button take the control border of a dark surface, --border-inverse-control: over that same
- * lightest glass it is 3.20:1, where the dark scheme's --border-control is 2.42:1.
+ * In the dark scheme the glass is the colour of the dark page at 85% (the second half of the pair above). Over
+ * white, the lightest the page can put behind it (a screenshot), that is #36373a, on which the heading colour of
+ * the links is 10.52:1. The rule under the bar and the opaque fallback are the tokens of the scheme. The grey bar
+ * under a hovered link and the border of the Login button and the theme switch take --border-inverse-control,
+ * #81858d: in the light scheme that is the control border itself, and in the dark scheme it is 3.20:1 over that
+ * same lightest glass, where the dark --border-control would be 2.42:1.
  */
-@media (prefers-color-scheme: dark) {
-  .site-header {
-    --header-glass: rgb(19 20 23 / 0.85);
-    --border-control: var(--border-inverse-control);
-  }
+.site-header {
+  --border-control: var(--border-inverse-control);
 }
 
 @media (min-height: 30rem) {
@@ -65,16 +63,17 @@
 }
 
 /*
- * The content of the bar is a grid in the width of the site shell. The first row holds the logo and the toggle and
- * is the header height less the rule; the navigation takes a row of its own below them. From 64rem the navigation
- * is on the first row, right of the logo, and the toggle is gone.
+ * The content of the bar is a grid in the width of the site shell. The first row holds the logo at the left and the
+ * theme switch and the menu toggle at the right, 8px apart, and is the header height less the rule; the navigation
+ * takes a row of its own below them. From 64rem the navigation is on the first row, right of the logo and left of
+ * the theme switch, and the toggle is gone.
  */
 .site-header .inner {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
   grid-template-rows: minmax(calc(var(--header-height) - var(--border-width)), auto);
   align-items: center;
-  column-gap: var(--space-8);
+  column-gap: var(--space-2);
   max-width: calc(var(--width-shell) + 2 * var(--gutter));
   margin: 0 auto;
   padding: 0 var(--gutter);
@@ -88,6 +87,8 @@
  */
 .site-header .logo {
   display: block;
+  grid-row: 1;
+  grid-column: 1;
   width: 9.5rem;
 }
 
@@ -136,9 +137,17 @@
  * from head.html, then site-menu-ready from main.js): without the script it could not open anything, and the menu
  * is always shown.
  */
+/*
+ * The theme switch (partials/theme-script.html): the same 44px square as the toggle, with a 20px icon, the moon
+ * while the light scheme is shown and the sun while the dark one is, as its aria-pressed says. It is shown only when
+ * the theme script runs (the class theme-switch on the html element). From 64rem it follows the login button, 24px
+ * after it, as the links are apart.
+ */
+.site-header .theme-toggle,
 .site-header .nav-toggle {
   transition: background-color var(--duration-hover) var(--ease-standard);
   display: none;
+  grid-row: 1;
   align-items: center;
   justify-content: center;
   justify-self: end;
@@ -153,13 +162,37 @@
 }
 
 @media (hover: hover) {
+  .site-header .theme-toggle:hover,
   .site-header .nav-toggle:hover {
     background: var(--surface-subtle);
   }
 }
 
+.site-header .theme-toggle:active,
 .site-header .nav-toggle:active {
   background: var(--surface-inset);
+}
+
+.site-header .theme-toggle {
+  grid-column: 3;
+}
+
+.theme-switch .site-header .theme-toggle {
+  display: inline-flex;
+}
+
+.site-header .theme-toggle svg {
+  width: var(--space-5);
+  height: var(--space-5);
+}
+
+.site-header .theme-toggle[aria-pressed="true"] .moon,
+.site-header .theme-toggle[aria-pressed="false"] .sun {
+  display: none;
+}
+
+.site-header .nav-toggle {
+  grid-column: 4;
 }
 
 .site-header .nav-toggle svg {
@@ -300,6 +333,10 @@
 @media (min-width: 64rem) {
   .site-header .logo {
     width: 11.5rem;
+  }
+
+  .site-header .theme-toggle {
+    margin-left: var(--space-4);
   }
 
   .site-header .site-menu {

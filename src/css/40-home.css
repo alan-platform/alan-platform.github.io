@@ -72,13 +72,11 @@
 /*
  * In the dark scheme the page, #131417, is almost the ink of the stage (1.05:1), and the stage would run into the
  * section under it. A hairline of white at 8% marks its lower edge, #2a2b2e on the stage, drawn as an inset shadow
- * so that the height of the stage does not change and the bands, which run off that edge, lie over it. The upper
- * edge is the rule under the site header.
+ * so that the height of the stage does not change and the bands, which run off that edge, lie over it; in the light
+ * scheme the shadow is transparent. The upper edge is the rule under the site header.
  */
-@media (prefers-color-scheme: dark) {
-  .home-hero {
-    box-shadow: inset 0 calc(-1 * var(--border-width)) 0 rgb(255 255 255 / 0.08);
-  }
+.home-hero {
+  box-shadow: inset 0 calc(-1 * var(--border-width)) 0 light-dark(transparent, rgb(255 255 255 / 0.08));
 }
 
 /*
@@ -493,9 +491,14 @@
  * the share of the secondary text colour that they have on white (5.02:1 against 6.31:1).
  */
 @media (prefers-color-scheme: dark) {
-  .logo-wall img {
+  :root:not([data-theme="light"]) .logo-wall img {
     filter: grayscale(1) brightness(1.2);
   }
+}
+
+/* A filter is not a colour, so it cannot be a light-dark() pair: the dark scheme chosen with the theme switch. */
+:root[data-theme="dark"] .logo-wall img {
+  filter: grayscale(1) brightness(1.2);
 }
 
 /*
