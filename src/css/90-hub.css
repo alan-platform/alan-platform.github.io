@@ -324,6 +324,16 @@ main.not-found h1 + p {
   }
 }
 
+/*
+ * In forced colours the browser would replace the white plate with the system canvas, which is dark in a dark high
+ * contrast theme, while the drawing of the SVG keeps its own dark lines: the plate keeps its white there.
+ */
+@media (prefers-color-scheme: dark) and (forced-colors: active) {
+  .article main > section img[src$='.svg'] {
+    forced-color-adjust: none;
+  }
+}
+
 /* Code blocks are 24px from the text around them, the same as screenshots and callouts. */
 .article main > section div.highlighter-rouge {
   margin: var(--space-6) 0;
