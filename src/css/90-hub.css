@@ -53,20 +53,34 @@ p.more {
 
 /*
  * The features of the About page: explanations, not destinations, so they are set as text in an editorial grid,
- * not as panels. Rows and columns are apart by shared hairlines in the subtle border colour, with 24px of space on
- * either side of a rule: one column on a phone, two from 40rem, three across the content column from 64rem, two
- * rows of three. The text of the outer columns lines up with the text above and below the grid. The cells of a row
- * have the same height, so the rules between them run from rule to rule.
+ * not as panels: one column on a phone, two from 40rem, three across the content column from 64rem, two rows of
+ * three. The columns are 48px apart and the cells have no padding at their sides, so every column has the same
+ * width of text, and the text of the outer columns lines up with the text above and below the grid. Rows and
+ * columns are apart by shared hairlines in the subtle border colour: a rule under every cell, drawn into the half
+ * of the gap on either side of it so that the rules of a row join, and a rule in the middle of the gap before
+ * every cell that does not start a row. The cells of a row have the same height, so those rules run from rule to
+ * rule. The rules are pseudo-elements, which forced colours draw as they draw borders.
  */
 .features {
+  --features-gap: var(--space-12);
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  column-gap: var(--features-gap);
   margin: var(--space-6) 0 var(--space-12) 0;
   border-top: var(--border-width) solid var(--border-subtle);
 }
 
 .features .feature {
+  position: relative;
   padding: var(--space-6) 0;
+}
+
+.features .feature::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
   border-bottom: var(--border-width) solid var(--border-subtle);
 }
 
@@ -75,12 +89,20 @@ p.more {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .features .feature:nth-child(2n + 1) {
-    padding-right: var(--space-6);
+  .features .feature:nth-child(2n + 1)::after {
+    right: calc(-0.5 * var(--features-gap));
   }
 
-  .features .feature:nth-child(2n) {
-    padding-left: var(--space-6);
+  .features .feature:nth-child(2n)::after {
+    left: calc(-0.5 * var(--features-gap));
+  }
+
+  .features .feature:nth-child(2n)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(-0.5 * var(--features-gap) - var(--border-width) / 2);
     border-left: var(--border-width) solid var(--border-subtle);
   }
 }
@@ -90,19 +112,30 @@ p.more {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .features .feature:nth-child(n) {
-    padding-right: var(--space-6);
-    padding-left: var(--space-6);
+  .features .feature:nth-child(n)::after {
+    right: calc(-0.5 * var(--features-gap));
+    left: calc(-0.5 * var(--features-gap));
+  }
+
+  .features .feature:nth-child(3n + 1)::after {
+    left: 0;
+  }
+
+  .features .feature:nth-child(3n)::after {
+    right: 0;
+  }
+
+  .features .feature:nth-child(n)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(-0.5 * var(--features-gap) - var(--border-width) / 2);
     border-left: var(--border-width) solid var(--border-subtle);
   }
 
-  .features .feature:nth-child(3n + 1) {
-    padding-left: 0;
-    border-left: none;
-  }
-
-  .features .feature:nth-child(3n) {
-    padding-right: 0;
+  .features .feature:nth-child(3n + 1)::before {
+    content: none;
   }
 }
 
