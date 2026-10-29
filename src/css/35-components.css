@@ -478,3 +478,25 @@ div.highlight .grammar-button:active {
   font-weight: var(--weight-semibold);
   color: var(--syntax-grammar-literal);
 }
+
+/*
+ * Alan, in an example (src/prism-alan.js) and in a grammar rule (grammarTokens in main.js), by the kind of token: a
+ * bare word is a keyword, in the keyword colour; a name in single quotes takes the string colour; text in double
+ * quotes and a number are values, in the orange of the literals that a grammar rule shows a model writes; the steps
+ * and operators of an expression are in the colour of the code. In a grammar rule the quotes around a name take the
+ * colour of the name, and a token that the generator marked inside a comment is part of the comment.
+ */
+.language-alan .token.name {
+  color: var(--syntax-string);
+}
+
+.language-alan .token.string {
+  color: var(--syntax-grammar-literal);
+}
+
+.code-custom .token.comment .token,
+.code-custom .token-in-comment {
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  color: var(--syntax-comment);
+}

@@ -427,6 +427,84 @@ function codeNames() {
     });
 }
 
+// The rule blocks of the generated grammars (pre.code-custom) arrive with two kinds of token marked: the names of
+// properties (token string, inside their quotes) and the words and symbols that a model writes (token operator). The
+// rest is plain text: the words of the grammar notation (component, reference, stategroup), its brackets, colons and
+// commas, the quotes around the names, and comments. This marks those kinds too, as src/prism-alan.js marks them in
+// an example: a bare word is a keyword, a bracket, colon or comma is punctuation, a quote is part of its name, and a
+// comment is a comment, with the tokens that the generator marked inside it (token-in-comment). A comment can span
+// the tokens and the text around them, so whether the walk is in a comment carries from one node to the next. The
+// text of the block stays as it is.
+function grammarTokens() {
+    document.querySelectorAll('pre.code-custom').forEach(function(pre) {
+        var inComment = false;
+        Array.prototype.slice.call(pre.childNodes).forEach(function(node) {
+            if (node.nodeType === Node.ELEMENT_NODE) {
+                if (inComment) {
+                    node.classList.add('token-in-comment');
+                }
+                return;
+            }
+            if (node.nodeType !== Node.TEXT_NODE) {
+                return;
+            }
+            var text = node.data;
+            var fragment = document.createDocumentFragment();
+            function emit(kind, value) {
+                if (kind) {
+                    var span = document.createElement('span');
+                    span.className = 'token ' + kind;
+                    span.textContent = value;
+                    fragment.appendChild(span);
+                } else {
+                    fragment.appendChild(document.createTextNode(value));
+                }
+            }
+            var i = 0;
+            while (i < text.length) {
+                if (inComment) {
+                    var end = text.indexOf('*/', i);
+                    var stop = end < 0 ? text.length : end + 2;
+                    emit('comment', text.slice(i, stop));
+                    inComment = end < 0;
+                    i = stop;
+                    continue;
+                }
+                var rest = text.slice(i);
+                if (rest.slice(0, 2) === '/*') {
+                    var close = text.indexOf('*/', i + 2);
+                    var after = close < 0 ? text.length : close + 2;
+                    emit('comment', text.slice(i, after));
+                    inComment = close < 0;
+                    i = after;
+                    continue;
+                }
+                if (rest.slice(0, 2) === '//') {
+                    var newline = text.indexOf('\n', i);
+                    var eol = newline < 0 ? text.length : newline;
+                    emit('comment', text.slice(i, eol));
+                    i = eol;
+                    continue;
+                }
+                var match = /^[A-Za-z_][\w-]*/.exec(rest);
+                if (match) {
+                    emit('keyword', match[0]);
+                } else if ((match = /^[[\]{}():,]/.exec(rest))) {
+                    emit('punctuation', match[0]);
+                } else if (rest.charAt(0) === "'") {
+                    match = ["'"];
+                    emit('string', "'");
+                } else {
+                    match = /^[^A-Za-z_[\]{}():,'\/]+|^\//.exec(rest);
+                    emit(null, match[0]);
+                }
+                i += match[0].length;
+            }
+            pre.replaceChild(fragment, node);
+        });
+    });
+}
+
 // A line of a code block that is longer than the block is wide wraps instead of making the block scroll sideways: in
 // the documentation a line of a grammar or an example can be twice the width of the column, and scrolling to read it
 // lost the rest of the block. Each line of the code becomes a span of its own (code-line), with its indentation, the
@@ -530,12 +608,14 @@ document.addEventListener('copy', function(event) {
 });
 
 if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', grammarTokens);
     document.addEventListener('DOMContentLoaded', wrapCode);
     document.addEventListener('DOMContentLoaded', codeNames);
     document.addEventListener('DOMContentLoaded', releaseNotesCode);
     document.addEventListener('DOMContentLoaded', markCurrentDocument);
     document.addEventListener('DOMContentLoaded', documentSwitch);
 } else {
+    grammarTokens();
     wrapCode();
     codeNames();
     releaseNotesCode();

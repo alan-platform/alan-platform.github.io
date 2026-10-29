@@ -9,8 +9,13 @@
 	the code without its final newline; the line break before </code> puts it back.
 	Code that holds box-drawing characters (U+2500 to U+257F) is a diagram: the class diagram sets its lines closer
 	together, so that the vertical strokes join (35-components.css).
+	A fence marked js holds Alan: the generator of the documentation and the tutorials mark Alan code js, from the
+	time the site was highlighted by Rouge, which had no Alan. Its block gets the language alan, which
+	src/prism-alan.js defines for Prism.
 */ -}}
-{{- $class := printf "language-%s" (.Type | default "plaintext") -}}
+{{- $type := .Type | default "plaintext" -}}
+{{- if eq $type "js" }}{{ $type = "alan" }}{{ end -}}
+{{- $class := printf "language-%s" $type -}}
 {{- with .Attributes.class }}{{ $class = printf "%s %s" $class . }}{{ end -}}
 {{- if findRE `[\x{2500}-\x{257F}]` .Inner 1 }}{{ $class = printf "%s diagram" $class }}{{ end -}}
 {{- $class = printf "%s highlighter-rouge" $class -}}

@@ -1,4 +1,8 @@
-{{- /* Prism 1.8.3, served from the site: highlighting should not depend on a third party being reachable. */ -}}
+{{- /*
+	Prism 1.8.3, served from the site: highlighting should not depend on a third party being reachable. The Alan
+	language for it follows; Prism highlights once the page is parsed, by when both have run.
+*/ -}}
 {{- $time := partialCached "build-time.html" "build-time" }}
 <script src="{{ "src/prism.min.js" | relURL }}"></script>
+<script src="{{ "src/prism-alan.js" | relURL }}?{{ $time.Unix }}"></script>
 <script src="{{ "src/main.js" | relURL }}?{{ $time.Unix }}" type="text/javascript"></script>
