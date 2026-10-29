@@ -11,6 +11,7 @@ description: >-
 
 Answers to the questions people ask before their first Alan application.
 Is yours not here? Ask on the [forum](https://forum.alan-platform.com/).
+{.lead}
 
 ## Getting started
 

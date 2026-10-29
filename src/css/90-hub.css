@@ -3,7 +3,6 @@
  * line of explanation, the link under a table, the features and the list of services of the About page, the
  * questions of the FAQ, and the "404". Their cards, notice and call to action are shared components
  * (35-components.css).
- * 1.414em is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
 /*
@@ -171,29 +170,38 @@ p.more {
 }
 
 /*
- * The FAQ: the topics are labels in the style of the card kickers, so that the questions under them carry the
- * weight. A question is apart from the question before it by a rule; the first question of a topic follows the
- * label without one.
+ * The FAQ: the topics are labels in the style of the card kickers, 12/16 semibold capitals in the secondary text,
+ * each under a hairline in the control border colour that opens the topic, 64px below the topic before it. The
+ * questions under a topic are reading headings, h3 at 22/30, apart by 40px of space and no rule, so a rule always
+ * means a new topic. The answers keep the measure of prose; the rule of a topic runs across the content column, as
+ * the cards at the end do (the measure of a heading is in em, and would make it 480px at the label size). The anchor
+ * arrow of a topic (30-main.css) stands beside its label line, below the rule.
  */
 .faq main section h2 {
-  margin-top: 2.828rem;
-  font-size: .8em;
-  letter-spacing: .08em;
+  max-width: none;
+  margin: var(--space-16) 0 var(--space-4) 0;
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--border-control);
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: #484a50;
+  color: var(--text-secondary);
+}
+
+.faq main section h2[id] a::after {
+  top: var(--space-4);
+  height: var(--line-height-label);
+  -webkit-mask-size: var(--space-3);
+  mask-size: var(--space-3);
 }
 
 .faq main section h3 {
-  margin-top: 1.75rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid #eeeff0;
-  color: #2b2c30;
+  margin-top: var(--space-10);
 }
 
 .faq main section h2 + h3 {
   margin-top: 0;
-  padding-top: 0;
-  border-top: none;
 }
 
 /*
