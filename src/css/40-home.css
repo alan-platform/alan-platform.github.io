@@ -182,8 +182,10 @@
 /*
  * The action, 32px below the sentence (40px from 80rem): a white button of two lines on the stage, with 12px above
  * and below them instead of a fixed height. Its label is the darkest ink, 17.58:1 on white, 15.12:1 on the hover
- * grey (--neutral-100) and 13.00:1 pressed (--neutral-200). The second line, "Request Access", is 14/20 in the body
- * text colour: 9.60:1, 8.26:1 and 7.10:1. The border stays transparent, so forced colours draw an outline.
+ * grey (--neutral-100) and 13.00:1 pressed (--neutral-200). The second line, "Request Access", is 14/20 in the ink
+ * of body text, --ink-700: 9.60:1, 8.26:1 and 7.10:1. The stage, its text and its button keep these colours in both
+ * colour schemes, so they are written with the inks and neutrals, not with the text and surface colours, which change
+ * in a dark scheme. The border stays transparent, so forced colours draw an outline.
  */
 .home-hero-action {
   margin: var(--space-8) 0 0 0;
@@ -223,7 +225,7 @@
   font-size: var(--font-size-small);
   font-weight: var(--weight-regular);
   line-height: var(--line-height-small);
-  color: var(--text-body);
+  color: var(--ink-700);
 }
 
 /*

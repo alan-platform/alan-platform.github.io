@@ -69,8 +69,8 @@
 /*
  * The logo, an inline SVG, 152px wide under 64rem and 184px from there, its height following from its proportions.
  * The stripes have the colours of the logo, from left to right yellow, green, orange and blue (the paths are written
- * from right to left), and the wordmark the charcoal of the logo. Neither changes on hover. The link is named "Alan"
- * by its aria-label; the SVG itself is hidden from assistive technology.
+ * from right to left), and the wordmark the heading colour, which is the charcoal of the logo. Neither changes on
+ * hover. The link is named "Alan" by its aria-label; the SVG itself is hidden from assistive technology.
  */
 .site-header .logo {
   display: block;
@@ -84,7 +84,7 @@
 }
 
 .site-header .logo .word path {
-  fill: var(--ink-800);
+  fill: var(--text-heading);
 }
 
 .site-header .logo .stripes path:nth-child(1) {

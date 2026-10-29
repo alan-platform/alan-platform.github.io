@@ -61,7 +61,12 @@
    *
    * The primary action is charcoal with white text: 13.95:1 at rest, 17.58:1 on hover (--ink-950) and 15.70:1
    * pressed (--ink-900). The inverse surface is the charcoal of the footer: --text-inverse on it is 10.32:1,
-   * --text-inverse-secondary 7.04:1, white 13.95:1.
+   * --text-inverse-secondary 7.04:1, --text-inverse-hover, white, 13.95:1. On that surface a rule is
+   * --border-inverse-subtle, a step lighter than the band (1.45:1), and the underline of a link
+   * --border-inverse-control, 3.77:1.
+   *
+   * Text on a fill in a colour of the logo, such as the yellow of the current tag and of a badge, is
+   * --text-on-accent, charcoal: 9.10:1 on the yellow, 7.20:1 on the green.
    *
    * --border-control is 3.70:1 on white, 3.45:1 on paper and 3.18:1 on the inset grey: the boundary of a control
    * that needs one. --border-subtle is decorative, for rules and the outline of panels that are identified
@@ -75,14 +80,18 @@
   --text-body: var(--ink-700);
   --text-secondary: var(--ink-600);
   --text-on-action: var(--neutral-0);
+  --text-on-accent: var(--ink-800);
   --text-inverse: var(--neutral-200);
   --text-inverse-secondary: var(--neutral-400);
+  --text-inverse-hover: var(--neutral-0);
   --surface-page: var(--neutral-0);
   --surface-subtle: var(--neutral-50);
   --surface-inset: var(--neutral-100);
   --surface-inverse: var(--ink-800);
   --border-subtle: var(--neutral-200);
   --border-control: var(--neutral-500);
+  --border-inverse-subtle: var(--ink-700);
+  --border-inverse-control: var(--neutral-500);
   --action-primary: var(--ink-800);
   --action-primary-hover: var(--ink-950);
   --action-primary-active: var(--ink-900);
@@ -95,7 +104,8 @@
    * Syntax colours of highlighted code, on the paper of a code block and the inset grey of inline code: keyword and
    * function 5.93:1 and 5.47:1, string 6.39:1 and 5.90:1, number and boolean 5.32:1 and 4.91:1, comment and
    * punctuation 5.89:1 and 5.43:1, operator 8.95:1 and 8.26:1, class name 6.44:1 and 5.95:1, property 13.00:1 and
-   * 12.00:1. A token without a colour of its own takes the charcoal of the block.
+   * 12.00:1. A token without a colour of its own takes the charcoal of the block. The aliases name the text colours,
+   * not the inks, so that they follow the colours of the text.
    *
    * The rule blocks of the generated grammars (.code-custom) mark the words and symbols that a model writes
    * literally as operator tokens, and the names of properties as string tokens. The literals are the point of a
@@ -107,11 +117,11 @@
   --syntax-string: var(--green-text);
   --syntax-number: var(--orange-text);
   --syntax-boolean: var(--orange-text);
-  --syntax-comment: var(--ink-600);
-  --syntax-punctuation: var(--ink-600);
-  --syntax-operator: var(--ink-700);
+  --syntax-comment: var(--text-secondary);
+  --syntax-punctuation: var(--text-secondary);
+  --syntax-operator: var(--text-body);
   --syntax-class-name: var(--yellow-text);
-  --syntax-property: var(--ink-800);
+  --syntax-property: var(--text-heading);
   --syntax-grammar-literal: var(--orange-text);
 
   /*

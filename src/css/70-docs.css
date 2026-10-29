@@ -527,7 +527,7 @@ table:not([class]) thead th {
   line-height: var(--line-height-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: var(--ink-800);
+  color: var(--text-on-accent);
 }
 
 .archive-badge-latest {

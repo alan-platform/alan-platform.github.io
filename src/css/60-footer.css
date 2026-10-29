@@ -45,9 +45,9 @@
  * 40rem it is one column: the credit, a rule, the Alan logo 24px under the rule and the copyright line 16px under
  * the logo. From 40rem the credit is on a row of its own and the last row, under the rule, has the copyright line
  * on the left and the Alan logo on the right, the foot of the logo on the baseline of the copyright line. The rule
- * is a line of --ink-700, a step lighter than the band (1.45:1): decorative, it only separates; it spans the
- * content and lies 32px under the credit. Every item has its row and column, as the rule takes the whole of the
- * second row and would push an item placed automatically into a column of its own.
+ * is a line of --border-inverse-subtle, a step lighter than the band (1.45:1): decorative, it only separates; it
+ * spans the content and lies 32px under the credit. Every item has its row and column, as the rule takes the whole
+ * of the second row and would push an item placed automatically into a column of its own.
  */
 .site-footer .inner {
   display: grid;
@@ -63,7 +63,7 @@
   grid-row: 2;
   grid-column: 1 / -1;
   align-self: start;
-  border-top: var(--border-width) solid var(--ink-700);
+  border-top: var(--border-width) solid var(--border-inverse-subtle);
 }
 
 .site-footer .credit {
@@ -116,13 +116,13 @@
  */
 .site-footer a {
   color: inherit;
-  text-decoration-color: var(--neutral-500);
+  text-decoration-color: var(--border-inverse-control);
   text-underline-offset: 0.22em;
 }
 
 .site-footer a:hover,
 .site-footer a:active {
-  color: var(--neutral-0);
+  color: var(--text-inverse-hover);
   text-decoration-color: currentColor;
 }
 

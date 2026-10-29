@@ -256,7 +256,7 @@ a.card:active .card-title {
   border-color: var(--spectrum-yellow);
   background: var(--spectrum-yellow);
   font-weight: var(--weight-semibold);
-  color: var(--ink-800);
+  color: var(--text-on-accent);
   text-decoration: none;
 }
 
