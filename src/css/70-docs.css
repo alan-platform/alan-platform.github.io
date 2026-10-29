@@ -703,12 +703,18 @@ table:not([class]) thead th {
 }
 
 /*
- * In the dark scheme the panel is the colour of the page it lies over, and a shadow barely shows on that page. Its
- * border takes the rule colour of a dark surface, --border-inverse-subtle, 1.92:1 on the page instead of the 1.40:1
- * of the subtle border, so that its edge stays visible over the document.
+ * In the dark scheme a shadow barely shows on the page, so the panel is raised by its colour: inside it the page
+ * surface is the paper grey of the dark scheme (#1b1c20) and the paper grey of its group rows and hovered rows is
+ * the inset grey (#25272c), one step lighter each, as a raised surface is. On those the text keeps at least: heading
+ * 13.21:1, body 9.81:1, secondary 6.19:1, link 6.65:1. Its border takes the rule colour of a dark surface,
+ * --border-inverse-subtle, 1.92:1 on the page instead of the 1.40:1 of the subtle border, so that its edge stays
+ * visible over the document.
  */
 @media (prefers-color-scheme: dark) and (min-width: 40rem) {
   #doc-list {
+    --surface-page: #1b1c20;
+    --surface-subtle: #25272c;
+    --surface-table: #1b1c20;
     border-color: var(--border-inverse-subtle);
   }
 }
