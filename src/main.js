@@ -230,9 +230,85 @@ if (document.readyState === 'loading') {
 }
 window.addEventListener('hashchange', archiveVersion);
 
-window.onload = function() {
-    // release notes put the code that illustrates an item straight after the list, so it renders outside it;
-    // move that code into the last item, with what follows it up to the next list or heading
+// The documentation tables are rendered once per version (partialCached), so the link of the current page is marked
+// here, and its row, before the reader can open the "Switch document" table.
+function markCurrentDocument() {
+    document.querySelectorAll('.doc-table a').forEach(function(link) {
+        if (link.pathname === location.pathname) {
+            link.setAttribute('aria-current', 'page');
+            var row = link.closest('tbody tr');
+            if (row) {
+                row.classList.add('current');
+            }
+        }
+    });
+}
+
+// "Switch document" on a documentation page: a button that shows and hides the language table under the header, a
+// disclosure (aria-expanded on the button, hidden on the table), not a menu: Tab moves through its links as through
+// the page. Escape closes it, and returns the focus to the button when it was in the table. From 40rem the table
+// opens over the document (70-docs.css): there a click outside it closes it, and so does the focus leaving it and the
+// button, so that it never covers the link that has the focus; it is as high as the window leaves under it, less 16px
+// of air, and at least 240px. Under 40rem it is in the flow of the page and stays open until the button closes it.
+function documentSwitch() {
+    var button = document.querySelector('[aria-controls="doc-list"]');
+    if (!button) {
+        return;
+    }
+    var list = document.getElementById(button.getAttribute('aria-controls'));
+    var over = window.matchMedia('(min-width: 40rem)');
+
+    function fit() {
+        var room = window.innerHeight - list.getBoundingClientRect().top - 16;
+        list.style.setProperty('--doc-list-height', Math.max(room, 240) + 'px');
+    }
+
+    function show(open) {
+        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        list.hidden = !open;
+        if (open) {
+            list.scrollTop = 0;
+            fit();
+        }
+    }
+
+    button.addEventListener('click', function() {
+        show(list.hidden);
+    });
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && !list.hidden) {
+            var inside = list.contains(document.activeElement);
+            show(false);
+            if (inside) {
+                button.focus();
+            }
+        }
+    });
+    document.addEventListener('click', function(event) {
+        if (!list.hidden && over.matches && !list.contains(event.target) && !button.contains(event.target)) {
+            show(false);
+        }
+    });
+    // a click on the panel itself moves the focus nowhere (relatedTarget null): that is not leaving it
+    function leave(event) {
+        var to = event.relatedTarget;
+        if (!list.hidden && over.matches && to && to !== button && !list.contains(to)) {
+            show(false);
+        }
+    }
+    button.addEventListener('focusout', leave);
+    list.addEventListener('focusout', leave);
+    window.addEventListener('resize', function() {
+        if (!list.hidden) {
+            fit();
+        }
+    });
+}
+
+// Release notes put the code that illustrates an item straight after the list, so it renders outside it: the code
+// moves into the last item, with what follows it up to the next list or heading. This runs as soon as the document
+// is parsed, before the first paint where it can, so that the code does not visibly jump.
+function releaseNotesCode() {
     document.querySelectorAll('.release-notes section > ul').forEach(function(list) {
         var next = list.nextElementSibling;
         if (!next || !next.classList.contains('highlighter-rouge')) {
@@ -244,7 +320,19 @@ window.onload = function() {
             list.lastElementChild.appendChild(moving);
         }
     });
+}
 
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', releaseNotesCode);
+    document.addEventListener('DOMContentLoaded', markCurrentDocument);
+    document.addEventListener('DOMContentLoaded', documentSwitch);
+} else {
+    releaseNotesCode();
+    markCurrentDocument();
+    documentSwitch();
+}
+
+window.onload = function() {
     var deeplinks = document.querySelectorAll('h2[id], h3[id]');
     deeplinks.forEach(function(i) {
         i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + '</a>';
@@ -261,36 +349,6 @@ window.onload = function() {
         };
     });
 
-
-    var doc_menu_button = document.querySelector('[aria-controls="doc-list"]');
-    if (doc_menu_button) {
-        var doc_menu = document.getElementById(doc_menu_button.getAttribute('aria-controls'));
-        doc_menu_button.onclick = function(event) {
-            event.stopPropagation();
-            if (doc_menu.getAttribute('aria-expanded') === 'false') {
-                doc_menu.setAttribute('aria-expanded', 'true');
-                doc_menu_button.setAttribute('aria-expanded', 'true');
-            } else {
-                doc_menu.setAttribute('aria-expanded', 'false');
-                doc_menu_button.setAttribute('aria-expanded', 'false');
-            }
-        };
-        document.body.addEventListener('click', function() {
-            doc_menu.ariaExpanded = 'false';
-            doc_menu_button.ariaExpanded = 'false';
-        });
-    }
-
-    // the documentation tables are rendered once per version (partialCached), so mark the current page here
-    document.querySelectorAll('.doc-table a').forEach(function(link) {
-        if (link.pathname === location.pathname) {
-            link.setAttribute('aria-current', 'page');
-            var row = link.closest('tbody tr');
-            if (row) {
-                row.classList.add('current');
-            }
-        }
-    });
 
     document.querySelectorAll('pre.code-custom').forEach(function(block) {
         var button = document.createElement('a');
