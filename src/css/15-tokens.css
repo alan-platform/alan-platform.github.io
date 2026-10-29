@@ -16,10 +16,10 @@
 
 :root {
   /*
-   * The site has one, light, colour scheme: form controls and scroll bars follow it, and a browser in dark mode
-   * does not invert them.
+   * The site has a light and a dark colour scheme and shows the one that the reader's system asks for: the dark
+   * block after this one redefines the colours. Form controls and scroll bars follow the scheme.
    */
-  color-scheme: light;
+  color-scheme: light dark;
 
   /*
    * Palette. The inks are the charcoal of the wordmark, #2b2c30 (--ink-800), with two darker steps for the primary
@@ -328,6 +328,62 @@
   --z-header: 30;
   --z-menu: 40;
   --z-skip-link: 50;
+}
+
+/*
+ * The dark colour scheme, for a reader whose system asks for it. It redefines the colours that change and nothing
+ * else: the components name the semantic tokens, so they follow. The surfaces are charcoal neutrals, the darkest the
+ * page, then paper, the inset grey and the inverse surface of the footer, which is paper here, lighter than the page;
+ * the tints of the callouts are dark tints of the same hues. Text is a light neutral, links and the text colours of
+ * the spectrum are light steps of their hues, and the four spectrum colours themselves, the inks and the neutrals
+ * keep their values: what is drawn with those, such as the stage of the home page, the yellow of the current tag
+ * and the text on it, looks the same in both schemes. The selection stays charcoal on yellow.
+ *
+ * Text on the dark surfaces, from the page (#131417) to the inset grey (#25272c): heading 16.28:1 to 13.21:1, body
+ * 12.09:1 to 9.81:1, secondary 7.63:1 to 6.19:1, link 8.20:1 to 6.65:1, link hover 11.30:1 to 9.17:1, yellow
+ * 12.02:1 to 9.75:1, green 10.51:1 to 8.53:1, orange 8.01:1 to 6.50:1. On the info, warning and success tints at
+ * least: heading 13.76:1, body 10.22:1, secondary 6.45:1, link 6.93:1, link hover 9.55:1, orange 6.77:1. The syntax
+ * colours are these text colours (the aliases above), so code keeps the same ratios on paper and on the info tint.
+ *
+ * The primary action is the heading colour with text in the colour of the page: 16.28:1 at rest, 18.42:1 on hover
+ * (white) and 13.63:1 pressed. On the inverse surface, #1b1c20: --text-inverse 12.59:1, --text-inverse-secondary
+ * 8.60:1, white 17.02:1, the underline of a link (--border-inverse-control) 4.60:1 and the rule 1.77:1.
+ *
+ * --border-control is 3.76:1 on the page, 3.47:1 on paper and 3.05:1 on the inset grey. The focus ring is the
+ * link colour, 8.20:1 on the page and 7.58:1 on paper. The underline of a link at rest, its colour at 40% over the
+ * page, is #435074, 2.31:1.
+ *
+ * Shadows barely show on a dark surface: they are black at a higher opacity, and a panel that overlays the page
+ * keeps its 1px border in --border-subtle, which marks its edge. The shade of a box that scrolls sideways is black
+ * at 45%.
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --yellow-text: #ffc94a;
+    --green-text: #9fd447;
+    --orange-text: #ff8c55;
+    --link: #8aabff;
+    --link-hover: #b6caff;
+    --surface-info: #172038;
+    --surface-warning: #2a2314;
+    --surface-success: #19250f;
+    --text-heading: #f1f1ee;
+    --text-body: #d0d2cd;
+    --text-secondary: #a3a7ae;
+    --text-on-action: #131417;
+    --surface-page: #131417;
+    --surface-subtle: #1b1c20;
+    --surface-inset: #25272c;
+    --surface-inverse: #1b1c20;
+    --border-subtle: #2e3036;
+    --border-control: #6c717b;
+    --action-primary: #f1f1ee;
+    --action-primary-hover: #ffffff;
+    --action-primary-active: #dddeda;
+    --shadow-small: 0 2px 6px rgb(0 0 0 / 0.4);
+    --shadow-popover: 0 12px 32px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.4);
+    --scroll-shade: rgb(0 0 0 / 0.45);
+  }
 }
 
 /* From 40rem: wider gutters, more room between and inside the cards and code blocks, more between the sections. */
