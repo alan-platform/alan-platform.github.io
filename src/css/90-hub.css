@@ -1,7 +1,8 @@
 /*
- * The Learn, Documentation, About and FAQ pages and the 404 page: the lead paragraph, the lists of links with a
- * line of explanation, the link under a table, the features and the list of services of the About page, the
- * questions of the FAQ, and the "404". Their cards, notice and call to action are shared components
+ * The hand-written pages: the Learn, Documentation, About and FAQ pages, the 404 page, and the articles, the
+ * tutorials and guides. The lead paragraph, the lists of links with a line of explanation, the link under a table,
+ * the features and the list of services of the About page, the questions of the FAQ, the "404", and the
+ * screenshots, callouts and notes of an article. Their cards, notice and call to action are shared components
  * (35-components.css).
  */
 
@@ -244,4 +245,74 @@ main.not-found h1 + p {
     font-size: var(--font-size-lead);
     line-height: var(--line-height-lead);
   }
+}
+
+/*
+ * Articles: the tutorials and guides, the hand-written pages under /pages/, whose body the page layout marks with
+ * the class article. Prose keeps its measure; code blocks, screenshots and callouts start on the same left edge as
+ * the prose and the headings, and code and screenshots take the full content column. A section of an article, an
+ * h2, is 64px from the section before it; the h3 and h4 under it keep the spacing of the theme.
+ */
+.article main > section > h2:not(:first-child) {
+  margin-top: var(--space-16);
+}
+
+/*
+ * The content column is a container, so that a screenshot can take its full width even in a paragraph that keeps
+ * the measure of prose: 100cqi is the width of the column. A browser without container units keeps the width of the
+ * paragraph (100%). A screenshot is a block of its own, 24px from the text around it, and never wider than the
+ * image itself. The screenshots carry their own margin and shadow, so they get no frame.
+ */
+.article main > section {
+  container-type: inline-size;
+}
+
+.article main > section p img {
+  display: block;
+  max-width: 100%;
+  max-width: 100cqi;
+}
+
+.article main > section p:has(> img, > a > img) {
+  margin: var(--space-6) 0;
+}
+
+/* Code blocks are 24px from the text around them, the same as screenshots and callouts. */
+.article main > section div.highlighter-rouge {
+  margin: var(--space-6) 0;
+}
+
+/*
+ * Callouts: a quote block in an article holds a note to the reader (a tutorial folder, what you did not write, a
+ * summary, an error message of the compiler, the credentials of a first login). It takes the look of the notice
+ * (35-components.css): body text on the warning surface, 16px by 20px of padding, 8px corners and a 3px edge in the
+ * yellow of the logo, an inset shadow that follows the corners. The words of the note say what it is; the edge only
+ * decorates. Its border has the colour of the surface, which forced colours draw. Body text is 8.76:1 on the
+ * surface, links 5.81:1.
+ */
+.article main > section blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--surface-warning);
+  border-radius: var(--radius-panel);
+  background: var(--surface-warning);
+  box-shadow: inset 3px 0 0 var(--spectrum-yellow);
+}
+
+/* A table in a callout, such as the first login of the users guide, ends at the padding of the callout. */
+.article main > section blockquote > table {
+  margin: 0;
+}
+
+/*
+ * A note set in a paragraph of its own as superscript or subscript text (a pointer to the syntax guide, a NOTE on
+ * a later version): small secondary text on the line, 14/20, not raised or lowered. The secondary text is 6.31:1 on
+ * white. A superscript inside running text is not the only child of its paragraph and stays as it is.
+ */
+.article main > section p > :is(sub, sup):only-child {
+  display: block;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  vertical-align: baseline;
+  color: var(--text-secondary);
 }
