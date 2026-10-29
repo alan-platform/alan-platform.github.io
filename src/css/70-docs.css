@@ -209,200 +209,152 @@ table:not([class]) thead th {
 }
 
 /*
- * The language table and the component table of the release notes (below) keep the bold names and the cells that
- * do not wrap of the tables before them.
- */
-.doc-table th,
-.doc-table td,
-.release-components th,
-.release-components td {
-  white-space: nowrap;
-}
-
-.doc-table th,
-.release-components th {
-  font-weight: bold;
-}
-
-table th > a,
-table td > a {
-  display: inline-block;
-  width: 100%;
-  padding: 0 1.414rem;
-}
-
-table th > a,
-table th > a:link,
-table th > a:visited,
-table th > a:hover,
-table th > a:active,
-table td > a,
-table td > a:link,
-table td > a:visited,
-table td > a:hover,
-table td > a:active {
-  text-decoration: none;
-  transition: color var(--duration-hover) ease-in-out;
-}
-
-table th > a:hover,
-table th > a:active,
-table td > a:hover,
-table td > a:active {
-  transition: color var(--duration-hover) ease-in-out;
-}
-
-/*
- * The language table of a platform version, on the documentation page, in the archive and in the "Switch
- * document" menu: a row per component, the platform components and the system types each under a group row,
- * the languages of a component as a list of links. main.js marks the link of the current page with
- * aria-current and its row with the class current. Above 40rem the backgrounds are on the cells: a corner cell
- * rounds its own corner, so that a background stays inside the rounded border. Below it they are on the rows,
- * which the table clips (see the narrow layout further down).
+ * The language table of a platform version, on the documentation page, in the archive and under "Switch document":
+ * a row per component, the platform components and the system types each under a group row, the languages of a
+ * component as a list of tags (35-components.css). main.js marks the link of the current page with aria-current and
+ * its row with the class current.
  *
  * The component table of the release notes of a platform version (.release-components) shares the look of the
  * table, its border, its column labels, its group rows and its cells, but not its narrow layout: its three short
  * columns fit a phone. 80-release-notes.css holds what is its own.
+ *
+ * The table is white in a subtle border with 8px corners, rows apart by hairlines, without vertical rules or
+ * stripes. From 40rem the backgrounds are on the cells: a corner cell rounds its own corner, 1px less than the
+ * border, so that a background stays inside it. Under 40rem they are on the rows, which the table clips (the narrow
+ * layout further down).
  */
 .doc-table,
 .release-components {
   display: table;
   width: 100%;
-  margin: 1em 0 1.414em 0;
-  border: 1px solid #c3c5ca;
-  border-radius: 6px;
+  margin: 0 0 var(--space-6) 0;
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
   border-spacing: 0;
-  background: #fff;
-}
-
-.doc-table caption {
-  padding: 0 0 .5rem 0;
-  text-align: left;
-  font-weight: bold;
-  color: #2b2c30;
-}
-
-.doc-table caption a,
-.doc-table caption a:link,
-.doc-table caption a:visited {
-  margin-left: 1rem;
-  font-weight: normal;
-  color: #2163ff;
-}
-
-.doc-table caption a[aria-current] {
-  font-weight: bold;
-  color: #2b2c30;
-}
-
-.doc-table tr,
-.doc-table tr:hover,
-.doc-table tr.current,
-.release-components tr,
-.release-components tr:hover {
-  background: none;
+  background: var(--surface-page);
 }
 
 .doc-table th,
 .doc-table td,
 .release-components th,
 .release-components td {
-  transition: background var(--duration-hover) ease-in-out;
-  padding: .5rem .9rem;
-  border-top: 1px solid #eeeff0;
-  border-right: none;
+  transition: background-color var(--duration-hover) var(--ease-standard);
+  padding: var(--space-3) var(--space-4);
+  border-top: var(--border-width) solid var(--border-subtle);
   text-align: left;
   vertical-align: baseline;
+  white-space: nowrap;
 }
 
-.doc-table tbody tr:hover > *,
-.doc-table tbody tr:active > *,
-.release-components tbody tr:hover > *,
-.release-components tbody tr:active > * {
-  transition: background var(--duration-hover) ease-in-out;
-  background: #f7f7f7;
-}
-
-/* The row of the current page: the notice yellow lightened by 30%. */
-.doc-table tbody tr.current > * {
-  background: #fff7e3;
-}
-
-.doc-table tbody:last-child tr:last-child > :first-child,
-.release-components tbody:last-child tr:last-child > :first-child {
-  border-bottom-left-radius: 5px;
-}
-
-.doc-table tbody:last-child tr:last-child > :last-child,
-.release-components tbody:last-child tr:last-child > :last-child {
-  border-bottom-right-radius: 5px;
-}
-
-/* The column labels, in the style of the card kickers and the page index label. */
+/*
+ * The column labels, in the style of the card kickers and the page index label: 12/16 capitals, semibold, in the
+ * secondary text colour.
+ */
 .doc-table thead th,
 .release-components thead th {
-  padding-top: .6rem;
-  padding-bottom: .6rem;
   border-top: none;
   font-size: var(--font-size-label);
+  font-weight: var(--weight-semibold);
   line-height: var(--line-height-label);
-  letter-spacing: .06em;
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: #484a50;
+  color: var(--text-secondary);
 }
 
+/* A group row: the name of the group on paper, in the heading colour, with less height than a row of the group. */
 .doc-table .doc-table-group th,
 .release-components .doc-table-group th {
-  padding-top: .4rem;
-  padding-bottom: .4rem;
-  border-top-color: #d9dadd;
-  background: #f7f7f7;
-  color: #393b40;
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
+  background: var(--surface-subtle);
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
 }
 
+/* The name of a component, in the heading colour; its version in figures of equal width. */
 .doc-table tbody th,
 .release-components tbody th {
-  color: #2b2c30;
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
 }
 
 .doc-table-version {
   font-variant-numeric: tabular-nums;
-  color: #484a50;
+  color: var(--text-secondary);
 }
 
 /*
- * The version links the release notes of that version, in the blue darkened by 8%: 4.6:1 on the light grey of a
- * hovered row and on the yellow tint of the current one. The release notes link of the caption takes the same
- * blue.
+ * A row of the language table holds its tags, 32px high, between 8px of padding, so that its name and version have
+ * the 12px of the other tables above their text. The languages take the width that the name and the version leave,
+ * and wrap.
  */
-.doc-table-version a,
-.doc-table-version a:link,
-.doc-table-version a:visited {
-  display: inline;
-  width: auto;
-  padding: 0;
-  color: #2163ff;
+.doc-table tbody tr:not(.doc-table-group) > * {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
 }
 
-.doc-table-version a:hover,
-.doc-table-version a:active {
-  text-decoration: underline;
-}
-
-.doc-table-version a[aria-current] {
-  font-weight: bold;
-  color: #2b2c30;
-}
-
-/* The languages take the width that the name and the version leave, and wrap. */
 .doc-table td:last-child {
   width: 100%;
   white-space: normal;
 }
 
-/* The language that most readers come for. */
+/* A hovered row turns paper; the row of the current page has the information tint. */
+.doc-table tbody tr:not(.doc-table-group):hover > *,
+.release-components tbody tr:not(.doc-table-group):hover > * {
+  background: var(--surface-subtle);
+}
+
+.doc-table tbody tr.current > * {
+  background: var(--surface-info);
+}
+
+.doc-table tbody:last-child tr:last-child > :first-child,
+.release-components tbody:last-child tr:last-child > :first-child {
+  border-bottom-left-radius: calc(var(--radius-panel) - var(--border-width));
+}
+
+.doc-table tbody:last-child tr:last-child > :last-child,
+.release-components tbody:last-child tr:last-child > :last-child {
+  border-bottom-right-radius: calc(var(--radius-panel) - var(--border-width));
+}
+
+/*
+ * A version links the release notes of that version, in the link colour, underlined; the version of the release
+ * notes that are open is not a link onward: semibold in the heading colour, without the underline.
+ */
+.doc-table-version a[aria-current] {
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
+  text-decoration: none;
+}
+
+/* The language that most readers come for, in the semibold of the interface. */
 .doc-table-languages a[href$='application/grammar.html'] {
-  font-weight: bold;
+  font-weight: var(--weight-semibold);
+}
+
+/*
+ * The caption, which only the table under "Switch document" has: the platform version, in the interface text, with
+ * the link to its release notes beside it. On those release notes the link is the current page, and reads as
+ * the version does above.
+ */
+.doc-table caption {
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-ui);
+  color: var(--text-heading);
+  text-align: left;
+}
+
+.doc-table caption a {
+  margin-left: var(--space-3);
+  font-weight: var(--weight-regular);
+}
+
+.doc-table caption a[aria-current] {
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
+  text-decoration: none;
 }
 
 /*
@@ -410,7 +362,7 @@ table td > a:active {
  * little room. Every row stacks: the name and the version on a line, the languages under them. The column labels
  * stay for screen readers only.
  */
-@media (max-width: 40rem) {
+@media not all and (min-width: 40rem) {
   .doc-table,
   .doc-table caption,
   .doc-table tbody,
@@ -436,9 +388,9 @@ table td > a:active {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    column-gap: .75rem;
-    padding: .5rem .9rem;
-    border-top: 1px solid #eeeff0;
+    column-gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-top: var(--border-width) solid var(--border-subtle);
   }
 
   .doc-table tbody tr.doc-table-group {
@@ -448,8 +400,8 @@ table td > a:active {
   }
 
   .doc-table tbody tr > *,
-  .doc-table tbody tr:hover > *,
-  .doc-table tbody tr:active > *,
+  .doc-table tbody tr:not(.doc-table-group) > *,
+  .doc-table tbody tr:not(.doc-table-group):hover > *,
   .doc-table tbody tr.current > * {
     padding: 0;
     border-top: none;
@@ -457,9 +409,9 @@ table td > a:active {
   }
 
   .doc-table tbody tr.doc-table-group > th {
-    padding: .4rem .9rem;
-    border-top: 1px solid #d9dadd;
-    background: #f7f7f7;
+    padding: var(--space-2) var(--space-4);
+    border-top: var(--border-width) solid var(--border-subtle);
+    background: var(--surface-subtle);
   }
 
   .doc-table tbody:first-of-type tr.doc-table-group > th {
@@ -467,13 +419,13 @@ table td > a:active {
   }
 
   .doc-table tbody tr.current {
-    background: #fff7e3;
+    background: var(--surface-info);
   }
 
   .doc-table td:last-child {
     width: auto;
     flex-basis: 100%;
-    padding-top: .4rem;
+    padding-top: var(--space-2);
   }
 
   .doc-table td:empty {
