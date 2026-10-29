@@ -1,98 +1,164 @@
 /*
- * The Learn, Documentation, About and FAQ pages: the link under a list, the feature panels and the list of services
- * of the About page, and the questions of the FAQ. Their cards, notice and call to action are shared components
+ * The hand-written pages: the Learn, Documentation, About and FAQ pages, the 404 page, and the articles, the
+ * tutorials and guides. The lead paragraph, the lists of links with a line of explanation, the link under a table,
+ * the features and the list of services of the About page, the questions of the FAQ, the "404", and the
+ * screenshots, callouts and notes of an article. Their cards, notice and call to action are shared components
  * (35-components.css).
- * 1.414em is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
-/* The link to everything else, under a list or a table. */
+/*
+ * The opening paragraph of a page, marked lead in its Markdown: 20/30 on the desktop, 18/28 on a phone, in the body
+ * text colour, 9.60:1 on white. Its measure is the 680px of the body text, 34em at 20px, so it ends where the
+ * paragraphs under it end.
+ */
+.lead {
+  max-width: 34em;
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
+}
+
+@media (min-width: 40rem) {
+  .lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+  }
+}
+
+/*
+ * A list of destinations, each a link with a line on what it is (link-list): an index of rows between hairlines in
+ * the subtle border colour instead of bullets, so the links line up on the left edge of the text. The list keeps
+ * the measure of prose.
+ */
+.link-list {
+  max-width: var(--measure);
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.link-list > li {
+  margin: 0;
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+
+/* The link to everything else, under a list or a table: on the right, in the interface text. */
 p.more {
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-ui);
   text-align: right;
 }
 
 /*
- * The features of the About page: panels in a grid, three across the text column, each topped with a stripe in one
- * of the colours of the logo, in the order of its stripes from left to right.
+ * The features of the About page: explanations, not destinations, so they are set as text in an editorial grid,
+ * not as panels. Rows and columns are apart by shared hairlines in the subtle border colour, with 24px of space on
+ * either side of a rule: one column on a phone, two from 40rem, three across the content column from 64rem, two
+ * rows of three. The text of the outer columns lines up with the text above and below the grid. The cells of a row
+ * have the same height, so the rules between them run from rule to rule.
  */
 .features {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
-  gap: 1rem;
-  margin: 1em 0 1.414em;
+  grid-template-columns: minmax(0, 1fr);
+  margin: var(--space-6) 0 var(--space-12) 0;
+  border-top: var(--border-width) solid var(--border-subtle);
 }
 
 .features .feature {
-  margin: 0;
-  padding: 1rem 1.25rem;
-  border: 1px solid #c3c5ca;
-  border-top: 3px solid #ffc94a;
-  border-radius: 6px;
+  padding: var(--space-6) 0;
+  border-bottom: var(--border-width) solid var(--border-subtle);
 }
 
-.feature:nth-child(4n + 2) {
-  border-top-color: #8fcc27;
+@media (min-width: 40rem) {
+  .features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .features .feature:nth-child(2n + 1) {
+    padding-right: var(--space-6);
+  }
+
+  .features .feature:nth-child(2n) {
+    padding-left: var(--space-6);
+    border-left: var(--border-width) solid var(--border-subtle);
+  }
 }
 
-.feature:nth-child(4n + 3) {
-  border-top-color: #ff641a;
+@media (min-width: 64rem) {
+  .features {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .features .feature:nth-child(n) {
+    padding-right: var(--space-6);
+    padding-left: var(--space-6);
+    border-left: var(--border-width) solid var(--border-subtle);
+  }
+
+  .features .feature:nth-child(3n + 1) {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .features .feature:nth-child(3n) {
+    padding-right: 0;
+  }
 }
 
-.feature:nth-child(4n + 4) {
-  border-top-color: #4a80ff;
-}
-
+/* A feature: its name at the h4 size, 18/28, and its explanation in 16/24 body text. */
 .feature h3 {
-  margin: 0 0 .35em 0;
-  font-size: 1em;
-  color: #2b2c30;
+  margin: 0 0 var(--space-2) 0;
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: 0;
 }
 
 .feature p {
-  margin: 0;
-  font-size: .9em;
-  line-height: 1.5;
-  color: #393b40;
+  font-size: var(--font-size-ui);
+  line-height: var(--line-height-ui);
 }
 
 /*
- * The services of the About page: a light grey panel with a checklist in two columns, one when the column is
- * narrow. The check marks are in the green of the logo; they decorate a list that is a list without them, so they
- * have an empty alternative text, which a browser without that syntax ignores, reading the check marks out. The
- * list has role="list": without its markers WebKit would not expose it as a list. The link takes the blue
- * darkened by 8%, 4.6:1 on the grey, where the blue gives 3.4:1.
+ * The services of the About page: a panel on paper with a checklist, two columns from 40rem and one on a phone.
+ * The check marks are in the green text colour, 6.39:1 on paper; they decorate a list that is a list without them,
+ * so they have an empty alternative text, which a browser without that syntax ignores, reading the check marks
+ * out. The list has role="list": without its markers WebKit would not expose it as a list. Links take the link
+ * colour, 5.93:1 on paper.
  */
 .services {
-  margin: 1.414em 0;
-  padding: 1rem 1.25rem;
-  border-radius: 6px;
-  background: #f7f7f7;
+  margin: 0 0 var(--space-12) 0;
+  padding: var(--padding-card);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-subtle);
 }
 
 .services .services-title {
-  margin: 0;
-  font-size: 1em;
-  color: #2b2c30;
-}
-
-.services a,
-.services a:link,
-.services a:visited {
-  color: #2163ff;
+  margin: 0 0 var(--space-4) 0;
+  font-size: var(--font-size-h4);
+  line-height: var(--line-height-h4);
+  letter-spacing: 0;
 }
 
 .services ul {
-  columns: 2 16rem;
-  column-gap: 1.5rem;
-  margin: .6em 0 .8em 0;
+  margin: 0 0 var(--space-4) 0;
   padding: 0;
   list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .services ul {
+    columns: 2;
+    column-gap: var(--space-8);
+  }
 }
 
 .services li {
   break-inside: avoid;
   position: relative;
-  margin: 0 0 .35em 0;
-  padding-left: 1.5em;
+  margin: 0;
+  padding: 0 0 var(--space-2) var(--space-6);
 }
 
 .services li::before {
@@ -100,36 +166,153 @@ p.more {
   content: '\2713' / '';
   position: absolute;
   left: 0;
-  font-weight: bold;
-  color: #8fcc27;
-}
-
-.services p:last-child {
-  margin: 0;
+  font-weight: var(--weight-bold);
+  color: var(--green-text);
 }
 
 /*
- * The FAQ: the topics are labels in the style of the card kickers, so that the questions under them carry the
- * weight. A question is apart from the question before it by a rule; the first question of a topic follows the
- * label without one.
+ * The FAQ: the topics are labels in the style of the card kickers, 12/16 semibold capitals in the secondary text,
+ * each under a hairline in the control border colour that opens the topic, 64px below the topic before it. The
+ * questions under a topic are reading headings, h3 at 22/30, apart by 40px of space and no rule, so a rule always
+ * means a new topic. The answers keep the measure of prose; the rule of a topic runs across the content column, as
+ * the cards at the end do (the measure of a heading is in em, and would make it 480px at the label size). The anchor
+ * arrow of a topic (30-main.css) stands beside its label line, below the rule.
  */
 .faq main section h2 {
-  margin-top: 2.828rem;
-  font-size: .8em;
-  letter-spacing: .08em;
+  max-width: none;
+  margin: var(--space-16) 0 var(--space-4) 0;
+  padding-top: var(--space-4);
+  border-top: var(--border-width) solid var(--border-control);
+  font-size: var(--font-size-label);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: #484a50;
+  color: var(--text-secondary);
+}
+
+.faq main section h2[id] a::after {
+  top: var(--space-4);
+  height: var(--line-height-label);
+  -webkit-mask-size: var(--space-3);
+  mask-size: var(--space-3);
 }
 
 .faq main section h3 {
-  margin-top: 1.75rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid #eeeff0;
-  color: #2b2c30;
+  margin-top: var(--space-10);
 }
 
 .faq main section h2 + h3 {
   margin-top: 0;
-  padding-top: 0;
-  border-top: none;
+}
+
+/*
+ * The 404 page, which has no site header: the "404" at a size of its own, 104/104 from 40rem and 80/88 on a phone,
+ * with the tracking of the largest display size, then the text of the page. The size is the page's own: no other
+ * element is set this large. The page starts lower than a page with a header, so that the number does not sit
+ * against the top of the window; the footer stays at the bottom (30-main.css).
+ */
+main.not-found {
+  padding-top: var(--space-10);
+  padding-bottom: var(--space-24);
+}
+
+main.not-found h1 {
+  margin: 0 0 var(--space-6) 0;
+  font-size: 5rem;
+  line-height: 5.5rem;
+  letter-spacing: var(--tracking-display-xl);
+}
+
+/* The first line, "Page not found :(", in the lead size, the sentence under it in the body text. */
+main.not-found h1 + p {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
+  color: var(--text-heading);
+}
+
+@media (min-width: 40rem) {
+  main.not-found {
+    padding-top: var(--space-16);
+  }
+
+  main.not-found h1 {
+    font-size: 6.5rem;
+    line-height: 6.5rem;
+  }
+
+  main.not-found h1 + p {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+  }
+}
+
+/*
+ * Articles: the tutorials and guides, the hand-written pages under /pages/, whose body the page layout marks with
+ * the class article. Prose keeps its measure; code blocks, screenshots and callouts start on the same left edge as
+ * the prose and the headings, and code and screenshots take the full content column. A section of an article, an
+ * h2, is 64px from the section before it; the h3 and h4 under it keep the spacing of the theme.
+ */
+.article main > section > h2:not(:first-child) {
+  margin-top: var(--space-16);
+}
+
+/*
+ * The content column is a container, so that a screenshot can take its full width even in a paragraph that keeps
+ * the measure of prose: 100cqi is the width of the column. A browser without container units keeps the width of the
+ * paragraph (100%). A screenshot is a block of its own, 24px from the text around it, and never wider than the
+ * image itself. The screenshots carry their own margin and shadow, so they get no frame.
+ */
+.article main > section {
+  container-type: inline-size;
+}
+
+.article main > section p img {
+  display: block;
+  max-width: 100%;
+  max-width: 100cqi;
+}
+
+.article main > section p:has(> img, > a > img) {
+  margin: var(--space-6) 0;
+}
+
+/* Code blocks are 24px from the text around them, the same as screenshots and callouts. */
+.article main > section div.highlighter-rouge {
+  margin: var(--space-6) 0;
+}
+
+/*
+ * Callouts: a quote block in an article holds a note to the reader (a tutorial folder, what you did not write, a
+ * summary, an error message of the compiler, the credentials of a first login). It takes the look of the notice
+ * (35-components.css): body text on the warning surface, 16px by 20px of padding, 8px corners and a 3px edge in the
+ * yellow of the logo, an inset shadow that follows the corners. The words of the note say what it is; the edge only
+ * decorates. Its border has the colour of the surface, which forced colours draw. Body text is 8.76:1 on the
+ * surface, links 5.81:1.
+ */
+.article main > section blockquote {
+  margin: var(--space-6) 0;
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width) solid var(--surface-warning);
+  border-radius: var(--radius-panel);
+  background: var(--surface-warning);
+  box-shadow: inset 3px 0 0 var(--spectrum-yellow);
+}
+
+/* A table in a callout, such as the first login of the users guide, ends at the padding of the callout. */
+.article main > section blockquote > table {
+  margin: 0;
+}
+
+/*
+ * A note set in a paragraph of its own as superscript or subscript text (a pointer to the syntax guide, a NOTE on
+ * a later version): small secondary text on the line, 14/20, not raised or lowered. The secondary text is 6.31:1 on
+ * white. A superscript inside running text is not the only child of its paragraph and stays as it is.
+ */
+.article main > section p > :is(sub, sup):only-child {
+  display: block;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  vertical-align: baseline;
+  color: var(--text-secondary);
 }

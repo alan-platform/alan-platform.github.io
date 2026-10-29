@@ -10,6 +10,7 @@ toc: true
 
 Build a working application in your browser, with nothing to install and no programming background needed.
 On the Alan platform you do not write the application; you write a **model** of it, and the platform generates the rest.
+{.lead}
 
 ## Get started
 
@@ -82,3 +83,4 @@ From that model the platform generates the database, the server, the web applica
 - [**Introducing Alan**](/pages/tuts/introducing.html): what the platform is, and why it works the way it does.
 - [**The Alan stack from the bottom up**](/pages/tuts/bottom-up.html): what actually runs on a server after you deploy.
 - [**FAQ**](/faq/): from whether you need to be a programmer to how Alan relates to SQL.
+{.link-list}

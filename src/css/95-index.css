@@ -1,42 +1,48 @@
 /*
- * The page index: the table of contents of a page, which the layout builds into a rail beside the content
- * (page-index.html). From 64rem it is the rail of the reading layout, whose grid and sticky position are in
- * 30-main.css; under 64rem it is in the flow of the page, above the content. The in-flow range is the exact
- * complement of the rail one, not all and (min-width: 64rem), so no width is left without either styling.
- *
- * 1.414rem is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
+ * The page index: the table of contents of a page (page-index.html), on hand-written and generated pages alike.
+ * From 64rem it is the rail of the reading layout, whose grid, sticky position and height are in 30-main.css: a
+ * label, and the entries in two levels along a hairline, the entry of the section in view marked with a 2px rule in
+ * the link colour. Under 64rem it is in the flow of the page, above the content: a disclosure that main.js opens and
+ * closes with the label, closed at first, open without JavaScript. The in-flow range is the exact complement of the
+ * rail one, not all and (min-width: 64rem), so no width is left without either styling.
  */
 
-/* The inline styling from the docs stylesheet does not apply once the list is in the rail. */
+/*
+ * The 70-docs.css rule for the table of contents as it was inline in the text, its space and rule under it, does
+ * not apply to the index.
+ */
 .page-index #markdown-toc {
   margin-bottom: 0;
   padding-bottom: 0;
   border-bottom: none;
 }
 
-.page-index .page-index-label {
-  margin: 0 0 .5em .75em;
-  font-weight: bold;
-  font-size: .75em;
-  letter-spacing: .08em;
+/* The label "On this page", in the style of the existing labels: 12/16 semibold capitals in the secondary text. */
+.page-index-label {
+  margin: 0 0 var(--space-3) 0;
+  font-size: var(--font-size-label);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: #484a50;
+  color: var(--text-secondary);
 }
 
-/* The table of contents is an ordered list. */
-.page-index nav > ol {
-  list-style: none;
+/*
+ * The entries: an ordered list without numbers along a hairline in the subtle border colour, the sub-sections of a
+ * section under it, indented by 12px. Grammar pages go down to h5; two levels are enough to navigate by, and the
+ * third is not shown (main.js does not follow it either).
+ */
+.page-index ol {
   margin: 0;
   padding: 0;
-}
-
-.page-index ol ol {
   list-style: none;
-  margin: 0;
-  padding-left: .75rem;
 }
 
-/* Grammar pages go down to h5; two levels are enough to navigate by. */
+.page-index nav > ol {
+  border-left: var(--border-width) solid var(--border-subtle);
+}
+
 .page-index ol ol ol {
   display: none;
 }
@@ -45,45 +51,171 @@
   margin: 0;
 }
 
-.page-index a,
-.page-index a:link,
-.page-index a:visited {
-  transition: color var(--duration-hover) ease-in-out;
+/*
+ * An entry is a block link of at least 32px, 14/20, without an underline: the list is navigation, not running
+ * text. A line of 20px with 6px above and below it makes the 32px. The link is a block, not a flex box, so the
+ * spaces around markup in a heading (code, emphasis) stay. Its 2px left border lies over the hairline of the list
+ * (the margin of -1px), transparent until the entry is hovered (the control border colour) or marked. A section is
+ * set in the medium weight and the body text colour, a sub-section in the regular weight and the secondary text
+ * colour, 6.31:1 on white.
+ */
+.page-index a {
+  transition: color var(--duration-hover) var(--ease-standard), border-color var(--duration-hover) var(--ease-standard);
   display: block;
-  padding: .2em .5em .2em .75em;
-  border-left: 3px solid transparent;
-  font-size: .875em;
-  line-height: 1.35;
+  min-height: var(--target-min-dense);
+  margin-left: calc(-1 * var(--border-width));
+  padding: calc((var(--target-min-dense) - var(--line-height-small)) / 2) 0 calc((var(--target-min-dense) - var(--line-height-small)) / 2) var(--space-3);
+  border-left: var(--indicator-width) solid transparent;
+  font-size: var(--font-size-small);
+  font-weight: var(--weight-medium);
+  line-height: var(--line-height-small);
+  color: var(--text-body);
   text-decoration: none;
-  /* Not the lighter grey #838590: on white that is 3.7:1, below the 4.5:1 that small text needs. */
-  color: #484a50;
 }
 
-/* Top-level sections carry a little more weight than their subsections. */
-.page-index nav > ol > li > a {
-  color: #393b40;
+.page-index ol ol a {
+  padding-left: calc(2 * var(--space-3));
+  font-weight: var(--weight-regular);
+  color: var(--text-secondary);
 }
 
 .page-index a:hover,
 .page-index a:active {
-  transition: color var(--duration-hover) ease-in-out;
-  border-left-color: #c3c5ca;
-  color: #2b2c30;
+  border-left-color: var(--border-control);
+  color: var(--text-heading);
 }
 
+/*
+ * The entry of the section in view (aria-current, which main.js sets): the 2px rule in the link colour, 6.36:1 on
+ * white, and the semibold weight in the heading colour, so the mark does not rely on colour alone. Forced colours
+ * keep the border and draw it in the highlight colour.
+ */
 .page-index a[aria-current] {
-  border-left-color: #ff641a;
-  font-weight: bold;
-  color: #2b2c30;
+  border-left-color: var(--link);
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
 }
 
-/* In the flow, above the content. */
+@media (forced-colors: active) {
+  .page-index a[aria-current] {
+    border-left-color: Highlight;
+  }
+}
+
+/*
+ * In the rail the index scrolls on its own when it is taller than the window, and a scrolling box clips what lies
+ * outside it: the focus ring of an entry is drawn inside the entry instead of 3px outside it.
+ */
+@media (min-width: 64rem) {
+  .page-index a:focus-visible {
+    outline-offset: calc(-1 * var(--focus-width));
+  }
+}
+
+/*
+ * In the flow, above the content, 32px from it. The entries are 44px targets in the interface text, 16/24 with 10px
+ * above and below, and the list is as long as it is: the page scrolls, not the index.
+ */
 @media not all and (min-width: 64rem) {
   .page-index {
-    max-height: 40vh;
-    overflow-y: auto;
-    margin-bottom: 1.414rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #eeeff0;
+    margin: 0 0 var(--space-8) 0;
   }
+
+  .page-index a {
+    min-height: var(--target-min);
+    padding-top: calc((var(--target-min) - var(--line-height-ui)) / 2);
+    padding-bottom: calc((var(--target-min) - var(--line-height-ui)) / 2);
+    font-size: var(--font-size-ui);
+    line-height: var(--line-height-ui);
+  }
+}
+
+/*
+ * The disclosure, where the browser runs scripts: the label is a full-width control, a row of 48px with a control
+ * border and a chevron, in the interface text of a secondary button, and the list is hidden until the index is
+ * open. The stylesheet sets this up before main.js runs, so the closed index takes its final height from the first
+ * paint; main.js then puts a button in the label (page-index-toggle) that fills the row, and marks the open index
+ * with page-index-open. Without scripts, (scripting: none), the label stays a label and the list stays open; a
+ * browser that does not know the scripting feature does the same, and main.js leaves the index alone there.
+ *
+ * The chevron is drawn by the label: two borders of a square turned by 45 degrees, pointing down when closed and
+ * up when open, in the heading colour.
+ */
+@media not all and (min-width: 64rem) {
+  @media (scripting: enabled) {
+    .page-index-label {
+      display: flex;
+      align-items: center;
+      min-height: var(--space-12);
+      position: relative;
+      margin: 0;
+      padding: 0 calc(var(--space-4) + var(--space-6)) 0 var(--space-4);
+      border: var(--border-width) solid var(--border-control);
+      border-radius: var(--radius-button);
+      background: var(--surface-page);
+      font-size: var(--font-size-ui);
+      line-height: var(--line-height-ui);
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text-heading);
+    }
+
+    .page-index-label::after {
+      transition: transform var(--duration-disclosure) var(--ease-standard);
+      content: '';
+      width: var(--space-2);
+      height: var(--space-2);
+      position: absolute;
+      top: 50%;
+      right: var(--space-5);
+      margin-top: calc(-1 * var(--space-1));
+      border-right: var(--indicator-width) solid currentColor;
+      border-bottom: var(--indicator-width) solid currentColor;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .page-index-open .page-index-label::after {
+      margin-top: 0;
+      transform: rotate(-135deg);
+    }
+
+    .page-index:not(.page-index-open) #markdown-toc {
+      display: none;
+    }
+
+    .page-index-open #markdown-toc {
+      margin-top: var(--space-2);
+    }
+  }
+}
+
+/*
+ * The button that main.js puts in the label under 64rem: it fills the row, padding included, so the whole row
+ * opens and closes the index, and takes the look of the label. Paper on hover and the inset grey pressed, as a
+ * secondary button.
+ */
+.page-index-toggle {
+  transition: background-color var(--duration-hover) var(--ease-standard);
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  align-self: stretch;
+  margin: 0 calc(-1 * (var(--space-4) + var(--space-6))) 0 calc(-1 * var(--space-4));
+  padding: 0 calc(var(--space-4) + var(--space-6)) 0 var(--space-4);
+  border: none;
+  border-radius: calc(var(--radius-button) - var(--border-width));
+  background: transparent;
+  font-weight: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.page-index-toggle:hover {
+  background: var(--surface-subtle);
+}
+
+.page-index-toggle:active {
+  background: var(--surface-inset);
 }

@@ -1,9 +1,10 @@
 {{- /*
 	The page GitHub Pages serves for an address that has none: the text of 404.md in a plain page,
-	without the site header. 404.md is not published as a page of its own.
+	without the site header. 404.md is not published as a page of its own. The class not-found sets the
+	"404" at its own large size (90-hub.css).
 */ -}}
 {{ define "main" }}
-	<main id="content">
+	<main id="content" class="not-found">
 		{{ with site.GetPage "/404-text" }}{{ .Content }}{{ end }}
 	</main>
 {{ end }}
