@@ -152,14 +152,6 @@ if (document.readyState === 'loading') {
 }
 window.addEventListener('hashchange', archiveVersion);
 
-window.addEventListener('scroll', function() {
-    if (window.scrollY > 0) {
-        document.querySelector('header').classList.add('scrolled');
-    } else {
-        document.querySelector('header').classList.remove('scrolled');
-    }
-});
-
 window.onload = function() {
     // release notes put the code that illustrates an item straight after the list, so it renders outside it;
     // move that code into the last item, with what follows it up to the next list or heading

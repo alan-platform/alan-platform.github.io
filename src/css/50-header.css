@@ -1,359 +1,261 @@
 /*
- * The site header: the fixed bar at the top of every page with the logo, the navigation links, the documentation
- * and login buttons, and the menu toggle that opens the navigation on narrow screens.
- * 0.7072135785em, 1.414, 1.999396, 2.827145944rem and 5.654291888rem are powers of 1.414, an approximation of the square root of two,
- * and a product with it (1 / 1.414, 1.414, 1.414^2, 1.414^3 and 2 * 1.414^3), kept exactly as computed.
+ * The site header: the bar at the top of every page except the 404 page, with the logo, the documentation link,
+ * the navigation and the login button, and under 64rem the toggle that shows the navigation as a list below the
+ * bar. Every selector starts at .site-header, so no other header element is styled as the site bar.
+ *
+ * The bar is white with a subtle rule under it, at least 64px high under 64rem and 72px from there
+ * (--header-height in 15-tokens.css, which also places jump targets and the page rail below it); it grows when the
+ * text is enlarged. It is in the flow of the page, so nothing starts under it, and sticks to the top of the window
+ * while the page scrolls. In a window less than 30rem high it scrolls away with the page instead: there it would
+ * cover too much of what is being read.
  */
 
-header {
+.site-header {
+  position: relative;
+  z-index: var(--z-header);
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  background: var(--surface-page);
+}
+
+@media (min-height: 30rem) {
+  .site-header {
+    position: sticky;
+    top: 0;
+  }
+}
+
+/*
+ * The content of the bar is a grid in the width of the site shell. The first row holds the logo and the toggle and
+ * is the header height less the rule; the navigation takes a row of its own below them. From 64rem the navigation
+ * is on the first row, right of the logo, and the toggle is gone.
+ */
+.site-header .inner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: minmax(calc(var(--header-height) - var(--border-width)), auto);
+  align-items: center;
+  column-gap: var(--space-8);
+  max-width: calc(var(--width-shell) + 2 * var(--gutter));
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/*
+ * The logo, an inline SVG, 152px wide under 64rem and 184px from there, its height following from its proportions.
+ * The stripes have the colours of the logo, from left to right yellow, green, orange and blue (the paths are written
+ * from right to left), and the wordmark the charcoal of the logo. Neither changes on hover. The link is named "Alan"
+ * by its aria-label; the SVG itself is hidden from assistive technology.
+ */
+.site-header .logo {
+  display: block;
+  width: 9.5rem;
+}
+
+.site-header .logo svg {
+  display: block;
   width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 2;
-  font-size: 0.7072135785em;
-  color: #393b40;
-  transform: translateZ(0);
-  transition: background-color 0.2s ease-in-out;
+  height: auto;
 }
 
-header .inner {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  padding: 0 2.827145944rem;
+.site-header .logo .word path {
+  fill: var(--ink-800);
 }
 
-/*
- * The header is fixed over the top of the page and 106px tall at every width: --header-height, which places jump
- * targets and the rail below it, is set to that height, and the content of a page that starts under the header
- * starts below it. (The home page starts with its hero, which the header lies over.)
- */
-:root {
-  --header-height: 6.625rem;
+.site-header .logo .stripes path:nth-child(1) {
+  fill: var(--spectrum-blue);
 }
 
-header + main {
-  margin-top: var(--header-height);
+.site-header .logo .stripes path:nth-child(2) {
+  fill: var(--spectrum-orange);
 }
 
-/* The links of the header are navigation, not running text: no underline. */
-header a {
-  text-decoration: none;
+.site-header .logo .stripes path:nth-child(3) {
+  fill: var(--spectrum-green);
 }
 
-header ul {
-  list-style: none;
-  display: flex;
-  justify-content: flex-end;
-  margin: 0;
-  flex: 1;
+.site-header .logo .stripes path:nth-child(4) {
+  fill: var(--spectrum-yellow);
 }
 
 /*
- * Narrow and wide screens split at 50rem: the narrow rules use max-width: 50rem and the wide ones its exact
- * complement, not all and (max-width: 50rem), so every width, fractional ones included, matches one of them and
- * none matches both.
+ * In forced colours the wordmark takes the text colour of the system, so that it shows on a dark system background
+ * as well as a light one. The stripes keep their colours.
  */
-@media (max-width: 50rem) {
-  header ul {
-    display: none;
+@media (forced-colors: active) {
+  .site-header .logo .word path {
+    fill: CanvasText;
   }
 }
 
-header ul a {
-  transition: all var(--duration-hover) ease-in-out;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-header ul a,
-header ul a:link,
-header ul a:visited,
-header ul a:hover,
-header ul a:active {
-  margin-bottom: 3px;
-  border-bottom: 3px solid transparent;
-  font-weight: 200;
-  font-size: 1.414em;
-  color: inherit;
-}
-
-header ul a:hover,
-header ul a:active {
-  transition: all var(--duration-hover) ease-in-out;
-  text-decoration: none;
-  text-shadow: 0 0 2px #fff;
-  border-bottom-color: #2163ff;
-  transform: skew(-16.7deg);
-}
-
-header ul a:active {
-  border-bottom-color: #0d55ff;
-}
-
-header ul .current > a,
-header ul .current-section > a {
-  border-bottom-color: #0d55ff;
-}
-
-header li {
-  padding-top: 1.999396rem;
-  padding-bottom: 1.999396rem;
-  line-height: 2rem;
-}
-
-header li + li {
-  margin-left: 1.999396em;
-}
-
-@media not all and (max-width: 50rem) {
-  header li {
-    display: inline-block;
-  }
-
-  header li + li {
-    padding-left: 0;
-  }
-}
-
-header li svg {
-  width: 0.7072135785em;
-  height: 0.7072135785em;
-}
-
-header .logo {
-  display: block;
-  margin-right: 1.414em;
-  padding-top: 1.999396rem;
-  padding-bottom: 1.999396rem;
-}
-
-header .logo svg .word path {
-  fill: #2b2c30;
-  transition: fill 0.2s ease-in-out;
-}
-
-header .logo svg .stripes path {
-  transition: fill 0.2s ease-in-out;
-}
-
-header .logo svg .stripes path:nth-child(4n + 1) {
-  fill: #4a80ff;
-}
-
-header .logo svg .stripes path:nth-child(4n + 2) {
-  fill: #ff641a;
-}
-
-header .logo svg .stripes path:nth-child(4n + 3) {
-  fill: #8fcc27;
-}
-
-header .logo svg .stripes path:nth-child(4n + 4) {
-  fill: #ffc94a;
-}
-
-header .logo svg .stripes path:hover:nth-child(4n + 3) {
-  fill: #4a80ff;
-}
-
-header .logo svg .stripes path:hover:nth-child(4n + 4) {
-  fill: #ff641a;
-}
-
-header .logo svg .stripes path:hover:nth-child(4n + 1) {
-  fill: #8fcc27;
-}
-
-header .logo svg .stripes path:hover:nth-child(4n + 2) {
-  fill: #ffc94a;
-}
-
-/* A button, styled the way the link it replaced was. */
-header .nav-toggle {
-  transition: color var(--duration-hover) ease-in-out;
+/*
+ * The toggle: a 44px square at the right end of the bar with a 24px icon, the three bars while the menu is closed
+ * and the cross while it is open, as its aria-expanded says. Paper on hover, the inset grey pressed. Its border is
+ * transparent, so forced colours draw an outline around it. It is shown only under 64rem.
+ */
+.site-header .nav-toggle {
+  transition: background-color var(--duration-hover) var(--ease-standard);
   display: none;
-  padding-right: 0;
-  padding-left: 0;
-  border: none;
-  background: none;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  width: var(--target-min);
+  height: var(--target-min);
+  padding: 0;
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--text-heading);
   cursor: pointer;
-  padding-top: 1.999396rem;
-  padding-bottom: 1.999396rem;
-  color: #2b2c30;
 }
 
-header .nav-toggle:hover,
-header .nav-toggle:active {
-  transition: color var(--duration-hover) ease-in-out;
-  color: #ffb794;
+.site-header .nav-toggle:hover {
+  background: var(--surface-subtle);
 }
 
-header .nav-toggle svg {
+.site-header .nav-toggle:active {
+  background: var(--surface-inset);
+}
+
+.site-header .nav-toggle svg {
+  width: var(--space-6);
+  height: var(--space-6);
   fill: currentColor;
+}
+
+.site-header .nav-toggle[aria-expanded="true"] .opener,
+.site-header .nav-toggle[aria-expanded="false"] .closer {
   display: none;
 }
 
-@media (max-width: 50rem) {
-  header .nav-toggle {
-    display: block;
-  }
+/*
+ * The navigation: the documentation link, the links of the sections, the forum and the login button, a list in
+ * the order of the page. A link is charcoal, 16/24 medium, and at least 44px high; hovering underlines it. The link
+ * of the current page or section is in the link colour, semibold and underlined 2px, so it does not depend on
+ * colour alone.
+ */
+.site-header .site-menu {
+  grid-column: 1 / -1;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-ui);
+  line-height: var(--line-height-ui);
 }
 
-header.scrolled {
-  background-color: #fff;
+.site-header .site-menu a:not(.button) {
+  display: flex;
+  align-items: center;
+  min-height: var(--target-min);
+  color: var(--text-heading);
+  font-weight: var(--weight-medium);
+  text-decoration-line: none;
+  text-decoration-thickness: var(--border-width);
+  text-underline-offset: var(--space-1);
 }
 
-@media (max-width: 50rem) {
-  header.open {
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: #fff;
+.site-header .site-menu a:not(.button):hover,
+.site-header .site-menu a:not(.button):active {
+  color: var(--text-heading);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border-width);
+}
+
+.site-header .site-menu a[aria-current],
+.site-header .site-menu a[aria-current]:hover,
+.site-header .site-menu a[aria-current]:active {
+  color: var(--link);
+  font-weight: var(--weight-semibold);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--indicator-width);
+}
+
+.site-header .site-menu a[aria-current]:hover,
+.site-header .site-menu a[aria-current]:active {
+  color: var(--link-hover);
+}
+
+/*
+ * The documentation link is a compact utility link of two lines: the brand name, set as it is in running text
+ * (bold italic small capitals), over "Info & Docs" in the small size.
+ */
+.site-header .site-menu .doc-link a {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.site-header .doc-link .brand {
+  display: block;
+  margin: 0;
+  font-size: var(--font-size-lead);
+  font-style: italic;
+  font-weight: var(--weight-bold);
+  font-variant-caps: small-caps;
+  line-height: var(--line-height-label);
+  text-transform: lowercase;
+}
+
+.site-header .doc-link small {
+  display: block;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+
+/*
+ * Under 64rem the navigation is a list below the bar, shown while the toggle is expanded. It is part of the header,
+ * so it pushes the page down rather than covering it, and when closed it is not displayed at all, so none of its
+ * links can take the focus. The links are left-aligned rows at least 48px high, with a subtle rule above each; the
+ * login button follows them. The documentation link is left out: the Docs link of the list goes to the same page.
+ */
+@media not all and (min-width: 64rem) {
+  .site-header .nav-toggle {
+    display: inline-flex;
   }
 
-  header.open ul {
-    display: block;
-    width: 100%;
-    position: fixed;
-    top: 5.654291888rem;
-    left: 0;
-    text-align: center;
-    margin: 0;
-    padding: 1.999396rem 2.827145944rem 1.999396rem 2.827145944rem;
-    font-size: 1.999396rem;
-  }
-
-  header.open ul li {
-    padding: 0;
-  }
-
-  header.open ul li + li {
-    margin: 1.414rem 0 0 0;
-  }
-
-  header.open ul .login-button a::before {
+  .site-header .nav-toggle[aria-expanded="false"] + .site-menu {
     display: none;
   }
 
-  header.open .closer {
-    display: block;
+  .site-header .site-menu {
+    padding-bottom: var(--space-4);
   }
 
-  header:not(.open) .opener {
-    display: block;
+  .site-header .site-menu li {
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+
+  .site-header .site-menu a:not(.button) {
+    min-height: var(--space-12);
+  }
+
+  .site-header .site-menu .doc-link {
+    display: none;
+  }
+
+  .site-header .site-menu .login {
+    padding-top: var(--space-4);
   }
 }
 
 /*
- * The grey panel behind the links: a skewed box on the first link after the documentation button, from the right
- * edge of that button to beyond the right edge of the viewport. The button is a box skewed the same way, so the panel
- * joins it along the whole slant (the boxes overlap by a pixel, so no seam shows), and the panel grows with the links,
- * so a link more or less in the navigation does not push one onto the slant.
+ * From 64rem the navigation is one row at the right end of the bar, 24px between its items, and the documentation
+ * link is set apart from the section links by a subtle vertical rule, 24px from either.
  */
-@media not all and (max-width: 50rem) {
-  header ul .doc-button + li {
-    position: relative;
+@media (min-width: 64rem) {
+  .site-header .logo {
+    width: 11.5rem;
   }
 
-  header ul .doc-button + li::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -100vw;
-    bottom: 0;
-    left: calc(-1.999396em - 1px); /* the margin between the links, and the overlap */
-    z-index: -1;
-    background: rgba(247, 247, 247, 0.9);
-    transform: skewX(-27.6deg);
+  .site-header .site-menu {
+    display: flex;
+    grid-row: 1;
+    grid-column: 2;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-6);
   }
-}
 
-header ul .login-button a {
-  position: relative;
-  padding: 0 1em;
-  border: none;
-}
-
-header ul .login-button a::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  border: 1px solid #ffc94a;
-  transform: skew(-26.7deg);
-  transition: background 0.2s ease-in-out;
-}
-
-header ul .login-button a:hover,
-header ul .login-button a:active {
-  color: #2b2c30;
-  text-shadow: none;
-  transform: none;
-}
-
-header ul .login-button a:hover::before,
-header ul .login-button a:active::before {
-  background: #ffc94a;
-}
-
-header ul .login-button svg {
-  margin-top: -2px;
-  will-change: transform;
-}
-
-header .doc-button {
-  position: relative;
-  padding: 0 0 0 1.999396rem;
-  opacity: .9;
-}
-
-/* The yellow box, skewed like the login button and the grey panel of the links. */
-header .doc-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  background: #ffc94a;
-  transform: skewX(-27.6deg);
-}
-
-@media (max-width: 50rem) {
-  header .doc-button {
-    display: none;
+  .site-header .site-menu .doc-link {
+    padding-right: var(--space-6);
+    border-right: var(--border-width) solid var(--border-subtle);
   }
-}
-
-header .doc-button:hover,
-header .doc-button:active {
-  opacity: 1;
-}
-
-header .doc-button a,
-header .doc-button a:link,
-header .doc-button a:visited,
-header .doc-button a:hover,
-header .doc-button a:active {
-  display: block;
-  height: 100%;
-  margin-top: 0;
-  margin-right: 1.414rem;
-  padding-top: 1.999396rem;
-  padding-bottom: 1.999396rem;
-  border-bottom: 0;
-  color: #2b2c30;
-}
-
-header .doc-button a:hover,
-header .doc-button a:active {
-  border-bottom: 0;
-  text-shadow: none;
-  transform: none;
 }

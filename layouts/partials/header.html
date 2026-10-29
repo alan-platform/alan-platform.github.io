@@ -1,7 +1,8 @@
 {{- /*
-	The site header. A navigation item is "current" on its own page, and "current-section" on the pages of its
-	section: the first directory under /pages/ in the page's address (/pages/docs/... is Docs), or the "category"
-	of the page's front matter (the tutorials are in Learn).
+	The site header: the logo, the documentation link, the navigation and the login button, and on narrow screens
+	the toggle that shows and hides them (menuOpen in main.js). A navigation item is marked with aria-current:
+	"page" on its own page, "true" on the pages of its section, the first directory under /pages/ in the page's
+	address (/pages/docs/... is Docs) or the "category" of the page's front matter (the tutorials are in Learn).
 */ -}}
 {{- $page := . -}}
 {{- $pageURL := $page.RelPermalink -}}
@@ -10,11 +11,10 @@
 
 <a class="skip-link" href="#content">Skip to content</a>
 
-<header>
+<header class="site-header">
 	<nav class="inner">
-
-		<a class="logo" href="{{ strings.TrimSuffix "/" site.BaseURL }}">
-			<svg height="32px" preserveAspectRatio="xMinYMin" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 289 42" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<a class="logo" href="{{ strings.TrimSuffix "/" site.BaseURL }}" aria-label="Alan">
+			<svg aria-hidden="true" height="32px" preserveAspectRatio="xMinYMin" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" version="1.1" viewBox="0 0 289 42" width="100%" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:serif="http://www.serif.com/" xmlns:xlink="http://www.w3.org/1999/xlink">
 				<g>
 					<g class="stripes">
 						<path d="M83.953,41.707l-15.874,0c0,0 14.303,-27.347 19.746,-37.753c1.271,-2.43 3.787,-3.954 6.53,-3.954l11.412,0l-21.814,41.707Z"/>
@@ -30,21 +30,19 @@
 					</g>
 				</g>
 			</svg>
-
 		</a>
 
 		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" onclick="menuOpen(this)">
 			<svg height="36" class="opener octicon octicon-three-bars" viewBox="0 0 12 16" version="1.1" width="36" aria-hidden="true">
 				<path fill-rule="evenodd" d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z"></path>
 			</svg>
-			<svg height="36" class="closer octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="36">
+			<svg height="36" class="closer octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="36" aria-hidden="true">
 				<path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
 			</svg>
 		</button>
 
-
-		<ul class="main" id="site-menu">
-			<li class="doc-button">
+		<ul class="site-menu" id="site-menu">
+			<li class="doc-link">
 				<a href="/docs/">
 					<span class="brand">Alan</span>
 					<small>Info & Docs</small>
@@ -52,9 +50,15 @@
 			</li>
 
 			{{ range hugo.Data.navigation }}
-			{{- $itemSection := replace (replace .url "/pages/" "" 1) "/" "" }}
-			<li class="{{ if eq .url $pageURL }}current{{ end }} {{ if eq $itemSection $pageSection }}current-section{{ end }} {{ if eq $itemSection $page.Params.category }}current-section{{ end }}">
-				<a href="{{ .url | relURL }}">{{ .title }}</a>
+			{{- $itemSection := replace (replace .url "/pages/" "" 1) "/" "" -}}
+			{{- $current := "" -}}
+			{{- if eq .url $pageURL -}}
+				{{- $current = "page" -}}
+			{{- else if or (eq $itemSection $pageSection) (eq $itemSection $page.Params.category) -}}
+				{{- $current = "true" -}}
+			{{- end }}
+			<li>
+				<a href="{{ .url | relURL }}"{{ with $current }} aria-current="{{ . }}"{{ end }}>{{ .title }}</a>
 			</li>
 			{{ end }}
 
@@ -62,9 +66,9 @@
 				<a href="https://forum.alan-platform.com">Forum</a>
 			</li>
 
-			<li class="login-button">
-				<a href="https://coder.alan-platform.com">
-					<svg fill="none" height="16" width="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+			<li class="login">
+				<a class="button button-secondary" href="https://coder.alan-platform.com">
+					<svg aria-hidden="true" fill="none" height="16" width="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
 						<rect height="11" rx="2" ry="2" width="18" x="3" y="11"/>
 						<path d="M7 11V7a5 5 0 0 1 10 0v4"/>
 					</svg>
@@ -72,8 +76,5 @@
 				</a>
 			</li>
 		</ul>
-
-
 	</nav>
-
 </header>
