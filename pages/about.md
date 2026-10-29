@@ -11,6 +11,7 @@ In Alan, data models drive everything.
 Its unique application modeling language lets you write one model that generates both the database design and the user interface.
 That makes it a fast way to create an application and to iterate on it, without sacrificing data correctness.
 A dedicated team has developed Alan continuously since 2011, and it has been used to build powerful yet agile systems for multinationals: manufacturing execution systems (MES), ERP modules and specialized custom applications.
+{.lead}
 
 ## Features
 
