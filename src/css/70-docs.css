@@ -702,6 +702,17 @@ table:not([class]) thead th {
   }
 }
 
+/*
+ * In the dark scheme the panel is the colour of the page it lies over, and a shadow barely shows on that page. Its
+ * border takes the rule colour of a dark surface, --border-inverse-subtle, 1.92:1 on the page instead of the 1.40:1
+ * of the subtle border, so that its edge stays visible over the document.
+ */
+@media (prefers-color-scheme: dark) and (min-width: 40rem) {
+  #doc-list {
+    border-color: var(--border-inverse-subtle);
+  }
+}
+
 @keyframes doc-list-in {
   from {
     opacity: 0;
