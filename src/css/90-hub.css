@@ -341,7 +341,7 @@ main.not-found h1 + p {
  * The content column is a container, so that a screenshot takes its full width even in a paragraph that would be
  * narrower: 100cqi is the width of the column. A browser without container units keeps the width of the
  * paragraph (100%). A screenshot is a block of its own, 24px from the text around it, and never wider than the
- * image itself. The screenshots carry their own margin and shadow, so they get no frame.
+ * image itself.
  */
 .article main > section {
   container-type: inline-size;
@@ -355,6 +355,17 @@ main.not-found h1 + p {
 
 .article main > section p:has(> img, > a > img) {
   margin: var(--space-6) 0;
+}
+
+/*
+ * A screenshot is cropped to the window it shows, a rectangle (the images were cut out of their baked margin and
+ * shadow): the site frames them all alike, with the corners of a panel and a ring of 1px in the subtle border
+ * colour, which marks the edge of a screenshot that is as light as the page. The ring is a shadow, so it adds
+ * nothing to the size of the image. A drawing in SVG has its own treatment (below).
+ */
+.article main > section img:not([src$='.svg']) {
+  border-radius: var(--radius-panel);
+  box-shadow: 0 0 0 var(--border-width) var(--border-subtle);
 }
 
 /*
