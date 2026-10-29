@@ -8,7 +8,6 @@ url: "/pages/docs/webclient/partitions-108.1a.0/production features/features.htm
 toc: true
 ---
 
-
 ```js
 global-features
 	'full screen planning' {

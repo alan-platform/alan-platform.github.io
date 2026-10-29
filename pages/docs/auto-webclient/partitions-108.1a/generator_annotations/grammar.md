@@ -8,7 +8,6 @@ url: "/pages/docs/auto-webclient/partitions-108.1a/generator_annotations/grammar
 toc: true
 ---
 
-
 # Generator Contracts
 ## Default
 The default generator.
@@ -1947,12 +1946,12 @@ Configure global features provided by the selected generator.
 							'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 						}
 						'<span class="token string">rule</span>' {
-							'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+							'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 						}
 					)
 				}
 				'<span class="token string">reference</span>' {
-					'<span class="token string">reference</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">reference</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 			)
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--node-path">'node path'</a>
@@ -2283,7 +2282,7 @@ Configure global features provided by the selected generator.
 			| node = '<span class="token string">yes</span>' { '<span class="token string">next property</span>' = successor }
 			| none = '<span class="token string">no</span>'
 		)
-		'<span class="token string">context path</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--node-path">'node path'</a>
+		'<span class="token string">context path</span>': [ <span class="token operator">-&gt;</span> ] component <a href="#grammar-rule--node-path">'node path'</a>
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">stategroup</span>' { [ <span class="token operator">stategroup</span> ]
 				'<span class="token string">property</span>': reference
@@ -2307,8 +2306,8 @@ Configure global features provided by the selected generator.
 						'<span class="token string">operator</span>': stategroup (
 							'<span class="token string">smaller</span>' { [ <span class="token operator">&lt;</span> ] }
 							'<span class="token string">smaller equal</span>' { [ <span class="token operator">&lt;=</span> ] }
-							'<span class="token string">greater</span>' { [ <span class="token operator">></span> ] }
-							'<span class="token string">greater equal</span>' { [ <span class="token operator">>=</span> ] }
+							'<span class="token string">greater</span>' { [ <span class="token operator">&gt;</span> ] }
+							'<span class="token string">greater equal</span>' { [ <span class="token operator">&gt;=</span> ] }
 							'<span class="token string">equal</span>' { [ <span class="token operator">==</span> ] }
 						)
 						'<span class="token string">criteria</span>': stategroup (
@@ -2449,7 +2448,7 @@ Configure global features provided by the selected generator.
 '<span class="token string">handheld view elements</span>' {
 	'<span class="token string">has element</span>': stategroup (
 		'<span class="token string">yes</span>' {
-			'<span class="token string">type</span>': [ <span class="token operator">-></span> ] stategroup (
+			'<span class="token string">type</span>': [ <span class="token operator">-&gt;</span> ] stategroup (
 				'<span class="token string">label</span>' { [ <span class="token operator">label:</span> ]
 					'<span class="token string">text</span>': reference
 				}
@@ -2626,7 +2625,7 @@ Configure global features provided by the selected generator.
 			'<span class="token string">frame</span>': component <a href="#grammar-rule--handheld-frame-selector">'handheld frame selector'</a>
 		}
 		'<span class="token string">reference navigation</span>' {
-			'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 			'<span class="token string">frame</span>': component <a href="#grammar-rule--handheld-frame-selector">'handheld frame selector'</a>
 		}
 		'<span class="token string">pivot view</span>' { [ <span class="token operator">pivot</span> <span class="token operator">(</span>, <span class="token operator">)</span> ]
@@ -2774,7 +2773,7 @@ Configure global features provided by the selected generator.
 					'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 				}
 				'<span class="token string">reference</span>' {
-					'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 				'<span class="token string">parent</span>' { [ <span class="token operator">^</span> ] }
 			)
@@ -2860,7 +2859,7 @@ Configure global features provided by the selected generator.
 					'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 				}
 				'<span class="token string">reference</span>' {
-					'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+					'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 				}
 			)
 			'<span class="token string">tail</span>': component <a href="#grammar-rule--handheld-view-selector">'handheld view selector'</a>
@@ -2933,3 +2932,4 @@ Configure global features provided by the selected generator.
 </pre>
 </div>
 </div>
+

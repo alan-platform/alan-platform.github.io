@@ -8,7 +8,6 @@ url: "/pages/docs/webclient/partitions-108.1a.0/client bindings/client_bindings.
 toc: true
 ---
 
-
 ## Client bindings
 ---
 
