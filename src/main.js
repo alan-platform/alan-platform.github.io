@@ -1,11 +1,35 @@
-// good old obtrusive JavaScript
-// eslint-disable-next-line no-unused-vars
-function menuOpen(button) {
-    var el = document.querySelector('header');
-    var open = el.classList.toggle('open');
-    if (button) {
-        button.setAttribute('aria-expanded', open ? 'true' : 'false');
+// The menu of the site header under 64rem. The toggle shows and hides it, and its aria-expanded says which: the
+// stylesheet hides the menu while it is false. Escape closes the open menu and puts the focus back on the toggle,
+// when the focus is in the header or nowhere; a key pressed elsewhere on the page is not the menu's. Without
+// JavaScript the menu is always shown and the toggle is not (50-header.css).
+function siteMenu() {
+    var toggle = document.querySelector('.site-header .nav-toggle');
+    if (!toggle) {
+        return;
     }
+    var header = toggle.closest('.site-header');
+    function expand(open) {
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    toggle.addEventListener('click', function() {
+        expand(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+    document.addEventListener('keydown', function(event) {
+        if (event.key !== 'Escape' || toggle.getAttribute('aria-expanded') !== 'true') {
+            return;
+        }
+        var focus = document.activeElement;
+        if (focus && focus !== document.body && !header.contains(focus)) {
+            return;
+        }
+        expand(false);
+        toggle.focus();
+    });
+}
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', siteMenu);
+} else {
+    siteMenu();
 }
 
 // Marks the section in view in the rail beside the content. The layout builds the rail from the headings of

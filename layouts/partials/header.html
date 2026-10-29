@@ -1,8 +1,9 @@
 {{- /*
 	The site header: the logo, the documentation link, the navigation and the login button, and on narrow screens
-	the toggle that shows and hides them (menuOpen in main.js). A navigation item is marked with aria-current:
-	"page" on its own page, "true" on the pages of its section, the first directory under /pages/ in the page's
-	address (/pages/docs/... is Docs) or the "category" of the page's front matter (the tutorials are in Learn).
+	the toggle that shows and hides them (siteMenu in main.js; without JavaScript they are always shown). A
+	navigation item is marked with aria-current: "page" on its own page, "true" on the pages of its section, the
+	first directory under /pages/ in the page's address (/pages/docs/... is Docs) or the "category" of the page's
+	front matter (the tutorials are in Learn).
 */ -}}
 {{- $page := . -}}
 {{- $pageURL := $page.RelPermalink -}}
@@ -32,7 +33,7 @@
 			</svg>
 		</a>
 
-		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu" onclick="menuOpen(this)">
+		<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu" aria-label="Menu">
 			<svg height="36" class="opener octicon octicon-three-bars" viewBox="0 0 12 16" version="1.1" width="36" aria-hidden="true">
 				<path fill-rule="evenodd" d="M11.41 9H.59C0 9 0 8.59 0 8c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zm0-4H.59C0 5 0 4.59 0 4c0-.59 0-1 .59-1H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1h.01zM.59 11H11.4c.59 0 .59.41.59 1 0 .59 0 1-.59 1H.59C0 13 0 12.59 0 12c0-.59 0-1 .59-1z"></path>
 			</svg>
