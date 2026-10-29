@@ -8,7 +8,6 @@ url: "/pages/docs/webclient/zora.1.3/client bindings/client_bindings.html"
 toc: true
 ---
 
-
 ## Client bindings
 ---
 
