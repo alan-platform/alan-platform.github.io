@@ -13,10 +13,11 @@
 
 		<main id="content">
 			{{- /*
-				The hero: the headline, the sentence under it and the action on the left, the artwork on the right
-				from 64rem, below the action on narrower screens. The artwork is decoration: four bands at the angle
-				of the stripes of the logo, in its colours and order, between two rules. Its geometry is in
-				40-home.css.
+				The hero: a dark stage across the width of the window, with the headline, the sentence under it and
+				the action, and the artwork: four bands at the angle of the stripes of the logo, in its colours and
+				order, which run off the edges of the stage. Two rules cross the stage at the top of the headline and
+				the foot of the action. The artwork is decoration, hidden from assistive technology. Its geometry is
+				in 40-home.css.
 			*/}}
 			<div class="home-hero">
 				<div class="home-hero-text">
@@ -46,12 +47,11 @@
 					</p>
 				</div>
 				<div class="home-hero-art" aria-hidden="true">
-					<svg viewBox="0 0 560 480" preserveAspectRatio="xMidYMid meet" focusable="false" xmlns="http://www.w3.org/2000/svg">
-						<path class="home-hero-rules" d="M-2000 80H2560M-2000 400H2560"/>
-						<path class="home-hero-band home-hero-band-yellow" d="M76.32 400H118.32L285.68 80H243.68Z"/>
-						<path class="home-hero-band home-hero-band-green" d="M142.32 400H184.32L351.68 80H309.68Z"/>
-						<path class="home-hero-band home-hero-band-orange" d="M208.32 400H250.32L417.68 80H375.68Z"/>
-						<path class="home-hero-band home-hero-band-blue" d="M274.32 400H316.32L483.68 80H441.68Z"/>
+					<svg viewBox="-313.82 -600 867.64 1200" focusable="false" xmlns="http://www.w3.org/2000/svg">
+						<path class="home-hero-band home-hero-band-yellow" d="M-313.82 600H-271.82L355.82-600H313.82Z"/>
+						<path class="home-hero-band home-hero-band-green" d="M-247.82 600H-205.82L421.82-600H379.82Z"/>
+						<path class="home-hero-band home-hero-band-orange" d="M-181.82 600H-139.82L487.82-600H445.82Z"/>
+						<path class="home-hero-band home-hero-band-blue" d="M-115.82 600H-73.82L553.82-600H511.82Z"/>
 					</svg>
 				</div>
 			</div>
@@ -87,13 +87,13 @@
 						<img width="136" alt="OGD logo" src="/assets/companies/ogd.png">
 					</li> -->` | safeHTML }}
 					<li class="logo-allegion">
-						<img width="98" height="98" alt="Allegion logo" src="/assets/companies/allegion.png">
+						<img width="98" height="98" alt="Allegion logo" src="/assets/companies/allegion.png" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-hydro">
-						<img width="96" height="96" alt="Hydro logo" src="/assets/companies/hydro.png">
+						<img width="96" height="96" alt="Hydro logo" src="/assets/companies/hydro.png" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-tata">
-						<img width="104" height="104" alt="Tata Steel logo" src="/assets/companies/tata.png">
+						<img width="104" height="104" alt="Tata Steel logo" src="/assets/companies/tata.png" loading="lazy" decoding="async">
 					</li>
 					{{ `<!-- <li>
 						<img width="136" alt="Apenheul logo" src="/assets/companies/apenheul.png">
@@ -102,25 +102,25 @@
 						<img width="136" alt="Natural Bulbs logo" src="/assets/companies/natural-bulbs.png">
 					</li> -->` | safeHTML }}
 					<li class="logo-chdr">
-						<img width="159" height="58" alt="CHDR logo" src="/assets/companies/chdr.png">
+						<img width="159" height="58" alt="CHDR logo" src="/assets/companies/chdr.png" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-rigo">
-						<img width="102" height="44" alt="RIGO Verffabriek logo" src="/assets/companies/rigo.svg">
+						<img width="102" height="44" alt="RIGO Verffabriek logo" src="/assets/companies/rigo.svg" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-bokmerk">
-						<img width="131" height="38" alt="Bokmerk logo" src="/assets/companies/bokmerk.svg">
+						<img width="131" height="38" alt="Bokmerk logo" src="/assets/companies/bokmerk.svg" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-growers">
-						<img width="114" height="56" alt="Growers Packers logo" src="/assets/companies/growers.png">
+						<img width="114" height="56" alt="Growers Packers logo" src="/assets/companies/growers.png" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-locomotive">
-						<img width="53" height="76" alt="Locomotive logo" src="/assets/companies/locomotive.svg">
+						<img width="53" height="76" alt="Locomotive logo" src="/assets/companies/locomotive.svg" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-apenheul">
-						<img width="57" height="72" alt="Apenheul logo" src="/assets/companies/apenheul.svg">
+						<img width="57" height="72" alt="Apenheul logo" src="/assets/companies/apenheul.svg" loading="lazy" decoding="async">
 					</li>
 					<li class="logo-corrosion">
-						<img width="146" height="40" alt="Corrosion logo" src="/assets/companies/corrosion.svg">
+						<img width="146" height="40" alt="Corrosion logo" src="/assets/companies/corrosion.svg" loading="lazy" decoding="async">
 					</li>
 				</ul>
 
@@ -150,7 +150,7 @@
 					</p>
 					<p>
 						<a class="card medium-post" rel="external" href="https://medium.com/@rvanderarend/">
-							<img src="/assets/photo/rvda.jpg" alt="" width="48" height="48">
+							<img src="/assets/photo/rvda.jpg" alt="" width="48" height="48" loading="lazy" decoding="async">
 							<span class="medium-post-text">
 								<span class="card-title">Do low-code or no-code really change software development?</span>
 								<small>and other articles about Alan</small>

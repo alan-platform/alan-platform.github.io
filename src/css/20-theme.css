@@ -407,3 +407,19 @@ main img {
     outline-color: Highlight;
   }
 }
+
+/*
+ * The brand name in running text, on every page, the header and the footer included: "Alan" in bold italic small
+ * capitals at 1.3 times the size around it, so that its small capitals stand about as high as the capitals beside
+ * it. The italic leans its last letter over the space after it, which 0.02em of margin makes up for without leaving
+ * a gap before a comma or an apostrophe ("Alan's").
+ */
+span.brand {
+  display: inline-block;
+  margin-right: 0.02em;
+  font-size: 1.3em;
+  font-style: italic;
+  font-variant: small-caps;
+  font-weight: var(--weight-bold);
+  text-transform: lowercase;
+}

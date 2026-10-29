@@ -7,8 +7,9 @@
  * (--header-height in 15-tokens.css, which also places jump targets and the page rail below it); it grows when the
  * text is enlarged. It is in the flow of the page, so nothing starts under it, and sticks to the top of the window
  * while the page scrolls. It scrolls away with the page instead in a window less than 30rem high, where it would
- * cover too much of what is being read, and under 64rem when scripts do not run, where the navigation is always
- * shown below the bar and the header is almost 400px high.
+ * cover too much of what is being read, and under 64rem until the menu script has attached its handlers (the
+ * class site-menu-ready, which siteMenu in main.js sets on the html element), as the navigation is shown below the
+ * bar until then and the header is almost 400px high.
  */
 
 .site-header {
@@ -18,8 +19,23 @@
   background: var(--surface-page);
 }
 
+/*
+ * Where the browser can blur what lies behind an element, the bar is white at 85% over the page that scrolls under
+ * it, blurred by 12px and with its colours a little stronger, so the page shows through as a soft shade. Its text
+ * stays legible: on white at 85% over black, #d9d9d9, the darkest the page can put behind it, the charcoal of the
+ * links is 9.88:1, and the blur only evens that out. Elsewhere the bar is opaque white.
+ */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .site-header {
+    --header-glass: rgb(255 255 255 / 0.85);
+    background: var(--header-glass);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    backdrop-filter: saturate(180%) blur(12px);
+  }
+}
+
 @media (min-height: 30rem) {
-  .js .site-header {
+  .site-menu-ready .site-header {
     position: sticky;
     top: 0;
   }
@@ -97,10 +113,12 @@
 
 /*
  * The toggle: a 44px square at the right end of the bar with a 24px icon, the three bars while the menu is closed
- * and the cross while it is open, as its aria-expanded says. Paper on hover, the inset grey pressed. Its border is
- * transparent, so forced colours draw an outline around it. It is shown only under 64rem and only when scripts run
- * (the class js on the html element, set in the head of the page): without them it could not open anything, and
- * the menu is always shown.
+ * and the cross while it is open, as its aria-expanded says. It has no background in either state: paper only
+ * while a mouse is over it, where the device can hover (on a touch screen a tap would leave it paper until the
+ * next tap elsewhere), and the inset grey while it is pressed. Its border is transparent, so forced colours draw an
+ * outline around it. It is shown only under 64rem and only once the menu script has attached its handlers (the
+ * class site-menu-ready on the html element): before that, or when the script does not load, it could not open
+ * anything, and the menu is always shown.
  */
 .site-header .nav-toggle {
   transition: background-color var(--duration-hover) var(--ease-standard);
@@ -118,8 +136,10 @@
   cursor: pointer;
 }
 
-.site-header .nav-toggle:hover {
-  background: var(--surface-subtle);
+@media (hover: hover) {
+  .site-header .nav-toggle:hover {
+    background: var(--surface-subtle);
+  }
 }
 
 .site-header .nav-toggle:active {
@@ -139,9 +159,8 @@
 
 /*
  * The navigation: the documentation link, the links of the sections, the forum and the login button, a list in
- * the order of the page. A link is charcoal, 16/24 medium, and at least 44px high; hovering underlines it. The link
- * of the current page or section is in the link colour, semibold and underlined 2px, so it does not depend on
- * colour alone.
+ * the order of the page. A link is charcoal, 16/24 medium, and at least 44px high. The link of the current page or
+ * section is semibold, in the same charcoal, and marked by a bar of 2px (below), so it does not depend on colour.
  */
 .site-header .site-menu {
   grid-column: 1 / -1;
@@ -165,64 +184,45 @@
 .site-header .site-menu a:not(.button):hover,
 .site-header .site-menu a:not(.button):active {
   color: var(--text-heading);
-  text-decoration-line: underline;
-  text-decoration-thickness: var(--border-width);
 }
 
-.site-header .site-menu a[aria-current],
-.site-header .site-menu a[aria-current]:hover,
-.site-header .site-menu a[aria-current]:active {
-  color: var(--link);
+.site-header .site-menu a[aria-current] {
+  position: relative;
   font-weight: var(--weight-semibold);
-  text-decoration-line: underline;
-  text-decoration-thickness: var(--indicator-width);
-}
-
-.site-header .site-menu a[aria-current]:hover,
-.site-header .site-menu a[aria-current]:active {
-  color: var(--link-hover);
 }
 
 /*
- * The documentation link is a compact utility link of two lines: the brand name, set as it is in running text
- * (bold italic small capitals), over "Info & Docs" in the small size.
+ * The documentation link is a compact utility link on one line: the brand name, set as it is in running text
+ * (bold italic small capitals, 1.3 times the size around it), and "Info & Docs" in the size of the navigation, on
+ * one baseline, the line in the middle of the link.
  */
 .site-header .site-menu .doc-link a {
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.site-header .doc-link .brand {
-  display: block;
-  margin: 0;
-  font-size: var(--font-size-lead);
-  font-style: italic;
-  font-weight: var(--weight-bold);
-  font-variant-caps: small-caps;
-  line-height: var(--line-height-label);
-  text-transform: lowercase;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: baseline;
+  column-gap: 0.25em;
+  white-space: nowrap;
 }
 
 .site-header .doc-link small {
-  display: block;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
+  font-size: inherit;
+  line-height: inherit;
 }
 
 /*
- * Under 64rem the navigation is a list below the bar, shown while the toggle is expanded and, without scripts,
- * always. It is part of the header, so it pushes the page down rather than covering it, and when closed it is not
- * displayed at all, so none of its links can take the focus. The links are left-aligned rows at least 48px high,
- * with a subtle rule above each; the login button follows them. The documentation link is left out: the Docs link
- * of the list goes to the same page.
+ * Under 64rem the navigation is a list below the bar, shown while the toggle is expanded and, until the menu script
+ * is ready, always. It is part of the header, so it pushes the page down rather than covering it, and when closed it
+ * is not displayed at all, so none of its links can take the focus. The links are left-aligned rows at least 48px
+ * high, with a subtle rule above each, underlined on hover; the current one has a charcoal bar of 2px on the left
+ * edge of the list, its label 12px to the right of it. The login button follows them. The documentation link is left
+ * out: the Docs link of the list goes to the same page.
  */
 @media not all and (min-width: 64rem) {
-  .js .site-header .nav-toggle {
+  .site-menu-ready .site-header .nav-toggle {
     display: inline-flex;
   }
 
-  .js .site-header .nav-toggle[aria-expanded="false"] + .site-menu {
+  .site-menu-ready .site-header .nav-toggle[aria-expanded="false"] + .site-menu {
     display: none;
   }
 
@@ -238,6 +238,30 @@
     min-height: var(--space-12);
   }
 
+  .site-header .site-menu a:not(.button):hover,
+  .site-header .site-menu a:not(.button):active {
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--border-width);
+  }
+
+  .site-header .site-menu a[aria-current]:hover,
+  .site-header .site-menu a[aria-current]:active {
+    text-decoration-line: none;
+  }
+
+  .site-header .site-menu a[aria-current] {
+    padding-left: var(--space-3);
+  }
+
+  .site-header .site-menu a[aria-current]::before {
+    content: '';
+    position: absolute;
+    top: var(--space-3);
+    bottom: var(--space-3);
+    left: 0;
+    border-left: var(--indicator-width) solid var(--text-heading);
+  }
+
   .site-header .site-menu .doc-link {
     display: none;
   }
@@ -249,7 +273,11 @@
 
 /*
  * From 64rem the navigation is one row at the right end of the bar, 24px between its items, and the documentation
- * link is set apart from the section links by a subtle vertical rule, 24px from either.
+ * link is set apart from the section links by a subtle vertical rule of 24px, 24px from either. The links take
+ * the full height of the bar, so that a bar of 2px at their foot sits on the rule under the header, across the
+ * width of the link: in charcoal under the current one, in the control grey (3.70:1 on white) under a link the
+ * mouse is over. The login button keeps its own height in the middle of the bar. The bars are borders, so forced
+ * colours draw them in the text colour; a link has one only while it is current or hovered.
  */
 @media (min-width: 64rem) {
   .site-header .logo {
@@ -260,13 +288,42 @@
     display: flex;
     grid-row: 1;
     grid-column: 2;
-    align-items: center;
+    align-self: stretch;
     justify-content: flex-end;
     gap: var(--space-6);
   }
 
-  .site-header .site-menu .doc-link {
-    padding-right: var(--space-6);
-    border-right: var(--border-width) solid var(--border-subtle);
+  .site-header .site-menu li {
+    display: flex;
+  }
+
+  .site-header .site-menu .login {
+    align-self: center;
+  }
+
+  .site-header .site-menu a:not(.button) {
+    position: relative;
+  }
+
+  .site-header .site-menu a:not(.button):hover::after,
+  .site-header .site-menu a[aria-current]::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-bottom: var(--indicator-width) solid var(--border-control);
+  }
+
+  .site-header .site-menu a[aria-current]::after {
+    border-bottom-color: var(--text-heading);
+  }
+
+  .site-header .site-menu .doc-link::after {
+    content: '';
+    align-self: center;
+    height: var(--space-6);
+    margin-left: var(--space-6);
+    border-left: var(--border-width) solid var(--border-subtle);
   }
 }
