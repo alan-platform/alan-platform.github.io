@@ -3,6 +3,7 @@ layout: page
 title: About
 category: main
 url: /about/
+class: about
 description: >-
   Alan is a model-driven platform built by Kjerner: what it does, who builds it, the projects we help with, and how to get a free demo.
 ---

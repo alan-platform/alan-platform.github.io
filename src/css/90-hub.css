@@ -147,6 +147,55 @@ p.more {
   letter-spacing: 0;
 }
 
+/*
+ * The colours of the About page. Each feature opens with one stripe of the logo, 9px by 24px and slanted at the
+ * logo's 27.6 degrees, in the colours of the logo's stripes in their order, yellow, green, orange and blue, and
+ * again from yellow. The stripe is decoration: the name of the feature says what it is. The cards of Kjerner's
+ * pages carry the same colours as a 3px edge along their top, inside the border, so that it follows the corners.
+ */
+.feature {
+  --about-colour: var(--spectrum-yellow);
+}
+
+.feature:nth-child(4n + 2) {
+  --about-colour: var(--spectrum-green);
+}
+
+.feature:nth-child(4n + 3) {
+  --about-colour: var(--spectrum-orange);
+}
+
+.feature:nth-child(4n + 4) {
+  --about-colour: var(--spectrum-blue);
+}
+
+.feature h3::before {
+  content: '';
+  display: block;
+  width: 0.5625rem;
+  height: var(--space-6);
+  margin: 0 0 var(--space-3) var(--space-2);
+  background: var(--about-colour);
+  transform: skewX(-27.6deg);
+}
+
+.about a.card {
+  --about-colour: var(--spectrum-yellow);
+  box-shadow: inset 0 var(--edge-width) 0 var(--about-colour);
+}
+
+.about a.card:nth-child(4n + 2) {
+  --about-colour: var(--spectrum-green);
+}
+
+.about a.card:nth-child(4n + 3) {
+  --about-colour: var(--spectrum-orange);
+}
+
+.about a.card:nth-child(4n + 4) {
+  --about-colour: var(--spectrum-blue);
+}
+
 .feature p {
   font-size: var(--font-size-ui);
   line-height: var(--line-height-ui);
