@@ -10,6 +10,7 @@
 
 .site-footer {
   --focus-ring: var(--focus-ring-inverse);
+  position: relative;
   margin-top: var(--space-section);
   background: var(--surface-inverse);
   font-size: var(--font-size-ui);
@@ -18,16 +19,68 @@
 }
 
 /*
- * The content is in the width of the site shell, 48px from the top of the band and 32px from its bottom. Under
- * 40rem it is one column: the credit, the Alan logo, the copyright line. From 40rem the Alan logo is in a column of
- * its own on the right, level with the Kjerner mark, and the copyright line spans both columns below them.
+ * Across the top edge of the band runs a line of 3px in the four colours of the logo, in its order from left to
+ * right, yellow, green, orange and blue, a quarter of the width each and with hard edges between them: besides the
+ * hero of the home page, the one place where the colours of the logo appear apart from the logo itself. It is
+ * decoration; forced colours leave it out.
+ */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    var(--spectrum-yellow) 25%,
+    var(--spectrum-green) 25% 50%,
+    var(--spectrum-orange) 50% 75%,
+    var(--spectrum-blue) 75%
+  );
+}
+
+/*
+ * The content is in the width of the site shell, 48px below the top of the band and 32px from its bottom. Under
+ * 40rem it is one column: the credit, a rule, the Alan logo 24px under the rule and the copyright line 16px under
+ * the logo. From 40rem the credit is on a row of its own and the last row, under the rule, has the copyright line
+ * on the left and the Alan logo on the right, the foot of the logo on the baseline of the copyright line. The rule
+ * is a line of --ink-700, a step lighter than the band (1.45:1): decorative, it only separates; it spans the
+ * content and lies 32px under the credit. Every item has its row and column, as the rule takes the whole of the
+ * second row and would push an item placed automatically into a column of its own.
  */
 .site-footer .inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
+  row-gap: var(--space-8);
   max-width: calc(var(--width-shell) + 2 * var(--gutter));
   margin: 0 auto;
   padding: var(--space-12) var(--gutter) var(--space-8) var(--gutter);
+}
+
+.site-footer .inner::before {
+  content: '';
+  grid-row: 2;
+  grid-column: 1 / -1;
+  align-self: start;
+  border-top: var(--border-width) solid var(--ink-700);
+}
+
+.site-footer .credit {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.site-footer .logo {
+  grid-row: 2;
+  grid-column: 1;
+  margin-top: var(--space-6);
+}
+
+.site-footer .copyright {
+  grid-row: 3;
+  grid-column: 1;
+  margin-top: calc(var(--space-4) - var(--space-8));
 }
 
 @media (min-width: 40rem) {
@@ -37,12 +90,15 @@
   }
 
   .site-footer .logo {
-    grid-row: 1;
     grid-column: 2;
+    align-self: last baseline;
   }
 
   .site-footer .copyright {
-    grid-column: 1 / -1;
+    grid-row: 2;
+    grid-column: 1;
+    align-self: last baseline;
+    margin-top: var(--space-6);
   }
 }
 
@@ -51,16 +107,32 @@
 }
 
 /*
- * Text links are underlined, in the colour of the text around them, and turn white on hover with a thicker
- * underline (20-theme.css). The image links, the Kjerner mark and the social icons, hold no text to underline.
+ * Links in a sentence, "Kjerner" after "created by" and in the copyright line, are underlined in the colour of the
+ * text around them, with the underline in the control grey, 3.77:1 on the band: on this dark surface the link has
+ * the colour of its text, so the underline alone marks it, and a fainter one would fall under 3:1. The address and
+ * the site, which stand on lines of their own (class contact), are not underlined until the mouse is over them. A
+ * hovered link turns white, its underline too, with the thicker underline of 20-theme.css. The image links, the
+ * Kjerner mark, the social icons and the Alan logo, hold no text to underline.
  */
 .site-footer a {
   color: inherit;
+  text-decoration-color: var(--neutral-500);
+  text-underline-offset: 0.22em;
 }
 
 .site-footer a:hover,
 .site-footer a:active {
   color: var(--neutral-0);
+  text-decoration-color: currentColor;
+}
+
+.site-footer a.contact {
+  text-decoration-line: none;
+}
+
+.site-footer a.contact:hover,
+.site-footer a.contact:active {
+  text-decoration-line: underline;
 }
 
 /* The Kjerner mark, at the small scale it has always had: 23px high, attribution rather than the identity. */
@@ -102,30 +174,30 @@
 }
 
 /*
- * The Alan logo, the supplied white version, 168px wide (its height follows from its proportions). It takes the
- * place of the orange logo that was a background image of the band.
+ * The Alan logo, the supplied white version, a link to the home page: 15rem (240px) wide on a phone and 21rem
+ * (336px) from 40rem, twice its former size, its height following from its proportions. The link has no line of
+ * text, so its foot, the foot of the image, is the line it is aligned on. The space above it is a margin, so that
+ * the focus ring fits the logo.
  */
 .site-footer .logo {
   display: block;
-  width: 10.5rem;
+  width: min(15rem, 100%);
+}
+
+.site-footer .logo img {
+  display: block;
+  width: 100%;
   height: auto;
-  margin-top: var(--space-8);
 }
 
 @media (min-width: 40rem) {
   .site-footer .logo {
-    margin-top: 0;
+    width: 21rem;
   }
 }
 
-/*
- * The copyright line closes the band: 32px below the rest, under a rule, in the small size and the secondary
- * inverse colour. The rule is --ink-700, a step lighter than the band (1.45:1): decorative, it only separates.
- */
+/* The copyright line closes the band, in the small size and the secondary inverse colour. */
 .site-footer .copyright {
-  margin-top: var(--space-8);
-  padding-top: var(--space-6);
-  border-top: var(--border-width) solid var(--ink-700);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   color: var(--text-inverse-secondary);
@@ -139,13 +211,13 @@
 @media (forced-colors: active) {
   .site-footer .kjerner a,
   .site-footer .social a,
-  .site-footer .logo {
+  .site-footer .logo img {
     forced-color-adjust: none;
     background: var(--surface-inverse);
   }
 
   .site-footer .kjerner a,
-  .site-footer .logo {
+  .site-footer .logo img {
     padding: var(--space-1);
   }
 }

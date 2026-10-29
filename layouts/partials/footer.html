@@ -1,6 +1,8 @@
 {{- /*
 	The site footer: the Kjerner mark, who created Alan and how to reach them, the social links, the Alan logo and
-	the copyright line. The Alan logo is decorative (empty alt): the text beside it names Alan.
+	the copyright line. The Alan logo links to the home page, named "Alan" by its aria-label (its image has an empty
+	alt): the 404 page has no header, and this is its way back. The address and the site are lines of their own,
+	marked contact, not links in a sentence.
 */ -}}
 {{- $time := partialCached "build-time.html" "build-time" -}}
 <footer class="site-footer">
@@ -14,8 +16,8 @@
 			<p>
 				<span class="brand">alan</span> is created by <a href="https://www.kjerner.nl">Kjerner</a><br>
 				Please contact us for a free demo<br>
-				<a href="mailto:info@kjerner.com">info@kjerner.com</a><br>
-				<a href="https://www.kjerner.nl" rel="external">www.kjerner.nl</a>
+				<a class="contact" href="mailto:info@kjerner.com">info@kjerner.com</a><br>
+				<a class="contact" href="https://www.kjerner.nl" rel="external">www.kjerner.nl</a>
 			</p>
 			<p class="social">
 				<a href="https://www.linkedin.com/company/kjerner/">
@@ -26,7 +28,9 @@
 				</a>
 			</p>
 		</div>
-		<img class="logo" src="{{ "assets/logo/full-color-white.svg" | relURL }}" alt="" width="168" height="24">
+		<a class="logo" href="{{ "/" | relURL }}" aria-label="Alan">
+			<img src="{{ "assets/logo/full-color-white.svg" | relURL }}" alt="" width="336" height="49">
+		</a>
 		<p class="copyright">
 			&copy; <a href="https://www.kjerner.nl" rel="external">Kjerner</a> {{ $time.Year }} - Forever Flexible
 		</p>
