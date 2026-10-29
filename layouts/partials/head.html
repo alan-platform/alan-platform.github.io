@@ -21,6 +21,14 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{{- /*
+		The page has a light and a dark colour scheme (15-tokens.css). The color-scheme meta tells the browser so
+		before the stylesheet arrives, so that a reader in dark mode does not see a white page first, and the
+		theme colours, the colour of the page in each scheme, tint the browser's own bar where it has one.
+	*/}}
+	<meta name="color-scheme" content="light dark">
+	<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+	<meta name="theme-color" content="#131417" media="(prefers-color-scheme: dark)">
 	<script>/* The site header collapses its menu under 64rem from the first paint (the class site-menu-early, 50-header.css), not only once main.js has attached the handlers of the menu (site-menu-ready), which on a slow first visit came after the open menu had been shown. When main.js has not attached them within five seconds, the class is removed again: the menu is then shown, as without scripts. */ (function (root) { root.classList.add('site-menu-early'); setTimeout(function () { if (!root.classList.contains('site-menu-ready')) { root.classList.remove('site-menu-early'); } }, 5000); })(document.documentElement);</script>
 
 	{{ if $isRoot -}}
