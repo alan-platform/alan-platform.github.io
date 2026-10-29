@@ -290,7 +290,7 @@ For `Table`, we expressed that for the reference, its inverse (`-<` instead of `
 
 
 ## Upstream and downstream
-<sup style="color: red;">**IMPORTANT: Starting with platform version 2022.2, this was simplified significantly and this section is no longer relevant. Please consider upgrading.**</sup>
+<sup style="color: var(--orange-text);">**IMPORTANT: Starting with platform version 2022.2, this was simplified significantly and this section is no longer relevant. Please consider upgrading.**</sup>
 
 Computations for Alan applications are divided over multiple different phases to guarantee that derivations can always be evaluated.
 Alan distinguishes between two different types of computations: constraints and derivations.

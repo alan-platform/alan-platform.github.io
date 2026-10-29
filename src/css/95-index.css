@@ -7,16 +7,6 @@
  * rail one, not all and (min-width: 64rem), so no width is left without either styling.
  */
 
-/*
- * The 70-docs.css rule for the table of contents as it was inline in the text, its space and rule under it, does
- * not apply to the index.
- */
-.page-index #markdown-toc {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
 /* The label "On this page", in the style of the existing labels: 12/16 semibold capitals in the secondary text. */
 .page-index-label {
   margin: 0 0 var(--space-3) 0;
