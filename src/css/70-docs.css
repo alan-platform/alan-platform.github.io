@@ -12,7 +12,7 @@
  * (.page-header, 30-main.css), then a row with what the document is and the "Switch document" button, ruled off from
  * the document by a hairline. The title is a language name, which can be one long word joined by underscores; it
  * breaks anywhere rather than widen a phone's page. The header is the containing block of the language table that
- * the button shows.
+ * the button opens.
  */
 .doc-header {
   position: relative;
@@ -75,23 +75,28 @@
   fill: currentColor;
 }
 
-/* While the table is shown, the chevron points up, to where the button folds it. */
+/* While the table is open, the chevron points up, to where the button folds it. */
 .doc-meta .button svg {
   transition: transform var(--duration-disclosure) var(--ease-standard);
 }
 
-.doc-meta .button[aria-expanded='true'] svg {
+.doc-switch[open] > summary svg {
   transform: rotate(180deg);
 }
 
 /*
  * Under 40rem the button has a row of its own, under the text, and the release notes link a line of its own, under
- * the version, without the rule that sets it apart on one line.
+ * the version, without the rule that sets it apart on one line. The disclosure takes the width of the row, so that
+ * the table it opens under the button does.
  */
 @media not all and (min-width: 40rem) {
   .doc-meta {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .doc-switch {
+    align-self: stretch;
   }
 
   .doc-notes-link {
@@ -635,9 +640,9 @@ table:not([class]) thead th {
 }
 
 /*
- * "Switch document": the language table of the platform version of the document, which the button shows and hides
- * (main.js), in a white panel with 8px corners. The table has no border of its own in it; its caption, the platform
- * version, heads the panel above a hairline.
+ * "Switch document": the language table of the platform version of the document, which the button opens and closes
+ * (the disclosure .doc-switch), in a white panel with 8px corners. The table has no border of its own in it; its
+ * caption, the platform version, heads the panel above a hairline.
  *
  * Under 40rem the panel is in the flow of the header, under the button, and the page scrolls past it. From 40rem it
  * opens over the document, 8px under the header, as wide as the content column and in front of it (--z-popover),
@@ -650,10 +655,6 @@ table:not([class]) thead th {
   border: var(--border-width) solid var(--border-subtle);
   border-radius: var(--radius-panel);
   background: var(--surface-page);
-}
-
-#doc-list[hidden] {
-  display: none;
 }
 
 #doc-list .doc-table {

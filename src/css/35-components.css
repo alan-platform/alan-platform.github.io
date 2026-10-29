@@ -8,14 +8,14 @@
  */
 
 /*
- * Buttons, on an a or a button with the class button. The primary button is charcoal with white text, darker on
- * hover and pressed. button-secondary is white with a charcoal label and a control border, paper on hover and the
- * inset grey pressed. button-ghost is a link-coloured, underlined label without a border, on paper when hovered, for
- * an action on a light surface that needs no weight. All three are 16/24 semibold, at least 44px high with 20px on
- * either side; an icon in a button is 20px, 8px from the label. The border of the primary button is transparent:
- * forced colours draw it, so the button keeps an outline when its fill is gone.
+ * Buttons, on an a, a button or the summary of a disclosure with the class button. The primary button is charcoal with
+ * white text, darker on hover and pressed. button-secondary is white with a charcoal label and a control border, paper
+ * on hover and the inset grey pressed. button-ghost is a link-coloured, underlined label without a border, on paper
+ * when hovered, for an action on a light surface that needs no weight. All three are 16/24 semibold, at least 44px high
+ * with 20px on either side; an icon in a button is 20px, 8px from the label. The border of the primary button is
+ * transparent: forced colours draw it, so the button keeps an outline when its fill is gone.
  */
-:is(a, button).button {
+:is(a, button, summary).button {
   transition: background-color var(--duration-hover) var(--ease-standard), border-color var(--duration-hover) var(--ease-standard), color var(--duration-hover) var(--ease-standard);
   display: inline-flex;
   align-items: center;
@@ -36,39 +36,48 @@
   cursor: pointer;
 }
 
-:is(a, button).button:hover {
+/* A summary that is a button has no marker of its own: the button carries its icon. */
+summary.button {
+  list-style: none;
+}
+
+summary.button::-webkit-details-marker {
+  display: none;
+}
+
+:is(a, button, summary).button:hover {
   background: var(--action-primary-hover);
   color: var(--text-on-action);
 }
 
-:is(a, button).button:active {
+:is(a, button, summary).button:active {
   background: var(--action-primary-active);
   color: var(--text-on-action);
 }
 
-:is(a, button).button svg {
+:is(a, button, summary).button svg {
   width: var(--space-5);
   height: var(--space-5);
   flex: none;
 }
 
-:is(a, button).button-secondary {
+:is(a, button, summary).button-secondary {
   border-color: var(--border-control);
   background: var(--surface-page);
   color: var(--text-heading);
 }
 
-:is(a, button).button-secondary:hover {
+:is(a, button, summary).button-secondary:hover {
   background: var(--surface-subtle);
   color: var(--text-heading);
 }
 
-:is(a, button).button-secondary:active {
+:is(a, button, summary).button-secondary:active {
   background: var(--surface-inset);
   color: var(--text-heading);
 }
 
-:is(a, button).button-ghost {
+:is(a, button, summary).button-ghost {
   background: transparent;
   color: var(--link);
   text-decoration-line: underline;
@@ -77,8 +86,8 @@
   text-underline-offset: var(--underline-offset);
 }
 
-:is(a, button).button-ghost:hover,
-:is(a, button).button-ghost:active {
+:is(a, button, summary).button-ghost:hover,
+:is(a, button, summary).button-ghost:active {
   background: var(--surface-subtle);
   color: var(--link-hover);
   text-decoration-color: currentColor;

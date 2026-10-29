@@ -244,18 +244,20 @@ function markCurrentDocument() {
     });
 }
 
-// "Switch document" on a documentation page: a button that shows and hides the language table under the header, a
-// disclosure (aria-expanded on the button, hidden on the table), not a menu: Tab moves through its links as through
-// the page. Escape closes it, and returns the focus to the button when it was in the table. From 40rem the table
-// opens over the document (70-docs.css): there a click outside it closes it, and so does the focus leaving it and the
-// button, so that it never covers the link that has the focus; it is as high as the window leaves under it, less 16px
-// of air, and at least 240px. Under 40rem it is in the flow of the page and stays open until the button closes it.
+// "Switch document" on a documentation page: a disclosure (details, doc.html) whose summary is the button and whose
+// content is the language table, not a menu: Tab moves through its links as through the page. Without scripts the
+// browser opens and closes it. Here Escape closes it, and returns the focus to the button when it was in the table.
+// From 40rem the table opens over the document (70-docs.css): there a click outside it closes it, and so does the
+// focus leaving it and the button, so that it never covers the link that has the focus; it is as high as the window
+// leaves under it, less 16px of air, and at least 240px. Under 40rem it is in the flow of the page and stays open
+// until the button closes it.
 function documentSwitch() {
-    var button = document.querySelector('[aria-controls="doc-list"]');
-    if (!button) {
+    var list = document.getElementById('doc-list');
+    var disclosure = list && list.closest('details');
+    if (!disclosure) {
         return;
     }
-    var list = document.getElementById(button.getAttribute('aria-controls'));
+    var button = disclosure.querySelector('summary');
     var over = window.matchMedia('(min-width: 40rem)');
 
     function fit() {
@@ -264,19 +266,20 @@ function documentSwitch() {
     }
 
     function show(open) {
-        button.setAttribute('aria-expanded', open ? 'true' : 'false');
-        list.hidden = !open;
+        disclosure.open = open;
         if (open) {
             list.scrollTop = 0;
             fit();
         }
     }
 
-    button.addEventListener('click', function() {
-        show(list.hidden);
+    // the button opens the table itself, so that the table has its height before it is drawn
+    button.addEventListener('click', function(event) {
+        event.preventDefault();
+        show(!disclosure.open);
     });
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !list.hidden) {
+        if (event.key === 'Escape' && disclosure.open) {
             var inside = list.contains(document.activeElement);
             show(false);
             if (inside) {
@@ -285,21 +288,19 @@ function documentSwitch() {
         }
     });
     document.addEventListener('click', function(event) {
-        if (!list.hidden && over.matches && !list.contains(event.target) && !button.contains(event.target)) {
+        if (disclosure.open && over.matches && !disclosure.contains(event.target)) {
             show(false);
         }
     });
     // a click on the panel itself moves the focus nowhere (relatedTarget null): that is not leaving it
-    function leave(event) {
+    disclosure.addEventListener('focusout', function(event) {
         var to = event.relatedTarget;
-        if (!list.hidden && over.matches && to && to !== button && !list.contains(to)) {
+        if (disclosure.open && over.matches && to && !disclosure.contains(to)) {
             show(false);
         }
-    }
-    button.addEventListener('focusout', leave);
-    list.addEventListener('focusout', leave);
+    });
     window.addEventListener('resize', function() {
-        if (!list.hidden) {
+        if (disclosure.open) {
             fit();
         }
     });

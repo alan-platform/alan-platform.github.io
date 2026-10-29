@@ -20,8 +20,9 @@
 		<main id="content"{{ with $mainClass }} class="{{ delimit . " " }}"{{ end }}>
 			{{- /*
 				The header of the document: its title, then a row with what the document is (origin, type, version and
-				the link to its release notes or to the platform version that introduced it) and the "Switch document"
-				button, then the language table that the button shows and hides (main.js), hidden at first.
+				the link to its release notes or to the platform version that introduced it) and "Switch document", a
+				disclosure whose summary is the button and whose content is the language table, closed at first. It
+				works without scripts; main.js adds the closing by Escape, by a click outside and by the focus leaving.
 			*/}}
 			<div class="page-header doc-header">
 				<h1>{{ if eq $type "release notes" }}Release notes{{ else }}{{ .Params.language }}{{ end }}</h1>
@@ -37,17 +38,18 @@
 							{{ partial "release-platforms.html" (dict "origin" $origin "version" $version) }}
 						{{- end }}
 					</p>
-					<button class="button button-secondary" type="button" aria-expanded="false" aria-controls="doc-list">
-						Switch document
-						<svg aria-hidden="true" height="16" width="16" version="1.1" viewBox="0 0 32 32">
-							<path d="M16,24l-16,-16l32,0l-16,16Z"/>
-						</svg>
-					</button>
-				</div>
-
-				<div id="doc-list" hidden>
-					{{- $docPlatform := partialCached "doc-platform.html" . (printf "%#v" $origin) (printf "%#v" $version) }}
-					{{ partialCached "doc-table.html" (dict "version" $docPlatform "caption" true) $docPlatform.name true }}
+					<details class="doc-switch">
+						<summary class="button button-secondary" aria-controls="doc-list">
+							Switch document
+							<svg aria-hidden="true" height="16" width="16" version="1.1" viewBox="0 0 32 32">
+								<path d="M16,24l-16,-16l32,0l-16,16Z"/>
+							</svg>
+						</summary>
+						<div id="doc-list">
+							{{- $docPlatform := partialCached "doc-platform.html" . (printf "%#v" $origin) (printf "%#v" $version) }}
+							{{ partialCached "doc-table.html" (dict "version" $docPlatform "caption" true) $docPlatform.name true }}
+						</div>
+					</details>
 				</div>
 			</div>
 
