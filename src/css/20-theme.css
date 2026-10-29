@@ -265,8 +265,8 @@ code.code-name {
 }
 
 /*
- * A code block: the paper surface with a subtle border, charcoal code at 14/22, a step below the 15px of inline
- * code, as a block holds many lines. The code keeps its whitespace and scrolls within the block when a line is
+ * A code block: the paper surface with a subtle border, charcoal code at 13/20, two steps below the 15px of inline
+ * code, as a block holds many lines and IBM Plex Mono is wide. The code keeps its whitespace and scrolls within the block when a line is
  * longer than the column.
  *
  * A block that scrolls shows a shade on the edge where more code lies, without a script. Two shades are fixed to the
