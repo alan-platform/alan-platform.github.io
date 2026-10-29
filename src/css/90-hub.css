@@ -1,7 +1,7 @@
 /*
- * The Learn, Documentation, About and FAQ pages: the link under a list, the feature panels and the list of services
- * of the About page, and the questions of the FAQ. Their cards, notice and call to action are shared components
- * (35-components.css).
+ * The Learn, Documentation, About and FAQ pages and the 404 page: the link under a list, the feature panels and the
+ * list of services of the About page, the questions of the FAQ, and the "404". Their cards, notice and call to
+ * action are shared components (35-components.css).
  * 1.414em is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
@@ -132,4 +132,46 @@ p.more {
   margin-top: 0;
   padding-top: 0;
   border-top: none;
+}
+
+/*
+ * The 404 page, which has no site header: the "404" at a size of its own, 104/104 from 40rem and 80/88 on a phone,
+ * with the tracking of the largest display size, then the text of the page. The size is the page's own: no other
+ * element is set this large. The page starts lower than a page with a header, so that the number does not sit
+ * against the top of the window; the footer stays at the bottom (30-main.css).
+ */
+main.not-found {
+  padding-top: var(--space-10);
+  padding-bottom: var(--space-24);
+}
+
+main.not-found h1 {
+  margin: 0 0 var(--space-6) 0;
+  font-size: 5rem;
+  line-height: 5.5rem;
+  letter-spacing: var(--tracking-display-xl);
+}
+
+/* The first line, "Page not found :(", in the lead size, the sentence under it in the body text. */
+main.not-found h1 + p {
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
+  color: var(--text-heading);
+}
+
+@media (min-width: 40rem) {
+  main.not-found {
+    padding-top: var(--space-16);
+  }
+
+  main.not-found h1 {
+    font-size: 6.5rem;
+    line-height: 6.5rem;
+  }
+
+  main.not-found h1 + p {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+  }
 }
