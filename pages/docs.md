@@ -10,6 +10,7 @@ toc: true
 
 This page covers platform version {{< site-version >}}: the documentation of every Alan language, the `alan` script, and guides for common tasks.
 New to Alan? [**Learn Alan**](/learn/) takes you from an empty project to a working application first.
+{.lead}
 
 {{< docs-whats-new >}}
 
@@ -48,6 +49,7 @@ Your project pins its versions in its `versions.json`; [this versions.json](http
 - [**Spreadsheet import and export**](/pages/tutorials/data-import-export/data-import-export.html): Excel and CSV out of every collection, CSV back in.
 - [**Version control and offline editing**](/pages/tutorials/ide/ide-version-control.html): a project in Git, edited on your own machine and deployed from the IDE.
 - [**Upgrading a project**](/pages/tuts/upgrading.html): move a project to a newer platform version.
+{.link-list}
 
 {{% alan-script %}}
 
@@ -56,3 +58,4 @@ Your project pins its versions in its `versions.json`; [this versions.json](http
 - The [**forum**](https://forum.alan-platform.com/) is the place to ask when a model does not behave as you expect. Bring the model.
 - The [**FAQ**](/faq/) answers the questions people ask before their first application.
 - Cannot find the documentation of a file? Ask on the forum as well.
+{.link-list}

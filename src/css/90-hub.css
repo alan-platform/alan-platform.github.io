@@ -1,12 +1,53 @@
 /*
- * The Learn, Documentation, About and FAQ pages and the 404 page: the link under a list, the feature panels and the
- * list of services of the About page, the questions of the FAQ, and the "404". Their cards, notice and call to
- * action are shared components (35-components.css).
+ * The Learn, Documentation, About and FAQ pages and the 404 page: the lead paragraph, the lists of links with a
+ * line of explanation, the link under a table, the features and the list of services of the About page, the
+ * questions of the FAQ, and the "404". Their cards, notice and call to action are shared components
+ * (35-components.css).
  * 1.414em is an approximation of the square root of two, the ratio of the type scale, kept exactly as computed.
  */
 
-/* The link to everything else, under a list or a table. */
+/*
+ * The opening paragraph of a page, marked lead in its Markdown: 20/30 on the desktop, 18/28 on a phone, in the body
+ * text colour, 9.60:1 on white. Its measure is the 680px of the body text, 34em at 20px, so it ends where the
+ * paragraphs under it end.
+ */
+.lead {
+  max-width: 34em;
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
+}
+
+@media (min-width: 40rem) {
+  .lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+  }
+}
+
+/*
+ * A list of destinations, each a link with a line on what it is (link-list): an index of rows between hairlines in
+ * the subtle border colour instead of bullets, so the links line up on the left edge of the text. The list keeps
+ * the measure of prose.
+ */
+.link-list {
+  max-width: var(--measure);
+  padding: 0;
+  list-style: none;
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.link-list > li {
+  margin: 0;
+  padding: var(--space-3) 0;
+  border-bottom: var(--border-width) solid var(--border-subtle);
+}
+
+/* The link to everything else, under a list or a table: on the right, in the interface text. */
 p.more {
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-ui);
   text-align: right;
 }
 
