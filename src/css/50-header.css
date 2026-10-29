@@ -7,8 +7,9 @@
  * (--header-height in 15-tokens.css, which also places jump targets and the page rail below it); it grows when the
  * text is enlarged. It is in the flow of the page, so nothing starts under it, and sticks to the top of the window
  * while the page scrolls. It scrolls away with the page instead in a window less than 30rem high, where it would
- * cover too much of what is being read, and under 64rem when scripts do not run, where the navigation is always
- * shown below the bar and the header is almost 400px high.
+ * cover too much of what is being read, and under 64rem until the menu script has attached its handlers (the
+ * class site-menu-ready, which siteMenu in main.js sets on the html element), as the navigation is shown below the
+ * bar until then and the header is almost 400px high.
  */
 
 .site-header {
@@ -34,7 +35,7 @@
 }
 
 @media (min-height: 30rem) {
-  .js .site-header {
+  .site-menu-ready .site-header {
     position: sticky;
     top: 0;
   }
@@ -115,9 +116,9 @@
  * and the cross while it is open, as its aria-expanded says. It has no background in either state: paper only
  * while a mouse is over it, where the device can hover (on a touch screen a tap would leave it paper until the
  * next tap elsewhere), and the inset grey while it is pressed. Its border is transparent, so forced colours draw an
- * outline around it. It is shown only under 64rem and only when scripts run
- * (the class js on the html element, set in the head of the page): without them it could not open anything, and
- * the menu is always shown.
+ * outline around it. It is shown only under 64rem and only once the menu script has attached its handlers (the
+ * class site-menu-ready on the html element): before that, or when the script does not load, it could not open
+ * anything, and the menu is always shown.
  */
 .site-header .nav-toggle {
   transition: background-color var(--duration-hover) var(--ease-standard);
@@ -209,19 +210,19 @@
 }
 
 /*
- * Under 64rem the navigation is a list below the bar, shown while the toggle is expanded and, without scripts,
- * always. It is part of the header, so it pushes the page down rather than covering it, and when closed it is not
- * displayed at all, so none of its links can take the focus. The links are left-aligned rows at least 48px high,
- * with a subtle rule above each, underlined on hover; the current one has a charcoal bar of 2px on the left edge of
- * the list, its label 12px to the right of it. The login button follows them. The documentation link is left out:
- * the Docs link of the list goes to the same page.
+ * Under 64rem the navigation is a list below the bar, shown while the toggle is expanded and, until the menu script
+ * is ready, always. It is part of the header, so it pushes the page down rather than covering it, and when closed it
+ * is not displayed at all, so none of its links can take the focus. The links are left-aligned rows at least 48px
+ * high, with a subtle rule above each, underlined on hover; the current one has a charcoal bar of 2px on the left
+ * edge of the list, its label 12px to the right of it. The login button follows them. The documentation link is left
+ * out: the Docs link of the list goes to the same page.
  */
 @media not all and (min-width: 64rem) {
-  .js .site-header .nav-toggle {
+  .site-menu-ready .site-header .nav-toggle {
     display: inline-flex;
   }
 
-  .js .site-header .nav-toggle[aria-expanded="false"] + .site-menu {
+  .site-menu-ready .site-header .nav-toggle[aria-expanded="false"] + .site-menu {
     display: none;
   }
 

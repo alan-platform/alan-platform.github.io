@@ -1,21 +1,31 @@
-// The menu of the site header under 64rem. The toggle shows and hides it, and its aria-expanded says which: the
-// stylesheet hides the menu while it is false. Escape closes the open menu and puts the focus back on the toggle,
-// when the focus is in the header or nowhere; a key pressed elsewhere on the page is not the menu's. Without
-// JavaScript the menu is always shown and the toggle is not (50-header.css).
+// The menu of the site header under 64rem. The toggle shows and hides it, and its aria-expanded says which. Once
+// the handlers are attached, the class site-menu-ready on the html element lets the stylesheet show the toggle and
+// hide the menu while aria-expanded is false (50-header.css); until then, and when this script does not run at
+// all, the menu is shown and the toggle is not. The open menu closes when Escape is pressed with the focus in the
+// header or nowhere, which puts the focus back on the toggle; when the focus moves to something outside the header;
+// and when a link in the menu is followed. When the window narrows while a link of the closed menu has the focus,
+// the focus moves to the toggle, as the link is no longer shown; when it widens while the toggle has the focus,
+// the focus moves to the current link of the navigation, or the first one, as the toggle is no longer shown.
 function siteMenu() {
     var toggle = document.querySelector('.site-header .nav-toggle');
-    if (!toggle) {
+    var menu = toggle && document.getElementById(toggle.getAttribute('aria-controls'));
+    if (!menu) {
         return;
     }
     var header = toggle.closest('.site-header');
+    var wide = window.matchMedia('(min-width: 64rem)');
+    function isOpen() {
+        return toggle.getAttribute('aria-expanded') === 'true';
+    }
     function expand(open) {
         toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        publishHeaderOffset();
     }
     toggle.addEventListener('click', function() {
-        expand(toggle.getAttribute('aria-expanded') !== 'true');
+        expand(!isOpen());
     });
     document.addEventListener('keydown', function(event) {
-        if (event.key !== 'Escape' || toggle.getAttribute('aria-expanded') !== 'true') {
+        if (event.key !== 'Escape' || !isOpen()) {
             return;
         }
         var focus = document.activeElement;
@@ -25,11 +35,59 @@ function siteMenu() {
         expand(false);
         toggle.focus();
     });
+    // a focus that goes nowhere (relatedTarget null), such as the window losing it, does not close the menu
+    header.addEventListener('focusout', function(event) {
+        var to = event.relatedTarget;
+        if (isOpen() && to && !header.contains(to)) {
+            expand(false);
+        }
+    });
+    menu.addEventListener('click', function(event) {
+        if (isOpen() && event.target.closest('a')) {
+            expand(false);
+        }
+    });
+    wide.addEventListener('change', function() {
+        var focus = document.activeElement;
+        if (wide.matches) {
+            if (focus === toggle) {
+                (menu.querySelector('a[aria-current]') || menu.querySelector('a')).focus();
+            }
+        } else if (!isOpen() && menu.contains(focus)) {
+            toggle.focus();
+        }
+    });
+    document.documentElement.classList.add('site-menu-ready');
 }
+
+// The height of the site header, published as --header-offset on the html element, so that the stylesheet can
+// keep jump targets and the page rail below it; until this runs the stylesheet falls back to --header-height. The
+// header is measured, not taken from the stylesheet: it grows when the text is enlarged or the fonts arrive, and
+// while its menu is open. The value is updated whenever the header changes size (a ResizeObserver, or the resize
+// and load events where there is none) and at once when the menu opens or closes, before a link that closes it is
+// followed. A page without the header, the 404 page, publishes 0px. The header's own sizing does not read it.
+function publishHeaderOffset() {
+    var header = document.querySelector('.site-header');
+    var height = header ? header.getBoundingClientRect().height : 0;
+    document.documentElement.style.setProperty('--header-offset', height + 'px');
+}
+function headerOffset() {
+    var header = document.querySelector('.site-header');
+    publishHeaderOffset();
+    if (header && window.ResizeObserver) {
+        new ResizeObserver(publishHeaderOffset).observe(header);
+    } else {
+        window.addEventListener('resize', publishHeaderOffset);
+        window.addEventListener('load', publishHeaderOffset);
+    }
+}
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', siteMenu);
+    document.addEventListener('DOMContentLoaded', headerOffset);
 } else {
     siteMenu();
+    headerOffset();
 }
 
 // The page index (page-index.html): beside the content from 64rem, above it under 64rem. Under 64rem the label

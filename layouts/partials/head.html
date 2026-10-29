@@ -21,7 +21,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script>/* The class js says that scripts run: only then does the site header hide its closed menu (50-header.css). */ document.documentElement.classList.add('js');</script>
+	<script>/* The class js says that scripts run. The site header does not use it: it hides its closed menu once main.js has attached the handlers of the menu (site-menu-ready, 50-header.css). */ document.documentElement.classList.add('js');</script>
 
 	{{ if $isRoot -}}
 		<title>{{ site.Title }} - By Kjerner</title>
