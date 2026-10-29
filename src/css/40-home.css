@@ -70,6 +70,18 @@
 }
 
 /*
+ * In the dark scheme the page, #131417, is almost the ink of the stage (1.05:1), and the stage would run into the
+ * section under it. A hairline of white at 8% marks its lower edge, #2a2b2e on the stage, drawn as an inset shadow
+ * so that the height of the stage does not change and the bands, which run off that edge, lie over it. The upper
+ * edge is the rule under the site header.
+ */
+@media (prefers-color-scheme: dark) {
+  .home-hero {
+    box-shadow: inset 0 calc(-1 * var(--border-width)) 0 rgb(255 255 255 / 0.08);
+  }
+}
+
+/*
  * The text of the hero. Two rules cross the whole stage, one at the top of the headline and one at the foot of the
  * action: hairlines of white at 12%, #343537 on the stage (1.43:1), decoration that only marks the register the
  * bands cross. They lie under everything else on the stage; the headline, the sentence and the action lie above
@@ -472,6 +484,18 @@
   max-width: 100%;
   object-fit: contain;
   filter: grayscale(1);
+}
+
+/*
+ * In the dark scheme the grey of the logos, #6f6f6f, would be 3.67:1 on the page. Every logo is drawn in that grey
+ * (or in #6f6d7e, which grayscale turns into it) on a transparent background, with no plate or box of its own, so
+ * one filter lightens them all alike and they stay one family: brightness(1.2) gives #858585, 5.03:1 on the page,
+ * the share of the secondary text colour that they have on white (5.02:1 against 6.31:1).
+ */
+@media (prefers-color-scheme: dark) {
+  .logo-wall img {
+    filter: grayscale(1) brightness(1.2);
+  }
 }
 
 /*
