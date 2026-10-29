@@ -35,6 +35,17 @@
   }
 }
 
+/*
+ * In the dark scheme the glass is the colour of the dark page at 85%. Over white, the lightest the page can put
+ * behind it (a screenshot), that is #36373a, on which the heading colour of the links is 10.52:1. The rule under
+ * the bar and the opaque fallback are the tokens of the dark scheme.
+ */
+@media (prefers-color-scheme: dark) {
+  .site-header {
+    --header-glass: rgb(19 20 23 / 0.85);
+  }
+}
+
 @media (min-height: 30rem) {
   .site-menu-early .site-header,
   .site-menu-ready .site-header {

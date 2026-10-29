@@ -6,6 +6,10 @@
  * The band is the inverse surface, --ink-800. Its text is --text-inverse (10.32:1), the copyright line
  * --text-inverse-secondary (7.04:1), and a hovered link white (13.95:1). The focus ring is white too: the blue of
  * the light pages is 2.19:1 on the charcoal.
+ *
+ * In the dark scheme the inverse surface is paper, #1b1c20, a step lighter than the page, so the band still stands
+ * apart from it, and the line in the colours of the logo marks its top edge. Its text keeps its colours, at higher
+ * ratios: 12.59:1, 8.60:1 and 17.02:1 (15-tokens.css).
  */
 
 .site-footer {
