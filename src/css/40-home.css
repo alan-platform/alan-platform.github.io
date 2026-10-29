@@ -1,24 +1,13 @@
 /*
- * Home page: the brand name in running text, which the header and the footer use as well, and the composition of
- * the home page. The page opens on a dark stage across the width of the window, with the headline, the sentence
- * under it and the action, crossed by four bands at the angle of the stripes of the logo that run off its edges.
- * The sections after it are in the width of the site shell and apart by a rule: the platform and the business
- * sections set their heading in a narrow column beside their text, and the customers are a wall of logos in one
- * grey.
+ * Home page: the composition of the home page. The page opens on a dark stage across the width of the window, with
+ * the headline, the sentence under it and the action, crossed by four bands at the angle of the stripes of the logo
+ * that run off its edges. The sections after it are in the width of the site shell and apart by a rule: the platform
+ * and the business sections set their heading in a narrow column beside their text, and the customers are a wall of
+ * logos in one grey.
  *
  * The values are tokens (15-tokens.css), apart from the lengths and colours that only this page has, which are
  * explained where they are set.
  */
-
-span.brand {
-  display: inline-block;
-  margin-right: .1em;
-  font-weight: bold;
-  font-size: 1.3em;
-  font-style: italic;
-  font-variant: small-caps;
-  text-transform: lowercase;
-}
 
 /*
  * The main column of the home page is the width of the window, so that the hero can reach both edges. What is in
