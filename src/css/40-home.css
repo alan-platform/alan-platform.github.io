@@ -2,13 +2,12 @@
  * Home page: the brand name in running text, which the header and the footer use as well, and the composition of
  * the home page. Its main column is the width of the site shell. The hero sets the headline, the sentence under it
  * and the action beside the artwork, four bands at the angle of the stripes of the logo. The sections after it are
- * apart by a rule, and the platform section sets its heading in a narrow column beside its text. Further down are the
- * centred heading of the customers, the strip of their logos that fades out at both ends, and the card that links to
- * a post.
+ * apart by a rule: the platform section sets its heading in a narrow column beside its text, and the customers are a
+ * wall of logos in one grey. Further down is the card that links to a post.
  *
  * The values of the hero and the sections are tokens (15-tokens.css), apart from the lengths that only this page
- * has, which are explained where they are set. The older lengths 1.414rem, 1.999396rem and 2.827145944rem are powers
- * of 1.414, an approximation of the square root of two (1.414, 1.414^2 and 1.414^3), kept exactly as computed.
+ * has, which are explained where they are set. The older lengths 1.414rem and 2.827145944rem of the card are powers
+ * of 1.414, an approximation of the square root of two (1.414 and 1.414^3), kept exactly as computed.
  */
 
 span.brand {
@@ -309,6 +308,133 @@ span.brand {
   }
 }
 
+/*
+ * The customers: a wall of ten logos, two across on a phone and five across from 40rem, so that every row is full.
+ * Hairlines in the subtle border colour run between the tiles, not around the wall. The logos are in one neutral
+ * grey at full opacity: the existing PNGs are drawn in #6f6d7e, which grayscale turns into #6f6f6f (5.02:1 on
+ * white), and the other files are drawn in #6f6f6f. Nothing changes on hover: the logos are not links.
+ */
+.logo-wall {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: var(--space-8) 0 0 0;
+  padding: 0;
+  list-style: none;
+  --logo-scale: 0.75;
+}
+
+.logo-wall li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 7rem;
+  margin: 0;
+  padding: var(--space-4);
+}
+
+.logo-wall li:nth-child(n + 3) {
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.logo-wall li:nth-child(2n) {
+  border-left: var(--border-width) solid var(--border-subtle);
+}
+
+@media (min-width: 40rem) {
+  .logo-wall {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    --logo-scale: 0.7;
+  }
+
+  .logo-wall li {
+    min-height: 8rem;
+    padding: var(--space-3);
+  }
+
+  .logo-wall li:nth-child(n) {
+    border-top: none;
+    border-left: var(--border-width) solid var(--border-subtle);
+  }
+
+  .logo-wall li:nth-child(5n + 1) {
+    border-left: none;
+  }
+
+  .logo-wall li:nth-child(n + 6) {
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+}
+
+@media (min-width: 64rem) {
+  .logo-wall {
+    --logo-scale: 0.85;
+  }
+
+  .logo-wall li {
+    min-height: 9rem;
+    padding: var(--space-4);
+  }
+}
+
+@media (min-width: 80rem) {
+  .logo-wall {
+    --logo-scale: 1;
+  }
+}
+
+.logo-wall img {
+  width: auto;
+  height: calc(var(--logo-height) * var(--logo-scale));
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(1);
+}
+
+/*
+ * The height of each logo at full scale, set so that the logos look the same size: a wide one is lower than a square
+ * one, and a heavy one smaller than a light one. The PNGs of Allegion, Hydro and Tata Steel have a margin of their
+ * own (their drawing is 75%, 75% and 64% of their height), which their height includes.
+ */
+.logo-allegion {
+  --logo-height: 6.125rem;
+}
+
+.logo-hydro {
+  --logo-height: 6rem;
+}
+
+.logo-tata {
+  --logo-height: 6.5rem;
+}
+
+.logo-chdr {
+  --logo-height: 3.625rem;
+}
+
+.logo-rigo {
+  --logo-height: 2.75rem;
+}
+
+.logo-bokmerk {
+  --logo-height: 2.375rem;
+}
+
+.logo-growers {
+  --logo-height: 3.5rem;
+}
+
+.logo-locomotive {
+  --logo-height: 4.75rem;
+}
+
+.logo-apenheul {
+  --logo-height: 4.5rem;
+}
+
+.logo-corrosion {
+  --logo-height: 2.5rem;
+}
+
 .medium-post {
   display: flex;
   align-items: center;
@@ -350,63 +476,4 @@ span.brand {
   position: relative;
   top: -12px;
   left: -12px;
-}
-
-h2.centered {
-  color: #c3c5ca;
-  font-style: italic;
-  text-align: center;
-}
-
-p.centered {
-  margin-top: 1.999396rem;
-  text-align: center;
-}
-
-.strip {
-  list-style: none;
-  display: flex;
-  position: relative;
-  padding: 0;
-  margin-bottom: 1.999396rem;
-}
-
-.strip::before,
-.strip::after,
-.strip li {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 1.999396rem;
-  border: 2px solid #eeeff0;
-  background: #f7f7f7;
-}
-
-@media (max-width: 700px) {
-  .strip::before,
-  .strip::after,
-  .strip li {
-    padding: 2.67vw;
-  }
-}
-
-.strip li + li {
-  margin-left: 1rem;
-}
-
-.strip::before {
-  content: '';
-  margin-right: 1rem;
-  background: linear-gradient(to right, #fff, #f7f7f7);
-  border-image: linear-gradient(to right, #fff, #eeeff0) 2;
-  border-left: none;
-}
-
-.strip::after {
-  content: '';
-  margin-left: 1rem;
-  background: linear-gradient(to left, #fff, #f7f7f7);
-  border-image: linear-gradient(to left, #fff, #eeeff0) 2;
-  border-right: none;
 }

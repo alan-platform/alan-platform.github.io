@@ -72,24 +72,28 @@
 				</div>
 			</section>
 
-			<section>
+			<section class="home-customers">
 
-				<h2 class="centered">
+				<h2>
 					<span class="brand">Alan</span> supports global businesses
 				</h2>
 
-				<ul class="strip">
+				{{- /*
+					The customers, five across from 40rem and two across on phones, as ten tiles fill both grids. Each
+					logo has a height of its own (40-home.css), so that wide and tall ones look the same size.
+				*/}}
+				<ul class="logo-wall">
 					{{ `<!-- <li>
 						<img width="136" alt="OGD logo" src="/assets/companies/ogd.png">
 					</li> -->` | safeHTML }}
-					<li>
-						<img width="136" alt="Allegion logo" src="/assets/companies/allegion.png">
+					<li class="logo-allegion">
+						<img width="98" height="98" alt="Allegion logo" src="/assets/companies/allegion.png">
 					</li>
-					<li>
-						<img width="136" alt="Hydro logo" src="/assets/companies/hydro.png">
+					<li class="logo-hydro">
+						<img width="96" height="96" alt="Hydro logo" src="/assets/companies/hydro.png">
 					</li>
-					<li>
-						<img width="136" alt="Tata Steel logo" src="/assets/companies/tata.png">
+					<li class="logo-tata">
+						<img width="104" height="104" alt="Tata Steel logo" src="/assets/companies/tata.png">
 					</li>
 					{{ `<!-- <li>
 						<img width="136" alt="Apenheul logo" src="/assets/companies/apenheul.png">
@@ -97,6 +101,27 @@
 					<li>
 						<img width="136" alt="Natural Bulbs logo" src="/assets/companies/natural-bulbs.png">
 					</li> -->` | safeHTML }}
+					<li class="logo-chdr">
+						<img width="159" height="58" alt="CHDR logo" src="/assets/companies/chdr.png">
+					</li>
+					<li class="logo-rigo">
+						<img width="102" height="44" alt="RIGO Verffabriek logo" src="/assets/companies/rigo.svg">
+					</li>
+					<li class="logo-bokmerk">
+						<img width="131" height="38" alt="Bokmerk logo" src="/assets/companies/bokmerk.svg">
+					</li>
+					<li class="logo-growers">
+						<img width="114" height="56" alt="Growers Packers logo" src="/assets/companies/growers.png">
+					</li>
+					<li class="logo-locomotive">
+						<img width="53" height="76" alt="Locomotive logo" src="/assets/companies/locomotive.svg">
+					</li>
+					<li class="logo-apenheul">
+						<img width="57" height="72" alt="Apenheul logo" src="/assets/companies/apenheul.svg">
+					</li>
+					<li class="logo-corrosion">
+						<img width="146" height="40" alt="Corrosion logo" src="/assets/companies/corrosion.svg">
+					</li>
 				</ul>
 
 			</section>
