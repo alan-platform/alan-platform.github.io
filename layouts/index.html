@@ -13,10 +13,11 @@
 
 		<main id="content">
 			{{- /*
-				The hero: the headline, the sentence under it and the action on the left, the artwork on the right
-				from 64rem, below the action on narrower screens. The artwork is decoration: four bands at the angle
-				of the stripes of the logo, in its colours and order, between two rules. Its geometry is in
-				40-home.css.
+				The hero: a dark stage across the width of the window, with the headline, the sentence under it and
+				the action, and the artwork: four bands at the angle of the stripes of the logo, in its colours and
+				order, which run off the edges of the stage. Two rules cross the stage at the top of the headline and
+				the foot of the action. The artwork is decoration, hidden from assistive technology. Its geometry is
+				in 40-home.css.
 			*/}}
 			<div class="home-hero">
 				<div class="home-hero-text">
@@ -46,12 +47,11 @@
 					</p>
 				</div>
 				<div class="home-hero-art" aria-hidden="true">
-					<svg viewBox="0 0 560 480" preserveAspectRatio="xMidYMid meet" focusable="false" xmlns="http://www.w3.org/2000/svg">
-						<path class="home-hero-rules" d="M-2000 80H2560M-2000 400H2560"/>
-						<path class="home-hero-band home-hero-band-yellow" d="M76.32 400H118.32L285.68 80H243.68Z"/>
-						<path class="home-hero-band home-hero-band-green" d="M142.32 400H184.32L351.68 80H309.68Z"/>
-						<path class="home-hero-band home-hero-band-orange" d="M208.32 400H250.32L417.68 80H375.68Z"/>
-						<path class="home-hero-band home-hero-band-blue" d="M274.32 400H316.32L483.68 80H441.68Z"/>
+					<svg viewBox="-313.82 -600 867.64 1200" focusable="false" xmlns="http://www.w3.org/2000/svg">
+						<path class="home-hero-band home-hero-band-yellow" d="M-313.82 600H-271.82L355.82-600H313.82Z"/>
+						<path class="home-hero-band home-hero-band-green" d="M-247.82 600H-205.82L421.82-600H379.82Z"/>
+						<path class="home-hero-band home-hero-band-orange" d="M-181.82 600H-139.82L487.82-600H445.82Z"/>
+						<path class="home-hero-band home-hero-band-blue" d="M-115.82 600H-73.82L553.82-600H511.82Z"/>
 					</svg>
 				</div>
 			</div>
