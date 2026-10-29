@@ -569,6 +569,10 @@ function wrapCode() {
         if (lines.length > 1 && lines[lines.length - 1].textContent === '') {
             lines.pop();
         }
+        // The indentation of a line goes in a box of its own (code-indent), as wide as its tabs and spaces: a tab
+        // stops at a multiple of the tab width from an edge that the padding of a wrapped line moves, so left as
+        // text the tabs of an indented line stopped a tab too far in. The text in the box is the indentation as it
+        // was, so the text of the line does not change.
         lines.forEach(function(span) {
             var lead = span.textContent.match(/^[ \t]*/)[0];
             var tabs = lead.replace(/ /g, '').length;
@@ -577,6 +581,19 @@ function wrapCode() {
             }
             if (lead.length > tabs) {
                 span.style.setProperty('--code-spaces', lead.length - tabs);
+            }
+            // the indentation is in the first text of the line, which can be inside an element, such as the comment
+            // that a line of a block comment continues
+            var first = document.createTreeWalker(span, NodeFilter.SHOW_TEXT).nextNode();
+            if (lead && first && first.data.indexOf(lead) === 0) {
+                var indent = document.createElement('span');
+                indent.className = 'code-indent';
+                indent.textContent = lead;
+                first.data = first.data.substring(lead.length);
+                first.parentNode.insertBefore(indent, first);
+                if (!first.data) {
+                    first.parentNode.removeChild(first);
+                }
             }
         });
         code.textContent = '';

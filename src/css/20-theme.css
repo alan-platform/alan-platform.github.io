@@ -330,6 +330,20 @@ pre.code-wrap .code-line {
   overflow-wrap: anywhere;
 }
 
+/*
+ * The indentation of a line (main.js puts it in a box of its own) is exactly as wide as its tabs and spaces, its
+ * tabs hidden in it: a tab stops at a multiple of the tab width from an edge that the padding above moves, which
+ * left the tabs of an indented line a tab too far in.
+ */
+pre.code-wrap .code-indent {
+  display: inline-block;
+  width: var(--code-start);
+  overflow: hidden;
+  vertical-align: top;
+  text-indent: 0;
+  white-space: pre;
+}
+
 @media not all and (min-width: 40rem) {
   pre.code-wrap,
   pre.code-wrap code {
