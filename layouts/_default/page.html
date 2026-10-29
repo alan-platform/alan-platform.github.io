@@ -16,10 +16,12 @@
 		<main id="content"{{ if $pageIndex }} class="has-page-index"{{ end }}>
 			{{- /*
 				The page header: the title, and the anchors and buttons of the front matter when there are any. A title
-				written over several lines with <br> takes the long-title scale (page-header-long).
+				written over several lines with <br> takes the long-title scale (page-header-long), and gets a space
+				before every <br>: a phone does not show those line breaks (30-main.css), and the words around one
+				would otherwise run together. At the end of a line the space is not shown.
 			*/}}
 			<div class="page-header{{ if in (string .Params.title) "<br" }} page-header-long{{ end }}">
-				<h1>{{ .Params.title | safeHTML }}</h1>
+				<h1>{{ replaceRE `\s*<br\s*/?>` " <br>" (string .Params.title) | safeHTML }}</h1>
 				{{ if or .Params.anchors .Params.buttons }}
 				<nav>
 					{{ with .Params.anchors }}

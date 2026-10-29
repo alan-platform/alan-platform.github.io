@@ -96,12 +96,31 @@ main > h1:first-child {
 
 /*
  * A long title, one written over several lines with <br> (the tutorials), takes the long-title scale: the page
- * layout marks its header with page-header-long. The lines the title gives stay as they are.
+ * layout marks its header with page-header-long. From 40rem the lines the title gives stay as they are. Under 40rem
+ * a line of the title can be a word or two longer than the column, which leaves its last word alone on a line
+ * ("software" in Mission Control): there the title runs on and the browser balances its lines. The layout writes a
+ * space before every <br>, so that the words around it stay apart when the line break is not shown. Under 22.5rem
+ * the title takes 9.5% of the width of the window when that is less, 30.4px at 320px, as the other titles scale
+ * down there (20-theme.css), with its lines 1.2 times its size apart, the proportion of the long phone size (44 to
+ * 36).
  */
 .page-header-long h1 {
   font-size: var(--font-size-title-long-phone);
   line-height: var(--line-height-title-long-phone);
   letter-spacing: var(--tracking-title-long-phone);
+}
+
+@media not all and (min-width: 40rem) {
+  .page-header-long h1 br {
+    display: none;
+  }
+}
+
+@media not all and (min-width: 22.5rem) {
+  .page-header-long h1 {
+    font-size: min(var(--font-size-title-long-phone), 9.5vw);
+    line-height: 1.2;
+  }
 }
 
 @media (min-width: 40rem) {
