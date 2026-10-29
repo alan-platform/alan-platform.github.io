@@ -227,10 +227,29 @@ function documentSwitch() {
     });
 }
 
+// Release notes put the code that illustrates an item straight after the list, so it renders outside it: the code
+// moves into the last item, with what follows it up to the next list or heading. This runs as soon as the document
+// is parsed, before the first paint where it can, so that the code does not visibly jump.
+function releaseNotesCode() {
+    document.querySelectorAll('.release-notes section > ul').forEach(function(list) {
+        var next = list.nextElementSibling;
+        if (!next || !next.classList.contains('highlighter-rouge')) {
+            return;
+        }
+        while (next && !next.matches('ul, ol, h1, h2, h3, h4, h5, h6, hr')) {
+            var moving = next;
+            next = next.nextElementSibling;
+            list.lastElementChild.appendChild(moving);
+        }
+    });
+}
+
 if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', releaseNotesCode);
     document.addEventListener('DOMContentLoaded', markCurrentDocument);
     document.addEventListener('DOMContentLoaded', documentSwitch);
 } else {
+    releaseNotesCode();
     markCurrentDocument();
     documentSwitch();
 }
@@ -244,20 +263,6 @@ window.addEventListener('scroll', function() {
 });
 
 window.onload = function() {
-    // release notes put the code that illustrates an item straight after the list, so it renders outside it;
-    // move that code into the last item, with what follows it up to the next list or heading
-    document.querySelectorAll('.release-notes section > ul').forEach(function(list) {
-        var next = list.nextElementSibling;
-        if (!next || !next.classList.contains('highlighter-rouge')) {
-            return;
-        }
-        while (next && !next.matches('ul, ol, h1, h2, h3, h4, h5, h6, hr')) {
-            var moving = next;
-            next = next.nextElementSibling;
-            list.lastElementChild.appendChild(moving);
-        }
-    });
-
     var deeplinks = document.querySelectorAll('h2[id], h3[id]');
     deeplinks.forEach(function(i) {
         i.innerHTML = '<a href="#' + i.id + '">' + i.innerHTML + '</a>';

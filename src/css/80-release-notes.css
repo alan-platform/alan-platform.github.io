@@ -1,100 +1,95 @@
 /*
- * Release notes: the notes of one component version, or those of a platform
- * version with its component table.
- * The pages are generated from the RELEASE.md of each component, so
- * everything here is presentation.
+ * Release notes: the notes of one component version, or those of a platform version with its component table. The
+ * pages are generated from the RELEASE.md of each component, so everything here is presentation. The header, the
+ * section rules and the tables in the text are those of every documentation page (70-docs.css).
  */
-
-/* the version the notes are about, right under the header that already names it */
-.release-notes section > h2:first-child {
-  margin-top: 1rem;
-}
-
-.release-notes li + li {
-  margin-top: .75em;
-}
 
 /*
- * the code, paragraphs and tables of an item; the code (li > .highlighter-rouge)
- * is in the item because main.js moves it there from after the list
+ * The items of a list are 12px apart: an item is a sentence or more, often with code under it. The code, paragraphs
+ * and tables of an item (main.js moves the code that illustrates an item into it from after the list) are 12px from
+ * its text.
  */
+.release-notes section li {
+  margin-bottom: var(--space-3);
+}
+
 .release-notes li > .highlighter-rouge,
 .release-notes li > p,
 .release-notes li > table {
-  margin-top: .5em;
-  margin-bottom: .5em;
+  margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
-/* error messages quoted in full: let them wrap rather than push the page sideways */
+/*
+ * A code block in an item reaches the right edge of the content column, as the code outside the lists does, rather
+ * than stop at the measure of the item's text. The section is a container for this: 100cqw is the width of the
+ * column, less the 24px indent of the list.
+ */
+.release-notes section {
+  container-type: inline-size;
+}
+
+.release-notes section > ul > li > .highlighter-rouge {
+  width: calc(100cqw - var(--space-6));
+}
+
+/*
+ * Commands and error messages in the text run on with it, as words do, and wrap at their spaces when they reach the
+ * end of a line, a long one without spaces anywhere; each piece of a wrapped command keeps the inset background and
+ * the corners. The notes quote whole commands and messages in their sentences, which would otherwise each move to a
+ * line of their own.
+ */
 .release-notes p > code,
 .release-notes li > code {
-  white-space: normal;
+  display: inline;
   overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /*
- * a table in the notes: read as text. The component table of a platform release has the look of the language
- * table instead (70-docs.css), and its own rules below.
+ * The component table of a platform release: compact, 8px above and under the text of a row. The component column
+ * takes the width that the two versions leave, and a long name wraps at its hyphens rather than push the table wider
+ * than a phone. The versions keep their figures aligned.
  */
-.release-notes section table:not(.release-components) {
-  border-spacing: 0;
+.release-components th,
+.release-components td {
+  padding-top: var(--space-2);
+  padding-bottom: var(--space-2);
 }
 
-/* aligned with the text above, the columns kept apart by the space on their right */
-.release-notes section table:not(.release-components) th,
-.release-notes section table:not(.release-components) td {
-  padding: .35em 1.5rem .35em 0;
-  border-right: none;
-  border-bottom: 1px solid #eeeff0;
-  text-align: left;
-}
-
-.release-notes section table:not(.release-components) thead th {
-  border-bottom-color: #c3c5ca;
-  font-size: .875em;
-  color: #484a50;
-}
-
-/* narrow screens (the site-wide 50rem breakpoint): less space between the columns */
-@media (max-width: 50rem) {
-  .release-notes section table:not(.release-components) th,
-  .release-notes section table:not(.release-components) td {
-    padding-right: 1rem;
-  }
-}
-
-/*
- * The component column takes the width that the two versions leave, and a long name wraps at its hyphens rather
- * than push the table wider than a phone. The versions keep their figures aligned.
- */
 .release-components tbody th {
   width: 100%;
   white-space: normal;
+}
+
+/* Under 40rem the cells are 12px from each other, not 16px, so that the three columns fit a 320px window. */
+@media not all and (min-width: 40rem) {
+  .release-components th,
+  .release-components td {
+    padding-right: var(--space-3);
+    padding-left: var(--space-3);
+  }
 }
 
 .release-components td {
   font-variant-numeric: tabular-nums;
 }
 
-/* a version that changed, linking its release notes, in the blue darkened by 8% (4.9:1 on white) */
-.release-components td > a,
-.release-components td > a:link,
-.release-components td > a:visited {
-  display: inline;
-  width: auto;
-  padding: 0;
-  font-weight: bold;
-  color: #2163ff;
+/* A version that changed, linking its release notes, semibold in the link colour (6.36:1 on white). */
+.release-components td > a {
+  font-weight: var(--weight-semibold);
 }
 
 /*
- * A component that did not change recedes: its name is not bold and its row is in the third grey, 8.9:1 on white,
- * where the lighter grey #838590 that it had was 3.7:1.
+ * A component that did not change recedes: its name and its versions are in the secondary text colour (6.31:1 on
+ * white, 5.89:1 on the paper of a hovered row), its name in the regular weight. A changed version without notes
+ * keeps its strong.
  */
 .release-components .unchanged > * {
-  color: #484a50;
+  color: var(--text-secondary);
 }
 
 .release-components .unchanged th {
-  font-weight: normal;
+  font-weight: var(--weight-regular);
 }
