@@ -318,18 +318,10 @@ main.not-found h1 + p {
 /*
  * Callouts: a quote block in an article holds a note to the reader (a tutorial folder, what you did not write, a
  * summary, an error message of the compiler, the credentials of a first login). It takes the look of the notice
- * (35-components.css): body text on the warning surface, 16px by 20px of padding, 8px corners and a 3px edge in the
- * yellow of the logo, an inset shadow that follows the corners. The words of the note say what it is; the edge only
- * decorates. Its border has the colour of the surface, which forced colours draw. Body text is 8.76:1 on the
- * surface, links 5.81:1.
+ * (35-components.css), and is 24px from the text around it, as code blocks and screenshots are.
  */
 .article main > section blockquote {
   margin: var(--space-6) 0;
-  padding: var(--space-4) var(--space-5);
-  border: var(--border-width) solid var(--surface-warning);
-  border-radius: var(--radius-panel);
-  background: var(--surface-warning);
-  box-shadow: inset 3px 0 0 var(--spectrum-yellow);
 }
 
 /*

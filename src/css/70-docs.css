@@ -453,7 +453,8 @@ table:not([class]) thead th {
  *
  * The stable version, the one of the documentation page, is marked in the row by the yellow of the logo on the
  * edge of its tag and the notice tint inside it (its link 5.81:1 on that tint), and its card by a 3px yellow edge on
- * the left, as the notice has: the left border in that yellow and 2px of inset shadow inside it.
+ * the left, as the notice has: a left border of 3px in that yellow, with square corners on that side, and 2px less
+ * padding, so that its text lines up with that of the other cards.
  */
 .archive-nav ul {
   margin: var(--space-6) 0 var(--space-8) 0;
@@ -475,8 +476,9 @@ table:not([class]) thead th {
 }
 
 .archive-stable {
-  border-left-color: var(--spectrum-yellow);
-  box-shadow: inset var(--indicator-width) 0 0 var(--spectrum-yellow);
+  padding-left: calc(var(--padding-card) - var(--edge-width) + var(--border-width));
+  border-left: var(--edge-width) solid var(--spectrum-yellow);
+  border-radius: 0 var(--radius-panel) var(--radius-panel) 0;
 }
 
 /*

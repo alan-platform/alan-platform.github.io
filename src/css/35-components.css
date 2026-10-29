@@ -270,16 +270,19 @@ a.card:active .card-title {
 /*
  * Callouts. A notice is existing information that stands out from the text, such as a release that is out: body
  * text on the warning surface, 16px by 20px of padding, 8px corners, with a 3px edge in the yellow of the logo on
- * its left. The edge is an inset shadow, so it follows the rounded corners; it decorates, the words say what the
- * notice is. The border has the colour of the surface: invisible, except in forced colours, which draw it.
+ * its left. The edge is the left border, and the corners on that side are square, so that the edge runs straight
+ * from top to bottom; it decorates, the words say what the notice is. The other borders have the colour of the
+ * surface: invisible, except in forced colours, which draw them. A quote block in an article (90-hub.css) is a
+ * callout of the same look. Body text is 8.76:1 on the surface, links 5.81:1.
  */
-.notice {
+.notice,
+.article main > section blockquote {
   margin: 0 0 var(--space-6) 0;
   padding: var(--space-4) var(--space-5);
   border: var(--border-width) solid var(--surface-warning);
-  border-radius: var(--radius-panel);
+  border-left: var(--edge-width) solid var(--spectrum-yellow);
+  border-radius: 0 var(--radius-panel) var(--radius-panel) 0;
   background: var(--surface-warning);
-  box-shadow: inset 3px 0 0 var(--spectrum-yellow);
 }
 
 /*

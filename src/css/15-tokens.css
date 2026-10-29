@@ -255,7 +255,8 @@
 
   /*
    * Shape. Radii grow with the size of the element: inline code, tags, buttons, panels (cards, callouts, code
-   * blocks) and the home artwork. They and the border widths are in px: they do not grow with the text.
+   * blocks) and the home artwork. They and the border widths are in px: they do not grow with the text. A border is
+   * 1px, an indicator (a current entry, a rule under table labels) 2px, and the coloured edge of a callout 3px.
    */
   --radius-inline: 3px;
   --radius-tag: 4px;
@@ -264,6 +265,7 @@
   --radius-artwork: 12px;
   --border-width: 1px;
   --indicator-width: 2px;
+  --edge-width: 3px;
   --focus-width: 3px;
   --focus-offset: 3px;
 
