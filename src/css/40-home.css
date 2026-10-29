@@ -25,19 +25,26 @@ span.brand {
  * it keeps to the site shell: --home-inline is the distance from the edge of the window to the shell, the gutter
  * or, in a window wider than the shell and its gutters, half of what the shell leaves. A percentage in it is a
  * share of the width of main, so it is only used on the children of main.
+ *
+ * From 64rem the hero and the sections in two columns share one grid in the shell, --home-columns: a left column of
+ * seven twelfths and a right one of five, 64px apart, 691px and 493px in the full shell. The headline and the
+ * headings of the sections start on the left edge of the shell, the bands cross the lower rule of the hero and the
+ * text of the sections starts on the left edge of the right column. The last section ends at main: the margin of
+ * the footer is the separation below it.
  */
 .home main {
   --home-inline: max(var(--gutter), (100% - var(--width-shell)) / 2);
+  --home-columns: minmax(0, 7fr) minmax(0, 5fr);
   max-width: none;
-  padding: 0 0 var(--space-section) 0;
+  padding: 0;
 }
 
 /*
- * The hero is a stage in the darkest ink, from edge to edge of the window. On a phone and a tablet it is one
- * column: the text, 48px below the header (64px from 40rem), and the artwork under it, down to the bottom of the
- * stage, which is as high as they are. From 64rem the text and the artwork share one row of the two columns of the
- * home page (below), the stage is the height of the window under the header, at most 50rem (800px) and never less
- * than its content with 80px above and below, and the text is in the middle of it.
+ * The hero is a stage in the darkest ink, from edge to edge of the window. On a phone and a tablet it is one column:
+ * the text, 48px below the header (64px from 40rem), and the artwork under it, down to the bottom of the stage,
+ * which is as high as they are. From 64rem the text and the artwork share one row of the two columns of the home
+ * page (--home-columns), the stage is the height of the window under the header, at most 50rem (800px) and never
+ * less than its content with 80px above and below, and the text is in the middle of it.
  *
  * The stage clips what runs over its edges, the bands and the rules, and it is a stacking context of its own, so
  * that the rules lie under the bands and the text above them. Its text sets the focus ring white, 17.58:1 on the
@@ -63,7 +70,7 @@ span.brand {
 
 @media (min-width: 64rem) {
   .home-hero {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: var(--home-columns);
     align-content: center;
     column-gap: var(--gap-hero);
     min-height: min(calc(100vh - var(--header-height)), 50rem);
@@ -382,14 +389,14 @@ span.brand {
 }
 
 /*
- * A section in two columns: from 64rem the heading in the narrower left column, five twelfths of the shell, and the
- * text in the right one, 691px wide in the full shell, 64px apart. The first line of the heading and the first line
- * of the text share their baseline. The text keeps the measure of prose.
+ * A section in two columns: from 64rem the columns of the hero (--home-columns), the heading in the left one and the
+ * text in the right one, on the line where the yellow band crosses the lower rule of the hero. The first line of the
+ * heading and the first line of the text share their baseline. The text keeps the measure of prose.
  */
 @media (min-width: 64rem) {
   .home-columns {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-columns: var(--home-columns);
     align-items: first baseline;
     column-gap: var(--gap-hero);
   }
