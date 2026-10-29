@@ -306,6 +306,40 @@ pre code {
 }
 
 /*
+ * A code block whose lines main.js has set apart (wrapCode) wraps a line that is longer than the block is wide,
+ * instead of scrolling: at a space where it can, anywhere in a word that is longer than the block. What wraps hangs
+ * 4 characters (--code-hang) further in than the line starts, so it reads as the rest of that line and not as a line
+ * of its own: the line starts after its tabs (--code-tabs, each --code-tab wide) and its spaces (--code-spaces, 1ch
+ * each). Without the script a block scrolls, as the diagrams still do.
+ *
+ * Under 40rem a tab of a wrapped block is 2 characters instead of 4, and what wraps hangs 2 characters in: the
+ * grammars nest up to 11 levels deep, and 44 characters of indentation alone are wider than the column of a phone.
+ */
+pre.code-wrap,
+pre.code-wrap code {
+  --code-tab: 4ch;
+  --code-hang: 4ch;
+  white-space: pre-wrap;
+}
+
+pre.code-wrap .code-line {
+  --code-start: calc(var(--code-tabs, 0) * var(--code-tab) + var(--code-spaces, 0) * 1ch);
+  display: block;
+  padding-left: calc(var(--code-start) + var(--code-hang));
+  text-indent: calc(-1 * (var(--code-start) + var(--code-hang)));
+  overflow-wrap: anywhere;
+}
+
+@media not all and (min-width: 40rem) {
+  pre.code-wrap,
+  pre.code-wrap code {
+    --code-tab: 2ch;
+    --code-hang: 2ch;
+    tab-size: 2;
+  }
+}
+
+/*
  * Tables are set in the table text, 14/22, with figures of equal width, so that the versions in a column line up.
  * Their layout belongs to the page that has them (70-docs.css, 80-release-notes.css).
  */

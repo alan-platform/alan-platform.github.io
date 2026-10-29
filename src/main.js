@@ -415,8 +415,8 @@ function releaseNotesCode() {
 }
 
 // Inline code breaks after a hyphen as a word does (20-theme.css), which splits a name such as numerical-types over
-// two lines. A name with a hyphen and no space, of at most 20 characters, is kept on one line instead: at the 15px
-// of inline code it is at most 180px wide, which the narrowest column of text on a 320px window holds. Code in a
+// two lines. A name with a hyphen and no space, of at most 20 characters, is kept on one line instead: at the 14px
+// of inline code it is at most 168px wide, which the narrowest column of text on a 320px window holds. Code in a
 // heading is larger and keeps breaking, and so does a longer name, which could be wider than a phone's column.
 function codeNames() {
     document.querySelectorAll('code').forEach(function(code) {
@@ -427,12 +427,116 @@ function codeNames() {
     });
 }
 
+// A line of a code block that is longer than the block is wide wraps instead of making the block scroll sideways: in
+// the documentation a line of a grammar or an example can be twice the width of the column, and scrolling to read it
+// lost the rest of the block. Each line of the code becomes a span of its own (code-line), with its indentation, the
+// tabs and the spaces it starts with, as --code-tabs and --code-spaces; the stylesheet (20-theme.css) breaks a line
+// that is too long and sets what wraps a few characters further in than the line itself starts, so a wrapped line
+// reads as one line. The newlines stay in the text, inside the spans, so the text of the block is what it was: the
+// copy button copies it as it is, and a copy of a selection in a wrapped block (the copy event below) gives that
+// text too, where some browsers would add a newline for every span. The diagrams drawn with box-drawing characters
+// keep their lines whole and scroll, and a block marked copy already wraps as prose. The code is in a code element,
+// or, in the rule blocks of the generated grammars (pre.code-custom), straight in the pre. Prism has highlighted the
+// blocks when this runs: it listens for the same event and its script comes first.
+function wrapCode() {
+    document.querySelectorAll('pre').forEach(function(pre) {
+        if (pre.closest('.diagram, .copy') || pre.classList.contains('code-wrap')) {
+            return;
+        }
+        var code = pre.querySelector(':scope > code') || pre;
+        var line = null;
+        var lines = [];
+        var open = [];
+        function next() {
+            line = document.createElement('span');
+            line.className = 'code-line';
+            lines.push(line);
+            open.forEach(function(entry) {
+                entry.clone = null;
+            });
+        }
+        // the innermost element that the current line needs: the elements the text is in, cloned into this line
+        function target() {
+            var parent = line;
+            open.forEach(function(entry) {
+                if (!entry.clone) {
+                    entry.clone = entry.element.cloneNode(false);
+                    parent.appendChild(entry.clone);
+                }
+                parent = entry.clone;
+            });
+            return parent;
+        }
+        function walk(node) {
+            Array.prototype.slice.call(node.childNodes).forEach(function(child) {
+                if (child.nodeType === Node.TEXT_NODE) {
+                    child.data.split('\n').forEach(function(part, i) {
+                        if (i > 0) {
+                            target().appendChild(document.createTextNode('\n'));
+                            next();
+                        }
+                        if (part) {
+                            target().appendChild(document.createTextNode(part));
+                        }
+                    });
+                } else if (child.nodeType === Node.ELEMENT_NODE) {
+                    open.push({element: child, clone: null});
+                    walk(child);
+                    open.pop();
+                }
+            });
+        }
+        next();
+        walk(code);
+        if (lines.length > 1 && lines[lines.length - 1].textContent === '') {
+            lines.pop();
+        }
+        lines.forEach(function(span) {
+            var lead = span.textContent.match(/^[ \t]*/)[0];
+            var tabs = lead.replace(/ /g, '').length;
+            if (tabs) {
+                span.style.setProperty('--code-tabs', tabs);
+            }
+            if (lead.length > tabs) {
+                span.style.setProperty('--code-spaces', lead.length - tabs);
+            }
+        });
+        code.textContent = '';
+        lines.forEach(function(span) {
+            code.appendChild(span);
+        });
+        pre.classList.add('code-wrap');
+    });
+}
+
+document.addEventListener('copy', function(event) {
+    var selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || !event.clipboardData) {
+        return;
+    }
+    var range = selection.getRangeAt(0);
+    var node = range.commonAncestorContainer;
+    var element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+    if (!element || !element.closest('pre.code-wrap')) {
+        return;
+    }
+    // the grammar link and the copy button lie in the block as well; they are not part of the code
+    var fragment = range.cloneContents();
+    fragment.querySelectorAll('.grammar-button, .copy-button').forEach(function(control) {
+        control.remove();
+    });
+    event.clipboardData.setData('text/plain', fragment.textContent);
+    event.preventDefault();
+});
+
 if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', wrapCode);
     document.addEventListener('DOMContentLoaded', codeNames);
     document.addEventListener('DOMContentLoaded', releaseNotesCode);
     document.addEventListener('DOMContentLoaded', markCurrentDocument);
     document.addEventListener('DOMContentLoaded', documentSwitch);
 } else {
+    wrapCode();
     codeNames();
     releaseNotesCode();
     markCurrentDocument();
@@ -554,7 +658,7 @@ window.onload = function() {
         }
         button.onclick = function() {
             if (navigator.clipboard) {
-                navigator.clipboard.writeText(code.innerText.replace(/\n$/, '')).then(copied, copySelection);
+                navigator.clipboard.writeText(code.textContent.replace(/\n$/, '')).then(copied, copySelection);
             } else {
                 copySelection();
             }
