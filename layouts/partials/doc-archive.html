@@ -1,7 +1,7 @@
 {{- /*
 	The language documentation of every platform version, newest first: a list of the versions to jump to, then a
 	section per version with its release notes, versions.json and alan script, the versions of its platform
-	components, and its language table in a folding part, open for the stable version. Each section carries its
+	components as a list of names and versions, and its language table in a folding part, open for the stable version. Each section carries its
 	version as id, so that a link to /docs/archive#2026.3 reaches that version; src/main.js then opens that
 	section's table and closes the others. The stable version is "current" in _data/versions.json, the one of the
 	documentation page and the tutorials; a version before it in the list is newer, and the first of the list is
@@ -34,11 +34,11 @@
 			{{- end }}
 		</ul>
 	</div>
-	<p class="archive-components">
+	<dl class="archive-components">
 		{{- range $component := partial "ordered-keys.html" (dict "map" $version.platform "kind" "platform") }}
-		<span>{{ $component }} <strong>{{ index $version.platform $component }}</strong></span>
+		<div><dt>{{ $component }}</dt> <dd>{{ index $version.platform $component }}</dd></div>
 		{{- end }}
-	</p>
+	</dl>
 	<details{{ if $stable }} open{{ end }}>
 		<summary>Language reference</summary>
 		{{ partialCached "doc-table.html" (dict "version" . "caption" false) .name false }}

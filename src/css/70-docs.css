@@ -1,10 +1,10 @@
 /*
- * Documentation pages: the header of a generated document with its "Switch document" button, the language tables,
- * the archive of all versions, and the table of contents. The tags of the tables and the code blocks are shared
- * components (35-components.css).
+ * Documentation pages: the header of a generated document with its "Switch document" button, the body of a generated
+ * document, the tables in the text, the language tables and the archive of all versions. The tags of the tables and
+ * the code blocks are shared components (35-components.css).
  *
- * 1.414 and 1.999396 are powers of 1.414, an approximation of the square root of two (1.414 and 1.414^2), kept
- * exactly as computed.
+ * The values are tokens (15-tokens.css). The narrow layouts are under 40rem: not all and (min-width: 40rem), the exact
+ * complement of the wide range, so that no width matches both.
  */
 
 /*
@@ -434,113 +434,189 @@ table:not([class]) thead th {
 }
 
 /*
- * The archive: a list of the versions to jump to, then a section per platform version with its links, the versions
- * of its platform components and its language table, which folds. The stable version, the one of the documentation
- * page, has the notice yellow on its left edge, 3px wide as on the notice; its padding is 2px less, so that its
- * text lines up with the others.
+ * The archive (doc-archive.html): a row of the versions to jump to, then a card per platform version with its
+ * version and badge, its links, the versions of its platform components and its language table, which folds. The
+ * versions are in figures of equal width throughout, so that the numbers line up like the columns of a ledger.
+ *
+ * The stable version, the one of the documentation page, is marked in the row by the yellow of the logo on the
+ * edge of its tag and the notice tint inside it (its link 5.81:1 on that tint), and its card by a 3px yellow edge on
+ * the left, as the notice has: the left border in that yellow and 2px of inset shadow inside it.
  */
 .archive-nav ul {
-  margin: 1.414em 0;
+  margin: var(--space-6) 0 var(--space-8) 0;
+  font-variant-numeric: tabular-nums;
 }
 
-.archive-nav .archive-nav-stable,
-.archive-nav .archive-nav-stable:link,
-.archive-nav .archive-nav-stable:visited {
-  border-color: #ffc94a;
-  background: #fff7e3;
-  font-weight: bold;
+.archive-nav .archive-nav-stable {
+  border-color: var(--spectrum-yellow);
+  background: var(--surface-warning);
+  font-weight: var(--weight-semibold);
 }
 
 .archive-version {
-  margin-top: 1rem;
-  padding: 1rem 1.25rem;
-  border: 1px solid #c3c5ca;
-  border-radius: 6px;
+  margin-top: var(--space-4);
+  padding: var(--padding-card);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-page);
 }
 
 .archive-stable {
-  padding-left: calc(1.25rem - 2px);
-  border-left: 3px solid #ffc94a;
+  border-left-color: var(--spectrum-yellow);
+  box-shadow: inset var(--indicator-width) 0 0 var(--spectrum-yellow);
 }
 
+/*
+ * The head of a card: the version with its badge, and the links as tags at the other end of the row; under 40rem
+ * the links go under the version.
+ */
 .archive-head {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: .5rem 1rem;
+  gap: var(--space-3) var(--space-6);
+}
+
+@media not all and (min-width: 40rem) {
+  .archive-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 .archive-version h2 {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: .6rem;
+  gap: var(--space-3);
   margin: 0;
-  font-size: 1.414em;
-  line-height: 1.2;
+  font-size: var(--font-size-h3);
+  line-height: var(--line-height-h3);
+  letter-spacing: var(--tracking-h3);
+  font-variant-numeric: tabular-nums;
 }
 
-/* A kicker: the stable version on the notice yellow, the latest version on the green of the logo. */
+/*
+ * A badge that names what a version is, its label as it was: Stable on the yellow of the logo, Latest on its green,
+ * both with charcoal text (9.10:1 and 7.20:1), in the capitals of a label. It is not a control: no border and no
+ * hover. In forced colours the fill is gone and the border, transparent here, draws its outline.
+ */
 .archive-badge {
-  padding: .2em .55em;
-  border-radius: 3px;
-  background: #ffc94a;
-  font-size: .75rem;
-  letter-spacing: .06em;
+  padding: 0.125rem var(--space-2);
+  border: var(--border-width) solid transparent;
+  border-radius: var(--radius-tag);
+  background: var(--spectrum-yellow);
+  font-size: var(--font-size-label);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-label);
+  letter-spacing: var(--tracking-label);
   text-transform: uppercase;
-  color: #2b2c30;
+  color: var(--ink-800);
 }
 
 .archive-badge-latest {
-  background: #8fcc27;
+  background: var(--spectrum-green);
 }
 
-.archive-version .archive-components {
+/*
+ * The versions of the platform components: a name in the secondary text and its version, semibold in the heading
+ * colour, pair by pair. Under 40rem the pairs wrap as words do. From 40rem they are the columns of a grid whose
+ * name columns are as wide as their names and whose version columns are 3em at least, a pair 24px from the one
+ * before it: every card lists the same components, so the versions stand in one column down the archive.
+ */
+.archive-components {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 1.25em;
-  margin: .35rem 0 0 0;
-  font-size: .875em;
-  color: #484a50;
+  gap: 0 var(--space-5);
+  margin: var(--space-3) 0 0 0;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
 }
 
-/* A component and its version stay on one line. */
-.archive-components span {
+.archive-components div {
   white-space: nowrap;
 }
 
-.archive-components strong {
-  font-variant-numeric: tabular-nums;
-  color: #2b2c30;
+.archive-components dt,
+.archive-components dd {
+  display: inline;
+  margin: 0;
 }
 
+.archive-components dd {
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
+}
+
+@media (min-width: 40rem) {
+  .archive-components {
+    display: grid;
+    grid-template-columns: repeat(3, max-content minmax(3em, max-content));
+    justify-content: start;
+    gap: 0;
+  }
+
+  .archive-components div {
+    display: contents;
+  }
+
+  .archive-components dt {
+    padding-right: var(--space-2);
+  }
+
+  .archive-components div + div dt {
+    padding-left: var(--space-6);
+  }
+}
+
+/*
+ * "Language reference", which folds the table: a disclosure in the link colour, semibold, with a chevron that
+ * points right while the table is folded and down while it is open. It is a target of 32px, 44px on a touch
+ * screen; its padding reaches 8px to the left of the text, which a negative margin aligns with the card. On hover
+ * it turns paper, its text the hover colour.
+ */
 .archive-version details {
-  margin-top: .75rem;
+  margin-top: var(--space-3);
 }
 
 .archive-version summary {
+  transition: background-color var(--duration-hover) var(--ease-standard), color var(--duration-hover) var(--ease-standard);
   display: inline-flex;
   align-items: center;
+  gap: var(--space-2);
+  min-height: var(--target-min-dense);
+  margin-left: calc(-1 * var(--space-2));
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-button);
   list-style: none;
-  font-size: .875em;
-  font-weight: bold;
-  color: #2163ff;
+  font-size: var(--font-size-ui);
+  font-weight: var(--weight-semibold);
+  line-height: var(--line-height-ui);
+  color: var(--link);
   cursor: pointer;
+}
+
+@media (pointer: coarse) {
+  .archive-version summary {
+    min-height: var(--target-min);
+  }
 }
 
 .archive-version summary::-webkit-details-marker {
   display: none;
 }
 
-/* A chevron that points right while the table is folded and down while it is open. */
 .archive-version summary::before {
-  transition: transform var(--duration-hover) ease-in-out;
+  transition: transform var(--duration-disclosure) var(--ease-standard);
   content: '';
-  width: .45em;
-  height: .45em;
-  margin: 0 .65em 0 .1em;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
+  width: 0.4em;
+  height: 0.4em;
+  margin: 0 0.1em;
+  border-right: var(--indicator-width) solid currentColor;
+  border-bottom: var(--indicator-width) solid currentColor;
   transform: rotate(-45deg);
 }
 
@@ -548,14 +624,14 @@ table:not([class]) thead th {
   transform: rotate(45deg);
 }
 
-/* On hover the text takes the orange darkened by 18%. */
 .archive-version summary:hover,
 .archive-version summary:active {
-  color: #bd3d00;
+  background: var(--surface-subtle);
+  color: var(--link-hover);
 }
 
 .archive-version .doc-table {
-  margin: .75rem 0 0 0;
+  margin: var(--space-3) 0 0 0;
 }
 
 /*
