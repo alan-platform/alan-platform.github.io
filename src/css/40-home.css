@@ -1,12 +1,12 @@
 /*
- * Home page: the brand name in running text, the hero with its background
- * photo, call to action and scroll hint, the centred heading of the customers,
- * the strip of their logos that fades out at both ends, and the card that
- * links to a post.
+ * Home page: the brand name in running text, which the header and the footer use as well, and the composition of
+ * the home page. Its main column is the width of the site shell. The hero sets the headline, the sentence under it
+ * and the action beside the artwork, four bands at the angle of the stripes of the logo. Below it are the centred
+ * heading of the customers, the strip of their logos that fades out at both ends, and the card that links to a post.
  *
- * Lengths such as 0.7072135785rem, 1.414rem, 2.827145944rem and
- * 5.6525842918rem are powers of 1.414, an approximation of the square root of two (1 / 1.414,
- * 1.414, 1.414^3 and 1.414^5), kept exactly as computed.
+ * The values of the hero are tokens (15-tokens.css), apart from the lengths that only this page has, which are
+ * explained where they are set. The older lengths 1.414rem, 1.999396rem and 2.827145944rem are powers of 1.414, an
+ * approximation of the square root of two (1.414, 1.414^2 and 1.414^3), kept exactly as computed.
  */
 
 span.brand {
@@ -19,108 +19,220 @@ span.brand {
   text-transform: lowercase;
 }
 
-.home-hero {
-  display: flex;
-  justify-content: flex-end;
-  height: calc(100vh - 5rem);
-  position: relative;
-  background: #393b40 url("../assets/heroes/iStock-1055872862-1200.jpg") no-repeat center bottom/cover;
-  color: #fff;
+/*
+ * The main column of the home page is the site shell, 78rem, with the gutters, instead of the content column of a
+ * reading page. The last section is a section separation away from the footer.
+ */
+.home main {
+  max-width: calc(var(--width-shell) + 2 * var(--gutter));
+  padding-bottom: var(--space-section);
 }
 
 /*
- * One image per range of widths, the smallest as the default above: the ranges do not overlap, so a phone
- * loads the 1200 px image and never a larger one.
+ * The hero. On a phone and a tablet it is one column: the text, the action and then the artwork, 48px from the
+ * header and from the rule below it, the artwork 32px below the action. From 64rem the text and the artwork are two
+ * equal columns, 64px apart, the text centred on the artwork, with 80px above and below.
  */
-@media (min-width: 601px) {
+.home-hero {
+  display: grid;
+  row-gap: var(--space-8);
+  padding: var(--space-12) 0;
+}
+
+@media (min-width: 64rem) {
   .home-hero {
-    background-image: url("../assets/heroes/iStock-1055872862-1920.jpg");
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    column-gap: var(--gap-hero);
+    padding: var(--space-20) 0;
   }
 }
 
-@media (min-width: 962px) {
-  .home-hero {
-    background-image: url("../assets/heroes/iStock-1055872862-2560.jpg");
+/*
+ * The headline, the one h1 of the page, in the display sizes: 40/44 on a phone, 56/60 from 40rem and 72/76 from
+ * 80rem. Its second line, "Software Failures", is 483px wide at the 64px display size, wider than the 448px of the
+ * text column at 64rem, so the hero keeps 56px up to 80rem, where 72px (544px) fits the 576px column.
+ */
+.home-hero h1 {
+  font-size: var(--font-size-display-sm);
+  line-height: var(--line-height-display-sm);
+  letter-spacing: var(--tracking-display-sm);
+}
+
+@media (min-width: 40rem) {
+  .home-hero h1 {
+    font-size: var(--font-size-display-md);
+    line-height: var(--line-height-display-md);
+    letter-spacing: var(--tracking-display-md);
   }
 }
 
-@media (min-width: 1281px) {
-  .home-hero {
-    background-image: url("../assets/heroes/iStock-1055872862-3840.jpg");
+@media (min-width: 80rem) {
+  .home-hero h1 {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--tracking-display-xl);
   }
 }
 
-.home-hero .inner {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  padding: 1rem 2.827145944rem 5.6525842918rem 2.827145944rem;
+/*
+ * The sentence under the headline, 24px below it, in the lead size: 18/28 on a phone, 20/30 from 40rem. The text
+ * column is a container, so that the sentence can follow its width (below).
+ */
+.home-hero-text {
+  container-type: inline-size;
 }
 
-.home-hero p {
-  z-index: 1;
-  margin: 0;
-  font-weight: bold;
-  font-size: 2.827145944rem;
-  line-height: 1;
-  text-shadow: 0 0 2rem #000;
+.home-hero-lead {
+  max-width: var(--measure);
+  margin: var(--space-6) 0 0 0;
+  font-size: var(--font-size-lead-phone);
+  line-height: var(--line-height-lead-phone);
 }
 
-.home-hero p + p {
-  margin-top: 1em;
-  font-weight: normal;
-  font-size: 1.414rem;
-}
-
-.home-hero svg {
-  width: 32px;
-  height: 32px;
-}
-
-.home-hero svg.scroll-hint {
-  position: absolute;
-  bottom: -48px;
-  left: 50%;
-  margin-left: -16px;
-  color: #393b40;
-  opacity: 0;
-  animation: 2s fadeIn 1s ease-in-out;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
+@media (min-width: 40rem) {
+  .home-hero-lead {
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
   }
 }
 
-.home-hero svg.scroll-hint polyline {
-  stroke: currentColor;
+/*
+ * The sentence breaks after "Platform", where its two halves fit a line each: the first half is 477px wide in the
+ * 20px lead. In a narrower text column, on a phone and between 64rem and 68rem, the break would leave a short line
+ * in the middle, so there the sentence wraps as a whole.
+ */
+@container (width < 30rem) {
+  .home-hero-lead br {
+    display: none;
+  }
+}
+
+/*
+ * The action, 32px below the sentence: a primary button of two lines, with 12px above and below them instead of a
+ * fixed height. The second line, "Request Access", is 14/20 in the inverse text colour, 10.32:1 on the charcoal of
+ * the button, 13.00:1 on its hover colour and 11.61:1 pressed.
+ */
+.home-hero-action {
+  margin: var(--space-8) 0 0 0;
 }
 
 .home-hero .call-to-action {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 1.414rem;
-  padding: 0.7072135785rem 1rem;
-  font-size: 1.414rem;
+  justify-content: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6) var(--space-3) var(--space-5);
   text-align: left;
-  line-height: 0.7072135785;
 }
 
-/* The second line is as white as the first: at 80% opacity it was 3.5:1 on the button. */
+.home-hero .call-to-action > span {
+  display: block;
+}
+
 .home-hero .call-to-action small {
-  line-height: inherit;
+  display: block;
+  font-size: var(--font-size-small);
+  font-weight: var(--weight-regular);
+  line-height: var(--line-height-small);
+  color: var(--text-inverse);
 }
 
-.home-hero .call-to-action svg {
-  display: inline-block;
-  margin-right: 1ex;
+/*
+ * The artwork: a field in the darkest ink with 12px corners, 220px high on a phone and 320px (20rem) on a tablet,
+ * from 64rem the 7:6 of its drawing, which is 507px high in the widest text column. The drawing keeps its
+ * proportions in the middle of the field. The browser leaves its colours alone in forced colours, as it does with an
+ * image: it is decoration, hidden from assistive technology.
+ */
+.home-hero-art {
+  height: 13.75rem;
+  overflow: hidden;
+  border-radius: var(--radius-artwork);
+  background: var(--ink-950);
+  forced-color-adjust: none;
+}
+
+@media (min-width: 40rem) {
+  .home-hero-art {
+    height: 20rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .home-hero-art {
+    height: auto;
+    aspect-ratio: 7 / 6;
+  }
+}
+
+.home-hero-art svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/*
+ * The drawing is 560 by 480. Four bands, 42 wide and 24 apart, run from the rule at y 80 to the rule at y 400. Their
+ * edges lean 27.6 degrees from the vertical, the angle of the stripes of the logo (21.814 across for 41.707 up), so
+ * the top of a band is 167.37 to the right of its foot. The four start at x 76.32, 142.32, 208.32 and 274.32, which
+ * puts the middle of the group in the middle of the drawing. The colours are those of the logo, in its order. The
+ * two rules are hairlines in the ink of body text, 1.83:1 on the field: they are quiet, and they run from edge to
+ * edge of the field however wide it is.
+ */
+.home-hero-rules {
+  fill: none;
+  stroke: var(--ink-700);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+
+.home-hero-band-yellow {
+  fill: var(--spectrum-yellow);
+}
+
+.home-hero-band-green {
+  fill: var(--spectrum-green);
+}
+
+.home-hero-band-orange {
+  fill: var(--spectrum-orange);
+}
+
+.home-hero-band-blue {
+  fill: var(--spectrum-blue);
+}
+
+/*
+ * The one movement of the page: when the page first shows, each band slides 28 units up along its own slant into
+ * its place between the rules and fades in, one after the other from left to right, 60ms apart. The last one is in
+ * place after 540ms. The bands are decoration; the text does not move. It runs only when the reader has not asked
+ * for reduced motion.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .home-hero-band {
+    animation: home-hero-band-in 360ms var(--ease-standard) backwards;
+  }
+
+  .home-hero-band-green {
+    animation-delay: 60ms;
+  }
+
+  .home-hero-band-orange {
+    animation-delay: 120ms;
+  }
+
+  .home-hero-band-blue {
+    animation-delay: 180ms;
+  }
+}
+
+@keyframes home-hero-band-in {
+  from {
+    opacity: 0;
+    transform: translate(-12.98px, 24.81px);
+  }
+
+  60% {
+    opacity: 1;
+  }
 }
 
 .medium-post {
