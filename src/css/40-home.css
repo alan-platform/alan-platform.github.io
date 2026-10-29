@@ -223,18 +223,19 @@
  * the origin in the box of the artwork. The bands are decoration; the browser leaves their colours alone in forced
  * colours, as it does with an image.
  *
- * On a phone and a tablet the box is the width of the stage and runs from the foot of the action to the bottom of the
- * stage, 15rem (240px) high on a phone and 20rem (320px) from 40rem. The bands hang from the top of the box:
- * the box cuts them off at its top, level, as the stripes of the logo end, and their feet run off the bottom of the
- * stage. They are placed from the right edge, so that the orange and the blue enter the stage over that edge.
+ * On a phone and a tablet the box is the width of the stage, 48px below the action (64px from 40rem), and runs to
+ * the bottom of the stage, 15rem (240px) high on a phone and 20rem (320px) from 40rem. The four bands stand whole
+ * along the top of the box, which cuts them off level, as the stripes of the logo end: at that line they are 240
+ * units wide, and the right edge of the blue one is on the right edge of the text column, so all four colours show
+ * however narrow the window. Their feet run off the bottom of the stage, the yellow one off its left edge too.
  */
 .home-hero-art {
   --band-unit: 1.1px;
-  --band-x: calc(100% - 6.25rem);
+  --band-x: calc(100% - var(--home-inline) - 240 * var(--band-unit));
   --band-y: 0px;
   position: relative;
   height: 15rem;
-  margin: 0 calc(-1 * var(--home-inline));
+  margin: var(--space-12) calc(-1 * var(--home-inline)) 0 calc(-1 * var(--home-inline));
   overflow: hidden;
   forced-color-adjust: none;
 }
@@ -242,8 +243,8 @@
 @media (min-width: 40rem) {
   .home-hero-art {
     --band-unit: 1.4px;
-    --band-x: calc(100% - 15rem);
     height: 20rem;
+    margin-top: var(--space-16);
   }
 }
 
