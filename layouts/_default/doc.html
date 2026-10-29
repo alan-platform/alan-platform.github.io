@@ -21,7 +21,7 @@
 			{{- /*
 				The header of the document: its title, then a row with what the document is (origin, type, version and
 				the link to its release notes or to the platform version that introduced it) and the "Switch document"
-				button, then the language table that the button shows.
+				button, then the language table that the button shows and hides (main.js), hidden at first.
 			*/}}
 			<div class="page-header doc-header">
 				<h1>{{ if eq $type "release notes" }}Release notes{{ else }}{{ .Params.language }}{{ end }}</h1>
@@ -45,7 +45,7 @@
 					</button>
 				</div>
 
-				<div id="doc-list" aria-expanded="false">
+				<div id="doc-list" hidden>
 					{{- $docPlatform := partialCached "doc-platform.html" . (printf "%#v" $origin) (printf "%#v" $version) }}
 					{{ partialCached "doc-table.html" (dict "version" $docPlatform "caption" true) $docPlatform.name true }}
 				</div>

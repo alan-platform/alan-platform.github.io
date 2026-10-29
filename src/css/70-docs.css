@@ -16,6 +16,8 @@
  */
 .doc-header {
   position: relative;
+  padding-bottom: var(--space-4);
+  border-bottom: var(--border-width) solid var(--border-subtle);
 }
 
 .doc-header h1 {
@@ -34,8 +36,6 @@
   justify-content: space-between;
   gap: var(--space-3) var(--space-6);
   margin-top: var(--space-4);
-  padding-bottom: var(--space-4);
-  border-bottom: var(--border-width) solid var(--border-subtle);
 }
 
 .doc-meta p {
@@ -73,6 +73,15 @@
 
 .doc-meta .button svg path {
   fill: currentColor;
+}
+
+/* While the table is shown, the chevron points up, to where the button folds it. */
+.doc-meta .button svg {
+  transition: transform var(--duration-disclosure) var(--ease-standard);
+}
+
+.doc-meta .button[aria-expanded='true'] svg {
+  transform: rotate(180deg);
 }
 
 /*
@@ -510,78 +519,68 @@ table td > a:active {
   margin: .75rem 0 0 0;
 }
 
-#doc-list {
-  left: 50%;
-  transform: translateX(-50%);
-  display: none;
-  width: 100%;
-  position: absolute;
-  z-index: 1;
-  margin: -1em 0 0 0;
-  opacity: 0;
-  will-change: opacity, transform;
-  animation: slideMenuIn 0.2s ease-in-out forwards;
-}
-
-@keyframes slideMenuIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-#doc-list[aria-expanded='true'] {
-  display: block;
-}
-
 /*
- * The menu is as wide as the window; the table in it is as wide as the text column at most, on a white caption
- * that joins its border. The shadow is the second grey at 30% opacity.
+ * "Switch document": the language table of the platform version of the document, which the button shows and hides
+ * (main.js), in a white panel with 8px corners. The table has no border of its own in it; its caption, the platform
+ * version, heads the panel above a hairline.
+ *
+ * Under 40rem the panel is in the flow of the header, under the button, and the page scrolls past it. From 40rem it
+ * opens over the document, 8px under the header, as wide as the content column and in front of it (--z-popover),
+ * with the popover shadow. It is no higher than the window leaves under it: main.js sets --doc-list-height when it
+ * opens it, and the panel scrolls within that height, the column labels staying at its top. Without that height it
+ * takes 70% of the window. It fades in and drops 4px into place in the disclosure time.
  */
-#doc-list .doc-table {
-  width: min(45rem, 100% - 2rem);
-  margin: 0 auto;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+#doc-list {
+  margin-top: var(--space-4);
+  border: var(--border-width) solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+  background: var(--surface-page);
 }
 
-#doc-list {
-  filter: drop-shadow(0 4px 12px rgba(57, 59, 64, 0.3));
+#doc-list[hidden] {
+  display: none;
+}
+
+#doc-list .doc-table {
+  margin: 0;
+  border: none;
+  border-radius: 0;
 }
 
 #doc-list .doc-table caption {
-  padding: .6rem .9rem;
-  border: 1px solid #c3c5ca;
-  border-bottom: none;
-  border-radius: 6px 6px 0 0;
-  background: #fff;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width) solid var(--border-subtle);
 }
 
-/* Narrow, the table is a block that holds its caption inside its border: the caption needs no border of its own. */
-@media (max-width: 40rem) {
-  #doc-list .doc-table {
-    border-radius: 6px;
+@media (min-width: 40rem) {
+  #doc-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: var(--z-popover);
+    max-height: var(--doc-list-height, 70vh);
+    margin-top: var(--space-2);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-shadow: var(--shadow-popover);
+    animation: doc-list-in var(--duration-disclosure) var(--ease-standard);
   }
 
-  #doc-list .doc-table caption {
-    border: none;
-    border-radius: 0;
+  #doc-list thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--surface-page);
+    box-shadow: inset 0 calc(-1 * var(--border-width)) 0 var(--border-subtle);
   }
 }
 
-#doc-list table::before {
-  content: '';
-  width: 0;
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  margin-left: -3px;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #c3c5ca;
-  border-left: 6px solid transparent;
+@keyframes doc-list-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-1)));
+  }
 }
 
 #markdown-toc {
