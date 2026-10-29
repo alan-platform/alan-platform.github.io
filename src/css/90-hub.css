@@ -310,6 +310,20 @@ main.not-found h1 + p {
   margin: var(--space-6) 0;
 }
 
+/*
+ * In the dark scheme the screenshots stay as they are: they are windows with their own edge, on a transparent
+ * margin with their shadow, or opaque rectangles, and a frame would draw a box around the margin. A drawing on a
+ * transparent background, an SVG such as the graph constraints of the model tutorial, was drawn for white: it
+ * lies on a white plate with the corners of a panel, so it looks as it does on the light page. It has margins of
+ * its own, so the plate needs no padding. No image is inverted.
+ */
+@media (prefers-color-scheme: dark) {
+  .article main > section img[src$='.svg'] {
+    border-radius: var(--radius-panel);
+    background: var(--neutral-0);
+  }
+}
+
 /* Code blocks are 24px from the text around them, the same as screenshots and callouts. */
 .article main > section div.highlighter-rouge {
   margin: var(--space-6) 0;
