@@ -21,7 +21,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<script>/* The class js says that scripts run. The site header does not use it: it hides its closed menu once main.js has attached the handlers of the menu (site-menu-ready, 50-header.css). */ document.documentElement.classList.add('js');</script>
+	<script>/* The site header collapses its menu under 64rem from the first paint (the class site-menu-early, 50-header.css), not only once main.js has attached the handlers of the menu (site-menu-ready), which on a slow first visit came after the open menu had been shown. When main.js has not attached them within five seconds, the class is removed again: the menu is then shown, as without scripts. */ (function (root) { root.classList.add('site-menu-early'); setTimeout(function () { if (!root.classList.contains('site-menu-ready')) { root.classList.remove('site-menu-early'); } }, 5000); })(document.documentElement);</script>
 
 	{{ if $isRoot -}}
 		<title>{{ site.Title }} - By Kjerner</title>
