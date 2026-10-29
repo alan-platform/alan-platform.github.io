@@ -547,21 +547,6 @@
   gap: var(--space-1);
 }
 
-/*
- * The title of the card is in the link colour without an underline at rest: the border and the place of the card
- * say that it is a link. On hover, focus and press it is underlined, with the hover colour and the thicker
- * underline of a card (35-components.css).
- */
-.home a.medium-post .card-title {
-  text-decoration-line: none;
-}
-
-.home a.medium-post:hover .card-title,
-.home a.medium-post:focus-visible .card-title,
-.home a.medium-post:active .card-title {
-  text-decoration-line: underline;
-}
-
 .medium-post small {
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
