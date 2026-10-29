@@ -8,20 +8,62 @@ function menuOpen(button) {
     }
 }
 
-// Marks the section in view in the rail beside the content. The layout builds the rail from the headings of
-// the page (page-index.html), so nothing here changes the layout of the page.
+// The page index (page-index.html): beside the content from 64rem, above it under 64rem. Under 64rem the label
+// opens and closes the index; the rail marks the section in view. The layout builds the index from the headings of
+// the page, so nothing here changes the layout of the page beyond opening and closing it.
 function pageIndex() {
     var rail = document.querySelector('.page-index nav');
-    if (!rail || !rail.querySelector('#markdown-toc')) {
+    var list = rail && rail.querySelector('#markdown-toc');
+    if (!list) {
         return;
+    }
+    var index = rail.parentNode;
+    var wide = window.matchMedia('(min-width: 64rem)');
+
+    // Under 64rem the label is the control of a disclosure, closed at first. The stylesheet hides the list of a
+    // closed index where the browser runs scripts, (scripting: enabled), before this runs; a browser that does not
+    // know that feature keeps the list open, and gets no control here. The button takes the text of the label,
+    // and is in the label only under 64rem: from there the label is a heading of the rail again, not a control.
+    var label = index.querySelector('.page-index-label');
+    if (label && window.matchMedia('(scripting: enabled)').matches) {
+        var toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'page-index-toggle';
+        toggle.setAttribute('aria-controls', list.id);
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.textContent = label.textContent;
+        var setOpen = function(open) {
+            index.classList.toggle('page-index-open', open);
+            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        toggle.addEventListener('click', function() {
+            setOpen(!index.classList.contains('page-index-open'));
+        });
+        var layout = function() {
+            if (wide.matches) {
+                if (toggle.parentNode) {
+                    label.textContent = toggle.textContent;
+                }
+            } else if (!toggle.parentNode) {
+                label.textContent = '';
+                label.appendChild(toggle);
+                // a link that has the focus when the window becomes narrow stays in view
+                if (list.contains(document.activeElement)) {
+                    setOpen(true);
+                }
+            }
+        };
+        layout();
+        wide.addEventListener('change', layout);
     }
 
     // follow exactly the entries the index shows: heading levels differ per page, and the generated
-    // grammars skip levels (an h2 section with h5 subsections), so a fixed list of tags misses sections
+    // grammars skip levels (an h2 section with h5 subsections), so a fixed list of tags misses sections.
+    // The stylesheet shows two levels; an entry of the third (li li li) is left out.
     var links = {};
     var headings = [];
-    rail.querySelectorAll('a[href^="#"]').forEach(function(link) {
-        if (link.offsetParent === null) { // a level the stylesheet hides
+    list.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        if (link.closest('li li li')) {
             return;
         }
         var heading = document.getElementById(decodeURIComponent(link.getAttribute('href').substring(1)));
@@ -46,10 +88,12 @@ function pageIndex() {
         var link = links[current.id];
         link.setAttribute('aria-current', 'location');
 
-        // a long index scrolls on its own; keep the marked entry in view without moving the page
-        var offset = link.offsetTop - rail.offsetTop;
-        if (offset < rail.parentNode.scrollTop || offset > rail.parentNode.scrollTop + rail.parentNode.clientHeight - link.offsetHeight) {
-            rail.parentNode.scrollTop = offset - rail.parentNode.clientHeight / 2;
+        // a long rail scrolls on its own; keep the marked entry in view without moving the page
+        if (index.scrollHeight > index.clientHeight) {
+            var top = link.getBoundingClientRect().top - index.getBoundingClientRect().top;
+            if (top < 0 || top + link.offsetHeight > index.clientHeight) {
+                index.scrollTop += top - (index.clientHeight - link.offsetHeight) / 2;
+            }
         }
     }
 
@@ -68,8 +112,17 @@ function pageIndex() {
         mark(heading);
     }
 
-    // the reader is in the section of the last heading that passed under the fixed header, or in the last section
-    // once the page is scrolled to its end
+    // The line where a jump puts a heading: the bottom of the site header, which sticks to the top of the window
+    // or has scrolled out of it on a low window, and the 24px (1.5rem) that the stylesheet keeps between the two.
+    // The header is measured, not taken from the stylesheet: it grows when the text is enlarged.
+    var header = document.querySelector('body > header');
+    function line() {
+        var bottom = header ? Math.max(header.getBoundingClientRect().bottom, 0) : 0;
+        return bottom + 1.5 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    }
+
+    // the reader is in the section of the last heading that reached that line, or in the last section once the
+    // page is scrolled to its end
     function follow() {
         if (pinned) {
             var top = pinned.getBoundingClientRect().top;
@@ -83,9 +136,10 @@ function pageIndex() {
             }
             pinned = null;
         }
+        var limit = line() + 1;
         var heading = headings[0];
         for (var i = 0; i < headings.length; i++) {
-            if (headings[i].getBoundingClientRect().top > 96) {
+            if (headings[i].getBoundingClientRect().top > limit) {
                 break;
             }
             heading = headings[i];
@@ -96,7 +150,7 @@ function pageIndex() {
         mark(heading);
     }
 
-    rail.addEventListener('click', function(event) {
+    list.addEventListener('click', function(event) {
         var link = event.target.closest('a[href^="#"]');
         if (link) {
             pin(decodeURIComponent(link.getAttribute('href').substring(1)));
