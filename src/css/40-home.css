@@ -425,75 +425,53 @@ span.brand {
 
 /*
  * The customers: a wall of ten logos, two across on a phone and five across from 40rem, so that every row is full.
- * Hairlines in the subtle border colour run between the tiles, not around the wall. The logos are in one neutral
- * grey at full opacity: the existing PNGs are drawn in #6f6d7e, which grayscale turns into #6f6f6f (5.02:1 on
- * white), and the other files are drawn in #6f6f6f. Nothing changes on hover: the logos are not links.
+ * The wall has no lines: the logos stand in the middle of their tiles, 96px high on a phone and 112px from 40rem,
+ * with 8px of padding. The logos are in one neutral grey at full opacity: the existing PNGs are drawn in #6f6d7e,
+ * which grayscale turns into #6f6f6f (5.02:1 on white), and the other files are drawn in #6f6f6f. Nothing changes
+ * on hover: the logos are not links.
+ *
+ * --logo-scale sets the logos at a share of the heights below, which make them look the same size: 0.85 from 80rem,
+ * 0.72 from 64rem and 0.6 from 40rem, where the tiles are narrower, and 0.56 on a phone. They are evidence beside
+ * the text, not a section of their own.
  */
 .logo-wall {
+  --logo-scale: 0.56;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   margin: var(--space-8) 0 0 0;
   padding: 0;
   list-style: none;
-  --logo-scale: 0.75;
 }
 
 .logo-wall li {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 7rem;
+  min-height: 6rem;
   margin: 0;
-  padding: var(--space-4);
-}
-
-.logo-wall li:nth-child(n + 3) {
-  border-top: var(--border-width) solid var(--border-subtle);
-}
-
-.logo-wall li:nth-child(2n) {
-  border-left: var(--border-width) solid var(--border-subtle);
+  padding: var(--space-2);
 }
 
 @media (min-width: 40rem) {
   .logo-wall {
+    --logo-scale: 0.6;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    --logo-scale: 0.7;
   }
 
   .logo-wall li {
-    min-height: 8rem;
-    padding: var(--space-3);
-  }
-
-  .logo-wall li:nth-child(n) {
-    border-top: none;
-    border-left: var(--border-width) solid var(--border-subtle);
-  }
-
-  .logo-wall li:nth-child(5n + 1) {
-    border-left: none;
-  }
-
-  .logo-wall li:nth-child(n + 6) {
-    border-top: var(--border-width) solid var(--border-subtle);
+    min-height: 7rem;
   }
 }
 
 @media (min-width: 64rem) {
   .logo-wall {
-    --logo-scale: 0.85;
-  }
-
-  .logo-wall li {
-    min-height: 9rem;
-    padding: var(--space-4);
+    --logo-scale: 0.72;
   }
 }
 
 @media (min-width: 80rem) {
   .logo-wall {
-    --logo-scale: 1;
+    --logo-scale: 0.85;
   }
 }
 
