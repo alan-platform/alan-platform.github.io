@@ -2,12 +2,11 @@
  * Home page: the brand name in running text, which the header and the footer use as well, and the composition of
  * the home page. Its main column is the width of the site shell. The hero sets the headline, the sentence under it
  * and the action beside the artwork, four bands at the angle of the stripes of the logo. The sections after it are
- * apart by a rule: the platform section sets its heading in a narrow column beside its text, and the customers are a
- * wall of logos in one grey. Further down is the card that links to a post.
+ * apart by a rule: the platform and the business sections set their heading in a narrow column beside their text,
+ * and the customers are a wall of logos in one grey.
  *
- * The values of the hero and the sections are tokens (15-tokens.css), apart from the lengths that only this page
- * has, which are explained where they are set. The older lengths 1.414rem and 2.827145944rem of the card are powers
- * of 1.414, an approximation of the square root of two (1.414 and 1.414^3), kept exactly as computed.
+ * The values are tokens (15-tokens.css), apart from the lengths that only this page has, which are explained where
+ * they are set.
  */
 
 span.brand {
@@ -435,45 +434,63 @@ span.brand {
   --logo-height: 2.5rem;
 }
 
-.medium-post {
-  display: flex;
+/*
+ * The card of the articles on Medium: a card (35-components.css) with the 48px portrait of the author, the title and
+ * the line under it, and the Medium mark, 16px apart. From 40rem they are one row, the mark at the end, level with
+ * the first line of the title. On a phone the portrait and the mark are a row of their own above the text, which then
+ * has the whole width of the card. The portrait is round and has no shadow; the mark is in the heading ink.
+ */
+.home a.medium-post {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "portrait . mark"
+    "text text text";
   align-items: center;
-  position: relative;
-  margin: 1rem 2.827145944rem 1.414rem 2.827145944rem;
-  padding: 1rem;
-  border: 1px solid #c3c5ca;
-  border-radius: 3px;
-  background: #fff;
-  box-shadow: 1px 2px 4px rgba(57, 59, 64, 0.3);
-  transition: background 0.2s ease-in-out;
-}
-
-.medium-post,
-.medium-post:link,
-.medium-post:visited {
-  color: #393b40;
-}
-
-.medium-post:hover,
-.medium-post:active {
-  text-decoration: none;
-  background: #eeeff0;
-  color: #2b2c30;
-}
-
-.medium-post:active {
-  top: 1px;
-  box-shadow: inset 1px 1px 2px rgba(57, 59, 64, 0.3);
+  gap: var(--space-4);
 }
 
 .medium-post img {
-  width: 48px;
-  height: 48px;
-  border-radius: 100%;
+  grid-area: portrait;
+  width: var(--space-12);
+  height: var(--space-12);
+  border-radius: 50%;
 }
 
-.medium-post svg {
-  position: relative;
-  top: -12px;
-  left: -12px;
+.medium-post-text {
+  grid-area: text;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.medium-post small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--text-secondary);
+}
+
+.medium-mark {
+  grid-area: mark;
+  width: var(--space-6);
+  height: var(--space-6);
+  fill: var(--text-heading);
+}
+
+/* In forced colours the mark takes the text colour of the system, as the text beside it does. */
+@media (forced-colors: active) {
+  .medium-mark {
+    fill: CanvasText;
+  }
+}
+
+@media (min-width: 40rem) {
+  .home a.medium-post {
+    grid-template-areas: "portrait text mark";
+    align-items: start;
+  }
+
+  .medium-mark {
+    margin-top: calc((var(--line-height-h4) - var(--space-6)) / 2);
+  }
 }
