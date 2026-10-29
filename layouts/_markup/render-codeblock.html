@@ -7,9 +7,12 @@
 	the outer div. The code is escaped once; the output of a {{< file >}} shortcode in the block is already escaped
 	and replaces a placeholder of plain letters after this hook ran, so it is not escaped again. Goldmark hands over
 	the code without its final newline; the line break before </code> puts it back.
+	Code that holds box-drawing characters (U+2500 to U+257F) is a diagram: the class diagram sets its lines closer
+	together, so that the vertical strokes join (35-components.css).
 */ -}}
 {{- $class := printf "language-%s" (.Type | default "plaintext") -}}
 {{- with .Attributes.class }}{{ $class = printf "%s %s" $class . }}{{ end -}}
+{{- if findRE `[\x{2500}-\x{257F}]` .Inner 1 }}{{ $class = printf "%s diagram" $class }}{{ end -}}
 {{- $class = printf "%s highlighter-rouge" $class -}}
 <div class="{{ $class }}"
 {{- range $name, $value := .Attributes }}
