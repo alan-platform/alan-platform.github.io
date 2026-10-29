@@ -102,38 +102,125 @@
   }
 }
 
-/* Cells do not wrap, so a wide table scrolls instead of pushing the page sideways. */
-main section table {
+/*
+ * The body of a generated document (the section of doc.html). The generator writes a rule (hr) under most h2 headings
+ * and under some h3 ones, but not under all; those rules are hidden. Instead every part (h1) and section (h2) after
+ * the first starts with a hairline across the content column, 48px under what precedes it and 32px above its
+ * heading, so that the sections of a long grammar are set apart in one way whatever the generator wrote. A section
+ * that directly follows the title of its part has no rule of its own. The anchor arrow of a heading (30-main.css)
+ * moves down with the text.
+ */
+.doc section > :is(h1, h2, h3) + hr {
+  display: none;
+}
+
+.doc section > :is(h1, h2) {
+  --heading-rule-space: var(--space-8);
+  margin-top: var(--space-12);
+  padding-top: var(--heading-rule-space);
+  border-top: var(--border-width) solid var(--border-subtle);
+}
+
+.doc section > :is(h1, h2):first-child,
+.doc section > :is(h1, h1 + hr) + h2 {
+  --heading-rule-space: 0;
+  border-top: none;
+}
+
+.doc section > :is(h1, h2):first-child {
+  margin-top: 0;
+}
+
+.doc section > :is(h1, h1 + hr) + h2 {
+  margin-top: var(--space-6);
+}
+
+.doc section > h2[id] a::after {
+  top: var(--heading-rule-space);
+}
+
+/*
+ * The title of a part of a document, such as the annotations or the standard libraries of a system type: in the
+ * size of a section title of the home page, under the page title and over the h2 sections, 64px under what precedes
+ * it and 16px over its text.
+ */
+.doc section h1 {
+  margin: var(--space-16) 0 var(--space-4) 0;
+  font-size: var(--font-size-section-phone);
+  line-height: var(--line-height-section-phone);
+  letter-spacing: var(--tracking-section-phone);
+}
+
+@media (min-width: 40rem) {
+  .doc section h1 {
+    font-size: var(--font-size-section);
+    line-height: var(--line-height-section);
+    letter-spacing: var(--tracking-section);
+  }
+}
+
+/*
+ * A grammar rule that a link has jumped to, through the name of the rule in another rule (#grammar-rule--name): its
+ * block takes the information tint and a border in the control grey, so the eye finds it under the header. Every
+ * syntax colour keeps 5.09:1 or more on the tint (15-tokens.css lists the colours; the orange is the lowest).
+ */
+.doc [id^='grammar-rule--']:target pre {
+  border-color: var(--border-control);
+  background: var(--surface-info);
+}
+
+/*
+ * Tables in the text: those of the generated documents and of the tutorials, which have no class of their own. Each
+ * is a block that scrolls on its own when its columns are wider than the content column, so that the page does not;
+ * its cells do not wrap. The text of the first column lines up with the text around the table, and the columns are
+ * apart by the space on their right. Rows are apart by hairlines, the column labels in the heading colour above a
+ * rule of 2px; there are no vertical rules and no stripes. An alignment that the source gives a column (style
+ * attributes from the Markdown) stays.
+ */
+main section table:not([class]) {
   display: block;
-  overflow-x: auto;
+  width: fit-content;
   max-width: 100%;
+  margin: 0 0 var(--space-6) 0;
+  overflow-x: auto;
+  border-collapse: collapse;
 }
 
-table {
-  margin: 1em 0 1.414em 0;
-}
-
-table tr {
-  transition: background var(--duration-hover) ease-in-out;
-}
-
-table tr:hover,
-table tr:active {
-  transition: background var(--duration-hover) ease-in-out;
-}
-
-table tr:hover {
-  background: #eeeff0;
-}
-
-table th,
-table td {
+table:not([class]) th,
+table:not([class]) td {
+  padding: var(--space-3) var(--space-6) var(--space-3) 0;
+  border-bottom: var(--border-width) solid var(--border-subtle);
+  text-align: left;
+  vertical-align: top;
   white-space: nowrap;
 }
 
-table th {
-  text-align: right;
-  border-right: 1px dotted #eeeff0;
+table:not([class]) :is(th, td):last-child {
+  padding-right: 0;
+}
+
+table:not([class]) th {
+  font-weight: var(--weight-semibold);
+  color: var(--text-heading);
+}
+
+table:not([class]) thead th {
+  border-bottom-width: var(--indicator-width);
+}
+
+/*
+ * The language table and the component table of the release notes (below) keep the bold names and the cells that
+ * do not wrap of the tables before them.
+ */
+.doc-table th,
+.doc-table td,
+.release-components th,
+.release-components td {
+  white-space: nowrap;
+}
+
+.doc-table th,
+.release-components th {
   font-weight: bold;
 }
 
@@ -581,10 +668,4 @@ table td > a:active {
     opacity: 0;
     transform: translateY(calc(-1 * var(--space-1)));
   }
-}
-
-#markdown-toc {
-  margin-bottom: 1.999396rem;
-  padding-bottom: 1.414rem;
-  border-bottom: 2px solid #eeeff0;
 }
