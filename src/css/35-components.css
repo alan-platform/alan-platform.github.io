@@ -351,8 +351,8 @@ div.highlight {
 }
 
 /*
- * A diagram drawn with box-drawing characters (the code block render hook marks it): its lines are 18px apart
- * instead of 24px, so the vertical strokes of one line meet those of the next, as the box-drawing glyphs are drawn
+ * A diagram drawn with box-drawing characters (the code block render hook marks it): its lines are 16.8px apart
+ * instead of 22px, so the vertical strokes of one line meet those of the next, as the box-drawing glyphs are drawn
  * for a line height close to the size of the font.
  */
 .diagram pre.highlight {

@@ -201,8 +201,8 @@
   --font-size-label: 0.75rem;
   --line-height-label: 1rem;
   --tracking-label: 0.06em;
-  --font-size-code: 0.9375rem;
-  --line-height-code: 1.5rem;
+  --font-size-code: 0.875rem;
+  --line-height-code: 1.375rem;
 
   /*
    * Inline code is 15px in the 17px body text: 15 / 17 is 0.882 of the surrounding size, so code in a heading or a
