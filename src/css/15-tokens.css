@@ -268,6 +268,19 @@
   --focus-offset: 3px;
 
   /*
+   * The underline of a link: 1px at rest, 2px on hover, 0.22em under the baseline (3.7px in the body text), so that
+   * it clears the descenders of the sans. At rest it is the colour of the link at 40% over the background: for the
+   * link blue on white that is #a7bde7, 1.90:1, a quiet line that marks the link as one without competing with the
+   * text; on hover it takes the full colour of the link. The colour follows currentColor, so a link of another
+   * colour, such as one in the footer, gets an underline in its own colour. A browser without color-mix() draws
+   * the underline in the colour of the link.
+   */
+  --underline-width: var(--border-width);
+  --underline-width-hover: var(--indicator-width);
+  --underline-offset: 0.22em;
+  --underline-color: color-mix(in srgb, currentColor 40%, transparent);
+
+  /*
    * Elevation, in the darkest ink at low opacity. Cards and buttons have no shadow; the small one is for a control
    * that sits on top of content, the popover one for a panel that overlays the page, such as the document switcher.
    */

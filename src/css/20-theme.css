@@ -142,10 +142,14 @@ pre:last-child {
   margin-bottom: 0;
 }
 
-/* Existing strong emphasis is bold; headings and controls use the semibold weight for hierarchy. */
+/*
+ * Existing strong emphasis, and a link in it, is semibold, as headings and controls are. At 17px the bold weight of
+ * Instrument Sans closes the gap between the dot of an i and its stem at a device pixel ratio of 1 ("Migrating",
+ * "offline editing"); the semibold keeps it open.
+ */
 b,
 strong {
-  font-weight: var(--weight-bold);
+  font-weight: var(--weight-semibold);
 }
 
 small {
@@ -181,22 +185,25 @@ nav li {
 }
 
 /*
- * Links in running text are underlined at rest, 1px below the letters with 3px of air, so that they read as links
- * without relying on colour. Hovering darkens the colour and thickens the underline. A visited link keeps the
- * colour of a new one. Navigation, tags, cards and buttons set their own look.
+ * Links in running text are underlined at rest, so that they read as links without relying on colour: a thin line
+ * in the colour of the link at 40%, under the descenders (15-tokens.css). Hovering darkens the colour and gives the
+ * underline its full colour and 2px. A visited link keeps the colour of a new one. Navigation, tags, cards and
+ * buttons set their own look.
  */
 a {
-  transition: color var(--duration-hover) var(--ease-standard), text-decoration-thickness var(--duration-hover) var(--ease-standard);
+  transition: color var(--duration-hover) var(--ease-standard), text-decoration-color var(--duration-hover) var(--ease-standard), text-decoration-thickness var(--duration-hover) var(--ease-standard);
   color: var(--link);
   text-decoration-line: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration-color: var(--underline-color);
+  text-decoration-thickness: var(--underline-width);
+  text-underline-offset: var(--underline-offset);
 }
 
 a:hover,
 a:active {
   color: var(--link-hover);
-  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: var(--underline-width-hover);
 }
 
 /*
