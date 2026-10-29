@@ -8,11 +8,10 @@
 
 /*
  * The opening paragraph of a page, marked lead in its Markdown: 20/30 on the desktop, 18/28 on a phone, in the body
- * text colour, 9.60:1 on white. Its measure is the 680px of the body text, 34em at 20px, so it ends where the
- * paragraphs under it end.
+ * text colour, 9.60:1 on white. Its measure is that of the paragraphs under it, so it ends where they end.
  */
 .lead {
-  max-width: 34em;
+  max-width: var(--measure);
   margin-bottom: var(--space-6);
   font-size: var(--font-size-lead-phone);
   line-height: var(--line-height-lead-phone);
@@ -256,9 +255,8 @@ p.more {
  * The FAQ: the topics are labels in the style of the card kickers, 12/16 semibold capitals in the secondary text,
  * each under a hairline in the control border colour that opens the topic, 64px below the topic before it. The
  * questions under a topic are reading headings, h3 at 22/30, apart by 40px of space and no rule, so a rule always
- * means a new topic. The answers keep the measure of prose; the rule of a topic runs across the content column, as
- * the cards at the end do (the measure of a heading is in em, and would make it 480px at the label size). The anchor
- * arrow of a topic (30-main.css) stands beside its label line, below the rule.
+ * means a new topic. The rule of a topic runs across the content column, as the answers and the cards at the end do.
+ * The anchor arrow of a topic (30-main.css) stands beside its label line, below the rule.
  */
 .faq main section h2 {
   max-width: none;
@@ -331,8 +329,8 @@ main.not-found h1 + p {
 
 /*
  * Articles: the tutorials and guides, the hand-written pages under /pages/, whose body the page layout marks with
- * the class article. Prose keeps its measure; code blocks, screenshots and callouts start on the same left edge as
- * the prose and the headings, and code and screenshots take the full content column. A section of an article, an
+ * the class article. Prose, code blocks, screenshots and callouts start on the same left edge and take the full
+ * content column. A section of an article, an
  * h2, is 64px from the section before it; the h3 and h4 under it keep the spacing of the theme.
  */
 .article main > section > h2:not(:first-child) {
@@ -340,8 +338,8 @@ main.not-found h1 + p {
 }
 
 /*
- * The content column is a container, so that a screenshot can take its full width even in a paragraph that keeps
- * the measure of prose: 100cqi is the width of the column. A browser without container units keeps the width of the
+ * The content column is a container, so that a screenshot takes its full width even in a paragraph that would be
+ * narrower: 100cqi is the width of the column. A browser without container units keeps the width of the
  * paragraph (100%). A screenshot is a block of its own, 24px from the text around it, and never wider than the
  * image itself. The screenshots carry their own margin and shadow, so they get no frame.
  */

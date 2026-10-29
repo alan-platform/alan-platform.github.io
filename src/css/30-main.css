@@ -168,9 +168,9 @@ main > h1:first-child {
 }
 
 /*
- * Prose keeps a readable measure inside the content column (--measure, 680px in the body text). Tables, code
- * blocks, cards and other blocks with a class take the full column. The selector has no specificity, so any rule
- * of a component overrides it.
+ * Prose is as wide as the measure (--measure, the full content column, as wide as code blocks and screenshots), as
+ * are tables, code blocks, cards and other blocks with a class. The selector has no specificity, so any rule of a
+ * component overrides it.
  */
 :where(main section > :is(p, ul, ol, dl, blockquote, h2, h3, h4, h5, h6):not([class])) {
   max-width: var(--measure);

@@ -232,17 +232,16 @@
   /*
    * Layout widths. The site shell (header, footer, main) is at most 78rem (1248px) wide. From 64rem a page other
    * than the home page is a grid in it: a rail of at least 14rem, the 3rem gap and the 50rem (800px) content
-   * column, with a margin column after it (30-main.css). Prose within the content column keeps a measure of 40em,
-   * 680px in the 17px body text, about 85 characters of running text, whose average width in this typeface is
-   * 0.47em; tables, code and cards take the full column. The measure of the design specification, 72ch, is the
-   * width of 72 zeros, and the zero of Instrument Sans is 0.67em wide: 72ch would be 815px, wider than the content
-   * column. The widths exclude the page gutters.
+   * column, with a margin column after it (30-main.css). Prose takes the full content column, as wide as the code
+   * blocks and screenshots between its paragraphs, so that text and examples share both edges: 800px, about 100
+   * characters of running text in the 17px body text, whose average width in this typeface is 0.47em. The widths
+   * exclude the page gutters.
    */
   --width-shell: 78rem;
   --width-rail: 14rem;
   --gap-rail: 3rem;
   --width-content: 50rem;
-  --measure: 40em;
+  --measure: 100%;
   --gap-hero: 4rem;
 
   /*

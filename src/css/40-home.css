@@ -140,7 +140,7 @@
  * light grey of secondary text on a dark surface, 8.88:1 on the stage.
  */
 .home-hero-lead {
-  max-width: var(--measure);
+  max-width: 40em;
   margin: var(--space-6) 0 0 0;
   font-size: var(--font-size-lead-phone);
   line-height: var(--line-height-lead-phone);
@@ -354,7 +354,7 @@
 /*
  * A section in two columns: from 64rem the columns of the hero (--home-columns), the heading in the left one and
  * the text in the right one, on the line where the yellow band crosses the foot of the text of the hero. The first
- * line of the heading and the first line of the text share their baseline. The text keeps the measure of prose.
+ * line of the heading and the first line of the text share their baseline. The text keeps a measure of its own.
  */
 @media (min-width: 64rem) {
   .home-columns {
@@ -369,8 +369,9 @@
   }
 }
 
+/* The text of a section in two columns keeps a measure of its own, 40em: 800px in the lead size. */
 .home-columns-text > p {
-  max-width: var(--measure);
+  max-width: 40em;
 }
 
 /* The two paragraphs about the platform are in the lead size, as the sentence of the hero. */
