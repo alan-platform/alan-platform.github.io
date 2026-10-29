@@ -16,6 +16,7 @@ Changes:
 - Planning: the time shows while creating, moving and resizing blocks
 - Planning: popups show their properties in one or more columns
 - Handheld: the barcode feature on text inputs
+- Todos: use the `@label:`, `@description:` and `@style:` annotations of a todo (see [Todo annotations](#todo-annotations))
 - `./alan upgrade` converts an auto-webclient system from athena.1 and zora.4 (besides
   partitions-108.1a, zora.1, zora.2 and zora.3)
 
@@ -91,3 +92,63 @@ annotations unchanged; change them by hand. The build reports each one, fix them
 	'columns' = ( 'node' = [ 'text' .'key' ( ) ] )
 )
 ```
+
+### Todo annotations
+
+A todo state (`has-todo:` in the application model) takes three optional annotations, in any order,
+after its requirement:
+
+- `@label:` names the todo in the todo overview and the todo list. Without it, the todo is named
+  after the path to its state in the model.
+- `@description:` is shown with the todo.
+- `@style:` colors the todo: a fixed style (`foreground`, `background`, `brand`, `link`, `accent`,
+  `success`, `warning` or `error`), a color from a text property with `to-color`, or a `switch`
+  that chooses one of those.
+
+The todo overview is not tied to an entry, so the expressions of `@label:` and `@style:` start at the
+root of the dataset:
+
+```
+root {
+	'todo color': text
+	'manual present': stategroup (
+		'yes' { }
+		'no' { }
+	)
+	'relations': collection ['relation'] {
+		'relation': text
+		'bank account': stategroup (
+			'yes' {
+				'iban': text
+			}
+			'no'
+				has-todo:
+					@label: "Relation without a bank account"
+					@description: "Add the bank account of the relation"
+					@style: switch .'manual present' (
+						|'yes' => warning
+						|'no'  => error
+					)
+			{ }
+		)
+		'checked': stategroup (
+			'no'
+				has-todo: user .'Type'?'Admin'
+					@label: "Unchecked relation"
+					@style: to-color .'todo color'
+			{ }
+			'yes' { }
+		)
+		'archived': stategroup (
+			'no' { }
+			'yes'
+				has-todo: @description: "Archived relations are removed at the end of the year"
+			{ }
+		)
+	}
+}
+```
+
+The overview groups the todos on their collection or on their style, or lists them ungrouped. When
+the todos have a style, the overview shows a filter for each style, with the amount of todos of that
+style.
