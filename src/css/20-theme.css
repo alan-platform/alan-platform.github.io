@@ -222,12 +222,12 @@ a:active {
 }
 
 /*
- * Inline code: IBM Plex Mono at 15px in the 17px text, on the inset grey with a little padding. It is an inline
- * block, so an identifier is not split over two lines at a hyphen or a space: it moves to the next line as a whole,
- * and wraps only when it is longer than a whole line, which on a phone a command can be. Its line height is the
- * height of its letters, so it never makes the line it sits in taller. An inline block does not take the underline
- * of a link around it, so code in a link takes the decoration of its parent: the underline of a link in running
- * text, none in a navigation.
+ * Inline code: IBM Plex Mono at 15px in the 17px text, on the inset grey with a little padding. It runs on with the
+ * text, as words do, and the punctuation after it stays on its line. A line breaks at its spaces, after its hyphens
+ * (except in a short name, below), and anywhere in a name that is longer than a whole line, which on a phone a
+ * command can be. Each piece of code that a line break splits keeps the inset background, the padding and the
+ * corners (box-decoration-break). Its line height is less than the height of a line of text, so it never makes the
+ * line it sits in taller. Code in a link takes the colour and the underline of the link.
  */
 code,
 kbd,
@@ -238,17 +238,18 @@ samp {
 }
 
 code {
-  display: inline-block;
-  max-width: 100%;
   padding: 0.125rem var(--space-1);
   border-radius: var(--radius-inline);
   background: var(--surface-inset);
   line-height: 1.3;
   overflow-wrap: anywhere;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
-a code {
-  text-decoration: inherit;
+/* A short name with a hyphen, which main.js marks, stays on one line. */
+code.code-name {
+  white-space: nowrap;
 }
 
 /*
@@ -269,7 +270,6 @@ pre {
 }
 
 pre code {
-  display: inline;
   padding: 0;
   border-radius: 0;
   background: none;

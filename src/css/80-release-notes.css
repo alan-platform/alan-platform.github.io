@@ -34,20 +34,6 @@
 }
 
 /*
- * Commands and error messages in the text run on with it, as words do, and wrap at their spaces when they reach the
- * end of a line, a long one without spaces anywhere; each piece of a wrapped command keeps the inset background and
- * the corners. The notes quote whole commands and messages in their sentences, which would otherwise each move to a
- * line of their own.
- */
-.release-notes p > code,
-.release-notes li > code {
-  display: inline;
-  overflow-wrap: anywhere;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
-
-/*
  * The component table of a platform release: compact, 8px above and under the text of a row. The component column
  * takes the width that the two versions leave, and a long name wraps at its hyphens rather than push the table wider
  * than a phone. The versions keep their figures aligned.

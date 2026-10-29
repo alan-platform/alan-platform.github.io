@@ -322,11 +322,26 @@ function releaseNotesCode() {
     });
 }
 
+// Inline code breaks after a hyphen as a word does (20-theme.css), which splits a name such as numerical-types over
+// two lines. A name with a hyphen and no space, of at most 20 characters, is kept on one line instead: at the 15px
+// of inline code it is at most 180px wide, which the narrowest column of text on a 320px window holds. Code in a
+// heading is larger and keeps breaking, and so does a longer name, which could be wider than a phone's column.
+function codeNames() {
+    document.querySelectorAll('code').forEach(function(code) {
+        var text = code.textContent;
+        if (text.length <= 20 && text.indexOf('-') >= 0 && !/\s/.test(text) && !code.closest('pre, h1, h2, h3, h4, h5, h6')) {
+            code.classList.add('code-name');
+        }
+    });
+}
+
 if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', codeNames);
     document.addEventListener('DOMContentLoaded', releaseNotesCode);
     document.addEventListener('DOMContentLoaded', markCurrentDocument);
     document.addEventListener('DOMContentLoaded', documentSwitch);
 } else {
+    codeNames();
     releaseNotesCode();
     markCurrentDocument();
     documentSwitch();
