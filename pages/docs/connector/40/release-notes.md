@@ -41,3 +41,13 @@ Neither function is a drop-in replacement for the 39 lookup `X[ "name" ]`, so ch
 | more than once, different values | one of them | fails | all of them |
 
 All three compare the name with case folding. A response can carry a header more than once (`Set-Cookie`, for one); there `'key value shared'` with `|| <value>`, as in the example above, gives the fallback where the 39 lookup gave a value.
+
+### 40.0
+In `'network'`, the request URL for `'http'`, `'ftp'` and the `'imap'` functions is now built with proper URL handling, fixing several edge cases:
+- `$'server'` and `$'path'` are joined with exactly one `/` between them, so a trailing slash on the server or a missing leading slash on the path no longer produces a broken URL.
+- A `$'server'` that already contains a query (`https://example.com/api?key=1`) keeps it, the path is joined before the query and `'http'` parameters are appended to it.
+- `#` and `?` in `$'path'` are percent encoded instead of ending the path.
+
+Behavior changes:
+- The `'imap'` functions now percent encode `$'path'`, like `'http'` and `'ftp'` already did. A path that was passed already encoded (`/Sent%20Items/`) must now be passed raw (`/Sent Items/`).
+- `'http'` parameter names and values now also percent encode `.`, `-` and `~`. Servers decode these to the same value, but anything that signs the raw URL sees different bytes.
