@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -137,7 +136,7 @@ toc: true
 '<span class="token string">file name expression</span>' {
 	'<span class="token string">has steps</span>': stategroup (
 		'<span class="token string">no</span>' { }
-		'<span class="token string">yes</span>' { [ <span class="token operator">&</span> ]
+		'<span class="token string">yes</span>' { [ <span class="token operator">&amp;</span> ]
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">static</span>' {
 					'<span class="token string">text</span>': text
@@ -503,16 +502,16 @@ toc: true
 	'<span class="token string">operation</span>': stategroup (
 		'<span class="token string">state switch</span>' { [ <span class="token operator">state-switch</span> ]
 			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
-				'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
+				'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
 			}
 		}
 		'<span class="token string">node switch</span>' { [ <span class="token operator">node-switch</span> ]
 			'<span class="token string">cases</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] group {
 				'<span class="token string">true case</span>': [ <span class="token operator">|</span> <span class="token operator">nodes</span> ] group {
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
 				}
 				'<span class="token string">false case</span>': [ <span class="token operator">|</span> <span class="token operator">none</span> ] group {
-					'<span class="token string">expression</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
+					'<span class="token string">expression</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--gui-action-expression">'gui action expression'</a>
 				}
 			}
 		}
@@ -647,3 +646,4 @@ toc: true
 </pre>
 </div>
 </div>
+
