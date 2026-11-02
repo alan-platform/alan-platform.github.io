@@ -8,7 +8,6 @@ url: "/pages/docs/webclient/zora.2.0/default features/features.html"
 toc: true
 ---
 
-
 ```js
 global-features
 	'full screen planning' {
