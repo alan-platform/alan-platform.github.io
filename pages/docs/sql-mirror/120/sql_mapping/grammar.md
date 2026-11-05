@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -192,7 +191,7 @@ toc: true
 <div class="highlight">
 <pre class="highlight language-js code-custom">
 '<span class="token string">table selection</span>' {
-	'<span class="token string">table</span>': [ <span class="token operator">--></span> <span class="token operator">table</span> ] reference
+	'<span class="token string">table</span>': [ <span class="token operator">--&gt;</span> <span class="token operator">table</span> ] reference
 }
 </pre>
 </div>
@@ -223,13 +222,13 @@ toc: true
 			'<span class="token string">yes</span>' {
 				'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 					'<span class="token string">text</span>' { [ <span class="token operator">text</span> ]
-						'<span class="token string">field</span>': [ <span class="token operator">--></span> ] reference
+						'<span class="token string">field</span>': [ <span class="token operator">--&gt;</span> ] reference
 					}
 					'<span class="token string">number</span>' { [ <span class="token operator">number</span> ]
-						'<span class="token string">field</span>': [ <span class="token operator">--></span> ] reference
+						'<span class="token string">field</span>': [ <span class="token operator">--&gt;</span> ] reference
 					}
 					'<span class="token string">file</span>' { [ <span class="token operator">file</span> ]
-						'<span class="token string">token field</span>': [ <span class="token operator">--></span> ] reference
+						'<span class="token string">token field</span>': [ <span class="token operator">--&gt;</span> ] reference
 						'<span class="token string">extension field</span>': [ <span class="token operator">.</span> ] reference
 					}
 					'<span class="token string">group</span>' { [ <span class="token operator">group</span> ]
@@ -239,14 +238,14 @@ toc: true
 					'<span class="token string">state group</span>' { [ <span class="token operator">stategroup</span> ]
 						'<span class="token string">state group to field mapping</span>': stategroup (
 							'<span class="token string">no</span>' { }
-							'<span class="token string">yes</span>' { [ <span class="token operator">--></span> ]
-								'<span class="token string">field</span>': reference // reference !&'<span class="token string">table</span>'.'<span class="token string">fields</span>'
+							'<span class="token string">yes</span>' { [ <span class="token operator">--&gt;</span> ]
+								'<span class="token string">field</span>': reference // reference !&amp;'<span class="token string">table</span>'.'<span class="token string">fields</span>'
 							}
 						)
 						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 							'<span class="token string">state to state value mapping</span>': stategroup (
 								'<span class="token string">no</span>' { }
-								'<span class="token string">yes</span>' { [ <span class="token operator">--></span> ]
+								'<span class="token string">yes</span>' { [ <span class="token operator">--&gt;</span> ]
 									'<span class="token string">value</span>': reference
 								}
 							)
@@ -266,3 +265,4 @@ toc: true
 </pre>
 </div>
 </div>
+

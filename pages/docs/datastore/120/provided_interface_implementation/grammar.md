@@ -8,7 +8,6 @@ url: "/pages/docs/datastore/120/provided_interface_implementation/grammar.html"
 toc: true
 ---
 
-
 ## The *minimal implementation*
 ---
 Every provided interface implementation contains at least
@@ -103,7 +102,7 @@ This path can be used for expressing the context node for an interface (the inte
 											'<span class="token string">implementation</span>' { }
 										)
 									}
-									'<span class="token string">yes</span>' { [ <span class="token operator">-></span>, <span class="token operator">=</span> ]
+									'<span class="token string">yes</span>' { [ <span class="token operator">-&gt;</span>, <span class="token operator">=</span> ]
 										'<span class="token string">referencer</span>': group {
 											'<span class="token string">head</span>': component <a href="#grammar-rule--singular-imp-node-path">'singular imp node path'</a>
 											'<span class="token string">collection</span>': [ <span class="token operator">.</span> ] reference
@@ -140,7 +139,7 @@ This path can be used for expressing the context node for an interface (the inte
 								'<span class="token string">expression</span>': [ <span class="token operator">=</span> ] component <a href="#grammar-rule--text-expression">'text expression'</a>
 							}
 							'<span class="token string">yes</span>' {
-								'<span class="token string">head</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--singular-imp-node-path">'singular imp node path'</a>
+								'<span class="token string">head</span>': [ <span class="token operator">-&gt;</span> ] component <a href="#grammar-rule--singular-imp-node-path">'singular imp node path'</a>
 								'<span class="token string">collection</span>': [ <span class="token operator">.</span>, <span class="token operator">[]</span> ] reference
 								'<span class="token string">tail</span>': component <a href="#grammar-rule--conditional-descendant-imp-node-path">'conditional descendant imp node path'</a>
 								'<span class="token string">branch</span>': [ <span class="token operator">=</span> <span class="token operator">from</span> ] reference
@@ -166,7 +165,7 @@ This path can be used for expressing the context node for an interface (the inte
 <div id="grammar-rule--command-mapping" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">command mapping</span>' { [ <span class="token operator">=></span> ]
+'<span class="token string">command mapping</span>' { [ <span class="token operator">=&gt;</span> ]
 	'<span class="token string">path</span>': [ <span class="token operator">execute</span> ] component <a href="#grammar-rule--singular-node-path">'singular node path'</a>
 	'<span class="token string">command</span>': [ <span class="token operator">.</span> ] reference
 	'<span class="token string">parameter mapping</span>': component <a href="#grammar-rule--parameter-mapping">'parameter mapping'</a>
@@ -207,14 +206,14 @@ This path can be used for expressing the context node for an interface (the inte
 						'<span class="token string">path</span>': component <a href="#grammar-rule--context-node-path">'context node path'</a>
 					}
 					'<span class="token string">reference variable</span>' {
-						'<span class="token string">referencer</span>': [ <span class="token operator">-></span> ] group {
+						'<span class="token string">referencer</span>': [ <span class="token operator">-&gt;</span> ] group {
 							'<span class="token string">head</span>': component <a href="#grammar-rule--parametrized-singular-imp-node-path">'parametrized singular imp node path'</a>
 							'<span class="token string">collection</span>': [ <span class="token operator">.</span>, <span class="token operator">[]</span> ] reference
 							'<span class="token string">tail</span>': component <a href="#grammar-rule--conditional-descendant-imp-node-path">'conditional descendant imp node path'</a>
 						}
 						'<span class="token string">path</span>': [ <span class="token operator">=</span> ] group {
 							'<span class="token string">path</span>': component <a href="#grammar-rule--context-interface-node-path">'context interface node path'</a>
-							'<span class="token string">reference</span>': [ <span class="token operator">></span> ] reference
+							'<span class="token string">reference</span>': [ <span class="token operator">&gt;</span> ] reference
 							'<span class="token string">tail</span>': component <a href="#grammar-rule--context-node-path">'context node path'</a>
 						}
 					}
@@ -235,7 +234,7 @@ This path can be used for expressing the context node for an interface (the inte
 						'<span class="token string">state group</span>': [ <span class="token operator">.</span> ] reference
 						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 							'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-variable-assignment">'optional variable assignment'</a>
-							'<span class="token string">target state</span>': [ <span class="token operator">=></span> ] reference
+							'<span class="token string">target state</span>': [ <span class="token operator">=&gt;</span> ] reference
 							'<span class="token string">mapping</span>': component <a href="#grammar-rule--parameter-mapping">'parameter mapping'</a>
 						}
 					}
@@ -245,7 +244,7 @@ This path can be used for expressing the context node for an interface (the inte
 							'<span class="token string">collection</span>': [ <span class="token operator">.</span> ] reference
 							'<span class="token string">key</span>': group { [ <span class="token operator">[</span>, <span class="token operator">]</span> ]
 								'<span class="token string">path</span>': component <a href="#grammar-rule--context-interface-node-path">'context interface node path'</a>
-								'<span class="token string">reference</span>': [ <span class="token operator">></span> ] reference
+								'<span class="token string">reference</span>': [ <span class="token operator">&gt;</span> ] reference
 							}
 						}
 						'<span class="token string">branches</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
@@ -253,7 +252,7 @@ This path can be used for expressing the context node for an interface (the inte
 								'<span class="token string">no</span>' { }
 								'<span class="token string">yes</span>' { [ <span class="token operator">bind</span> ] }
 							)
-							'<span class="token string">state</span>': [ <span class="token operator">=></span> ] reference
+							'<span class="token string">state</span>': [ <span class="token operator">=&gt;</span> ] reference
 							'<span class="token string">mapping</span>': component <a href="#grammar-rule--parameter-mapping">'parameter mapping'</a>
 						}
 					}
@@ -324,7 +323,7 @@ This path can be used for expressing the context node for an interface (the inte
 		'<span class="token string">dot</span>' { [ <span class="token operator">.</span> ] }
 		'<span class="token string">dash</span>' { [ <span class="token operator">-</span> ] }
 		'<span class="token string">colon</span>' { [ <span class="token operator">:</span> ] }
-		'<span class="token string">greater than</span>' { [ <span class="token operator">></span> ] }
+		'<span class="token string">greater than</span>' { [ <span class="token operator">&gt;</span> ] }
 		'<span class="token string">space</span>' { [ <span class="token operator">space</span> ] }
 	)
 }
@@ -406,7 +405,7 @@ This path can be used for expressing the context node for an interface (the inte
 			| node = '<span class="token string">yes</span>' { '<span class="token string">successor</span>' = successor }
 			| none = '<span class="token string">no</span>'
 		)
-		'<span class="token string">node path</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
+		'<span class="token string">node path</span>': [ <span class="token operator">-&gt;</span> ] component <a href="#grammar-rule--conditional-node-path">'conditional node path'</a>
 		'<span class="token string">type</span>': stategroup (
 			'<span class="token string">existence</span>' { }
 			'<span class="token string">equality</span>' {
@@ -451,7 +450,7 @@ This path can be used for expressing the context node for an interface (the inte
 			'<span class="token string">state group</span>': [ <span class="token operator">.</span> ] reference
 			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
 				'<span class="token string">variable assignment</span>': component <a href="#grammar-rule--optional-application-variable-assignment">'optional application variable assignment'</a>
-				'<span class="token string">target state</span>': [ <span class="token operator">=></span> ] reference
+				'<span class="token string">target state</span>': [ <span class="token operator">=&gt;</span> ] reference
 				'<span class="token string">node</span>': component <a href="#grammar-rule--node-type-mapping">'node type mapping'</a>
 			}
 		}
@@ -567,7 +566,7 @@ This path can be used for expressing the context node for an interface (the inte
 			'<span class="token string">type</span>': stategroup (
 				'<span class="token string">rule</span>' {
 					'<span class="token string">head</span>': component <a href="#grammar-rule--ancestor-variable-path">'ancestor variable path'</a>
-					'<span class="token string">rule</span>': [ <span class="token operator">.&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">.&amp;</span> ] reference
 				}
 				'<span class="token string">variable</span>' {
 					'<span class="token string">step</span>': component <a href="#grammar-rule--variable-step">'variable step'</a>
@@ -612,14 +611,14 @@ This path can be used for expressing the context node for an interface (the inte
 '<span class="token string">dependency step</span>' {
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">reference</span>' {
-			'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 		}
 		'<span class="token string">reference rule</span>' {
 			'<span class="token string">text</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+			'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 		}
 		'<span class="token string">state rule</span>' {
-			'<span class="token string">rule</span>': [ <span class="token operator">.&</span> ] reference
+			'<span class="token string">rule</span>': [ <span class="token operator">.&amp;</span> ] reference
 		}
 	)
 }
@@ -749,7 +748,7 @@ This path can be used for expressing the context node for an interface (the inte
 				'<span class="token string">group</span>' { [ <span class="token operator">.</span> ]
 					'<span class="token string">group</span>': reference
 				}
-				'<span class="token string">reference</span>' { [ <span class="token operator">></span> ]
+				'<span class="token string">reference</span>' { [ <span class="token operator">&gt;</span> ]
 					'<span class="token string">reference</span>': reference
 				}
 			)
@@ -774,7 +773,7 @@ This path can be used for expressing the context node for an interface (the inte
 					'<span class="token string">collection</span>': [ <span class="token operator">.</span> ] reference
 					'<span class="token string">key</span>': [ <span class="token operator">[</span>, <span class="token operator">]</span> ] group {
 						'<span class="token string">path</span>': component <a href="#grammar-rule--ancestor-variable-path">'ancestor variable path'</a>
-						'<span class="token string">reference</span>': [ <span class="token operator">$</span> <span class="token operator">></span> ] reference
+						'<span class="token string">reference</span>': [ <span class="token operator">$</span> <span class="token operator">&gt;</span> ] reference
 					}
 				}
 				'<span class="token string">group</span>' {
@@ -796,3 +795,4 @@ This path can be used for expressing the context node for an interface (the inte
 </pre>
 </div>
 </div>
+
