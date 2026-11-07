@@ -18,7 +18,7 @@ Changes:
 - Handheld: the barcode feature on text inputs
 - Todos: use the `@label:`, `@description:` and `@style:` annotations of a todo (see [Todo annotations](#todo-annotations))
 - `./alan upgrade` converts an auto-webclient system from athena.1 and zora.4 (besides
-  partitions-108.1a, zora.1, zora.2 and zora.3)
+  partitions-108.1b, zora.1, zora.2 and zora.3)
 
 ### Before the upgrade
 
