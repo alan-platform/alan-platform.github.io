@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -253,9 +252,9 @@ especially convenient for queries that filter on the current node.
 				'<span class="token string">parent</span>' {
 					'<span class="token string">path</span>': component <a href="#grammar-rule--view-context-parent-path">'view context parent path'</a>
 				}
-				'<span class="token string">reference</span>' { [ <span class="token operator">></span> ] }
+				'<span class="token string">reference</span>' { [ <span class="token operator">&gt;</span> ] }
 				'<span class="token string">entity</span>' { [ <span class="token operator">$</span> ] }
-				'<span class="token string">state rule</span>' { [ <span class="token operator">.&</span> ] }
+				'<span class="token string">state rule</span>' { [ <span class="token operator">.&amp;</span> ] }
 			)
 		}
 	)
@@ -273,7 +272,7 @@ especially convenient for queries that filter on the current node.
 			'<span class="token string">path</span>': component <a href="#grammar-rule--node-path">'node path'</a>
 			'<span class="token string">state group</span>': [ <span class="token operator">switch</span> ] reference
 			'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
-				'<span class="token string">next</span>': [ <span class="token operator">=></span> ] component <a href="#grammar-rule--widget-expression">'widget expression'</a>
+				'<span class="token string">next</span>': [ <span class="token operator">=&gt;</span> ] component <a href="#grammar-rule--widget-expression">'widget expression'</a>
 			}
 		}
 		'<span class="token string">produce value</span>' {
@@ -373,7 +372,7 @@ especially convenient for queries that filter on the current node.
 				'<span class="token string">yes</span>' { [ <span class="token operator">empty</span> ] }
 				'<span class="token string">no</span>' {
 					'<span class="token string">path</span>': component <a href="#grammar-rule--context-path">'context path'</a>
-					'<span class="token string">list</span>': [ <span class="token operator">=></span> <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--widget-configuration-list">'widget configuration list'</a>
+					'<span class="token string">list</span>': [ <span class="token operator">=&gt;</span> <span class="token operator">[</span>, <span class="token operator">]</span> ] component <a href="#grammar-rule--widget-configuration-list">'widget configuration list'</a>
 				}
 			)
 		}
@@ -569,15 +568,15 @@ especially convenient for queries that filter on the current node.
 '<span class="token string">node step</span>' {
 	'<span class="token string">type</span>': stategroup (
 		'<span class="token string">parent</span>' { [ <span class="token operator">^</span> ] }
-		'<span class="token string">state rule</span>' { [ <span class="token operator">.&</span> ]
+		'<span class="token string">state rule</span>' { [ <span class="token operator">.&amp;</span> ]
 			'<span class="token string">rule</span>': reference
 		}
 		'<span class="token string">reference rule</span>' {
 			'<span class="token string">property</span>': [ <span class="token operator">.</span> ] reference
-			'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+			'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 		}
 		'<span class="token string">reference</span>' {
-			'<span class="token string">text</span>': [ <span class="token operator">></span> ] reference
+			'<span class="token string">text</span>': [ <span class="token operator">&gt;</span> ] reference
 		}
 		'<span class="token string">group</span>' {
 			'<span class="token string">group</span>': [ <span class="token operator">.</span> ] reference
@@ -648,7 +647,7 @@ especially convenient for queries that filter on the current node.
 			'<span class="token string">no</span>' { }
 			'<span class="token string">yes</span>' { [ <span class="token operator">hidden</span> ] }
 		)
-		'<span class="token string">path</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--node-path">'node path'</a>
+		'<span class="token string">path</span>': [ <span class="token operator">-&gt;</span> ] component <a href="#grammar-rule--node-path">'node path'</a>
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">text</span>' {
 				'<span class="token string">text</span>': [ <span class="token operator">text</span> ] reference
@@ -686,8 +685,8 @@ especially convenient for queries that filter on the current node.
 									'<span class="token string">smaller than</span>' { [ <span class="token operator">&lt;</span> ] }
 									'<span class="token string">smaller than or equal to</span>' { [ <span class="token operator">&lt;=</span> ] }
 									'<span class="token string">equal to</span>' { [ <span class="token operator">=</span> ] }
-									'<span class="token string">greater than or equal to</span>' { [ <span class="token operator">>=</span> ] }
-									'<span class="token string">greater than</span>' { [ <span class="token operator">></span> ] }
+									'<span class="token string">greater than or equal to</span>' { [ <span class="token operator">&gt;=</span> ] }
+									'<span class="token string">greater than</span>' { [ <span class="token operator">&gt;</span> ] }
 								)
 							}
 						)
@@ -807,7 +806,7 @@ text` or `query text column` binding.
 	'<span class="token string">operator</span>': stategroup (
 		'<span class="token string">range</span>' {
 			'<span class="token string">greater than</span>': stategroup (
-				'<span class="token string">yes</span>' { [ <span class="token operator">></span> ]
+				'<span class="token string">yes</span>' { [ <span class="token operator">&gt;</span> ]
 					'<span class="token string">criterium</span>': integer
 				}
 				'<span class="token string">no</span>' { }
@@ -827,3 +826,4 @@ text` or `query text column` binding.
 </pre>
 </div>
 </div>
+
