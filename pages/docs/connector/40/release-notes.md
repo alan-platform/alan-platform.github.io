@@ -51,3 +51,7 @@ In `'network'`, the request URL for `'http'`, `'ftp'` and the `'imap'` functions
 Behavior changes:
 - The `'imap'` functions now percent encode `$'path'`, like `'http'` and `'ftp'` already did. A path that was passed already encoded (`/Sent%20Items/`) must now be passed raw (`/Sent Items/`).
 - `'http'` parameter names and values now also percent encode `.`, `-` and `~`. Servers decode these to the same value, but anything that signs the raw URL sees different bytes.
+
+Fixed the implicit `throw` on a duplicate key in a collection:
+- The `walk` or block that merges the duplicate key now stops immediately. Before, the remaining iterations or statements still ran, so a later `throw` could replace the error and a later `try ... catch ...` could silently discard it.
+- `error` now lists every duplicate key of the failed merge, as `` Key `"<key>"` already exists in collection ``, and for a `walk` the iteration that produced it. The message of the `throw` itself is unchanged.
