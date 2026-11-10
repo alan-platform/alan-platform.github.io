@@ -134,6 +134,11 @@ A new stdlib `crypto` has been added.
 This exposes functions to compute and verify both HMAC and signatures.
 Verify functions perform their comparisons in constant time, to prevent information leaks.
 Various algorithms are supported for both constructs, specified with a parameter at each call site.
+
+#### Collection key collision fix
+Fixed the implicit `throw` on a duplicate key in a collection:
+- The `walk` or block that merges the duplicate key now stops immediately. Before, the remaining iterations or statements still ran, so a later `throw` could replace the error and a later `try ... catch ...` could silently discard it.
+- `error` now lists every duplicate key of the failed merge, as `` Key `<key>` already exists in collection ``, and for a `walk` the iteration that produced it. The message of the `throw` itself is unchanged.
 # The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
