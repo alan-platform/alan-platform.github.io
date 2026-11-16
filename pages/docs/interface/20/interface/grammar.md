@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -154,7 +153,7 @@ toc: true
 <div id="grammar-rule--referencer" class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
-'<span class="token string">referencer</span>' { [ <span class="token operator">-></span> ]
+'<span class="token string">referencer</span>' { [ <span class="token operator">-&gt;</span> ]
 	'<span class="token string">evaluation</span>': component <a href="#grammar-rule--explicit-evaluation-annotation">'explicit evaluation annotation'</a>
 	'<span class="token string">path</span>': group {
 		'<span class="token string">head</span>': component <a href="#grammar-rule--context-node-path">'context node path'</a>
@@ -198,7 +197,7 @@ toc: true
 			| node = '<span class="token string">yes</span>' { '<span class="token string">rule</span>' = successor }
 			| none = '<span class="token string">no</span>'
 		)
-		'<span class="token string">evaluation</span>': [ <span class="token operator">-></span> ] component <a href="#grammar-rule--optional-evaluation-annotation">'optional evaluation annotation'</a>
+		'<span class="token string">evaluation</span>': [ <span class="token operator">-&gt;</span> ] component <a href="#grammar-rule--optional-evaluation-annotation">'optional evaluation annotation'</a>
 		'<span class="token string">context</span>': stategroup (
 			'<span class="token string">sibling rule</span>' {
 				'<span class="token string">rule</span>': reference
@@ -223,7 +222,7 @@ toc: true
 			'<span class="token string">acyclic</span>' { [ <span class="token operator">acyclic-graph</span> ] }
 			'<span class="token string">ordered</span>' { [ <span class="token operator">ordered-graph</span> ]
 				'<span class="token string">path</span>': component <a href="#grammar-rule--node-path-tail">'node path tail'</a>
-				'<span class="token string">ordering property</span>': [ <span class="token operator">></span> ] reference
+				'<span class="token string">ordering property</span>': [ <span class="token operator">&gt;</span> ] reference
 			}
 		)
 	}
@@ -268,14 +267,14 @@ toc: true
 					'<span class="token string">state group step</span>': [ <span class="token operator">.</span> ] component <a href="#grammar-rule--property-step">'property step'</a>
 					'<span class="token string">state</span>': [ <span class="token operator">?</span> ] reference
 				}
-				'<span class="token string">reference</span>' { [ <span class="token operator">></span> ]
+				'<span class="token string">reference</span>' { [ <span class="token operator">&gt;</span> ]
 					'<span class="token string">reference</span>': component <a href="#grammar-rule--reference-property-step">'reference property step'</a>
 				}
 				'<span class="token string">reference rule</span>' {
 					'<span class="token string">reference</span>': [ <span class="token operator">.</span> ] component <a href="#grammar-rule--reference-property-step">'reference property step'</a>
-					'<span class="token string">rule</span>': [ <span class="token operator">&</span> ] reference
+					'<span class="token string">rule</span>': [ <span class="token operator">&amp;</span> ] reference
 				}
-				'<span class="token string">state context rule</span>' { [ <span class="token operator">.&</span> ]
+				'<span class="token string">state context rule</span>' { [ <span class="token operator">.&amp;</span> ]
 					'<span class="token string">context rule</span>': reference
 				}
 			)
@@ -301,3 +300,4 @@ toc: true
 </pre>
 </div>
 </div>
+
