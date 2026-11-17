@@ -139,6 +139,36 @@ Various algorithms are supported for both constructs, specified with a parameter
 Fixed the implicit `throw` on a duplicate key in a collection:
 - The `walk` or block that merges the duplicate key now stops immediately. Before, the remaining iterations or statements still ran, so a later `throw` could replace the error and a later `try ... catch ...` could silently discard it.
 - `error` now lists every duplicate key of the failed merge, as `` Key `<key>` already exists in collection ``, and for a `walk` the iteration that produced it. The message of the `throw` itself is unchanged.
+
+### 39.7
+
+#### Current value
+The main routine of a `provider` can reuse values from the dataset it provided last, with `current || <fallback>`.
+
+Before, a failing main routine could only report its error out-of-band. The consumers kept the previous dataset, without any indication that it was no longer being updated.
+With `current` a provider can catch the error, provide its previous data again and report the failure through the interface:
+```js
+provider {
+	try {
+		(
+			'Import' = create 'Succeeded' ( )
+			'Orders' = ... // the import
+		)
+	}
+	catch as $ => (
+		'Import' = create 'Failed' (
+			'Message' = $
+		)
+		'Orders' = current || none
+	)
+}
+```
+- `current` is the value of the property that is being set, taken from the dataset that was provided last. It is never the whole dataset.
+- The statement after `||` determines the value when the last dataset has no value for the property: no dataset was provided before, or the property is part of a state and the last dataset has a different state. That statement cannot use `current`.
+- It is available for the properties of the root node, and for the properties of the groups and states that are reachable from the root node without a collection. It is not available inside a collection entry, nor outside the main routine: an `init` routine only runs when there is no dataset.
+- With `obscure data`, a reused text or file is never obscured twice. It is obscured when it was not obscured before, unless the property is marked with `@exclude`. A reused group, stategroup or collection is always provided as it is.
+- A caught error is no longer reported out-of-band. Add `@error:` to the `catch`, or `rethrow`, for errors that need to be.
+- In a `catch`, `$` holds the message of the error and `error` the full report. The full report includes source locations and data, which makes it unsuitable for most consumers.
 # The Standard Libraries
 The connector provides a set of standard libraries.
 These libraries provide functionality outside the language constructs of the connector.
@@ -769,6 +799,7 @@ This is chosen externally, the archetype here must follow the external choice.
 		/* Main routine.
 		 * Each run of the main routine must create a snapshot of the current state.
 		 * As a result the current state must always be a complete dataset and not an update to a previous dataset.
+		 * Values from the previous dataset can be reused with `current`, see '<span class="token string">target expression</span>' for details.
 		 */
 		'<span class="token string">main routine</span>': component <a href="#grammar-rule--block-statement">'block statement'</a>
 		/* Dataset initialization.
@@ -2575,6 +2606,21 @@ The wrapped expression must always have an alternative with a guarantee of yes, 
 					'<span class="token string">target</span>': component <a href="#grammar-rule--statement">'statement'</a>
 				}
 			)
+		}
+		'<span class="token string">current</span>' { [ <span class="token operator">current</span> <span class="token operator">||</span> ]
+			/* Reuse the value from the current dataset.
+			 * The current dataset is the dataset that the provider provided last.
+			 * The value is taken from the property that is being set, it is never the whole dataset.
+			 * The fallback statement determines the value when the current dataset has no value for that property:
+			 *  - when there is no current dataset.
+			 *  - when the property is part of a state, and the current dataset has a different state.
+			 * The fallback statement cannot use `current`.
+			 *
+			 * With `obscure data` a reused text or file is never obscured twice.
+			 * It is obscured when it was not obscured before, unless the property is marked with `@exclude`.
+			 * A reused group, stategroup or collection is always provided as it is.
+			 */
+			'<span class="token string">fallback</span>': component <a href="#grammar-rule--statement">'statement'</a>
 		}
 		'<span class="token string">inferred</span>' {
 			/* Assign any value from an expression.
