@@ -55,3 +55,32 @@ Behavior changes:
 Fixed the implicit `throw` on a duplicate key in a collection:
 - The `walk` or block that merges the duplicate key now stops immediately. Before, the remaining iterations or statements still ran, so a later `throw` could replace the error and a later `try ... catch ...` could silently discard it.
 - `error` now lists every duplicate key of the failed merge, as `` Key `"<key>"` already exists in collection ``, and for a `walk` the iteration that produced it. The message of the `throw` itself is unchanged.
+
+### 40.1
+The main routine of a `provider` can reuse values from the dataset it provided last, with `current || <fallback>`.
+
+Before, a failing main routine could only report its error out-of-band. The consumers kept the previous dataset, without any indication that it was no longer being updated.
+With `current` a provider can catch the error, provide its previous data again and report the failure through the interface:
+
+```js
+provider {
+	try {
+		(
+			'Import' = create 'Succeeded' ( )
+			'Orders' = ... // the import
+		)
+	}
+	catch as $ => (
+		'Import' = create 'Failed' (
+			'Message' = $
+		)
+		'Orders' = current || none
+	)
+}
+```
+- `current` is the value of the property that is being set, taken from the dataset that was provided last. It is never the whole dataset.
+- The statement after `||` determines the value when the last dataset has no value for the property: no dataset was provided before, or the property is part of a state and the last dataset has a different state. That statement cannot use `current`.
+- It is available for the properties of the root node, and for the properties of the groups and states that are reachable from the root node without a collection. It is not available inside a collection entry, nor outside the main routine: an `init` routine only runs when there is no dataset.
+- With `obscure data`, a reused text or file is never obscured twice. It is obscured when it was not obscured before, unless the property is marked with `@exclude`. A reused group, stategroup or collection is always provided as it is.
+- A caught error is no longer reported out-of-band. Add `@error:` to the `catch`, or `rethrow`, for errors that need to be.
+- In a `catch`, `$` holds the message of the error and `error` the full report. The full report includes source locations and data, which makes it unsuitable for most consumers.
