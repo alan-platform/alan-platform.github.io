@@ -9,7 +9,6 @@ toc: true
 ---
 
 
-
 <div class="language-js highlighter-rouge">
 <div class="highlight">
 <pre class="highlight language-js code-custom">
@@ -55,7 +54,7 @@ toc: true
 	'<span class="token string">attributes</span>': dictionary {
 		'<span class="token string">type</span>': [ <span class="token operator">:</span> ] stategroup (
 			'<span class="token string">command</span>' { [ <span class="token operator">command</span> ]
-				'<span class="token string">type</span>': [ <span class="token operator">=></span> ] stategroup (
+				'<span class="token string">type</span>': [ <span class="token operator">=&gt;</span> ] stategroup (
 					'<span class="token string">internal</span>' {
 						'<span class="token string">source event</span>': [ <span class="token operator">handle</span> ] reference
 						'<span class="token string">mapping</span>': component <a href="#grammar-rule--node-type-mapping">'node type mapping'</a>
@@ -94,7 +93,7 @@ toc: true
 					'<span class="token string">state group</span>' { [ <span class="token operator">stategroup</span> <span class="token operator">=</span> ]
 						'<span class="token string">state group</span>': reference
 						'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
-							'<span class="token string">target state</span>': [ <span class="token operator">=></span> ] reference
+							'<span class="token string">target state</span>': [ <span class="token operator">=&gt;</span> ] reference
 							'<span class="token string">has rules</span>': stategroup (
 								'<span class="token string">no</span>' { }
 								'<span class="token string">yes</span>' {
@@ -145,7 +144,7 @@ toc: true
 			'<span class="token string">state group</span>' { [ <span class="token operator">stategroup</span> <span class="token operator">=</span> ]
 				'<span class="token string">state group</span>': reference
 				'<span class="token string">states</span>': [ <span class="token operator">(</span>, <span class="token operator">)</span> ] dictionary { [ <span class="token operator">|</span> ]
-					'<span class="token string">target state</span>': [ <span class="token operator">=></span> ] reference
+					'<span class="token string">target state</span>': [ <span class="token operator">=&gt;</span> ] reference
 					'<span class="token string">has rules</span>': stategroup (
 						'<span class="token string">no</span>' { }
 						'<span class="token string">yes</span>' {
@@ -161,3 +160,4 @@ toc: true
 </pre>
 </div>
 </div>
+
